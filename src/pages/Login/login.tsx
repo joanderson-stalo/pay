@@ -1,65 +1,63 @@
-  import { useForm } from 'react-hook-form'
-  import { yupResolver } from '@hookform/resolvers/yup'
-  import { useNavigate } from 'react-router-dom'
-  import * as Yup from 'yup'
+import { useForm } from 'react-hook-form';
+import { Resolver } from 'react-hook-form/dist/types/resolvers';
+import { useNavigate } from 'react-router-dom';
+import * as Yup from 'yup';
 
-  import * as S from './styled'
+import * as S from './styled';
+import { Button } from '@/components/Button/button';
+import { schema } from './schema';
+import { ThemeColor } from '@/config/color';
+import { ButtonText, Placeholder, Text } from '@/config/text';
+import { useContext } from 'react';
+import { AuthContext } from '@/context/user.login';
+import { handleRecover } from '@/utils/handleNavigate';
+import { CustomInput } from '@/components/Input/input';
+import { InputMask } from '@/components/InputMask/inputMask';
+import { ContainerSubmit } from '@/styles/default';
+import { MessageError } from '@/components/MessageError/messageError';
+import axios from 'axios';
+import { yupResolver } from '@hookform/resolvers/yup';
 
-  import { Button } from '@/components/Button/button'
+type FormData = {
+  email: string;
+  password: string;
+  device_name: string;
+};
 
-import { schema } from './schema'
-import { ThemeColor } from '@/config/color'
-import { ButtonText, Placeholder, Text } from '@/config/text'
-import { useContext, useEffect, useState } from 'react'
-import { AuthContext } from '@/context/user.login'
-import { handleRecover } from '@/utils/handleNavigate'
-import { CustomInput } from '@/components/Input/input'
-import { InputMask } from '@/components/InputMask/inputMask'
-import { ContainerSubmit } from '@/styles/default'
-import { MessageError } from '@/components/MessageError/messageError'
-import axios from 'axios'
+type ResolverFormData = Resolver<FormData>;
 
-  type FormData = {
-    email: string
-    password: string
-    device_name: string
-  }
+export function Login() {
+  const navigate = useNavigate();
+  const { login, isLoggedIn } = useContext(AuthContext);
 
-  export function Login() {
-    const navigate = useNavigate()
-    const { login, isLoggedIn } = useContext(AuthContext);
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors, isValid },
+    watch
+  } = useForm<FormData>({
+    resolver: yupResolver(schema) as ResolverFormData,
+    defaultValues: {
+      email: '',
+      password: '',
+      device_name: 'API'
+    }
+  });
 
+  const email = watch('email');
+  const password = watch('password');
 
-    const {
-      register,
-      handleSubmit,
-      setError,
-      formState: { errors, isValid },
-      watch
-    } = useForm<FormData>({
-      resolver: yupResolver(schema),
-      defaultValues: {
-        email: '',
-        password: '',
-        device_name: 'API'
-      }
-    })
-
-    const email = watch('email')
-    const password = watch('password')
-
-    const onSubmit = async (data: FormData) => {
-      console.log('oi', data)
-      try {
-        data.device_name = 'API';
-        const response = await axios.post('http://pagueassim.stalopay.com.br/login', data);
-        console.log(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-
+  const onSubmit = async (data: FormData) => {
+    console.log('oi', data);
+    try {
+      data.device_name = 'API';
+      const response = await axios.post('http://pagueassim.stalopay.com.br/login', data);
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
 
     return (
