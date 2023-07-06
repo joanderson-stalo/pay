@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 export const schema = Yup.object().shape({
 
   email: Yup.string().trim().email(Error.emailInvalid).required(Error.emailRequired),
+  device_name: Yup.string(),
   password: Yup.string().trim()
     .required(Error.senhaRequired)
     .min(6, Error.senhaMin)
