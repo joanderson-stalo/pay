@@ -52,7 +52,7 @@ export function Login() {
     console.log('oi', data);
     try {
       data.device_name = 'API';
-      const response = await axios.post('http://pagueassim.stalopay.com.br/login', data);
+      const response = await axios.post('https://pagueassim.stalopay.com.br/login', data);
       console.log(response.data);
     } catch (error) {
       console.error(error);
