@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { ModalSucesso } from "@/components/ModalSucesso/modalSucesso";
-import { ContainerHome, ContainerProgressSteps } from "./styled";
-import { ProgressSteps } from "./components/ProgressSteps/progressSteps";
 import { useForm, FormProvider } from "react-hook-form";
 import { validateCNPJ, validateCPF } from "validations-br";
 import { validateEmail } from "@/utils/validateEmail";
 import { validateDataCriacao } from "@/utils/dataValid";
 import { validateTelefone } from "@/utils/telefoneValid";
-import { Step3 } from "./components/Step3/step3";
-import { Step4 } from "./components/Step4/step4";
-import { Step1 } from "./Step1/step1";
 import { Step2 } from "./Step2/step2";
+import { ContainerHome, ContainerProgressSteps } from "../styled";
+import { ProgressSteps } from "./ProgressSteps/progressSteps";
+import { Step1 } from "./Step1/step1";
+import { Step3 } from "./Step3/step3";
+import { Step4 } from "./Step4/step4";
 
 export const ECcadastro = () => {
   const [currentStep, setCurrentStep] = useState(1);

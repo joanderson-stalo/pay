@@ -8,7 +8,7 @@ import {
   NomePerfil
 } from './styled'
 import { Modal } from './components/Modal/modal'
-import { RxTriangleDown, RxTriangleUp } from 'react-icons/Rx'
+// import { RxTriangleDown, RxTriangleUp } from 'react-icons/Rx'
 import { ThemeColor } from '@/config/color'
 import { useLogin } from '@/context/user.login';
 
@@ -24,12 +24,12 @@ export function Header() {
         {openModal ? (
           <ButtonHeader color={ThemeColor.secundaria} onClick={() => setOpenModal(false)}>
             <ImagPerfil color={ThemeColor.secundaria} src='https://github.com/Joanderson337.png' />
-            <RxTriangleUp />
+            {/* <RxTriangleUp /> */}
           </ButtonHeader>
         ) : (
           <ButtonHeader color={ThemeColor.secundaria} onClick={() => setOpenModal(true)}>
             <ImagPerfil color={ThemeColor.secundaria} src='https://github.com/Joanderson337.png' />
-            <RxTriangleDown />
+            {/* <RxTriangleDown /> */}
           </ButtonHeader>
         )}
         <ContainerModal>{openModal && <Modal />}</ContainerModal>

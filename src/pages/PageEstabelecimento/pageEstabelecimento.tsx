@@ -1,9 +1,9 @@
 
-import { GraficoCicle } from '@/components/graficoCicle/graficoCicle'
+// import { GraficoCicle } from '@/components/graficoCicle/graficoCicle'
 import { DetalhesTable } from './components/detalhesTable/detalhesTable'
 import { HistoricoTable } from './components/historicoTable/historicoTable'
 import * as S from './styled'
-import { GraficoBar } from '@/components/graficoBar/graficoBar'
+// import { GraficoBar } from '@/components/graficoBar/graficoBar'
 import { Pagination } from '@/components/Pagination/pagination'
 import EditableButton from '@/components/ButtonEdit/buttonEdit'
 
@@ -41,10 +41,10 @@ export function PageEstabelecimento(){
 
 
     <S.ContainerGrafico>
-      <GraficoCicle credit='600,20' debit='200,20' />
+      {/* <GraficoCicle credit='600,20' debit='200,20' />
       <div style={{width: '510px', height: '20px'}}>
       <GraficoBar dataArray={['15', '19', '30', '50', '20', '30', '70', '80', '50', '10', '20', '15']} />
-      </div>
+      </div> */}
     </S.ContainerGrafico>
 
         <S.ContainerTable>
