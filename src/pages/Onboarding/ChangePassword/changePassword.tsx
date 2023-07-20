@@ -1,21 +1,19 @@
-import { useNavigate, useParams } from "react-router-dom";
 import { PasswordChange } from "./components/PasswordChange/passwordChange";
+import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 
-export function ChangePassword(){
-  const { tokenId } = useParams()
-  const navigate = useNavigate();
-  const tokenEmail = 'teste@gmail.com.'
+export function ChangePassword() {
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const token = searchParams.get('token');
+  const email = searchParams.get('email');
 
   useEffect(() => {
-    if (tokenId !== '123') {
-      navigate('/token-invalido');
-    }
-  }, [tokenId, navigate]);
+  }, [token, email]);
 
-  return(
+  return (
     <>
-      <PasswordChange email={tokenEmail} />
+      <PasswordChange token={token ? token : ''} email={email ? email : ''} />
     </>
-  )
+  );
 }

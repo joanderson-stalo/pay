@@ -1,4 +1,3 @@
-import { AuthContext } from '@/context/user.login'
 import { useContext, useState } from 'react'
 import {
   ButtonHeader,
@@ -9,30 +8,28 @@ import {
   NomePerfil
 } from './styled'
 import { Modal } from './components/Modal/modal'
-// import { RxTriangleDown, RxTriangleUp } from 'react-icons/Rx'
+import { RxTriangleDown, RxTriangleUp } from 'react-icons/Rx'
 import { ThemeColor } from '@/config/color'
+import { useLogin } from '@/context/user.login';
 
 export function Header() {
-  const { user } = useContext(AuthContext)
+  const { dataUser } = useLogin();
   const [openModal, setOpenModal] = useState(false)
 
   return (
     <ContainerHeader>
       <p></p>
       <ContainerPerfil>
-
+        <NomePerfil>{dataUser?.name}</NomePerfil>
         {openModal ? (
           <ButtonHeader color={ThemeColor.secundaria} onClick={() => setOpenModal(false)}>
-            <ImagPerfil color={ThemeColor.secundaria} src={user?.photoUrl} />
-             <NomePerfil>{user?.name}</NomePerfil>
-            {/* <RxTriangleUp /> */}
+            <ImagPerfil color={ThemeColor.secundaria} src='https://github.com/Joanderson337.png' />
+            <RxTriangleUp />
           </ButtonHeader>
         ) : (
           <ButtonHeader color={ThemeColor.secundaria} onClick={() => setOpenModal(true)}>
-
-            <ImagPerfil color={ThemeColor.secundaria} src={user?.photoUrl} />
-            <NomePerfil>{user?.name}</NomePerfil>
-            {/* <RxTriangleDown /> */}
+            <ImagPerfil color={ThemeColor.secundaria} src='https://github.com/Joanderson337.png' />
+            <RxTriangleDown />
           </ButtonHeader>
         )}
         <ContainerModal>{openModal && <Modal />}</ContainerModal>

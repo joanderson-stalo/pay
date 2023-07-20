@@ -6,7 +6,9 @@ import { ChangePassword } from '@/pages/Onboarding/ChangePassword/changePassword
 import { RegisterPassword } from '@/pages/Onboarding/RegisterPassword/registerPassword'
 import { Login } from '@/pages/Login/login'
 import { DefaultHome } from '@/layout/DefaultHome/defaultHome'
-import { ECcadastro } from '@/pages/ECcadastro/ECcadastro'
+import { LAcadastro } from '@/pages/LAcadastro/LAcadastro'
+import { Estabelecimento } from '@/pages/Estabelecimento/estabelecimento'
+import { PageEstabelecimento } from '@/pages/PageEstabelecimento/pageEstabelecimento'
 
 export function Router() {
   return (
@@ -16,12 +18,13 @@ export function Router() {
         <Route path="/" element={<DefaultLogin />}>
           <Route path="/" element={<Login />} />
           <Route path="/recover" element={<RecoverPassWord />} />
-          <Route path="/changepassword/:tokenId" element={<ChangePassword />} />
+          <Route path="/reset-password" element={<ChangePassword />} />
           <Route path="/registerpassword/:tokenId" element={<RegisterPassword />} />
         </Route>
 
         <Route path='/' element={<DefaultHome />}>
-            <Route path="/home" element={<ECcadastro />} />
+            <Route path="/home" element={<PageEstabelecimento />} />
+            <Route path="/lacadastro" element={<LAcadastro />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />

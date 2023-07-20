@@ -27,6 +27,7 @@ import { ContainerSubmit, ContextTitle, } from '@/styles/default'
 import { MessageError } from '@/components/MessageError/messageError'
 import { MessageErrorList } from '@/components/MessageErrorList/messageErrorList'
 import { StyledP } from '@/components/MessageErrorList/styled'
+import axios from 'axios'
 
 type FormData = {
   password: string
@@ -35,9 +36,10 @@ type FormData = {
 
 interface Props {
   email: string
+  token: string
 }
 
-export function PasswordChange({ email }: Props) {
+export function PasswordChange({ email, token }: Props) {
   const [success, setSucess] = useState(false)
   const navigate = useNavigate()
 
@@ -58,10 +60,27 @@ export function PasswordChange({ email }: Props) {
   const hasSpecialChar = /\W/.test(password || '')
   const hasSixCharacters = (password || '').length >= 6
 
-  const onSubmit = (data: FormData) => {
-    console.log(data)
-    setSucess(true)
+  const onSubmit = async (data: FormData) => {
+    try {
+      const response = await axios.post('https://pagueassim.stalopay.com.br/reset-password', {
+        token: token,
+        email: email,
+        password: data.password,
+        password_confirmation: data.passwordConfirm
+      });
+
+      if(response.status === 200){
+        setSucess(true)
+      }
+      else{
+        // handle error here
+      }
+    } catch (error) {
+      console.error(error);
+      // handle error here
+    }
   }
+
 
   return (
     <>

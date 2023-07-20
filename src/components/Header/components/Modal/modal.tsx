@@ -1,19 +1,17 @@
-import { useContext } from "react";
-import { Button, ButtonClose, ContainerModal, ContextLine, Line } from "./styled";
-import { AuthContext } from "@/context/user.login";
+import * as S from "./styled";
+import { useLogin } from "@/context/user.login";
 
 export function Modal(){
-  const {logout} = useContext(AuthContext);
-
+  const { logout } = useLogin();
   return(
-    <ContainerModal>
-      <Button>Meus Dados</Button>
-        <ContextLine>
-        <Line />
-      <Button>Usuários</Button>
-      <Line />
-        </ContextLine>
-      <ButtonClose onClick={logout}>Sair</ButtonClose>
-    </ContainerModal>
+    <S.ContainerModal>
+      <S.Button>Meus Dados</S.Button>
+        <S.ContextLine>
+        <S.Line />
+      <S.Button>Usuários</S.Button>
+      <S.Line />
+        </S.ContextLine>
+      <S.ButtonClose onClick={logout} >Sair</S.ButtonClose>
+    </S.ContainerModal>
   )
 }

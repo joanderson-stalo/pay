@@ -1,64 +1,93 @@
-import { User, UserMock } from '@/mock/user';
-import { createContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useState, useCallback, useContext, useEffect } from 'react';
+import axios from 'axios';
 
-interface AuthContextData {
-  isLoggedIn: boolean;
-  user: User | null;
-  login: (email: string, password: string) => void;
-  logout: () => void;
-}
+type FormData = {
+  email: string;
+  password: string;
+  device_name: string;
+};
 
-interface AuthContextProviderProps {
-  children: ReactNode;
-}
+type User = {
+  name: string;
+  email: string;
+  token: string;
+};
 
-export const AuthContext = createContext<AuthContextData>({
-  isLoggedIn: false,
-  user: null,
-  login: () => {},
-  logout: () => {},
-});
+type LoginContextData = {
+  dataUser: User | null;
+  setDataUser: React.Dispatch<React.SetStateAction<User | null>>;
+  isLogin: boolean;
+  setIsLogin: React.Dispatch<React.SetStateAction<boolean>>;
+  login: (formData: FormData) => Promise<void>;
+  logout: () => Promise<void>;
+};
 
-export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user, setUser] = useState<User | null>(null);
-  const [users, setUsers] = useState<User[]>(UserMock);
+export const LoginContext = createContext<LoginContextData>({} as LoginContextData);
 
-  const login = (email: string, password: string) => {
-    
-    const matchedUser = users.find(user => user.email === email && user.password === password);
+export const LoginProvider = ({ children }: { children: React.ReactNode }) => {
+  const [dataUser, setDataUser] = useState<User | null>(null);
+  const [isLogin, setIsLogin] = useState<boolean>(false);
 
-    if (matchedUser && matchedUser.token.isValid === true) {
-      setIsLoggedIn(true);
-      sessionStorage.setItem('isLoggedIn', 'true');
-      sessionStorage.setItem('user', JSON.stringify(matchedUser));
-      setUser(matchedUser);
-    } else {
-      throw new Error('User not found');
+  const login = useCallback(async (formData: FormData) => {
+    try {
+      const response = await axios.post('https://pagueassim.stalopay.com.br/login', formData);
+
+      const user = {
+        name: response.data.user.name,
+        email: response.data.user.email,
+        token: response.data.access_token,
+      };
+
+      console.log("Armazenando usuário:", user);
+      setDataUser(user);
+      setIsLogin(true);
+      localStorage.setItem('@App:user', JSON.stringify(user));
+
+    } catch (error) {
+      console.error(error);
+      throw error;
     }
-  };
+  }, []);
 
-  const logout = () => {
-    setIsLoggedIn(false);
-    sessionStorage.removeItem('isLoggedIn');
-    sessionStorage.removeItem('user');
-    setUser(null);
-  };
+  const logout = useCallback(async () => {
+    try {
+      await axios.post('https://pagueassim.stalopay.com.br/logout', {}, {
+        headers: { Authorization: `Bearer ${dataUser?.token}` }
+      });
+
+      setDataUser(null);
+      setIsLogin(false);
+      localStorage.removeItem('@App:user');
+
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }, [dataUser]);
 
   useEffect(() => {
-    const isLoggedInInStorage = sessionStorage.getItem('isLoggedIn');
-    if (isLoggedInInStorage === 'true') {
-      setIsLoggedIn(true);
-      const userInStorage = sessionStorage.getItem('user');
-      if (userInStorage) {
-        setUser(JSON.parse(userInStorage));
-      }
+    const storedUser = localStorage.getItem('@App:user');
+    if (storedUser) {
+      setDataUser(JSON.parse(storedUser));
+      setIsLogin(true);
     }
   }, []);
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, user, login, logout }}>
+    <LoginContext.Provider
+      value={{ dataUser, setDataUser, isLogin, setIsLogin, login, logout }}
+    >
       {children}
-    </AuthContext.Provider>
+    </LoginContext.Provider>
   );
 };
+
+export function useLogin(): LoginContextData {
+  const context = useContext(LoginContext);
+
+  if (!context) {
+    throw new Error('useLogin deve ser usado dentro de um LoginProvider');
+  }
+
+  return context;
+}
