@@ -30,7 +30,7 @@ export const LoginProvider = ({ children }: { children: React.ReactNode }) => {
 
   const login = useCallback(async (formData: FormData) => {
     try {
-      const response = await axios.post('https://pagueassim.stalopay.com.br/login', formData);
+      const response = await axios.post('https://api-pagueassim.stalopay.com.br/login', formData);
 
       const user = {
         name: response.data.user.name,

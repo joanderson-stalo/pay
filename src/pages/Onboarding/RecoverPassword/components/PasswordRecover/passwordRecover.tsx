@@ -49,7 +49,7 @@ export function PasswordRecover() {
 
   const onSubmit = async (data: FormData) => {
     try {
-      const response = await axios.post('https://pagueassim.stalopay.com.br/forgot-password', data);
+      const response = await axios.post('https://api-pagueassim.stalopay.com.br/forgot-password', data);
       console.log(response.data);
       setSuccess(true);
     } catch (error) {
