@@ -51,7 +51,7 @@ export const LoginProvider = ({ children }: { children: React.ReactNode }) => {
 
   const logout = useCallback(async () => {
     try {
-      await axios.post('https://pagueassim.stalopay.com.br/logout', {}, {
+      await axios.post('https://api-pagueassim.stalopay.com.br/logout', {}, {
         headers: { Authorization: `Bearer ${dataUser?.token}` }
       });
 
