@@ -145,7 +145,7 @@ const totalPages = Math.ceil(totalTransactions / (itensPorPage || 1));
         <S.ButtonTotal>Todos ({totalTransactions})</S.ButtonTotal>
 
         {state ? <EditableButton  /> : ''}
-        <S.ButtonFilter onClick={handleOpenModal}> <FunnelSimple />Filtrar</S.ButtonFilter>
+        {/* <S.ButtonFilter onClick={handleOpenModal}> <FunnelSimple />Filtrar</S.ButtonFilter> */}
       </S.ContainerButton>
 
 
