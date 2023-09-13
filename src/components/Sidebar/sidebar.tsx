@@ -2,7 +2,7 @@ import { ButtonSider, ContainerSidebar, Logo, Menu } from './styled'
 
 import { BiHomeAlt } from 'react-icons/bi'
 import { Medal, Storefront, Book, Clipboard, Tag } from '@phosphor-icons/react'
-import { AiOutlinePercentage, AiOutlineFileText } from 'react-icons/Ai'
+import { AiOutlinePercentage, AiOutlineFileText } from 'react-icons/ai';
 import { SetStateAction, useState } from 'react'
 
 import { ThemeImg } from '@/config/img'
