@@ -82,22 +82,39 @@ export function Vendas(){
         url += `&nsu_external=${search}`;
     }
 
+
+    const totalUrl = 'https://api-pagueassim.stalopay.com.br/transactions';
+
     try {
-      const response = await fetch(url, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${dataUser?.token}`
-        }
-      });
-      if (response.ok) {
+      const [response, totalResponse] = await Promise.all([
+        fetch(url, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${dataUser?.token}`
+          }
+        }),
+        fetch(totalUrl, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${dataUser?.token}`
+          }
+        })
+      ]);
+
+      if (response.ok && totalResponse.ok) {
         const data = await response.json();
+        const totalData = await totalResponse.json();
+
         setTransactions(data.transactions);
         setTotalTransactions(data.total_transactions);
-        setTotalAmount(data.total_amount);
-        setAverageTaxApplied(data.average_taxApplied);
-        setTpvGlobal(data.tpv_global);
+        setTpvGlobal(totalData.tpv_global);
+
+
+        setTotalAmount(totalData.total_amount);
+        setAverageTaxApplied(totalData.average_taxApplied);
       } else {
-        console.error(`Error fetching data: ${response.statusText}`);
+        console.error(`Error fetching paginated data: ${response.statusText}`);
+        console.error(`Error fetching total data: ${totalResponse.statusText}`);
       }
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -105,6 +122,7 @@ export function Vendas(){
       setLoading(false);
     }
 };
+
 
 useEffect(() => {
     if (searchValue.trim() === '') {
