@@ -27,7 +27,7 @@ export function RegisterSuccess() {
         onClick={handleLogin}
         colorBackground={ThemeColor.secundaria}
         success={true}
-        title={ButtonText.irLogin}
+        label={ButtonText.irLogin}
       />
       </ContainerSubmit>
     </ContainerRecover>
