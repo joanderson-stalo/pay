@@ -1,30 +1,15 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
+import { ButtonClose, EditButton, EditInput } from './styled';
+import closeX from '@assets/icons/X.svg'
+import { useLabelStorage } from '@/hooks/useLabel';
+import { useFilter } from '@/hooks/useFilter';
 
-interface EditableButtonProps {
-  defaultLabel: string;
-}
-
-const EditableButton: React.FC<EditableButtonProps> = ({ defaultLabel }) => {
+export function EditableButton() {
+  const { label, setLabel } = useLabelStorage();
   const [isEditing, setIsEditing] = useState(false);
-  const [label, setLabel] = useState(defaultLabel);
+  const {setFalse } = useFilter();
 
   const inputRef = useRef<HTMLInputElement | null>(null);
-
-  // detectar se um clique ocorreu fora do elemento de entrada
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (inputRef.current && !inputRef.current.contains(event.target as Node)) {
-        setIsEditing(false);
-      }
-    }
-
-    // adicionar quando montado
-    document.addEventListener("mousedown", handleClickOutside);
-    // retornar função para remover quando desmontado
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
 
   const handleButtonClick = () => {
     setIsEditing(!isEditing);
@@ -40,18 +25,46 @@ const EditableButton: React.FC<EditableButtonProps> = ({ defaultLabel }) => {
     }
   };
 
+  const handleXClick = (event: React.MouseEvent) => {
+    event.stopPropagation();
+    console.log('close')
+    setFalse()
+  };
+
+  useEffect(() => {
+    const handleDocumentMouseDown = (event: MouseEvent) => {
+      if (isEditing && inputRef.current && !inputRef.current.contains(event.target as Node)) {
+        setIsEditing(false);
+      }
+    };
+
+    if (isEditing) {
+      document.addEventListener('mousedown', handleDocumentMouseDown);
+    } else {
+      document.removeEventListener('mousedown', handleDocumentMouseDown);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleDocumentMouseDown);
+    };
+  }, [isEditing]);
+
   return isEditing ? (
-    <input
+    <EditInput
       ref={inputRef}
       type="text"
       onChange={handleInputChange}
       onKeyDown={handleInputKeyDown}
       value={label}
+      maxLength={12}
       autoFocus
     />
   ) : (
-    <button onClick={handleButtonClick}>{label}</button>
+    <>
+      <EditButton onClick={handleButtonClick}>
+        {label}
+        <ButtonClose onClick={handleXClick}><img src={closeX} alt="" /></ButtonClose>
+      </EditButton>
+    </>
   );
 };
-
-export default EditableButton;

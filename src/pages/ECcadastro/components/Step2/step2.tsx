@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useFormContext } from 'react-hook-form';
 import { ThemeColor } from "@/config/color";
 import { ButtonAvançar, ButtonVoltar, ContainerButton, ContainerForm, ContainerInput, ContainerInput2, ContainerStep, ContextStep, ContextStepContainer, Line, TitleStep } from "./styled";
 import { CustomInput } from "@/components/Input/input";
 import { LabelCustomInputMask } from "@/components/CustomInputMask";
+import { Loading } from "@/components/Loading/loading";
 
 interface IStep2 {
   Avançar: () => void;
@@ -14,10 +15,12 @@ interface IStep2 {
 
 export function Step2({ Avançar, Voltar }: IStep2) {
   const { register, formState: { errors }, setValue, watch } = useFormContext();
+  const [dados, setDados] = useState(false);
 
   const allFieldsFilled = !!watch('CEP') && !!watch('Endereco') && !!watch('Numero') && !!watch('Bairro') && !!watch('Cidade') && !!watch('Estado');
 
   const searchAddressByCEP = async (cep: string) => {
+    setDados(true);
     try {
       const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
 
@@ -31,11 +34,15 @@ export function Step2({ Avançar, Voltar }: IStep2) {
       }
     } catch (error) {
       console.error('Erro ao buscar endereço:', error);
+    } finally {
+      setDados(false);
     }
   };
 
   useEffect(() => {
+    setDados(false);
     register('CEP');
+
     const handleChangeCEP = (event: React.ChangeEvent<HTMLInputElement>) => {
       const cep = event.target.value.replace(/\D/g, '');
       if (cep.length === 8) {
@@ -52,7 +59,9 @@ export function Step2({ Avançar, Voltar }: IStep2) {
   }, [register, setValue]);
 
   return (
-    <ContainerStep>
+    <>
+    {dados && <Loading />}
+        <ContainerStep>
       <ContextStepContainer>
         <ContextStep>
           <TitleStep>Endereço</TitleStep>
@@ -63,7 +72,7 @@ export function Step2({ Avançar, Voltar }: IStep2) {
                id="cep"
                 {...register('CEP')}
                 label='CEP'
-                mask="99.999.999"
+                mask="99999-999"
                 placeholder={'--.---.---'}
                 hasError={!!errors.CEP}
                 />
@@ -129,5 +138,6 @@ export function Step2({ Avançar, Voltar }: IStep2) {
         </ContainerButton>
       </ContextStepContainer>
     </ContainerStep>
+    </>
   )
 }

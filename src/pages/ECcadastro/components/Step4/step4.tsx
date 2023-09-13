@@ -1,41 +1,110 @@
-import { ThemeColor } from '@/config/color'
-import * as S from './styled'
-import { CustomInput } from '@/components/Input/input'
-import { useFormContext } from 'react-hook-form'
-import { Step5 } from './components/step5'
-import { CustomSelect } from '@/components/Select/select'
-import { optionsData } from '../Step1/option'
-import { LabelCustomInputMask } from '@/components/CustomInputMask'
+
+import { ThemeColor } from '@/config/color';
+import * as S from './styled';
+import { CustomInput } from '@/components/Input/input';
+import { useFormContext } from 'react-hook-form';
+import { CustomSelect } from '@/components/Select/select';
+import { optionsData } from '../Step1/option';
+import { LabelCustomInputMask } from '@/components/CustomInputMask';
+import { Infos } from './components/step5';
+import { Loading } from '@/components/Loading/loading';
+import { useEffect } from 'react';
 
 interface IStep5 {
-  Avançar: () => void
-  Voltar: () => void
+  Avançar: () => void;
+  Voltar: () => void;
+  isLoading: boolean;
 }
 
-export function Step4({ Avançar, Voltar }: IStep5) {
+export function Step4({ Avançar, Voltar, isLoading }: IStep5) {
   const {
     register,
     setValue,
     formState: { errors },
+    getValues,
     watch
-  } = useFormContext()
+  } = useFormContext();
 
-  const allFieldsFilled =
-    !!watch('Banco') &&
-    !!watch('TipoDeConta') &&
-    !!watch('Agência') &&
-    !!watch('Conta') &&
-    !!watch('CpfCnpj')
+  const isFornecedorFieldsFilled = (index: number) => {
+    const fields = [
+        `Bancof${index}`,
+        `TipoDeContaf${index}`,
+        `Agênciaf${index}`,
+        `Contaf${index}`,
+        `CpfCnpjf${index}`
+    ];
 
-  const cpfOuCnpjValue = watch('CpfCnpj')
+    return fields.every(field => !!getValues(field));
+};
+
+
+const areAllFieldsFilled = () => {
+  if (!(
+      !!watch('Banco') &&
+      !!watch('TipoDeConta') &&
+      !!watch('Agência') &&
+      !!watch('Conta') &&
+      !!watch('CpfCnpj')
+  )) {
+      return false;
+  }
+
+  for (let i = 2; i <= quantidadeFornecedores; i++) {
+      if (!isFornecedorFieldsFilled(i)) {
+          return false;
+      }
+  }
+
+  return true;
+};
+
+const formatCpfOrCnpj = (value: string) => {
+  const onlyNumbers = value.replace(/\D/g, "");
+
+  if (onlyNumbers.length > 11) {
+    return onlyNumbers.replace(
+      /^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2}).*/,
+      "$1.$2.$3/$4-$5"
+    );
+  }
+  return onlyNumbers.replace(
+    /^(\d{3})(\d{3})(\d{3})(\d{2}).*/,
+    "$1.$2.$3-$4"
+  );
+};
+
+
+const handleCpfCnpjChange = (event: { target: { value: any; }; }) => {
+  const formattedValue = formatCpfOrCnpj(event.target.value);
+  setValue('CpfCnpj', formattedValue);
+};
+
+
+  const cpfOuCnpjValue = watch('CpfCnpj');
 
   const mask =
     cpfOuCnpjValue && cpfOuCnpjValue.length > 14
       ? '99.999.999/9999-99'
-      : '999.999.999-99'
+      : '999.999.999-99';
+
+      const quantidadeFornecedores = Object.keys(getValues())
+      .filter(key => key.startsWith('Fornecedor'))
+      .length;
+
+    const renderInfosForFornecedores = () => {
+      const infosComponents = [];
+
+      for (let i = 2; i <= quantidadeFornecedores; i++) {
+        infosComponents.push(<Infos stepName={`F${i}`} key={i} />);
+      }
+
+      return infosComponents;
+    };
+
 
   return (
     <>
+   {isLoading && <Loading />}
       <S.ContainerStep>
         <S.ContextStepContainer>
           <S.ContextStep>
@@ -48,20 +117,19 @@ export function Step4({ Avançar, Voltar }: IStep5) {
                     {...register('Banco', { required: true })}
                     label="Banco"
                     optionsData={optionsData}
-                    placeholder={'oi'}
+                    placeholder={'Clique para ver a lista'}
                     hasError={!!errors.Banco}
                     onChange={(selectedOption: { value: string }) => {
                       setValue('Banco', selectedOption.value);
                     }}
                   />
                 </S.Banco>
-
                 <S.TipoConta>
                   <CustomSelect
                     {...register('TipoDeConta', { required: true })}
                     label="Tipo de Conta"
+                    placeholder={''}
                     optionsData={optionsData}
-                    placeholder={'oi'}
                     hasError={!!errors['Tipo de Conta']}
                     onChange={(selectedOption: { value: string }) => {
                       setValue('TipoDeConta', selectedOption.value);
@@ -76,7 +144,6 @@ export function Step4({ Avançar, Voltar }: IStep5) {
                     label="Agência"
                     colorInputDefault={ThemeColor.primaria}
                     colorInputSuccess={ThemeColor.secundaria}
-                    placeholder={'oi'}
                     hasError={!!errors.Agência}
                     hasSuccess={false}
                   />
@@ -87,33 +154,34 @@ export function Step4({ Avançar, Voltar }: IStep5) {
                     label="Conta"
                     colorInputDefault={ThemeColor.primaria}
                     colorInputSuccess={ThemeColor.secundaria}
-                    placeholder={'oi'}
                     hasError={!!errors.Conta}
                     hasSuccess={false}
                   />
                 </S.Conta>
               </S.ContainerInput>
               <S.ContainerInput2>
-                <LabelCustomInputMask
+              <CustomInput
                   key={mask}
+                  colorInputDefault={ThemeColor.primaria}
+                  colorInputSuccess={ThemeColor.secundaria}
                   {...register('CpfCnpj', { required: true })}
                   label="CPF ou CNPJ"
-                  mask={mask}
                   placeholder="--.---.---/---.--"
-                  hasError={!!errors['CPF ou CNPJ']}
+                  hasError={!!errors.CpfCnpj}
+                  onChange={handleCpfCnpjChange}
                 />
               </S.ContainerInput2>
             </S.ContainerForm>
           </S.ContextStep>
-          <Step5 />
+          {renderInfosForFornecedores()}
           <S.ContainerButton>
             <S.ButtonVoltar onClick={Voltar}>Voltar</S.ButtonVoltar>
-            <S.ButtonAvançar disabled={!allFieldsFilled} onClick={Avançar}>
-              Finalizar{' '}
+            <S.ButtonAvançar disabled={!areAllFieldsFilled()} onClick={Avançar}>
+              Finalizar
             </S.ButtonAvançar>
           </S.ContainerButton>
         </S.ContextStepContainer>
       </S.ContainerStep>
     </>
-  )
+  );
 }

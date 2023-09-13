@@ -4,15 +4,21 @@ import GlobalStyle from '@/styles/global';
 import { defaultTheme } from '@/styles/theme';
 import { Router } from '@routes/Router';
 import { LoginProvider } from './context/user.login';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { DocumentProvider } from './context/useDocument';
 
 
 export function App() {
   return (
+    <DocumentProvider>
     <LoginProvider>
     <ThemeProvider theme={defaultTheme}>
+    <ToastContainer position="top-right" />
       <Router />
       <GlobalStyle />
     </ThemeProvider>
     </LoginProvider>
+    </DocumentProvider>
   );
 }

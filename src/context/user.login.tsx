@@ -86,7 +86,7 @@ export function useLogin(): LoginContextData {
   const context = useContext(LoginContext);
 
   if (!context) {
-    throw new Error('useLogin deve ser usado dentro de um LoginProvider');
+    throw new Error('error');
   }
 
   return context;

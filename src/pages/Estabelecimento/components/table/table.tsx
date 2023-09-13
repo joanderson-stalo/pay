@@ -1,10 +1,8 @@
 import { useState, useEffect } from 'react';
 import * as S from './styled';
-import up from '@assets/icons/arrow-up.svg';
-import down from '@assets/icons/arrow-down.svg';
 
 export interface RowData {
-  dataInscricao: string;
+  id: string;
   cnpj: string;
   estabelecimento: string;
   licenciado: string;
@@ -12,14 +10,14 @@ export interface RowData {
   fornecedor: ('F1' | 'F2' | 'F3')[];
 }
 
-type SortField = 'dataInscricao' | 'licenciado' | 'tpv' | 'estabelecimento';
+type SortField = 'id' | 'licenciado' | 'tpv' | 'estabelecimento';
 
 interface TabelaProps {
   rows: RowData[];
 }
 
 export function Tabela({ rows }: TabelaProps) {
-  const [sortField, setSortField] = useState<SortField>('dataInscricao');
+  const [sortField, setSortField] = useState<SortField>('id');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
 
   const handleSort = (field: SortField) => {
@@ -33,12 +31,11 @@ export function Tabela({ rows }: TabelaProps) {
 
 
   const sortedRows = [...rows].sort((a, b) => {
-    if (sortField === 'dataInscricao') {
-      const dateA = new Date(a.dataInscricao).getTime();
-      const dateB = new Date(b.dataInscricao).getTime();
-
-      return sortDirection === 'asc' ? dateA - dateB : dateB - dateA;
-    } else if (sortField === 'licenciado') {
+    if (sortField === 'id') {
+      return sortDirection === 'asc'
+        ? a.id.localeCompare(b.id)
+        : b.id.localeCompare(a.id);
+    }  else if (sortField === 'licenciado') {
       return sortDirection === 'asc'
         ? a.licenciado.localeCompare(b.licenciado)
         : b.licenciado.localeCompare(a.licenciado);
@@ -56,36 +53,66 @@ export function Tabela({ rows }: TabelaProps) {
     return 0;
   });
 
+
+  function SortIndicator({
+    direction
+  }: {
+    direction: 'asc' | 'desc' | undefined
+  }) {
+    return (
+      <S.SortContainer>
+        <S.SortArrow isActive={direction !== 'desc'}>▲</S.SortArrow>
+        <S.SortArrow isActive={direction !== 'asc'}>▼</S.SortArrow>
+      </S.SortContainer>
+    )
+  }
+
+  const getDirectionForField = (field: SortField) => {
+    return sortField === field ? sortDirection : undefined;
+  }
+
+
+
+  const handleViewMoreClick = (id: string) => {
+    console.log(`ID da linha: ${id}`);
+};
+
+
+
   useEffect(() => {
-    handleSort('dataInscricao');
+    handleSort('id');
   }, []);
 
 
   return (
     <S.Table>
-      <thead>
+          <thead>
         <tr>
-          <S.TableHeader onClick={() => handleSort('dataInscricao')}>
-            Data de Inscrição {sortDirection === 'asc' ? '↑' : '↓'}
+          <S.TableHeader onClick={() => handleSort('id')}>
+            Id
+            <SortIndicator direction={getDirectionForField('id')} />
           </S.TableHeader>
           <S.TableHeader>CNPJ</S.TableHeader>
           <S.TableHeader onClick={() => handleSort('estabelecimento')}>
-            Estabelecimento {sortDirection === 'asc' ? '↑' : '↓'}
+            Estabelecimento
+            <SortIndicator direction={getDirectionForField('estabelecimento')} />
           </S.TableHeader>
           <S.TableHeader onClick={() => handleSort('licenciado')}>
-            Licenciado {sortDirection === 'asc' ? '↑' : '↓'}
+            Licenciado
+            <SortIndicator direction={getDirectionForField('licenciado')} />
           </S.TableHeader>
           <S.TableHeader onClick={() => handleSort('tpv')}>
-            TPV {sortDirection === 'asc' ? '↑' : '↓'}
+            TPV
+            <SortIndicator direction={getDirectionForField('tpv')} />
           </S.TableHeader>
           <S.TableHeader>Fornecedor</S.TableHeader>
-          <S.TableHeader style={{ paddingLeft: '28px' }}>Ação</S.TableHeader>
+          <S.TableHeader style={{ paddingLeft: '28px' }}>Ver mais</S.TableHeader>
         </tr>
       </thead>
       <tbody>
         {sortedRows.map((row, index) => (
           <tr key={index}>
-            <S.TableData>{row.dataInscricao}</S.TableData>
+            <S.TableData>{row.id}</S.TableData>
             <S.TableData>{row.cnpj}</S.TableData>
             <S.TableData>{row.estabelecimento}</S.TableData>
             <S.TableData>{row.licenciado}</S.TableData>
@@ -100,7 +127,7 @@ export function Tabela({ rows }: TabelaProps) {
               </S.FornecedorWrapper>
             </S.TableData>
             <S.TableData>
-              <S.Button>Dados</S.Button>
+            <S.Button onClick={() => handleViewMoreClick(row.id)}>Visão Geral</S.Button>
             </S.TableData>
           </tr>
         ))}

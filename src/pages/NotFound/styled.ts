@@ -1,4 +1,6 @@
 import styled from 'styled-components'
+import background from '@assets/404.svg'
+import { ThemeColor } from '@/config/color'
 
 interface Props {
   color: string
@@ -11,13 +13,37 @@ export const CotainerNotFound = styled.div`
   align-items: center;
   flex-direction: column;
   padding: 0 1rem;
+
 `
 
-export const Img404 = styled.img`
-  margin-top: 27px;
-  width: 43.1rem;
-  height: 43.1rem;
+export const Container404 = styled.div`
+ background: url(${background}) no-repeat center center;
+  background-size: cover;
+  width: 554px;
+height: 395px;
+  margin-top: 50px;
+
+  @media (max-width: 600px) {
+    width: 454px;
+    height: 305px;
+}
 `
+
+export const Title404 = styled.h2`
+color:  ${ThemeColor.primaria};
+text-align: center;
+text-shadow: 0px 15px 12px 0px rgba(0, 0, 0, 0.25);
+font-family: DM Sans;
+font-size: 288px;
+font-weight: 700;
+margin-top: 30px;
+
+@media (max-width: 600px) {
+  font-size: 188px;
+margin-top: 30px;
+}
+`
+
 
 export const CotainerText = styled.div`
   width: 100%;
@@ -32,7 +58,7 @@ export const CotainerText = styled.div`
 
   > p {
     font-weight: 700;
-    font-size: 3rem;
+    font-size: 30px;
     line-height: 3.9rem;
     color: ${({ theme }) => theme.neutral_normal};
   }

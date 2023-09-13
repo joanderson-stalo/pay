@@ -10,15 +10,14 @@ import { ItensPorPage } from '@/components/ItensPorPage/itensPorPage';
 import { Pagination } from '@/components/Pagination/pagination';
 import { FunnelSimple } from '@phosphor-icons/react';
 import { ModalFilter } from './components/ModalFilter/modalSucesso';
+import { EditableButton } from '@/components/ButtonEdit/buttonEdit';
+import { useFilter } from '@/hooks/useFilter';
 
 export function Estabelecimento() {
 
   const [itensPorPage, setItensPorPage] = useState<number | ''>(10);
   const [filter, setFilter] = useState(false)
-
-  const fazerRequisicao = (valor: number) => {
-    console.log(`Requisição feita com o valor ${valor}`);
-  };
+  const { state} = useFilter();
 
   const fetchData = async (pageNumber: number) => {
 
@@ -49,6 +48,7 @@ export function Estabelecimento() {
       <EstabelecimentoHeader />
       <S.ContainerButton>
         <S.ButtonTotal>Todos (150)</S.ButtonTotal>
+        {state ? <EditableButton  /> : ''}
         <S.ButtonFilter onClick={handleOpenModal}> <FunnelSimple />Filtrar</S.ButtonFilter>
       </S.ContainerButton>
       <Tabela rows={tableRows} />
@@ -58,7 +58,7 @@ export function Estabelecimento() {
       <S.ContainerPagina>
         <PaginaView totalItens={itensPorPage} />
         <S.ContainerItens>
-        <ItensPorPage itensPorPage={itensPorPage} setItensPorPage={setItensPorPage} fazerRequisicao={fazerRequisicao} />
+        <ItensPorPage itensPorPage={itensPorPage} setItensPorPage={setItensPorPage} />
         <Pagination
         onPageClick={fetchData}
         totalPages={10}

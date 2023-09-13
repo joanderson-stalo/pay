@@ -44,6 +44,7 @@ export function PJ({ Avançar, BPF, BPJ }: IStep1) {
     !!watch('RazaoSocialEstabelecimento') &&
     !!watch('NomeFantasiaEstabelecimento') &&
     !!watch('DataCriacaoEstabelecimento') &&
+    !!watch('NascimentoSocio') &&
     !!watch('CPFEstabelecimento') &&
     !!watch('NomeSocioEstabelecimento') &&
     !!watch('EmailEstabelecimento') &&
@@ -111,6 +112,7 @@ export function PJ({ Avançar, BPF, BPJ }: IStep1) {
               />
             </ContainerInput>
             <ContainerInput>
+
               <LabelCustomInputMask
                 {...register('CPFEstabelecimento', { validate: validateCPF })}
                 label="CPF"
@@ -127,14 +129,14 @@ export function PJ({ Avançar, BPF, BPJ }: IStep1) {
               />
             </ContainerInput>
             <ContainerInput>
-              <CustomInput
-                {...register('EmailEstabelecimento', {
-                  validate: validateEmail
+            <LabelCustomInputMask
+                {...register('NascimentoSocio', {
+                  validate: validateDataCriacao
                 })}
-                label="E-mail"
-                colorInputDefault={ThemeColor.primaria}
-                colorInputSuccess={ThemeColor.secundaria}
-                hasError={!!errors.EmailEstabelecimento}
+                label="Nascimento Sócio"
+                mask="99/99/9999"
+                placeholder="dd/mm/aaaa"
+                hasError={!!errors.NascimentoSocio}
               />
               <LabelCustomInputMask
                 {...register('TelefoneEstabelecimento', {
@@ -144,6 +146,15 @@ export function PJ({ Avançar, BPF, BPJ }: IStep1) {
                 mask="(99) 99999-9999"
                 placeholder="(--) ----.----"
                 hasError={!!errors.TelefoneEstabelecimento}
+              />
+              <CustomInput
+                {...register('EmailEstabelecimento', {
+                  validate: validateEmail
+                })}
+                label="E-mail"
+                colorInputDefault={ThemeColor.primaria}
+                colorInputSuccess={ThemeColor.secundaria}
+                hasError={!!errors.EmailEstabelecimento}
               />
             </ContainerInput>
             <ContainerInput2>

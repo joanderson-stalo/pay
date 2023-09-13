@@ -1,24 +1,17 @@
-import { useEffect, ChangeEvent } from 'react'
+import { ChangeEvent } from 'react'
 import * as S from './styled'
 
 type ItensPorPageProps = {
-  fazerRequisicao: (valor: number) => void
   itensPorPage: number | ''
   setItensPorPage: (valor: number | '') => void
 }
 
-export function ItensPorPage({ fazerRequisicao, itensPorPage, setItensPorPage }: ItensPorPageProps) {
+export function ItensPorPage({  itensPorPage, setItensPorPage }: ItensPorPageProps) {
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target
     const newValue = value === '' ? '' : Number(value)
     setItensPorPage(newValue)
   }
-
-  useEffect(() => {
-    if (itensPorPage !== '' && itensPorPage !== 0) {
-      fazerRequisicao(itensPorPage)
-    }
-  }, [itensPorPage, fazerRequisicao])
 
   return (
     <S.Container>

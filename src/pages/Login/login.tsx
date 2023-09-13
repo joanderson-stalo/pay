@@ -2,7 +2,8 @@ import { useForm } from 'react-hook-form';
 import { Resolver } from 'react-hook-form/dist/types/resolvers';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
-
+import {BeatLoader
+} from 'react-spinners';
 import * as S from './styled';
 import { Button } from '@/components/Button/button';
 import { schema } from './schema';
@@ -15,7 +16,10 @@ import { ContainerSubmit } from '@/styles/default';
 import { MessageError } from '@/components/MessageError/messageError';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useLogin } from '@/context/user.login';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+import { Loading } from '@/components/Loading/loading';
+import axios from 'axios';
 
 
 type FormData = {
@@ -29,6 +33,7 @@ type ResolverFormData = Resolver<FormData>;
 export function Login() {
   const navigate = useNavigate();
   const { login, dataUser, isLogin } = useLogin();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const {
     register,
@@ -49,18 +54,22 @@ export function Login() {
   const password = watch('password');
 
   const onSubmit = async (data: FormData) => {
+    setIsSubmitting(true);
     try {
       await login(data);
     } catch (error) {
-      console.log('ola',error);
+      setIsSubmitting(false)
       setError('email', {
         type: 'manual',
-        message: 'Usuário ou senha inválidas',
+        message: 'Confira se digitou o e-mail e senha corretamente',
       });
       setError('password', {
-        type: 'manual',
-        message: 'Usuário ou senha inválidas',
+        type: 'manual'
       });
+      toast.error('Usuário ou senha inválidas')
+    }
+    finally{
+      setIsSubmitting(false)
     }
   };
 
@@ -70,9 +79,11 @@ export function Login() {
     }
   })
 
+
+
   return (
     <S.ContainerLogin>
-
+        {isSubmitting && <Loading />}
       <S.TitleLogin colorTitle={ThemeColor.primaria}>{Text.title}</S.TitleLogin>
 
       <S.Form onSubmit={handleSubmit(onSubmit)}>
@@ -126,7 +137,8 @@ export function Login() {
           type="submit"
           colorBackground={ThemeColor.secundaria}
           success={isValid}
-          title={ButtonText.login}
+          disabled={isSubmitting}
+          label={isSubmitting ? <BeatLoader size={10} color="#ffffff" /> : ButtonText.salvar}
         />
         </ContainerSubmit>
       </S.Form>

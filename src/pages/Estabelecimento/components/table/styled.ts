@@ -76,6 +76,22 @@ export const FornecedorItem = styled.p<FornecedorItemProps>`
   }};
 `;
 
+export const SortContainer = styled.div`
+  display: inline-block;
+  text-align: center;
+  line-height: 1;
+  vertical-align: middle;
+  margin-left: 8px;
+`;
+
+export const SortArrow = styled.span<{ isActive: boolean }>`
+  display: block;
+  color: ${props => (props.isActive ? 'black': '#08BBE9')};
+  opacity: ${props => (props.isActive ? 0.5 : 1)};
+  font-size: 9px;
+`;
+
+
 
 
 

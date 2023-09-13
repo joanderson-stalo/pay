@@ -1,6 +1,7 @@
 import { useContext, useState } from 'react'
 import {
   ButtonHeader,
+  ButtonNotification,
   ContainerHeader,
   ContainerModal,
   ContainerPerfil,
@@ -8,9 +9,11 @@ import {
   NomePerfil
 } from './styled'
 import { Modal } from './components/Modal/modal'
-// import { RxTriangleDown, RxTriangleUp } from 'react-icons/Rx'
 import { ThemeColor } from '@/config/color'
 import { useLogin } from '@/context/user.login';
+import { CaretDown, CaretUp } from '@phosphor-icons/react'
+import fotoPerfil from '@assets/icons/perfil.svg'
+import notif from '@assets/icons/Notif.svg'
 
 export function Header() {
   const { dataUser } = useLogin();
@@ -20,20 +23,23 @@ export function Header() {
     <ContainerHeader>
       <p></p>
       <ContainerPerfil>
-        <NomePerfil>{dataUser?.name}</NomePerfil>
         {openModal ? (
           <ButtonHeader color={ThemeColor.secundaria} onClick={() => setOpenModal(false)}>
-            <ImagPerfil color={ThemeColor.secundaria} src='https://github.com/Joanderson337.png' />
-            {/* <RxTriangleUp /> */}
+            <ImagPerfil color={ThemeColor.secundaria} src={fotoPerfil} />
+             <NomePerfil>{dataUser?.name}</NomePerfil>
+            <CaretUp />
           </ButtonHeader>
         ) : (
           <ButtonHeader color={ThemeColor.secundaria} onClick={() => setOpenModal(true)}>
-            <ImagPerfil color={ThemeColor.secundaria} src='https://github.com/Joanderson337.png' />
-            {/* <RxTriangleDown /> */}
+            <ImagPerfil color={ThemeColor.secundaria} src={fotoPerfil} />
+                     <NomePerfil>{dataUser?.name}</NomePerfil>
+            <CaretDown  />
           </ButtonHeader>
         )}
+        <ButtonNotification> <img src={notif} alt="" /></ButtonNotification>
         <ContainerModal>{openModal && <Modal />}</ContainerModal>
       </ContainerPerfil>
+
     </ContainerHeader>
   )
 }

@@ -16,5 +16,5 @@ export const ContainerContext = styled.div`
 export const ContextHome = styled.div`
   width: 100%;
   background-color: ${({ theme }) => theme.white_sys};
-  height: 100%;
+  /* height: 100%; */
 `

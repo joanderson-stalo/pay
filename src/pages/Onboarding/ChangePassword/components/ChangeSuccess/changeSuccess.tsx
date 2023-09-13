@@ -25,7 +25,7 @@ export function ChangeSuccess() {
         onClick={() => handleLogin(navigate)}
         colorBackground={ThemeColor.secundaria}
         success={true}
-        title={ButtonText.irLogin}
+        label={ButtonText.irLogin}
       />
       </ContainerSubmit>
     </ContainerRecover>

@@ -2,7 +2,7 @@ import { RowData } from "./components/table/table";
 
 export const tableRows: RowData[] = [
   {
-    dataInscricao: '01/01/2023',
+    id: '0001',
     cnpj: '14.345.678/0001-91',
     estabelecimento: 'Padaria Trevo de 4 Folhas',
     licenciado: 'Bruno Emanuel Martins Nascimento',
@@ -10,7 +10,7 @@ export const tableRows: RowData[] = [
     fornecedor: ['F1'],
   },
   {
-    dataInscricao: '01/01/2023',
+    id: '0002',
     cnpj: '14.345.678/0001-91',
     estabelecimento: 'Padaria Trevo de 4 Folhas',
     licenciado: 'Licenciado 1',
@@ -18,7 +18,7 @@ export const tableRows: RowData[] = [
     fornecedor: ['F1'],
   },
   {
-    dataInscricao: '01/01/2023',
+    id: '0003',
     cnpj: '14.345.678/0001-91',
     estabelecimento: 'Padaria Trevo de 4 Folhas',
     licenciado: 'Licenciado 1',
@@ -26,7 +26,7 @@ export const tableRows: RowData[] = [
     fornecedor: ['F1'],
   },
   {
-    dataInscricao: '01/01/2023',
+    id: '0004',
     cnpj: '14.345.678/0001-91',
     estabelecimento: 'Padaria Trevo de 4 Folhas',
     licenciado: 'Licenciado 1',
@@ -34,7 +34,7 @@ export const tableRows: RowData[] = [
     fornecedor: ['F1'],
   },
   {
-    dataInscricao: '01/01/2023',
+    id: '0005',
     cnpj: '14.345.678/0001-91',
     estabelecimento: 'Padaria Trevo de 4 Folhas',
     licenciado: 'Licenciado 1',
@@ -42,7 +42,7 @@ export const tableRows: RowData[] = [
     fornecedor: ['F1'],
   },
   {
-    dataInscricao: '01/01/2023',
+    id: '0006',
     cnpj: '14.345.678/0001-91',
     estabelecimento: 'Padaria Trevo de 4 Folhas',
     licenciado: 'Licenciado 1',
@@ -50,7 +50,7 @@ export const tableRows: RowData[] = [
     fornecedor: ['F1'],
   },
   {
-    dataInscricao: '01/01/2023',
+    id: '0007',
     cnpj: '14.345.678/0001-91',
     estabelecimento: 'Padaria Trevo de 4 Folhas',
     licenciado: 'Licenciado 1',
@@ -58,7 +58,7 @@ export const tableRows: RowData[] = [
     fornecedor: ['F1'],
   },
   {
-    dataInscricao: '01/01/2023',
+    id: '0008',
     cnpj: '14.345.678/0001-91',
     estabelecimento: 'Padaria Trevo de 4 Folhas',
     licenciado: 'Licenciado 1',
@@ -66,7 +66,7 @@ export const tableRows: RowData[] = [
     fornecedor: ['F1'],
   },
   {
-    dataInscricao: '01/01/2023',
+    id: '0009',
     cnpj: '14.345.678/0001-91',
     estabelecimento: 'Padaria Trevo de 4 Folhas',
     licenciado: 'Licenciado 1',
@@ -74,7 +74,7 @@ export const tableRows: RowData[] = [
     fornecedor: ['F1'],
   },
   {
-    dataInscricao: '02/02/2023',
+    id: '0010',
     cnpj: '12.345.678/0001-91',
     estabelecimento: 'adaria Trevo de 4 Folhas',
     licenciado: 'sicenciado 1',
@@ -82,21 +82,19 @@ export const tableRows: RowData[] = [
     fornecedor: ['F1', 'F3'],
   },
   {
-    dataInscricao: '02/02/2023',
+    id: '0011',
     cnpj: '12.345.678/0001-91',
     estabelecimento: 'Hadaria Trevo de 4 Folhas',
     licenciado: 'bicenciado 1',
     tpv: '10',
     fornecedor: ['F1', 'F3'],
   },
-
   {
-    dataInscricao: '02/02/2023',
+    id: '0012',
     cnpj: '12.345.678/0001-91',
     estabelecimento: 'Hadaria Trevo de 4 Folhas',
     licenciado: 'aicenciado 1',
     tpv: '12',
     fornecedor: ['F1', 'F2', 'F3'],
   },
-
 ];

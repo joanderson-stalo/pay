@@ -1,28 +1,23 @@
 import { useState } from 'react'
 import { PF } from './components/PF/pf'
 import { PJ } from './components/PJ/pj'
+import { useDocument } from '@/context/useDocument'
 
 interface IStep1 {
   Avançar: () => void
 }
 
 export function Step1({ Avançar }: IStep1) {
-  const [isPj, setIsPj] = useState(true)
+  const { documentType, updateToCNPJ, updateToCPF } = useDocument()
 
-  const handleSelectPJ = () => {
-    setIsPj(true)
-  }
-
-  const handleSelectPF = () => {
-    setIsPj(false)
-  }
+  console.log(documentType)
 
   return (
     <>
-      {isPj ? (
-        <PJ Avançar={Avançar} BPJ={handleSelectPJ} BPF={handleSelectPF} />
+      {documentType === 'CNPJ' ? (
+        <PJ Avançar={Avançar} BPJ={updateToCNPJ} BPF={updateToCPF} />
       ) : (
-        <PF Avançar={Avançar} BPJ={handleSelectPJ} BPF={handleSelectPF} />
+        <PF Avançar={Avançar} BPJ={updateToCNPJ} BPF={updateToCPF} />
       )}
     </>
   )

@@ -68,7 +68,7 @@ export function PJ({ Avançar, BPF, BPJ }: IStep1) {
       <ContextStepContainer>
         <ContextStep>
           <ContainerDados>
-            <TitleStep>Dados do Estabelecimento</TitleStep>
+            <TitleStep>Dados do Licenciado</TitleStep>
             <ContainerPJPF>
             <ButtonPJ active onClick={BPJ}>PJ</ButtonPJ>
             <ButtonPF active={false} onClick={BPF}>PF</ButtonPF>

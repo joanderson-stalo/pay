@@ -44,8 +44,8 @@ export const CustomInputContainer = styled.input<Props>`
 
   padding: 0 16px;
   font-weight: 400;
-    font-size: 14px;
-    line-height: 24px;
+  font-size: 14px;
+  line-height: 24px;
   height: 44px;
 
   ::placeholder {

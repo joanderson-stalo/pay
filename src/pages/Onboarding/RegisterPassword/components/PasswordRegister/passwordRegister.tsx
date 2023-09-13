@@ -166,7 +166,7 @@ export function PasswordRegister() {
                 type="submit"
                 colorBackground={ThemeColor.secundaria}
                 success={isValid}
-                title={ButtonText.salvar}
+                label={ButtonText.salvar}
               />
             </ContainerSubmit>
           </Form>

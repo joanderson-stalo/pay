@@ -18,4 +18,10 @@ letter-spacing: 0.05rem;
 
   background: ${({ success, colorBackground, theme }) => (success ? `${colorBackground}` : `${theme.gray_sys1}`)};
   cursor: ${({ success }) => (success ? "grab" : "not-allowed")};
+
+  :disabled{
+    cursor: "not-allowed";
+    background: ${({theme }) => theme.gray_sys1};
+    color: ${({theme }) => theme.neutral_dark};
+  }
 `;

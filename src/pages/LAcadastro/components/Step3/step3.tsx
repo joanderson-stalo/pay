@@ -29,8 +29,6 @@ interface IStep3 {
 }
 
 export function Step3({ Avançar, Voltar }: IStep3) {
-  const [adicionar, setAdcionar] = useState(false)
-  const [adicionarOutro, setAdcionarOutro] = useState(false)
   const {
     register,
     setValue,
@@ -40,8 +38,7 @@ export function Step3({ Avançar, Voltar }: IStep3) {
 
   const allFieldsFilled =
     !!watch('licenciado') &&
-    !!watch('Fornecedor') &&
-    !!watch('PlanoComercial')
+    !!watch('RegraMarkup') 
 
   return (
     <ContainerStep>
@@ -54,6 +51,7 @@ export function Step3({ Avançar, Voltar }: IStep3) {
               <CustomSelect
                 {...register('licenciado')}
                 label="Licenciado Autorizado"
+                placeholder=''
                 optionsData={optionsData}
                 hasError={!!errors.licenciado}
                 onChange={(selectedOption: { value: string }) => {
@@ -64,114 +62,22 @@ export function Step3({ Avançar, Voltar }: IStep3) {
             </ContainerInput2>
             <ContainerInput>
               <WInput>
-                <CustomSelect
-                  {...register('Fornecedor')}
-                  label="Fornecedor"
-                  placeholder="oi"
+                <CustomInput
+                  {...register('RegraMarkup')}
+                  label="Regra Markup"
+                  placeholder=""
                   hasError={!!errors.Fornecedor}
-                  optionsData={optionsData}
-                  onChange={(selectedOption: { value: string }) => {
-                    setValue('Fornecedor', selectedOption.value);
-                  }}
+                  colorInputDefault={ThemeColor.primaria}
+                  colorInputSuccess={ThemeColor.secundaria}
                 />
               </WInput>
 
-              <WInput>
-                <CustomSelect
-                  {...register('PlanoComercial')}
-                  label="Plano Comercial"
-                  optionsData={optionsData}
-                  placeholder="oi"
-                  hasError={!!errors.PlanoComercial}
-                  onChange={(selectedOption: { value: string }) => {
-                    setValue('PlanoComercial', selectedOption.value);
-                  }}
-                />
-              </WInput>
-
-              {!adicionar && (
-                <ButtonAdd onClick={() => setAdcionar(true)}>
-                  Adicionar outro
-                </ButtonAdd>
-              )}
             </ContainerInput>
 
-            {adicionar && (
-              <ContainerInput>
-                <WInput>
-                  <CustomSelect
-                    {...register('Fornecedor')}
-                    label="Fornecedor"
-                    placeholder="oi"
-                    hasError={!!errors.Fornecedor}
-                    optionsData={optionsData}
-                    onChange={(selectedOption: { value: string }) => {
-                      setValue('Fornecedor', selectedOption.value);
-                    }}
-                  />
-                </WInput>
-
-                <WInput>
-                  <CustomSelect
-                    {...register('PlanoComercial')}
-                    label="Plano Comercial"
-                    optionsData={optionsData}
-                    placeholder="oi"
-                    hasError={!!errors.PlanoComercial}
-                    onChange={(selectedOption: { value: string }) => {
-                      setValue('PlanoComercial', selectedOption.value);
-                    }}
-                  />
-                </WInput>
-                {!adicionarOutro && (
-                  <>
-                    <ButtonRemover onClick={() => setAdcionar(false)}>
-                      Remover
-                    </ButtonRemover>
-                    <ButtonAdd  onClick={() => setAdcionarOutro(true)}>Adicionar outro</ButtonAdd>
-                  </>
-                )}
-              </ContainerInput>
-            )}
 
 
-            {adicionarOutro && (
-              <ContainerInput>
-                <WInput>
-                  <CustomSelect
-                    {...register('Fornecedor')}
-                    label="Fornecedor"
-                    placeholder="oi"
-                    hasError={!!errors.Fornecedor}
-                    optionsData={optionsData}
-                    onChange={(selectedOption: { value: string }) => {
-                      setValue('Fornecedor', selectedOption.value);
-                    }}
-                  />
-                </WInput>
 
-                <WInput>
-                  <CustomSelect
-                    {...register('PlanoComercial')}
-                    label="Plano Comercial"
-                    optionsData={optionsData}
-                    placeholder="oi"
-                    hasError={!!errors.PlanoComercial}
-                    onChange={(selectedOption: { value: string }) => {
-                      setValue('PlanoComercial', selectedOption.value);
-                    }}
-                  />
-                </WInput>
-                {adicionarOutro && (
-                  <>
-                    <ButtonRemover onClick={() => setAdcionarOutro(false)}>
-                      Remover
-                    </ButtonRemover>
-                    <ButtonAdd  onClick={() => setAdcionarOutro(true)}>Adicionar outro</ButtonAdd>
-                  </>
-                )}
-              </ContainerInput>
-            )}
+
           </ContainerForm>
         </ContextStep>
         <ContainerButton>

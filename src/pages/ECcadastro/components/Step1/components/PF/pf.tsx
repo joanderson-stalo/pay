@@ -27,7 +27,7 @@ export function PF({ Avançar, BPF, BPJ }: IStep1) {
 
   const allFieldsFilled =
     !!watch('NomeFantasiaEstabelecimento') &&
-    !!watch('DataCriacaoEstabelecimento') &&
+    !!watch('NascimentoSocio') &&
     !!watch('CPFEstabelecimento') &&
     !!watch('NomeSocioEstabelecimento') &&
     !!watch('EmailEstabelecimento') &&
@@ -69,13 +69,13 @@ export function PF({ Avançar, BPF, BPJ }: IStep1) {
                 hasError={!!errors.NomeFantasiaEstabelecimento}
               />
               <LabelCustomInputMask
-                {...register('DataCriacaoEstabelecimento', {
+                {...register('NascimentoSocio', {
                   validate: validateDataCriacao
                 })}
-                label="Data de Criação"
+                label="Data de Nascimento"
                 mask="99/99/9999"
                 placeholder="dd/mm/aaaa"
-                hasError={!!errors.DataCriacaoEstabelecimento}
+                hasError={!!errors.NascimentoSocio}
               />
             </S.ContainerInput>
             <S.ContainerInput>
@@ -88,7 +88,7 @@ export function PF({ Avançar, BPF, BPJ }: IStep1) {
               />
               <CustomInput
                 {...register('NomeSocioEstabelecimento')}
-                label="Nome Completo do Sócio"
+                label="Nome Completo"
                 colorInputDefault={ThemeColor.primaria}
                 colorInputSuccess={ThemeColor.secundaria}
                 hasError={!!errors.NomeSocioEstabelecimento}

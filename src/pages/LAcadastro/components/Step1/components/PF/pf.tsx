@@ -40,8 +40,6 @@ export function PF({ Avançar, BPF, BPJ }: IStep1) {
   } = useFormContext()
 
   const allFieldsFilled =
-    !!watch('NomeFantasiaEstabelecimento') &&
-    !!watch('DataCriacaoEstabelecimento') &&
     !!watch('CPFEstabelecimento') &&
     !!watch('NomeSocioEstabelecimento') &&
     !!watch('EmailEstabelecimento') &&
@@ -66,7 +64,7 @@ export function PF({ Avançar, BPF, BPJ }: IStep1) {
       <ContextStepContainer>
         <ContextStep>
           <ContainerDados>
-            <TitleStep>Dados do Estabelecimento</TitleStep>
+            <TitleStep>Dados do Licenciado</TitleStep>
             <ContainerPJPF>
             <ButtonPJ active={false} onClick={BPJ}>PJ</ButtonPJ>
             <ButtonPF active onClick={BPF}>PF</ButtonPF>
@@ -74,24 +72,6 @@ export function PF({ Avançar, BPF, BPJ }: IStep1) {
           </ContainerDados>
           <Line />
           <ContainerForm>
-            <ContainerInput>
-              <CustomInput
-                {...register('NomeFantasiaEstabelecimento')}
-                label="Nome Fantasia"
-                colorInputDefault={ThemeColor.primaria}
-                colorInputSuccess={ThemeColor.secundaria}
-                hasError={!!errors.NomeFantasiaEstabelecimento}
-              />
-              <LabelCustomInputMask
-                {...register('DataCriacaoEstabelecimento', {
-                  validate: validateDataCriacao
-                })}
-                label="Data de Criação"
-                mask="99/99/9999"
-                placeholder="dd/mm/aaaa"
-                hasError={!!errors.DataCriacaoEstabelecimento}
-              />
-            </ContainerInput>
             <ContainerInput>
               <LabelCustomInputMask
                 {...register('CPFEstabelecimento', { validate: validateCPF })}

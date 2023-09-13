@@ -9,6 +9,11 @@ import { DefaultHome } from '@/layout/DefaultHome/defaultHome'
 import { LAcadastro } from '@/pages/LAcadastro/LAcadastro'
 import { Estabelecimento } from '@/pages/Estabelecimento/estabelecimento'
 import { PageEstabelecimento } from '@/pages/PageEstabelecimento/pageEstabelecimento'
+import { ECcadastro } from '@/pages/ECcadastro/ECcadastro'
+import { Arvore } from '@/pages/Arvore/arvore'
+import { Vendas } from '@/pages/Vendas/vendas'
+import { Detalhe } from '../pages/Vendas/Detalhes/detalhe'
+import { Licenciado } from '@/pages/Licenciado/licenciado'
 
 export function Router() {
   return (
@@ -23,8 +28,11 @@ export function Router() {
         </Route>
 
         <Route path='/' element={<DefaultHome />}>
-            <Route path="/home" element={<PageEstabelecimento />} />
-            <Route path="/lacadastro" element={<LAcadastro />} />
+            {/* <Route path="/home" element={<Licenciado />} /> */}
+             {/* <Route path="/home" element={<Arvore/>} /> */}
+               {/* <Route path="/home" element={<Detalhe />} /> */}
+                     <Route path="/home" element={<Vendas />} />
+            <Route path="/eccadastro" element={<ECcadastro />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />

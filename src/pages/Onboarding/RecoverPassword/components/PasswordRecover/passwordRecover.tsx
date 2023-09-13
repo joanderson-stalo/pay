@@ -26,6 +26,9 @@ import { handleLogin } from '@/utils/handleNavigate';
 import { CustomInput } from '@/components/Input/input';
 import { ContainerSubmit, ContextTitle } from '@/styles/default';
 import { MessageError } from '@/components/MessageError/messageError';
+import { BeatLoader } from 'react-spinners';
+import { toast } from 'react-toastify';
+import { Loading } from '@/components/Loading/loading';
 
 type FormData = {
   email: string;
@@ -35,26 +38,44 @@ export function PasswordRecover() {
   const navigate = useNavigate();
   const [emailR, setEmailR] = useState('');
   const [success, setSuccess] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isEmailValid, setIsEmailValid] = useState(false);
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
-    watch
+    formState: { errors },
+    setError,
+    clearErrors
   } = useForm<FormData>({
     resolver: yupResolver(schema)
   });
 
-  const email = watch('email');
 
   const onSubmit = async (data: FormData) => {
+    setIsSubmitting(true);
     try {
       const response = await axios.post('https://api-pagueassim.stalopay.com.br/forgot-password', data);
-      console.log(response.data);
-      setSuccess(true);
+      if (response.status === 200) {
+        setSuccess(true);
+      }
     } catch (error) {
-      console.error(error);
+      setError('email', {
+        type: 'manual',
+        message: 'E-mail não localizado no nosso banco de dados.',
+      });
+      toast.error('E-mail não encontrado')
     }
+    finally{
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const emailValue = event.target.value;
+    setEmailR(emailValue);
+    clearErrors('email');
+    setIsEmailValid(emailValue !== '' && Yup.string().trim().email().isValidSync(emailValue));
   };
 
   return (
@@ -63,9 +84,8 @@ export function PasswordRecover() {
         <RecoverSuccess email={emailR} />
       ) : (
         <>
-
+          {isSubmitting && <Loading />}
           <ContainerRecover>
-
             <button type="button" onClick={() => handleLogin(navigate)}>
               <IconWrapper>
                 <IoIosArrowBack />
@@ -90,13 +110,9 @@ export function PasswordRecover() {
                     placeholder={Placeholder.placeholderEmail}
                     {...register('email')}
                     hasError={!!errors.email}
-                    hasSuccess={
-                      !!email &&
-                      !errors.email &&
-                      Yup.string().trim().email().isValidSync(email)
-                    }
+                    hasSuccess={isEmailValid}
                     value={emailR}
-                    onChange={event => setEmailR(event.target.value)}
+                    onChange={handleEmailChange}
                   />
                   {errors.email && <MessageError>{errors.email.message}</MessageError>}
                 </ContextInput>
@@ -106,8 +122,9 @@ export function PasswordRecover() {
                 <Button
                   type="submit"
                   colorBackground={ThemeColor.secundaria}
-                  success={isValid}
-                  title={ButtonText.enviar}
+                  success={isEmailValid && !isSubmitting}
+                  disabled={isSubmitting}
+                  label={isSubmitting ? <BeatLoader size={10} color="#ffffff" /> : ButtonText.salvar}
                 />
               </ContainerSubmit>
             </Form>
@@ -116,4 +133,4 @@ export function PasswordRecover() {
       )}
     </>
   );
-}
+};

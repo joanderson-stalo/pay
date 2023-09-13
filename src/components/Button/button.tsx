@@ -1,16 +1,16 @@
-import { CustomButton } from "./styled";
-import { ButtonHTMLAttributes } from "react";
+import { CustomButton } from './styled';
+import { ButtonHTMLAttributes } from 'react';
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
-  title : string;
-  colorBackground: string
-  success: boolean
+  label: string | JSX.Element;
+  colorBackground: string;
+  success: boolean;
 }
 
-export function Button({title, success, colorBackground, ...rest} : Props) {
-  return(
+export function Button({label, success, colorBackground, ...rest}: Props) {
+  return (
     <CustomButton {...rest} colorBackground={colorBackground} success={success}>
-        {title}
+      {label}
     </CustomButton>
   )
 }

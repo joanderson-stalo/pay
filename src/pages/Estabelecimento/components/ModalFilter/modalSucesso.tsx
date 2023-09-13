@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form'
 import * as S from './styled'
 import { CustomSelect } from '@/components/Select/select'
 import { optionsData } from '@/pages/ECcadastro/components/Step1/option'
+import { useFilter } from '@/hooks/useFilter'
 
 interface IModalSucesso {
   visible: boolean
@@ -11,9 +12,12 @@ interface IModalSucesso {
 
 export function ModalFilter({ onClose, visible }: IModalSucesso) {
   const { register, handleSubmit, setValue, formState: { errors } } = useForm()
+  const { setTrue} = useFilter();
 
   const onSubmit = (data: any) => {
     console.log(data)
+    setTrue()
+    onClose()
   }
 
   useEffect(() => {
@@ -32,6 +36,7 @@ export function ModalFilter({ onClose, visible }: IModalSucesso) {
   if (!visible) {
     return null
   }
+
 
   return (
     <S.Overlay>
@@ -86,7 +91,7 @@ export function ModalFilter({ onClose, visible }: IModalSucesso) {
           </S.ContainerSelect>
                 <S.ContextButton>
                 <S.ButtonCancelar onClick={onClose}>Cancelar</S.ButtonCancelar>
-            <S.ButtonSalvar>Salvar</S.ButtonSalvar>
+            <S.ButtonSalvar type='submit'>Salvar</S.ButtonSalvar>
                 </S.ContextButton>
         </form>
       </S.ContainerModal>

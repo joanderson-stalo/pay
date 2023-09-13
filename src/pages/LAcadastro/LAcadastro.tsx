@@ -74,8 +74,7 @@ export const LAcadastro = () => {
     const step3Values = getValues();
     const isStep3Valid =
       step3Values.licenciado &&
-      step3Values.Fornecedor &&
-      step3Values.PlanoComercial;
+      step3Values.RegraMarkup
 
     return isStep3Valid;
   };

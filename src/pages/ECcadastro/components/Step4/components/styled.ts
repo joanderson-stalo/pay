@@ -161,18 +161,36 @@ font-size: 16px;
 line-height: 24px;
 color: #676767;
   }
-  input[type="checkbox"] {
+input[type="checkbox"] {
   appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
   width: 20px;
   height: 20px;
   border: 1px solid #676767;
   border-radius: 5px;
   outline: none;
   cursor: pointer;
+  position: relative;
+  background: white;
 }
 
 input[type="checkbox"]:checked {
+  border: 1px solid #676767;
+  border-radius: 5px;
+}
+
+input[type="checkbox"]:checked::before {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  right: 2px;
+  bottom: 2px;
+  border: 1px solid white;
+  border-radius: 3px;
   background: #08BBE9;
 }
+
   }
 `

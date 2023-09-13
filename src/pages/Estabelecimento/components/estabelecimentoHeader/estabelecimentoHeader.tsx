@@ -5,7 +5,7 @@ import * as S from './styled';
 
 export function EstabelecimentoHeader() {
   const [searchValue, setSearchValue] = useState('');
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const handleSearch = () => {
     if (searchValue.trim() !== '') {
@@ -18,7 +18,7 @@ export function EstabelecimentoHeader() {
   };
 
   const handleAddEstablishment = () => {
-    navigate('/lacadastro');
+    navigate('/eccadastro');
   };
 
   return (
