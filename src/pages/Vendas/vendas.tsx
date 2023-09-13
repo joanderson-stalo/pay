@@ -31,11 +31,6 @@ export function Vendas(){
   const { state} = useFilter();
   const { dataUser } = useLogin();
 
-  const handleSearch = () => {
-    if (searchValue.trim() !== '') {
-      console.log('Realizando busca:', searchValue);
-    }
-  };
 
   const handleChange = (event: { target: { value: SetStateAction<string>; }; }) => {
     setSearchValue(event.target.value);
@@ -79,11 +74,16 @@ export function Vendas(){
 
 
 
-  const fetchDataFromAPI = async () => {
+  const fetchDataFromAPI = async (search?: string) => {
     setLoading(true);
 
+    let url = `https://api-pagueassim.stalopay.com.br/transactions?perpage=${String(itensPorPage)}&page=${currentPage}`;
+    if (search) {
+        url += `&nsu_external=${search}`;
+    }
+
     try {
-      const response = await fetch(`https://api-pagueassim.stalopay.com.br/transactions?perpage=${String(itensPorPage)}&page=&page=${currentPage}`, {
+      const response = await fetch(url, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${dataUser?.token}`
@@ -104,8 +104,23 @@ export function Vendas(){
       console.error('Error fetching data:', error);
     } finally {
       setLoading(false);
+    }
+};
+
+useEffect(() => {
+    if (searchValue.trim() === '') {
+        fetchDataFromAPI();
+    }
+}, [searchValue]);
+
+const handleSearch = () => {
+  if (searchValue.trim() !== '') {
+    fetchDataFromAPI(searchValue);
+  } else {
+    fetchDataFromAPI();
   }
-  };
+};
+
 
   useEffect(() => {
     fetchDataFromAPI();
