@@ -90,7 +90,6 @@ export function Vendas(){
         }
       });
       if (response.ok) {
-        setCurrentPage(1)
         const data = await response.json();
         setTransactions(data.transactions);
         setTotalTransactions(data.total_transactions);

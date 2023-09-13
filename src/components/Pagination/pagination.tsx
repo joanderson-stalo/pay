@@ -10,7 +10,7 @@ interface PaginationProps {
 }
 
 export function Pagination({ totalPages, onNextPage, onPrevPage, onPageClick }: PaginationProps) {
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(2);
 
   const handleNextPage = () => {
     const nextPage = Math.min(currentPage + 1, totalPages);
