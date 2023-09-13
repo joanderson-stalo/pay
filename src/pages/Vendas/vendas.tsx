@@ -60,7 +60,7 @@ export function Vendas(){
   }
 
   const handlePrevPage = () => {
-    if (currentPage > 1) {  // Ensure it doesn't go to 0 or negative
+    if (currentPage > 1) {
       setCurrentPage(prevPage => prevPage - 1);
     }
   }
@@ -103,7 +103,7 @@ export function Vendas(){
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
-      setLoading(false); // Set loading to false once fetch is done
+      setLoading(false);
   }
   };
 
@@ -146,7 +146,7 @@ const totalPages = Math.ceil(totalTransactions / (itensPorPage || 1));
         <S.ButtonTotal>Todos ({totalTransactions})</S.ButtonTotal>
 
         {state ? <EditableButton  /> : ''}
-        <S.ButtonFilter onClick={handleOpenModal}> <FunnelSimple />Filtrar</S.ButtonFilter>
+        {/* <S.ButtonFilter onClick={handleOpenModal}> <FunnelSimple />Filtrar</S.ButtonFilter> */}
       </S.ContainerButton>
 
 
