@@ -6,4 +6,5 @@ export interface Transaction {
   amount: string;
   payment_type: string;
   brand: string;
+  company_name: string;
 }

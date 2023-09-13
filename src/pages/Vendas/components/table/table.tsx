@@ -5,16 +5,9 @@ import elo from '@assets/bandeiras/elo.svg';
 import maestro from '@assets/bandeiras/maestro.svg';
 import visa from '@assets/bandeiras/visa.svg';
 import masterCard from '@assets/bandeiras/master.svg';
+import { Transaction } from './interface';
 
-export interface Transaction {
-  acquire_id: string;
-  nsu_external: string;
-  status: string;
-  captured_in: string;
-  amount: string;
-  payment_type: string;
-  brand: string;
-}
+
 
 type SortField = 'captured_in' | 'amount';
 
@@ -111,7 +104,7 @@ export function TabelaVendas({ rows }: TabelaProps) {
                 {formattedTime}
               </S.TableData>
               <S.TableData>{transaction.nsu_external}</S.TableData>
-              <S.TableData>Bruno</S.TableData>
+              <S.TableData>{transaction.company_name}</S.TableData>
               <S.FormaPagamentoData>
                 <S.FormaPagamentoText>{transaction.payment_type}</S.FormaPagamentoText>
               </S.FormaPagamentoData>
@@ -119,6 +112,7 @@ export function TabelaVendas({ rows }: TabelaProps) {
                 <S.FlagContainer>
                   <img
                     src={
+                      transaction.brand === null && transaction.payment_type === 'Pix' ?pix :
                       transaction.brand === 'Visa' ? visa :
                       transaction.brand === 'Elo' ? elo :
                       transaction.brand === 'MasterCard' ? masterCard :
@@ -127,7 +121,8 @@ export function TabelaVendas({ rows }: TabelaProps) {
                     }
                     alt={transaction.brand}
                   />
-                  <p> {transaction.brand}</p>
+                  { transaction.brand === null && transaction.payment_type === 'Pix' ?<p>Pix</p>: <p> {transaction.brand}</p>}
+
                 </S.FlagContainer>
               </S.TableData>
               <S.TableData>R$ {formattedAmount}</S.TableData>

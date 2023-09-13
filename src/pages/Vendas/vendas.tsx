@@ -104,13 +104,12 @@ export function Vendas(){
       if (response.ok && totalResponse.ok) {
         const data = await response.json();
         const totalData = await totalResponse.json();
-
         setTransactions(data.transactions);
         setTotalTransactions(data.total_transactions);
-        setTpvGlobal(totalData.tpv_global);
+        setTpvGlobal(totalData.total_amountTPV);
 
 
-        setTotalAmount(totalData.total_amount);
+        setTotalAmount(totalData.net_value);
         setAverageTaxApplied(totalData.average_taxApplied);
       } else {
         console.error(`Error fetching paginated data: ${response.statusText}`);
