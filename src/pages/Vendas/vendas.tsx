@@ -90,6 +90,7 @@ export function Vendas(){
         }
       });
       if (response.ok) {
+        setCurrentPage(1)
         const data = await response.json();
         setTransactions(data.transactions);
         setTotalTransactions(data.total_transactions);
@@ -145,7 +146,7 @@ const totalPages = Math.ceil(totalTransactions / (itensPorPage || 1));
         <S.ButtonTotal>Todos ({totalTransactions})</S.ButtonTotal>
 
         {state ? <EditableButton  /> : ''}
-        {/* <S.ButtonFilter onClick={handleOpenModal}> <FunnelSimple />Filtrar</S.ButtonFilter> */}
+        <S.ButtonFilter onClick={handleOpenModal}> <FunnelSimple />Filtrar</S.ButtonFilter>
       </S.ContainerButton>
 
 
