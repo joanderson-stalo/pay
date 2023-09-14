@@ -22,7 +22,7 @@ export function Sidebar() {
     <ContainerSidebar color={ThemeColor.primaria}>
       <Logo src={ThemeImg.backgroundLogo} />
 
-      <p style={{width: '100%'}}>MENU</p>
+      {/* <p style={{width: '100%'}}>MENU</p> */}
 
       <Menu colorSec={ThemeColor.secundaria}>
         <ButtonSider
