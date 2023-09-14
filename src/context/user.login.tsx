@@ -69,7 +69,6 @@ export const LoginProvider = ({ children }: { children: React.ReactNode }) => {
     const storedUser = localStorage.getItem('@App:user');
     if (storedUser) {
       setDataUser(JSON.parse(storedUser));
-      setIsLogin(true);
     }
   }, []);
 
