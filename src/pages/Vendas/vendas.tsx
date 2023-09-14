@@ -12,6 +12,8 @@ import { useFilter } from "@/hooks/useFilter";
 import { useLogin } from "@/context/user.login";
 import { Transaction } from "./components/table/interface";
 import { Loading } from "@/components/Loading/loading";
+import { formatCurrencyBR } from "@/utils/convertBRDinheiro";
+import { formatTaxa } from "@/utils/formatTaxa";
 
 export function Vendas(){
   const [searchValue, setSearchValue] = useState('');
@@ -61,16 +63,7 @@ export function Vendas(){
   }
 
 
-  function formatTaxa(taxa: number): string {
-    const roundedTaxa = Math.round(taxa * 100) / 100;
-    return roundedTaxa.toFixed(2).replace('.', ',');
-  }
-  function formatCurrencyBR(value: number): string {
-    return new Intl.NumberFormat('pt-BR', {
-      style: 'currency',
-      currency: 'BRL',
-    }).format(value);
-  }
+
 
   const fetchDataFromAPI = async (search?: string) => {
     setLoading(true);
@@ -106,7 +99,7 @@ export function Vendas(){
         setTotalTransactions(data.total_transactions);
         setTpvGlobal(totalData.total_amountTPV);
 
-
+        setCurrentPage(data.current_page);
         setTotalAmount(totalData.net_value);
         setAverageTaxApplied(totalData.average_taxApplied);
       } else {
@@ -136,11 +129,15 @@ const handleSearch = () => {
 };
 
 
+
+
+const totalPages = Math.ceil(totalTransactions / (itensPorPage || 1));
+
   useEffect(() => {
     fetchDataFromAPI();
 },[itensPorPage, currentPage]);
 
-const totalPages = Math.ceil(totalTransactions / (itensPorPage || 1));
+console.log('totalpage', totalPages)
 
   return(
     <>
@@ -152,7 +149,7 @@ const totalPages = Math.ceil(totalTransactions / (itensPorPage || 1));
 
 <S.ContainerCardVendas>
 <Card label="Qtd de Vendas" label2={totalTransactions.toString()} />
-          <Card label="TPV" label2={`R$ ${tpvGlobal}`} />
+          <Card label="TPV" label2={`R$ ${formatCurrencyBR(parseFloat(tpvGlobal))}`} />
           <Card label="Valor Liq." label2={formatCurrencyBR(parseFloat(totalAmount))} />
           <Card label="Taxa Média apl." label2={`${formatTaxa(parseFloat(averageTaxApplied))}%`} />
   </S.ContainerCardVendas>
@@ -188,6 +185,7 @@ const totalPages = Math.ceil(totalTransactions / (itensPorPage || 1));
         <S.ContainerItens>
         <ItensPorPage itensPorPage={itensPorPage} setItensPorPage={setItensPorPage} />
         <Pagination
+        currentPage={currentPage}
         onPageClick={fetchData}
         totalPages={totalPages}
         onNextPage={handleNextPage}

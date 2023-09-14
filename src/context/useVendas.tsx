@@ -13,14 +13,14 @@ type TransactionVendasProviderProps = {
 
 export function TransactionVendasProvider({ children }: TransactionVendasProviderProps) {
 
-  const initialTransactionId = sessionStorage.getItem('selectedTransactionId');
+  const initialTransactionId = localStorage.getItem('selectedTransactionId');
   const [selectedTransactionId, setSelectedTransactionId] = useState<string | null>(initialTransactionId);
 
   useEffect(() => {
     if (selectedTransactionId) {
-      sessionStorage.setItem('selectedTransactionId', selectedTransactionId);
+      localStorage.setItem('selectedTransactionId', selectedTransactionId);
     } else {
-      sessionStorage.removeItem('selectedTransactionId');
+      localStorage.removeItem('selectedTransactionId');
     }
   }, [selectedTransactionId]);
 
@@ -34,7 +34,7 @@ export function TransactionVendasProvider({ children }: TransactionVendasProvide
 export function useTransactionVendas(): TransactionVendasContextType {
   const context = useContext(TransactionVendasContext);
   if (context === undefined) {
-    throw new Error('useTransactionVendas must be used within a TransactionVendasProvider');
+    throw new Error('');
   }
   return context;
 }

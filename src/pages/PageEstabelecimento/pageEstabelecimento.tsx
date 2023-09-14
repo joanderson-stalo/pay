@@ -50,6 +50,7 @@ export function PageEstabelecimento(){
           <div style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-end'}}>
           <HistoricoTable />
           <Pagination
+          currentPage={1}
         onPageClick={fetchData}
         totalPages={10}
         onNextPage={handleNextPage}

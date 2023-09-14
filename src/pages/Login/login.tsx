@@ -32,7 +32,7 @@ type ResolverFormData = Resolver<FormData>;
 
 export function Login() {
   const navigate = useNavigate();
-  const { login, dataUser, isLogin } = useLogin();
+  const { login, isLogin } = useLogin();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const {
@@ -88,7 +88,6 @@ export function Login() {
 
       <S.Form onSubmit={handleSubmit(onSubmit)}>
         <S.ConatainerInput>
-          {dataUser?.name}
           <S.ContextInput>
             <CustomInput
               label='Login'

@@ -14,6 +14,7 @@ import { Arvore } from '@/pages/Arvore/arvore'
 import { Vendas } from '@/pages/Vendas/vendas'
 import { DetalheVenda } from '../pages/Vendas/Detalhes/detalhe'
 import { Licenciado } from '@/pages/Licenciado/licenciado'
+import { Home } from '@/pages/Home/home'
 
 export function Router() {
   return (
@@ -31,8 +32,10 @@ export function Router() {
             {/* <Route path="/home" element={<Licenciado />} /> */}
              {/* <Route path="/home" element={<Arvore/>} /> */}
                {/* <Route path="/home" element={<Detalhe />} /> */}
-                     <Route path="/home" element={<Vendas />} />
+                <Route path="/home" element={<Home />} />
+                     <Route path="/vendas" element={<Vendas />} />
                      <Route path="/detalhe" element={<DetalheVenda />} />
+                     <Route path="/estabelecimentos" element={<Estabelecimento />} />
             <Route path="/eccadastro" element={<ECcadastro />} />
         </Route>
 

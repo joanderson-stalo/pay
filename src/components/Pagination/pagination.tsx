@@ -3,24 +3,22 @@ import * as S from './styled'
 import { CaretLeft, CaretRight } from '@phosphor-icons/react';
 
 interface PaginationProps {
-  totalPages: number ;
+  totalPages: number;
+  currentPage: number; // Adicionado aqui
   onNextPage: (page: number) => void;
   onPrevPage: (page: number) => void;
   onPageClick: (page: number) => void;
 }
 
-export function Pagination({ totalPages, onNextPage, onPrevPage, onPageClick }: PaginationProps) {
-  const [currentPage, setCurrentPage] = useState(2);
+export function Pagination({ totalPages, currentPage, onNextPage, onPrevPage, onPageClick }: PaginationProps) {
 
   const handleNextPage = () => {
     const nextPage = Math.min(currentPage + 1, totalPages);
-    setCurrentPage(nextPage);
     onNextPage(nextPage);
   };
 
   const handlePrevPage = () => {
     const prevPage = Math.max(currentPage - 1, 1);
-    setCurrentPage(prevPage);
     onPrevPage(prevPage);
   };
 
@@ -31,10 +29,8 @@ export function Pagination({ totalPages, onNextPage, onPrevPage, onPageClick }: 
   };
 
   const handlePageClick = (page: number) => {
-    setCurrentPage(page);
     onPageClick(page);
   };
-
 
   return (
     <S.Container>

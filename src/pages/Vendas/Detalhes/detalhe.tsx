@@ -10,13 +10,15 @@ import { useLogin } from '@/context/user.login'
 import { fetchTransactionDetails } from './getTransactionDescription'
 import { TransactionDetails } from './interface'
 import { Loading } from '@/components/Loading/loading'
-
+import { formatCurrencyBR } from '@/utils/convertBRDinheiro'
+import { formatTaxa } from '@/utils/formatTaxa'
+import { toast } from 'react-toastify'
 
 type DateFormatOptions = {
-  year: 'numeric' | '2-digit';
-  month: 'numeric' | '2-digit' | 'long' | 'short' | 'narrow';
-  day: 'numeric' | '2-digit';
-};
+  year: 'numeric' | '2-digit'
+  month: 'numeric' | '2-digit' | 'long' | 'short' | 'narrow'
+  day: 'numeric' | '2-digit'
+}
 
 export function DetalheVenda() {
   const { selectedTransactionId } = useTransactionVendas()
@@ -25,18 +27,23 @@ export function DetalheVenda() {
   const [transactionDetails, setTransactionDetails] =
     useState<TransactionDetails | null>(null)
 
-
   function formatDateBR(dateString: string | number | Date): string {
-      const options: DateFormatOptions = { year: 'numeric', month: '2-digit', day: '2-digit' };
-      return new Intl.DateTimeFormat('pt-BR', options).format(new Date(dateString));
+    const options: DateFormatOptions = {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit'
+    }
+    return new Intl.DateTimeFormat('pt-BR', options).format(
+      new Date(dateString)
+    )
   }
-
 
   function formatTime(dateString: string | number | Date) {
-      const date = new Date(dateString);
-      return `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
+    const date = new Date(dateString)
+    return `${String(date.getHours()).padStart(2, '0')}:${String(
+      date.getMinutes()
+    ).padStart(2, '0')}`
   }
-
 
   useEffect(() => {
     async function fetchData() {
@@ -51,7 +58,7 @@ export function DetalheVenda() {
             setTransactionDetails(data.transaction)
           }
         } catch (error) {
-          console.error('Erro ao buscar os detalhes da transação:', error)
+          toast.error('Erro ao buscar os detalhes da transação')
         } finally {
           setLoading(false)
         }
@@ -63,17 +70,30 @@ export function DetalheVenda() {
 
   return (
     <>
-      {loading && <Loading />}
+      {loading ? <Loading />
+      :
       <S.ContainerDetalhe>
         <S.ContextDetalhes>
           <CardDetalhes
-            captured_in_date={transactionDetails ? formatDateBR(transactionDetails.captured_in) : undefined}
-            captured_in_time={transactionDetails ? formatTime(transactionDetails.captured_in) : undefined}
-            tax_applied={transactionDetails?.tax_applied}
+            captured_in_date={
+              transactionDetails
+                ? formatDateBR(transactionDetails.captured_in)
+                : undefined
+            }
+            captured_in_time={
+              transactionDetails
+                ? formatTime(transactionDetails.captured_in)
+                : undefined
+            }
+            tax_applied={transactionDetails ? formatTaxa(parseFloat(transactionDetails.tax_applied)) : undefined}
             equipment_sn={transactionDetails?.equipment_sn}
             acquire={transactionDetails?.acquire}
             id_acquire={transactionDetails?.id_acquire}
-            amount={transactionDetails?.amount}
+            amount={formatCurrencyBR(
+              transactionDetails?.amount
+                ? parseFloat(transactionDetails?.amount)
+                : undefined
+            )}
             status={transactionDetails?.status}
             nsu_external={transactionDetails?.nsu_external}
             number_installments={transactionDetails?.number_installments}
@@ -85,8 +105,20 @@ export function DetalheVenda() {
           />
 
           <S.SectionCard>
-            <CardInfo net_amount={transactionDetails?.net_amount} />
-            <CardInfo2 spread={transactionDetails?.spread} />
+            <CardInfo
+              net_amount={formatCurrencyBR(
+                transactionDetails?.spread
+                  ? parseFloat(transactionDetails?.net_amount)
+                  : undefined
+              )}
+            />
+            <CardInfo2
+              spread={formatCurrencyBR(
+                transactionDetails?.spread
+                  ? parseFloat(transactionDetails.spread)
+                  : undefined
+              )}
+            />
           </S.SectionCard>
 
           <S.SectionTable>
@@ -95,6 +127,10 @@ export function DetalheVenda() {
           </S.SectionTable>
         </S.ContextDetalhes>
       </S.ContainerDetalhe>
+
+
+      }
+
     </>
   )
 }
