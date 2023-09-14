@@ -1,11 +1,15 @@
 import * as S from "./styled";
 
-export function CardInfo2(){
+interface CardInfo2Props {
+  spread: string | undefined;
+}
+
+export function CardInfo2({spread}: CardInfo2Props ){
   return(
     <S.ContainerCardInfo>
       <section>
       <p>Spread da Rede</p>
-      <span>R$ 3,95</span>
+      <span>R$ {spread}</span>
       </section>
     </S.ContainerCardInfo>
   )

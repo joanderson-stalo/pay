@@ -25,8 +25,16 @@ type LoginContextData = {
 export const LoginContext = createContext<LoginContextData>({} as LoginContextData);
 
 export const LoginProvider = ({ children }: { children: React.ReactNode }) => {
-  const [dataUser, setDataUser] = useState<User | null>(null);
-  const [isLogin, setIsLogin] = useState<boolean>(false);
+
+  const initialUserData = JSON.parse(localStorage.getItem('@App:user') || 'null');
+  const initialLoginState = JSON.parse(localStorage.getItem('@App:isLogin') || 'false');
+
+  const [dataUser, setDataUser] = useState<User | null>(initialUserData);
+  const [isLogin, setIsLogin] = useState<boolean>(initialLoginState);
+
+  useEffect(() => {
+    localStorage.setItem('@App:isLogin', JSON.stringify(isLogin));
+  }, [isLogin]);
 
   const login = useCallback(async (formData: FormData) => {
     try {
@@ -38,13 +46,15 @@ export const LoginProvider = ({ children }: { children: React.ReactNode }) => {
         token: response.data.access_token,
       };
 
-      console.log("Armazenando usuário:", user);
-      setDataUser(user);
-      setIsLogin(true);
       localStorage.setItem('@App:user', JSON.stringify(user));
+      const storedUser = localStorage.getItem('@App:user');
+      if (storedUser) {
+        setDataUser(JSON.parse(storedUser));
+      }
+
+      setIsLogin(true);
 
     } catch (error) {
-      console.error(error);
       throw error;
     }
   }, []);
@@ -55,9 +65,9 @@ export const LoginProvider = ({ children }: { children: React.ReactNode }) => {
         headers: { Authorization: `Bearer ${dataUser?.token}` }
       });
 
+      localStorage.removeItem('@App:user');
       setDataUser(null);
       setIsLogin(false);
-      localStorage.removeItem('@App:user');
 
     } catch (error) {
       console.error(error);
@@ -71,6 +81,27 @@ export const LoginProvider = ({ children }: { children: React.ReactNode }) => {
       setDataUser(JSON.parse(storedUser));
     }
   }, []);
+
+  useEffect(() => {
+    const validateToken = async () => {
+      try {
+        await axios.get('https://api-pagueassim.stalopay.com.br/validatetoken', {
+          headers: { Authorization: `Bearer ${dataUser?.token}` }
+        });
+      } catch (error) {
+        localStorage.removeItem('@App:user');
+        localStorage.setItem('@App:isLogin', JSON.stringify(false));
+        setDataUser(null);
+        setIsLogin(false);
+      }
+    };
+
+    const intervalId = setInterval(validateToken, 15000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [dataUser]);
 
   return (
     <LoginContext.Provider

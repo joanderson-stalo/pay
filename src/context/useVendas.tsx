@@ -1,4 +1,4 @@
-import { createContext, useContext, ReactNode, useState } from 'react';
+import { createContext, useContext, ReactNode, useState, useEffect } from 'react';
 
 type TransactionVendasContextType = {
   selectedTransactionId: string | null;
@@ -12,7 +12,17 @@ type TransactionVendasProviderProps = {
 };
 
 export function TransactionVendasProvider({ children }: TransactionVendasProviderProps) {
-  const [selectedTransactionId, setSelectedTransactionId] = useState<string | null>(null);
+
+  const initialTransactionId = sessionStorage.getItem('selectedTransactionId');
+  const [selectedTransactionId, setSelectedTransactionId] = useState<string | null>(initialTransactionId);
+
+  useEffect(() => {
+    if (selectedTransactionId) {
+      sessionStorage.setItem('selectedTransactionId', selectedTransactionId);
+    } else {
+      sessionStorage.removeItem('selectedTransactionId');
+    }
+  }, [selectedTransactionId]);
 
   return (
     <TransactionVendasContext.Provider value={{ selectedTransactionId, setSelectedTransactionId }}>

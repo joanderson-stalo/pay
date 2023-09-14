@@ -23,4 +23,8 @@ export interface TransactionDetails {
   card_number: string;
   plan_name: null | string;
   plan_id: null | number;
+  equipment_sn: string;
+  tax_applied:string;
+  spread: string
+  captured_in: string
 }

@@ -1,11 +1,15 @@
 import * as S from "./styled";
 
-export function CardInfo(){
+interface CardInfoProps {
+  net_amount: string | undefined;
+}
+
+export function CardInfo({net_amount} : CardInfoProps) {
   return(
     <S.ContainerCardInfo>
       <section>
       <p>Valor Líquido</p>
-      <span>R$ 450,00</span>
+      <span>R$ {net_amount}</span>
       </section>
     </S.ContainerCardInfo>
   )
