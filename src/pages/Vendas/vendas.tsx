@@ -142,14 +142,16 @@ console.log('totalpage', totalPages)
   return(
     <>
     <ModalFilterVenda onClose={handleCloseModal}  visible={filter}/>
-    {loading && <Loading />}
+    {loading ? <Loading /> :
+
+      <>
 
       <S.ContextTitleVendas>
       <S.Title>Vendas</S.Title>
 
 <S.ContainerCardVendas>
 <Card label="Qtd de Vendas" label2={totalTransactions.toString()} />
-          <Card label="TPV" label2={`R$ ${formatCurrencyBR(parseFloat(tpvGlobal))}`} />
+          <Card label="TPV" label2={`${formatCurrencyBR(parseFloat(tpvGlobal))}`} />
           <Card label="Valor Liq." label2={formatCurrencyBR(parseFloat(totalAmount))} />
           <Card label="Taxa Média apl." label2={`${formatTaxa(parseFloat(averageTaxApplied))}%`} />
   </S.ContainerCardVendas>
@@ -194,6 +196,10 @@ console.log('totalpage', totalPages)
         </S.ContainerItens>
       </S.ContainerPagina>
       </S.Context>
+      </>
+
+    }
+
     </>
   )
 }
