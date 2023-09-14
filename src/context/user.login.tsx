@@ -41,6 +41,7 @@ export const LoginProvider = ({ children }: { children: React.ReactNode }) => {
       console.log("Armazenando usuário:", user);
       setDataUser(user);
       setIsLogin(true);
+      localStorage.setItem('@App:user', JSON.stringify(user));
 
     } catch (error) {
       console.error(error);
@@ -56,6 +57,7 @@ export const LoginProvider = ({ children }: { children: React.ReactNode }) => {
 
       setDataUser(null);
       setIsLogin(false);
+      localStorage.removeItem('@App:user');
 
     } catch (error) {
       console.error(error);
@@ -63,7 +65,13 @@ export const LoginProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, [dataUser]);
 
-
+  useEffect(() => {
+    const storedUser = localStorage.getItem('@App:user');
+    if (storedUser) {
+      setDataUser(JSON.parse(storedUser));
+      setIsLogin(true);
+    }
+  }, []);
 
   return (
     <LoginContext.Provider
