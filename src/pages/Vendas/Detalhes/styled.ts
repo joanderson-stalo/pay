@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const ContainerDetalhe = styled.div`
   display: flex;
   margin-top: 61px;
+  margin-bottom: 20px;
 `
 
 export const ContextDetalhes = styled.div`

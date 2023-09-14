@@ -72,8 +72,6 @@ export function Vendas(){
     }).format(value);
   }
 
-
-
   const fetchDataFromAPI = async (search?: string) => {
     setLoading(true);
 

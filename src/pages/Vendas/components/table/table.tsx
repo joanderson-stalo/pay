@@ -6,6 +6,8 @@ import maestro from '@assets/bandeiras/maestro.svg';
 import visa from '@assets/bandeiras/visa.svg';
 import masterCard from '@assets/bandeiras/master.svg';
 import { Transaction } from './interface';
+import { useNavigate } from 'react-router-dom';
+import { useTransactionVendas } from '@/context/useVendas';
 
 
 
@@ -18,6 +20,9 @@ interface TabelaProps {
 export function TabelaVendas({ rows }: TabelaProps) {
   const [sortField, setSortField] = useState<SortField>('captured_in');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+  const navigate = useNavigate();
+  const { setSelectedTransactionId } = useTransactionVendas();
+
 
   const handleSort = (field: SortField) => {
     if (field === sortField) {
@@ -42,7 +47,8 @@ export function TabelaVendas({ rows }: TabelaProps) {
   });
 
   const handleButtonClick = (id: string) => {
-    console.log('Botão clicado para o ID:', id);
+    setSelectedTransactionId(id)
+    navigate('/detalhe');
   }
 
   useEffect(() => {
@@ -132,7 +138,7 @@ export function TabelaVendas({ rows }: TabelaProps) {
                 </S.StatusText>
               </S.StatusData>
               <S.TableData>
-                <S.Button onClick={() => handleButtonClick(transaction.acquire_id)}>
+                <S.Button onClick={() => handleButtonClick(transaction.id)}>
                   Visão Geral
                 </S.Button>
               </S.TableData>

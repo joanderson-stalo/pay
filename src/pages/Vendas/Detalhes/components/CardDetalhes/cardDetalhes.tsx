@@ -1,7 +1,11 @@
 import * as S from "./styled";
 import master from '@assets/mastercard.svg'
 
-export function CardDetalhes(){
+interface CardDetalhesProps {
+  seller_company_name: string | undefined;
+}
+
+export function CardDetalhes({ seller_company_name }: CardDetalhesProps){
   return(
     <S.ContainerCardDetalhes>
 
@@ -17,7 +21,7 @@ export function CardDetalhes(){
           <S.InfoOne>
             <div>
               <h2>Estabelecimento</h2>
-              <span>Padaria Trevo 4 Folhas</span>
+              <span>{seller_company_name}</span>
             </div>
             <div>
               <h2>Data</h2>

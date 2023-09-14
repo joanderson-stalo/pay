@@ -12,7 +12,7 @@ import { PageEstabelecimento } from '@/pages/PageEstabelecimento/pageEstabelecim
 import { ECcadastro } from '@/pages/ECcadastro/ECcadastro'
 import { Arvore } from '@/pages/Arvore/arvore'
 import { Vendas } from '@/pages/Vendas/vendas'
-import { Detalhe } from '../pages/Vendas/Detalhes/detalhe'
+import { DetalheVenda } from '../pages/Vendas/Detalhes/detalhe'
 import { Licenciado } from '@/pages/Licenciado/licenciado'
 
 export function Router() {
@@ -32,6 +32,7 @@ export function Router() {
              {/* <Route path="/home" element={<Arvore/>} /> */}
                {/* <Route path="/home" element={<Detalhe />} /> */}
                      <Route path="/home" element={<Vendas />} />
+                     <Route path="/detalhe" element={<DetalheVenda />} />
             <Route path="/eccadastro" element={<ECcadastro />} />
         </Route>
 

@@ -1,4 +1,5 @@
 export interface Transaction {
+  id: string;
   acquire_id: string;
   nsu_external: string;
   status: string;
