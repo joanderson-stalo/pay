@@ -2,9 +2,8 @@
 
 import { PaginaView } from '@/components/PaginaView/paginaView';
 import { Tabela } from './components/table/table';
-import { tableRows } from './data';
 import * as S from './styled';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ItensPorPage } from '@/components/ItensPorPage/itensPorPage';
 import { Pagination } from '@/components/Pagination/pagination';
 import { FunnelSimple } from '@phosphor-icons/react';
@@ -12,24 +11,37 @@ import { ModalFilter } from './components/ModalFilter/modalSucesso';
 import { EditableButton } from '@/components/ButtonEdit/buttonEdit';
 import { useFilter } from '@/hooks/useFilter';
 import { LicenciadoHeader } from './components/licenciadoHeader/licenciadoHeader';
+import { useLogin } from '@/context/user.login';
+import axios from 'axios';
+import { Loading } from '@/components/Loading/loading';
 
 export function Licenciado() {
 
   const [itensPorPage, setItensPorPage] = useState<number | ''>(10);
   const [filter, setFilter] = useState(false)
   const { state} = useFilter();
+  const { dataUser } = useLogin()
+
+  const [totalSellers, setTotalSellers] = useState(0);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+
+  const [sellers, setSellers] = useState([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const fetchData = async (pageNumber: number) => {
 
-    console.log(`Fetching data for page ${pageNumber}`)
+    setCurrentPage(pageNumber)
   }
 
-  const handleNextPage = (pageNumber: number) => {
-    fetchData(pageNumber)
+
+  const handleNextPage = () => {
+    setCurrentPage(prevPage => prevPage + 1);
   }
 
-  const handlePrevPage = (pageNumber: number) => {
-    fetchData(pageNumber)
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(prevPage => prevPage - 1);
+    }
   }
 
   const handleOpenModal = () => {
@@ -41,17 +53,48 @@ export function Licenciado() {
   }
 
 
+  const totalPages = Math.ceil(totalSellers / (itensPorPage || 1));
+
+  useEffect(() => {
+    async function fetchData() {
+      setLoading(true)
+      try {
+        const response = await axios.get(`https://api-pagueassim.stalopay.com.br/sellersla?perpage=${String(itensPorPage)}&page=${currentPage}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${dataUser?.token}`
+          }
+        });
+
+        setSellers(response.data.sellers);
+        setTotalSellers(response.data.total_sellers);
+        setCurrentPage(response.data.current_page);
+
+
+      } catch (error) {
+        console.error('There was an error fetching the sellers data', error);
+      } finally{
+        setLoading(false)
+      }
+    }
+    fetchData();
+  }, [dataUser,itensPorPage ]);
+
+
 
   return (
     <>
     <ModalFilter onClose={handleCloseModal}  visible={filter} />
-      <LicenciadoHeader />
+      {loading ? <Loading /> :
+        <>
+           <LicenciadoHeader />
       <S.ContainerButton>
-        <S.ButtonTotal>Todos (150)</S.ButtonTotal>
-        {state ? <EditableButton  /> : ''}
-        <S.ButtonFilter onClick={handleOpenModal}> <FunnelSimple />Filtrar</S.ButtonFilter>
+      <S.ButtonTotal>Todos ({totalSellers})</S.ButtonTotal>
+        {/* {state ? <EditableButton  /> : ''}
+        <S.ButtonFilter onClick={handleOpenModal}> <FunnelSimple />Filtrar</S.ButtonFilter> */}
       </S.ContainerButton>
-      <Tabela rows={tableRows} />
+      <Tabela rows={sellers} />
+
 
       <S.Context>
       <S.Linha />
@@ -60,14 +103,18 @@ export function Licenciado() {
         <S.ContainerItens>
         <ItensPorPage itensPorPage={itensPorPage} setItensPorPage={setItensPorPage} />
         <Pagination
-        onPageClick={fetchData}
-        totalPages={10}
-        onNextPage={handleNextPage}
-        onPrevPage={handlePrevPage}
-      />
+          currentPage={currentPage}
+          onPageClick={fetchData}
+          totalPages={totalPages}
+          onNextPage={handleNextPage}
+          onPrevPage={handlePrevPage}
+        />
         </S.ContainerItens>
       </S.ContainerPagina>
       </S.Context>
+        </>
+
+      }
     </>
   );
 }

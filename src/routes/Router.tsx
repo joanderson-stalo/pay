@@ -8,9 +8,7 @@ import { Login } from '@/pages/Login/login'
 import { DefaultHome } from '@/layout/DefaultHome/defaultHome'
 import { LAcadastro } from '@/pages/LAcadastro/LAcadastro'
 import { Estabelecimento } from '@/pages/Estabelecimento/estabelecimento'
-import { PageEstabelecimento } from '@/pages/PageEstabelecimento/pageEstabelecimento'
 import { ECcadastro } from '@/pages/ECcadastro/ECcadastro'
-import { Arvore } from '@/pages/Arvore/arvore'
 import { Vendas } from '@/pages/Vendas/vendas'
 import { DetalheVenda } from '../pages/Vendas/Detalhes/detalhe'
 import { Licenciado } from '@/pages/Licenciado/licenciado'
@@ -20,28 +18,30 @@ export function Router() {
   return (
     <BrowserRouter>
       <Routes>
-
         <Route path="/" element={<DefaultLogin />}>
           <Route path="/" element={<Login />} />
           <Route path="/recover" element={<RecoverPassWord />} />
           <Route path="/reset-password" element={<ChangePassword />} />
-          <Route path="/registerpassword/:tokenId" element={<RegisterPassword />} />
+          <Route
+            path="/registerpassword/:tokenId"
+            element={<RegisterPassword />}
+          />
         </Route>
 
-        <Route path='/' element={<DefaultHome />}>
-            {/* <Route path="/home" element={<Licenciado />} /> */}
-             {/* <Route path="/home" element={<Arvore/>} /> */}
-               {/* <Route path="/home" element={<Detalhe />} /> */}
-                <Route path="/home" element={<Home />} />
-                     <Route path="/vendas" element={<Vendas />} />
-                     <Route path="/detalhe" element={<DetalheVenda />} />
-                     <Route path="/estabelecimentos" element={<Estabelecimento />} />
-            <Route path="/eccadastro" element={<ECcadastro />} />
+        <Route path="/" element={<DefaultHome />}>
+          <Route path="/home" element={<Home />} />
+
+          <Route path="/vendas" element={<Vendas />} />
+          <Route path="/detalhe" element={<DetalheVenda />} />
+
+          <Route path="/estabelecimentos" element={<Estabelecimento />} />
+          <Route path="/eccadastro" element={<ECcadastro />} />
+
+          <Route path="/licenciados" element={<Licenciado />} />
+          <Route path="/lacadastro" element={<LAcadastro />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />
-
-
       </Routes>
     </BrowserRouter>
   )

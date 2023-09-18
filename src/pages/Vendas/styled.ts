@@ -101,11 +101,10 @@ height: 35px;
 
 
 border-radius: 6px 6px 0px 0px;
-background: #F7F7F7;
+background: #DAF5FC;
 
-color:  #8A8A8A;
+color:  #08BBE9;
 font-feature-settings: 'clig' off, 'liga' off;
-font-family: Poppins;
 font-size: 9.906px;
 font-style: normal;
 font-weight: 500;

@@ -28,6 +28,7 @@ export function Sidebar() {
   return (
     <ContainerSidebar color={ThemeColor.primaria}>
       <Logo src={ThemeImg.backgroundLogo} />
+
       <Menu colorSec={ThemeColor.secundaria}>
         <ButtonSider
           colorSec={ThemeColor.secundaria}

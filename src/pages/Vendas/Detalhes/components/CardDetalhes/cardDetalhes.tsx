@@ -51,7 +51,7 @@ export function CardDetalhes({
             brand === 'Maestro' ? maestro :
             brand === 'Pix' ? pix : undefined
         } alt="" />
-        <h3>R$ {amount}</h3>
+        <h3>{amount}</h3>
         <span>{acquire}-{id_acquire}</span>
         <S.TagDetalhes label={status}>SUCESSO</S.TagDetalhes>
       </S.ContextCard>

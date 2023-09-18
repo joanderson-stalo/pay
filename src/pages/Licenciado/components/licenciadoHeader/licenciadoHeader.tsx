@@ -18,7 +18,7 @@ export function LicenciadoHeader() {
   };
 
   const handleAddEstablishment = () => {
-    navigate('/eccadastro');
+    navigate('/lacadastro');
   };
 
   return (

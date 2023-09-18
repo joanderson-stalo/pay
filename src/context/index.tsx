@@ -1,7 +1,8 @@
 import { ReactNode } from 'react';
-import { DocumentProvider } from './useDocument';
 import { TransactionVendasProvider } from './useVendas';
 import { LoginProvider } from './user.login';
+import { DocumentProviderLA } from './useDocumentLA';
+import { DocumentProviderEC } from './useDocumentEC';
 
 type AppProviderProps = {
   children: ReactNode;
@@ -11,9 +12,11 @@ export function AppProvider({ children }: AppProviderProps) {
   return (
     <LoginProvider>
       <TransactionVendasProvider>
-        <DocumentProvider>
+      <DocumentProviderLA>
+        <DocumentProviderEC>
           {children}
-        </DocumentProvider>
+        </DocumentProviderEC>
+        </DocumentProviderLA>
       </TransactionVendasProvider>
     </LoginProvider>
   );

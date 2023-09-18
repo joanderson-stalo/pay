@@ -9,7 +9,7 @@ export function CardInfo({net_amount} : CardInfoProps) {
     <S.ContainerCardInfo>
       <section>
       <p>Valor Líquido</p>
-      <span>R$ {net_amount}</span>
+      <span>{net_amount}</span>
       </section>
     </S.ContainerCardInfo>
   )

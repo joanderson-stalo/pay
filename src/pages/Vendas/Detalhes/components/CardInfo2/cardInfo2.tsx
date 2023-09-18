@@ -9,7 +9,7 @@ export function CardInfo2({spread}: CardInfo2Props ){
     <S.ContainerCardInfo>
       <section>
       <p>Spread da Rede</p>
-      <span>R$ {spread}</span>
+      <span>{spread}</span>
       </section>
     </S.ContainerCardInfo>
   )

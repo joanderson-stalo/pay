@@ -16,15 +16,15 @@ import { useLogin } from "@/context/user.login";
 import { sanitizeNumeric } from "@/utils/sanitizeNumeric";
 import { getCurrentFormattedDate } from "@/utils/dataFormat";
 import { convertDateFormat } from "@/utils/convertDateFormat";
-import { useDocument } from "@/context/useDocument";
 import { useNavigate } from "react-router-dom";
+import { useDocumentEC } from "@/context/useDocumentEC";
 
 export const ECcadastro = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const navigate = useNavigate()
   const [openModal, setOpenModal] = useState(true);
   const { dataUser } = useLogin();
-  const { documentType} = useDocument()
+  const { documentTypeEC} = useDocumentEC()
   const [isLoading, setIsLoading] = useState(false)
 
   const handleModalClose = () => {
@@ -93,8 +93,8 @@ const handleNextStep = async () => {
                 seller: [
                     {
                         trading_name: requestData.NomeFantasiaEstabelecimento,
-                        document: documentType === "CPF" ? sanitizeNumeric(requestData.CPFEstabelecimento) : sanitizeNumeric(requestData.CNPJEstabelecimento),
-                        type_document: documentType,
+                        document: documentTypeEC === "CPF" ? sanitizeNumeric(requestData.CPFEstabelecimento) : sanitizeNumeric(requestData.CNPJEstabelecimento),
+                        type_document: documentTypeEC,
                         type: "EC",
                         email: requestData.EmailEstabelecimento,
                         status: "ativo",
@@ -166,12 +166,12 @@ const handleNextStep = async () => {
   const validateStep1 = () => {
     const step1Values = getValues();
     const isEmailValid = validateEmail(step1Values.EmailEstabelecimento);
-    const isDataCriacaoValid = (documentType !== "CPF") ? validateDataCriacao(step1Values.DataCriacaoEstabelecimento) : true;
+    const isDataCriacaoValid = (documentTypeEC !== "CPF") ? validateDataCriacao(step1Values.DataCriacaoEstabelecimento) : true;
     const isTelefoneValid = validateTelefone(step1Values.TelefoneEstabelecimento);
 
     const isStep1Valid =
-      (validateCNPJ(step1Values.CNPJEstabelecimento) || documentType === "CPF") &&
-      (step1Values.RazaoSocialEstabelecimento || documentType === "CPF") &&
+      (validateCNPJ(step1Values.CNPJEstabelecimento) || documentTypeEC === "CPF") &&
+      (step1Values.RazaoSocialEstabelecimento || documentTypeEC === "CPF") &&
       step1Values.NomeFantasiaEstabelecimento &&
       step1Values.NascimentoSocio &&
       validateCPF(step1Values.CPFEstabelecimento) &&

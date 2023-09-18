@@ -1,34 +1,162 @@
 import { useState } from "react";
 import { ModalSucesso } from "@/components/ModalSucesso/modalSucesso";
-import { Step1 } from "./components/Step1/step1";
-import { Step2 } from "./components/Step2/step2";
 import { ContainerHome, ContainerProgressSteps } from "./styled";
 import { ProgressSteps } from "./components/ProgressSteps/progressSteps";
-import { useForm, FormProvider } from "react-hook-form";
+import { useForm, FormProvider, FieldValues } from "react-hook-form";
 import { validateCNPJ, validateCPF } from "validations-br";
 import { validateEmail } from "@/utils/validateEmail";
 import { validateDataCriacao } from "@/utils/dataValid";
 import { validateTelefone } from "@/utils/telefoneValid";
 import { Step3 } from "./components/Step3/step3";
 import { Step4 } from "./components/Step4/step4";
+import { Step1 } from "./components/Step1/step1";
+import { Step2 } from "./components/Step2/step2";
+import axios from 'axios';
+import { useLogin } from "@/context/user.login";
+import { sanitizeNumeric } from "@/utils/sanitizeNumeric";
+import { getCurrentFormattedDate } from "@/utils/dataFormat";
+import { convertDateFormat } from "@/utils/convertDateFormat";
+
+import { useNavigate } from "react-router-dom";
+import { useDocumentLA } from "@/context/useDocumentLA";
 
 export const LAcadastro = () => {
   const [currentStep, setCurrentStep] = useState(1);
+  const navigate = useNavigate()
   const [openModal, setOpenModal] = useState(true);
+  const { dataUser } = useLogin();
+  const { documentTypeLA} = useDocumentLA()
+  const [isLoading, setIsLoading] = useState(false)
 
-  const handleModal = () => {
+  const handleModalClose = () => {
+    navigate('/home')
     setOpenModal(false);
   };
 
   const methods = useForm();
   const { getValues } = methods;
 
-  const handleNextStep = () => {
-    if (currentStep < 5 && currentStepIsValid()) {
-      setCurrentStep((prevStep) => prevStep + 1);
+  const getFieldNames = (index: number) => {
+    if (index === 0) {
+        return {
+            banco: "Banco",
+            tipoDeConta: "TipoDeConta",
+            agencia: "Agência",
+            conta: "Conta",
+            cpfCnpj: "CpfCnpj"
+        };
+    } else {
+        const i = index + 1;
+        return {
+            banco: `Bancof${i}`,
+            tipoDeConta: `TipoDeContaf${i}`,
+            agencia: `Agênciaf${i}`,
+            conta: `Contaf${i}`,
+            cpfCnpj: `CpfCnpjf${i}`
+        };
     }
-    console.log("ll", getValues());
-  };
+}
+
+const buildAcquiresArray = (requestData: FieldValues) => {
+    const acquires = [];
+    let index = 0;
+
+    while (requestData[`Fornecedor${index}`]) {
+        const fieldNames = getFieldNames(index);
+
+        acquires.push({
+            acquire_id: requestData[`Fornecedor${index}`],
+            plan_id: requestData[`PlanoComercial${index}`],
+            bank: {
+                agency: requestData[fieldNames.agencia] ,
+                account: requestData[fieldNames.conta] ,
+                type_account: requestData[fieldNames.tipoDeConta],
+                document: requestData[fieldNames.cpfCnpj],
+                document_type: "CPF",
+                code: requestData[fieldNames.banco],
+            },
+        });
+        index++;
+    }
+
+    return acquires;
+};
+
+
+const handleNextStep = async () => {
+    if (currentStep === 4 && currentStepIsValid()) {
+        try {
+
+            const requestData = getValues();
+
+
+            const requestBody = {
+                seller: [
+                    {
+                        trading_name: requestData.NomeFantasiaEstabelecimento,
+                        document: documentTypeLA === "CPF" ? sanitizeNumeric(requestData.CPFEstabelecimento) : sanitizeNumeric(requestData.CNPJEstabelecimento),
+                        type_document: documentTypeLA,
+                        type: "EC",
+                        email: requestData.EmailEstabelecimento,
+                        status: "ativo",
+                        company_name: requestData.RazaoSocialEstabelecimento,
+                        opening_date: convertDateFormat(requestData.DataCriacaoEstabelecimento),
+                        mcc: "5678",
+                        phone: sanitizeNumeric(requestData.TelefoneEstabelecimento),
+                        owner_name: requestData.NomeSocioEstabelecimento,
+                        owner_birthday:  convertDateFormat(requestData.NascimentoSocio),
+                        owner_cpf: sanitizeNumeric(requestData.CPFEstabelecimento),
+                        address_cep: requestData.CEP,
+                        address_street: requestData.Endereco,
+                        address_number: Number(requestData.Numero),
+                        address_complement: requestData.Complemento,
+                        address_neighborhood: requestData.Bairro,
+                        address_city: requestData.Cidade,
+                        address_state: requestData.Estado,
+                        tpv_goal: 10000,
+                    },
+                ],
+                users: [
+                    {
+                        document_id: sanitizeNumeric(requestData.CPFEstabelecimento),
+                        name: requestData.NomeSocioEstabelecimento,
+                        email: requestData.EmailEstabelecimento,
+                        phone_number: sanitizeNumeric(requestData.TelefoneEstabelecimento),
+                        status: "ATIVO",
+                        profile_id: 2,
+                    },
+                ],
+                acquires: buildAcquiresArray(requestData),
+                id_licensed_origin: String(requestData.licenciado),
+            };
+            setIsLoading(true)
+            const response = await axios.post('https://api-pagueassim.stalopay.com.br/create/sellerfull', requestBody, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${dataUser?.token}`
+                }
+            });
+
+            if (response.status === 201) {
+                console.log('Requisição bem-sucedida:', response.data);
+                setIsLoading(false)
+                setCurrentStep(5);
+            } else {
+                console.error('Requisição falhou:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Erro:', error);
+            setIsLoading(false)
+        }
+    }
+
+
+    if (currentStep < 4 && currentStepIsValid()) {
+        setCurrentStep((prevStep) => prevStep + 1);
+    }
+};
+
+
 
   const handlePreviousStep = () => {
     if (currentStep > 1) {
@@ -39,23 +167,24 @@ export const LAcadastro = () => {
   const validateStep1 = () => {
     const step1Values = getValues();
     const isEmailValid = validateEmail(step1Values.EmailEstabelecimento);
-    const isDataCriacaoValid = validateDataCriacao(step1Values.DataCriacaoEstabelecimento);
+    const isDataCriacaoValid = (documentTypeLA !== "CPF") ? validateDataCriacao(step1Values.DataCriacaoEstabelecimento) : true;
     const isTelefoneValid = validateTelefone(step1Values.TelefoneEstabelecimento);
 
     const isStep1Valid =
-      step1Values.CNPJEstabelecimento &&
-      validateCNPJ(step1Values.CNPJEstabelecimento) &&
-      step1Values.RazaoSocialEstabelecimento &&
+      (validateCNPJ(step1Values.CNPJEstabelecimento) || documentTypeLA === "CPF") &&
+      (step1Values.RazaoSocialEstabelecimento || documentTypeLA === "CPF") &&
       step1Values.NomeFantasiaEstabelecimento &&
-      isDataCriacaoValid &&
+      step1Values.NascimentoSocio &&
       validateCPF(step1Values.CPFEstabelecimento) &&
       step1Values.NomeSocioEstabelecimento &&
       isEmailValid &&
       isTelefoneValid &&
-      step1Values.AreaAtuacaoEstabelecimento;
+      step1Values.AreaAtuacaoEstabelecimento &&
+      isDataCriacaoValid;
 
     return isStep1Valid;
-  };
+};
+
 
   const validateStep2 = () => {
     const step2Values = getValues();
@@ -72,24 +201,39 @@ export const LAcadastro = () => {
 
   const validateStep3 = () => {
     const step3Values = getValues();
-    const isStep3Valid =
-      step3Values.licenciado &&
-      step3Values.RegraMarkup
 
-    return isStep3Valid;
-  };
+    const maxIndex = Object.keys(step3Values).filter(key => key.startsWith('Fornecedor')).length;
 
-  const validateStep4 = () => {
-    const step4Values = getValues();
-    const isStep4Valid =
-      step4Values.Banco &&
-      step4Values.TipoDeConta &&
-      step4Values.Agência &&
-      step4Values.Conta &&
-      step4Values.CpfCnpj;
+    return !!step3Values.licenciado && Array.from({ length: maxIndex }).every((_, index) =>
+        !!step3Values[`Fornecedor${index}`] && !!step3Values[`PlanoComercial${index}`]
+    );
+};
 
-    return isStep4Valid;
-  };
+
+const validateStep4 = () => {
+  const step4Values = getValues();
+
+  const cpfCnpjValue = step4Values.CpfCnpj
+    ? step4Values.CpfCnpj.replace(/\D/g, "")
+    : "";
+
+  let isCpfCnpjValid = false;
+
+  if (cpfCnpjValue.length <= 11) {
+    isCpfCnpjValid = validateCPF(cpfCnpjValue);
+  } else {
+    isCpfCnpjValid = validateCNPJ(cpfCnpjValue);
+  }
+
+  const isStep4Valid =
+    step4Values.Banco &&
+    step4Values.TipoDeConta &&
+    step4Values.Agência &&
+    step4Values.Conta &&
+    isCpfCnpjValid;
+
+  return isStep4Valid;
+};
 
   const currentStepIsValid = () => {
     switch (currentStep) {
@@ -107,8 +251,9 @@ export const LAcadastro = () => {
   };
 
   const steps = [1, 2, 3, 4];
+  const successModalText = "Estabelecimento Credenciado";
 
-  const successModalText = "Licenciado Credenciado";
+  console.log('oii',  getValues())
 
   return (
     <>
@@ -129,13 +274,12 @@ export const LAcadastro = () => {
           {currentStep === 1 && <Step1 Avançar={handleNextStep} />}
           {currentStep === 2 && <Step2 Avançar={handleNextStep} Voltar={handlePreviousStep} />}
           {currentStep === 3 && <Step3 Avançar={handleNextStep} Voltar={handlePreviousStep} />}
-          {currentStep === 4 && <Step4 Avançar={handleNextStep} Voltar={handlePreviousStep} />}
+          {currentStep === 4 && <Step4 isLoading={isLoading} Avançar={handleNextStep} Voltar={handlePreviousStep} />}
           {currentStep === 5 && (
-            <ModalSucesso text={successModalText} visible={openModal} onClose={handleModal} />
+            <ModalSucesso text={successModalText} visible={openModal} onClose={handleModalClose} />
           )}
         </FormProvider>
       </ContainerHome>
     </>
   );
 };
-

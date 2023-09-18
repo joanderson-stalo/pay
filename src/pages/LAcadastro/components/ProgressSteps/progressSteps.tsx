@@ -42,10 +42,16 @@ export function ProgressSteps({
     }
   };
 
+  const handleProgressBarClick = () => {
+    if (canAdvance) {
+        setCurrentStep(5);
+    }
+};
+
   return (
     <S.MainContainer>
       <S.StepContainer>
-        <S.ProgressBarInactive />
+      <S.ProgressBarInactive onClick={handleProgressBarClick} />
         <S.ProgressBarActive isActive={currentStep >= startProgress} width={progressBarWidth} />
 
         {[<div />, ...steps, <div />].map((_, index) => (

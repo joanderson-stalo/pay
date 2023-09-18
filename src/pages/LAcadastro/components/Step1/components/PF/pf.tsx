@@ -1,20 +1,6 @@
 import { ThemeColor } from '@/config/color'
 import { useFormContext } from 'react-hook-form'
-import {
-  ButtonAvançar,
-  ButtonPF,
-  ButtonPJ,
-  ContainerDados,
-  ContainerForm,
-  ContainerInput,
-  ContainerInput2,
-  ContainerPJPF,
-  ContainerStep,
-  ContextStep,
-  ContextStepContainer,
-  Line,
-  TitleStep
-} from './styled'
+import * as S from './styled'
 import { CustomInput } from '@/components/Input/input'
 import { LabelCustomInputMask } from '@/components/CustomInputMask'
 import { validateCNPJ, validateCPF } from 'validations-br'
@@ -40,6 +26,8 @@ export function PF({ Avançar, BPF, BPJ }: IStep1) {
   } = useFormContext()
 
   const allFieldsFilled =
+    !!watch('NomeFantasiaEstabelecimento') &&
+    !!watch('NascimentoSocio') &&
     !!watch('CPFEstabelecimento') &&
     !!watch('NomeSocioEstabelecimento') &&
     !!watch('EmailEstabelecimento') &&
@@ -60,35 +48,59 @@ export function PF({ Avançar, BPF, BPJ }: IStep1) {
   }
 
   return (
-    <ContainerStep>
-      <ContextStepContainer>
-        <ContextStep>
-          <ContainerDados>
-            <TitleStep>Dados do Licenciado</TitleStep>
-            <ContainerPJPF>
-            <ButtonPJ active={false} onClick={BPJ}>PJ</ButtonPJ>
-            <ButtonPF active onClick={BPF}>PF</ButtonPF>
-            </ContainerPJPF>
-          </ContainerDados>
-          <Line />
-          <ContainerForm>
-            <ContainerInput>
-              <LabelCustomInputMask
+    <S.ContainerStep>
+      <S.ContextStepContainer>
+        <S.ContextStep>
+          <S.ContainerDados>
+            <S.TitleStep>Dados do Licenciado</S.TitleStep>
+            <S.ContainerPJPF>
+            <S.ButtonPJ active={false} onClick={BPJ}>PJ</S.ButtonPJ>
+            <S.ButtonPF active onClick={BPF}>PF</S.ButtonPF>
+            </S.ContainerPJPF>
+          </S.ContainerDados>
+          <S.Line />
+          <S.ContainerForm>
+            <S.ContainerInput>
+
+            <LabelCustomInputMask
                 {...register('CPFEstabelecimento', { validate: validateCPF })}
                 label="CPF"
                 mask="999.999.999-99"
                 placeholder="---.---.---.--"
                 hasError={!!errors.CPFEstabelecimento}
               />
+
+              <LabelCustomInputMask
+                {...register('NascimentoSocio', {
+                  validate: validateDataCriacao
+                })}
+                label="Data de Nascimento"
+                mask="99/99/9999"
+                placeholder="dd/mm/aaaa"
+                hasError={!!errors.NascimentoSocio}
+              />
+            </S.ContainerInput>
+            <S.ContainerInput>
+
               <CustomInput
                 {...register('NomeSocioEstabelecimento')}
-                label="Nome Completo do Sócio"
+                label="Nome Completo"
                 colorInputDefault={ThemeColor.primaria}
                 colorInputSuccess={ThemeColor.secundaria}
                 hasError={!!errors.NomeSocioEstabelecimento}
               />
-            </ContainerInput>
-            <ContainerInput>
+
+<LabelCustomInputMask
+                {...register('TelefoneEstabelecimento', {
+                  validate: validateTelefone
+                })}
+                label="Telefone/Celular"
+                mask="(99) 99999-9999"
+                placeholder="(--) ----.----"
+                hasError={!!errors.TelefoneEstabelecimento}
+              />
+            </S.ContainerInput>
+            <S.ContainerInput>
               <CustomInput
                 {...register('EmailEstabelecimento', {
                   validate: validateEmail
@@ -98,35 +110,15 @@ export function PF({ Avançar, BPF, BPJ }: IStep1) {
                 colorInputSuccess={ThemeColor.secundaria}
                 hasError={!!errors.EmailEstabelecimento}
               />
-              <LabelCustomInputMask
-                {...register('TelefoneEstabelecimento', {
-                  validate: validateTelefone
-                })}
-                label="Telefone/Celular"
-                mask="(99) 99999-9999"
-                placeholder="(--) ----.----"
-                hasError={!!errors.TelefoneEstabelecimento}
-              />
-            </ContainerInput>
-            <ContainerInput2>
-              <CustomSelect
-                optionsData={optionsData}
-                {...register('AreaAtuacaoEstabelecimento')}
-                placeholder="Digite aqui ou clique para ver a lista"
-                label="Área de Atuação"
-                onChange={(selectedOption: { value: string }) => {
-                  setValue('AreaAtuacaoEstabelecimento', selectedOption.value)
-                }}
-                hasError={!!errors.AreaAtuacaoEstabelecimento}
-              />
-              <button>Pesquise pelo CNAE ou Nome</button>
-            </ContainerInput2>
-          </ContainerForm>
-        </ContextStep>
-        <ButtonAvançar disabled={!allFieldsFilled} onClick={handleAvancar}>
+
+            </S.ContainerInput>
+
+          </S.ContainerForm>
+        </S.ContextStep>
+        <S.ButtonAvançar disabled={!allFieldsFilled} onClick={handleAvancar}>
           Avançar
-        </ButtonAvançar>
-      </ContextStepContainer>
-    </ContainerStep>
+        </S.ButtonAvançar>
+      </S.ContextStepContainer>
+    </S.ContainerStep>
   )
 }

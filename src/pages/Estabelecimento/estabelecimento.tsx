@@ -25,6 +25,9 @@ export function Estabelecimento() {
   const [totalSellers, setTotalSellers] = useState(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
 
+  const [sellers, setSellers] = useState([]);
+  const { dataUser } = useLogin()
+
 
   const fetchData = async (pageNumber: number) => {
 
@@ -51,8 +54,6 @@ export function Estabelecimento() {
     setFilter(false)
   }
 
-  const [sellers, setSellers] = useState([]);
-  const { dataUser } = useLogin()
   const totalPages = Math.ceil(totalSellers / (itensPorPage || 1));
 
 
@@ -60,7 +61,7 @@ export function Estabelecimento() {
     async function fetchData() {
       setLoading(true)
       try {
-        const response = await axios.get(`https://api-pagueassim.stalopay.com.br/sellersec?perpage=${String(itensPorPage)}`, {
+        const response = await axios.get(`https://api-pagueassim.stalopay.com.br/sellersec?perpage=${String(itensPorPage)}&page=${currentPage}`, {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${dataUser?.token}`
