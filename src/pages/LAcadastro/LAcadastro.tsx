@@ -229,6 +229,7 @@ const validateStep4 = () => {
       <ContainerHome>
         <ContainerProgressSteps>
           <ProgressSteps
+             stepLabels={["Dados do Licenciado", "Endereço", "Comercial", "Dados Bancários"]}
             startProgress={0}
             endProgress={steps.length + 1}
             currentStep={currentStep}

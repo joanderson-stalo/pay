@@ -91,3 +91,19 @@ export const ProgressBarActive = styled.div<IProps & IProgressBarProps>`
   transition: width 0.4s ease;
   border-radius: 3.5px;
 `;
+
+
+export const Tooltip = styled.div`
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 1;
+`;

@@ -126,6 +126,7 @@ export const EditRegistrationEC = () => {
     <ContainerHome>
       <ContainerProgressSteps>
         <ProgressSteps
+            stepLabels={["Dados do Estabelecimento", "Endereço", "Comercial", "Dados Bancários"]}
           startProgress={0}
           endProgress={steps.length + 1}
           currentStep={currentStep}
