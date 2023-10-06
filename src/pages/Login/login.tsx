@@ -137,7 +137,7 @@ export function Login() {
           colorBackground={ThemeColor.secundaria}
           success={isValid}
           disabled={isSubmitting}
-          label={isSubmitting ? <BeatLoader size={10} color="#ffffff" /> : ButtonText.salvar}
+          label={isSubmitting ? <BeatLoader size={10} color="#ffffff" /> : ButtonText.login}
         />
         </ContainerSubmit>
       </S.Form>
