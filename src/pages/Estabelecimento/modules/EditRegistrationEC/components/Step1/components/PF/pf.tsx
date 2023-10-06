@@ -9,6 +9,7 @@ import { validateTelefone } from '@/utils/telefoneValid'
 import { validateEmail } from '@/utils/validateEmail'
 import { CustomSelect } from '@/components/Select/select'
 import { optionsData } from './option'
+import { useEffect } from 'react'
 
 interface IStep1 {
   Avançar: () => void
@@ -46,6 +47,7 @@ export function PF({ Avançar, BPF, BPJ }: IStep1) {
       Avançar()
     }
   }
+
 
   return (
     <S.ContainerStep>

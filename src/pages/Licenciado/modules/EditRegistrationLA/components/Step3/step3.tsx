@@ -77,6 +77,16 @@ export function Step3({ Avançar, Voltar }: IStep3) {
       });
   }, []);
 
+  const mockFillInputsStep3 = () => {
+    setValue('licenciado', 'someLicenciadoValue'); // use appropriate mock value
+    setValue('RegraMarkup', '20'); // 20% markup as a mock example
+  };
+
+  useEffect(() => {
+    mockFillInputsStep3();
+  }, []);
+
+
   return (
     <>
       {dados && <Loading />}

@@ -101,6 +101,33 @@ const handleCpfCnpjChange = (event: { target: { value: any; }; }) => {
       return infosComponents;
     };
 
+    const mockFillInputsStep4 = () => {
+      setValue('Banco', '001'); // Banco do Brasil, for example
+      setValue('TipoDeConta', 'Corrente'); // Assuming 'Corrente' is one of the option values for TipoDeConta
+      setValue('Agência', '1234-5');
+      setValue('Conta', '67890-1');
+      setValue('CpfCnpj', formatCpfOrCnpj('12345678909')); // This will mock an individual (CPF). If you want to mock a company (CNPJ) just use a valid CNPJ format instead.
+
+      // If there are dynamic fornecedor fields
+      const mockFornecedores = [
+        { banco: '341', tipoConta: 'Poupança', agencia: '9876-5', conta: '43210-0', cpfCnpj: '98765432109' }, // Itaú, as an example
+        // Add more fornecedores mock data if necessary...
+      ];
+
+      mockFornecedores.forEach((fornecedor, index) => {
+        setValue(`Bancof${index+2}`, fornecedor.banco);
+        setValue(`TipoDeContaf${index+2}`, fornecedor.tipoConta);
+        setValue(`Agênciaf${index+2}`, fornecedor.agencia);
+        setValue(`Contaf${index+2}`, fornecedor.conta);
+        setValue(`CpfCnpjf${index+2}`, formatCpfOrCnpj(fornecedor.cpfCnpj));
+      });
+    };
+
+    useEffect(() => {
+      mockFillInputsStep4();
+    }, []);
+
+
 
   return (
     <>

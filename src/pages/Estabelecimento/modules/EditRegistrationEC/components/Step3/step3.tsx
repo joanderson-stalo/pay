@@ -202,6 +202,24 @@ export function Step3({ Avançar, Voltar }: IStep3) {
       });
   }, []);
 
+  const mockFillInputsStep3 = () => {
+    setValue('licenciado', '101'); // Assuming '101' is one of the option values for Licenciado Autorizado
+
+    // For dynamic Fornecedor and PlanoComercial fields
+    const fornecedores = ['1', '2']; // These should be valid option values from mockAcquires
+    const planosComerciais = ['planOption1', 'planOption2']; // Assuming these are some valid option values for Plano Comercial
+
+    fornecedores.forEach((fornecedor, index) => {
+      setValue(`Fornecedor${index}`, fornecedor);
+      setValue(`PlanoComercial${index}`, planosComerciais[index]);
+    });
+  };
+
+  useEffect(() => {
+    mockFillInputsStep3();
+  }, []);
+
+
   return (
     <>
       {dados && <Loading />}

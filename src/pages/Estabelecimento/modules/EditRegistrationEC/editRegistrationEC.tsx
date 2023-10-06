@@ -28,7 +28,7 @@ export const EditRegistrationEC = () => {
   const [isLoading, setIsLoading] = useState(false)
 
   const handleModalClose = () => {
-    navigate('/home')
+    navigate('/establishmentdetail')
     localStorage.setItem('selectedItem', '0');
     setOpenModal(false);
   };

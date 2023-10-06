@@ -28,7 +28,7 @@ export const EditRegistrationLA = () => {
   const [isLoading, setIsLoading] = useState(false)
 
   const handleModalClose = () => {
-    navigate('/home')
+    navigate('/licenseddetail')
     localStorage.setItem('selectedItem', '0');
     setOpenModal(false);
   };
@@ -39,13 +39,12 @@ export const EditRegistrationLA = () => {
 
 
   const handleNextStep = () => {
-    if (currentStepIsValid()) {
-      if (currentStep < 4) {
-        setCurrentStep((prevStep) => prevStep + 1);
-      } else {
-        setCurrentStep(5);
-      }
+    if (currentStep < 4) {
+      setCurrentStep((prevStep) => prevStep + 1);
+    } else {
+      setCurrentStep(5);
     }
+
   };
 
 
@@ -143,7 +142,7 @@ const validateStep4 = () => {
   };
 
   const steps = [1, 2, 3, 4];
-  const successModalText = "Licenciado Credenciado";
+  const successModalText = "Licenciado Atualizado";
 
   console.log('oiiss',  getValues())
 

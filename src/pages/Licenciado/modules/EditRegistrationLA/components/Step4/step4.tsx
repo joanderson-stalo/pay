@@ -6,6 +6,7 @@ import { useFormContext } from 'react-hook-form';
 import { CustomSelect } from '@/components/Select/select';
 import { optionsData } from '../Step1/option';
 import { Loading } from '@/components/Loading/loading';
+import { useEffect } from 'react';
 
 interface IStep5 {
   Avançar: () => void;
@@ -55,6 +56,20 @@ const formatCpfOrCnpj = (value: string) => {
     "$1.$2.$3-$4"
   );
 };
+
+const mockFillInputsStep4 = () => {
+  setValue('Banco', 'Banco do Brasil'); // Use a appropriate mock value
+  setValue('TipoDeConta', 'Conta Corrente'); // Exemplo
+  setValue('Agência', '1234-5'); // Mock de agência bancária
+  setValue('Conta', '12345-6'); // Mock de conta bancária
+  setValue('CpfCnpj', '123.456.789-10'); // Mock CPF
+  setValue('pix', 'mock.pix@email.com'); // Mock chave PIX
+};
+
+useEffect(() => {
+  mockFillInputsStep4();
+}, []);
+
 
 
 const handleCpfCnpjChange = (event: { target: { value: any; }; }) => {
