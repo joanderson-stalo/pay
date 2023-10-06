@@ -4,6 +4,8 @@ import {
   ButtonAvançar,
   ButtonPF,
   ButtonPJ,
+  ButtonVoltar,
+  ContainerButton,
   ContainerDados,
   ContainerForm,
   ContainerInput,
@@ -23,6 +25,7 @@ import { validateTelefone } from '@/utils/telefoneValid'
 import { validateEmail } from '@/utils/validateEmail'
 import { CustomSelect } from '@/components/Select/select'
 import { optionsData } from './option'
+import { useNavigate } from 'react-router-dom'
 
 interface IStep1 {
   Avançar: () => void
@@ -62,6 +65,12 @@ export function PJ({ Avançar, BPF, BPJ }: IStep1) {
     ) {
       Avançar()
     }
+  }
+
+  const navigate = useNavigate()
+
+  const  handleLicenciado = () => {
+      navigate('/licenciados')
   }
 
   return (
@@ -172,9 +181,10 @@ export function PJ({ Avançar, BPF, BPJ }: IStep1) {
             </ContainerInput2>
           </ContainerForm>
         </ContextStep>
-        <ButtonAvançar disabled={!allFieldsFilled} onClick={handleAvancar}>
-          Avançar
-        </ButtonAvançar>
+        <ContainerButton>
+          <ButtonVoltar onClick={handleLicenciado} >Cancelar</ButtonVoltar>
+          <ButtonAvançar disabled={!allFieldsFilled} onClick={Avançar}>Avançar</ButtonAvançar>
+        </ContainerButton>
       </ContextStepContainer>
     </ContainerStep>
   )

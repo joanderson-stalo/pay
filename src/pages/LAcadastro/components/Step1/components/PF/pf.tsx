@@ -9,6 +9,7 @@ import { validateTelefone } from '@/utils/telefoneValid'
 import { validateEmail } from '@/utils/validateEmail'
 import { CustomSelect } from '@/components/Select/select'
 import { optionsData } from './option'
+import { useNavigate } from 'react-router-dom'
 
 interface IStep1 {
   Avançar: () => void
@@ -44,6 +45,12 @@ export function PF({ Avançar, BPF, BPJ }: IStep1) {
     ) {
       Avançar()
     }
+  }
+
+  const navigate = useNavigate()
+
+  const  handleLicenciado = () => {
+      navigate('/licenciados')
   }
 
   return (
@@ -114,9 +121,10 @@ export function PF({ Avançar, BPF, BPJ }: IStep1) {
 
           </S.ContainerForm>
         </S.ContextStep>
-        <S.ButtonAvançar disabled={!allFieldsFilled} onClick={handleAvancar}>
-          Avançar
-        </S.ButtonAvançar>
+        <S.ContainerButton>
+          <S.ButtonVoltar onClick={handleLicenciado} >Cancelar</S.ButtonVoltar>
+          <S.ButtonAvançar disabled={!allFieldsFilled} onClick={Avançar}>Avançar</S.ButtonAvançar>
+        </S.ContainerButton>
       </S.ContextStepContainer>
     </S.ContainerStep>
   )
