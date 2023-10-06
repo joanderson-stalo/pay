@@ -1,9 +1,11 @@
-import React from 'react';
-import { useForm } from 'react-hook-form';
+import { ThemeColor } from '@/config/color'
+import { useFormContext } from 'react-hook-form'
 import {
   ButtonAvançar,
   ButtonPF,
   ButtonPJ,
+  ButtonVoltar,
+  ContainerButton,
   ContainerDados,
   ContainerForm,
   ContainerInput,
@@ -14,31 +16,30 @@ import {
   ContextStepContainer,
   Line,
   TitleStep
-} from './styled';
-import { CustomInput } from '@/components/Input/input';
-import { LabelCustomInputMask } from '@/components/CustomInputMask';
-import { validateCNPJ, validateCPF } from 'validations-br';
-import { validateDataCriacao } from '@/utils/dataValid';
-import { validateTelefone } from '@/utils/telefoneValid';
-import { validateEmail } from '@/utils/validateEmail';
-import { CustomSelect } from '@/components/Select/select';
-import { optionsData } from './option';
-import { ThemeColor } from '@/config/color';
+} from './styled'
+import { CustomInput } from '@/components/Input/input'
+import { LabelCustomInputMask } from '@/components/CustomInputMask'
+import { validateCNPJ, validateCPF } from 'validations-br'
+import { validateDataCriacao } from '@/utils/dataValid'
+import { validateTelefone } from '@/utils/telefoneValid'
+import { validateEmail } from '@/utils/validateEmail'
+import { CustomSelect } from '@/components/Select/select'
+import { optionsData } from './option'
 
 interface IStep1 {
-  BPJ: () => void;
-  BPF: () => void;
+  Avançar: () => void
+  BPJ: () => void
+  BPF: () => void
 }
 
-export function PJ({  BPF, BPJ }: IStep1) {
+export function PJ({ Avançar, BPF, BPJ }: IStep1) {
   const {
     register,
     setValue,
-    watch,
     formState: { errors, isValid: formIsValid },
-    trigger
-  } = useForm({
-  });
+    trigger,
+    watch
+  } = useFormContext()
 
   const allFieldsFilled =
     !!watch('CNPJEstabelecimento') &&
@@ -50,10 +51,10 @@ export function PJ({  BPF, BPJ }: IStep1) {
     !!watch('NomeSocioEstabelecimento') &&
     !!watch('EmailEstabelecimento') &&
     !!watch('AreaAtuacaoEstabelecimento') &&
-    !!watch('TelefoneEstabelecimento');
+    !!watch('TelefoneEstabelecimento')
 
   const handleAvancar = async () => {
-    const result = await trigger();
+    const result = await trigger()
     if (
       result &&
       !errors.CNPJEstabelecimento &&
@@ -61,17 +62,16 @@ export function PJ({  BPF, BPJ }: IStep1) {
       allFieldsFilled &&
       formIsValid
     ) {
-
+      Avançar()
     }
-  };
-
+  }
 
   return (
     <ContainerStep>
       <ContextStepContainer>
         <ContextStep>
           <ContainerDados>
-            <TitleStep>Dados do Licenciado</TitleStep>
+            <TitleStep>Dados do Estabelecimento</TitleStep>
             <ContainerPJPF>
             <ButtonPJ active onClick={BPJ}>PJ</ButtonPJ>
             <ButtonPF active={false} onClick={BPF}>PF</ButtonPF>
@@ -117,7 +117,7 @@ export function PJ({  BPF, BPJ }: IStep1) {
 
               <LabelCustomInputMask
                 {...register('CPFEstabelecimento', { validate: validateCPF })}
-                label="CPF do Sócio"
+                label="CPF"
                 mask="999.999.999-99"
                 placeholder="---.---.---.--"
                 hasError={!!errors.CPFEstabelecimento}
@@ -174,9 +174,13 @@ export function PJ({  BPF, BPJ }: IStep1) {
             </ContainerInput2>
           </ContainerForm>
         </ContextStep>
+        <ContainerButton>
+        <ButtonVoltar >Cancelar</ButtonVoltar>
+          <ButtonAvançar disabled={!allFieldsFilled} onClick={Avançar}>Salvar</ButtonAvançar>
         <ButtonAvançar disabled={!allFieldsFilled} onClick={handleAvancar}>
-        Salvar
+          Avançar
         </ButtonAvançar>
+        </ContainerButton>
       </ContextStepContainer>
     </ContainerStep>
   )

@@ -2,9 +2,11 @@ import { PF } from './components/PF/pf'
 import { PJ } from './components/PJ/pj'
 import { useDocumentLA } from '@/context/useDocumentLA'
 
+interface IStep1 {
+  Avançar: () => void
+}
 
-
-export function Step1() {
+export function Step1({ Avançar }: IStep1) {
   const { documentTypeLA, updateToCNPJLA, updateToCPFLA } = useDocumentLA()
 
   console.log(documentTypeLA)
@@ -12,9 +14,9 @@ export function Step1() {
   return (
     <>
       {documentTypeLA === 'CNPJ' ? (
-        <PJ  BPJ={updateToCNPJLA} BPF={updateToCPFLA} />
+        <PJ Avançar={Avançar} BPJ={updateToCNPJLA} BPF={updateToCPFLA} />
       ) : (
-        <PF BPJ={updateToCNPJLA} BPF={updateToCPFLA} />
+        <PF Avançar={Avançar} BPJ={updateToCNPJLA} BPF={updateToCPFLA} />
       )}
     </>
   )

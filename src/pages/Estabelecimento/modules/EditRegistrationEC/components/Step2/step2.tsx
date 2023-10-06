@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useForm } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 import { ThemeColor } from "@/config/color";
 import { ButtonAvançar, ButtonVoltar, ContainerButton, ContainerForm, ContainerInput, ContainerInput2, ContainerStep, ContextStep, ContextStepContainer, Line, TitleStep } from "./styled";
 import { CustomInput } from "@/components/Input/input";
 import { LabelCustomInputMask } from "@/components/CustomInputMask";
 import { Loading } from "@/components/Loading/loading";
 
+interface IStep2 {
+  Avançar: () => void;
+  Voltar: () => void;
+}
 
-export function Step2() {
-  const { register, formState: { errors }, setValue, watch } = useForm({
-    mode: 'onChange'
-  });
+
+export function Step2({ Avançar, Voltar }: IStep2) {
+  const { register, formState: { errors }, setValue, watch } = useFormContext();
   const [dados, setDados] = useState(false);
 
   const allFieldsFilled = !!watch('CEP') && !!watch('Endereco') && !!watch('Numero') && !!watch('Bairro') && !!watch('Cidade') && !!watch('Estado');
@@ -130,7 +133,9 @@ export function Step2() {
           </ContainerForm>
         </ContextStep>
         <ContainerButton>
-          <ButtonAvançar disabled={!allFieldsFilled} >Salvar</ButtonAvançar>
+          <ButtonVoltar onClick={Voltar}>Voltar</ButtonVoltar>
+          <ButtonAvançar disabled={!allFieldsFilled} onClick={Avançar}>Salvar</ButtonAvançar>
+          <ButtonAvançar disabled={!allFieldsFilled} onClick={Avançar}>Avançar</ButtonAvançar>
         </ContainerButton>
       </ContextStepContainer>
     </ContainerStep>

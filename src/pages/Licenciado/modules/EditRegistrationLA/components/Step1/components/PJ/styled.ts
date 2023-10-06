@@ -141,3 +141,29 @@ font-size: 12px;
 line-height: 20px;
 letter-spacing: 0.5px;
 `;
+
+
+export const ButtonVoltar = styled.button`
+  width: 109px;
+height: 35px;
+
+
+background: #FFFFFF;
+border: 0.5px solid #F5F4F4;
+border-radius: 5px;
+
+font-weight: 500;
+font-size: 12px;
+line-height: 20px;
+letter-spacing: 0.5px;
+
+color: #5A6ACF;
+
+`
+export const ContainerButton = styled.div`
+display: flex;
+gap: 20px;
+align-self: flex-end;
+margin-bottom: 100px;
+
+`

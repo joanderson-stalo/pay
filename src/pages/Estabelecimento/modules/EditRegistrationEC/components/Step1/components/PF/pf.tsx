@@ -1,27 +1,29 @@
-import { ThemeColor } from '@/config/color';
-import { useForm } from 'react-hook-form';
-import * as S from './styled';
-import { CustomInput } from '@/components/Input/input';
-import { LabelCustomInputMask } from '@/components/CustomInputMask';
-import { validateCPF } from 'validations-br';
-import { validateDataCriacao } from '@/utils/dataValid';
-import { validateTelefone } from '@/utils/telefoneValid';
-import { validateEmail } from '@/utils/validateEmail';
+import { ThemeColor } from '@/config/color'
+import { useFormContext } from 'react-hook-form'
+import * as S from './styled'
+import { CustomInput } from '@/components/Input/input'
+import { LabelCustomInputMask } from '@/components/CustomInputMask'
+import { validateCNPJ, validateCPF } from 'validations-br'
+import { validateDataCriacao } from '@/utils/dataValid'
+import { validateTelefone } from '@/utils/telefoneValid'
+import { validateEmail } from '@/utils/validateEmail'
+import { CustomSelect } from '@/components/Select/select'
+import { optionsData } from './option'
 
 interface IStep1 {
-  BPJ: () => void;
-  BPF: () => void;
+  Avançar: () => void
+  BPJ: () => void
+  BPF: () => void
 }
 
-export function PF({ BPF, BPJ }: IStep1) {
+export function PF({ Avançar, BPF, BPJ }: IStep1) {
   const {
     register,
+    setValue,
     formState: { errors, isValid: formIsValid },
     trigger,
     watch
-  } = useForm({
-    mode: 'onChange'
-  });
+  } = useFormContext()
 
   const allFieldsFilled =
     !!watch('NomeFantasiaEstabelecimento') &&
@@ -30,10 +32,10 @@ export function PF({ BPF, BPJ }: IStep1) {
     !!watch('NomeSocioEstabelecimento') &&
     !!watch('EmailEstabelecimento') &&
     !!watch('AreaAtuacaoEstabelecimento') &&
-    !!watch('TelefoneEstabelecimento');
+    !!watch('TelefoneEstabelecimento')
 
   const handleAvancar = async () => {
-    const result = await trigger();
+    const result = await trigger()
     if (
       result &&
       !errors.CNPJEstabelecimento &&
@@ -41,15 +43,16 @@ export function PF({ BPF, BPJ }: IStep1) {
       allFieldsFilled &&
       formIsValid
     ) {
+      Avançar()
     }
-  };
+  }
 
   return (
     <S.ContainerStep>
       <S.ContextStepContainer>
         <S.ContextStep>
           <S.ContainerDados>
-            <S.TitleStep>Dados do Licenciado</S.TitleStep>
+            <S.TitleStep>Dados do Estabelecimento</S.TitleStep>
             <S.ContainerPJPF>
             <S.ButtonPJ active={false} onClick={BPJ}>PJ</S.ButtonPJ>
             <S.ButtonPF active onClick={BPF}>PF</S.ButtonPF>
@@ -58,15 +61,13 @@ export function PF({ BPF, BPJ }: IStep1) {
           <S.Line />
           <S.ContainerForm>
             <S.ContainerInput>
-
-            <LabelCustomInputMask
-                {...register('CPFEstabelecimento', { validate: validateCPF })}
-                label="CPF"
-                mask="999.999.999-99"
-                placeholder="---.---.---.--"
-                hasError={!!errors.CPFEstabelecimento}
+              <CustomInput
+                {...register('NomeFantasiaEstabelecimento')}
+                label="Nome Fantasia"
+                colorInputDefault={ThemeColor.primaria}
+                colorInputSuccess={ThemeColor.secundaria}
+                hasError={!!errors.NomeFantasiaEstabelecimento}
               />
-
               <LabelCustomInputMask
                 {...register('NascimentoSocio', {
                   validate: validateDataCriacao
@@ -78,23 +79,19 @@ export function PF({ BPF, BPJ }: IStep1) {
               />
             </S.ContainerInput>
             <S.ContainerInput>
-
+              <LabelCustomInputMask
+                {...register('CPFEstabelecimento', { validate: validateCPF })}
+                label="CPF"
+                mask="999.999.999-99"
+                placeholder="---.---.---.--"
+                hasError={!!errors.CPFEstabelecimento}
+              />
               <CustomInput
                 {...register('NomeSocioEstabelecimento')}
                 label="Nome Completo"
                 colorInputDefault={ThemeColor.primaria}
                 colorInputSuccess={ThemeColor.secundaria}
                 hasError={!!errors.NomeSocioEstabelecimento}
-              />
-
-<LabelCustomInputMask
-                {...register('TelefoneEstabelecimento', {
-                  validate: validateTelefone
-                })}
-                label="Telefone/Celular"
-                mask="(99) 99999-9999"
-                placeholder="(--) ----.----"
-                hasError={!!errors.TelefoneEstabelecimento}
               />
             </S.ContainerInput>
             <S.ContainerInput>
@@ -107,14 +104,38 @@ export function PF({ BPF, BPJ }: IStep1) {
                 colorInputSuccess={ThemeColor.secundaria}
                 hasError={!!errors.EmailEstabelecimento}
               />
-
+              <LabelCustomInputMask
+                {...register('TelefoneEstabelecimento', {
+                  validate: validateTelefone
+                })}
+                label="Telefone/Celular"
+                mask="(99) 99999-9999"
+                placeholder="(--) ----.----"
+                hasError={!!errors.TelefoneEstabelecimento}
+              />
             </S.ContainerInput>
-
+            <S.ContainerInput2>
+              <CustomSelect
+                optionsData={optionsData}
+                {...register('AreaAtuacaoEstabelecimento')}
+                placeholder="Digite aqui ou clique para ver a lista"
+                label="Área de Atuação"
+                onChange={(selectedOption: { value: string }) => {
+                  setValue('AreaAtuacaoEstabelecimento', selectedOption.value)
+                }}
+                hasError={!!errors.AreaAtuacaoEstabelecimento}
+              />
+              <button>Pesquise pelo CNAE ou Nome</button>
+            </S.ContainerInput2>
           </S.ContainerForm>
         </S.ContextStep>
+        <S.ContainerButton>
+        <S.ButtonVoltar >Cancelar</S.ButtonVoltar>
+          <S.ButtonAvançar disabled={!allFieldsFilled} onClick={Avançar}>Salvar</S.ButtonAvançar>
         <S.ButtonAvançar disabled={!allFieldsFilled} onClick={handleAvancar}>
-          Salvar
+          Avançar
         </S.ButtonAvançar>
+        </S.ContainerButton>
       </S.ContextStepContainer>
     </S.ContainerStep>
   )

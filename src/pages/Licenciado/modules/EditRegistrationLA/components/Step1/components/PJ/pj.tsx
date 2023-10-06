@@ -1,9 +1,11 @@
-import React from 'react';
-import { useForm } from 'react-hook-form';
+import { ThemeColor } from '@/config/color'
+import { useFormContext } from 'react-hook-form'
 import {
   ButtonAvançar,
   ButtonPF,
   ButtonPJ,
+  ButtonVoltar,
+  ContainerButton,
   ContainerDados,
   ContainerForm,
   ContainerInput,
@@ -14,31 +16,34 @@ import {
   ContextStepContainer,
   Line,
   TitleStep
-} from './styled';
-import { CustomInput } from '@/components/Input/input';
-import { LabelCustomInputMask } from '@/components/CustomInputMask';
-import { validateCNPJ, validateCPF } from 'validations-br';
-import { validateDataCriacao } from '@/utils/dataValid';
-import { validateTelefone } from '@/utils/telefoneValid';
-import { validateEmail } from '@/utils/validateEmail';
-import { CustomSelect } from '@/components/Select/select';
-import { optionsData } from './option';
-import { ThemeColor } from '@/config/color';
+} from './styled'
+import { CustomInput } from '@/components/Input/input'
+import { LabelCustomInputMask } from '@/components/CustomInputMask'
+import { validateCNPJ, validateCPF } from 'validations-br'
+import { validateDataCriacao } from '@/utils/dataValid'
+import { validateTelefone } from '@/utils/telefoneValid'
+import { validateEmail } from '@/utils/validateEmail'
+import { CustomSelect } from '@/components/Select/select'
+import { optionsData } from './option'
+import { useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
 
 interface IStep1 {
-  BPJ: () => void;
-  BPF: () => void;
+  Avançar: () => void
+  BPJ: () => void
+  BPF: () => void
 }
 
-export function PJ({  BPF, BPJ }: IStep1) {
+export function PJ({ Avançar, BPF, BPJ }: IStep1) {
   const {
     register,
     setValue,
-    watch,
     formState: { errors, isValid: formIsValid },
-    trigger
-  } = useForm({
-  });
+    trigger,
+    watch
+  } = useFormContext()
+
+  const navigate = useNavigate()
 
   const allFieldsFilled =
     !!watch('CNPJEstabelecimento') &&
@@ -50,10 +55,10 @@ export function PJ({  BPF, BPJ }: IStep1) {
     !!watch('NomeSocioEstabelecimento') &&
     !!watch('EmailEstabelecimento') &&
     !!watch('AreaAtuacaoEstabelecimento') &&
-    !!watch('TelefoneEstabelecimento');
+    !!watch('TelefoneEstabelecimento')
 
   const handleAvancar = async () => {
-    const result = await trigger();
+    const result = await trigger()
     if (
       result &&
       !errors.CNPJEstabelecimento &&
@@ -61,10 +66,31 @@ export function PJ({  BPF, BPJ }: IStep1) {
       allFieldsFilled &&
       formIsValid
     ) {
-
+      Avançar()
     }
-  };
+  }
 
+  const handleLicenseddetail = () => {
+    navigate('/licenseddetail')
+  }
+
+  const mockFillInputs = () => {
+    setValue('CNPJEstabelecimento', '23.699.017/0001-84');
+    setValue('RazaoSocialEstabelecimento', 'Mocked Company Ltd.');
+    setValue('NomeFantasiaEstabelecimento', 'Mocked Company');
+    setValue('DataCriacaoEstabelecimento', '01/01/2000');
+    setValue('NascimentoSocio', '15/05/1985');
+    setValue('CPFEstabelecimento', '913.482.830-33');
+    setValue('NomeSocioEstabelecimento', 'Mocked Partner Name');
+    setValue('EmailEstabelecimento', 'mocked.email@example.com');
+    setValue('TelefoneEstabelecimento', '(81) 991431834');
+    setValue('AreaAtuacaoEstabelecimento', 'option1');
+
+};
+
+useEffect(() => {
+  mockFillInputs();
+}, []);
 
   return (
     <ContainerStep>
@@ -174,9 +200,13 @@ export function PJ({  BPF, BPJ }: IStep1) {
             </ContainerInput2>
           </ContainerForm>
         </ContextStep>
+        <ContainerButton>
+        <ButtonVoltar onClick={handleLicenseddetail}>Cancelar</ButtonVoltar>
+          <ButtonAvançar disabled={!allFieldsFilled} onClick={Avançar}>Salvar</ButtonAvançar>
         <ButtonAvançar disabled={!allFieldsFilled} onClick={handleAvancar}>
-        Salvar
+          Avançar
         </ButtonAvançar>
+        </ContainerButton>
       </ContextStepContainer>
     </ContainerStep>
   )

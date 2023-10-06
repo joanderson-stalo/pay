@@ -2,28 +2,25 @@
 import { ThemeColor } from '@/config/color';
 import * as S from './styled';
 import { CustomInput } from '@/components/Input/input';
-import { useForm, useFormContext } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 import { CustomSelect } from '@/components/Select/select';
 import { optionsData } from '../Step1/option';
 import { Loading } from '@/components/Loading/loading';
-import { useState } from 'react';
 
+interface IStep5 {
+  Avançar: () => void;
+  Voltar: () => void;
+  isLoading: boolean;
+}
 
-
-export function Step4() {
-  const [isLoading, setIsLoading] = useState(false)
-
-
+export function Step4({ Avançar, Voltar, isLoading }: IStep5) {
   const {
     register,
     setValue,
     formState: { errors },
     getValues,
     watch
-  } = useForm({
-    mode: 'onChange'
-  });
-  ;
+  } = useFormContext();
 
 
 
@@ -166,8 +163,8 @@ const handleCpfCnpjChange = (event: { target: { value: any; }; }) => {
             </S.ContainerForm>
           </S.ContextStep>
           <S.ContainerButton>
-
-            <S.ButtonAvançar disabled={!areAllFieldsFilled()} >
+            <S.ButtonVoltar onClick={Voltar}>Voltar</S.ButtonVoltar>
+            <S.ButtonAvançar disabled={!areAllFieldsFilled()} onClick={Avançar}>
               Salvar
             </S.ButtonAvançar>
           </S.ContainerButton>

@@ -1,20 +1,20 @@
 import { PF } from './components/PF/pf'
 import { PJ } from './components/PJ/pj'
-import { useDocumentLA } from '@/context/useDocumentLA'
+import { useDocumentEC } from '@/context/useDocumentEC'
 
+interface IStep1 {
+  Avançar: () => void
+}
 
-
-export function Step1() {
-  const { documentTypeLA, updateToCNPJLA, updateToCPFLA } = useDocumentLA()
-
-  console.log(documentTypeLA)
+export function Step1({ Avançar }: IStep1) {
+  const { documentTypeEC, updateToCNPJEC, updateToCPFEC } = useDocumentEC()
 
   return (
     <>
-      {documentTypeLA === 'CNPJ' ? (
-        <PJ  BPJ={updateToCNPJLA} BPF={updateToCPFLA} />
+      {documentTypeEC === 'CNPJ' ? (
+        <PJ Avançar={Avançar} BPJ={updateToCNPJEC} BPF={updateToCPFEC} />
       ) : (
-        <PF BPJ={updateToCNPJLA} BPF={updateToCPFLA} />
+        <PF Avançar={Avançar} BPJ={updateToCNPJEC} BPF={updateToCPFEC} />
       )}
     </>
   )

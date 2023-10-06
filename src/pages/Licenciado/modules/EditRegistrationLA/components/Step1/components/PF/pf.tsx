@@ -1,27 +1,31 @@
-import { ThemeColor } from '@/config/color';
-import { useForm } from 'react-hook-form';
-import * as S from './styled';
-import { CustomInput } from '@/components/Input/input';
-import { LabelCustomInputMask } from '@/components/CustomInputMask';
-import { validateCPF } from 'validations-br';
-import { validateDataCriacao } from '@/utils/dataValid';
-import { validateTelefone } from '@/utils/telefoneValid';
-import { validateEmail } from '@/utils/validateEmail';
+import { ThemeColor } from '@/config/color'
+import { useFormContext } from 'react-hook-form'
+import * as S from './styled'
+import { CustomInput } from '@/components/Input/input'
+import { LabelCustomInputMask } from '@/components/CustomInputMask'
+import { validateCNPJ, validateCPF } from 'validations-br'
+import { validateDataCriacao } from '@/utils/dataValid'
+import { validateTelefone } from '@/utils/telefoneValid'
+import { validateEmail } from '@/utils/validateEmail'
+import { CustomSelect } from '@/components/Select/select'
+import { optionsData } from './option'
+import { useNavigate } from 'react-router-dom'
 
 interface IStep1 {
-  BPJ: () => void;
-  BPF: () => void;
+  Avançar: () => void
+  BPJ: () => void
+  BPF: () => void
 }
 
-export function PF({ BPF, BPJ }: IStep1) {
+export function PF({ Avançar, BPF, BPJ }: IStep1) {
+  const navigate = useNavigate()
+
   const {
     register,
     formState: { errors, isValid: formIsValid },
     trigger,
     watch
-  } = useForm({
-    mode: 'onChange'
-  });
+  } = useFormContext()
 
   const allFieldsFilled =
     !!watch('NomeFantasiaEstabelecimento') &&
@@ -30,10 +34,10 @@ export function PF({ BPF, BPJ }: IStep1) {
     !!watch('NomeSocioEstabelecimento') &&
     !!watch('EmailEstabelecimento') &&
     !!watch('AreaAtuacaoEstabelecimento') &&
-    !!watch('TelefoneEstabelecimento');
+    !!watch('TelefoneEstabelecimento')
 
   const handleAvancar = async () => {
-    const result = await trigger();
+    const result = await trigger()
     if (
       result &&
       !errors.CNPJEstabelecimento &&
@@ -41,8 +45,14 @@ export function PF({ BPF, BPJ }: IStep1) {
       allFieldsFilled &&
       formIsValid
     ) {
+      Avançar()
     }
-  };
+  }
+
+
+  const handleLicenseddetail = () => {
+    navigate('/licenseddetail')
+  }
 
   return (
     <S.ContainerStep>
@@ -112,9 +122,13 @@ export function PF({ BPF, BPJ }: IStep1) {
 
           </S.ContainerForm>
         </S.ContextStep>
+        <S.ContainerButton>
+        <S.ButtonVoltar >Cancelar</S.ButtonVoltar>
+          <S.ButtonAvançar disabled={!allFieldsFilled} onClick={Avançar}>Salvar</S.ButtonAvançar>
         <S.ButtonAvançar disabled={!allFieldsFilled} onClick={handleAvancar}>
-          Salvar
+          Avançar
         </S.ButtonAvançar>
+        </S.ContainerButton>
       </S.ContextStepContainer>
     </S.ContainerStep>
   )

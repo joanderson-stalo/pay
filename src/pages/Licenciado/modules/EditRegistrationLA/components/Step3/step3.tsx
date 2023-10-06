@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import {
   ButtonAdd,
@@ -20,13 +20,21 @@ import { Loading } from '@/components/Loading/loading'
 import { CustomSelect } from '@/components/Select/select'
 import { optionsData } from './optionsData'
 import { useLogin } from '@/context/user.login'
+import { useFormContext } from 'react-hook-form'
 import { CustomInput } from '@/components/Input/input'
 import { ThemeColor } from '@/config/color'
-import { useForm } from 'react-hook-form'
 
+interface IStep3 {
+  Avançar: () => void
+  Voltar: () => void
+}
 
+interface IOption {
+  value: string
+  label: string
+}
 
-export function Step3() {
+export function Step3({ Avançar, Voltar }: IStep3) {
   const [dados, setDados] = useState(false)
   const [fetchedOptions, setFetchedOptions] = useState([])
 
@@ -36,14 +44,10 @@ export function Step3() {
     register,
     setValue,
     formState: { errors },
-    watch,
-    handleSubmit
-  } = useForm({
-    mode: 'onChange'
-  });
+    watch
+  } = useFormContext()
 
-  const allFieldsFilled = !!watch('licenciado') && !!watch('RegraMarkup');
-
+  const allFieldsFilled = !!watch('licenciado')
 
   useEffect(() => {
     setDados(true);
@@ -110,9 +114,9 @@ export function Step3() {
             </ContainerForm>
           </ContextStep>
           <ContainerButton>
-            <ButtonAvançar disabled={!allFieldsFilled}>
-              Salvar
-            </ButtonAvançar>
+            <ButtonVoltar onClick={Voltar}>Voltar</ButtonVoltar>
+            <ButtonAvançar disabled={!allFieldsFilled} onClick={Avançar}>Salvar</ButtonAvançar>
+            <ButtonAvançar disabled={!allFieldsFilled} onClick={Avançar}>Avançar</ButtonAvançar>
           </ContainerButton>
         </ContextStepContainer>
       </ContainerStep>
