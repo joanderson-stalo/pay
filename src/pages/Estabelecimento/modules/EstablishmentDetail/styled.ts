@@ -63,3 +63,29 @@ export const ContainerTable = styled.div`
   justify-content: space-between;
   padding: 40px 70px 0 70px ;
 `
+
+
+export const ContainerHits = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 17px;
+
+  padding: 0  0 50px 72px;
+`
+
+export const ButtonHits = styled.button`
+color: var(--foundation-brand-02-normal, #08BBE9);
+text-align: center;
+font-size: 12px;
+font-weight: 500;
+line-height: 20px;
+letter-spacing: 0.5px;
+
+border-radius: 5px;
+background: var(--foundation-white-light-hover, #FBFBFB);
+box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.25);
+
+padding: 7.5px 16px;
+`

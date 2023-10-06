@@ -143,14 +143,15 @@ export function Step3({ Avançar, Voltar }: IStep3) {
   useEffect(() => {
     setDados(true);
     axios
-      .get('https://api-pagueassim.stalopay.com.br/acquires?status=ativo', {
+      .get('https://api-pagueassim.stalopay.com.br/acquire/index', {
+
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${dataUser?.token}`
         }
       })
       .then((response) => {
-
+        console.log('hello',response)
         const numberOfAcquiresFields = Object.keys(watch()).filter(key => key.startsWith("Fornecedor")).length;
 
         if (numberOfAcquiresFields > 0) {
@@ -175,19 +176,23 @@ export function Step3({ Avançar, Voltar }: IStep3) {
 
   useEffect(() => {
     setDados(true);
-    axios.get('https://api-pagueassim.stalopay.com.br/sellers/WL&LA?simplify=true', {
+    axios.get('https://api-pagueassim.stalopay.com.br/seller/indexla', {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${dataUser?.token}`
       }
     })
       .then(response => {
+
         const data = response.data;
-        if (data && data.Sellers) {
-          const options = data.Sellers.map((seller: { company_name: any; document: any; id: any }, index: number) => ({
+
+        if (data && data.sellers) {
+          console.log(data.sellers.trading_name)
+          const options = data.sellers.map((seller: { trading_name: any; type: any; id: any, cnpj_cpf: any }, index: number) => ({
             value: seller.id,
-            label: `${seller.company_name}-${seller.document}`
+            label: `${seller.trading_name}-${seller.type}-${seller.cnpj_cpf}`
           }));
+
           setFetchedOptions(options);
         }
         setDados(false);

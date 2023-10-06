@@ -8,6 +8,7 @@ export const Table = styled.table`
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
+  text-align: center;
 `;
 
 export const TableHeader = styled.th`
@@ -15,10 +16,11 @@ export const TableHeader = styled.th`
   font-size: 9.906px;
   font-weight: 500;
   line-height: 15.566px;
-  text-align: left;
+  text-align: center;
   padding: 8px;
   border-bottom: 1px solid #E9ECEF;
   cursor: pointer;
+  vertical-align: middle;
 `;
 
 export const TableData = styled.td`
@@ -27,8 +29,7 @@ export const TableData = styled.td`
   line-height: 15.566px;
   padding: 8px;
   border-bottom: 1px solid #E9ECEF;
-
-
+  vertical-align: middle;
 `;
 
 export const Button = styled.button`
@@ -43,6 +44,8 @@ export const Button = styled.button`
   border-radius: 3.532px;
   border: 0.353px solid #F5F4F4;
   background: #FFF;
+  margin-left: 20px;
+
 `;
 
 export const TableRow = styled.tr`
@@ -52,9 +55,10 @@ export const TableRow = styled.tr`
   }
 `;
 
-
 export const FornecedorWrapper = styled.div`
   display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const FornecedorItem = styled.p<FornecedorItemProps>`
@@ -65,7 +69,6 @@ export const FornecedorItem = styled.p<FornecedorItemProps>`
   line-height: 24px;
   margin-right: 5px;
   border-radius: 4px;
-
   text-align: center;
   color: #fff;
   background-color: ${({ fornecedor }) => {
@@ -90,11 +93,3 @@ export const SortArrow = styled.span<{ isActive: boolean }>`
   opacity: ${props => (props.isActive ? 0.5 : 1)};
   font-size: 9px;
 `;
-
-
-
-
-
-
-
-

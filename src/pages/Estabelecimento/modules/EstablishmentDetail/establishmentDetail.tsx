@@ -5,12 +5,25 @@ import { HistoricoTable } from './components/historicoTable/historicoTable'
 import * as S from './styled'
 import { GraficoBar } from '@/components/graficoBar/graficoBar'
 import { Pagination } from '@/components/Pagination/pagination'
-import {EditableButton} from '@/components/ButtonEdit/buttonEdit'
+import { useNavigate } from 'react-router-dom'
+import { useEstablishmentDetail } from '@/hooks/useEstablishmentDetail'
 
-export function PageEstabelecimento(){
-  const fazerRequisicao = (valor: number) => {
-    console.log(`Requisição feita com o valor ${valor}`);
-  };
+export function EstablishmentDetail(){
+
+  const navigate = useNavigate();
+  const {detailNumber} = useEstablishmentDetail()
+
+  const navigateToManageAccessLicensed = () => {
+    navigate('/manageAccessEstablishment');
+  }
+
+  const navigateToEditRegistrationLA = () => {
+    navigate('/editRegistrationEC');
+}
+
+
+console.log('oii', detailNumber);
+
 
   const fetchData = async (pageNumber: number) => {
 
@@ -33,13 +46,13 @@ export function PageEstabelecimento(){
       <S.Title>Padaria Trevo 4 Folhas <span>| 03.458.698/0001-96</span></S.Title>
       <S.ContainerButton>
         <S.ButtonVisualizar>Visualizar como</S.ButtonVisualizar>
-        <S.EditarCadastro>Editar cadastro</S.EditarCadastro>
+        <S.EditarCadastro onClick={navigateToEditRegistrationLA}>Editar cadastro</S.EditarCadastro>
       </S.ContainerButton>
     </S.ContainerInfo>
 
 
     <S.ContainerGrafico>
-      <GraficoCicle credit='600,20' debit='200,20' />
+      <GraficoCicle credit='6000,20' debit='2000,20' />
       <div style={{width: '510px', height: '20px'}}>
       <GraficoBar dataArray={['15', '19', '30', '50', '20', '30', '70', '80', '50', '10', '20', '15']} />
       </div>
@@ -57,7 +70,13 @@ export function PageEstabelecimento(){
         onPrevPage={handlePrevPage}
       />
           </div>
+
         </S.ContainerTable>
+
+        <S.ContainerHits>
+        <S.ButtonHits onClick={navigateToManageAccessLicensed}>Gerenciar acessos</S.ButtonHits>
+        <S.ButtonHits>Outros Botões</S.ButtonHits>
+        </S.ContainerHits>
       </>
   )
 }

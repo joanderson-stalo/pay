@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import * as S from './styled';
+import { useDetailLicensed } from '@/hooks/useDetailLicensed';
+import { useNavigate } from 'react-router-dom';
 
 export interface RowData {
   id: number;
   cnpj_cpf: string;
-  company_name: string;
+  trading_name: string;
   type: string;
   tpv: number;
   commission: string;
@@ -12,18 +14,20 @@ export interface RowData {
   network_index: number | null;
 }
 
-
-type SortField = 'company_name' | 'type' | 'ec_count' | 'commission' | 'tpv';
+type SortField = 'id' | 'trading_name' | 'type' | 'ec_count' | 'commission' | 'tpv';
 
 interface TabelaProps {
   rows: RowData[];
 }
 
-
 export function Tabela({ rows }: TabelaProps) {
-
-  const [sortField, setSortField] = useState<SortField>('company_name');
+  const [sortField, setSortField] = useState<SortField>('id');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+  const {setLicensedNumber} = useDetailLicensed()
+
+  const navigate = useNavigate();
+
+
 
   const handleSort = (field: SortField) => {
     if (field === sortField) {
@@ -35,29 +39,35 @@ export function Tabela({ rows }: TabelaProps) {
   };
 
   const sortedRows = [...rows].sort((a, b) => {
+    let comparison = 0;
+
     switch (sortField) {
-      case 'company_name':
-        return sortDirection === 'asc'
-          ? a.company_name.localeCompare(b.company_name)
-          : b.company_name.localeCompare(a.company_name);
+      case 'id':
+        comparison = a.id - b.id;
+        break;
+      case 'trading_name':
+        comparison = a.trading_name.localeCompare(b.trading_name);
+        break;
       case 'tpv':
-        return sortDirection === 'asc' ? a.tpv - b.tpv : b.tpv - a.tpv;
+        comparison = a.tpv - b.tpv;
+        break;
       case 'type':
         const typeA = a.type + a.network_index;
         const typeB = b.type + b.network_index;
-        return sortDirection === 'asc'
-          ? typeA.localeCompare(typeB)
-          : typeB.localeCompare(typeA);
+        comparison = typeA.localeCompare(typeB);
+        break;
       case 'ec_count':
       case 'commission':
         const numA = parseFloat(a[sortField].toString().replace(',', '.'));
         const numB = parseFloat(b[sortField].toString().replace(',', '.'));
-        return sortDirection === 'asc' ? numA - numB : numB - numA;
+        comparison = numA - numB;
+        break;
       default:
         return 0;
     }
-  });
 
+    return sortDirection === 'asc' ? -comparison : comparison;
+  });
 
   function SortIndicator({
     direction
@@ -76,60 +86,65 @@ export function Tabela({ rows }: TabelaProps) {
     return sortField === field ? sortDirection : undefined;
   }
 
-  const handleViewMoreClick = (id: string) => {
-    console.log(`ID da linha: ${id}`);
+  const handleViewMoreClick = async (id: string) => {
+    setLicensedNumber(Number(id))
+    await new Promise(resolve => setTimeout(resolve, 20));
+    navigate(`/licenseddetail`);
   };
 
+
   useEffect(() => {
-    handleSort('company_name');
-}, []);
+    handleSort('id');
+  }, []);
 
   return (
     <S.Table>
-         <thead>
-      <tr>
-        <S.TableHeader>Id</S.TableHeader>
-        <S.TableHeader>CPF/CNPJ</S.TableHeader>
-        <S.TableHeader onClick={() => handleSort('company_name')}>
-          Nome
-          <SortIndicator direction={getDirectionForField('company_name')} />
-        </S.TableHeader>
-        <S.TableHeader onClick={() => handleSort('type')}> {/* Assumindo que 'nivel' se refere a 'type' */}
-          Nível
-          <SortIndicator direction={getDirectionForField('type')} />
-        </S.TableHeader>
-        <S.TableHeader onClick={() => handleSort('ec_count')}>
-          Estabelecimentos
-          <SortIndicator direction={getDirectionForField('ec_count')} />
-        </S.TableHeader>
-        <S.TableHeader onClick={() => handleSort('commission')}>
-          Comissão
-          <SortIndicator direction={getDirectionForField('commission')} />
-        </S.TableHeader>
-        <S.TableHeader onClick={() => handleSort('tpv')}>
-          TPV
-          <SortIndicator direction={getDirectionForField('tpv')} />
-        </S.TableHeader>
-        <S.TableHeader style={{ paddingLeft: '28px' }}>Ver mais</S.TableHeader>
-      </tr>
-    </thead>
+      <thead>
+        <tr>
+          <S.TableHeader onClick={() => handleSort('id')}>
+            Id
+            <SortIndicator direction={getDirectionForField('id')} />
+          </S.TableHeader>
+          <S.TableHeader>CPF/CNPJ</S.TableHeader>
+          <S.TableHeader onClick={() => handleSort('trading_name')}>
+            Nome
+            <SortIndicator direction={getDirectionForField('trading_name')} />
+          </S.TableHeader>
+          <S.TableHeader onClick={() => handleSort('type')}>
+            Nível
+            <SortIndicator direction={getDirectionForField('type')} />
+          </S.TableHeader>
+          <S.TableHeader onClick={() => handleSort('ec_count')}>
+            Estabelecimentos
+            <SortIndicator direction={getDirectionForField('ec_count')} />
+          </S.TableHeader>
+          <S.TableHeader onClick={() => handleSort('commission')}>
+            Comissão
+            <SortIndicator direction={getDirectionForField('commission')} />
+          </S.TableHeader>
+          <S.TableHeader onClick={() => handleSort('tpv')}>
+            TPV
+            <SortIndicator direction={getDirectionForField('tpv')} />
+          </S.TableHeader>
+          <S.TableHeader>Ver mais</S.TableHeader>
+        </tr>
+      </thead>
       <tbody>
-  {sortedRows.map((seller, index) => (
-    <tr key={index}>
-      <S.TableData>{seller.id}</S.TableData>
-      <S.TableData>{seller.cnpj_cpf}</S.TableData>
-      <S.TableData>{seller.company_name}</S.TableData>
-      <S.TableData>{seller.type} {seller.network_index}</S.TableData>
-      <S.TableData>{seller.ec_count}</S.TableData>
-      <S.TableData>R$ {seller.commission}</S.TableData>
-      <S.TableData>R$ {seller.tpv}</S.TableData>
-      <S.TableData>
-        <S.Button onClick={() => handleViewMoreClick(seller.id.toString())}>Dados</S.Button>
-      </S.TableData>
-    </tr>
-  ))}
-</tbody>
-
+        {sortedRows.map((seller, index) => (
+          <tr key={index}>
+            <S.TableData>{seller.id}</S.TableData>
+            <S.TableData>{seller.cnpj_cpf}</S.TableData>
+            <S.TableData>{seller.trading_name}</S.TableData>
+            <S.TableData>{seller.type} {seller.network_index}</S.TableData>
+            <S.TableData>{seller.ec_count}</S.TableData>
+            <S.TableData>R$ {seller.commission}</S.TableData>
+            <S.TableData>R$ {seller.tpv}</S.TableData>
+            <S.TableData>
+              <S.Button onClick={() => handleViewMoreClick(seller.id.toString())}>Dados</S.Button>
+            </S.TableData>
+          </tr>
+        ))}
+      </tbody>
     </S.Table>
   );
 }

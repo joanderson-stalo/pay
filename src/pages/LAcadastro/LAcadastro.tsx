@@ -14,73 +14,28 @@ import { Step2 } from "./components/Step2/step2";
 import axios from 'axios';
 import { useLogin } from "@/context/user.login";
 import { sanitizeNumeric } from "@/utils/sanitizeNumeric";
-import { getCurrentFormattedDate } from "@/utils/dataFormat";
 import { convertDateFormat } from "@/utils/convertDateFormat";
-
 import { useNavigate } from "react-router-dom";
-import { useDocumentLA } from "@/context/useDocumentLA";
+import {  useDocumentLA } from "@/context/useDocumentLA";
+import { toast } from "react-toastify";
 
 export const LAcadastro = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const navigate = useNavigate()
   const [openModal, setOpenModal] = useState(true);
   const { dataUser } = useLogin();
-  const { documentTypeLA} = useDocumentLA()
+  const { documentTypeLA } = useDocumentLA()
   const [isLoading, setIsLoading] = useState(false)
 
   const handleModalClose = () => {
     navigate('/home')
+    localStorage.setItem('selectedItem', '0');
     setOpenModal(false);
   };
 
   const methods = useForm();
   const { getValues } = methods;
 
-  const getFieldNames = (index: number) => {
-    if (index === 0) {
-        return {
-            banco: "Banco",
-            tipoDeConta: "TipoDeConta",
-            agencia: "Agência",
-            conta: "Conta",
-            cpfCnpj: "CpfCnpj"
-        };
-    } else {
-        const i = index + 1;
-        return {
-            banco: `Bancof${i}`,
-            tipoDeConta: `TipoDeContaf${i}`,
-            agencia: `Agênciaf${i}`,
-            conta: `Contaf${i}`,
-            cpfCnpj: `CpfCnpjf${i}`
-        };
-    }
-}
-
-const buildAcquiresArray = (requestData: FieldValues) => {
-    const acquires = [];
-    let index = 0;
-
-    while (requestData[`Fornecedor${index}`]) {
-        const fieldNames = getFieldNames(index);
-
-        acquires.push({
-            acquire_id: requestData[`Fornecedor${index}`],
-            plan_id: requestData[`PlanoComercial${index}`],
-            bank: {
-                agency: requestData[fieldNames.agencia] ,
-                account: requestData[fieldNames.conta] ,
-                type_account: requestData[fieldNames.tipoDeConta],
-                document: requestData[fieldNames.cpfCnpj],
-                document_type: "CPF",
-                code: requestData[fieldNames.banco],
-            },
-        });
-        index++;
-    }
-
-    return acquires;
-};
 
 
 const handleNextStep = async () => {
@@ -96,11 +51,11 @@ const handleNextStep = async () => {
                         trading_name: requestData.NomeFantasiaEstabelecimento,
                         document: documentTypeLA === "CPF" ? sanitizeNumeric(requestData.CPFEstabelecimento) : sanitizeNumeric(requestData.CNPJEstabelecimento),
                         type_document: documentTypeLA,
-                        type: "EC",
+                        type: "LA",
                         email: requestData.EmailEstabelecimento,
                         status: "ativo",
                         company_name: requestData.RazaoSocialEstabelecimento,
-                        opening_date: convertDateFormat(requestData.DataCriacaoEstabelecimento),
+                        opening_date:  documentTypeLA === "CPF" ? null : convertDateFormat(requestData.DataCriacaoEstabelecimento)  ,
                         mcc: "5678",
                         phone: sanitizeNumeric(requestData.TelefoneEstabelecimento),
                         owner_name: requestData.NomeSocioEstabelecimento,
@@ -126,17 +81,27 @@ const handleNextStep = async () => {
                         profile_id: 2,
                     },
                 ],
-                acquires: buildAcquiresArray(requestData),
-                id_licensed_origin: String(requestData.licenciado),
+                bank: [
+                  {
+                      agency: requestData.Agência,
+                      account: requestData.Conta,
+                      type_account: requestData.TipoDeConta,
+                      document: requestData.CpfCnpj,
+                      document_type: requestData.CpfCnpj.length === 18 ? "CNPJ" : "CPF",
+                      code: requestData.Banco,
+                  },
+              ],
+              markup_seller_destiny: requestData.RegraMarkup,
+              id_licensed_origin: String(requestData.licenciado),
             };
             setIsLoading(true)
-            const response = await axios.post('https://api-pagueassim.stalopay.com.br/create/sellerfull', requestBody, {
+            const response = await axios.post('https://api-pagueassim.stalopay.com.br/create/sellerla', requestBody, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${dataUser?.token}`
                 }
             });
-
+            console.log('oi LA')
             if (response.status === 201) {
                 console.log('Requisição bem-sucedida:', response.data);
                 setIsLoading(false)
@@ -144,10 +109,15 @@ const handleNextStep = async () => {
             } else {
                 console.error('Requisição falhou:', response.statusText);
             }
-        } catch (error) {
-            console.error('Erro:', error);
-            setIsLoading(false)
-        }
+
+        } catch (error: any) {
+
+          if (error.response && error.response.status === 409) {
+              console.error('Erro 409:', error.response.data);
+              toast.error('Já existe vendedor com o mesmo documento e tipo.')
+          }
+          setIsLoading(false);
+      }
     }
 
 
@@ -251,9 +221,9 @@ const validateStep4 = () => {
   };
 
   const steps = [1, 2, 3, 4];
-  const successModalText = "Estabelecimento Credenciado";
+  const successModalText = "Licenciado Credenciado";
 
-  console.log('oii',  getValues())
+  console.log('oiiss',  getValues())
 
   return (
     <>

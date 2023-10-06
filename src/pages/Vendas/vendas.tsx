@@ -14,6 +14,8 @@ import { Transaction } from './components/table/interface'
 import { Loading } from '@/components/Loading/loading'
 import { formatCurrencyBR } from '@/utils/convertBRDinheiro'
 import { formatTaxa } from '@/utils/formatTaxa'
+import axios from 'axios'
+import { baseURL } from '@/config/color'
 
 export function Vendas() {
   const [searchValue, setSearchValue] = useState('')
@@ -59,54 +61,48 @@ export function Vendas() {
     }
   }
 
-  const fetchDataFromAPI = async (search?: string) => {
-    setLoading(true)
 
-    let url = `https://api-pagueassim.stalopay.com.br/transactions?perpage=${String(
+  const fetchDataFromAPI = async (search?: string) => {
+    setLoading(true);
+
+    let url = `${baseURL}transactions?perpage=${String(
       itensPorPage
-    )}&page=${currentPage}`
+    )}&page=${currentPage}`;
     if (search) {
-      url += `&nsu_external=${search}`
+      url += `&nsu_external=${search}`;
     }
 
-    const totalUrl = 'https://api-pagueassim.stalopay.com.br/transactions'
+    const totalUrl = `${baseURL}transactions`;
 
     try {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${dataUser?.token}`,
+        },
+      };
+
       const [response, totalResponse] = await Promise.all([
-        fetch(url, {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${dataUser?.token}`
-          }
-        }),
-        fetch(totalUrl, {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${dataUser?.token}`
-          }
-        })
-      ])
+        axios.get(url, config),
+        axios.get(totalUrl, config),
+      ]);
 
-      if (response.ok && totalResponse.ok) {
-        const data = await response.json()
-        const totalData = await totalResponse.json()
-        setTransactions(data.transactions)
-        setTotalTransactions(data.total_transactions)
-        setTpvGlobal(totalData.total_amountTPV)
+      const { data } = response;
+      const totalData = totalResponse.data;
 
-        setCurrentPage(data.current_page)
-        setTotalAmount(totalData.net_value)
-        setAverageTaxApplied(totalData.average_taxApplied)
-      } else {
-        console.error(`Error fetching paginated data: ${response.statusText}`)
-        console.error(`Error fetching total data: ${totalResponse.statusText}`)
-      }
+      setTransactions(data.transactions);
+      setTotalTransactions(data.total_transactions);
+      setTpvGlobal(totalData.total_amountTPV);
+      setCurrentPage(data.current_page);
+      setTotalAmount(totalData.net_value);
+      setAverageTaxApplied(totalData.average_taxApplied);
+
     } catch (error) {
-      console.error('Error fetching data:', error)
+      console.error('Error fetching data:', error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   useEffect(() => {
     if (searchValue.trim() === '') {

@@ -59,7 +59,7 @@ export function Licenciado() {
     async function fetchData() {
       setLoading(true)
       try {
-        const response = await axios.get(`https://api-pagueassim.stalopay.com.br/sellersla?perpage=${String(itensPorPage)}&page=${currentPage}`, {
+        const response = await axios.get(`https://api-pagueassim.stalopay.com.br/seller/indexla?perpage=${String(itensPorPage)}&page=${currentPage}`, {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${dataUser?.token}`

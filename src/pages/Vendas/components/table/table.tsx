@@ -9,8 +9,6 @@ import { Transaction } from './interface';
 import { useNavigate } from 'react-router-dom';
 import { useTransactionVendas } from '@/context/useVendas';
 
-
-
 type SortField = 'captured_in' | 'amount';
 
 interface TabelaProps {
@@ -23,7 +21,6 @@ export function TabelaVendas({ rows }: TabelaProps) {
   const navigate = useNavigate();
   const { setSelectedTransactionId } = useTransactionVendas();
 
-
   const handleSort = (field: SortField) => {
     if (field === sortField) {
       setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
@@ -31,19 +28,29 @@ export function TabelaVendas({ rows }: TabelaProps) {
       setSortField(field);
       setSortDirection('asc');
     }
-  }
+  };
 
   const sortedRows = [...rows].sort((a, b) => {
-    if (sortField === 'captured_in') {
-      const dateA = new Date(a.captured_in).getTime();
-      const dateB = new Date(b.captured_in).getTime();
-      return sortDirection === 'asc' ? dateA - dateB : dateB - dateA;
-    } else if (sortField === 'amount') {
-      const valorA = parseFloat(a.amount.replace(',', '.'));
-      const valorB = parseFloat(b.amount.replace(',', '.'));
-      return sortDirection === 'asc' ? valorA - valorB : valorB - valorA;
+    let comparison = 0;
+
+    switch (sortField) {
+      case 'captured_in':
+        const dateA = new Date(a.captured_in);
+        const dateB = new Date(b.captured_in);
+        comparison = dateA.getTime() - dateB.getTime();
+        break;
+
+      case 'amount':
+        const valorA = parseFloat(a.amount.replace(',', '.'));
+        const valorB = parseFloat(b.amount.replace(',', '.'));
+        comparison = valorA - valorB;
+        break;
+
+      default:
+        break;
     }
-    return 0;
+
+    return sortDirection === 'asc' ? comparison : -comparison;
   });
 
   const handleButtonClick = (id: string) => {
@@ -55,28 +62,16 @@ export function TabelaVendas({ rows }: TabelaProps) {
     handleSort('captured_in');
   }, []);
 
-  function SortIndicator({
-    direction
-  }: {
-    direction: 'asc' | 'desc' | undefined;
-  }) {
-    return (
-      <S.SortContainer>
-        <S.SortArrow isActive={direction !== 'desc'}>▲</S.SortArrow>
-        <S.SortArrow isActive={direction !== 'asc'}>▼</S.SortArrow>
-      </S.SortContainer>
-    );
-  }
-
   return (
     <S.Table>
       <thead>
         <tr>
           <S.TableHeader onClick={() => handleSort('captured_in')}>
             Data
-            <SortIndicator
-              direction={sortField === 'captured_in' ? sortDirection : undefined}
-            />
+            <S.SortContainer>
+              <S.SortArrow isActive={sortDirection !== 'asc'}>▲</S.SortArrow>
+              <S.SortArrow isActive={sortDirection !== 'desc'}>▼</S.SortArrow>
+            </S.SortContainer>
           </S.TableHeader>
           <S.TableHeader>NSU</S.TableHeader>
           <S.TableHeader>Estabelecimento</S.TableHeader>
@@ -84,9 +79,10 @@ export function TabelaVendas({ rows }: TabelaProps) {
           <S.TableHeader>Bandeira</S.TableHeader>
           <S.TableHeader onClick={() => handleSort('amount')}>
             Valor
-            <SortIndicator
-              direction={sortField === 'amount' ? sortDirection : undefined}
-            />
+            <S.SortContainer>
+              <S.SortArrow isActive={sortDirection !== 'asc'}>▲</S.SortArrow>
+              <S.SortArrow isActive={sortDirection !== 'desc'}>▼</S.SortArrow>
+            </S.SortContainer>
           </S.TableHeader>
           <S.TableHeader>Status</S.TableHeader>
           <S.TableHeader></S.TableHeader>
@@ -94,11 +90,7 @@ export function TabelaVendas({ rows }: TabelaProps) {
       </thead>
       <tbody>
         {sortedRows.map((transaction, index) => {
-
-          // Formatting amount with ',' as decimal separator
           const formattedAmount = transaction.amount.replace('.', ',');
-
-          // Extracting date and time from 'captured_in' field
           const capturedDate = new Date(transaction.captured_in);
           const formattedDate = capturedDate.toLocaleDateString('pt-BR');
           const formattedTime = capturedDate.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
@@ -127,8 +119,7 @@ export function TabelaVendas({ rows }: TabelaProps) {
                     }
                     alt={transaction.brand}
                   />
-                  { transaction.brand === null && transaction.payment_type === 'Pix' ?<p>Pix</p>: <p> {transaction.brand}</p>}
-
+                  { transaction.brand === null && transaction.payment_type === 'Pix' ? <p>Pix</p> : <p>{transaction.brand}</p>}
                 </S.FlagContainer>
               </S.TableData>
               <S.TableData>R$ {formattedAmount}</S.TableData>

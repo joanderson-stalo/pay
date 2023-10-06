@@ -22,17 +22,6 @@ export function Step4({ Avançar, Voltar, isLoading }: IStep5) {
     watch
   } = useFormContext();
 
-  const isFornecedorFieldsFilled = (index: number) => {
-    const fields = [
-        `Bancof${index}`,
-        `TipoDeContaf${index}`,
-        `Agênciaf${index}`,
-        `Contaf${index}`,
-        `CpfCnpjf${index}`
-    ];
-
-    return fields.every(field => !!getValues(field));
-};
 
 
 const areAllFieldsFilled = () => {
@@ -41,16 +30,13 @@ const areAllFieldsFilled = () => {
       !!watch('TipoDeConta') &&
       !!watch('Agência') &&
       !!watch('Conta') &&
-      !!watch('CpfCnpj')
+      !!watch('CpfCnpj') &&
+      !!watch('pix')
   )) {
       return false;
   }
 
-  for (let i = 2; i <= quantidadeFornecedores; i++) {
-      if (!isFornecedorFieldsFilled(i)) {
-          return false;
-      }
-  }
+
 
   return true;
 };
@@ -96,11 +82,11 @@ const handleCpfCnpjChange = (event: { target: { value: any; }; }) => {
       <S.ContainerStep>
         <S.ContextStepContainer>
           <S.ContextStep>
-            <S.TitleStep>Dados Bancários - F1</S.TitleStep>
+            <S.TitleStep>Dados Bancários</S.TitleStep>
             <S.Line />
             <S.ContainerForm>
               <S.ContainerInput>
-                <S.Banco>
+
                   <CustomSelect
                     {...register('Banco', { required: true })}
                     label="Banco"
@@ -111,8 +97,8 @@ const handleCpfCnpjChange = (event: { target: { value: any; }; }) => {
                       setValue('Banco', selectedOption.value);
                     }}
                   />
-                </S.Banco>
-                <S.TipoConta>
+
+
                   <CustomSelect
                     {...register('TipoDeConta', { required: true })}
                     label="Tipo de Conta"
@@ -123,8 +109,31 @@ const handleCpfCnpjChange = (event: { target: { value: any; }; }) => {
                       setValue('TipoDeConta', selectedOption.value);
                     }}
                   />
-                </S.TipoConta>
+
               </S.ContainerInput>
+
+              <S.ContainerInput>
+              <CustomInput
+                  key={mask}
+                  colorInputDefault={ThemeColor.primaria}
+                  colorInputSuccess={ThemeColor.secundaria}
+                  {...register('CpfCnpj', { required: true })}
+                  label="CPF ou CNPJ"
+                  placeholder="--.---.---/---.--"
+                  hasError={!!errors.CpfCnpj}
+                  onChange={handleCpfCnpjChange}
+                />
+
+<CustomInput
+                    {...register('pix', { required: true })}
+                    label="Chave PIX"
+                    colorInputDefault={ThemeColor.primaria}
+                    colorInputSuccess={ThemeColor.secundaria}
+                    hasError={!!errors.Agência}
+                    hasSuccess={false}
+                  />
+              </S.ContainerInput>
+
               <S.ContainerInput>
                 <S.Agencia>
                   <CustomInput
@@ -147,18 +156,10 @@ const handleCpfCnpjChange = (event: { target: { value: any; }; }) => {
                   />
                 </S.Conta>
               </S.ContainerInput>
-              <S.ContainerInput2>
-              <CustomInput
-                  key={mask}
-                  colorInputDefault={ThemeColor.primaria}
-                  colorInputSuccess={ThemeColor.secundaria}
-                  {...register('CpfCnpj', { required: true })}
-                  label="CPF ou CNPJ"
-                  placeholder="--.---.---/---.--"
-                  hasError={!!errors.CpfCnpj}
-                  onChange={handleCpfCnpjChange}
-                />
-              </S.ContainerInput2>
+
+
+
+
             </S.ContainerForm>
           </S.ContextStep>
           <S.ContainerButton>

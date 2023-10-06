@@ -1,5 +1,6 @@
 import { createContext, useState, useCallback, useContext, useEffect } from 'react';
 import axios from 'axios';
+import { baseURL } from '@/config/color';
 
 type FormData = {
   email: string;
@@ -11,6 +12,7 @@ type User = {
   name: string;
   email: string;
   token: string;
+  seller_id: string
 };
 
 type LoginContextData = {
@@ -38,12 +40,13 @@ export const LoginProvider = ({ children }: { children: React.ReactNode }) => {
 
   const login = useCallback(async (formData: FormData) => {
     try {
-      const response = await axios.post('https://api-pagueassim.stalopay.com.br/login', formData);
+      const response = await axios.post(`${baseURL}login`, formData);
 
       const user = {
         name: response.data.user.name,
         email: response.data.user.email,
         token: response.data.access_token,
+        seller_id: response.data.sellers[0]?.seller_id || null,
       };
 
       localStorage.setItem('@App:user', JSON.stringify(user));
@@ -61,7 +64,7 @@ export const LoginProvider = ({ children }: { children: React.ReactNode }) => {
 
   const logout = useCallback(async () => {
     try {
-      await axios.post('https://api-pagueassim.stalopay.com.br/logout', {}, {
+      await axios.post(`${baseURL}logout`, {}, {
         headers: { Authorization: `Bearer ${dataUser?.token}` }
       });
 

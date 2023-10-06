@@ -19,7 +19,6 @@ interface IStep1 {
 export function PF({ Avançar, BPF, BPJ }: IStep1) {
   const {
     register,
-    setValue,
     formState: { errors, isValid: formIsValid },
     trigger,
     watch

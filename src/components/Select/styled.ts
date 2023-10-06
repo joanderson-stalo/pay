@@ -9,7 +9,7 @@ export const customStyles = (hasError: boolean) => ({
     },
     borderRadius: '4px',
     width: '100%',
-    height: '50px',
+    height: '45px',
     padding: '10px 4px 10px 20px',
     transition: 'none',
 

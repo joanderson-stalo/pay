@@ -1,7 +1,5 @@
 import styled from "styled-components";
 
-
-
 export const Table = styled.table`
   width: 100%;
   border-collapse: separate;
@@ -13,10 +11,11 @@ export const TableHeader = styled.th`
   font-size: 9.906px;
   font-weight: 500;
   line-height: 15.566px;
-  text-align: left;
+  text-align: center;
   padding: 8px;
   border-bottom: 1px solid #E9ECEF;
   cursor: pointer;
+  vertical-align: middle;
 `;
 
 export const TableData = styled.td`
@@ -25,8 +24,8 @@ export const TableData = styled.td`
   line-height: 15.566px;
   padding: 8px;
   border-bottom: 1px solid #E9ECEF;
-
-
+  text-align: center;
+  vertical-align: middle;
 `;
 
 export const Button = styled.button`
@@ -41,6 +40,10 @@ export const Button = styled.button`
   border-radius: 3.532px;
   border: 0.353px solid #F5F4F4;
   background: #FFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto; 
 `;
 
 export const TableRow = styled.tr`
@@ -49,7 +52,6 @@ export const TableRow = styled.tr`
     background-color: #F5F4F4;
   }
 `;
-
 
 export const SortContainer = styled.div`
   display: inline-block;
@@ -65,11 +67,3 @@ export const SortArrow = styled.span<{ isActive: boolean }>`
   opacity: ${props => (props.isActive ? 0.5 : 1)};
   font-size: 8px;
 `;
-
-
-
-
-
-
-
-

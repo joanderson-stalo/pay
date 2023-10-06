@@ -18,6 +18,7 @@ import { getCurrentFormattedDate } from "@/utils/dataFormat";
 import { convertDateFormat } from "@/utils/convertDateFormat";
 import { useNavigate } from "react-router-dom";
 import { useDocumentEC } from "@/context/useDocumentEC";
+import { toast } from "react-toastify";
 
 export const ECcadastro = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -29,6 +30,7 @@ export const ECcadastro = () => {
 
   const handleModalClose = () => {
     navigate('/home')
+    localStorage.setItem('selectedItem', '0');
     setOpenModal(false);
   };
 
@@ -99,7 +101,7 @@ const handleNextStep = async () => {
                         email: requestData.EmailEstabelecimento,
                         status: "ativo",
                         company_name: requestData.RazaoSocialEstabelecimento,
-                        opening_date: convertDateFormat(requestData.DataCriacaoEstabelecimento),
+                        opening_date:  documentTypeEC === "CPF" ? null : convertDateFormat(requestData.DataCriacaoEstabelecimento)  ,
                         mcc: "5678",
                         phone: sanitizeNumeric(requestData.TelefoneEstabelecimento),
                         owner_name: requestData.NomeSocioEstabelecimento,
@@ -129,7 +131,7 @@ const handleNextStep = async () => {
                 id_licensed_origin: String(requestData.licenciado),
             };
             setIsLoading(true)
-            const response = await axios.post('https://api-pagueassim.stalopay.com.br/create/sellerfull', requestBody, {
+            const response = await axios.post('https://api-pagueassim.stalopay.com.br/create/sellerec', requestBody, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${dataUser?.token}`
@@ -143,10 +145,12 @@ const handleNextStep = async () => {
             } else {
                 console.error('Requisição falhou:', response.statusText);
             }
-        } catch (error) {
-            console.error('Erro:', error);
-            setIsLoading(false)
-        }
+        }catch (error: any) {
+          if (error.response && error.response.status === 409) {
+              toast.error('Já existe vendedor com o mesmo documento e tipo.')
+          }
+          setIsLoading(false);
+      }
     }
 
 

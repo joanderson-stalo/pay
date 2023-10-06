@@ -61,14 +61,14 @@ export function Sidebar() {
         <ButtonSider
           colorSec={ThemeColor.secundaria}
           selected={selectedItem === 4}
-          onClick={() => handleNavigation(4, "/plano")}
+          onClick={() => handleNavigation(4, "/plans")}
         >
           <AiOutlinePercentage /> {SidebarText.plano}
         </ButtonSider>
         <ButtonSider
           colorSec={ThemeColor.secundaria}
           selected={selectedItem === 5}
-          onClick={() => handleNavigation(5, "/extrato")}
+          onClick={() => handleNavigation(5, "/commission/daily")}
         >
           <AiOutlineFileText /> {SidebarText.extrato}
         </ButtonSider>
