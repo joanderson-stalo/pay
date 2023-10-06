@@ -20,6 +20,7 @@ import hyper from './card/hyper.svg'
 
 import {
   ButtonAvançar,
+  ButtonBlack,
   ButtonGroup,
   ButtonVoltar,
   ContainerButton,
@@ -34,6 +35,8 @@ import {
   TitleStep,
 } from './styled';
 import { LabelCustomInputMask } from '@/components/CustomInputMask';
+import { CaretLeft } from '@phosphor-icons/react';
+import { useNavigate } from 'react-router-dom';
 
 interface ICreateUser {
   Voltar: () => void;
@@ -144,7 +147,11 @@ export function CreatePlans({ Voltar, onSubmitData }: ICreateUser) {
 
 const isAllFieldsFilled = titulo && descricao && tipoDePlano && antecipacao && taxaAntecipacao && isTableValuesFilled;
 
+const navigate = useNavigate()
 
+const handlePlans = () => {
+  navigate('/plans')
+}
 
   const renderTable = (tableType: string) => {
     return (
@@ -191,6 +198,7 @@ const isAllFieldsFilled = titulo && descricao && tipoDePlano && antecipacao && t
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)}>
+        <ButtonBlack onClick={ handlePlans } ><CaretLeft size={18} />Voltar</ButtonBlack>
         <ContainerStep>
           <ContextStepContainer>
             <ContextStep>

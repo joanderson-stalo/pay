@@ -7,6 +7,7 @@ import { GraficoBar } from '@/components/graficoBar/graficoBar'
 import { Pagination } from '@/components/Pagination/pagination'
 import { useDetailLicensed } from '@/hooks/useDetailLicensed'
 import { useNavigate } from 'react-router-dom'
+import { CaretLeft } from '@phosphor-icons/react'
 
 export function LicensedDetail(){
 
@@ -38,10 +39,14 @@ console.log(licensedNumber);
     fetchData(pageNumber)
   }
 
+  const handleLicenciados = () => {
+    navigate('/licenciados')
+  }
 
 
   return(
       <>
+        <S.ButtonBlack onClick={handleLicenciados}><CaretLeft size={18} />Voltar</S.ButtonBlack>
         <S.ContainerInfo>
       <S.Title>Padaria Trevo 4 Folhas <span>| 03.458.698/0001-96</span></S.Title>
       <S.ContainerButton>

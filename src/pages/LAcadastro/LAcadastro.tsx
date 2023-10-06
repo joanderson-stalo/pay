@@ -28,8 +28,7 @@ export const LAcadastro = () => {
   const [isLoading, setIsLoading] = useState(false)
 
   const handleModalClose = () => {
-    navigate('/home')
-    localStorage.setItem('selectedItem', '0');
+    navigate('/licenciados')
     setOpenModal(false);
   };
 

@@ -7,3 +7,16 @@ export const ContainerManageAccessLicensed = styled.div`
     margin-right: 52px;
 
 `
+export const ButtonBlack = styled.button`
+  color: var(--foundation-brand-01-normal, #10104F);
+font-family: Poppins;
+font-size: 12px;
+font-style: normal;
+font-weight: 500;
+line-height: 20px;
+letter-spacing: 0.5px;
+background-color: transparent;
+
+display: flex;
+margin-bottom: 40px;
+`

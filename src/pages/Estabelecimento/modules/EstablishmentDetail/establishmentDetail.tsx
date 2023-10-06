@@ -7,6 +7,7 @@ import { GraficoBar } from '@/components/graficoBar/graficoBar'
 import { Pagination } from '@/components/Pagination/pagination'
 import { useNavigate } from 'react-router-dom'
 import { useEstablishmentDetail } from '@/hooks/useEstablishmentDetail'
+import { CaretLeft } from '@phosphor-icons/react'
 
 export function EstablishmentDetail(){
 
@@ -38,10 +39,14 @@ console.log('oii', detailNumber);
     fetchData(pageNumber)
   }
 
+  const handEstabelecimentos = () => {
+    navigate('/estabelecimentos')
+  }
 
 
   return(
       <>
+       <S.ButtonBlack onClick={handEstabelecimentos}><CaretLeft size={18} />Voltar</S.ButtonBlack>
         <S.ContainerInfo>
       <S.Title>Padaria Trevo 4 Folhas <span>| 03.458.698/0001-96</span></S.Title>
       <S.ContainerButton>

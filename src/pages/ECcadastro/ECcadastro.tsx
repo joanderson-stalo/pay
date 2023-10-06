@@ -29,8 +29,7 @@ export const ECcadastro = () => {
   const [isLoading, setIsLoading] = useState(false)
 
   const handleModalClose = () => {
-    navigate('/home')
-    localStorage.setItem('selectedItem', '0');
+    navigate('/estabelecimentos')
     setOpenModal(false);
   };
 

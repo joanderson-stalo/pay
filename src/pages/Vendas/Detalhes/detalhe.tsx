@@ -13,6 +13,8 @@ import { Loading } from '@/components/Loading/loading'
 import { formatCurrencyBR } from '@/utils/convertBRDinheiro'
 import { formatTaxa } from '@/utils/formatTaxa'
 import { toast } from 'react-toastify'
+import { CaretLeft } from '@phosphor-icons/react'
+import { useNavigate } from 'react-router-dom'
 
 type DateFormatOptions = {
   year: 'numeric' | '2-digit'
@@ -68,10 +70,18 @@ export function DetalheVenda() {
     fetchData()
   }, [selectedTransactionId])
 
+  const navigate = useNavigate()
+
+  const handleVendas = () => {
+    navigate('/vendas')
+  }
+
   return (
     <>
       {loading ? <Loading />
       :
+    <>
+            <S.ButtonBlack onClick={handleVendas}><CaretLeft size={18} />Voltar</S.ButtonBlack>
       <S.ContainerDetalhe>
         <S.ContextDetalhes>
           <CardDetalhes
@@ -127,6 +137,7 @@ export function DetalheVenda() {
           </S.SectionTable>
         </S.ContextDetalhes>
       </S.ContainerDetalhe>
+    </>
 
 
       }

@@ -1,9 +1,13 @@
 import { useDetailLicensed } from "@/hooks/useDetailLicensed";
 import { CustomTable } from "./components/Table/table";
-import { ContainerManageAccessLicensed } from "./styles";
+import { ButtonBlack, ContainerManageAccessLicensed } from "./styles";
+import { CaretLeft } from "@phosphor-icons/react";
+import { useNavigate } from "react-router-dom";
 
 export function ManageAccessLicensed(){
   const {licensedNumber} = useDetailLicensed()
+
+  const navigate = useNavigate()
 
 
   const mockData = [
@@ -15,11 +19,15 @@ export function ManageAccessLicensed(){
     },
 ];
 
+const handleEstablishmentdetail = () => {
+  navigate('/licenseddetail')
+}
 
 
   return(
     <>
     <ContainerManageAccessLicensed>
+    <ButtonBlack onClick={handleEstablishmentdetail}><CaretLeft size={18} />Voltar</ButtonBlack>
       <CustomTable data={mockData} />
       </ContainerManageAccessLicensed>
     </>
