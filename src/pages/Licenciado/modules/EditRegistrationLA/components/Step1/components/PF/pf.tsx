@@ -10,6 +10,7 @@ import { validateEmail } from '@/utils/validateEmail'
 import { CustomSelect } from '@/components/Select/select'
 import { optionsData } from './option'
 import { useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
 
 interface IStep1 {
   Avançar: () => void
@@ -22,6 +23,7 @@ export function PF({ Avançar, BPF, BPJ }: IStep1) {
 
   const {
     register,
+    setValue,
     formState: { errors, isValid: formIsValid },
     trigger,
     watch
@@ -49,6 +51,23 @@ export function PF({ Avançar, BPF, BPJ }: IStep1) {
     }
   }
 
+  const mockFillInputs = () => {
+    setValue('CNPJEstabelecimento', '23.699.017/0001-84');
+    setValue('RazaoSocialEstabelecimento', 'Mocked Company Ltd.');
+    setValue('NomeFantasiaEstabelecimento', 'Mocked Company');
+    setValue('DataCriacaoEstabelecimento', '01/01/2000');
+    setValue('NascimentoSocio', '15/05/1985');
+    setValue('CPFEstabelecimento', '913.482.830-33');
+    setValue('NomeSocioEstabelecimento', 'Mocked Partner Name');
+    setValue('EmailEstabelecimento', 'mocked.email@example.com');
+    setValue('TelefoneEstabelecimento', '(81) 991431834');
+    setValue('AreaAtuacaoEstabelecimento', 'option1');
+
+};
+
+useEffect(() => {
+  mockFillInputs();
+}, []);
 
   const handleLicenseddetail = () => {
     navigate('/licenseddetail')
