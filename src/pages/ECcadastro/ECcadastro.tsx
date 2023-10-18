@@ -86,7 +86,7 @@ const buildAcquiresArray = (requestData: FieldValues) => {
 const handleNextStep = async () => {
     if (currentStep === 4 && currentStepIsValid()) {
         try {
-
+          setIsLoading(true)
             const requestData = getValues();
 
 

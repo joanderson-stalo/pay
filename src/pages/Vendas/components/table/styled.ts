@@ -18,7 +18,6 @@ export const TableHeader = styled.th`
   text-align: center;
   padding: 8px;
   border-bottom: 1px solid #E9ECEF;
-  cursor: pointer;
 `;
 
 export const TableData = styled.td`
@@ -109,8 +108,8 @@ export const SortContainer = styled.div`
 
 export const SortArrow = styled.span<{ isActive: boolean }>`
   display: block;
-  color: ${props => (props.isActive ? 'black': '#08BBE9')};
-  opacity: ${props => (props.isActive ? 0.5 : 1)};
+  color: ${props => (props.isActive ? '#08BBE9' : 'black')};
+  opacity: ${props => (props.isActive ? 1 : 0.5)};
   font-size: 9px;
 `;
 

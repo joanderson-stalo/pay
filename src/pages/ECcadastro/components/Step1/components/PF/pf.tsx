@@ -10,6 +10,9 @@ import { validateEmail } from '@/utils/validateEmail'
 import { CustomSelect } from '@/components/Select/select'
 import { optionsData } from './option'
 import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import { useEffect, useState } from 'react'
+import { Loading } from '@/components/Loading/loading'
 
 interface IStep1 {
   Avançar: () => void
@@ -25,6 +28,8 @@ export function PF({ Avançar, BPF, BPJ }: IStep1) {
     trigger,
     watch
   } = useFormContext()
+
+  const [isLoading, setIsLoading] = useState(false)
 
   const allFieldsFilled =
     !!watch('NomeFantasiaEstabelecimento') &&
@@ -54,8 +59,39 @@ export function PF({ Avançar, BPF, BPJ }: IStep1) {
     navigate('/estabelecimentos')
   }
 
+  const cpfValue = watch('CPFEstabelecimento');
+  const fetchPersonDataByCPF = async (cpf: string) => {
+    try {
+      setIsLoading(true);
+      const response = await axios.get(`https://ws.hubdodesenvolvedor.com.br/v2/cpf/?cpf=${cpf}&token=119905575VQLhxBIJgu216485880`);
+        
+      const { result } = response.data;
+      const { nome_da_pf, data_nascimento } = result; 
+  
+      console.log(nome_da_pf, data_nascimento)
+  
+      setValue('NomeSocioEstabelecimento', nome_da_pf);
+      setValue('NascimentoSocio', data_nascimento);
+    
+    } catch (error) {
+      console.error('Error fetching person data by CPF:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (validateCPF(cpfValue)) {
+      fetchPersonDataByCPF(cpfValue.replace(/\D/g, ''));
+    }
+  }, [cpfValue]);
+
+
+
 
   return (
+    <>
+    {isLoading && <Loading />}
     <S.ContainerStep>
       <S.ContextStepContainer>
         <S.ContextStep>
@@ -69,12 +105,12 @@ export function PF({ Avançar, BPF, BPJ }: IStep1) {
           <S.Line />
           <S.ContainerForm>
             <S.ContainerInput>
-              <CustomInput
-                {...register('NomeFantasiaEstabelecimento')}
-                label="Nome Fantasia"
-                colorInputDefault={ThemeColor.primaria}
-                colorInputSuccess={ThemeColor.secundaria}
-                hasError={!!errors.NomeFantasiaEstabelecimento}
+            <LabelCustomInputMask
+                {...register('CPFEstabelecimento', { validate: validateCPF })}
+                label="CPF"
+                mask="999.999.999-99"
+                placeholder="---.---.---.--"
+                hasError={!!errors.CPFEstabelecimento}
               />
               <LabelCustomInputMask
                 {...register('NascimentoSocio', {
@@ -87,13 +123,14 @@ export function PF({ Avançar, BPF, BPJ }: IStep1) {
               />
             </S.ContainerInput>
             <S.ContainerInput>
-              <LabelCustomInputMask
-                {...register('CPFEstabelecimento', { validate: validateCPF })}
-                label="CPF"
-                mask="999.999.999-99"
-                placeholder="---.---.---.--"
-                hasError={!!errors.CPFEstabelecimento}
+            <CustomInput
+                {...register('NomeFantasiaEstabelecimento')}
+                label="Nome Fantasia"
+                colorInputDefault={ThemeColor.primaria}
+                colorInputSuccess={ThemeColor.secundaria}
+                hasError={!!errors.NomeFantasiaEstabelecimento}
               />
+           
               <CustomInput
                 {...register('NomeSocioEstabelecimento')}
                 label="Nome Completo"
@@ -143,5 +180,7 @@ export function PF({ Avançar, BPF, BPJ }: IStep1) {
         </S.ContainerButton>
       </S.ContextStepContainer>
     </S.ContainerStep>
+    </>
+
   )
 }

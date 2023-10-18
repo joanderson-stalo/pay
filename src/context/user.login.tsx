@@ -98,7 +98,7 @@ export const LoginProvider = ({ children }: { children: React.ReactNode }) => {
       }
     };
 
-    const intervalId = setInterval(validateToken, 15000);
+    const intervalId = setInterval(validateToken, 20000);
 
     return () => {
       clearInterval(intervalId);

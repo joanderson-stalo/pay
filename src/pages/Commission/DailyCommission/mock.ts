@@ -10,7 +10,7 @@ export const mockData: RowData[] = [
     papel: 'LA1',
     valor_da_venda: 1000.50,
     comissao: 100.05,
-    fornecedor: ['F1']
+    fornecedor: 'F1'
   },
   {
     id: 2,
@@ -20,7 +20,7 @@ export const mockData: RowData[] = [
     papel: 'EC',
     valor_da_venda: 2000.00,
     comissao: 150.50,
-    fornecedor: ['F2', 'F3']
+    fornecedor: 'F2'
   },
   {
     id: 3,
@@ -30,7 +30,7 @@ export const mockData: RowData[] = [
     papel: 'LA1',
     valor_da_venda: 1500.75,
     comissao: 125.60,
-    fornecedor: ['F1', 'F3']
+    fornecedor: 'F1'
   },
   {
     id: 4,
@@ -40,6 +40,6 @@ export const mockData: RowData[] = [
     papel: 'LA1',
     valor_da_venda: 1750.30,
     comissao: 140.25,
-    fornecedor: ['F2']
+    fornecedor: 'F2'
   }
 ];

@@ -9,7 +9,7 @@ export interface RowData {
   papel: string;
   valor_da_venda: number;
   comissao: number;
-  fornecedor: ('F1' | 'F2' | 'F3')[];
+  fornecedor: 'F1' | 'F2' | 'F3';
 }
 
 type SortField = 'data' | 'nome' | 'valor_da_venda' | 'comissao';
@@ -78,6 +78,12 @@ export function TabelaDailyCommission({ rows }: TabelaProps) {
     );
   }
 
+
+  function formatToBRL(value: number): string {
+    return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
+  }
+  
+
   const getDirectionForField = (field: SortField) => {
     return sortField === field ? sortDirection : undefined;
   }
@@ -113,16 +119,14 @@ export function TabelaDailyCommission({ rows }: TabelaProps) {
             <S.PapelData>
                 <S.PapelText>{row.papel}</S.PapelText>
               </S.PapelData>
-            <S.TableData>R$ {row.valor_da_venda}</S.TableData>
-            <S.TableData>R$ {row.comissao}</S.TableData>
+              <S.TableData>{formatToBRL(row.valor_da_venda)}</S.TableData>
+              <S.TableData>{formatToBRL(row.comissao)}</S.TableData>
             <S.TableData>
-              <S.FornecedorWrapper>
-                {row.fornecedor.map((fornecedor, idx) => (
-                  <S.FornecedorItem key={idx} fornecedor={fornecedor}>
-                    {fornecedor}
-                  </S.FornecedorItem>
-                ))}
-              </S.FornecedorWrapper>
+            <S.FornecedorWrapper>
+            <S.FornecedorItem fornecedor={row.fornecedor}>
+    {row.fornecedor}
+</S.FornecedorItem>
+    </S.FornecedorWrapper>
             </S.TableData>
             <S.TableData>
               <S.Button onClick={() => handleViewMoreClick(row.id.toString())}>Ver Venda</S.Button>

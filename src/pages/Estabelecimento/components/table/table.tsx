@@ -85,19 +85,19 @@ export function Tabela({ rows }: TabelaProps) {
     <S.Table>
       <thead>
         <tr>
-          <S.TableHeader onClick={() => handleSort('id')}>
+          <S.TableHeader style={{cursor: 'pointer'}} onClick={() => handleSort('id')}>
             Id
             <SortIndicator direction={getDirectionForField('id')} />
           </S.TableHeader>
           <S.TableHeader>CNPJ/CPF</S.TableHeader>
-          <S.TableHeader onClick={() => handleSort('trading_name')}>
+          <S.TableHeader style={{cursor: 'pointer'}}  onClick={() => handleSort('trading_name')}>
             Estabelecimento
             <SortIndicator direction={getDirectionForField('trading_name')} />
           </S.TableHeader>
           <S.TableHeader>Data de Registro</S.TableHeader>
-          <S.TableHeader onClick={() => handleSort('tpv')}>
+          <S.TableHeader style={{cursor: 'pointer'}}  onClick={() => handleSort('tpv')}>
             TPV
-            <SortIndicator direction={getDirectionForField('tpv')} />
+            <SortIndicator  direction={getDirectionForField('tpv')} />
           </S.TableHeader>
           <S.TableHeader>Fornecedor</S.TableHeader>
           <S.TableHeader style={{ paddingLeft: '28px' }}>Ver mais</S.TableHeader>

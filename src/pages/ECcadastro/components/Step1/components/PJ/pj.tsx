@@ -26,6 +26,9 @@ import { validateEmail } from '@/utils/validateEmail'
 import { CustomSelect } from '@/components/Select/select'
 import { optionsData } from './option'
 import { useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
+import { Loading } from '@/components/Loading/loading'
 
 interface IStep1 {
   Avançar: () => void
@@ -41,6 +44,8 @@ export function PJ({ Avançar, BPF, BPJ }: IStep1) {
     trigger,
     watch
   } = useFormContext()
+
+  const [isLoading, setIsLoading] = useState(false)
 
   const allFieldsFilled =
     !!watch('CNPJEstabelecimento') &&
@@ -73,8 +78,69 @@ export function PJ({ Avançar, BPF, BPJ }: IStep1) {
     navigate('/estabelecimentos')
   }
 
+  const cnpjValue = watch('CNPJEstabelecimento');
+  const cpfValue = watch('CPFEstabelecimento');
+  
+
+
+
+  const fetchCompanyDataByCNPJ = async (cnpj: string) => {
+    try {
+      setIsLoading(true)
+      const response = await axios.get(`https://ws.hubdodesenvolvedor.com.br/v2/cnpj/?cnpj=${cnpj}&token=YOUR_TOKEN`);
+      const { result } = response.data;
+      const { abertura, nome, fantasia } = result; 
+       
+      setValue('DataCriacaoEstabelecimento', abertura);
+      setValue('RazaoSocialEstabelecimento', nome);
+      setValue('NomeFantasiaEstabelecimento', fantasia); 
+  
+    } catch (error) {
+      console.error('Error fetching company data by CNPJ:', error);
+    } finally {
+      setIsLoading(false)
+    }
+  };
+
+  const fetchPersonDataByCPF = async (cpf: string) => {
+    try {
+      setIsLoading(true);
+      const response = await axios.get(`https://ws.hubdodesenvolvedor.com.br/v2/cpf/?cpf=${cpf}&token=119905575VQLhxBIJgu216485880`);
+        
+      const { result } = response.data;
+      const { nome_da_pf, data_nascimento } = result; 
+  
+      console.log(nome_da_pf, data_nascimento)
+  
+      setValue('NomeSocioEstabelecimento', nome_da_pf);
+      setValue('NascimentoSocio', data_nascimento);
+    
+    } catch (error) {
+      console.error('Error fetching person data by CPF:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
+
+
+  useEffect(() => {
+    if (validateCNPJ(cnpjValue)) {
+      fetchCompanyDataByCNPJ(cnpjValue);
+    }
+  }, [cnpjValue]);
+
+  useEffect(() => {
+    if (validateCPF(cpfValue)) {
+      fetchPersonDataByCPF(cpfValue.replace(/\D/g, ''));
+    }
+  }, [cpfValue]);
+
   return (
-    <ContainerStep>
+   <>
+    {isLoading && <Loading />}
+
+     <ContainerStep>
       <ContextStepContainer>
         <ContextStep>
           <ContainerDados>
@@ -187,5 +253,6 @@ export function PJ({ Avançar, BPF, BPJ }: IStep1) {
         </ContainerButton>
       </ContextStepContainer>
     </ContainerStep>
+   </>
   )
 }

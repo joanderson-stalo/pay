@@ -1,7 +1,7 @@
 const currentYear = new Date().getFullYear();
 
 export const Text = {
-  title: 'Portal de Vendas',
+  title: 'Portal de Gestão',
   esqueceuSenha: 'Esqueceu a senha?',
   direitosReservados: `© ${currentYear}. Todos os direitos reservados`
 };

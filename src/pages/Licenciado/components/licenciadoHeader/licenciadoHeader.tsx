@@ -28,7 +28,7 @@ export function LicenciadoHeader() {
         <S.Input>
           <input
             type="text"
-            placeholder="Pesquise por nome do estabelecimento ou CNPJ"
+            placeholder="Pesquise por nome do licenciado, CPF ou CNPJ"
             value={searchValue}
             onChange={handleChange}
           />

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as S from './styled';
 import pix from '@assets/bandeiras/pix.svg';
 import elo from '@assets/bandeiras/elo.svg';
@@ -39,13 +39,11 @@ export function TabelaVendas({ rows }: TabelaProps) {
         const dateB = new Date(b.captured_in);
         comparison = dateA.getTime() - dateB.getTime();
         break;
-
       case 'amount':
         const valorA = parseFloat(a.amount.replace(',', '.'));
         const valorB = parseFloat(b.amount.replace(',', '.'));
         comparison = valorA - valorB;
         break;
-
       default:
         break;
     }
@@ -54,9 +52,9 @@ export function TabelaVendas({ rows }: TabelaProps) {
   });
 
   const handleButtonClick = (id: string) => {
-    setSelectedTransactionId(id)
+    setSelectedTransactionId(id);
     navigate('/detalhe');
-  }
+  };
 
   useEffect(() => {
     handleSort('captured_in');
@@ -66,22 +64,22 @@ export function TabelaVendas({ rows }: TabelaProps) {
     <S.Table>
       <thead>
         <tr>
-          <S.TableHeader onClick={() => handleSort('captured_in')}>
+          <S.TableHeader style={{cursor: 'pointer'}}  onClick={() => handleSort('captured_in')}>
             Data
             <S.SortContainer>
-              <S.SortArrow isActive={sortDirection !== 'asc'}>▲</S.SortArrow>
-              <S.SortArrow isActive={sortDirection !== 'desc'}>▼</S.SortArrow>
+              <S.SortArrow isActive={sortField === 'captured_in' && sortDirection === 'asc'}>▲</S.SortArrow>
+              <S.SortArrow isActive={sortField === 'captured_in' && sortDirection === 'desc'}>▼</S.SortArrow>
             </S.SortContainer>
           </S.TableHeader>
           <S.TableHeader>NSU</S.TableHeader>
           <S.TableHeader>Estabelecimento</S.TableHeader>
           <S.TableHeader>Forma de Pagamento</S.TableHeader>
           <S.TableHeader>Bandeira</S.TableHeader>
-          <S.TableHeader onClick={() => handleSort('amount')}>
+          <S.TableHeader style={{cursor: 'pointer'}}  onClick={() => handleSort('amount')}>
             Valor
             <S.SortContainer>
-              <S.SortArrow isActive={sortDirection !== 'asc'}>▲</S.SortArrow>
-              <S.SortArrow isActive={sortDirection !== 'desc'}>▼</S.SortArrow>
+              <S.SortArrow isActive={sortField === 'amount' && sortDirection === 'asc'}>▲</S.SortArrow>
+              <S.SortArrow isActive={sortField === 'amount' && sortDirection === 'desc'}>▼</S.SortArrow>
             </S.SortContainer>
           </S.TableHeader>
           <S.TableHeader>Status</S.TableHeader>
@@ -110,7 +108,7 @@ export function TabelaVendas({ rows }: TabelaProps) {
                 <S.FlagContainer>
                   <img
                     src={
-                      transaction.brand === null && transaction.payment_type === 'Pix' ?pix :
+                      transaction.brand === null && transaction.payment_type === 'Pix' ? pix :
                       transaction.brand === 'Visa' ? visa :
                       transaction.brand === 'Elo' ? elo :
                       transaction.brand === 'MasterCard' ? masterCard :
@@ -119,7 +117,7 @@ export function TabelaVendas({ rows }: TabelaProps) {
                     }
                     alt={transaction.brand}
                   />
-                  { transaction.brand === null && transaction.payment_type === 'Pix' ? <p>Pix</p> : <p>{transaction.brand}</p>}
+                  {transaction.brand === null && transaction.payment_type === 'Pix' ? <p>Pix</p> : <p>{transaction.brand}</p>}
                 </S.FlagContainer>
               </S.TableData>
               <S.TableData>R$ {formattedAmount}</S.TableData>
@@ -140,3 +138,4 @@ export function TabelaVendas({ rows }: TabelaProps) {
     </S.Table>
   );
 }
+

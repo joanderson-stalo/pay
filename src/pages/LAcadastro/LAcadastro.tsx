@@ -40,7 +40,7 @@ export const LAcadastro = () => {
 const handleNextStep = async () => {
     if (currentStep === 4 && currentStepIsValid()) {
         try {
-
+          setIsLoading(true)
             const requestData = getValues();
 
 
@@ -93,7 +93,7 @@ const handleNextStep = async () => {
               markup_seller_destiny: requestData.RegraMarkup,
               id_licensed_origin: String(requestData.licenciado),
             };
-            setIsLoading(true)
+
             const response = await axios.post('https://api-pagueassim.stalopay.com.br/create/sellerla', requestBody, {
                 headers: {
                     'Content-Type': 'application/json',
@@ -142,13 +142,13 @@ const handleNextStep = async () => {
     const isStep1Valid =
       (validateCNPJ(step1Values.CNPJEstabelecimento) || documentTypeLA === "CPF") &&
       (step1Values.RazaoSocialEstabelecimento || documentTypeLA === "CPF") &&
-      step1Values.NomeFantasiaEstabelecimento &&
+      (step1Values.NomeFantasiaEstabelecimento || documentTypeLA === "CPF") &&
       step1Values.NascimentoSocio &&
       validateCPF(step1Values.CPFEstabelecimento) &&
       step1Values.NomeSocioEstabelecimento &&
       isEmailValid &&
       isTelefoneValid &&
-      step1Values.AreaAtuacaoEstabelecimento &&
+      (step1Values.AreaAtuacaoEstabelecimento || documentTypeLA === "CPF") &&
       isDataCriacaoValid;
 
     return isStep1Valid;

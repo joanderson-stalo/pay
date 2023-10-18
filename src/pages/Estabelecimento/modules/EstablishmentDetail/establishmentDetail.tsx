@@ -57,7 +57,7 @@ console.log('oii', detailNumber);
 
 
     <S.ContainerGrafico>
-      <GraficoCicle credit='6000,20' debit='2000,20' />
+      <GraficoCicle credit='6.000,20' debit='2.000,20' />
       <div style={{width: '510px', height: '20px'}}>
       <GraficoBar dataArray={['15', '19', '30', '50', '20', '30', '70', '80', '50', '10', '20', '15']} />
       </div>
@@ -80,7 +80,6 @@ console.log('oii', detailNumber);
 
         <S.ContainerHits>
         <S.ButtonHits onClick={navigateToManageAccessLicensed}>Gerenciar acessos</S.ButtonHits>
-        <S.ButtonHits>Outros Botões</S.ButtonHits>
         </S.ContainerHits>
       </>
   )

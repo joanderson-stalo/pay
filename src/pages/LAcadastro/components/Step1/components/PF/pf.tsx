@@ -3,13 +3,14 @@ import { useFormContext } from 'react-hook-form'
 import * as S from './styled'
 import { CustomInput } from '@/components/Input/input'
 import { LabelCustomInputMask } from '@/components/CustomInputMask'
-import { validateCNPJ, validateCPF } from 'validations-br'
+import {  validateCPF } from 'validations-br'
 import { validateDataCriacao } from '@/utils/dataValid'
 import { validateTelefone } from '@/utils/telefoneValid'
 import { validateEmail } from '@/utils/validateEmail'
-import { CustomSelect } from '@/components/Select/select'
-import { optionsData } from './option'
 import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import { useEffect, useState } from 'react'
+import { Loading } from '@/components/Loading/loading'
 
 interface IStep1 {
   Avançar: () => void
@@ -20,32 +21,20 @@ interface IStep1 {
 export function PF({ Avançar, BPF, BPJ }: IStep1) {
   const {
     register,
+    setValue,
     formState: { errors, isValid: formIsValid },
-    trigger,
     watch
   } = useFormContext()
 
+  const [isLoading, setIsLoading] = useState(false)
+
   const allFieldsFilled =
-    !!watch('NomeFantasiaEstabelecimento') &&
     !!watch('NascimentoSocio') &&
     !!watch('CPFEstabelecimento') &&
     !!watch('NomeSocioEstabelecimento') &&
     !!watch('EmailEstabelecimento') &&
-    !!watch('AreaAtuacaoEstabelecimento') &&
     !!watch('TelefoneEstabelecimento')
 
-  const handleAvancar = async () => {
-    const result = await trigger()
-    if (
-      result &&
-      !errors.CNPJEstabelecimento &&
-      !errors.CPFEstabelecimento &&
-      allFieldsFilled &&
-      formIsValid
-    ) {
-      Avançar()
-    }
-  }
 
   const navigate = useNavigate()
 
@@ -53,8 +42,37 @@ export function PF({ Avançar, BPF, BPJ }: IStep1) {
       navigate('/licenciados')
   }
 
+  const cpfValue = watch('CPFEstabelecimento');
+  const fetchPersonDataByCPF = async (cpf: string) => {
+    try {
+      setIsLoading(true);
+      const response = await axios.get(`https://ws.hubdodesenvolvedor.com.br/v2/cpf/?cpf=${cpf}&token=119905575VQLhxBIJgu216485880`);
+        
+      const { result } = response.data;
+      const { nome_da_pf, data_nascimento } = result; 
+  
+      console.log(nome_da_pf, data_nascimento)
+  
+      setValue('NomeSocioEstabelecimento', nome_da_pf);
+      setValue('NascimentoSocio', data_nascimento);
+    
+    } catch (error) {
+      console.error('Error fetching person data by CPF:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (validateCPF(cpfValue)) {
+      fetchPersonDataByCPF(cpfValue.replace(/\D/g, ''));
+    }
+  }, [cpfValue]);
+
   return (
-    <S.ContainerStep>
+    <>
+    {isLoading && <Loading />}
+     <S.ContainerStep>
       <S.ContextStepContainer>
         <S.ContextStep>
           <S.ContainerDados>
@@ -127,5 +145,6 @@ export function PF({ Avançar, BPF, BPJ }: IStep1) {
         </S.ContainerButton>
       </S.ContextStepContainer>
     </S.ContainerStep>
+    </>
   )
 }

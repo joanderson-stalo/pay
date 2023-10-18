@@ -19,7 +19,6 @@ export const TableHeader = styled.th`
   text-align: center;
   padding: 8px;
   border-bottom: 1px solid #E9ECEF;
-  cursor: pointer;
   vertical-align: middle;
 `;
 
