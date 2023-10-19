@@ -44,7 +44,7 @@ font-weight: 500;
 `
 
 export const ButtonFilter = styled.button`
-color: #676767;
+color: #000;
 font-feature-settings: 'clig' off, 'liga' off;
 font-size: 9.906px;
 font-weight: 500;

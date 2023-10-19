@@ -1,7 +1,5 @@
-
-
 import { PaginaView } from '@/components/PaginaView/paginaView';
-import { EstabelecimentoHeader } from './components/estabelecimentoHeader/estabelecimentoHeader';
+import { EstabelecimentoHeader } from './components/EstabelecimentoHeader/estabelecimentoHeader';
 import { Tabela } from './components/table/table';
 import * as S from './styled';
 import { useEffect, useState } from 'react';
@@ -16,111 +14,104 @@ import { useLogin } from '@/context/user.login';
 import { Loading } from '@/components/Loading/loading';
 
 export function Estabelecimento() {
-
   const [itensPorPage, setItensPorPage] = useState<number | ''>(10);
-  const [filter, setFilter] = useState(false)
-  const { state} = useFilter();
-
-  const [loading, setLoading] = useState<boolean>(false);
+  const [filter, setFilter] = useState(false);
+  const { state } = useFilter();
+  const { dataUser } = useLogin();
   const [totalSellers, setTotalSellers] = useState(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
-
   const [sellers, setSellers] = useState([]);
-  const { dataUser } = useLogin()
+  const [loading, setLoading] = useState<boolean>(false);
+  const [searchValue, setSearchValue] = useState('');
 
+  const fetchData = async (pageNumber: number = currentPage) => {
+    setLoading(true);
+    let apiUrl = `https://api-pagueassim.stalopay.com.br/seller/indexec?perpage=${String(itensPorPage)}&page=${pageNumber}`;
+    if (searchValue) {
+      apiUrl += `&trading_name=${searchValue}`;
+    }
+    const response = await axios.get(apiUrl, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${dataUser?.token}`
+      }
+    });
+    setSellers(response.data.sellers);
+    setTotalSellers(response.data.total_sellers);
+    setCurrentPage(response.data.current_page);
+    setLoading(false);
+  };
 
-  const fetchData = async (pageNumber: number) => {
+  const handleSearch = (value: string) => {
+    setSearchValue(value);
 
-    setCurrentPage(pageNumber)
-  }
-
+    if (value.trim() === '') {
+      setSearchValue('');
+    }
+    
+    fetchData();
+  };
 
   const handleNextPage = () => {
     setCurrentPage(prevPage => prevPage + 1);
-  }
+  };
 
   const handlePrevPage = () => {
     if (currentPage > 1) {
       setCurrentPage(prevPage => prevPage - 1);
     }
-  }
-
+  };
 
   const handleOpenModal = () => {
-    setFilter(true)
-  }
+    setFilter(true);
+  };
 
   const handleCloseModal = () => {
-    setFilter(false)
-  }
+    setFilter(false);
+  };
 
   const totalPages = Math.ceil(totalSellers / (itensPorPage || 1));
 
+  useEffect(() => {
+
+  }, [dataUser, itensPorPage, currentPage]);
 
   useEffect(() => {
-    async function fetchData() {
-      setLoading(true)
-      try {
-        const response = await axios.get(`https://api-pagueassim.stalopay.com.br/seller/indexec?perpage=${String(itensPorPage)}&page=${currentPage}`, {
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${dataUser?.token}`
-          }
-        });
-
-        setSellers(response.data.sellers);
-        setTotalSellers(response.data.total_sellers);
-        setCurrentPage(response.data.current_page);
-
-      } catch (error) {
-        console.error('There was an error fetching the sellers data', error);
-      } finally{
-        setLoading(false)
-      }
+    if (searchValue.trim() === '') {
+      fetchData();
     }
-    fetchData();
-  }, [dataUser,itensPorPage ]);
-
-
-
-  console.log(sellers)
-
+  }, [searchValue]);
 
   return (
     <>
-    <ModalFilter onClose={handleCloseModal}  visible={filter} />
-
-      {
-        loading ? <Loading /> :
-          <>
-            <EstabelecimentoHeader />
-        <S.ContainerButton>
-          <S.ButtonTotal>Todos ({totalSellers})</S.ButtonTotal>
-          {/* {state ? <EditableButton  /> : ''}
-          <S.ButtonFilter onClick={handleOpenModal}> <FunnelSimple />Filtrar</S.ButtonFilter> */}
-        </S.ContainerButton>
-        <Tabela rows={sellers} />
-
-        <S.Context>
-        <S.Linha />
-        <S.ContainerPagina>
-          <PaginaView totalItens={itensPorPage} />
-          <S.ContainerItens>
-          <ItensPorPage itensPorPage={itensPorPage} setItensPorPage={setItensPorPage} />
-          <Pagination
-          currentPage={currentPage}
-          onPageClick={fetchData}
-          totalPages={totalPages}
-          onNextPage={handleNextPage}
-          onPrevPage={handlePrevPage}
-        />
-          </S.ContainerItens>
-        </S.ContainerPagina>
-        </S.Context>
-
-          </>
+      <ModalFilter onClose={handleCloseModal} visible={filter} />
+      {loading ? <Loading /> :
+        <>
+          <EstabelecimentoHeader onSearch={handleSearch} searchValue={searchValue} setSearchValue={setSearchValue} />
+          <S.ContainerButton>
+            <S.ButtonTotal>Todos ({totalSellers})</S.ButtonTotal>
+            {state ? <EditableButton /> : ''}
+            <S.ButtonFilter onClick={handleOpenModal}><FunnelSimple />Filtrar</S.ButtonFilter>
+          </S.ContainerButton>
+          <Tabela rows={sellers} />
+          <S.Context>
+            <S.Linha />
+            <S.ContainerPagina>
+              <PaginaView totalItens={itensPorPage} />
+              <S.ContainerItens>
+                <ItensPorPage itensPorPage={itensPorPage} setItensPorPage={setItensPorPage} />
+                <Pagination
+                  currentPage={currentPage}
+                  onPageClick={fetchData}
+                  totalPages={totalPages}
+                  onNextPage={handleNextPage}
+                  onPrevPage={handlePrevPage}
+                />
+              </S.ContainerItens>
+            </S.ContainerPagina>
+          </S.Context>
+        </>
       }
-
     </>
   );
 }

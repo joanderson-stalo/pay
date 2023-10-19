@@ -48,7 +48,7 @@ export function ModalFilter({ onClose, visible }: IModalSucesso) {
         <S.Linha />
         <form onSubmit={handleSubmit(onSubmit)}>
           <S.ContainerSelect>
-            <div>
+    
               <CustomSelect
                 {...register("licenciadoAutorizado")}
                 optionsData={optionsData}
@@ -58,17 +58,7 @@ export function ModalFilter({ onClose, visible }: IModalSucesso) {
                   setValue('licenciadoAutorizado', selectedOption.value)
                 }}
               />
-                    <CustomSelect
-                {...register("licenciadoAutorizado")}
-                optionsData={optionsData}
-                placeholder="Digite aqui ou clique para ver a lista"
-                label="Licenciado Autorizado"
-                onChange={(selectedOption: { value: string }) => {
-                  setValue('licenciadoAutorizado', selectedOption.value)
-                }}
-              />
-
-            </div>
+            
 
           </S.ContainerSelect>
                 <S.ContextButton>
