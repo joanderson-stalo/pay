@@ -7,7 +7,6 @@ import { TabelaVendas } from './components/table/table';
 import { PaginaView } from '@/components/PaginaView/paginaView';
 import { ItensPorPage } from '@/components/ItensPorPage/itensPorPage';
 import { Pagination } from '@/components/Pagination/pagination';
-import { EditableButton } from '@/components/ButtonEdit/buttonEdit';
 import { useFilter } from '@/hooks/useFilter';
 import { useLogin } from '@/context/user.login';
 import { Transaction } from './components/table/interface';
@@ -17,6 +16,8 @@ import { formatTaxa } from '@/utils/formatTaxa';
 import axios from 'axios';
 import { baseURL } from '@/config/color';
 import debounce from 'lodash/debounce';
+import { EditableButton } from './components/ButtonEdit/buttonEdit';
+import { useFilterSales } from './hooks/useFilterSales';
 
 export function Vendas() {
   const [searchValue, setSearchValue] = useState('');
@@ -29,28 +30,41 @@ export function Vendas() {
   const [averageTaxApplied, setAverageTaxApplied] = useState<string>('0.000');
   const [tpvGlobal, setTpvGlobal] = useState<string>('0');
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const { state } = useFilter();
+  const { state } = useFilterSales();
   const { dataUser } = useLogin();
+
+
+  
+
+
+
 
   const fetchDataFromAPI = async (search?: string) => {
     setLoading(true);
+  
     let url = `${baseURL}transactions?perpage=${String(itensPorPage)}&page=${currentPage}`;
+  
     if (search) {
       url += `&nsu_external=${search}`;
     }
+  
     const totalUrl = `${baseURL}transactions`;
+  
     const config = {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${dataUser?.token}`,
       },
     };
+  
     const [response, totalResponse] = await Promise.all([
       axios.get(url, config),
       axios.get(totalUrl, config),
     ]);
+  
     const { data } = response;
     const totalData = totalResponse.data;
+  
     setTransactions(data.transactions);
     setTotalTransactions(data.total_transactions);
     setTpvGlobal(totalData.total_amountTPV);
@@ -59,6 +73,7 @@ export function Vendas() {
     setAverageTaxApplied(totalData.average_taxApplied);
     setLoading(false);
   };
+  
 
   const debouncedFetchDataFromAPI = useRef(debounce(fetchDataFromAPI, 1000)).current;
 
@@ -107,6 +122,7 @@ export function Vendas() {
   useEffect(() => {
     fetchDataFromAPI();
   }, [itensPorPage, currentPage]);
+
 
   return (
     <>

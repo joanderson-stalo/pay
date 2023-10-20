@@ -1,42 +1,74 @@
-import { useEffect } from 'react'
-import { useForm } from 'react-hook-form'
-import * as S from './styled'
-import { CustomSelect } from '@/components/Select/select'
-import { optionsData } from '@/pages/ECcadastro/components/Step1/option'
-import { useFilter } from '@/hooks/useFilter'
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import * as S from './styled';
+import { CustomSelect } from '@/components/Select/select';
+import { optionsData } from '@/pages/ECcadastro/components/Step1/option';
+import { useFilter } from '@/hooks/useFilter';
+import { useLogin } from '@/context/user.login';
+import axios from 'axios';
 
 interface IModalSucesso {
-  visible: boolean
-  onClose: () => void
+  visible: boolean;
+  onClose: () => void;
 }
 
 export function ModalFilter({ onClose, visible }: IModalSucesso) {
-  const { register, handleSubmit, setValue, formState: { errors } } = useForm()
-  const { setTrue} = useFilter();
+  const { register, handleSubmit, setValue, formState: { errors } } = useForm();
+  const { setTrue } = useFilter();
+  const { dataUser } = useLogin();
+  const [fetchedOptions, setFetchedOptions] = useState([]);
 
   const onSubmit = (data: any) => {
-    console.log(data)
-    setTrue()
-    onClose()
-  }
+    console.log(data);
+    setTrue();
+    onClose();
+  };
 
   useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {
       if (event.key === 'Escape') {
-        onClose()
+        onClose();
       }
     }
-    document.addEventListener('keydown', handleKeyDown)
+    document.addEventListener('keydown', handleKeyDown);
 
     return () => {
-      document.removeEventListener('keydown', handleKeyDown)
-    }
-  }, [onClose])
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [onClose]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('https://api-pagueassim.stalopay.com.br/seller/indexla', {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${dataUser?.token}`
+          }
+        });
+
+        const data = response.data;
+
+        if (data && data.sellers) {
+          console.log(data.sellers.trading_name)
+          const options = data.sellers.map((seller: { trading_name: any; type: any; id: any, cnpj_cpf: any }, index: number) => ({
+            value: seller.id,
+            label: `${seller.trading_name}-${seller.type}-${seller.cnpj_cpf}`
+          }));
+
+          setFetchedOptions(options);
+        }
+      } catch (error) {
+        console.error('Houve um erro ao buscar os dados:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   if (!visible) {
-    return null
+    return null;
   }
-
 
   return (
     <S.Overlay>
@@ -48,25 +80,22 @@ export function ModalFilter({ onClose, visible }: IModalSucesso) {
         <S.Linha />
         <form onSubmit={handleSubmit(onSubmit)}>
           <S.ContainerSelect>
-    
-              <CustomSelect
-                {...register("licenciadoAutorizado")}
-                optionsData={optionsData}
-                placeholder="Digite aqui ou clique para ver a lista"
-                label="Licenciado Autorizado"
-                onChange={(selectedOption: { value: string }) => {
-                  setValue('licenciadoAutorizado', selectedOption.value)
-                }}
-              />
-            
-
+            <CustomSelect
+              {...register("licenciadoAutorizado")}
+              optionsData={{ options: fetchedOptions }}
+              placeholder="Digite aqui ou clique para ver a lista"
+              label="Licenciado Autorizado"
+              onChange={(selectedOption: { value: string }) => {
+                setValue('licenciadoAutorizado', selectedOption.value);
+              }}
+            />
           </S.ContainerSelect>
-                <S.ContextButton>
-                <S.ButtonCancelar onClick={onClose}>Cancelar</S.ButtonCancelar>
+          <S.ContextButton>
+            <S.ButtonCancelar onClick={onClose}>Cancelar</S.ButtonCancelar>
             <S.ButtonSalvar type='submit'>Salvar</S.ButtonSalvar>
-                </S.ContextButton>
+          </S.ContextButton>
         </form>
       </S.ContainerModal>
     </S.Overlay>
-  )
+  );
 }

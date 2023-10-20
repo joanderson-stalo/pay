@@ -24,7 +24,7 @@ const centerTextPlugin = {
 
       ctx.fillText(text, textX, textY);
 
-      // Para o texto "TPV TOTAL", "TPV DEBITO", "TPV CREDITO"
+      // Para o texto "TPV TOTAL", "TPV DEBITO", "TPV CREDITO", "TPV PIX"
       fontSize = 14;
       ctx.font = `700 ${fontSize}px sans-serif`;
       ctx.fillStyle = "#383838";
@@ -40,15 +40,18 @@ const centerTextPlugin = {
   },
 };
 
-
 Chart.register(centerTextPlugin);
 
 interface AppProps {
   debit: string;
   credit: string;
+  pix: string;
 }
-export function GraficoCicle({ debit, credit }: AppProps) {
-  const total = parseFloat(debit.replace(".", "").replace(",", ".")) + parseFloat(credit.replace(".", "").replace(",", "."));
+
+export function GraficoCicle({ debit, credit, pix }: AppProps) {
+  const total = parseFloat(debit.replace(".", "").replace(",", "."))
+               + parseFloat(credit.replace(".", "").replace(",", "."))
+               + parseFloat(pix.replace(".", "").replace(",", "."));
   const totalStr = total.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
 
   const data = {
@@ -56,9 +59,13 @@ export function GraficoCicle({ debit, credit }: AppProps) {
     datasets: [
       {
         label: '',
-        data: [parseFloat(debit.replace(".", "").replace(",", ".")), parseFloat(credit.replace(".", "").replace(",", "."))],
-        backgroundColor: ['#10104F', '#08BBE9'],
-        borderColor: ['#10104F', '#08BBE9'],
+        data: [
+          parseFloat(debit.replace(".", "").replace(",", ".")),
+          parseFloat(credit.replace(".", "").replace(",", ".")),
+          parseFloat(pix.replace(".", "").replace(",", "."))
+        ],
+        backgroundColor: ['#10104F', '#08BBE9', '#045469'],
+        borderColor: ['#10104F', '#08BBE9', '#045469'],
         borderWidth: 1,
         borderRadius: 100,
         spacing: 5
@@ -81,6 +88,9 @@ export function GraficoCicle({ debit, credit }: AppProps) {
         } else if (hoveredColor === '#08BBE9') {
           chart.options.centerText = "TPV CREDITO";
           chart.options.centerValue = credit;
+        } else if (hoveredColor === '#045469') {
+          chart.options.centerText = "TPV PIX";
+          chart.options.centerValue = pix;
         }
       } else {
         chart.options.centerText = "TPV TOTAL";

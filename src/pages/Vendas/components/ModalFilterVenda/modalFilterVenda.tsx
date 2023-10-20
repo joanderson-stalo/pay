@@ -4,6 +4,10 @@ import * as S from './styled'
 import { CustomSelect } from '@/components/Select/select'
 import { optionsData } from '@/pages/ECcadastro/components/Step1/option'
 import { useFilter } from '@/hooks/useFilter'
+import { paymentMethodOptions, statusPaymentOptions } from './statusPaymentOptions'
+import { CustomInput } from '@/components/Input/input'
+import { ThemeColor } from '@/config/color'
+import { useFilterSales } from '../../hooks/useFilterSales'
 
 interface IModalSucesso {
   visible: boolean
@@ -12,13 +16,20 @@ interface IModalSucesso {
 
 export function ModalFilterVenda({ onClose, visible }: IModalSucesso) {
   const { register, handleSubmit, setValue, formState: { errors } } = useForm()
-  const { setTrue} = useFilter();
+  const { setTrue} = useFilterSales();
 
   const onSubmit = (data: any) => {
-    console.log(data)
-    setTrue()
-    onClose()
+    console.log(data);
+    localStorage.setItem('@bandeira', data.bandeira)
+    localStorage.setItem('@statusPagamento', data.statusEmFornecedor);
+    localStorage.setItem('@formaDePagamento', data.formaDePagamento);
+    localStorage.setItem('@captured_in_start', data.captured_in_start);
+    localStorage.setItem('@captured_in_end', data.captured_in_end);
+    setTrue();
+    onClose();
+  
   }
+  
 
   useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {
@@ -48,58 +59,75 @@ export function ModalFilterVenda({ onClose, visible }: IModalSucesso) {
         <S.Linha />
         <form onSubmit={handleSubmit(onSubmit)}>
           <S.ContainerSelect>
+
+
+
             <div>
+
+
               <S.ContainerPeriodo>
-              <CustomSelect
-                {...register("licenciadoAutorizado")}
-                optionsData={optionsData}
-                placeholder=""
-                label="Período"
-                onChange={(selectedOption: { value: string }) => {
-                  setValue('licenciadoAutorizado', selectedOption.value)
-                }}
-              />
+              <h2>Período</h2>
+
+                <S.ContainerData>
+             
+                <CustomInput 
+                      {...register('captured_in_start')}
+                      colorInputDefault={ThemeColor.primaria}
+                      colorInputSuccess={ThemeColor.secundaria}
+                      hasError={!!errors.NomeFantasiaEstabelecimento}
+                label='' type='date' />
               <span>até</span>
-                <CustomSelect
-                {...register("licenciadoAutorizado")}
-                optionsData={optionsData}
-                placeholder=""
-                label="."
-                onChange={(selectedOption: { value: string }) => {
-                  setValue('licenciadoAutorizado', selectedOption.value)
-                }}
-              />
+                <CustomInput 
+                      {...register("captured_in_end")}
+                      colorInputDefault={ThemeColor.primaria}
+                      colorInputSuccess={ThemeColor.secundaria}
+                      hasError={!!errors.NomeFantasiaEstabelecimento}
+                label='' type='date' />
+
+                </S.ContainerData>
+
+          
+
               </S.ContainerPeriodo>
+
+
+
               <CustomSelect
-                {...register("fornecedor")}
-                optionsData={optionsData}
-                placeholder="Digite aqui ou clique para ver a lista"
+                {...register("formaDePagamento")}
+                optionsData={paymentMethodOptions}
+                placeholder="Clique para ver a lista"
                 label="Forma de Pagamento"
                 onChange={(selectedOption: { value: string }) => {
-                  setValue('fornecedor', selectedOption.value)
+                  setValue('formaDePagamento', selectedOption.value)
                 }}
               />
             </div>
-            <div>
+
+
+            <section>
               <CustomSelect
-                {...register("statusNoSistema")}
+                {...register("bandeira")}
                 optionsData={optionsData}
-                placeholder="Digite aqui ou clique para ver a lista"
+                placeholder="Clique para ver a lista"
                 label="Bandeira"
                 onChange={(selectedOption: { value: string }) => {
-                  setValue('statusNoSistema', selectedOption.value)
+                  setValue('bandeira', selectedOption.value)
                 }}
               />
-              <CustomSelect
-                {...register("statusEmFornecedor")}
-                optionsData={optionsData}
-                placeholder="Digite aqui ou clique para ver a lista"
-                label="Status do pagamento"
-                onChange={(selectedOption: { value: string }) => {
-                  setValue('statusEmFornecedor', selectedOption.value)
-                }}
-              />
-            </div>
+          <CustomSelect
+    {...register("statusEmFornecedor")}
+    optionsData={statusPaymentOptions}
+    placeholder="Clique para ver a lista"
+    label="Status do pagamento"
+    onChange={(selectedOption: { value: string }) => {
+      setValue('statusEmFornecedor', selectedOption.value)
+    }}
+/>
+
+            </section>
+
+
+
           </S.ContainerSelect>
                 <S.ContextButton>
                 <S.ButtonCancelar onClick={onClose}>Cancelar</S.ButtonCancelar>

@@ -9,7 +9,7 @@ export const Overlay = styled.div`
   left: 0rem;
   top: 0rem;
 
-  background: rgba(255, 255, 255, 0.01);
+  background: rgba(16, 16, 79, 0.65);
   backdrop-filter: blur(0.1rem);
 
   display: flex;
@@ -23,7 +23,7 @@ export const ContainerModal = styled.div`
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   width: 919px;
 height: 416px;
-
+position: relative;
 
 `
 
@@ -57,11 +57,11 @@ export const Linha = styled.div`
 
 export const ContainerSelect = styled.div`
 
-  > div {
+    width: 100%;
+    max-width: 500px;
     display: flex;
-    padding: 27px 56px 27px 56px;
-    gap: 56px;
-  }
+    padding: 22px 40px;
+  
 `
 
 export const ContextButton = styled.div`
@@ -69,6 +69,9 @@ export const ContextButton = styled.div`
   justify-content: flex-end;
   padding-right: 60px;
   gap: 21px;
+  position: absolute;
+  right: 0;
+  bottom: 40px;
 `
 
 export const ButtonSalvar = styled.button`

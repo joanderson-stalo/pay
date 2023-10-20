@@ -9,7 +9,7 @@ export const Overlay = styled.div`
   left: 0rem;
   top: 0rem;
 
-  background: rgba(255, 255, 255, 0.01);
+  background: rgba(16, 16, 79, 0.65);
   backdrop-filter: blur(0.1rem);
 
   display: flex;
@@ -23,7 +23,7 @@ export const ContainerModal = styled.div`
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   width: 919px;
 height: 416px;
-
+position: relative;
 
 `
 
@@ -62,6 +62,12 @@ export const ContainerSelect = styled.div`
     padding: 27px 56px 27px 56px;
     gap: 56px;
   }
+
+  > section{
+    display: flex;
+    padding: 27px 56px 27px 56px;
+    gap: 116px;
+  }
 `
 
 export const ContextButton = styled.div`
@@ -69,6 +75,10 @@ export const ContextButton = styled.div`
   justify-content: flex-end;
   padding-right: 60px;
   gap: 21px;
+
+  position: absolute;
+  right: 0;
+  bottom: 40px;
 `
 
 export const ButtonSalvar = styled.button`
@@ -102,10 +112,26 @@ line-height: 20px;
 letter-spacing: 0.5px;
 
 `
+
+
 export const ContainerPeriodo = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  gap: 20px;
+display: flex;
+flex-direction: column;
+
+> h2{
+  font-weight: 500;
+    font-size: 14px;
+    line-height: 24px;
+    letter-spacing: 0.5px;
+    color: rgb(44, 44, 44);
+    margin-bottom: 4px;
+}
+`
+
+
+export const ContainerData = styled.div`
+display: flex;
+align-items: center;
+    gap: 20px;
+
 `
