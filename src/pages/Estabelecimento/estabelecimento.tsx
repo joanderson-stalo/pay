@@ -11,7 +11,7 @@ import { Loading } from '@/components/Loading/loading';
 import { useFilterEstablishment } from './hooks/useFilterEstablishment';
 import { ModalEstablishment } from './components/ModalEstablishment/modalEstablishment';
 import { EditableButton } from './components/ButtonEdit/buttonEdit';
-import { EstabelecimentoHeader } from './components/EstabelecimentoHeader/estabelecimentoHeader';
+import { EstabelecimentoHeader } from './components/estabelecimentoHeader/estabelecimentoHeader';
 
 
 export function Estabelecimento() {
