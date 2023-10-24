@@ -134,7 +134,7 @@ export function RankingCommission() {
 
   return (
     <>
-      <ModalFilterVenda onClose={handleCloseModal} visible={filter} />
+      {/* <ModalFilterVenda onClose={handleCloseModal} visible={filter} /> */}
       {loading ? (
         <Loading />
       ) : (

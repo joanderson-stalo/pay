@@ -135,7 +135,7 @@ export function DailyCommission() {
 
   return (
     <>
-      <ModalFilterVenda onClose={handleCloseModal} visible={filter} />
+      {/* <ModalFilterVenda onClose={handleCloseModal} visible={filter} /> */}
       {loading ? (
         <Loading />
       ) : (
