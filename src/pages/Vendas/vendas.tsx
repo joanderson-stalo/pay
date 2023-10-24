@@ -7,8 +7,6 @@ import { TabelaVendas } from './components/table/table';
 import { PaginaView } from '@/components/PaginaView/paginaView';
 import { ItensPorPage } from '@/components/ItensPorPage/itensPorPage';
 import { Pagination } from '@/components/Pagination/pagination';
-import { useFilter } from '@/hooks/useFilter';
-import { useLogin } from '@/context/user.login';
 import { Transaction } from './components/table/interface';
 import { Loading } from '@/components/Loading/loading';
 import { formatCurrencyBR } from '@/utils/convertBRDinheiro';
@@ -18,6 +16,7 @@ import { baseURL } from '@/config/color';
 import debounce from 'lodash/debounce';
 import { EditableButton } from './components/ButtonEdit/buttonEdit';
 import { useFilterSales } from './hooks/useFilterSales';
+import { useLogin } from '@/context/user.login';
 
 export function Vendas() {
   const [searchValue, setSearchValue] = useState('');
@@ -32,10 +31,6 @@ export function Vendas() {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const { state } = useFilterSales();
   const { dataUser } = useLogin();
-
-
-  
-
 
 
 

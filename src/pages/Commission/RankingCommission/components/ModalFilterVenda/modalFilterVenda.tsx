@@ -3,7 +3,8 @@ import { useForm } from 'react-hook-form'
 import * as S from './styled'
 import { CustomSelect } from '@/components/Select/select'
 import { optionsData } from '@/pages/ECcadastro/components/Step1/option'
-import { useFilter } from '@/hooks/useFilter'
+import { useFilterRankingCommission } from '../../hooks/useFilterRankingCommission'
+
 
 interface IModalSucesso {
   visible: boolean
@@ -12,7 +13,7 @@ interface IModalSucesso {
 
 export function ModalFilterVenda({ onClose, visible }: IModalSucesso) {
   const { register, handleSubmit, setValue, formState: { errors } } = useForm()
-  const { setTrue} = useFilter();
+  const { setTrue} = useFilterRankingCommission();
 
   const onSubmit = (data: any) => {
     console.log(data)

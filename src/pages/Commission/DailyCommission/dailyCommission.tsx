@@ -6,8 +6,7 @@ import { ModalFilterVenda } from './components/ModalFilterVenda/modalFilterVenda
 import { PaginaView } from '@/components/PaginaView/paginaView'
 import { ItensPorPage } from '@/components/ItensPorPage/itensPorPage'
 import { Pagination } from '@/components/Pagination/pagination'
-import { EditableButton } from '@/components/ButtonEdit/buttonEdit'
-import { useFilter } from '@/hooks/useFilter'
+
 import { useLogin } from '@/context/user.login'
 import { Transaction } from './components/TabelaDailyCommission/interface'
 import { Loading } from '@/components/Loading/loading'
@@ -16,6 +15,8 @@ import { formatTaxa } from '@/utils/formatTaxa'
 import { mockData } from './mock'
 import { HeaderCommission } from './components/HeaderCommission/headerCommission'
 import { TabelaDailyCommission } from './components/TabelaDailyCommission/tabelaDailyCommission'
+import { useFilterDailyCommission } from './hooks/useFilterDailyCommission'
+import { EditableButton } from './components/ButtonEdit/buttonEdit'
 
 export function DailyCommission() {
   const [searchValue, setSearchValue] = useState('')
@@ -30,7 +31,7 @@ export function DailyCommission() {
   const [tpvGlobal, setTpvGlobal] = useState<string>('0')
   const [currentPage, setCurrentPage] = useState<number>(1)
 
-  const { state } = useFilter()
+  const { state } = useFilterDailyCommission()
   const { dataUser } = useLogin()
 
   const handleChange = (event: {
@@ -173,7 +174,7 @@ export function DailyCommission() {
             <S.ButtonTotal>Todos ({totalTransactions})</S.ButtonTotal>
 
             {state ? <EditableButton /> : ''}
-            {/* <S.ButtonFilter onClick={handleOpenModal}> <FunnelSimple />Filtrar</S.ButtonFilter> */}
+            <S.ButtonFilter onClick={handleOpenModal}> <FunnelSimple />Filtrar</S.ButtonFilter>
           </S.ContainerButton>
 
           <TabelaDailyCommission rows={mockData} />
