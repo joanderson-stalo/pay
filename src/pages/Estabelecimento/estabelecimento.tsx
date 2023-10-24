@@ -1,5 +1,4 @@
 import { PaginaView } from '@/components/PaginaView/paginaView';
-import { EstabelecimentoHeader } from './components/EstabelecimentoHeader/estabelecimentoHeader';
 import { Tabela } from './components/table/table';
 import * as S from './styled';
 import { useEffect, useState } from 'react';
@@ -12,6 +11,7 @@ import { Loading } from '@/components/Loading/loading';
 import { useFilterEstablishment } from './hooks/useFilterEstablishment';
 import { ModalEstablishment } from './components/ModalEstablishment/modalEstablishment';
 import { EditableButton } from './components/ButtonEdit/buttonEdit';
+import { EstabelecimentoHeader } from './components/EstabelecimentoHeader/estabelecimentoHeader';
 
 
 export function Estabelecimento() {
