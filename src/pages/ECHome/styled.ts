@@ -10,7 +10,6 @@ export const Container = styled.div`
 export const ContainerGrafico = styled.div`
   display: flex;
   gap: 65px;
-justify-content: center;
   margin-top: 43px;
 
 `
