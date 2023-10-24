@@ -2,24 +2,23 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as S from './styled';
 import { CustomSelect } from '@/components/Select/select';
-import { optionsData } from '@/pages/ECcadastro/components/Step1/option';
-import { useFilter } from '@/hooks/useFilter';
 import { useLogin } from '@/context/user.login';
 import axios from 'axios';
+import { useFilterLicensed } from '../../hooks/useFilterLicensed';
 
 interface IModalSucesso {
   visible: boolean;
   onClose: () => void;
 }
 
-export function ModalFilter({ onClose, visible }: IModalSucesso) {
+export function ModalLicensed({ onClose, visible }: IModalSucesso) {
   const { register, handleSubmit, setValue, formState: { errors } } = useForm();
-  const { setTrue } = useFilter();
+  const { setTrue } = useFilterLicensed();
   const { dataUser } = useLogin();
   const [fetchedOptions, setFetchedOptions] = useState([]);
 
   const onSubmit = (data: any) => {
-    console.log(data);
+    localStorage.setItem('@licenciadoAutorizadoLicensed', data.licenciadoAutorizado || '');
     setTrue();
     onClose();
   };

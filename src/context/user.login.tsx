@@ -68,7 +68,9 @@ export const LoginProvider = ({ children }: { children: React.ReactNode }) => {
         headers: { Authorization: `Bearer ${dataUser?.token}` }
       });
 
-      localStorage.clear();
+      localStorage.removeItem('@App:isLogin')
+      localStorage.removeItem('@App:user')
+      localStorage.removeItem('selectedItem')
       setDataUser(null);
       setIsLogin(false);
 
@@ -92,7 +94,9 @@ export const LoginProvider = ({ children }: { children: React.ReactNode }) => {
           headers: { Authorization: `Bearer ${dataUser?.token}` }
         });
       } catch (error) {
-        localStorage.clear();
+        localStorage.removeItem('@App:isLogin')
+        localStorage.removeItem('@App:user')
+        localStorage.removeItem('selectedItem')
         setDataUser(null);
         setIsLogin(false);
       }

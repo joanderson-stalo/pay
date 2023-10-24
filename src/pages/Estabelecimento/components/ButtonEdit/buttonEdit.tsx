@@ -1,13 +1,14 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { ButtonClose, EditButton, EditInput } from './styled';
 import closeX from '@assets/icons/X.svg'
-import { useLabelStorage } from '@/hooks/useLabel';
-import { useFilter } from '@/hooks/useFilter';
+import { useFilterEstablishment } from '../../hooks/useFilterEstablishment';
+import { useLabelEstablishment } from '../../hooks/useLabelEstablishment';
+
 
 export function EditableButton() {
-  const { label, setLabel } = useLabelStorage();
+  const { label, setLabel } = useLabelEstablishment();
   const [isEditing, setIsEditing] = useState(false);
-  const {setFalse } = useFilter();
+  const {setFalse } = useFilterEstablishment();
 
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -27,9 +28,15 @@ export function EditableButton() {
 
   const handleXClick = (event: React.MouseEvent) => {
     event.stopPropagation();
-    console.log('close')
-    setFalse()
-  };
+
+    localStorage.removeItem('@licenciadoAutorizadoEstablishment');
+    localStorage.removeItem('@fornecedorEstablishment');
+    localStorage.removeItem('@statusNoSistemaEstablishment');
+    localStorage.removeItem('@statusEmFornecedorEstablishment');
+
+    setFalse();
+};
+
 
   useEffect(() => {
     const handleDocumentMouseDown = (event: MouseEvent) => {

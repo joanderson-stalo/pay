@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 
-interface UseFilterReturn {
+interface UseFilterLicensedReturn {
   state: boolean;
   setTrue: () => void;
   setFalse: () => void;
 }
 
-export function useFilter(initialState: boolean = false): UseFilterReturn {
+export function useFilterLicensed(initialState: boolean = false): UseFilterLicensedReturn {
   const [state, setState] = useState<boolean>(() => {
-    const storageState = localStorage.getItem('@FilterState:state');
+    const storageState = localStorage.getItem('@FilterStateLicensed:state');
     return storageState ? JSON.parse(storageState) : initialState;
   });
 
@@ -18,16 +18,16 @@ export function useFilter(initialState: boolean = false): UseFilterReturn {
       setState(customEvent.detail);
     };
 
-    window.addEventListener('@FilterState:change', handler);
+    window.addEventListener('@FilterStateLicensed:change', handler);
 
     return () => {
-      window.removeEventListener('@FilterState:change', handler);
+      window.removeEventListener('@FilterStateLicensed:change', handler);
     };
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('@FilterState:state', JSON.stringify(state));
-    window.dispatchEvent(new CustomEvent('@FilterState:change', { detail: state }));
+    localStorage.setItem('@FilterStateLicensed:state', JSON.stringify(state));
+    window.dispatchEvent(new CustomEvent('@FilterStateLicensed:change', { detail: state }));
   }, [state]);
 
   const setTrue = () => {

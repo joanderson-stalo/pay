@@ -23,7 +23,7 @@ export const ContainerModal = styled.div`
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   width: 919px;
 height: 416px;
-
+position: relative;
 
 `
 
@@ -69,6 +69,10 @@ export const ContextButton = styled.div`
   justify-content: flex-end;
   padding-right: 60px;
   gap: 21px;
+
+  position: absolute;
+  right: 0;
+  bottom: 40px;
 `
 
 export const ButtonSalvar = styled.button`

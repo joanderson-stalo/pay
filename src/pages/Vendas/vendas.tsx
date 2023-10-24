@@ -43,28 +43,43 @@ export function Vendas() {
     setLoading(true);
   
     let url = `${baseURL}transactions?perpage=${String(itensPorPage)}&page=${currentPage}`;
+    
+    const statusPagamento = localStorage.getItem('@statusPagamento');
+    if (statusPagamento) {
+      url += `&status=${statusPagamento}`;
+    }
+  
+    const capturedInStart = localStorage.getItem('@captured_in_start');
+    if (capturedInStart) {
+      url += `&captured_in_start=${capturedInStart}`;
+    }
+  
+    const capturedInEnd = localStorage.getItem('@captured_in_end');
+    if (capturedInEnd) {
+      url += `&captured_in_end=${capturedInEnd}`;
+    }
   
     if (search) {
       url += `&nsu_external=${search}`;
     }
-  
+    
     const totalUrl = `${baseURL}transactions`;
-  
+    
     const config = {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${dataUser?.token}`,
       },
     };
-  
+    
     const [response, totalResponse] = await Promise.all([
       axios.get(url, config),
       axios.get(totalUrl, config),
     ]);
-  
+    
     const { data } = response;
     const totalData = totalResponse.data;
-  
+    
     setTransactions(data.transactions);
     setTotalTransactions(data.total_transactions);
     setTpvGlobal(totalData.total_amountTPV);
@@ -73,6 +88,8 @@ export function Vendas() {
     setAverageTaxApplied(totalData.average_taxApplied);
     setLoading(false);
   };
+  
+  
   
 
   const debouncedFetchDataFromAPI = useRef(debounce(fetchDataFromAPI, 1000)).current;
@@ -121,7 +138,11 @@ export function Vendas() {
 
   useEffect(() => {
     fetchDataFromAPI();
-  }, [itensPorPage, currentPage]);
+  }, [itensPorPage, currentPage, state, filter]);
+
+
+
+
 
 
   return (

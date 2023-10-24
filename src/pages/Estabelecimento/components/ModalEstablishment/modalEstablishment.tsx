@@ -3,22 +3,27 @@ import { useForm } from 'react-hook-form'
 import * as S from './styled'
 import { CustomSelect } from '@/components/Select/select'
 import { optionsData } from '@/pages/ECcadastro/components/Step1/option'
-import { useFilter } from '@/hooks/useFilter'
+import { useFilterEstablishment } from '../../hooks/useFilterEstablishment'
 
 interface IModalSucesso {
   visible: boolean
   onClose: () => void
 }
 
-export function ModalFilter({ onClose, visible }: IModalSucesso) {
+export function ModalEstablishment({ onClose, visible }: IModalSucesso) {
   const { register, handleSubmit, setValue, formState: { errors } } = useForm()
-  const { setTrue} = useFilter();
+  const { setTrue} = useFilterEstablishment();
 
   const onSubmit = (data: any) => {
-    console.log(data)
-    setTrue()
-    onClose()
-  }
+    localStorage.setItem('@licenciadoAutorizadoEstablishment', data.licenciadoAutorizado || '');
+    localStorage.setItem('@fornecedorEstablishment', data.fornecedor || '');
+    localStorage.setItem('@statusNoSistemaEstablishment', data.statusNoSistema || '');
+    localStorage.setItem('@statusEmFornecedorEstablishment', data.statusEmFornecedor || '');
+    
+    setTrue();
+    onClose();
+}
+
 
   useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {

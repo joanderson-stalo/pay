@@ -5,19 +5,19 @@ import { useEffect, useState } from 'react';
 import { ItensPorPage } from '@/components/ItensPorPage/itensPorPage';
 import { Pagination } from '@/components/Pagination/pagination';
 import { FunnelSimple } from '@phosphor-icons/react';
-import { ModalFilter } from './components/ModalFilter/modalSucesso';
-import { EditableButton } from '@/components/ButtonEdit/buttonEdit';
-import { useFilter } from '@/hooks/useFilter';
 import { LicenciadoHeader } from './components/licenciadoHeader/licenciadoHeader';
 import { useLogin } from '@/context/user.login';
 import axios from 'axios';
 import { Loading } from '@/components/Loading/loading';
+import { useFilterLicensed } from './hooks/useFilterLicensed';
+import { EditableButton } from './components/ButtonEdit/buttonEdit';
+import { ModalLicensed } from './components/ModalLicensed/modalLicensed';
 
 export function Licenciado() {
   const [itensPorPage, setItensPorPage] = useState<number | ''>(10);
   const [filter, setFilter] = useState(false);
   const [searchValue, setSearchValue] = useState('');
-  const { state } = useFilter();
+  const { state } = useFilterLicensed();
   const { dataUser } = useLogin();
   const [totalSellers, setTotalSellers] = useState(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -86,7 +86,7 @@ export function Licenciado() {
 
   return (
     <>
-      <ModalFilter onClose={handleCloseModal} visible={filter} />
+      <ModalLicensed onClose={handleCloseModal} visible={filter} />
       {loading ? <Loading /> :
         <>
            <LicenciadoHeader onSearch={handleSearch} searchValue={searchValue} setSearchValue={setSearchValue} />

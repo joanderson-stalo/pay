@@ -6,17 +6,18 @@ import { useEffect, useState } from 'react';
 import { ItensPorPage } from '@/components/ItensPorPage/itensPorPage';
 import { Pagination } from '@/components/Pagination/pagination';
 import { FunnelSimple } from '@phosphor-icons/react';
-import { ModalFilter } from './components/ModalFilter/modalSucesso';
-import { EditableButton } from '@/components/ButtonEdit/buttonEdit';
-import { useFilter } from '@/hooks/useFilter';
 import axios from 'axios';
 import { useLogin } from '@/context/user.login';
 import { Loading } from '@/components/Loading/loading';
+import { useFilterEstablishment } from './hooks/useFilterEstablishment';
+import { ModalEstablishment } from './components/ModalEstablishment/modalEstablishment';
+import { EditableButton } from './components/ButtonEdit/buttonEdit';
+
 
 export function Estabelecimento() {
   const [itensPorPage, setItensPorPage] = useState<number | ''>(10);
   const [filter, setFilter] = useState(false);
-  const { state } = useFilter();
+  const { state } = useFilterEstablishment();
   const { dataUser } = useLogin();
   const [totalSellers, setTotalSellers] = useState(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -84,7 +85,7 @@ export function Estabelecimento() {
 
   return (
     <>
-      <ModalFilter onClose={handleCloseModal} visible={filter} />
+      <ModalEstablishment onClose={handleCloseModal} visible={filter} />
       {loading ? <Loading /> :
         <>
           <EstabelecimentoHeader onSearch={handleSearch} searchValue={searchValue} setSearchValue={setSearchValue} />

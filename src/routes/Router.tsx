@@ -25,8 +25,7 @@ import { EditRegistrationLA } from '@/pages/Licenciado/modules/EditRegistrationL
 import { EstablishmentDetail } from '@/pages/Estabelecimento/modules/EstablishmentDetail/establishmentDetail'
 import { ManageAccessEstablishment } from '@/pages/Estabelecimento/modules/ManageAccess/ManageAccessEstablishment'
 import { EditRegistrationEC } from '@/pages/Estabelecimento/modules/EditRegistrationEC/editRegistrationEC'
-import { AdminHome } from '@/pages/AdminHome/adminHome'
-import { LAHome } from '@/pages/LAHome/LAHome'
+import { ECHome } from '@/pages/ECHome/ECHome'
 
 
 
@@ -45,7 +44,7 @@ export function Router() {
         </Route>
 
         <Route path="/" element={<DefaultHome />}>
-          <Route path="/home" element={<LAHome />} />
+          <Route path="/home" element={<ECHome />} />
           <Route path="/userlist" element={<UserListLogged />} />
 
           <Route path="/vendas" element={<Vendas />} />

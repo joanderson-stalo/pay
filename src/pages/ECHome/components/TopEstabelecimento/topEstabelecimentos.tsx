@@ -1,6 +1,9 @@
+import { useNavigate } from 'react-router-dom';
 import * as S from './styled';
 
 export function TopEstabelecimentos() {
+    const navigate = useNavigate();
+
     const data = [
       { ranking: '1º', nome: 'Padaria Trevo de Longo Nome', comissao: 340.00, qtdPos: '02' },
       { ranking: '2º', nome: 'Padaria Trevo de Longo Nome', comissao: 340.00, qtdPos: '02' },
@@ -15,7 +18,7 @@ export function TopEstabelecimentos() {
     }
 
     function handleButtonClick() {
-        console.log("Botão 'Ver todos' clicado!");
+        navigate('/commission/ranking')
     }
 
     return (

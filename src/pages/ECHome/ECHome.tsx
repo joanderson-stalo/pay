@@ -5,7 +5,7 @@ import * as S from './styled'
 import { TopEstabelecimentos } from "./components/TopEstabelecimento/topEstabelecimentos";
 import { UltimasVendas } from "./components/UltimasVendas/ultimasVendas";
 
-export function AdminHome(){
+export function ECHome(){
   return(
     <>
     <S.Container>
