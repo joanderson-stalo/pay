@@ -22,7 +22,6 @@ export const ContainerDados = styled.div`
   justify-content: space-between;
 
   @media (max-width: 900px) {
-    text-align: center;
     align-items: center;
     gap: 20px;
   }
@@ -131,7 +130,11 @@ export const ButtonAvançar = styled.button`
   }
 `;
 
-export const ContainerPJPF = styled.div``;
+export const ContainerPJPF = styled.div`
+    display: flex;
+  align-items: center;
+  overflow: hidden;
+`;
 
 export const ButtonPJ = styled.button<ActiveProps>`
   width: 50px;
@@ -175,4 +178,8 @@ export const ContainerButton = styled.div`
   gap: 20px;
   align-self: flex-end;
   margin-bottom: 100px;
+  @media (max-width: 1000px) {
+    justify-content: center;
+    align-self: center;
+  }
 `;
