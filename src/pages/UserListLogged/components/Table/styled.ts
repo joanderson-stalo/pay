@@ -22,6 +22,22 @@ export const Table = styled.table`
       box-shadow: 0px 1px 0px 0px #E9ECEF;
     }
   }
+
+  @media (max-width: 1200px) {
+    border-spacing: 0 8px;
+  }
+
+  @media (max-width: 1100px) {
+    border-spacing: 0 7px;
+  }
+
+  @media (max-width: 900px) {
+    border-spacing: 0 5px;
+  }
+
+  @media (max-width: 600px) {
+    border-spacing: 0 3px;
+  }
 `;
 
 export const TableHeader = styled.th`
@@ -30,6 +46,22 @@ export const TableHeader = styled.th`
   font-style: normal;
   font-weight: 500;
   line-height: 20.824px;
+
+  @media (max-width: 1200px) {
+    font-size: 12px;
+  }
+
+  @media (max-width: 1100px) {
+    font-size: 11px;
+  }
+
+  @media (max-width: 900px) {
+    font-size: 10px;
+  }
+
+  @media (max-width: 600px) {
+    font-size: 9px;
+  }
 `;
 
 export const TableData = styled.td`
@@ -40,18 +72,44 @@ export const TableData = styled.td`
   text-align: center;
   vertical-align: middle;
 
+  @media (max-width: 1200px) {
+    font-size: 12px;
+    padding: 7px;
+  }
 
+  @media (max-width: 1100px) {
+    font-size: 11px;
+    padding: 6px;
+  }
 
+  @media (max-width: 900px) {
+    font-size: 10px;
+    padding: 5px;
+  }
+
+  @media (max-width: 600px) {
+    font-size: 9px;
+    padding: 4px;
+  }
 `;
 
 export const StyledImage = styled.img`
-
   display: block;
   margin-left: auto;
   margin-right: -10px;
   width: 40px;
   height: 40px;
   border-radius: 50%;
+
+  @media (max-width: 900px) {
+    width: 30px;
+    height: 30px;
+  }
+
+  @media (max-width: 600px) {
+    width: 25px;
+    height: 25px;
+  }
 `;
 
 export const ButtonRetrieve = styled.button`
@@ -62,6 +120,14 @@ export const ButtonRetrieve = styled.button`
   line-height: 14.128px;
   background: transparent;
   letter-spacing: 0.353px;
+
+  @media (max-width: 900px) {
+    font-size: 10px;
+  }
+
+  @media (max-width: 600px) {
+    font-size: 9px;
+  }
 `;
 
 export const ButtonRemove = styled(ButtonRetrieve)`
@@ -76,19 +142,32 @@ export const TableRow = styled.tr`
   }
 `;
 
-
-
-
 export const TagYou = styled.span`
   border-radius: 4px;
-background: #00A3D7;
-padding: 1px 8px;
+  background: #00A3D7;
+  padding: 1px 8px;
+  color: var(--foundation-brand-02-light, #E6F8FD);
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
 
-color: var(--foundation-brand-02-light, #E6F8FD);
-text-align: center;
-font-size: 12px;
-font-weight: 600;
+  @media (max-width: 1200px) {
+    font-size: 11px;
+    padding: 1px 7px;
+  }
 
+  @media (max-width: 1100px) {
+    font-size: 10px;
+    padding: 1px 6px;
+  }
 
+  @media (max-width: 900px) {
+    font-size: 9px;
+    padding: 1px 5px;
+  }
 
-`
+  @media (max-width: 600px) {
+    font-size: 8px;
+    padding: 1px 4px;
+  }
+`;

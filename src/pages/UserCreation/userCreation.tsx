@@ -47,9 +47,9 @@ export function UserCreation() {
         headers
       })
 
-      if (response.status === 201) {
+   
         setSuccess(true);
-      }
+  
 
 
     } catch (error: any) {
