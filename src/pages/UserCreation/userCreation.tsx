@@ -57,6 +57,7 @@ export function UserCreation() {
       if (error.response && error.response.status === 400) {
           toast.error('O e-mail já foi recebido.')
       }
+      toast.error('E-mail inválido')
     } finally {
       setLoading(false)
     }
