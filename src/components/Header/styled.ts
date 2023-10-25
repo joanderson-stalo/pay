@@ -27,6 +27,13 @@ export const ContainerModal = styled.div`
   position: fixed;
   top: 78px;
   z-index: 500;
+
+
+
+    @media (max-width: 1100px) {
+      top: 125px;
+    right: 72px;
+    }
 `
 
 export const ButtonHeader = styled.button`

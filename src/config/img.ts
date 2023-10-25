@@ -1,5 +1,5 @@
 import Background from '@assets/deixanoazul.png'
-import BackgroundLogo from '@assets/deixanoazul3.png'
+import BackgroundLogo from '@assets/logo.svg'
 import deixaNoAzul from '@assets/deixanoAzulLogoAzul.png'
 import backModal from '@assets/backgroundModal.png'
 

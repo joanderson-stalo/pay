@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
   ButtonHeader,
   ButtonNotification,
@@ -17,10 +17,17 @@ import notif from '@assets/icons/Notif.svg';
 
 export function Header() {
   const { dataUser } = useLogin();
-  const [openModal, setOpenModal] = useState(false)
+  const [openModal, setOpenModal] = useState(false);
+  const modalRef = useRef<HTMLDivElement | null>(null);
 
   const closeModal = () => {
     setOpenModal(false);
+  }
+
+  const handleOutsideClick = (e: MouseEvent) => {
+    if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
+      closeModal();
+    }
   }
 
   useEffect(() => {
@@ -38,6 +45,13 @@ export function Header() {
       window.removeEventListener('scroll', handleScroll);
     }
   }, [openModal]);
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleOutsideClick);
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+    }
+  }, []);
 
   return (
     <ContainerHeader>
@@ -57,7 +71,7 @@ export function Header() {
           </ButtonHeader>
         )}
         <ButtonNotification> <img src={notif} alt="" /></ButtonNotification>
-        <ContainerModal>{openModal && <Modal closeModal={closeModal} />}</ContainerModal>
+        <ContainerModal ref={modalRef}>{openModal && <Modal closeModal={closeModal} />}</ContainerModal>
       </ContainerPerfil>
     </ContainerHeader>
   )
