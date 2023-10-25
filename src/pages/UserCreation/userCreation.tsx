@@ -22,6 +22,13 @@ export function UserCreation() {
       localStorage.setItem('selectedItem', '0');
   }
 
+  
+  const handleUserlist = async () => {
+    await   navigate('/userlist')
+ 
+     }
+   
+
   const handleFormData = async (data: UserData) => {
     const currentOrigin = window.location.origin
 
@@ -70,7 +77,7 @@ export function UserCreation() {
       ) : (
         <>
           {success ? (
-            <Modal onClose={() => handleLogin(navigate)} visible={true} />
+            <Modal onClose={handleUserlist} visible={true} />
           ) : (
             <CreateUser Voltar={handleVoltar} onSubmitData={handleFormData} />
           )}
