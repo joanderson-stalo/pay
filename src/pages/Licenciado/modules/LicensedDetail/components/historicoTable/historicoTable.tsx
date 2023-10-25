@@ -4,7 +4,7 @@ import { dadosHistorico } from './dados';
 export function HistoricoTable(){
   return (
     <S.HistoricoContainer>
-      <S.HistoricoHeader>Histórico de Ações</S.HistoricoHeader>
+      <S.HistoricoHeader>Top Estabelecimentos</S.HistoricoHeader>
       <S.HistoricoTable>
         <thead>
           <tr>

@@ -12,6 +12,10 @@ export const ContainerSidebarDefault = styled.div`
 export const ContainerContext = styled.div`
  width: 100%;
   padding-left: 240px;
+
+  @media (max-width: 1100px) {
+    padding-left: 0px;
+  }
 `
 export const ContextHome = styled.div`
   width: 100%;

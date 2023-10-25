@@ -15,6 +15,10 @@ export const ContainerSidebar = styled.div<Props>`
   flex-direction: column;
   align-items: center;
   padding-top: 38px;
+
+  @media (max-width: 1100px) {
+      display: none;
+  }
 `
 
 export const Logo = styled.img`

@@ -2,31 +2,43 @@ import { Doughnut } from 'react-chartjs-2';
 import Chart from 'chart.js/auto';
 import { ContainerGrafico } from './styled';
 
+const getFontSizeValue = () => {
+  if (window.innerWidth < 600) return 18;
+  if (window.innerWidth < 900) return 20;
+  if (window.innerWidth < 1100) return 22;
+  return 24.293;
+};
+
+const getFontSizeText = () => {
+  if (window.innerWidth < 600) return 10;
+  if (window.innerWidth < 900) return 12;
+  if (window.innerWidth < 1100) return 13;
+  return 14;
+};
+
 const centerTextPlugin = {
   id: 'custom_center_text_plugin',
   beforeDraw: (chart: { config: { options: { centerText: string; centerValue: any; }; }; width: any; height: any; ctx: any; }) => {
     if (chart.config.options.centerText && chart.config.options.centerValue) {
       const width = chart.width,
-        height = chart.height,
-        ctx = chart.ctx;
+            height = chart.height,
+            ctx = chart.ctx;
 
       ctx.restore();
 
       // Para o valor
-      let fontSize = 24.293;
-      ctx.font = `700 ${fontSize}px sans-serif`;
+      ctx.font = `700 ${getFontSizeValue()}px sans-serif`;
       ctx.fillStyle = "#383838";
       ctx.textBaseline = "middle";
 
       let text = "R$ " + (chart.config.options.centerValue),
-        textX = Math.round((width - ctx.measureText(text).width) / 2),
-        textY = height / 2 - 10;
+          textX = Math.round((width - ctx.measureText(text).width) / 2),
+          textY = height / 2 - 10;
 
       ctx.fillText(text, textX, textY);
 
       // Para o texto "TPV TOTAL", "TPV DEBITO", "TPV CREDITO", "TPV PIX"
-      fontSize = 14;
-      ctx.font = `700 ${fontSize}px sans-serif`;
+      ctx.font = `700 ${getFontSizeText()}px sans-serif`;
       ctx.fillStyle = "#383838";
 
       text = chart.config.options.centerText;

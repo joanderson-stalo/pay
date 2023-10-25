@@ -4,6 +4,13 @@ import { Bolinha, ContainerGrafico, ContainerText } from './styled';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
+const getFontSize = () => {
+  if (window.innerWidth < 600) return 8;
+  if (window.innerWidth < 900) return 10;
+  if (window.innerWidth < 1100) return 12;
+  return 14;
+};
+
 export const options = {
   responsive: true,
   scales: {
@@ -18,6 +25,9 @@ export const options = {
       borderColor: 'transparent',
       ticks: {
         display: true,
+        font: {
+          size: getFontSize(),
+        }
       }
     },
     y: {
@@ -30,6 +40,9 @@ export const options = {
         display: true,
         stepSize: 25,
         drawBorder: false,
+        font: {
+          size: getFontSize(),
+        },
         callback: (value: string | number) => {
           if (value === 0) {
             return value;
@@ -98,4 +111,3 @@ export function GraficoBar({dataArray}: AppProps) {
     </>
   );
 }
-

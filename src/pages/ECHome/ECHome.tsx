@@ -21,9 +21,7 @@ export function ECHome(){
 
     <S.ContainerGrafico>
     <GraficoCicle pix='5.000,00' credit='6.000,20' debit='2.000,20' />
-      <div style={{width: '510px', height: '10px'}}>
-      <GraficoBar dataArray={['15', '19', '30', '50', '20', '30', '70', '80', '50', '10', '20', '15']} />
-      </div>
+    <GraficoBar dataArray={['15', '19', '30', '50', '20', '30', '70', '80', '50', '10', '20', '15']} />
     </S.ContainerGrafico>
 
 
@@ -32,6 +30,25 @@ export function ECHome(){
     <UltimasVendas />
     </S.ContainerTable>
 
+
+
+<S.MobileContainerGrafico>
+
+<GraficoCicle pix='5.000,00' credit='6.000,20' debit='2.000,20' />
+<div>
+    <Card label="Comissão" label2="R$ 435,00" />
+    <Card label="Recebível" label2="R$ 216,50" />
+    <Card label="Qtd de ECs" label2="15" />
+    <Card label="Qtd de POs" label2="15" />
+    </div>
+</S.MobileContainerGrafico>
+
+
+   <S.MobileContainerTable>
+    <UltimasVendas />
+   <TopEstabelecimentos />
+    <GraficoBar dataArray={['15', '19', '30', '50', '20', '30', '70', '80', '50', '10', '20', '15']} />
+   </S.MobileContainerTable>
       
     </S.Container>
  
