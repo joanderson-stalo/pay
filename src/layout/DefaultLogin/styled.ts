@@ -22,6 +22,11 @@ export const BackgroundLogin = styled.div<BackgroundProp>`
   background-size: cover;
   background-position: center;
 
+  > img {
+    width: 272.006px;
+height: 76.55px;
+  }
+
   &::after {
     content: "";
     position: absolute;
