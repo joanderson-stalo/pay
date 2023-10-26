@@ -11,6 +11,11 @@ export const ContainerCardVendas = styled.div`
   display: flex;
   gap: 20px;
   margin: 45px 0 45px 0;
+  @media (max-width: 1100px) {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
 
 `
 
@@ -23,38 +28,45 @@ font-weight: 700;
 margin-top: 30px;
 `
 
+
+
 export const Input = styled.div`
-position: relative;
-display: flex;
-align-items: center;
-width: 525px;
-height: 44px;
-border-radius: 4px;
-border: 1px solid #E2E2E2;
-background: #FFF;
-padding: 10px 16px;
-font-size: 14px;
-line-height: 24px;
-letter-spacing: 0.5px;
-color: #9B959F;
-padding-right: 15px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 525px;
+  height: 44px;
+  border-radius: 4px;
+  border: 1px solid #E2E2E2;
+  background: #FFF;
+  padding: 10px 16px;
+  font-size: 14px;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+  color: #9B959F;
+  padding-right: 15px;
 
-> input {
-      width: 100%;
-      padding-right: 40px;
+  > input {
+    width: 100%;
+    padding-right: 40px;
+    color:  #9B959F;
+    font-size: 14px;
+    line-height: 24px;
+    letter-spacing: 0.5px;
+  }
 
-      color:  #9B959F;
-font-size: 14px;
-line-height: 24px;
-letter-spacing: 0.5px;
-}
+  .search-icon {
+    position: absolute;
+    right: 20px;
+    color: #000;
+  }
 
-.search-icon {
-  position: absolute;
-  right: 20px;
-  color: #000;
-}
+  @media (max-width: 560px) {
+    max-width: 100%;
+  }
 `;
+
 
 export const SearchIcon = styled.span`
 display: flex;
@@ -94,6 +106,14 @@ export const ContainerItens = styled.div`
 export const ContainerButton = styled.div`
   display: flex;
   margin-top: 35px;
+
+
+  @media (max-width: 900px) {
+    justify-content: center;
+   
+  }
+
+
 `
 export const ButtonTotal = styled.button`
   width: 118px;

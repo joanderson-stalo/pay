@@ -8,6 +8,10 @@ export const Table = styled.table`
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
+  
+  @media (max-width: 900px) {
+    display: none;
+  }
 `;
 
 export const TableHeader = styled.th`
