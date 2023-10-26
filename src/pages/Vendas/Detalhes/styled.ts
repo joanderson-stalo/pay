@@ -15,13 +15,23 @@ export const ContextDetalhes = styled.div`
 export const SectionCard = styled.section`
   display: flex;
   gap: 21px;
+
+  @media (max-width: 1100px) {
+    justify-content: center;
+    align-items: center;
+  }
 `
 
 export const SectionTable = styled.section`
   display: flex;
   gap: 23px;
 
-  
+  @media (max-width: 1100px) {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
 `
 export const ButtonBlack = styled.button`
   color: var(--foundation-brand-01-normal, #10104F);
