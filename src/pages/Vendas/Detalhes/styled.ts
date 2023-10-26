@@ -20,6 +20,8 @@ export const SectionCard = styled.section`
 export const SectionTable = styled.section`
   display: flex;
   gap: 23px;
+
+  
 `
 export const ButtonBlack = styled.button`
   color: var(--foundation-brand-01-normal, #10104F);
