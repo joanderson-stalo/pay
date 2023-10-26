@@ -101,13 +101,10 @@ const handleNextStep = async () => {
                 }
             });
             console.log('oi LA')
-            if (response.status === 201) {
-                console.log('Requisição bem-sucedida:', response.data);
+        
                 setIsLoading(false)
                 setCurrentStep(5);
-            } else {
-                console.error('Requisição falhou:', response.statusText);
-            }
+            
 
         } catch (error: any) {
 
@@ -115,6 +112,7 @@ const handleNextStep = async () => {
               console.error('Erro 409:', error.response.data);
               toast.error('Já existe vendedor com o mesmo documento e tipo.')
           }
+          toast.error('Verifique a sua conexão')
           setIsLoading(false);
       }
     }

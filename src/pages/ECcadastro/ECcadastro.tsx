@@ -148,6 +148,7 @@ const handleNextStep = async () => {
           if (error.response && error.response.status === 409) {
               toast.error('Já existe vendedor com o mesmo documento e tipo.')
           }
+          toast.error('Verifique a sua conexão')
           setIsLoading(false);
       }
     }
