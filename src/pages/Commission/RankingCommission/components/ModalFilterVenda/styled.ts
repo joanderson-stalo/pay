@@ -1,4 +1,5 @@
 
+import { ThemeColor } from '@/config/color'
 import styled from 'styled-components'
 
 export const Overlay = styled.div`
@@ -36,7 +37,7 @@ export const ContainerTitle = styled.div`
     gap: 12px;
 
   > p {
-    color: #00A3D7;
+    color: ${ThemeColor.secundaria};
 font-size: 24px;
 font-weight: 700;
   }
@@ -74,7 +75,7 @@ export const ContextButton = styled.div`
 export const ButtonSalvar = styled.button`
 border-radius: 5px;
 border: 0.5px solid #0086ED;
-background: #00A3D7;
+background: ${ThemeColor.secundaria};
 
 width: 109px;
 height: 35px;

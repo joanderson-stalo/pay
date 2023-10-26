@@ -1,3 +1,4 @@
+import { ThemeColor } from "@/config/color";
 import styled from "styled-components";
 
 export const ContainerArvore = styled.div`
@@ -12,7 +13,7 @@ export const ContainerTitle = styled.div`
 
 
   > h2 {
-    color: #00A3D7;
+    color: ${ThemeColor.secundaria};
     font-size: 24px;
     font-weight: 700;
   }

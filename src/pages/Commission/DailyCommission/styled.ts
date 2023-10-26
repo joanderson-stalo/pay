@@ -1,3 +1,4 @@
+import { ThemeColor } from "@/config/color";
 import styled from "styled-components";
 
 export const ContextTitleVendas = styled.div`
@@ -17,7 +18,7 @@ export const ContainerCardVendas = styled.div`
 
 
 export const Title = styled.div`
-  color: #00A3D7;
+  color: ${ThemeColor.secundaria};
 font-size: 24px;
 font-weight: 700;
 margin-top: 30px;

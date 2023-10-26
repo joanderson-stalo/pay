@@ -1,3 +1,4 @@
+import { ThemeColor } from "@/config/color";
 import styled from "styled-components";
 
 export const ContainerDetalhe = styled.div`
@@ -34,7 +35,7 @@ export const SectionTable = styled.section`
 
 `
 export const ButtonBlack = styled.button`
-  color: var(--foundation-brand-01-normal, #10104F);
+  color: ${ThemeColor.primaria};
 font-family: Poppins;
 font-size: 12px;
 font-style: normal;

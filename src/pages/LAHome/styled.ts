@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import IconTooltip from '@assets/icons/toostip.svg'
+import { ThemeColor } from "@/config/color";
 
 export const ContainerInfo = styled.div`
   display: flex;
@@ -88,7 +89,7 @@ export const ContainerCalendar = styled.div`
 export const Title = styled.h2`
 margin-top: 28px;
 margin-bottom: 28px;
-color: #00A3D7;
+color: ${ThemeColor.secundaria};
 font-size: 24px;
 font-weight: 700;
 padding: 0 20px;

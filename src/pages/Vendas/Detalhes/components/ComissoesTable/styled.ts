@@ -1,3 +1,4 @@
+import { ThemeColor } from "@/config/color";
 import styled from "styled-components";
 interface IHistoricoTableCellPapelText {
   label: string;
@@ -8,7 +9,7 @@ export const HistoricoContainer = styled.div`
 `;
 
 export const HistoricoHeader = styled.h1`
-  background: #10104F;
+  background: ${ThemeColor.primaria};
   width: 595px;
   height: 35px;
   color: #FDFDFD;
@@ -100,11 +101,11 @@ export const HistoricoTableHeaderCellTotal = styled(HistoricoTableCell).attrs({ 
 `;
 
 export const TotalRow = styled.tr`
-  background: #10104F;
+  background: ${ThemeColor.primaria};
 `;
 
 export const HistoricoTableCellPapelText = styled.span<IHistoricoTableCellPapelText>`
-  background: ${props => props.label === 'ADQ' ? '#E6E6E6' : '#10104F'};
+  background: ${props => props.label === 'ADQ' ? '#E6E6E6' : `${ThemeColor.primaria}`};
   border-radius: 4px;
   color:${props => props.label === 'ADQ' ? '#4B4B4B' : '#FDFDFD'}  ;
   font-size: 9.906px;

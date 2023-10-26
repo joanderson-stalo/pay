@@ -1,3 +1,4 @@
+import { ThemeColor } from "@/config/color"
 import styled from "styled-components"
 
 
@@ -6,7 +7,7 @@ export const ContainerCardInfo = styled.div`
   max-width: 170px;
 height: 75px;
 border-radius: 8px;
-background:  #10104F;
+background:  ${ThemeColor.primaria};
 
 display: flex;
 flex-direction: column;

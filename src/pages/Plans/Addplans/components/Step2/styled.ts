@@ -1,3 +1,4 @@
+import { ThemeColor } from "@/config/color";
 import { UploadSimple } from "@phosphor-icons/react";
 import styled from "styled-components";
 
@@ -84,7 +85,7 @@ export const ButtonAvançar = styled.button`
   width: 109px;
 height: 35px;
 
-background: #00A3D7;
+background: ${ThemeColor.secundaria};
 border: 0.5px solid #0086ED;
 border-radius: 5px;
 
@@ -179,7 +180,7 @@ export const StyledTable = styled.table`
 
     thead {
         tr {
-            background: var(--foundation-brand-01-normal, #10104F);
+            background: ${ThemeColor.primaria};
 
             th {
                 padding: 8px 12px;
@@ -283,7 +284,7 @@ export const ButtonGroup = styled.div`
 `;
 
 export const ButtonBlack = styled.button`
-  color: var(--foundation-brand-01-normal, #10104F);
+  color: ${ThemeColor.primaria};
 font-family: Poppins;
 font-size: 12px;
 font-style: normal;

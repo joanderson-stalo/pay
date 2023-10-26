@@ -1,3 +1,4 @@
+import { ThemeColor } from "@/config/color";
 import styled from "styled-components";
 
 export const Container = styled.div`
@@ -44,7 +45,7 @@ export const ContainerCards = styled.div`
 export const Title = styled.h2`
 margin-top: 28px;
 margin-bottom: 28px;
-color: #00A3D7;
+color: ${ThemeColor.secundaria};
 font-size: 24px;
 font-weight: 700;
 `

@@ -1,3 +1,4 @@
+import { ThemeColor } from "@/config/color";
 import styled from "styled-components";
 
 export const ContainerStep = styled.div`
@@ -157,7 +158,7 @@ export const ContainerInput2 = styled.section`
 export const ButtonAvançar = styled.button`
   width: 109px;
   height: 35px;
-  background: #00a3d7;
+  background: ${ThemeColor.secundaria};
   border: 0.5px solid #0086ed;
   border-radius: 5px;
   font-weight: 500;

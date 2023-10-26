@@ -1,3 +1,4 @@
+import { ThemeColor } from '@/config/color';
 import styled from 'styled-components';
 
 interface ITagDetalhes {
@@ -108,7 +109,7 @@ export const InfoOne = styled.div`
 
   > div {
     h2 {
-      color: #10104f;
+      color: ${ThemeColor.primaria};
       font-size: 16px;
       font-weight: 700;
     }
@@ -141,7 +142,7 @@ export const InfoTw = styled.div`
 
   > div {
     h2 {
-      color: #10104f;
+      color: ${ThemeColor.primaria};
       font-size: 16px;
       font-weight: 700;
     }
@@ -174,7 +175,7 @@ export const InfoTre = styled.div`
 
   > div {
     h2 {
-      color: #10104f;
+      color: ${ThemeColor.primaria};
       font-size: 16px;
       font-weight: 700;
     }
@@ -204,7 +205,7 @@ export const Taxas = styled.div`
   margin-right: 118px;
 
   h2 {
-    color: #10104f;
+    color: ${ThemeColor.primaria};
     font-size: 16px;
     font-weight: 700;
   }

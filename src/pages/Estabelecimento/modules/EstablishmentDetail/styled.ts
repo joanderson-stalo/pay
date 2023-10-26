@@ -1,3 +1,4 @@
+import { ThemeColor } from '@/config/color'
 import styled from 'styled-components'
 
 export const ContainerInfo = styled.div`
@@ -7,7 +8,7 @@ export const ContainerInfo = styled.div`
 `
 
 export const Title = styled.p`
-  color: #00a3d7;
+  color: ${ThemeColor.secundaria};
   font-size: 24px;
   font-weight: 700;
 
@@ -28,7 +29,7 @@ height: 35px;
 
 border-radius: 5px;
 border: 0.5px solid  #0E0E47;
-background:  #10104F;
+background:  ${ThemeColor.primaria};
 
 color:  #FDFDFD;
 font-size: 12px;
@@ -43,7 +44,7 @@ height: 35px;
 
 border-radius: 5px;
 border: 0.5px solid #0086ED;
-background: #00A3D7;
+background: ${ThemeColor.secundaria};
 
 color: #FFF;
 font-size: 12px;
@@ -92,7 +93,7 @@ padding: 7.5px 16px;
 
 
 export const ButtonBlack = styled.button`
-  color: var(--foundation-brand-01-normal, #10104F);
+  color: ${ThemeColor.primaria};
 font-family: Poppins;
 font-size: 12px;
 font-style: normal;

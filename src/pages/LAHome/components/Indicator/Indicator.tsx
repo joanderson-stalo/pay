@@ -1,3 +1,4 @@
+import { ThemeColor } from '@/config/color';
 import React from 'react';
 import styled from 'styled-components';
 
@@ -14,7 +15,7 @@ const Bar = styled.div<MonthlyIndicatorProps>`
   width: 61px;
   height: 4px;
   border-radius: 10px;
-  background: ${props => (props.label && props.label !== "Mês atual") ? "#B2EAF8" : "#10104F"};
+  background: ${props => (props.label && props.label !== "Mês atual") ? "#B2EAF8" : `${ThemeColor.primaria};`};
   margin-right: 10px;
 `;
 

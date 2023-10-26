@@ -1,5 +1,6 @@
 // MonthYearSelector.js
 
+import { ThemeColor } from '@/config/color';
 import React, { useState, ChangeEvent } from 'react';
 import styled from 'styled-components';
 
@@ -14,7 +15,7 @@ const Container = styled.input`
   border-radius: 3.598px;
   border: 0.9px solid var(--foundation-brand-02-light-active, #B2EAF8);
   background: var(--foundation-white-light, #FDFDFD);
-  color: #10104F;
+  color: ${ThemeColor.primaria};
 `;
 
 interface MonthYearSelectorProps {

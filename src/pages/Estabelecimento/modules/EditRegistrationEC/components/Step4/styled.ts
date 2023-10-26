@@ -1,3 +1,4 @@
+import { ThemeColor } from "@/config/color";
 import styled from "styled-components";
 
 export const ContainerStep = styled.div`
@@ -82,7 +83,7 @@ export const ButtonAvançar = styled.button`
   width: 109px;
 height: 35px;
 
-background: #00A3D7;
+background: ${ThemeColor.secundaria};
 border: 0.5px solid #0086ED;
 border-radius: 5px;
 

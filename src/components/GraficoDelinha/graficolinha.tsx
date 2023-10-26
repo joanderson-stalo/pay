@@ -1,5 +1,6 @@
 import { Line } from 'react-chartjs-2';
 import { ChartOptions } from 'chart.js/auto';
+import { ThemeColor } from '@/config/color';
 
 export function CustomChart({ dataMesAtual, dataMesSelecionado }: { dataMesAtual: number[]; dataMesSelecionado: number[] }) {
     const data = {
@@ -8,13 +9,13 @@ export function CustomChart({ dataMesAtual, dataMesSelecionado }: { dataMesAtual
             {
                 label: 'Mês Atual',
                 data: dataMesAtual,
-                backgroundColor: '#10104F',
-                borderColor: '#10104F',
+                backgroundColor: `${ThemeColor.primaria}`,
+                borderColor: `${ThemeColor.primaria}`,
                 borderWidth: 2,
                 tension: 0.4,
                 pointRadius: 5,
                 pointHoverRadius: 7,
-                pointBackgroundColor: '#10104F',
+                pointBackgroundColor: `${ThemeColor.primaria}`,
             },
             {
                 label: 'Mês Selecionado',

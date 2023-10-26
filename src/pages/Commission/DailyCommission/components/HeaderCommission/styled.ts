@@ -1,4 +1,5 @@
-  import styled from 'styled-components';
+  import { ThemeColor } from '@/config/color';
+import styled from 'styled-components';
 
   export const Container = styled.div`
     margin-top: 30px;
@@ -17,7 +18,7 @@
     align-items: center;
     border-radius: 5px;
     border: 0.5px solid #0086ED;
-    background: #00A3D7;
+    background: ${ThemeColor.secundaria};
     color: #FFF;
     font-size: 12px;
     font-weight: 500;
@@ -26,7 +27,7 @@
   `;
 
   export const Title = styled.h2`
-    color: #00A3D7;
+    color: ${ThemeColor.secundaria};
     font-size: 24px;
     font-weight: 700;
     line-height: normal;

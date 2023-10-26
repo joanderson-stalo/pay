@@ -95,7 +95,7 @@ export function GraficoCicle({ debit, credit, pix }: AppProps) {
       if (elements.length > 0) {
         const hoveredElementIndex = elements[0].index;
         const hoveredColor = data.datasets[0].backgroundColor[hoveredElementIndex];
-        if (hoveredColor === '#10104F') {
+        if (hoveredColor === `${ThemeColor.primaria}`) {
           chart.options.centerText = "TPV DEBITO";
           chart.options.centerValue = debit;
         } else if (hoveredColor === '#08BBE9') {

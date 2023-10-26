@@ -1,3 +1,4 @@
+import { ThemeColor } from '@/config/color';
 import styled from 'styled-components';
 
 export const HistoricoContainer = styled.div`
@@ -6,7 +7,7 @@ export const HistoricoContainer = styled.div`
 `;
 
 export const HistoricoHeader = styled.h1`
-  background: #10104F;
+  background: ${ThemeColor.primaria};
   width: 430px;
   height: 35px;
   color: #FDFDFD;

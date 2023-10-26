@@ -1,3 +1,4 @@
+import { ThemeColor } from "@/config/color";
 import styled from "styled-components";
 
 
@@ -9,7 +10,7 @@ export const ContainerManageAccessLicensed = styled.div`
 `
 
 export const ButtonBlack = styled.button`
-  color: var(--foundation-brand-01-normal, #10104F);
+  color: ${ThemeColor.primaria};
 font-family: Poppins;
 font-size: 12px;
 font-style: normal;
