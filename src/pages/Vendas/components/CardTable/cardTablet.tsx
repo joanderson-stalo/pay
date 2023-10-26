@@ -4,6 +4,8 @@ import maestro from '@assets/bandeiras/maestro.svg';
 import visa from '@assets/bandeiras/visa.svg';
 import masterCard from '@assets/bandeiras/master.svg';
 import * as S from './styled';
+import { useNavigate } from 'react-router-dom';
+import { useTransactionVendas } from '@/context/useVendas';
 
 export interface Transaction {
   id: string;
@@ -20,6 +22,14 @@ export interface Transaction {
 interface CardTableProps {
   rows: Transaction[];
 }
+
+const navigate = useNavigate();
+const { setSelectedTransactionId } = useTransactionVendas();
+
+const handleButtonClick = (id: string) => {
+  setSelectedTransactionId(id);
+  navigate('/detalhe');
+};
 
 export function CardTable({ rows }: CardTableProps) {
   return (
@@ -52,7 +62,7 @@ export function CardTable({ rows }: CardTableProps) {
             <div>
               {transaction.status === 'succeeded' ? 'SUCESSO' : 'FALHA'}
             </div>
-            <S.Button onClick={() => {}}>
+            <S.Button onClick={() => handleButtonClick(transaction.id)}>
               Visão Geral
             </S.Button>
           </S.StatusAndButton>
