@@ -1,6 +1,7 @@
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import { Bolinha, ContainerGrafico, ContainerText } from './styled';
+import { ThemeColor } from '@/config/color';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -92,7 +93,7 @@ export function GraficoBar({dataArray}: AppProps) {
       {
         label: 'R$',
         data: dataArray.map(Number),  // Convertendo as strings para números
-        backgroundColor: '#10104F',
+        backgroundColor: `${ThemeColor.primaria}`,
         barThickness: 15,
         borderRadius: 100,
       },

@@ -1,3 +1,4 @@
+import { ThemeColor } from "@/config/color";
 import styled from "styled-components";
 
 export const ContainerGrafico = styled.div`
@@ -60,7 +61,7 @@ export const Bolinha = styled.span`
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  background-color: #10104F;
+  background-color: ${ThemeColor.primaria};
   display: inline-block;
   margin-right: 5px;
   vertical-align: middle;

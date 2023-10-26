@@ -1,9 +1,10 @@
+import { ThemeColor } from '@/config/color';
 import { List, X} from '@phosphor-icons/react';  
 import styled from "styled-components";
 
 export const ContainerMobileHeader = styled.header`
   display: none;
-  background: var(--foundation-brand-01-normal, #10104F);
+  background: ${ThemeColor.primaria};
   padding: 12px 26px;
   justify-content: space-between; 
   align-items: center; 

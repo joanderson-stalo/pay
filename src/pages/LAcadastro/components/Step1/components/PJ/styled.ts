@@ -109,26 +109,7 @@ export const ContainerInput2 = styled.section`
   }
 `;
 
-export const ButtonAvançar = styled.button`
-  width: 109px;
-  height: 35px;
-  background: #00a3d7;
-  border: 0.5px solid #0086ed;
-  border-radius: 5px;
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 20px;
-  letter-spacing: 0.5px;
-  color: #ffffff;
-  align-self: flex-end;
-  margin-bottom: 100px;
 
-  :disabled {
-    background-color: gray;
-    color: rgba(255, 255, 255, 0.5);
-    border: none;
-  }
-`;
 
 export const ContainerPJPF = styled.div`
     display: flex;
@@ -158,6 +139,27 @@ export const ButtonPF = styled.button<ActiveProps>`
   font-size: 12px;
   line-height: 20px;
   letter-spacing: 0.5px;
+`;
+
+export const ButtonAvançar = styled.button`
+  width: 109px;
+  height: 35px;
+  background: #00a3d7;
+  border: 0.5px solid #0086ed;
+  border-radius: 5px;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: 0.5px;
+  color: #ffffff;
+  align-self: flex-end;
+  margin-bottom: 100px;
+
+  :disabled {
+    background-color: gray;
+    color: rgba(255, 255, 255, 0.5);
+    border: none;
+  }
 `;
 
 export const ButtonVoltar = styled.button`

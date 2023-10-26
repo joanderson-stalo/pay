@@ -1,3 +1,4 @@
+import { ThemeColor } from '@/config/color';
 import styled from 'styled-components';
 
 export const Container = styled.div`
@@ -26,13 +27,13 @@ export const Header = styled.div`
     align-items: center;
     width: 100%;
     padding: 12px 11px;
-    background: var(--foundation-brand-01-normal, #10104F);
+    background: ${ThemeColor.primaria};
 
     >button {
         border-radius: 3.532px;
         border: 0.353px solid #F5F4F4;
         background: #FFF;
-        color: var(--foundation-brand-01-normal, #10104F);
+        color:  ${ThemeColor.primaria};
         font-family: Poppins;
         font-size: 9.477px;
         padding: 5px 16px;

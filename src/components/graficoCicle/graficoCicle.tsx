@@ -1,6 +1,7 @@
 import { Doughnut } from 'react-chartjs-2';
 import Chart from 'chart.js/auto';
 import { ContainerGrafico } from './styled';
+import { ThemeColor } from '@/config/color';
 
 const getFontSizeValue = () => {
   if (window.innerWidth < 600) return 18;
@@ -76,8 +77,8 @@ export function GraficoCicle({ debit, credit, pix }: AppProps) {
           parseFloat(credit.replace(".", "").replace(",", ".")),
           parseFloat(pix.replace(".", "").replace(",", "."))
         ],
-        backgroundColor: ['#10104F', '#08BBE9', '#045469'],
-        borderColor: ['#10104F', '#08BBE9', '#045469'],
+        backgroundColor: [`${ThemeColor.primaria}`, `${ThemeColor.secundaria}`, '#045469'],
+        borderColor: [`${ThemeColor.primaria}`, `${ThemeColor.secundaria}`, '#045469'],
         borderWidth: 1,
         borderRadius: 100,
         spacing: 5

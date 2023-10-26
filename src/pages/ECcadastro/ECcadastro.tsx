@@ -137,13 +137,13 @@ const handleNextStep = async () => {
                 }
             });
 
-            if (response.status === 201) {
-                console.log('Requisição bem-sucedida:', response.data);
+            
+    
                 setIsLoading(false)
                 setCurrentStep(5);
-            } else {
-                console.error('Requisição falhou:', response.statusText);
-            }
+       
+              
+            
         }catch (error: any) {
           if (error.response && error.response.status === 409) {
               toast.error('Já existe vendedor com o mesmo documento e tipo.')
