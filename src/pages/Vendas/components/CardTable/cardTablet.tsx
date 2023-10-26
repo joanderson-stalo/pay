@@ -5,7 +5,6 @@ import visa from '@assets/bandeiras/visa.svg';
 import masterCard from '@assets/bandeiras/master.svg';
 import * as S from './styled';
 import { useNavigate } from 'react-router-dom';
-import { useTransactionVendas } from '@/context/useVendas';
 
 export interface Transaction {
   id: string;
@@ -23,15 +22,15 @@ interface CardTableProps {
   rows: Transaction[];
 }
 
-const navigate = useNavigate();
-const { setSelectedTransactionId } = useTransactionVendas();
-
-const handleButtonClick = (id: string) => {
-  setSelectedTransactionId(id);
-  navigate('/detalhe');
-};
-
 export function CardTable({ rows }: CardTableProps) {
+
+  const navigate = useNavigate()
+
+  const handleButtonClick = (id: string) => {
+    setSelectedTransactionId(id);
+    navigate('/detalhe');
+  };
+
   return (
     <div>
       {rows.map(transaction => (
@@ -71,3 +70,7 @@ export function CardTable({ rows }: CardTableProps) {
     </div>
   );
 }
+function setSelectedTransactionId(id: string) {
+  throw new Error('Function not implemented.');
+}
+
