@@ -5,7 +5,7 @@ export const Container = styled.div`
   margin-left: 44px;
   margin-top: 30px;
   margin-right: 52px;
-  
+
   @media (max-width: 1200px) {
     margin-left: 24px;
     margin-right: 32px;
@@ -36,6 +36,7 @@ export const Context = styled.div`
   @media (max-width: 600px) {
     flex-direction: column;
     align-items: stretch;
+    gap: 20px;
   }
 `;
 
@@ -62,7 +63,6 @@ export const Button = styled.button`
   }
 
   @media (max-width: 600px) {
-    margin-top: 20px;
     min-width: 110px;
     font-size: 10px;
   }
@@ -135,7 +135,7 @@ export const Input = styled.div`
   }
 
   @media (max-width: 600px) {
-    width: 325px;
+    width: 100%;
   }
 `;
 
@@ -146,7 +146,7 @@ export const SearchIcon = styled.span`
   color: #9B959F;
   font-size: 21px;
   cursor: pointer;
-  
+
   svg {
     width: 21.429px;
     height: 21.429px;

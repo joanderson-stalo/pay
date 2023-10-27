@@ -27,7 +27,6 @@ export function Step2({ Avançar, Voltar }: IStep2) {
       if (response.data) {
         const { logradouro, complemento, bairro, localidade, uf } = response.data;
         setValue('Endereco', logradouro || '');
-        setValue('Complemento', complemento || '');
         setValue('Bairro', bairro || '');
         setValue('Cidade', localidade || '');
         setValue('Estado', uf || '');

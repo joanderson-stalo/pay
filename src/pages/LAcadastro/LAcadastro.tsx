@@ -37,12 +37,11 @@ export const LAcadastro = () => {
 
 
 
-const handleNextStep = async () => {
-    if (currentStep === 4 && currentStepIsValid()) {
+  const handleNextStep = async () => {
+    if (currentStep === 4) {
         try {
-          setIsLoading(true)
-            const requestData = getValues();
-
+            setIsLoading(true);
+            const requestData = await getValues();
 
             const requestBody = {
                 seller: [
@@ -100,28 +99,31 @@ const handleNextStep = async () => {
                     'Authorization': `Bearer ${dataUser?.token}`
                 }
             });
-            console.log('oi LA')
-        
-                setIsLoading(false)
+
+            console.log('oi LA');
+
+            setIsLoading(false);
+
+            if (response) {
                 setCurrentStep(5);
-            
-
-        } catch (error: any) {
-
-          if (error.response && error.response.status === 409) {
-              console.error('Erro 409:', error.response.data);
-              toast.error('Já existe vendedor com o mesmo documento e tipo.')
-          }
-          toast.error('Verifique a sua conexão')
-          setIsLoading(false);
-      }
-    }
-
-
-    if (currentStep < 4 && currentStepIsValid()) {
+            }
+        } catch ({error}: any) {
+            if (error.response && error.response.status === 409) {
+                console.error('Erro 409:', error.response.data);
+                toast.error('Já existe vendedor com o mesmo documento e tipo.');
+            }
+            if(error.response.status === 500){
+              setCurrentStep(5);
+            }
+            toast.error('Verifique a sua conexão');
+        } finally {
+            setIsLoading(false);
+        }
+    } else if (currentStep < 4 && currentStepIsValid()) {
         setCurrentStep((prevStep) => prevStep + 1);
     }
 };
+
 
 
 

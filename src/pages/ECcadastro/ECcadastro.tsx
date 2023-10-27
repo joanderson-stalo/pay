@@ -84,79 +84,77 @@ const buildAcquiresArray = (requestData: FieldValues) => {
 
 
 const handleNextStep = async () => {
-    if (currentStep === 4 && currentStepIsValid()) {
-        try {
-          setIsLoading(true)
-            const requestData = getValues();
+  if (currentStep === 4 && currentStepIsValid()) {
+      try {
+          setIsLoading(true);
 
+          const requestData = getValues();
 
-            const requestBody = {
-                seller: [
-                    {
-                        trading_name: requestData.NomeFantasiaEstabelecimento,
-                        document: documentTypeEC === "CPF" ? sanitizeNumeric(requestData.CPFEstabelecimento) : sanitizeNumeric(requestData.CNPJEstabelecimento),
-                        type_document: documentTypeEC,
-                        type: "EC",
-                        email: requestData.EmailEstabelecimento,
-                        status: "ativo",
-                        company_name: requestData.RazaoSocialEstabelecimento,
-                        opening_date:  documentTypeEC === "CPF" ? null : convertDateFormat(requestData.DataCriacaoEstabelecimento)  ,
-                        mcc: "5678",
-                        phone: sanitizeNumeric(requestData.TelefoneEstabelecimento),
-                        owner_name: requestData.NomeSocioEstabelecimento,
-                        owner_birthday:  convertDateFormat(requestData.NascimentoSocio),
-                        owner_cpf: sanitizeNumeric(requestData.CPFEstabelecimento),
-                        address_cep: requestData.CEP,
-                        address_street: requestData.Endereco,
-                        address_number: Number(requestData.Numero),
-                        address_complement: requestData.Complemento,
-                        address_neighborhood: requestData.Bairro,
-                        address_city: requestData.Cidade,
-                        address_state: requestData.Estado,
-                        tpv_goal: 10000,
-                    },
-                ],
-                users: [
-                    {
-                        document_id: sanitizeNumeric(requestData.CPFEstabelecimento),
-                        name: requestData.NomeSocioEstabelecimento,
-                        email: requestData.EmailEstabelecimento,
-                        phone_number: sanitizeNumeric(requestData.TelefoneEstabelecimento),
-                        status: "ATIVO",
-                        profile_id: 2,
-                    },
-                ],
-                acquires: buildAcquiresArray(requestData),
-                id_licensed_origin: String(requestData.licenciado),
-            };
-            setIsLoading(true)
-            const response = await axios.post('https://api-pagueassim.stalopay.com.br/create/sellerec', requestBody, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${dataUser?.token}`
-                }
-            });
+           const requestBody = {
+              seller: [
+                  {
+                      trading_name: requestData.NomeFantasiaEstabelecimento,
+                      document: documentTypeEC === "CPF" ? sanitizeNumeric(requestData.CPFEstabelecimento) : sanitizeNumeric(requestData.CNPJEstabelecimento),
+                      type_document: documentTypeEC,
+                      type: "EC",
+                      email: requestData.EmailEstabelecimento,
+                      status: "ativo",
+                      company_name: requestData.RazaoSocialEstabelecimento,
+                      opening_date:  documentTypeEC === "CPF" ? null : convertDateFormat(requestData.DataCriacaoEstabelecimento)  ,
+                      mcc: "5678",
+                      phone: sanitizeNumeric(requestData.TelefoneEstabelecimento),
+                      owner_name: requestData.NomeSocioEstabelecimento,
+                      owner_birthday:  convertDateFormat(requestData.NascimentoSocio),
+                      owner_cpf: sanitizeNumeric(requestData.CPFEstabelecimento),
+                      address_cep: requestData.CEP,
+                      address_street: requestData.Endereco,
+                      address_number: Number(requestData.Numero),
+                      address_complement: requestData.Complemento,
+                      address_neighborhood: requestData.Bairro,
+                      address_city: requestData.Cidade,
+                      address_state: requestData.Estado,
+                      tpv_goal: 10000,
+                  },
+              ],
+              users: [
+                  {
+                      document_id: sanitizeNumeric(requestData.CPFEstabelecimento),
+                      name: requestData.NomeSocioEstabelecimento,
+                      email: requestData.EmailEstabelecimento,
+                      phone_number: sanitizeNumeric(requestData.TelefoneEstabelecimento),
+                      status: "ATIVO",
+                      profile_id: 2,
+                  },
+              ],
+              acquires: buildAcquiresArray(requestData),
+              id_licensed_origin: String(requestData.licenciado),
+          };
 
-            
-    
-                setIsLoading(false)
-                setCurrentStep(5);
-       
-              
-            
-        }catch (error: any) {
-          if (error.response && error.response.status === 409) {
-              toast.error('Já existe vendedor com o mesmo documento e tipo.')
+          const response = await axios.post('https://api-pagueassim.stalopay.com.br/create/sellerec', requestBody, {
+              headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${dataUser?.token}`
+              }
+          });
+
+          setIsLoading(false);
+
+          if (response) {
+              setCurrentStep(5);
           }
-          toast.error('Verifique a sua conexão')
+      } catch ({error}: any) {
+          if (error.response && error.response.status === 409) {
+              toast.error('Já existe vendedor com o mesmo documento e tipo.');
+          } else {
+              toast.error('Verifique a sua conexão');
+          }
           setIsLoading(false);
       }
-    }
+  }
 
-
-    if (currentStep < 4 && currentStepIsValid()) {
-        setCurrentStep((prevStep) => prevStep + 1);
-    }
+  if (currentStep < 4 && currentStepIsValid()) {
+      setCurrentStep((prevStep) => prevStep + 1);
+  }
 };
 
 

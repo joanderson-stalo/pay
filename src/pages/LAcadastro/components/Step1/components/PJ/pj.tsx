@@ -222,6 +222,7 @@ useEffect(() => {
                 colorInputSuccess={ThemeColor.secundaria}
                 hasError={!!errors.EmailEstabelecimento}
               />
+              
             </S.ContainerInput>
             <S.ContainerInput2>
               <CustomSelect
