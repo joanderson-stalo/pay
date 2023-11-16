@@ -17,7 +17,7 @@ import debounce from 'lodash/debounce';
 import { EditableButton } from './components/ButtonEdit/buttonEdit';
 import { useFilterSales } from './hooks/useFilterSales';
 import { useLogin } from '@/context/user.login';
-import { CardTable } from './components/CardTable/cardTablet';
+import { CardSales } from './Mobile/CardSales/cardSales';
 
 export function Vendas() {
   const [searchValue, setSearchValue] = useState('');
@@ -177,11 +177,13 @@ export function Vendas() {
           </S.ContainerButton>
 
           <TabelaVendas rows={transactions} />
-        
-          <div style={{display: 'flex', justifyContent: 'center'}}>
-          <CardTable rows={transactions}/>
-          </div>
-          
+
+          <S.ContainerMobile>
+          <CardSales transactions={transactions} />
+          </S.ContainerMobile>
+
+
+
           <S.Context>
             <S.Linha />
             <S.ContainerPagina>

@@ -153,3 +153,11 @@ display: flex;
   align-items: center;
   gap: 5px;
 `
+
+export const ContainerMobile = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 0px 30px;
+
+`

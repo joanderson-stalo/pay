@@ -28,23 +28,10 @@ export const Table = styled.table`
     border-spacing: 0 7px;
   }
   @media (max-width: 900px) {
+    display: none;
     border-spacing: 0 5px;
   }
-  @media (max-width: 600px) {
-    display: flex;
-    justify-content: center;
-    border-spacing: 0;
-    background: none;
-  box-shadow: none;
 
-    > thead {
-      display: none;
-    }
-
-    >tbody {
-      width: 58%;
-    }
-  }
 `;
 
 export const TableHeader = styled.th`

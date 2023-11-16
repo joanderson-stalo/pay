@@ -4,6 +4,8 @@ import { GraficoCicle } from "@/components/graficoCicle/graficoCicle";
 import * as S from './styled'
 import { TopEstabelecimentos } from "./components/TopEstabelecimento/topEstabelecimentos";
 import { UltimasVendas } from "./components/UltimasVendas/ultimasVendas";
+import { CardUserLogged } from "../UserListLogged/components/Mobile/CardUserLoggerd/cardUserLoggerd";
+
 
 export function ECHome(){
   return(
@@ -17,6 +19,7 @@ export function ECHome(){
     <Card label="Qtd de ECs" label2="15" />
     <Card label="Qtd de POs" label2="15" />
     </S.ContainerCards>
+
 
 
     <S.ContainerGrafico>

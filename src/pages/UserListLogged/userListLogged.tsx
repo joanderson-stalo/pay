@@ -1,12 +1,14 @@
 import axios from 'axios'
 import { useLogin } from '@/context/user.login'
-import { CustomTable } from './components/Table/table'
-import { Container } from './styled'
+import { Container, ContainerMobile } from './styled'
 import { baseURL } from '@/config/color'
 import { HeaderUserListLogged } from './components/HeaderUserListLogged/headerUserListLogged'
 import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { Loading } from '@/components/Loading/loading'
+import { CardUserLogged } from './components/Mobile/CardUserLoggerd/cardUserLoggerd'
+import { CustomTableUserList } from './components/CustomTableUserList/table'
+
 
 type User = {
   id: number
@@ -22,6 +24,8 @@ export function UserListLogged() {
   const [loading, setLoading] = useState(false)
 
 
+
+
   const fetchData = async () => {
     try {
       setLoading(true)
@@ -32,7 +36,7 @@ export function UserListLogged() {
         }
       })
 
-      console.log(response)
+      console.log(response.data)
 
       if (response.data.success) {
         setUserOnline(response.data.user_online)
@@ -104,12 +108,20 @@ export function UserListLogged() {
         <>
           <HeaderUserListLogged />
           <Container>
-            <CustomTable
+            <CustomTableUserList
               data={combinedData}
               handlePasswordRetrieve={handlePasswordRetrieve}
               handleRemove={handleRemove}
             />
           </Container>
+
+          <ContainerMobile>
+          <CardUserLogged
+              data={combinedData}
+              handlePasswordRetrieve={handlePasswordRetrieve}
+              handleRemove={handleRemove}
+            />
+          </ContainerMobile>
         </>
       )}
     </>

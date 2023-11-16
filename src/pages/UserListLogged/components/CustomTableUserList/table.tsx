@@ -12,7 +12,7 @@ interface CustomTableProps {
     handleRemove: (id: number) => void;
 }
 
-export function CustomTable({ data, handlePasswordRetrieve, handleRemove }: CustomTableProps) {
+export function CustomTableUserList({ data, handlePasswordRetrieve, handleRemove }: CustomTableProps) {
 
     return (
         <S.Table>
