@@ -107,15 +107,19 @@ export const LAcadastro = () => {
             if (response) {
                 setCurrentStep(5);
             }
-        } catch ({error}: any) {
-            if (error.response && error.response.status === 409) {
-                console.error('Erro 409:', error.response.data);
-                toast.error('Já existe vendedor com o mesmo documento e tipo.');
-            }
-            if(error.response.status === 500){
-              setCurrentStep(5);
-            }
-            toast.error('Verifique a sua conexão');
+        } catch (error: unknown) {
+          if (typeof error === 'object' && error !== null && 'response' in error) {
+              const typedError = error as { response: { status: number, data: any } };
+      
+              if (typedError.response.status === 409) {
+                  console.error('Erro 409:', typedError.response.data);
+                  toast.error('Já existe vendedor com o mesmo documento e tipo.');
+              } else if (typedError.response.status === 500) {
+                  setCurrentStep(5);
+              }
+          } else {
+              toast.error('Verifique a sua conexão');
+          }
         } finally {
             setIsLoading(false);
         }

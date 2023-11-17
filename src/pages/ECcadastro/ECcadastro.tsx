@@ -11,7 +11,7 @@ import { Step3 } from "./components/Step3/step3";
 import { Step4 } from "./components/Step4/step4";
 import { Step1 } from "./components/Step1/step1";
 import { Step2 } from "./components/Step2/step2";
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useLogin } from "@/context/user.login";
 import { sanitizeNumeric } from "@/utils/sanitizeNumeric";
 import { getCurrentFormattedDate } from "@/utils/dataFormat";
@@ -142,14 +142,15 @@ const handleNextStep = async () => {
           if (response) {
               setCurrentStep(5);
           }
-      } catch ({error}: any) {
-          if (error.response && error.response.status === 409) {
-              toast.error('Já existe vendedor com o mesmo documento e tipo.');
-          } else {
-              toast.error('Verifique a sua conexão');
-          }
-          setIsLoading(false);
-      }
+      }  catch (error: any) {
+        const err = error as AxiosError; 
+        if (err.response && err.response.status === 409) {
+            toast.error('Já existe vendedor com o mesmo documento e tipo.');
+        } else {
+            toast.error('Verifique a sua conexão');
+        }
+        setIsLoading(false);
+    }
   }
 
   if (currentStep < 4 && currentStepIsValid()) {
