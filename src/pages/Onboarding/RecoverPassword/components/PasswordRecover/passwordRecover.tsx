@@ -124,7 +124,7 @@ export function PasswordRecover() {
                   colorBackground={ThemeColor.secundaria}
                   success={isEmailValid && !isSubmitting}
                   disabled={isSubmitting}
-                  label={isSubmitting ? <BeatLoader size={10} color="#ffffff" /> : ButtonText.salvar}
+                  label={isSubmitting ? <BeatLoader size={10} color="#ffffff" /> : ButtonText.enviar}
                 />
               </ContainerSubmit>
             </Form>

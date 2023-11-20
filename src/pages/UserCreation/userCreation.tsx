@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { CreateUser } from './components/Step2/step2'
 import axios from 'axios'
 import { UserData } from './interface'
 import { sanitizeNumeric } from '@/utils/sanitizeNumeric'
@@ -8,8 +7,8 @@ import { useLogin } from '@/context/user.login'
 import { Loading } from '@/components/Loading/loading'
 import { Modal } from './components/Modal/modal'
 import { useNavigate } from 'react-router-dom'
-import { handleLogin } from '@/utils/handleNavigate'
 import { toast } from 'react-toastify'
+import { CreateUser } from './components/CreateUser/createUser'
 
 export function UserCreation() {
   const { dataUser } = useLogin()

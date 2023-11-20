@@ -26,19 +26,16 @@ const centerTextPlugin = {
             ctx = chart.ctx;
 
       ctx.restore();
-
-      // Para o valor
       ctx.font = `700 ${getFontSizeValue()}px sans-serif`;
       ctx.fillStyle = "#383838";
       ctx.textBaseline = "middle";
 
-      let text = "R$ " + (chart.config.options.centerValue),
+      let text = "R$ " + chart.config.options.centerValue,
           textX = Math.round((width - ctx.measureText(text).width) / 2),
           textY = height / 2 - 10;
 
       ctx.fillText(text, textX, textY);
 
-      // Para o texto "TPV TOTAL", "TPV DEBITO", "TPV CREDITO", "TPV PIX"
       ctx.font = `700 ${getFontSizeText()}px sans-serif`;
       ctx.fillStyle = "#383838";
 
@@ -77,8 +74,8 @@ export function GraficoCicle({ debit, credit, pix }: AppProps) {
           parseFloat(credit.replace(".", "").replace(",", ".")),
           parseFloat(pix.replace(".", "").replace(",", "."))
         ],
-        backgroundColor: [`${ThemeColor.primaria}`, `${ThemeColor.secundaria}`, '#045469'],
-        borderColor: [`${ThemeColor.primaria}`, `${ThemeColor.secundaria}`, '#045469'],
+        backgroundColor: [ThemeColor.primaria, ThemeColor.secundaria, '#045469'],
+        borderColor: [ThemeColor.primaria, ThemeColor.secundaria, '#045469'],
         borderWidth: 1,
         borderRadius: 100,
         spacing: 5
@@ -95,10 +92,10 @@ export function GraficoCicle({ debit, credit, pix }: AppProps) {
       if (elements.length > 0) {
         const hoveredElementIndex = elements[0].index;
         const hoveredColor = data.datasets[0].backgroundColor[hoveredElementIndex];
-        if (hoveredColor === `${ThemeColor.primaria}`) {
+        if (hoveredColor === ThemeColor.primaria) {
           chart.options.centerText = "TPV DEBITO";
           chart.options.centerValue = debit;
-        } else if (hoveredColor === '#08BBE9') {
+        } else if (hoveredColor === ThemeColor.secundaria) {
           chart.options.centerText = "TPV CREDITO";
           chart.options.centerValue = credit;
         } else if (hoveredColor === '#045469') {
@@ -109,7 +106,6 @@ export function GraficoCicle({ debit, credit, pix }: AppProps) {
         chart.options.centerText = "TPV TOTAL";
         chart.options.centerValue = totalStr;
       }
-
       chart.update();
     },
   };
