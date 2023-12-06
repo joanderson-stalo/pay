@@ -3,13 +3,14 @@ import styled from "styled-components";
 
 export const ContainerGrafico = styled.div`
   width: 100%;
-  max-width: 510px;
+  max-width: 692px;
+  height: 288px;
   border-radius: 12px;
   background: #FFF;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); 
   padding: 15px;
   display: flex;
-  flex-direction: column;
+  flex-direction: column; 
 
   @media (max-width: 1200px) {
     padding: 12px;

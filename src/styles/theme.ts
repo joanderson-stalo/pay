@@ -9,6 +9,7 @@ export const defaultTheme = {
   gray_sys1: '#BDBDBD',
   gray_sys2: '#A0A0A0',
 
+
   white_sys: '#FFFFFF',
   black_sys: '#000000',
   white_sys2: '#F5F8FB',
@@ -24,5 +25,34 @@ export const defaultTheme = {
   neutral_dark: '#5e5e5e',
   neutral_dark_hover: '#4b4b4b',
   neutral_dark_active: '#383838',
-  neutral_darker: '#2c2c2c'
+  neutral_darker: '#2c2c2c',
+
+  text_xss: '1.0rem',
+  text_xs: '1.2rem',
+  text_sm: '1.4rem',
+  text_base: '1.6rem',
+  text_lg: '1.8rem',
+  text_xl: '2.0rem',
+  text_2xl: '2.4rem',
+  text_3xl: '3.0rem',
+  text_4xl: '3.6rem',
+  text_5xl: '4.8rem',
+  text_6xl: '6.0rem',
+  text_7xl: '7.2rem',
+  text_8xl: '9.6rem',
+  text_9xl: '12.8rem',
+
+
+
+font_thin: 100,
+font_extralight: 200,
+font_light	: 300,
+font_normal: 400,
+font_medium	: 500,
+font_semibold	: 600,
+font_bold	: 700,
+font_extrabold	: 800,
+font_black: 900,
 }
+
+

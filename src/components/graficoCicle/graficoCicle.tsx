@@ -22,8 +22,8 @@ const centerTextPlugin = {
   beforeDraw: (chart: { config: { options: { centerText: string; centerValue: any; }; }; width: any; height: any; ctx: any; }) => {
     if (chart.config.options.centerText && chart.config.options.centerValue) {
       const width = chart.width,
-            height = chart.height,
-            ctx = chart.ctx;
+        height = chart.height,
+        ctx = chart.ctx;
 
       ctx.restore();
       ctx.font = `700 ${getFontSizeValue()}px sans-serif`;
@@ -31,8 +31,8 @@ const centerTextPlugin = {
       ctx.textBaseline = "middle";
 
       let text = "R$ " + chart.config.options.centerValue,
-          textX = Math.round((width - ctx.measureText(text).width) / 2),
-          textY = height / 2 - 10;
+        textX = Math.round((width - ctx.measureText(text).width) / 2),
+        textY = height / 2 - 10;
 
       ctx.fillText(text, textX, textY);
 
@@ -60,15 +60,14 @@ interface AppProps {
 
 export function GraficoCicle({ debit, credit, pix }: AppProps) {
   const total = parseFloat(debit.replace(".", "").replace(",", "."))
-               + parseFloat(credit.replace(".", "").replace(",", "."))
-               + parseFloat(pix.replace(".", "").replace(",", "."));
+    + parseFloat(credit.replace(".", "").replace(",", "."))
+    + parseFloat(pix.replace(".", "").replace(",", "."));
   const totalStr = total.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
 
   const data = {
-    labels: [],
+    labels: [], // Remova esta linha
     datasets: [
       {
-        label: '',
         data: [
           parseFloat(debit.replace(".", "").replace(",", ".")),
           parseFloat(credit.replace(".", "").replace(",", ".")),
@@ -87,6 +86,18 @@ export function GraficoCicle({ debit, credit, pix }: AppProps) {
     cutout: '80%',
     centerText: "TPV TOTAL",
     centerValue: totalStr,
+
+    plugins: {
+      tooltip: {
+        callbacks: {
+          label: (context: any) => {
+            const value = context.raw;
+
+            return `R$ ${value.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
+          },
+        },
+      },
+    },
 
     onHover: (event: any, elements: string | any[], chart: any) => {
       if (elements.length > 0) {

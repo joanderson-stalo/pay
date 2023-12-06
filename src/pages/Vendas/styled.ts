@@ -132,7 +132,7 @@ font-weight: 500;
 `
 
 export const ButtonFilter = styled.button`
-color: #676767;
+color: #000;
 font-feature-settings: 'clig' off, 'liga' off;
 font-size: 9.906px;
 font-weight: 500;
@@ -143,8 +143,29 @@ height: 35px;
 
 border-radius: 6px 6px 0px 0px;
 border: 0.5px solid #F7F7F7;
-opacity: 0.5;
 background:  #F7F7F7;
+
+
+
+display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+`
+
+export const ButtonExport = styled.button`
+color:  #08BBE9;
+font-size: 9.906px;
+font-weight: 500;
+line-height: 15.566px;
+
+width: 76px;
+height: 35px;
+
+border-radius: 6px 6px 0px 0px;
+border: 0.5px solid #F7F7F7;
+
+background: #DAF5FC;
 
 
 

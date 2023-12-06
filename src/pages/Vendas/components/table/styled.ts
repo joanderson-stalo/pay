@@ -16,7 +16,7 @@ export const Table = styled.table`
 
 export const TableHeader = styled.th`
   color: #343A40;
-  font-size: 9.906px;
+  font-size: ${({theme }) => theme.text_xs};
   font-weight: 500;
   line-height: 15.566px;
   text-align: center;
@@ -26,7 +26,8 @@ export const TableHeader = styled.th`
 
 export const TableData = styled.td`
   color: #343A40;
-  font-size: 9.906px;
+  font-size: ${({theme }) => theme.text_xs};
+  font-weight: 500;
   line-height: 15.566px;
   text-align: center;
   padding: 8px;
@@ -35,7 +36,7 @@ export const TableData = styled.td`
 
 export const Button = styled.button`
   color: #5A6ACF;
-  font-size: 8.477px;
+  font-size: ${({theme }) => theme.text_xss};
   font-style: normal;
   font-weight: 500;
   line-height: 14.128px;
@@ -65,7 +66,7 @@ export const FlagContainer = styled.div`
 
   > p {
     color: #343A40;
-    font-size: 9.906px;
+    font-size: ${({theme }) => theme.text_xs};
     line-height: 15.566px;
     padding: 8px;
   }
@@ -79,11 +80,12 @@ export const FormaPagamentoData = styled.td`
 
 export const FormaPagamentoText = styled.span`
   color: #343A40;
-  font-size: 9.906px;
+  font-size: ${({theme }) => theme.text_xs};
   line-height: 15.566px;
   background-color: #E6E6E6;
   border-radius: 4px;
   padding: 1px 8px;
+  font-weight:  ${({theme }) => theme.font_medium};
 `;
 
 

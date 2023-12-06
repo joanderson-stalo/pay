@@ -1,3 +1,4 @@
+import { ThemeColor } from '@/config/color';
 import styled, { css } from 'styled-components'
 
 interface Props {
@@ -6,9 +7,9 @@ interface Props {
   selected?: boolean
 }
 
-export const ContainerSidebar = styled.div<Props>`
+export const ContainerSidebar = styled.div<Props & { isVisible: boolean }>`
   background: ${props => `${props.color}`};
-  width: 100%;
+  width: ${props => props.isVisible ? '100%' : '40%'};
   height: 100vh;
 
   display: flex;
@@ -19,11 +20,12 @@ export const ContainerSidebar = styled.div<Props>`
   @media (max-width: 1100px) {
       display: none;
   }
-`
+`;
+
 
 export const Logo = styled.img`
-  width: 100px;
-  height: 28.14px;
+  width: 100%;
+  height: 30px;
   margin-bottom: 40px;
 `
 
@@ -79,3 +81,35 @@ color: #FDFDFD;
     font-size: 23px;
   }
 `;
+
+export const ButtonSiderArrow = styled.button<{ isCondensed: boolean }>`
+  background-color: transparent;
+  position: absolute;
+       
+  width: 100%;
+  max-width: 238px;
+  height: 51px;
+
+  display: flex;
+  text-align: center;
+  align-items: center;
+
+
+
+color: #FDFDFD;
+
+
+
+
+  > svg {
+    font-size: 24px;
+    border-radius: 10px;
+    position: relative;
+    top: 22px;
+    background-color:  ${ThemeColor.primaria};;
+    left: ${({ isCondensed }) => isCondensed ? '224px' :  '150px'};
+    margin-top: ${({ isCondensed }) => isCondensed ? '0' :  '20px'};
+    margin-bottom: ${({ isCondensed }) => isCondensed ? '0' :  '20px'};
+  }
+`;
+

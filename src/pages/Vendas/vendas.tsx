@@ -18,6 +18,9 @@ import { EditableButton } from './components/ButtonEdit/buttonEdit';
 import { useFilterSales } from './hooks/useFilterSales';
 import { useLogin } from '@/context/user.login';
 import { CardSales } from './Mobile/CardSales/cardSales';
+import * as XLSX from 'xlsx';
+import { TransactionsToExcel} from '@/utils/Xlsx/transactions';
+
 
 export function Vendas() {
   const [searchValue, setSearchValue] = useState('');
@@ -37,12 +40,18 @@ export function Vendas() {
 
   const fetchDataFromAPI = async (search?: string) => {
     setLoading(true);
+    
   
     let url = `${baseURL}transactions?perpage=${String(itensPorPage)}&page=${currentPage}`;
     
     const statusPagamento = localStorage.getItem('@statusPagamento');
-    if (statusPagamento) {
+    if (statusPagamento  !==  null ) {
       url += `&status=${statusPagamento}`;
+    }
+
+    const brand = localStorage.getItem('@bandeira');
+    if(brand !== null) {
+      url += `&brand=${brand}`;
     }
   
     const capturedInStart = localStorage.getItem('@captured_in_start');
@@ -58,6 +67,8 @@ export function Vendas() {
     if (search) {
       url += `&nsu_external=${search}`;
     }
+
+
     
     const totalUrl = `${baseURL}transactions`;
     
@@ -78,10 +89,10 @@ export function Vendas() {
     
     setTransactions(data.transactions);
     setTotalTransactions(data.total_transactions);
-    setTpvGlobal(totalData.total_amountTPV);
+    setTpvGlobal(data.total_amountTPV);
     setCurrentPage(data.current_page);
-    setTotalAmount(totalData.net_value);
-    setAverageTaxApplied(totalData.average_taxApplied);
+    setTotalAmount(data.net_value);
+    setAverageTaxApplied(data.average_taxApplied);
     setLoading(false);
   };
   
@@ -138,7 +149,12 @@ export function Vendas() {
 
 
 
-
+  
+  const handleExportClick = () => {
+    TransactionsToExcel(transactions);
+  };
+  
+  
 
 
   return (
@@ -174,6 +190,8 @@ export function Vendas() {
             <S.ButtonFilter onClick={handleOpenModal}>
               <FunnelSimple />Filtrar
             </S.ButtonFilter>
+            <S.ButtonExport onClick={handleExportClick}>Exportar</S.ButtonExport>
+
           </S.ContainerButton>
 
           <TabelaVendas rows={transactions} />

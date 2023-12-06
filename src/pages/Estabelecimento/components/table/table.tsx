@@ -2,6 +2,7 @@ import { useState } from 'react';
 import * as S from './styled';
 import { useNavigate } from 'react-router-dom';
 import { useEstablishmentDetail } from '@/hooks/useEstablishmentDetail';
+import { maskCpfCnpj } from '@/utils/maskCpfCnpj';
 
 export interface RowData {
   id: number;
@@ -107,7 +108,7 @@ export function Tabela({ rows }: TabelaProps) {
         {sortedRows.map((row, index) => (
           <tr key={index}>
             <S.TableData>{row.id}</S.TableData>
-            <S.TableData>{row.cnpj_cpf}</S.TableData>
+            <S.TableData>{maskCpfCnpj(row.cnpj_cpf)}</S.TableData>
             <S.TableData>{row.trading_name}</S.TableData>
             <S.TableData>{formatDate(row.registration_date)}</S.TableData>
             <S.TableData>R$ {row.tpv.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</S.TableData>

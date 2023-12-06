@@ -14,6 +14,7 @@ const getFontSize = () => {
 
 export const options = {
   responsive: true,
+  maintainAspectRatio: false,
   scales: {
     x: {
       grid: {
@@ -44,7 +45,7 @@ export const options = {
         font: {
           size: getFontSize(),
         },
-        callback: (value: string | number) => {
+        callback: (value) => {
           if (value === 0) {
             return value;
           } else {
@@ -56,7 +57,7 @@ export const options = {
       beginAtZero: false,
       padding: {
         top: 5,
-        bottom: 20
+        bottom: 0
       },
       max: 100
     }
@@ -82,33 +83,27 @@ export const options = {
 
 const labels = ['08h', '09h', '10h', '11h', '12h', '13h', '14h', '15h', '16h', '17h', '18h', '19h'];
 
-interface AppProps {
-  dataArray: string[];
-}
-
-export function GraficoBar({dataArray}: AppProps) {
+export function GraficoBar({ dataArray }) {
   const data = {
     labels,
     datasets: [
       {
         label: 'R$',
-        data: dataArray.map(Number),  // Convertendo as strings para números
+        data: dataArray.map(Number),
         backgroundColor: `${ThemeColor.primaria}`,
-        barThickness: 15,
+        barThickness:  16,
         borderRadius: 100,
       },
     ],
   };
 
   return (
-    <>
-      <ContainerGrafico>
-        <ContainerText>
-          <Bolinha />
-          <p>Comissões</p>
-        </ContainerText>
-        <Bar options={options} data={data} />
-      </ContainerGrafico>
-    </>
+    <ContainerGrafico>
+      <ContainerText>
+        <Bolinha />
+        <p>Comissões</p>
+      </ContainerText>
+      <Bar options={options} data={data}/>
+    </ContainerGrafico>
   );
 }

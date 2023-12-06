@@ -8,8 +8,8 @@ export const Table = styled.table`
 
 export const TableHeader = styled.th`
   color: #343A40;
-  font-size: 9.906px;
-  font-weight: 500;
+  font-size: ${({theme }) => theme.text_xs};
+  font-weight: ${({theme }) => theme.font_medium};
   line-height: 15.566px;
   text-align: center;
   padding: 8px;
@@ -19,7 +19,8 @@ export const TableHeader = styled.th`
 
 export const TableData = styled.td`
   color: #343A40;
-  font-size: 9.906px;
+  font-size: ${({theme }) => theme.text_xs};
+  font-weight: ${({theme }) => theme.font_medium};
   line-height: 15.566px;
   padding: 8px;
   border-bottom: 1px solid #E9ECEF;
@@ -29,7 +30,7 @@ export const TableData = styled.td`
 
 export const Button = styled.button`
   color: #5A6ACF;
-  font-size: 8.477px;
+  font-size: ${({theme }) => theme.text_xss};
   font-style: normal;
   font-weight: 500;
   line-height: 14.128px;

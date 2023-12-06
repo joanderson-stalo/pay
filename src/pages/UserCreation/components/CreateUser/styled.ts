@@ -182,6 +182,12 @@ export const ContainerPhoto = styled.div`
   align-items: center;
   gap: 50px;
 
+  >img {
+    width: 161px;
+height: 154px;
+object-fit: contain;
+  }
+
   @media (max-width: 900px) {
     gap: 30px;
   }

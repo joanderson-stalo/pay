@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import * as S from './styled';
 import { useDetailLicensed } from '@/hooks/useDetailLicensed';
 import { useNavigate } from 'react-router-dom';
+import { maskCpfCnpj } from '@/utils/maskCpfCnpj';
 
 export interface RowData {
   id: number;
@@ -141,7 +142,7 @@ export function Tabela({ rows }: TabelaProps) {
         {sortedRows.map((seller, index) => (
           <tr key={index}>
             <S.TableData>{seller.id}</S.TableData>
-            <S.TableData>{seller.cnpj_cpf}</S.TableData>
+            <S.TableData>{maskCpfCnpj(seller.cnpj_cpf)}</S.TableData>
             <S.TableData>{seller.trading_name}</S.TableData>
             <S.TableData>{seller.type} {seller.network_index}</S.TableData>
             <S.TableData>{seller.ec_count}</S.TableData>

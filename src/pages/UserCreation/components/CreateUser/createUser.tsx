@@ -1,5 +1,7 @@
+import React, { useEffect, useState } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
-import { ThemeColor } from '@/config/color';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { ThemeColor, baseURL } from '@/config/color';
 import {
   ButtonAvançar,
   ButtonVoltar,
@@ -19,59 +21,102 @@ import {
 import { CustomInput } from '@/components/Input/input';
 import { CustomSelect } from '@/components/Select/select';
 import { optionsData } from '../../optionsData';
-import { LabelCustomInputMask } from '@/components/CustomInputMask';;
+import { LabelCustomInputMask } from '@/components/CustomInputMask';
 import iconPhoto from '@assets/icons/iconPhoto.png';
-
-
-import { yupResolver } from '@hookform/resolvers/yup';
 import { validationSchema } from './schema';
 import { UserData } from '../../interface';
+import axios from 'axios';
+import { useLogin } from '@/context/user.login';
 
 interface ICreateUser {
   Voltar: () => void;
   onSubmitData: (data: UserData) => void;
 }
 
+interface SelectOption {
+  value: string;
+  label: string;
+}
+
+
 export function CreateUser({ Voltar, onSubmitData }: ICreateUser) {
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [profiles, setProfiles] = useState<{ options: SelectOption[] }>({ options: [] });
 
 
-  const methods = useForm({
+  const methods = useForm<UserData>({
     resolver: yupResolver(validationSchema)
   });
 
   const { register, handleSubmit, setValue, watch, formState: { errors } } = methods;
-
   const nome = watch('Nome');
   const email = watch('Email');
   const telefone = watch('Telefone');
   const funcao = watch('Função');
-
+  const { dataUser } = useLogin();
   const isAllFieldsFilled = nome && email && telefone && funcao;
 
-  const onSubmit = (data: UserData) => {
-    onSubmitData(data);
-  }
+  const onFileInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setSelectedImage(imageUrl);
+    }
+  };
 
+  const onSubmit = handleSubmit(data => {
+    onSubmitData(data);
+  });
+
+
+  const GetProfiles = async () => {
+    try {
+      const response = await axios.get(`${baseURL}profile/index`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${dataUser?.token}`
+        }
+      });
+  
+      // Transformar os dados para o formato esperado pelo CustomSelect
+      const transformedProfiles: SelectOption[] = response.data.profiles.map((profile: { id: number; name: string; }) => ({
+        value: profile.id.toString(),
+        label: profile.name
+      }));
+  
+      setProfiles({ options: transformedProfiles }); // Atualizar o estado com o novo formato
+    } catch (error) {
+      // Tratar os erros aqui
+    }
+  };
+  
+
+
+  useEffect(() => {
+    GetProfiles()
+  },[])
+  
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={onSubmit}>
         <ContainerStep>
           <ContextStepContainer>
             <ContextStep>
               <TitleStep>Dados do Usuário</TitleStep>
               <Line />
-
               <ContainerForm>
                 <ContainerPhoto>
-                  <img src={iconPhoto} alt="" />
-
-                  <HiddenFileInput id="fileInput" />
+                  <img src={selectedImage || iconPhoto} alt="Foto do Usuário" />
+                  <HiddenFileInput 
+                    id="fileInput" 
+                    type="file" 
+                    onChange={onFileInputChange}
+                  />
                   <FileInputLabel htmlFor="fileInput">
                     <StyledUploadIcon /> Enviar foto
                   </FileInputLabel>
                 </ContainerPhoto>
-
                 <ContainerInput>
                   <CustomInput
                     label="Nome"
@@ -88,7 +133,6 @@ export function CreateUser({ Voltar, onSubmitData }: ICreateUser) {
                     hasError={!!errors.Email}
                   />
                 </ContainerInput>
-
                 <ContainerInput>
                   <LabelCustomInputMask
                     {...register('Telefone')}
@@ -97,14 +141,14 @@ export function CreateUser({ Voltar, onSubmitData }: ICreateUser) {
                     placeholder="(--) ----.----"
                     hasError={!!errors.Telefone}
                   />
-                  <CustomSelect
-                    label="Função"
-                    optionsData={optionsData}
-                    {...register('Função')}
-                    onChange={(selectedOption: { value: string }) => {
-                      setValue('Função', selectedOption.value);
-                    }}
-                  />
+              <CustomSelect
+                optionsData={profiles}
+                {...register('Função')}
+                label="Função"
+                onChange={(selectedOption: { value: string }) => {
+                  setValue('Função', selectedOption.value)
+                }}
+              />
                 </ContainerInput>
               </ContainerForm>
             </ContextStep>
@@ -118,5 +162,5 @@ export function CreateUser({ Voltar, onSubmitData }: ICreateUser) {
         </ContainerStep>
       </form>
     </FormProvider>
-  )
+  );
 }

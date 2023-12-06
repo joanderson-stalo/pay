@@ -55,7 +55,6 @@ height: 35px;
 
 border-radius: 6px 6px 0px 0px;
 border: 0.5px solid #F7F7F7;
-opacity: 0.5;
 background:  #F7F7F7;
 
 
@@ -68,7 +67,7 @@ display: flex;
 
 export const Button = styled.button`
   color: #5A6ACF;
-  font-size: 8.477px;
+  font-size: 8.4768px;
   font-style: normal;
   font-weight: 500;
   line-height: 14.128px;

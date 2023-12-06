@@ -1,15 +1,18 @@
-import { ButtonSider, ContainerSidebar, Logo, Menu } from './styled'
-import { BiHomeAlt } from 'react-icons/bi'
-import { Medal, Storefront, Book, Clipboard, Tag } from '@phosphor-icons/react'
-import { AiOutlinePercentage, AiOutlineFileText } from 'react-icons/ai'
-import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { ThemeImg } from '@/config/img'
-import { ThemeColor } from '@/config/color'
-import { SidebarText } from '@/config/sidebar'
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { BiHomeAlt } from 'react-icons/bi';
+import { Medal, Storefront, Book, Clipboard, Tag, EyeClosed, Eye, DotsNine, DotsThree, CaretDoubleRight, CaretDoubleLeft } from '@phosphor-icons/react';
+import { AiOutlinePercentage, AiOutlineFileText } from 'react-icons/ai';
+import { ButtonSider, ButtonSiderArrow, ContainerSidebar, Logo, Menu } from './styled';
+import { ThemeImg } from '@/config/img';
+import { ThemeColor } from '@/config/color';
+import { SidebarText } from '@/config/sidebar';
+import { useSidebarVisibility } from '@/context/sidebarVisibilityContext';
+
 
 export function Sidebar() {
   const navigate = useNavigate();
+  const { isVisible, showSidebar, hideSidebar } = useSidebarVisibility();
 
   const [selectedItem, setSelectedItem] = useState<number>(() => {
     const savedValue = localStorage.getItem('selectedItem');
@@ -23,70 +26,46 @@ export function Sidebar() {
   const handleNavigation = (index: number, path: string) => {
     setSelectedItem(index);
     navigate(path);
-  }
+  };
+
+  const toggleVisibility = () => {
+    if (isVisible) {
+      hideSidebar();
+    } else {
+      showSidebar();
+    }
+  };
+
+  console.log('sibebar', isVisible)
 
   return (
-    <ContainerSidebar color={ThemeColor.primaria}>
-      <Logo src={ThemeImg.backgroundLogo} />
-
+    <ContainerSidebar color={ThemeColor.primaria} isVisible={isVisible}>
+      <Logo src={isVisible ? ThemeImg.backgroundLogo : ThemeImg.iconLogo} />
+      <ButtonSiderArrow isCondensed={isVisible}  onClick={toggleVisibility} style={{ cursor: 'pointer' }}>
+        {isVisible ? <CaretDoubleLeft /> : <CaretDoubleRight />}
+      </ButtonSiderArrow >
       <Menu colorSec={ThemeColor.secundaria}>
-        <ButtonSider
-          colorSec={ThemeColor.secundaria}
-          selected={selectedItem === 0}
-          onClick={() => handleNavigation(0, "/home")}
-        >
-          <BiHomeAlt /> {SidebarText.home}
-        </ButtonSider>
-        <ButtonSider
-          colorSec={ThemeColor.secundaria}
-          selected={selectedItem === 1}
-          onClick={() => handleNavigation(1, "/vendas")}
-        >
-          <Tag /> {SidebarText.vendas}
-        </ButtonSider>
-        <ButtonSider
-          colorSec={ThemeColor.secundaria}
-          selected={selectedItem === 2}
-          onClick={() => handleNavigation(2, "/estabelecimentos")}
-        >
-          <Storefront /> {SidebarText.estabelecimentos}
-        </ButtonSider>
-        <ButtonSider
-          colorSec={ThemeColor.secundaria}
-          selected={selectedItem === 3}
-          onClick={() => handleNavigation(3, "/licenciados")}
-        >
-          <Medal /> {SidebarText.licenciados}
-        </ButtonSider>
-        <ButtonSider
-          colorSec={ThemeColor.secundaria}
-          selected={selectedItem === 4}
-          onClick={() => handleNavigation(4, "/plans")}
-        >
-          <AiOutlinePercentage /> {SidebarText.plano}
-        </ButtonSider>
-        <ButtonSider
-          colorSec={ThemeColor.secundaria}
-          selected={selectedItem === 5}
-          onClick={() => handleNavigation(5, "/commission/daily")}
-        >
-          <AiOutlineFileText /> {SidebarText.extrato}
-        </ButtonSider>
-        <ButtonSider
-          colorSec={ThemeColor.secundaria}
-          selected={selectedItem === 6}
-          onClick={() => handleNavigation(6, "/compliance")}
-        >
-          <Book /> {SidebarText.compliance}
-        </ButtonSider>
-        <ButtonSider
-          colorSec={ThemeColor.secundaria}
-          selected={selectedItem === 7}
-          onClick={() => handleNavigation(7, "/solicitacoes")}
-        >
-          <Clipboard /> {SidebarText.solicitacoes}
-        </ButtonSider>
+        {[
+          { icon: <BiHomeAlt />, label: SidebarText.home, path: "/home" },
+          { icon: <Tag />, label: SidebarText.vendas, path: "/vendas" },
+          { icon: <Storefront />, label: SidebarText.estabelecimentos, path: "/estabelecimentos" },
+          { icon: <Medal />, label: SidebarText.licenciados, path: "/licenciados" },
+          { icon: <AiOutlinePercentage />, label: SidebarText.plano, path: "/plans" },
+          { icon: <AiOutlineFileText />, label: SidebarText.extrato, path: "/commission/daily" },
+          { icon: <Book />, label: SidebarText.compliance, path: "/compliance" },
+          { icon: <Clipboard />, label: SidebarText.solicitacoes, path: "/solicitacoes" }
+        ].map((item, index) => (
+          <ButtonSider
+            key={index}
+            colorSec={ThemeColor.secundaria}
+            selected={selectedItem === index}
+            onClick={() => handleNavigation(index, item.path)}
+          >
+            {item.icon}
+            {isVisible && item.label}
+          </ButtonSider>
+        ))}
       </Menu>
     </ContainerSidebar>
-  )
+  );
 }
