@@ -10,7 +10,7 @@ import { validationSchema } from './schema';
 import { UserData } from '../../interface';
 import InputMask from 'react-input-mask';
 
-import master from './card/masters.svg'
+import master from './card/master.svg'
 import elo from './card/elos.svg'
 import visa from './card/visas.svg'
 import diners from './card/dinerss.svg'
