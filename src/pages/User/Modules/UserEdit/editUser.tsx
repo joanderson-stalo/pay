@@ -6,7 +6,6 @@ import * as S from './styled'
 import { CustomInput } from '@/components/Input/input';
 import { LabelCustomInputMask } from '@/components/CustomInputMask';
 import iconPhoto from '@assets/icons/iconPhoto.png';
-import { validationSchema } from './schema';
 import axios from 'axios';
 import { useLogin } from '@/context/user.login';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -14,6 +13,7 @@ import { UserData } from './interface';
 import Swal from 'sweetalert2';
 import './styled.css'
 import { Loading } from '@/components/Loading/loading';
+import { validationSchema } from './schema';
 
 export function EditUser() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
