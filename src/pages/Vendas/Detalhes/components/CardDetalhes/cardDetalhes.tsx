@@ -70,10 +70,7 @@ export function CardDetalhes({
             <h2>Horário</h2>
             <span>{captured_in_time}</span>
           </div>
-          <div>
-            <h2>Titular</h2>
-            <span>{comment}</span>
-          </div>
+       
         </S.InfoOne>
 
         <S.InfoTw>
@@ -89,10 +86,7 @@ export function CardDetalhes({
             <h2>Cartão</h2>
             <span>{card_number}</span>
           </div>
-          <div>
-            <h2>Parcelas</h2>
-            <span>{number_installments}x</span>
-          </div>
+     
         </S.InfoTw>
 
         <S.InfoTre>
@@ -107,6 +101,17 @@ export function CardDetalhes({
           <div>
             <h2>NSU</h2>
             <span>{nsu_external}</span>
+          </div>
+        </S.InfoTre>
+        <S.InfoTre>
+  
+          <div>
+          <h2>Titular</h2>
+            <span>{comment}</span>
+          </div>
+          <div>
+          <h2>Parcelas</h2>
+            <span>{number_installments}x</span>
           </div>
         </S.InfoTre>
       </S.DetalheInfo>

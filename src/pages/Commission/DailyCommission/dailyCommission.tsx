@@ -2,7 +2,6 @@ import { FunnelSimple, MagnifyingGlass } from '@phosphor-icons/react'
 import { Card } from './components/Card/card'
 import * as S from './styled'
 import { SetStateAction, useEffect, useState } from 'react'
-import { ModalFilterVenda } from './components/ModalFilterVenda/modalFilterVenda'
 import { PaginaView } from '@/components/PaginaView/paginaView'
 import { ItensPorPage } from '@/components/ItensPorPage/itensPorPage'
 import { Pagination } from '@/components/Pagination/pagination'
@@ -10,13 +9,13 @@ import { Pagination } from '@/components/Pagination/pagination'
 import { useLogin } from '@/context/user.login'
 import { Transaction } from './components/TabelaDailyCommission/interface'
 import { Loading } from '@/components/Loading/loading'
-import { formatCurrencyBR } from '@/utils/convertBRDinheiro'
-import { formatTaxa } from '@/utils/formatTaxa'
 import { mockData } from './mock'
 import { HeaderCommission } from './components/HeaderCommission/headerCommission'
 import { TabelaDailyCommission } from './components/TabelaDailyCommission/tabelaDailyCommission'
 import { useFilterDailyCommission } from './hooks/useFilterDailyCommission'
 import { EditableButton } from './components/ButtonEdit/buttonEdit'
+import { CardInfo } from '@/pages/Financial/components/CardInfo/cardInfo'
+import { DailyCommissionCard } from './Mobile/DaillyCommisionCard/daillyCommisionCard'
 
 export function DailyCommission() {
   const [searchValue, setSearchValue] = useState('')
@@ -140,21 +139,24 @@ export function DailyCommission() {
         <Loading />
       ) : (
         <>
+        <S.Container>
+
+        <HeaderCommission />
           <S.ContextTitleVendas>
-            <HeaderCommission />
+       
 
             <S.ContainerCardVendas>
-              <Card
+              <CardInfo
                 label="Qtd de Vendas"
-                label2={totalTransactions.toString()}
+                value={totalTransactions}
               />
-              <Card
+              <CardInfo
                 label="Total Dia"
-                label2={formatCurrencyBR(parseFloat(totalAmount))}
+                value={Number(totalAmount)}
               />
-              <Card
+              <CardInfo
                 label="Total Mês"
-                label2={`${formatTaxa(parseFloat(averageTaxApplied))}%`}
+                value={Number(totalAmount)}
               />
             </S.ContainerCardVendas>
             <S.Input>
@@ -178,6 +180,13 @@ export function DailyCommission() {
           </S.ContainerButton>
 
           <TabelaDailyCommission rows={mockData} />
+
+          <S.ContainerCardsMobile>
+          <DailyCommissionCard data={mockData} />
+          </S.ContainerCardsMobile>
+      
+
+
           <S.Context>
             <S.Linha />
             <S.ContainerPagina>
@@ -197,6 +206,7 @@ export function DailyCommission() {
               </S.ContainerItens>
             </S.ContainerPagina>
           </S.Context>
+          </S.Container>
         </>
       )}
     </>

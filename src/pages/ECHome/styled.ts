@@ -3,80 +3,47 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   display: flex;
+  justify-content: center;
   flex-direction: column;
-  padding: 0 44px;
+  margin: 36px 20px 20px 20px;
 `
 
 
 export const ContainerGrafico = styled.div`
   display: flex;
-  gap: 65px;
-  margin-top: 43px;
-
+  justify-content: center;
+  margin-top: 36px;
+  gap: 60px;
 
   @media (max-width: 900px) {
-    display: none;
-}
+    flex-wrap: wrap;
+    gap: 40px;
+  }
 `
 
 export const ContainerTable = styled.div`
   display: flex;
-  gap: 63px;
-  margin-top: 43px;
-  margin-bottom: 88px;
+  justify-content: center;
+
+  margin-top: 36px;
+  gap: 80px;
 
   @media (max-width: 900px) {
-    display: none;
-}
+    flex-wrap: wrap;
+    gap: 40px;
+  }
+
 `
 export const ContainerCards = styled.div`
   display: flex;
-  gap: 19px;
+  justify-content: center;
+  gap: 10px;
 
   @media (max-width: 1200px) {
     flex-wrap: wrap;
   }
 
-  @media (max-width: 900px) {
-    display: none;
-}
-`
 
-export const Title = styled.h2`
-margin-top: 28px;
-margin-bottom: 28px;
-color: ${ThemeColor.secundaria};
-font-size: 24px;
-font-weight: 700;
 `
 
 
-export const MobileContainerGrafico = styled.div`
-  display: none;
-
-  @media (max-width: 900px) {
-    display: flex;
-    justify-content: center;
-    gap: 28px;
-    margin-bottom: 40px;
-
-    > div {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-  }
-`
-
-export const MobileContainerTable = styled.div`
-  display: none;
-  margin-bottom:40px;
-
-  @media (max-width: 900px) {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 40px;
-  }
-`

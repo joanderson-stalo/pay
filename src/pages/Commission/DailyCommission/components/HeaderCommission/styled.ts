@@ -26,12 +26,16 @@ import styled from 'styled-components';
     letter-spacing: 0.5px;
   `;
 
-  export const Title = styled.h2`
-    color: ${ThemeColor.secundaria};
-    font-size: 24px;
-    font-weight: 700;
-    line-height: normal;
-  `;
+export const Title = styled.h2`
+color: ${ThemeColor.secundaria};
+font-size: 24px;
+font-weight: 700;
+line-height: normal;
+
+@media (max-width: 600px) {
+font-size: 16px;
+}
+`;
 
 
 export const ContainerPJPF = styled.div`

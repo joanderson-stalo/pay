@@ -12,7 +12,7 @@ export function HeaderCommission() {
     <S.Container>
       <S.Title>Comissões</S.Title>
       <S.ContainerPJPF>
-            <S.ButtonPJ active >DIÁRIA</S.ButtonPJ>
+            <S.ButtonPJ active >POR VENDA</S.ButtonPJ>
             <S.ButtonPF onClick={handleRanking} active={false} >RANKING</S.ButtonPF>
       </S.ContainerPJPF>
     </S.Container>

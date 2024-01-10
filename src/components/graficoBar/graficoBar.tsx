@@ -6,8 +6,8 @@ import { ThemeColor } from '@/config/color';
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const getFontSize = () => {
-  if (window.innerWidth < 600) return 8;
-  if (window.innerWidth < 900) return 10;
+  if (window.innerWidth < 600) return 12;
+  if (window.innerWidth < 900) return 12;
   if (window.innerWidth < 1100) return 12;
   return 14;
 };
@@ -45,7 +45,7 @@ export const options = {
         font: {
           size: getFontSize(),
         },
-        callback: (value) => {
+        callback: (value: string | number) => {
           if (value === 0) {
             return value;
           } else {
@@ -83,7 +83,7 @@ export const options = {
 
 const labels = ['08h', '09h', '10h', '11h', '12h', '13h', '14h', '15h', '16h', '17h', '18h', '19h'];
 
-export function GraficoBar({ dataArray }) {
+export function GraficoBar({ dataArray }: any) {
   const data = {
     labels,
     datasets: [

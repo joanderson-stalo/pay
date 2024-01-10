@@ -3,23 +3,33 @@ import styled from "styled-components";
 
 export const ContainerDetalhe = styled.div`
   display: flex;
-  margin-top: 20px;
-  margin-bottom: 50px;
+  margin: 36px 20px 20px 20px;
+
+  justify-content: center;
+`
+
+export const ContextContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  @media (max-width: 900px) {
+    width: 100%;
+  }
 `
 
 export const ContextDetalhes = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 0 auto;
-  gap: 37px;
+
+  gap: 36px;
 `
 export const SectionCard = styled.section`
   display: flex;
   gap: 21px;
 
-  @media (max-width: 1100px) {
-    justify-content: center;
-    align-items: center;
+  @media (max-width: 900px) {
+    width: 100%;
   }
 `
 
@@ -31,6 +41,10 @@ export const SectionTable = styled.section`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+  }
+
+  @media (max-width: 900px) {
+    width: 100%;
   }
 
 `

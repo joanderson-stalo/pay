@@ -2,9 +2,12 @@ import { ThemeColor } from "@/config/color";
 import styled from "styled-components";
 
 export const ContextTitleVendas = styled.div`
-  width: 95%;
-  margin: 0 auto;
-  display: block;
+
+`
+
+export const Container = styled.div`
+  margin: 36px 20px 20px 20px;
+
 `
 
 
@@ -22,13 +25,16 @@ export const ContainerCardVendas = styled.div`
 
 
 
-export const Title = styled.div`
-  color: ${ThemeColor.secundaria};
-font-size: 24px;
-font-weight: 700;
-margin-top: 30px;
-`
+ export const Title = styled.h2`
+    color: ${ThemeColor.secundaria};
+    font-size: 24px;
+    font-weight: 700;
+    line-height: normal;
 
+    @media (max-width: 600px) {
+  font-size: 16px;
+}
+  `;
 
 
 export const Input = styled.div`
@@ -98,6 +104,10 @@ export const ContainerPagina = styled.div`
   align-items: center;
   justify-content: space-between;
   margin: 12px;
+
+  @media (max-width: 900px) {
+   justify-content: center;
+  }
 `
 
 export const ContainerItens = styled.div`
@@ -107,12 +117,6 @@ export const ContainerItens = styled.div`
 export const ContainerButton = styled.div`
   display: flex;
   margin-top: 35px;
-
-
-  @media (max-width: 900px) {
-    justify-content: center;
-   
-  }
 
 
 `
@@ -176,9 +180,14 @@ display: flex;
 `
 
 export const ContainerMobile = styled.div`
-  display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding: 0px 30px;
+  gap: 12px;
+
+  display: none;
+
+
+  @media (max-width: 900px) {
+    display: flex;
+  }
 
 `

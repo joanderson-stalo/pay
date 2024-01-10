@@ -8,6 +8,10 @@ export function TopEstabelecimentos() {
       { ranking: '1º', nome: 'Padaria Trevo de Longo Nome', comissao: 340.00, qtdPos: '02' },
       { ranking: '2º', nome: 'Padaria Trevo de Longo Nome', comissao: 340.00, qtdPos: '02' },
       { ranking: '3º', nome: 'Padaria Trevo de Longo Nome', comissao: 340.00, qtdPos: '02' },
+      { ranking: '3º', nome: 'Padaria Trevo de Longo Nome', comissao: 340.00, qtdPos: '02' },
+      { ranking: '3º', nome: 'Padaria Trevo de Longo Nome', comissao: 340.00, qtdPos: '02' },
+      { ranking: '3º', nome: 'Padaria Trevo de Longo Nome', comissao: 340.00, qtdPos: '02' },
+      
     ];
 
     function formatToBRL(value: number | bigint) {

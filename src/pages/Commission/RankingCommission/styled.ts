@@ -2,9 +2,24 @@ import { ThemeColor } from "@/config/color";
 import styled from "styled-components";
 
 export const ContextTitleVendas = styled.div`
-  width: 95%;
-  margin: 0 auto;
-  display: block;
+
+`
+
+export const Container = styled.div`
+  margin: 36px 20px 20px 20px;
+
+`
+
+export const ContainerCardsMobile = styled.div`
+  flex-direction: column;
+  gap: 12px;
+
+  display: none;
+
+
+  @media (max-width: 900px) {
+    display: flex;
+  }
 `
 
 
@@ -55,6 +70,10 @@ letter-spacing: 0.5px;
   right: 20px;
   color: #000;
 }
+
+@media (max-width: 900px) {
+    width: 100%;
+}
 `;
 
 export const SearchIcon = styled.span`
@@ -86,6 +105,10 @@ export const ContainerPagina = styled.div`
   align-items: center;
   justify-content: space-between;
   margin: 12px;
+
+  @media (max-width: 600px) {
+    justify-content: center;
+}
 `
 
 export const ContainerItens = styled.div`

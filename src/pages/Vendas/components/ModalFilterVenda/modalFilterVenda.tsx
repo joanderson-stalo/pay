@@ -1,27 +1,15 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { toast } from 'react-toastify';
 import * as S from './styled';
 import { CustomSelect } from '@/components/Select/select';
-import { optionsData } from '@/pages/ECcadastro/components/Step1/option';
 import { brandOptions, paymentMethodOptions, statusPaymentOptions } from './statusPaymentOptions';
 import { CustomInput } from '@/components/Input/input';
 import { ThemeColor } from '@/config/color';
 import { useFilterSales } from '../../hooks/useFilterSales';
 
-const validationSchema = yup.object().shape({
-  captured_in_start: yup.date()
-    .max(new Date(), "A data de início não pode ser maior que a data atual")
- ,
-  captured_in_end: yup.date()
-    .min(yup.ref('captured_in_start'), "A data de fim não pode ser anterior à data de início")
-    ,
-  formaDePagamento: yup.string(),
-  bandeira: yup.string(),
-  statusEmFornecedor: yup.string(),
-});
+
 
 interface IModalSucesso {
   visible: boolean;
@@ -29,24 +17,61 @@ interface IModalSucesso {
 }
 
 export function ModalFilterVenda({ onClose, visible }: IModalSucesso) {
-  const { register, handleSubmit, setValue, formState: { errors } } = useForm({
-    resolver: yupResolver(validationSchema)
+  const { register, reset, setError, handleSubmit, setValue, getValues, formState: { errors } } = useForm({
+   
   });
   const { setTrue } = useFilterSales();
 
+
   const onSubmit = async (data: any) => {
     try {
-      await validationSchema.validate(data, { abortEarly: false });
-      console.log(data);
-      localStorage.setItem('@bandeira', data.bandeira);
-      localStorage.setItem('@statusPagamento', data.statusEmFornecedor);
-      localStorage.setItem('@formaDePagamento', data.formaDePagamento);
-      localStorage.setItem('@captured_in_start', data.captured_in_start);
-      localStorage.setItem('@captured_in_end', data.captured_in_end);
+
+   const startDate = data.captured_in_start ? new Date(data.captured_in_start) : null;
+   const endDate = data.captured_in_end ? new Date(data.captured_in_end) : null;
+
+  
+   if (!startDate && endDate) {
+     setError("captured_in_start", {
+       type: "manual",
+       message: "A data inicial é necessária quando a data final é fornecida."
+     });
+     return;
+   }
+
+
+   if (startDate && endDate && endDate < startDate) {
+     setError("captured_in_end", {
+       type: "manual",
+       message: "A data final não pode ser anterior à data inicial."
+     });
+     return;
+   }
+
+
+      console.log('Dados validados:', data);
+
+      if (data.bandeira && data.bandeira !== 'null' && data.bandeira !== '') {
+        localStorage.setItem('@bandeira', data.bandeira);
+      }
+      if (data.statusEmFornecedor && data.statusEmFornecedor !== 'null' && data.statusEmFornecedor !== '') {
+        localStorage.setItem('@statusPagamento', data.statusEmFornecedor);
+      }
+      if (data.formaDePagamento && data.formaDePagamento !== 'null' && data.formaDePagamento !== '') {
+        localStorage.setItem('@formaDePagamento', data.formaDePagamento);
+      }
+      if (startDate) {
+        localStorage.setItem('@captured_in_start', data.captured_in_start);
+      }
+      if (endDate) {
+        localStorage.setItem('@captured_in_end', data.captured_in_end);
+      }
+  
+      reset(); // Limpa os campos após o salvamento
       setTrue();
       onClose();
       toast.success('Filtros aplicados com sucesso!');
     } catch (err) {
+      // Tratamento de erros de validação
       if (err instanceof yup.ValidationError) {
         err.inner.forEach(error => {
           if (error.path && error.message) {
@@ -56,8 +81,11 @@ export function ModalFilterVenda({ onClose, visible }: IModalSucesso) {
       }
     }
   };
+  
 
   useEffect(() => {
+    console.log('Estado inicial - captured_in_start:', getValues('captured_in_start'));
+    console.log('Estado inicial - captured_in_end:', getValues('captured_in_end'));
     function handleKeyDown(event: KeyboardEvent) {
       if (event.key === 'Escape') {
         onClose();
@@ -67,7 +95,7 @@ export function ModalFilterVenda({ onClose, visible }: IModalSucesso) {
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [onClose]);
+  }, [getValues, onClose]);
 
   if (!visible) {
     return null;

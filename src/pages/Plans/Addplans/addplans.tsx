@@ -1,4 +1,5 @@
-import { CreatePlans } from "./components/Step2/step2";
+import { CreatePlans } from "./components/CreatePlans/createPlans";
+
 
 export function AddPlans() {
 

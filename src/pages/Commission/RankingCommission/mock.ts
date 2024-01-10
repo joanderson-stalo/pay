@@ -1,4 +1,4 @@
-import { RowData } from "./components/TabelaDailyCommission/tabelaDailyCommission";
+import { RowData } from "./components/TabelaRankingCommission/tabelaDailyCommission";
 
 export const mockData: RowData[] = [
   {

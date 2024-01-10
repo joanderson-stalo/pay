@@ -6,5 +6,5 @@ export const SidebarText = {
   plano: 'Plano e Divisões',
   extrato: 'Extrato',
   compliance: 'Compliance',
-  solicitacoes: 'Solicitações'
+  solicitacoes: 'Financeiro'
 }

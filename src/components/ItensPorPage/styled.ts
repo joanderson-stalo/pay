@@ -4,6 +4,10 @@ export const Container = styled.div`
   display: flex;
   align-items: center;
   gap: 9px;
+
+  @media (max-width: 900px) {
+    display: none;
+  }
 `;
 
 export const Span = styled.span`

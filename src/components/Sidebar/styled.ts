@@ -113,3 +113,29 @@ color: #FDFDFD;
   }
 `;
 
+
+
+export const SubMenu = styled.div`
+  display: flex;
+  flex-direction: column;
+
+`;
+
+// Estilo para os itens dentro do submenu
+export const SubMenuItem = styled.button`
+
+  color: #fff;
+  padding: 12px 16px; // Padding para os itens do submenu
+  text-align: left; // Alinhamento do texto
+  margin-left: 20px;
+
+  background-color: transparent;;
+  cursor: pointer; // Cursor do tipo ponteiro
+  font-weight: 700;
+font-size: 12px;
+line-height: 12px;
+letter-spacing: 0.5px;
+color: #FDFDFD;
+
+
+`;

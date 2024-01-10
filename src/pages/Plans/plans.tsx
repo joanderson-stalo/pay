@@ -1,133 +1,84 @@
-import { FunnelSimple, MagnifyingGlass } from '@phosphor-icons/react'
-import * as S from './styled'
-import { SetStateAction, useEffect, useState } from 'react'
-import { PaginaView } from '@/components/PaginaView/paginaView'
-import { ItensPorPage } from '@/components/ItensPorPage/itensPorPage'
-import { Pagination } from '@/components/Pagination/pagination'
-import { useLogin } from '@/context/user.login'
-import { Transaction } from './components/TabelaDailyCommission/interface'
-import { Loading } from '@/components/Loading/loading'
-import { formatCurrencyBR } from '@/utils/convertBRDinheiro'
-import { formatTaxa } from '@/utils/formatTaxa'
-import { mockData } from './mock'
-import { HeaderCommission } from './components/HeaderCommission/headerCommission'
-import { TabelaDailyCommission } from './components/TabelaDailyCommission/tabelaDailyCommission'
-import { useFilterPlans } from './hooks/useFilterPlans'
+import React, { useEffect, useState } from 'react';
+import * as S from './styled';
+import { PaginaView } from '@/components/PaginaView/paginaView';
+import { ItensPorPage } from '@/components/ItensPorPage/itensPorPage';
+import { Pagination } from '@/components/Pagination/pagination';
+import { useLogin } from '@/context/user.login';
+import { Loading } from '@/components/Loading/loading';
+import { TablePlans } from './components/TablePlans/tablePlans';
+import { HeaderPlans } from './components/HeaderPlans/headerPlans';
+import { PlansCard } from './Mobile/PlansCard';
+
+interface Plan {
+  id: number;
+  name: string;
+  anticipation: number;
+  anticipation_fee: string;
+  status: string;
+  level_seller: string;
+}
+
+interface RowData {
+  id: number;
+  status: string;
+  name: string;
+  antecipacao: number;
+  planoBase: string;
+  fornecedor: string;
+  tipo: 'Base' | 'Comercial';
+}
 
 export function Plans() {
-  const [searchValue, setSearchValue] = useState('')
-  const [itensPorPage, setItensPorPage] = useState<number | ''>(10)
-  const [filter, setFilter] = useState(false)
-  const [loading, setLoading] = useState<boolean>(false)
+  const [searchValue, setSearchValue] = useState('');
+  const [itensPorPage, setItensPorPage] = useState<number | ''>(10);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [plans, setPlans] = useState<RowData[]>([]);
+  const { dataUser } = useLogin();
 
-  const [transactions, setTransactions] = useState<Transaction[]>([])
-  const [totalTransactions, setTotalTransactions] = useState<number>(0)
-  const [totalAmount, setTotalAmount] = useState<string>('0.00')
-  const [averageTaxApplied, setAverageTaxApplied] = useState<string>('0.000')
-  const [tpvGlobal, setTpvGlobal] = useState<string>('0')
-  const [currentPage, setCurrentPage] = useState<number>(1)
+  const fetchPlans = async () => {
+    setLoading(true);
+    const url = `https://api-pagueassim.stalopay.com.br/plan/index?perpage=${itensPorPage}&page=${currentPage}`;
 
-  const { state } = useFilterPlans()
-  const { dataUser } = useLogin()
+    try {
+      const response = await fetch(url, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${dataUser?.token}`,
+        },
+      });
+      const data = await response.json();
+      const transformedPlans = data.plans.map((plan: Plan) => ({
+        id: plan.id,
+        status: plan.status,
+        name: plan.name,
+        antecipacao: plan.anticipation,
+      }));
+      setPlans(transformedPlans);
+      setTotalPages(data.last_page);
+    } catch (error) {
+      console.error('Error fetching plans:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  const handleChange = (event: {
-    target: { value: SetStateAction<string> }
-  }) => {
-    setSearchValue(event.target.value)
-  }
-
-  const handleOpenModal = () => {
-    setFilter(true)
-  }
-
-  const handleCloseModal = () => {
-    setFilter(false)
-  }
-
-  const fetchData = async (pageNumber: number) => {
-    setCurrentPage(pageNumber)
-  }
+  useEffect(() => {
+    fetchPlans();
+  }, [itensPorPage, currentPage, searchValue]);
 
   const handleNextPage = () => {
-    setCurrentPage(prevPage => prevPage + 1)
-  }
+    if (currentPage < totalPages) {
+      setCurrentPage(prev => prev + 1);
+    }
+  };
 
   const handlePrevPage = () => {
     if (currentPage > 1) {
-      setCurrentPage(prevPage => prevPage - 1)
+      setCurrentPage(prev => prev - 1);
     }
-  }
-
-  const fetchDataFromAPI = async (search?: string) => {
-    setLoading(true)
-
-    let url = `https://api-pagueassim.stalopay.com.br/transactions?perpage=${String(
-      itensPorPage
-    )}&page=${currentPage}`
-    if (search) {
-      url += `&nsu_external=${search}`
-    }
-
-    const totalUrl = 'https://api-pagueassim.stalopay.com.br/transactions'
-
-    try {
-      const [response, totalResponse] = await Promise.all([
-        fetch(url, {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${dataUser?.token}`
-          }
-        }),
-        fetch(totalUrl, {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${dataUser?.token}`
-          }
-        })
-      ])
-
-      if (response.ok && totalResponse.ok) {
-        const data = await response.json()
-        const totalData = await totalResponse.json()
-        setTransactions(data.transactions)
-        setTotalTransactions(data.total_transactions)
-        setTpvGlobal(totalData.total_amountTPV)
-
-        setCurrentPage(data.current_page)
-        setTotalAmount(totalData.net_value)
-        setAverageTaxApplied(totalData.average_taxApplied)
-      } else {
-        console.error(`Error fetching paginated data: ${response.statusText}`)
-        console.error(`Error fetching total data: ${totalResponse.statusText}`)
-      }
-    } catch (error) {
-      console.error('Error fetching data:', error)
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  useEffect(() => {
-    if (searchValue.trim() === '') {
-      fetchDataFromAPI()
-    }
-  }, [searchValue])
-
-  const handleSearch = () => {
-    if (searchValue.trim() !== '') {
-      fetchDataFromAPI(searchValue)
-    } else {
-      fetchDataFromAPI()
-    }
-  }
-
-  const totalPages = Math.ceil(totalTransactions / (itensPorPage || 1))
-
-  useEffect(() => {
-    fetchDataFromAPI()
-  }, [itensPorPage, currentPage])
-
-  console.log('totalpage', totalPages)
+  };
 
   return (
     <>
@@ -135,11 +86,19 @@ export function Plans() {
         <Loading />
       ) : (
         <>
-          <S.ContextTitleVendas>
-            <HeaderCommission />
 
-          </S.ContextTitleVendas>
-          <TabelaDailyCommission rows={mockData} />
+            <HeaderPlans />
+     
+
+          <S.Container>
+          <TablePlans rows={plans} />
+
+          <S.ContainerCardsMobile >
+          <PlansCard cards={plans} />
+          </S.ContainerCardsMobile>
+         
+
+
           <S.Context>
             <S.Linha />
             <S.ContainerPagina>
@@ -150,8 +109,8 @@ export function Plans() {
                   setItensPorPage={setItensPorPage}
                 />
                 <Pagination
+                  onPageClick={fetchPlans}
                   currentPage={currentPage}
-                  onPageClick={fetchData}
                   totalPages={totalPages}
                   onNextPage={handleNextPage}
                   onPrevPage={handlePrevPage}
@@ -159,8 +118,12 @@ export function Plans() {
               </S.ContainerItens>
             </S.ContainerPagina>
           </S.Context>
+
+
+          </S.Container>
+  
         </>
       )}
     </>
-  )
+  );
 }

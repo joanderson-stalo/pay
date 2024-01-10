@@ -1,7 +1,7 @@
 import { FunnelSimple, MagnifyingGlass } from '@phosphor-icons/react';
 import { Card } from './components/Card/card';
 import * as S from './styled';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import { ModalFilterVenda } from './components/ModalFilterVenda/modalFilterVenda';
 import { TabelaVendas } from './components/table/table';
 import { PaginaView } from '@/components/PaginaView/paginaView';
@@ -20,6 +20,7 @@ import { useLogin } from '@/context/user.login';
 import { CardSales } from './Mobile/CardSales/cardSales';
 import * as XLSX from 'xlsx';
 import { TransactionsToExcel} from '@/utils/Xlsx/transactions';
+import { CardInfo } from '../Financial/components/CardInfo/cardInfo';
 
 
 export function Vendas() {
@@ -38,19 +39,18 @@ export function Vendas() {
 
 
 
-  const fetchDataFromAPI = async (search?: string) => {
+  const fetchDataFromAPI = useCallback(async (search?: string) => {
     setLoading(true);
-    
   
     let url = `${baseURL}transactions?perpage=${String(itensPorPage)}&page=${currentPage}`;
-    
+  
     const statusPagamento = localStorage.getItem('@statusPagamento');
-    if (statusPagamento  !==  null ) {
+    if (statusPagamento && statusPagamento !== 'undefined') {
       url += `&status=${statusPagamento}`;
     }
-
+  
     const brand = localStorage.getItem('@bandeira');
-    if(brand !== null) {
+    if (brand && brand !== 'undefined') {
       url += `&brand=${brand}`;
     }
   
@@ -67,34 +67,30 @@ export function Vendas() {
     if (search) {
       url += `&nsu_external=${search}`;
     }
-
-
-    
-    const totalUrl = `${baseURL}transactions`;
-    
+  
     const config = {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${dataUser?.token}`,
       },
     };
-    
-    const [response, totalResponse] = await Promise.all([
-      axios.get(url, config),
-      axios.get(totalUrl, config),
-    ]);
-    
-    const { data } = response;
-    const totalData = totalResponse.data;
-    
-    setTransactions(data.transactions);
-    setTotalTransactions(data.total_transactions);
-    setTpvGlobal(data.total_amountTPV);
-    setCurrentPage(data.current_page);
-    setTotalAmount(data.net_value);
-    setAverageTaxApplied(data.average_taxApplied);
-    setLoading(false);
-  };
+  
+    try {
+      const response = await axios.get(url, config);
+      const { data } = response;
+  
+      setTransactions(data.transactions);
+      setTotalTransactions(data.total_transactions);
+      setTpvGlobal(data.total_amountTPV);
+      setCurrentPage(data.current_page);
+      setTotalAmount(data.net_value);
+      setAverageTaxApplied(data.average_taxApplied);
+    } catch (error) {
+      console.error('Erro ao buscar dados:', error);
+    } finally {
+      setLoading(false);
+    }
+  }, [itensPorPage, currentPage, baseURL, dataUser?.token]);
   
   
   
@@ -164,18 +160,19 @@ export function Vendas() {
         <Loading />
       ) : (
         <>
-          <S.ContextTitleVendas>
+        <S.Container>
+        <S.ContextTitleVendas>
             <S.Title>Vendas</S.Title>
             <S.ContainerCardVendas>
-              <Card label="Qtd de Vendas" label2={totalTransactions.toString()} />
-              <Card label="TPV" label2={`${formatCurrencyBR(parseFloat(tpvGlobal))}`} />
-              <Card label="Valor Liq." label2={formatCurrencyBR(parseFloat(totalAmount))} />
-              <Card label="Taxa Média apl." label2={`${formatTaxa(parseFloat(averageTaxApplied))}%`} />
+              <CardInfo shouldFormat={false} label="Qtd de Vendas" value={totalTransactions}  />
+              <CardInfo  label="TPV" value={Number(tpvGlobal)} />
+              <CardInfo label="Valor Liq." value={Number(totalAmount)} />
+              <CardInfo shouldFormat={false} label="Taxa Média apl." value={Number(averageTaxApplied)} />
             </S.ContainerCardVendas>
             <S.Input>
               <input
                 type="text"
-                placeholder="Pesquise por nome do estabelecimento ou NSU"
+                placeholder="Pesquise por NSU"
                 value={searchValue}
                 onChange={handleChange}
               />
@@ -219,6 +216,7 @@ export function Vendas() {
               </S.ContainerItens>
             </S.ContainerPagina>
           </S.Context>
+        </S.Container>
         </>
       )}
     </>

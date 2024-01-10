@@ -7,15 +7,16 @@ import { PaginaView } from '@/components/PaginaView/paginaView'
 import { ItensPorPage } from '@/components/ItensPorPage/itensPorPage'
 import { Pagination } from '@/components/Pagination/pagination'
 import { useLogin } from '@/context/user.login'
-import { Transaction } from './components/TabelaDailyCommission/interface'
+import { Transaction } from './components/TabelaRankingCommission/interface'
 import { Loading } from '@/components/Loading/loading'
 import { formatCurrencyBR } from '@/utils/convertBRDinheiro'
 import { formatTaxa } from '@/utils/formatTaxa'
 import { mockData } from './mock'
 import { HeaderCommission } from './components/HeaderCommission/headerCommission'
-import { TabelaDailyCommission } from './components/TabelaDailyCommission/tabelaDailyCommission'
 import { EditableButton } from './components/ButtonEdit/buttonEdit'
 import { useFilterRankingCommission } from './hooks/useFilterRankingCommission'
+import { TabelaRankingCommission } from './components/TabelaRankingCommission/tabelaRankingCommission'
+import { RankingCard } from './Mobile/RankingCard/rankingCard'
 
 export function RankingCommission() {
   const [searchValue, setSearchValue] = useState('')
@@ -139,8 +140,9 @@ export function RankingCommission() {
         <Loading />
       ) : (
         <>
-          <S.ContextTitleVendas>
+        <S.Container>
             <HeaderCommission />
+          <S.ContextTitleVendas>
             <S.Input>
               <input
                 type="text"
@@ -161,7 +163,14 @@ export function RankingCommission() {
             <S.ButtonFilter onClick={handleOpenModal}> <FunnelSimple />Filtrar</S.ButtonFilter>
           </S.ContainerButton>
 
-          <TabelaDailyCommission rows={mockData} />
+          <TabelaRankingCommission rows={mockData} />
+          
+
+          <S.ContainerCardsMobile>
+          <RankingCard data={mockData} />
+          </S.ContainerCardsMobile>
+
+
           <S.Context>
             <S.Linha />
             <S.ContainerPagina>
@@ -181,6 +190,7 @@ export function RankingCommission() {
               </S.ContainerItens>
             </S.ContainerPagina>
           </S.Context>
+          </S.Container>
         </>
       )}
     </>

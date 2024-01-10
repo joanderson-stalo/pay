@@ -34,7 +34,7 @@ export function Pagination({ totalPages, currentPage, onNextPage, onPrevPage, on
 
   return (
     <S.Container>
-      <S.Button onClick={handlePrevPage} disabled={currentPage === 1}>
+      <S.Button type='button' onClick={handlePrevPage} disabled={currentPage === 1}>
           <CaretLeft  />
       </S.Button>
       {getPages().map((page) => (
@@ -42,7 +42,7 @@ export function Pagination({ totalPages, currentPage, onNextPage, onPrevPage, on
           {page === currentPage ? <S.CurrentPage>{page}</S.CurrentPage> : page}
         </S.Page>
       ))}
-      <S.Button onClick={handleNextPage} disabled={currentPage === totalPages}>
+      <S.Button type='button'  onClick={handleNextPage} disabled={currentPage === totalPages}>
           <CaretRight  />
       </S.Button>
     </S.Container>

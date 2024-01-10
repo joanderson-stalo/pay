@@ -4,7 +4,7 @@ import styled from "styled-components"
 
 export const ContainerCardInfo = styled.div`
   width: 100%;
-  max-width: 170px;
+  max-width: 212px;
 height: 75px;
 border-radius: 8px;
 background:  ${ThemeColor.primaria};

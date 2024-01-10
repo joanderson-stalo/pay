@@ -1,69 +1,95 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { BiHomeAlt } from 'react-icons/bi';
-import { Medal, Storefront, Book, Clipboard, Tag, EyeClosed, Eye, DotsNine, DotsThree, CaretDoubleRight, CaretDoubleLeft } from '@phosphor-icons/react';
+import { BiHomeAlt, BiChevronDown, BiChevronUp } from 'react-icons/bi';
+import { Medal, Storefront, Book, Clipboard, Tag, CaretDoubleLeft, CaretDoubleRight, ChartBar, Basket, Money, Stack, Wallet, FileText, Equals } from '@phosphor-icons/react';
 import { AiOutlinePercentage, AiOutlineFileText } from 'react-icons/ai';
-import { ButtonSider, ButtonSiderArrow, ContainerSidebar, Logo, Menu } from './styled';
-import { ThemeImg } from '@/config/img';
+import { ButtonSider, ButtonSiderArrow, ContainerSidebar, Logo, Menu, SubMenu, SubMenuItem } from './styled';
 import { ThemeColor } from '@/config/color';
-import { SidebarText } from '@/config/sidebar';
+import { ThemeImg } from '@/config/img';
 import { useSidebarVisibility } from '@/context/sidebarVisibilityContext';
-
 
 export function Sidebar() {
   const navigate = useNavigate();
   const { isVisible, showSidebar, hideSidebar } = useSidebarVisibility();
 
-  const [selectedItem, setSelectedItem] = useState<number>(() => {
+  const [selectedItem, setSelectedItem] = useState(() => {
     const savedValue = localStorage.getItem('selectedItem');
     return savedValue ? Number(savedValue) : 0;
   });
+  const [financeiroSubmenuOpen, setFinanceiroSubmenuOpen] = useState(false);
 
   useEffect(() => {
     localStorage.setItem('selectedItem', selectedItem.toString());
   }, [selectedItem]);
 
-  const handleNavigation = (index: number, path: string) => {
+  const handleNavigation = (index: number, path?: string) => {
     setSelectedItem(index);
-    navigate(path);
+    if (path) navigate(path);
+    setFinanceiroSubmenuOpen(false);
   };
 
   const toggleVisibility = () => {
-    if (isVisible) {
-      hideSidebar();
-    } else {
-      showSidebar();
-    }
+    isVisible ? hideSidebar() : showSidebar();
   };
 
-  console.log('sibebar', isVisible)
+  const menuItems = [
+    { icon: <ChartBar weight="fill" />, label: 'Resumo', path: "/home" },
+    { icon: <Basket weight="fill" />, label: 'Vendas', path: "/vendas" },
+    // { icon: <Storefront weight="fill" />, label: 'Estabelecimentos', path: "/estabelecimentos" },
+    // { icon: <Tag weight='fill' />, label: 'Licenciados', path: "/licenciados" },
+    { icon: <Money weight='fill'  />, label: 'Comissões', path: "/commission/daily" },
+    { icon: <Stack weight='fill'  />, label: 'Planos e Divisões', path: "/plans" },
+    { icon: <Equals weight='fill'  />, label: 'Equipamentos', path: "/equipmentStock" },
+    { icon: <Wallet weight='fill'/>, label: 'Financeiro', isSubmenu: true },
+    { icon: <FileText  weight='fill' />, label: 'Documentos', path: "/documents" }
+  ];
+
+  const financeiroSubmenuItems = [
+    { label: 'Gestão da Operação', path: '/operationManagement' },
+    { label: 'Resumo de Licenciados', path: '/licenseesummary' },
+    { label: 'Tarifas', path: '/tariffs' },
+    { label: 'Solicitação de Cobrança', path: '/billingRequest' },
+    { label: 'Pagamentos', path: '/pagamentos' }
+  ];
+
+  const financeiroIndex = menuItems.findIndex(item => item.label === 'Financeiro');
+
+  const toggleFinanceiroSubmenu = () => {
+    setFinanceiroSubmenuOpen(!financeiroSubmenuOpen);
+    setSelectedItem(financeiroIndex);
+  };
 
   return (
     <ContainerSidebar color={ThemeColor.primaria} isVisible={isVisible}>
       <Logo src={isVisible ? ThemeImg.backgroundLogo : ThemeImg.iconLogo} />
-      <ButtonSiderArrow isCondensed={isVisible}  onClick={toggleVisibility} style={{ cursor: 'pointer' }}>
+      <ButtonSiderArrow isCondensed={isVisible} onClick={toggleVisibility} style={{ cursor: 'pointer' }}>
         {isVisible ? <CaretDoubleLeft /> : <CaretDoubleRight />}
-      </ButtonSiderArrow >
+      </ButtonSiderArrow>
       <Menu colorSec={ThemeColor.secundaria}>
-        {[
-          { icon: <BiHomeAlt />, label: SidebarText.home, path: "/home" },
-          { icon: <Tag />, label: SidebarText.vendas, path: "/vendas" },
-          { icon: <Storefront />, label: SidebarText.estabelecimentos, path: "/estabelecimentos" },
-          { icon: <Medal />, label: SidebarText.licenciados, path: "/licenciados" },
-          { icon: <AiOutlinePercentage />, label: SidebarText.plano, path: "/plans" },
-          { icon: <AiOutlineFileText />, label: SidebarText.extrato, path: "/commission/daily" },
-          { icon: <Book />, label: SidebarText.compliance, path: "/compliance" },
-          { icon: <Clipboard />, label: SidebarText.solicitacoes, path: "/solicitacoes" }
-        ].map((item, index) => (
-          <ButtonSider
-            key={index}
-            colorSec={ThemeColor.secundaria}
-            selected={selectedItem === index}
-            onClick={() => handleNavigation(index, item.path)}
-          >
-            {item.icon}
-            {isVisible && item.label}
-          </ButtonSider>
+        {menuItems.map((item, index) => (
+          <React.Fragment key={index}>
+            <ButtonSider
+              colorSec={ThemeColor.secundaria}
+              selected={selectedItem === index}
+              onClick={() => item.isSubmenu ? toggleFinanceiroSubmenu() : handleNavigation(index, item.path)}
+            >
+              {item.icon}
+              {isVisible && item.label}
+              {item.isSubmenu && isVisible && (financeiroSubmenuOpen ? <BiChevronUp /> : <BiChevronDown />)}
+            </ButtonSider>
+            {item.isSubmenu && financeiroSubmenuOpen && (
+              <SubMenu>
+                {financeiroSubmenuItems.map((subItem, subIndex) => (
+                  <SubMenuItem
+                    key={subIndex}
+                    onClick={() => handleNavigation(financeiroIndex, subItem.path)}
+                  >
+                    {subItem.label}
+                  </SubMenuItem>
+                ))}
+              </SubMenu>
+            )}
+          </React.Fragment>
         ))}
       </Menu>
     </ContainerSidebar>

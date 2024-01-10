@@ -114,7 +114,11 @@ export function DetalheVenda() {
             seller_company_name={transactionDetails?.seller_company_name}
           />
 
-          <S.SectionCard>
+ 
+      
+          <S.SectionTable>
+            <S.ContextContainer>
+            <S.SectionCard>
             <CardInfo
               net_amount={formatCurrencyBR(
                 transactionDetails?.spread
@@ -129,11 +133,12 @@ export function DetalheVenda() {
                   : undefined
               )}
             />
+  
           </S.SectionCard>
-
-          <S.SectionTable>
+          <HistoricoTableDetalhes />
+            </S.ContextContainer>
             <ComissoesTable />
-            <HistoricoTableDetalhes />
+            
           </S.SectionTable>
         </S.ContextDetalhes>
       </S.ContainerDetalhe>

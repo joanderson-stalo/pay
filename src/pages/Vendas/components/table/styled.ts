@@ -97,11 +97,11 @@ export const StatusData = styled.td`
 
 export const StatusText = styled.span<StatusTextProps>`
   color: #E6F8FD;
-  font-size: 9.906px;
+  font-size: ${({theme }) => theme.text_xss};
   line-height: 15.566px;
-  background-color: ${props => props.status === 'succeeded' ? '#48F041' : '#EC5252'};
+  background-color: ${props => props.status === 'succeeded' ? '#55B938' : '#EC5252'};
   border-radius: 4px;
-  padding: 1px 8px;
+  padding: 2px 8px;
 `;
 
 export const SortContainer = styled.div`

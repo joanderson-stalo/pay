@@ -13,8 +13,7 @@ import { Vendas } from '@/pages/Vendas/vendas'
 import { DetalheVenda } from '../pages/Vendas/Detalhes/detalhe'
 import { Licenciado } from '@/pages/Licenciado/licenciado'
 import { Home } from '@/pages/Home/home'
-import { UserListLogged } from '@/pages/UserListLogged/userListLogged'
-import { UserCreation } from '@/pages/UserCreation/userCreation'
+
 import { DailyCommission } from '@/pages/Commission/DailyCommission/dailyCommission'
 import { RankingCommission } from '@/pages/Commission/RankingCommission/rankingCommission'
 import { Plans } from '@/pages/Plans/plans'
@@ -26,6 +25,22 @@ import { EstablishmentDetail } from '@/pages/Estabelecimento/modules/Establishme
 import { ManageAccessEstablishment } from '@/pages/Estabelecimento/modules/ManageAccess/ManageAccessEstablishment'
 import { EditRegistrationEC } from '@/pages/Estabelecimento/modules/EditRegistrationEC/editRegistrationEC'
 import { ECHome } from '@/pages/ECHome/ECHome'
+
+import { UserCreation } from '@/pages/User/Modules/UserCreation/userCreation'
+import { UserListLogged } from '@/pages/User/Modules/UserListLogged/userListLogged'
+import { EditUser } from '@/pages/User/Modules/UserEdit/editUser'
+import { LicenseeSummary } from '@/pages/Financial/Modules/LicenseeSummary/licenseeSummary'
+import { OperationManagement } from '@/pages/Financial/Modules/OperationManagement/operationManagement'
+import { BillingRequest } from '@/pages/Financial/Modules/BillingRequest/billingRequest'
+import { AddRequest } from '@/pages/Financial/Modules/BillingRequest/Modules/AddRequest/addRequest'
+import { EquipmentStock } from '@/pages/EquipmentStock/equipmentStock'
+import { AddStock } from '@/pages/EquipmentStock/Modules/AddStock/addStock'
+import { EditStock } from '@/pages/EquipmentStock/Modules/EditStock/editStock'
+import { Tariffs } from '@/pages/Financial/Modules/Tariffs/tariffs'
+import { DetailsStock } from '@/pages/EquipmentStock/Modules/DetailsStock/detailsStock'
+import { AddRate } from '@/pages/Financial/Modules/Tariffs/Modules/AddRate/addRate'
+import { AddRateManual } from '@/pages/Financial/Modules/Tariffs/Modules/AddRateManual/addRateManual'
+
 
 
 
@@ -65,6 +80,7 @@ export function Router() {
 
 
           <Route path="/userCreation" element={<UserCreation />} />
+          <Route path='/user/edit/:id' element={<EditUser  />} />
 
           <Route path="/commission/daily" element={<DailyCommission />} />
           <Route path="/commission/ranking" element={<RankingCommission />} />
@@ -72,6 +88,20 @@ export function Router() {
           <Route path="/plans" element={<Plans />} />
           <Route path="/addplans" element={<AddPlans />} />
 
+
+
+          <Route path='/licenseesummary'  element={<LicenseeSummary />}/>
+          <Route path='/operationManagement' element={<OperationManagement />} />
+          <Route path='/billingRequest' element={<BillingRequest />} />
+          <Route path='/addRequest' element={<AddRequest />} />
+          <Route path='/equipmentStock' element={<EquipmentStock />} /> 
+          <Route path='/addStock' element={<AddStock />} />
+          <Route path='/editStock' element={<EditStock />} />
+          <Route path='/detailsStock' element={<DetailsStock/>} />
+
+          <Route path='/tariffs' element={<Tariffs />} />
+          <Route path='/addRate' element={<AddRate />} />
+          <Route path='/addRateManual' element={<AddRateManual />} />
 
         </Route>
 

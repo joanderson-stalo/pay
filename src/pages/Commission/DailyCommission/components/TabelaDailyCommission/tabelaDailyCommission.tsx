@@ -3,7 +3,7 @@ import * as S from './styled';
 
 export interface RowData {
   id: number;
-  data: string;  // Assumindo que este campo tem data e hora
+  data: string; 
   nsu: string;
   nome: string;
   papel: string;

@@ -1,17 +1,22 @@
 import { Doughnut } from 'react-chartjs-2';
-import Chart from 'chart.js/auto';
+import Chart, { ChartData, ChartOptions, Title, Tooltip, Legend } from 'chart.js/auto';
 import { ContainerGrafico } from './styled';
 import { ThemeColor } from '@/config/color';
 
-const getFontSizeValue = () => {
+interface CustomChartOptions extends ChartOptions<'doughnut'> {
+  centerText?: string;
+  centerValue?: string;
+}
+
+const getFontSizeValue = (): number => {
   if (window.innerWidth < 600) return 18;
   if (window.innerWidth < 900) return 20;
   if (window.innerWidth < 1100) return 22;
   return 24.293;
 };
 
-const getFontSizeText = () => {
-  if (window.innerWidth < 600) return 10;
+const getFontSizeText = (): number => {
+  if (window.innerWidth < 600) return 14;
   if (window.innerWidth < 900) return 12;
   if (window.innerWidth < 1100) return 13;
   return 14;
@@ -19,38 +24,33 @@ const getFontSizeText = () => {
 
 const centerTextPlugin = {
   id: 'custom_center_text_plugin',
-  beforeDraw: (chart: { config: { options: { centerText: string; centerValue: any; }; }; width: any; height: any; ctx: any; }) => {
-    if (chart.config.options.centerText && chart.config.options.centerValue) {
-      const width = chart.width,
-        height = chart.height,
-        ctx = chart.ctx;
+  beforeDraw: (chart: any) => {
+    const { width, height, ctx, options } = chart;
+    if (!options) return;
 
-      ctx.restore();
-      ctx.font = `700 ${getFontSizeValue()}px sans-serif`;
-      ctx.fillStyle = "#383838";
-      ctx.textBaseline = "middle";
+    ctx.restore();
+    const fontSizeValue = getFontSizeValue();
+    const fontSizeText = getFontSizeText();
+    ctx.font = `700 ${fontSizeValue}px sans-serif`;
+    ctx.fillStyle = "#383838";
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
 
-      let text = "R$ " + chart.config.options.centerValue,
-        textX = Math.round((width - ctx.measureText(text).width) / 2),
-        textY = height / 2 - 10;
+    const customOptions = options as CustomChartOptions;
+    const textValue = customOptions.centerValue || "";
+    const textLabel = customOptions.centerText || "";
+    const textX = width / 2;
+    const textY = height / 2 - fontSizeText / 2;
 
-      ctx.fillText(text, textX, textY);
+    ctx.fillText(textValue, textX, textY - fontSizeValue * 0.8);
+    ctx.font = `700 ${fontSizeText}px sans-serif`;
+    ctx.fillText(textLabel, textX, textY + fontSizeValue * 1.2);
 
-      ctx.font = `700 ${getFontSizeText()}px sans-serif`;
-      ctx.fillStyle = "#383838";
-
-      text = chart.config.options.centerText;
-      textX = Math.round((width - ctx.measureText(text).width) / 2);
-      textY = height / 2 + 20;
-
-      ctx.fillText(text, textX, textY);
-
-      ctx.save();
-    }
+    ctx.save();
   },
 };
 
-Chart.register(centerTextPlugin);
+Chart.register(Title, Tooltip, Legend, centerTextPlugin);
 
 interface AppProps {
   debit: string;
@@ -59,13 +59,13 @@ interface AppProps {
 }
 
 export function GraficoCicle({ debit, credit, pix }: AppProps) {
-  const total = parseFloat(debit.replace(".", "").replace(",", "."))
-    + parseFloat(credit.replace(".", "").replace(",", "."))
-    + parseFloat(pix.replace(".", "").replace(",", "."));
-  const totalStr = total.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+  const total = parseFloat(debit.replace(".", "").replace(",", ".")) +
+    parseFloat(credit.replace(".", "").replace(",", ".")) +
+    parseFloat(pix.replace(".", "").replace(",", "."));
+  const totalStr = "R$ " + total.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
 
-  const data = {
-    labels: [], // Remova esta linha
+  const data: ChartData<'doughnut'> = {
+    labels: ['Crédito', 'Débito', 'Pix'],
     datasets: [
       {
         data: [
@@ -77,45 +77,56 @@ export function GraficoCicle({ debit, credit, pix }: AppProps) {
         borderColor: [ThemeColor.primaria, ThemeColor.secundaria, '#045469'],
         borderWidth: 1,
         borderRadius: 100,
-        spacing: 5
+        spacing: 2
       },
     ],
   };
 
-  const options = {
+  const options: CustomChartOptions = {
     cutout: '80%',
     centerText: "TPV TOTAL",
     centerValue: totalStr,
-
     plugins: {
+      legend: {
+        display: true,
+        position: 'bottom',
+        labels: {
+          pointStyle: 'circle',
+          usePointStyle: true,
+          padding: 20
+        }
+      },
       tooltip: {
         callbacks: {
           label: (context: any) => {
             const value = context.raw;
-
             return `R$ ${value.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
           },
         },
       },
     },
-
-    onHover: (event: any, elements: string | any[], chart: any) => {
+    onHover: (event: any, elements: any, chart: any) => {
+      if (!chart) return;
+      const customOptions = chart.options as CustomChartOptions;
       if (elements.length > 0) {
         const hoveredElementIndex = elements[0].index;
-        const hoveredColor = data.datasets[0].backgroundColor[hoveredElementIndex];
+        const hoveredColor = Array.isArray(data.datasets[0].backgroundColor)
+          ? data.datasets[0].backgroundColor[hoveredElementIndex]
+          : data.datasets[0].backgroundColor;
+    
         if (hoveredColor === ThemeColor.primaria) {
-          chart.options.centerText = "TPV DEBITO";
-          chart.options.centerValue = debit;
+          customOptions.centerText = "TPV DEBITO";
+          customOptions.centerValue = "R$ " + debit;
         } else if (hoveredColor === ThemeColor.secundaria) {
-          chart.options.centerText = "TPV CREDITO";
-          chart.options.centerValue = credit;
+          customOptions.centerText = "TPV CREDITO";
+          customOptions.centerValue = "R$ " + credit;
         } else if (hoveredColor === '#045469') {
-          chart.options.centerText = "TPV PIX";
-          chart.options.centerValue = pix;
+          customOptions.centerText = "TPV PIX";
+          customOptions.centerValue = "R$ " + pix;
         }
       } else {
-        chart.options.centerText = "TPV TOTAL";
-        chart.options.centerValue = totalStr;
+        customOptions.centerText = "TPV TOTAL";
+        customOptions.centerValue = totalStr;
       }
       chart.update();
     },
