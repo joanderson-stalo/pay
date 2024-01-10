@@ -11,7 +11,7 @@ import { UserData } from '../../interface';
 import InputMask from 'react-input-mask';
 
 import master from './card/master.svg'
-import elo from './card/elo.svg'
+import elo from './card/elos.svg'
 import visa from './card/visa.svg'
 import diners from './card/diners.svg'
 import hyper from './card/hyper.svg'
