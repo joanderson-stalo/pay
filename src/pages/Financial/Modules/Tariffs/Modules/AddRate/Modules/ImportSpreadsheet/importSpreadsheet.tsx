@@ -3,7 +3,8 @@ import * as S from './styled';
 import * as XLSX from 'xlsx';
 import Swal from 'sweetalert2';
 import { TableSpreadSheet } from './Components/TableSpreadSheet/tableSpreadSheet';
-import { CardSpreadsheet } from '../Mobile/CardSpreadsheet/cardSpreadsheet';
+import { CardSpreadsheet } from './Mobile/CardSpreadsheet/cardSpreadsheet';
+
 
 type SpreadsheetData = {
   ID_EC: string | number;
