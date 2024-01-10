@@ -10,11 +10,11 @@ import { validationSchema } from './schema';
 import { UserData } from '../../interface';
 import InputMask from 'react-input-mask';
 
-import master from './card/master.svg'
+import master from './card/masters.svg'
 import elo from './card/elos.svg'
-import visa from './card/visa.svg'
-import diners from './card/diners.svg'
-import hyper from './card/hyper.svg'
+import visa from './card/visas.svg'
+import diners from './card/dinerss.svg'
+import hyper from './card/hypers.svg'
 
 
 import {
