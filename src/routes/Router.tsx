@@ -44,6 +44,7 @@ import { Tickets } from '@/pages/Tickets/tickets'
 
 import { Extract } from '@/pages/Extract/extract'
 import { AddTickets } from '@/pages/Tickets/Modules/AddTickets/addTickets'
+import { Documents } from '@/pages/Documents/documents'
 
 
 
@@ -117,6 +118,8 @@ export function Router() {
           <Route path='/addTickets' element={<AddTickets />} />
 
           <Route path='/extract' element={<Extract />} />
+
+          <Route path='/documents' element={<Documents />} />
 
         </Route>
 
