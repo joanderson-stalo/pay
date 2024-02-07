@@ -41,7 +41,10 @@ import { DetailsStock } from '@/pages/EquipmentStock/Modules/DetailsStock/detail
 import { AddRate } from '@/pages/Financial/Modules/Tariffs/Modules/AddRate/addRate'
 import { AddRateManual } from '@/pages/Financial/Modules/Tariffs/Modules/AddRateManual/addRateManual'
 import { Tickets } from '@/pages/Tickets/tickets'
-import { AddTickets } from '@/pages/Tickets/Modules/AddStock/addStock'
+
+import { Extract } from '@/pages/Extract/extract'
+import { AddTickets } from '@/pages/Tickets/Modules/AddTickets/addTickets'
+
 
 
 
@@ -112,6 +115,8 @@ export function Router() {
 
           <Route path='/tickets' element={<Tickets />} />
           <Route path='/addTickets' element={<AddTickets />} />
+
+          <Route path='/extract' element={<Extract />} />
 
         </Route>
 
