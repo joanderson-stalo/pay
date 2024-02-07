@@ -40,6 +40,10 @@ import { Tariffs } from '@/pages/Financial/Modules/Tariffs/tariffs'
 import { DetailsStock } from '@/pages/EquipmentStock/Modules/DetailsStock/detailsStock'
 import { AddRate } from '@/pages/Financial/Modules/Tariffs/Modules/AddRate/addRate'
 import { AddRateManual } from '@/pages/Financial/Modules/Tariffs/Modules/AddRateManual/addRateManual'
+import { Tickets } from '@/pages/Tickets/tickets'
+import { AddTickets } from '@/pages/Tickets/Modules/AddStock/addStock'
+
+
 
 
 
@@ -94,7 +98,7 @@ export function Router() {
           <Route path='/operationManagement' element={<OperationManagement />} />
           <Route path='/billingRequest' element={<BillingRequest />} />
           <Route path='/addRequest' element={<AddRequest />} />
-          <Route path='/equipmentStock' element={<EquipmentStock />} /> 
+          <Route path='/equipmentStock' element={<EquipmentStock />} />
           <Route path='/addStock' element={<AddStock />} />
           <Route path='/editStock' element={<EditStock />} />
           <Route path='/detailsStock' element={<DetailsStock/>} />
@@ -102,6 +106,12 @@ export function Router() {
           <Route path='/tariffs' element={<Tariffs />} />
           <Route path='/addRate' element={<AddRate />} />
           <Route path='/addRateManual' element={<AddRateManual />} />
+
+
+          <Route path='/addRateManual' element={<AddRateManual />} />
+
+          <Route path='/tickets' element={<Tickets />} />
+          <Route path='/addTickets' element={<AddTickets />} />
 
         </Route>
 
