@@ -7,10 +7,11 @@ export const ContainerStep = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-
+  margin: 0px 20px 20px 20px;
 
   @media (max-width: 600px) {
     display: block;
+    margin: 0 30px;
   }
 `;
 
@@ -18,6 +19,7 @@ export const ContextStepContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
 `;
 
 export const ContextStep = styled.div`
@@ -26,7 +28,7 @@ export const ContextStep = styled.div`
   border-radius: 8px;
   margin-top: 30px;
   margin-bottom: 32px;
-  width: 900px;
+  width: 100%;
   padding: 22px 39px 0px 39px;
 
   @media (max-width: 1200px) {

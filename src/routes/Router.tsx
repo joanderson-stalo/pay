@@ -45,6 +45,7 @@ import { Tickets } from '@/pages/Tickets/tickets'
 import { Extract } from '@/pages/Extract/extract'
 import { AddTickets } from '@/pages/Tickets/Modules/AddTickets/addTickets'
 import { Documents } from '@/pages/Documents/documents'
+import { TodayCommission } from '@/pages/Commission/TodayCommission/todayCommission'
 
 
 
@@ -92,6 +93,7 @@ export function Router() {
 
           <Route path="/commission/daily" element={<DailyCommission />} />
           <Route path="/commission/ranking" element={<RankingCommission />} />
+          <Route path="/commission/today" element={<TodayCommission />} />
 
           <Route path="/plans" element={<Plans />} />
           <Route path="/addplans" element={<AddPlans />} />

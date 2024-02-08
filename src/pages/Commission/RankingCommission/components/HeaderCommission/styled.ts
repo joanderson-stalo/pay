@@ -1,12 +1,13 @@
-  import { ThemeColor } from '@/config/color';
+import { ThemeColor } from '@/config/color';
 import styled from 'styled-components';
 
   export const Container = styled.div`
     margin-top: 30px;
+    margin-bottom: 30px;
 
     display: flex;
     justify-content: space-between;
-    margin-bottom: 35px;
+    flex-wrap: wrap;
   `;
 
 
@@ -41,6 +42,14 @@ font-size: 16px;
 
 export const ContainerPJPF = styled.div`
 
+@media (max-width: 600px) {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: center;
+  margin-top: 10px;
+}
+
 `;
 
 export const ButtonPJ = styled.button<{active: boolean}>`
@@ -70,6 +79,24 @@ padding: 7px 18px;
 
 
 font-size: 12px;
+line-height: 20px;
+letter-spacing: 0.5px;
+`;
+
+
+export const ButtonToday = styled.button<{active: boolean}>`
+padding: 7px 18px;
+  background-color: ${({ active }) => (active ? '#08BBE9' : '#E6E6E6')};
+
+  color: ${({ active }) => (active ? 'white' : 'black')};
+
+
+  border-radius: ${({ active }) => (active ? '8px 0px 0px 8px' : '8px 1px 1px 8px')} ;
+
+  position: ${({ active }) => (active ? 'relative' : '')};
+  margin-right: -5px;
+
+  font-size: 12px;
 line-height: 20px;
 letter-spacing: 0.5px;
 `;

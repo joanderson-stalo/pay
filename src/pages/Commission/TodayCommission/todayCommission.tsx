@@ -7,17 +7,17 @@ import { ItensPorPage } from '@/components/ItensPorPage/itensPorPage'
 import { Pagination } from '@/components/Pagination/pagination'
 
 import { useLogin } from '@/context/user.login'
-import { Transaction } from './components/TabelaDailyCommission/interface'
+import { Transaction } from './components/TabelaToDayCommission/interface'
 import { Loading } from '@/components/Loading/loading'
 import { mockData } from './mock'
 import { HeaderCommission } from './components/HeaderCommission/headerCommission'
-import { TabelaDailyCommission } from './components/TabelaDailyCommission/tabelaDailyCommission'
 import { useFilterDailyCommission } from './hooks/useFilterDailyCommission'
 import { EditableButton } from './components/ButtonEdit/buttonEdit'
 import { CardInfo } from '@/pages/Financial/components/CardInfo/cardInfo'
-import { DailyCommissionCard } from './Mobile/DaillyCommisionCard/daillyCommisionCard'
+import { TabelaToDayCommission } from './components/TabelaToDayCommission/tabelaToDayCommission'
+import { ToDayCommisionCard } from './Mobile/ToDayCommisionCard/toDayCommisionCard'
 
-export function DailyCommission() {
+export function TodayCommission() {
   const [searchValue, setSearchValue] = useState('')
   const [itensPorPage, setItensPorPage] = useState<number | ''>(10)
   const [filter, setFilter] = useState(false)
@@ -147,15 +147,15 @@ export function DailyCommission() {
 
             <S.ContainerCardVendas>
               <CardInfo
-                label="Qtd de Vendas"
+                label="Total de Transações"
                 value={totalTransactions}
               />
               <CardInfo
-                label="Total Dia"
+                label="TPV"
                 value={Number(totalAmount)}
               />
               <CardInfo
-                label="Total Mês"
+                label="Comissão"
                 value={Number(totalAmount)}
               />
             </S.ContainerCardVendas>
@@ -179,10 +179,10 @@ export function DailyCommission() {
             <S.ButtonFilter onClick={handleOpenModal}> <FunnelSimple />Filtrar</S.ButtonFilter>
           </S.ContainerButton>
 
-          <TabelaDailyCommission rows={mockData} />
+          <TabelaToDayCommission rows={mockData} />
 
           <S.ContainerCardsMobile>
-          <DailyCommissionCard data={mockData} />
+          <ToDayCommisionCard mockData={mockData} />
           </S.ContainerCardsMobile>
 
 

@@ -8,12 +8,17 @@ export function HeaderCommission() {
     navigate('/commission/ranking')
   }
 
+  const handleToDay = () => {
+    navigate('/commission/today')
+  }
+
   return (
     <S.Container>
-      <S.Title>Comissões</S.Title>
+      <S.Title>Comissões - Por venda</S.Title>
       <S.ContainerPJPF>
-            <S.ButtonPJ active >POR VENDA</S.ButtonPJ>
-            <S.ButtonPF onClick={handleRanking} active={false} >RANKING</S.ButtonPF>
+            <S.ButtonToday active={false}  onClick={handleToDay}>DIÁRIA</S.ButtonToday>
+            <S.ButtonPJ active>POR VENDA</S.ButtonPJ>
+            <S.ButtonPF onClick={handleRanking } active={false} >RANKING</S.ButtonPF>
       </S.ContainerPJPF>
     </S.Container>
   )
