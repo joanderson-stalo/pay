@@ -35,8 +35,8 @@ export function Sidebar() {
   const menuItems = [
     { icon: <ChartBar weight="fill" />, label: 'Resumo', path: "/home" },
     { icon: <Basket weight="fill" />, label: 'Vendas', path: "/vendas" },
-    { icon: <Storefront weight="fill" />, label: 'Estabelecimentos', path: "/estabelecimentos" },
-    { icon: <Tag weight='fill' />, label: 'Licenciados', path: "/licenciados" },
+    // { icon: <Storefront weight="fill" />, label: 'Estabelecimentos', path: "/estabelecimentos" },
+    // { icon: <Tag weight='fill' />, label: 'Licenciados', path: "/licenciados" },
     { icon: <Money weight='fill'  />, label: 'Comissões', path: "/commission/daily" },
     { icon: <Stack weight='fill'  />, label: 'Planos', path: "/plans" },
     { icon: <Equals weight='fill'  />, label: 'Equipamentos', path: "/equipmentStock" },
