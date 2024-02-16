@@ -47,10 +47,10 @@ export function TablePlans({ rows }: TabelaProps) {
               <S.PapelText type={row.tipo}>{renderCellContent(row.tipo)}</S.PapelText>
             </S.PapelData>
             <S.TableData>
-              <S.ButtonEditar onClick={() => handleActionClick(row.id, 'edit')}>Editar</S.ButtonEditar>
+              {/* <S.ButtonEditar onClick={() => handleActionClick(row.id, 'edit')}>Editar</S.ButtonEditar> */}
             </S.TableData>
             <S.TableData>
-              <S.ButtonRemover onClick={() => handleActionClick(row.id, 'remove')}>Remover</S.ButtonRemover>
+              {/* <S.ButtonRemover onClick={() => handleActionClick(row.id, 'remove')}>Remover</S.ButtonRemover> */}
             </S.TableData>
           </tr>
         ))}

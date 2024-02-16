@@ -36,7 +36,7 @@ export function HeaderPlans() {
             <MagnifyingGlass />
           </S.SearchIcon>
         </S.Input>
-        <S.Button onClick={handleAddEstablishment}>Adicionar Plano</S.Button>
+        {/* <S.Button onClick={handleAddEstablishment}>Adicionar Plano</S.Button> */}
       </S.Context>
     </S.Container>
   );
