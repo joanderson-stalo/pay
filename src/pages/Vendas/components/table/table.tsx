@@ -102,18 +102,21 @@ export function TabelaVendas({ rows }: TabelaProps) {
               <S.TableData>{transaction.nsu_external}</S.TableData>
               <S.TableData>{transaction.company_name}</S.TableData>
               <S.FormaPagamentoData>
-                <S.FormaPagamentoText>{transaction.payment_type}</S.FormaPagamentoText>
-              </S.FormaPagamentoData>
+  <S.FormaPagamentoText>
+    {transaction.payment_type.toLocaleLowerCase() === 'credit' ? 'Crédito' : 'Débito'}
+  </S.FormaPagamentoText>
+</S.FormaPagamentoData>
+
               <S.TableData>
                 <S.FlagContainer>
                   <img
                     src={
                       transaction.brand === null && transaction.payment_type === 'Pix' ? pix :
-                      transaction.brand === 'Visa' ? visa :
-                      transaction.brand === 'Elo' ? elo :
-                      transaction.brand === 'MasterCard' ? masterCard :
-                      transaction.brand === 'Maestro' ? maestro :
-                      transaction.brand === 'Pix' ? pix : undefined
+                      transaction.brand === 'visa' ? visa :
+                      transaction.brand === 'elo' ? elo :
+                      transaction.brand === 'masterCard' ? masterCard :
+                      transaction.brand === 'maestro' ? maestro :
+                      transaction.brand === 'pix' ? pix : undefined
                     }
                     alt={transaction.brand}
                   />

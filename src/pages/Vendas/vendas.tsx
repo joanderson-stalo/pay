@@ -41,44 +41,44 @@ export function Vendas() {
 
   const fetchDataFromAPI = useCallback(async (search?: string) => {
     setLoading(true);
-  
+
     let url = `${baseURL}transactions?perpage=${String(itensPorPage)}&page=${currentPage}`;
-  
+
     const statusPagamento = localStorage.getItem('@statusPagamento');
     if (statusPagamento && statusPagamento !== 'undefined') {
       url += `&status=${statusPagamento}`;
     }
-  
+
     const brand = localStorage.getItem('@bandeira');
     if (brand && brand !== 'undefined') {
       url += `&brand=${brand}`;
     }
-  
+
     const capturedInStart = localStorage.getItem('@captured_in_start');
     if (capturedInStart) {
       url += `&captured_in_start=${capturedInStart}`;
     }
-  
+
     const capturedInEnd = localStorage.getItem('@captured_in_end');
     if (capturedInEnd) {
       url += `&captured_in_end=${capturedInEnd}`;
     }
-  
+
     if (search) {
       url += `&nsu_external=${search}`;
     }
-  
+
     const config = {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${dataUser?.token}`,
       },
     };
-  
+
     try {
       const response = await axios.get(url, config);
       const { data } = response;
-  
+
       setTransactions(data.transactions);
       setTotalTransactions(data.total_transactions);
       setTpvGlobal(data.total_amountTPV);
@@ -91,9 +91,9 @@ export function Vendas() {
       setLoading(false);
     }
   }, [itensPorPage, currentPage, baseURL, dataUser?.token]);
-  
-  
-  
+
+
+
 
   const debouncedFetchDataFromAPI = useRef(debounce(fetchDataFromAPI, 1000)).current;
 
@@ -145,12 +145,12 @@ export function Vendas() {
 
 
 
-  
+
   const handleExportClick = () => {
     TransactionsToExcel(transactions);
   };
-  
-  
+
+
 
 
   return (
@@ -167,7 +167,7 @@ export function Vendas() {
               <CardInfo shouldFormat={false} label="Qtd de Vendas" value={totalTransactions}  />
               <CardInfo  label="TPV" value={Number(tpvGlobal)} />
               <CardInfo label="Valor Liq." value={Number(totalAmount)} />
-              <CardInfo shouldFormat={false} label="Taxa Média apl." value={Number(averageTaxApplied)} />
+              <CardInfo shouldFormat={false} label="Taxa Média apl." formatTaxa value={Number(averageTaxApplied)} />
             </S.ContainerCardVendas>
             <S.Input>
               <input
@@ -202,7 +202,7 @@ export function Vendas() {
           <S.Context>
             <S.Linha />
             <S.ContainerPagina>
-        
+
               <PaginaView totalItens={itensPorPage} />
               <S.ContainerItens>
                 <ItensPorPage itensPorPage={itensPorPage} setItensPorPage={setItensPorPage} />

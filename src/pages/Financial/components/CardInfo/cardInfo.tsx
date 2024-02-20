@@ -9,15 +9,23 @@ interface InvoiceComponentProps {
   color?: string;
 }
 
-export function CardInfo({ label, value, shouldFormat = true, color, formatTaxa= false }: InvoiceComponentProps) {
+export function CardInfo({ label, value, shouldFormat = true, color, formatTaxa = false }: InvoiceComponentProps) {
+  let formattedValue;
+
+  if (formatTaxa) {
+    formattedValue = `${(value).toFixed(2).replace('.', ',')}%`; 
+  } else if (shouldFormat) {
+    formattedValue = formatCurrencyBR(value);
+  } else {
+    formattedValue = value;
+  }
+
   return (
     <InvoiceWrapper>
       <InvoiceLabel>{label}</InvoiceLabel>
-      {shouldFormat ? (
-        <InvoiceValue color={color} value={value} >{formatCurrencyBR(value)}</InvoiceValue>
-      ) : (
-        <InvoiceValue color={color}  value={value} >{value}</InvoiceValue> 
-      )}
+      <InvoiceValue color={color} value={value}>
+        {formattedValue}
+      </InvoiceValue>
     </InvoiceWrapper>
   );
 }
