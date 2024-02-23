@@ -37,7 +37,6 @@ background: #DAF5FC;
 
 color:  #08BBE9;
 font-feature-settings: 'clig' off, 'liga' off;
-font-family: Poppins;
 font-size: 9.906px;
 font-style: normal;
 font-weight: 500;

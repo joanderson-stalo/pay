@@ -44,12 +44,12 @@ export function CardDetalhes({
     <S.ContainerCardDetalhes>
       <S.ContextCard>
         <img src={
-            brand === null && payment_type === 'Pix' ?pix :
-            brand === 'Visa' ? visa :
-            brand === 'Elo' ? elo :
-            brand === 'MasterCard' ? masterCard :
-            brand === 'Maestro' ? maestro :
-            brand === 'Pix' ? pix : undefined
+            brand?.toLocaleLowerCase() === null && payment_type === 'pix' ?pix :
+            brand === 'visa' ? visa :
+            brand === 'elo' ? elo :
+            brand === 'masterCard' ? masterCard :
+            brand === 'maestro' ? maestro :
+            brand === 'pix' ? pix : undefined
         } alt="" />
         <h3>{amount}</h3>
         <span>{acquire}-{id_acquire}</span>
@@ -70,7 +70,7 @@ export function CardDetalhes({
             <h2>Horário</h2>
             <span>{captured_in_time}</span>
           </div>
-       
+
         </S.InfoOne>
 
         <S.InfoTw>
@@ -86,7 +86,7 @@ export function CardDetalhes({
             <h2>Cartão</h2>
             <span>{card_number}</span>
           </div>
-     
+
         </S.InfoTw>
 
         <S.InfoTre>
@@ -104,7 +104,7 @@ export function CardDetalhes({
           </div>
         </S.InfoTre>
         <S.InfoTre>
-  
+
           <div>
           <h2>Titular</h2>
             <span>{comment}</span>

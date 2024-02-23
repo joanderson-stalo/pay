@@ -30,18 +30,17 @@ font-weight: 600;
   >h2{
     color: #FFF;
 font-feature-settings: 'clig' off, 'liga' off;
-font-family: Poppins;
 font-size: 13.252px;
 font-style: normal;
 font-weight: 400;
-line-height: 20.824px; 
+line-height: 20.824px;
   }
 `
 
 export const UserAvatar = styled.div`
   background-color: #C4C4C4;
   border-radius: 50%;
-  width: 50px; 
+  width: 50px;
   height: 50px;
 `;
 
@@ -72,16 +71,15 @@ line-height: 15.566px;
 > span {
   color: var(--light-secondary, #6C757D);
 font-feature-settings: 'clig' off, 'liga' off;
-font-family: Poppins;
 font-size: 11px;
 font-style: normal;
 font-weight: 400;
-line-height: 15.566px; 
+line-height: 15.566px;
 
-overflow: hidden; 
-      text-overflow: ellipsis; 
-      white-space: nowrap; 
-      max-width: 90%; 
+overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 90%;
 }
 }
 
@@ -120,6 +118,6 @@ background: var(--foundation-white-light, #FDFDFD);
 color: #5A6ACF;
 font-size: 11px;
 font-weight: 500;
-line-height: 14.128px; 
+line-height: 14.128px;
 letter-spacing: 0.353px;
 `

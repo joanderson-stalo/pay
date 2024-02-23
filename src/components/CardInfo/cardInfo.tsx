@@ -13,7 +13,7 @@ export function CardInfo({ label, value, shouldFormat = true, color, formatTaxa 
   let formattedValue;
 
   if (formatTaxa) {
-    formattedValue = `${(value).toFixed(2).replace('.', ',')}%`; 
+    formattedValue = `${(value).toFixed(2).replace('.', ',')}%`;
   } else if (shouldFormat) {
     formattedValue = formatCurrencyBR(value);
   } else {

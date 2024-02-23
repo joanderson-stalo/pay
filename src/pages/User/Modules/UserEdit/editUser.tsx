@@ -25,7 +25,7 @@ export function EditUser() {
   const methods = useForm<UserData>({
     resolver: yupResolver(validationSchema)
   });
-  
+
   const { register, handleSubmit, watch, formState: { errors } } = methods;
 
   const isAllFieldsFilled = watch('Nome') || watch('Telefone');
@@ -51,10 +51,10 @@ export function EditUser() {
         showCancelButton: true,
         confirmButtonText: "Salvar",
         denyButtonText: "Não salvar",
-        width: 'auto', 
+        width: 'auto',
         customClass: {
-          container: 'swal-wide', 
-          actions: 'swal-actions-stacked' 
+          container: 'swal-wide',
+          actions: 'swal-actions-stacked'
         }
       }).then(async (result) => {
         if (result.isConfirmed) {
@@ -62,7 +62,7 @@ export function EditUser() {
             name: data.Nome,
             phone_number: data.Telefone,
           };
-  
+
           try {
             await axios.put(`${baseURL}user/update/${id}`, updatedData, {
               headers: {
@@ -71,7 +71,7 @@ export function EditUser() {
               }
             });
             Swal.fire("Salvo!", "", "success").then(() => {
-              handleUserlist(); 
+              handleUserlist();
             });
           } catch (error) {
             console.error("Erro ao salvar:", error);
@@ -85,10 +85,10 @@ export function EditUser() {
       });
     }
   });
-  
+
   const GetUser = async () => {
     setIsLoading(true);
-  
+
     try {
       const response = await axios.get(`${baseURL}user/getuserby/${id}`, {
         headers: {
@@ -96,14 +96,14 @@ export function EditUser() {
           Authorization: `Bearer ${dataUser?.token}`
         }
       });
-  
-      const userData = response.data.user; 
+
+      const userData = response.data.user;
       const name = userData.name;
       const phoneNumber = userData.phone_number;
-  
+
       methods.setValue('Nome', name);
       methods.setValue('Telefone', phoneNumber);
-      
+
     } catch (error) {
       navigate("*");
     } finally {
@@ -128,16 +128,16 @@ export function EditUser() {
               <S.ContainerForm>
                 <S.ContainerPhoto>
                   <img src={selectedImage || iconPhoto} alt="Foto do Usuário" />
-                  <S.HiddenFileInput 
-                    id="fileInput" 
-                    type="file" 
+                  <S.HiddenFileInput
+                    id="fileInput"
+                    type="file"
                     onChange={onFileInputChange}
                   />
                   <S.FileInputLabel htmlFor="fileInput">
                     <S.StyledUploadIcon /> Enviar foto
                   </S.FileInputLabel>
                 </S.ContainerPhoto>
-           
+
                 <CustomInput
                   label="Nome"
                   colorInputDefault={ThemeColor.primaria}
@@ -145,7 +145,7 @@ export function EditUser() {
                   {...register('Nome')}
                   hasError={!!errors.Nome}
                 />
-    
+
                 <LabelCustomInputMask
                   {...register('Telefone')}
                   label="Telefone"
@@ -156,7 +156,7 @@ export function EditUser() {
               </S.ContainerForm>
             </S.ContextStep>
             <S.ContainerButton>
-              <S.ButtonVoltar onClick={() => false}>Cancelar</S.ButtonVoltar>
+              <S.ButtonVoltar type='button' onClick={() => false}>Cancelar</S.ButtonVoltar>
               <S.ButtonAvançar type="submit" disabled={!isAllFieldsFilled}>
                 Salvar
               </S.ButtonAvançar>

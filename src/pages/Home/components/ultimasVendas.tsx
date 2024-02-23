@@ -27,7 +27,7 @@ const Header = styled.div`
         border: 0.353px solid #F5F4F4;
         background: #FFF;
         color: var(--foundation-brand-02-normal, #08BBE9);
-        font-family: Poppins;
+
         font-size: 9.477px;
         padding: 5px 16px;
         font-style: normal;
@@ -38,7 +38,7 @@ const Header = styled.div`
 
     > h2 {
         color: var(--foundation-white-light, #FDFDFD);
-        font-family: Poppins;
+
         font-size: 12.906px;
         font-weight: 700;
         line-height: 15.566px;
@@ -63,7 +63,7 @@ const TableCell = styled.td`
     text-overflow: ellipsis;
     max-width: 150px;
     color: var(--light-secondary, #6C757D);
-    font-family: Poppins;
+
     font-size: 11px;
     line-height: 22px;
     text-align: center;
@@ -72,7 +72,7 @@ const TableCell = styled.td`
 const TableHeader = styled.th`
     padding: 8px 16px;
     color: var(--light-secondary, #6C757D);
-    font-family: Poppins;
+
     font-size: 11px;
     line-height: 22px;
     text-align: center;
@@ -85,7 +85,7 @@ const TableCellImg = styled.td`
     text-overflow: ellipsis;
     max-width: 150px;
     color: var(--light-secondary, #6C757D);
-    font-family: Poppins;
+  
     font-size: 11px;
     line-height: 22px;
     text-align: center;

@@ -1,53 +1,76 @@
 import * as XLSX from 'xlsx';
-import { formatCurrencyBR } from '@/utils/convertBRDinheiro';
-import { Transaction } from '@/pages/Vendas/components/table/interface';
-
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const formatDateAndTime = (dateString: string | number | Date) => {
   const date = new Date(dateString);
-  const formattedDate = date.toLocaleDateString('pt-BR', {
-    day: '2-digit', month: '2-digit', year: 'numeric'
-  });
-  const formattedTime = date.toLocaleTimeString('pt-BR', {
-    hour: '2-digit', minute: '2-digit', second: '2-digit'
-  });
-  return { formattedDate, formattedTime };
+  return {
+    formattedDate: date.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }),
+    formattedTime: date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+  };
 };
 
 const formatValue = (value: string) => {
-  return formatCurrencyBR(parseFloat(value));
+  return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(parseFloat(value));
 };
 
 const formatStatus = (status: string) => {
   return status === 'succeeded' ? 'sucesso' : 'falha';
 };
 
-export const TransactionsToExcel = (transactions: Transaction[]) => {
-  const formattedData = transactions.map((transaction) => {
-    const { formattedDate, formattedTime } = formatDateAndTime(transaction.captured_in);
-    return {
-      'Data': formattedDate,
-      'Hora': formattedTime,
-      'NSU': transaction.nsu_external,
-      'Estabelecimento': transaction.company_name,
-      'Forma de Pagamento': transaction.payment_type,
-      'Bandeira': transaction.brand,
-      'Valor': formatValue(transaction.amount),
-      'Status': formatStatus(transaction.status),
+const formatPaymentType = (paymentType: 'credit' | 'debit'): string => {
+  return paymentType === 'credit' ? 'crédito' : 'débito';
+};
+
+export const TransactionsToExcel = async (token: string) => {
+  try {
+    const headers = {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
     };
-  });
 
-  const worksheet = XLSX.utils.json_to_sheet(formattedData, {
-    header: ['Data', 'Hora', 'NSU', 'Estabelecimento', 'Forma de Pagamento', 'Bandeira', 'Valor', 'Status'],
-    skipHeader: true
-  });
+    let allTransactions: any[] = [];
+    let currentPage = 1;
+    let totalPages = 1;
 
-  XLSX.utils.sheet_add_aoa(worksheet, [
-    ['Data', 'Hora', 'NSU', 'Estabelecimento', 'Forma de Pagamento', 'Bandeira', 'Valor', 'Status']
-  ], { origin: 'A1' });
+    do {
+      const response = await axios.get(`https://api-pagueassim.stalopay.com.br/transactions?perpage=1000000000000000000000000`, { headers });
+      const { data } = response;
+      totalPages = data.last_page;
+      allTransactions = allTransactions.concat(data.transactions);
+      currentPage++;
+    } while (currentPage <= totalPages);
 
-  const workbook = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(workbook, worksheet, 'Transactions');
+    const formattedData = allTransactions.map((transaction) => {
+      const { formattedDate, formattedTime } = formatDateAndTime(transaction.captured_in);
+      return {
+        'ID': transaction.id,
+        'Data': formattedDate,
+        'Hora': formattedTime,
+        'Estabelecimento': transaction.seller_company_name,
+        'Fornecedor': transaction.acquire_label,
+        'Documento': transaction.seller_document,
+        'Status': formatStatus(transaction.status),
+        'Valor Bruto': formatValue(transaction.amount),
+        'Valor Liquido': formatValue(transaction.net_amount),
+        'Forma de Pagamento': formatPaymentType(transaction.payment_type),
+        'Parcelas': transaction.number_installments,
+        'Bandeira': transaction.brand,
+        'SN': transaction.equipment_sn,
+        'NSU': transaction.nsu_external,
+        'Antecipado': transaction.is_anteciped === 0 ? 'sim' : 'não'
+      };
+    });
 
-  XLSX.writeFile(workbook, 'Transactions.xlsx');
+    const worksheet = XLSX.utils.json_to_sheet(formattedData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Transactions');
+
+    const timestamp = new Date().getTime();
+    const filename = `vendas_${timestamp}.xlsx`;
+
+    XLSX.writeFile(workbook, filename);
+  } catch (error) {
+    toast.error('Ocorreu um erro ao exportar as transações. Por favor, tente novamente mais tarde.');
+  }
 };

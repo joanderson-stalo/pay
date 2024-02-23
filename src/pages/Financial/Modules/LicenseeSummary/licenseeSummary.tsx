@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 import { SalesSummaryTable } from './components/salesSummaryTable/salesSummaryTable';
 import { ConsultarBtn, Container, ContainerCards, ContainerCardsMobile, ContainerSelect, ExportarBtn, Title } from './styled';
 import { CustomSelect } from '@/components/Select/select';
-import { CardInfo } from '../../components/CardInfo/cardInfo';
+import { CardInfo } from '../../../../components/CardInfo/cardInfo';
 import * as XLSX from 'xlsx';
 import { mockRows, mockTotals } from './mock';
 import { toast } from 'react-toastify';
@@ -49,32 +49,32 @@ export function LicenseeSummary() {
           'Authorization': `Bearer ${dataUser?.token}`
         }
       });
-  
+
       const data = response.data;
-  
+
       if (data && data.sellers) {
         console.log(data.sellers.trading_name)
         const options = data.sellers.map((seller: { trading_name: any; type: any; id: any, cnpj_cpf: any }, index: number) => ({
           value: seller.id,
           label: `${seller.trading_name}-${seller.type}-${seller.cnpj_cpf}`
         }));
-  
+
         setFetchedOptions(options);
       }
     } catch (error) {
       console.error('Houve um erro ao buscar os dados:', error);
     }
   };
-  
+
   useEffect(() => {
     fetchData();
   }, []);
-  
+
 
   const onSubmit = (data: FormValues) => {
     console.log(data)
   };
-  
+
 
   const onError = (errors: Record<string, any>) => {
     Swal.fire({
@@ -84,7 +84,7 @@ export function LicenseeSummary() {
       confirmButtonText: 'Ok'
     });
   };
-  
+
 
   const handleExport = () => {
     const spacer = { id: '', fornecedor: '', meta: '', tpv: '', gap: '', comissao: '' };
@@ -102,7 +102,7 @@ export function LicenseeSummary() {
 <>
 {isTotalsEmpty  && <NoDataFound onReload={() => false} />}
 
-{!isTotalsEmpty && 
+{!isTotalsEmpty &&
 <>
 <form onSubmit={handleSubmit(onSubmit, onError)}>
       <Container>
@@ -115,7 +115,7 @@ export function LicenseeSummary() {
             hasError={errors.licenciado ? true : false}
             placeholder='Licenciado'
           />
-         
+
           <CustomSelect {...register("mesReferencia")} optionsData={optionsMeses} label="Mês de referência"
             onChange={(selectedOption: { value: string }) => setValue('mesReferencia', selectedOption.value)}
             hasError={errors.mesReferencia ? true : false}
@@ -137,12 +137,12 @@ export function LicenseeSummary() {
         </ContainerCards>
 
         <SalesSummaryTable rows={mockRows} totals={mockTotals} />
-     
+
      <ContainerCardsMobile>
         <OperationsSummaryList transactions={mockRows}  />
         <OperationTotalCard {...mockTotals} />
      </ContainerCardsMobile>
-     
+
 
 
       </Container>

@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { BiHomeAlt, BiChevronDown, BiChevronUp } from 'react-icons/bi';
-import { Medal, Storefront, Book, Clipboard, Tag, CaretDoubleLeft, CaretDoubleRight, ChartBar, Basket, Money, Stack, Wallet, FileText, Equals } from '@phosphor-icons/react';
-import { AiOutlinePercentage, AiOutlineFileText } from 'react-icons/ai';
+import { BiChevronDown, BiChevronUp } from 'react-icons/bi';
+import { Storefront, Tag, CaretDoubleLeft, CaretDoubleRight, ChartBar, Basket, Money, Stack, Wallet, FileText, Equals } from '@phosphor-icons/react';
 import { ButtonSider, ButtonSiderArrow, ContainerSidebar, Logo, Menu, SubMenu, SubMenuItem } from './styled';
 import { ThemeColor } from '@/config/color';
 import { ThemeImg } from '@/config/img';
@@ -20,7 +19,7 @@ export function Sidebar() {
 
   useEffect(() => {
     localStorage.setItem('selectedItem', selectedItem.toString());
-  }, [selectedItem]);
+  }, []);
 
   const handleNavigation = (index: number, path?: string) => {
     setSelectedItem(index);
@@ -34,13 +33,13 @@ export function Sidebar() {
 
   const menuItems = [
     { icon: <ChartBar weight="fill" />, label: 'Resumo', path: "/home" },
-    // { icon: <Basket weight="fill" />, label: 'Vendas', path: "/vendas" },
-    // { icon: <Storefront weight="fill" />, label: 'Estabelecimentos', path: "/estabelecimentos" },
-    // { icon: <Tag weight='fill' />, label: 'Licenciados', path: "/licenciados" },
+    { icon: <Basket weight="fill" />, label: 'Vendas', path: "/vendas" },
+    { icon: <Storefront weight="fill" />, label: 'Estabelecimentos', path: "/estabelecimentos" },
+    { icon: <Tag weight='fill' />, label: 'Licenciados', path: "/licenciados" },
     { icon: <Money weight='fill'  />, label: 'Comissões', path: "/commission/daily" },
     { icon: <Stack weight='fill'  />, label: 'Planos', path: "/plans" },
     { icon: <Equals weight='fill'  />, label: 'Equipamentos', path: "/equipmentStock" },
-    // { icon: <Wallet weight='fill'/>, label: 'Financeiro', isSubmenu: true },
+    { icon: <Wallet weight='fill'/>, label: 'Financeiro', isSubmenu: true },
     { icon: <FileText  weight='fill' />, label: 'Documentos', path: "/documents" }
   ];
 

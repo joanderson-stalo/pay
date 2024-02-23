@@ -1,6 +1,10 @@
 import { ThemeColor } from "@/config/color";
 import styled from "styled-components";
 
+type InputContainerProps = {
+  isFocused: boolean;
+};
+
 export const ContextTitleVendas = styled.div`
 
 `
@@ -19,7 +23,7 @@ export const ContainerCardVendas = styled.div`
     flex-wrap: wrap;
     justify-content: center;
   }
-  
+
 
 `
 
@@ -37,7 +41,7 @@ export const ContainerCardVendas = styled.div`
   `;
 
 
-export const Input = styled.div`
+export const Input = styled.div<InputContainerProps>`
   position: relative;
   display: flex;
   align-items: center;
@@ -45,7 +49,7 @@ export const Input = styled.div`
   max-width: 525px;
   height: 44px;
   border-radius: 4px;
-  border: 1px solid #E2E2E2;
+  border: 1px solid ${props => props.isFocused ? '#0D0D3F' : '#E2E2E2'};
   background: #FFF;
   padding: 10px 16px;
   font-size: 14px;
@@ -54,6 +58,7 @@ export const Input = styled.div`
   color: #9B959F;
   padding-right: 15px;
 
+
   > input {
     width: 100%;
     padding-right: 40px;
@@ -61,6 +66,7 @@ export const Input = styled.div`
     font-size: 14px;
     line-height: 24px;
     letter-spacing: 0.5px;
+
   }
 
   .search-icon {
@@ -75,11 +81,11 @@ export const Input = styled.div`
 `;
 
 
-export const SearchIcon = styled.span`
+export const SearchIcon = styled.span<InputContainerProps>`
 display: flex;
 align-items: center;
 justify-content: center;
-color: #9B959F;
+color: ${props => (props.isFocused ? '#0D0D3F' : '#9B959F')};
 font-size: 21px;
 cursor: pointer;
 svg {
@@ -117,8 +123,8 @@ export const ContainerItens = styled.div`
 export const ContainerButton = styled.div`
   display: flex;
   margin-top: 35px;
-
-
+  align-items: center;
+  justify-content: space-between;
 `
 export const ButtonTotal = styled.button`
   width: 118px;

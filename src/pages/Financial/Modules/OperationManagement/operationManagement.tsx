@@ -3,7 +3,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import { ConsultarBtn, Container, ContainerCards, ContainerCardsMobile, ContainerItens, ContainerPagina, ContainerSelect, ExportarBtn, Linha, Title } from './styled';
 import { CustomSelect } from '@/components/Select/select';
-import { CardInfo } from '../../components/CardInfo/cardInfo';
+import { CardInfo } from '../../../../components/CardInfo/cardInfo';
 import * as XLSX from 'xlsx';
 import { mockRows } from './mock';
 import { optionsData, optionsMeses } from './data';
@@ -51,31 +51,31 @@ export function OperationManagement() {
           'Authorization': `Bearer ${dataUser?.token}`
         }
       });
-  
+
       const data = response.data;
       const options = data.acquires.map((acquire: { acquire_label: any; id: { toString: () => any; }; }) => ({
         label: acquire.acquire_label,
-        value: acquire.id.toString() 
+        value: acquire.id.toString()
       }));
-  
+
       setFetchedOptions(options);
       console.log('aq',data.acquires
 )
-  
+
     } catch (error) {
       console.error('Houve um erro ao buscar os dados:', error);
     }
   };
-  
+
   useEffect(() => {
     fetchData();
   }, []);
-  
+
 
   const onSubmit = (data: FormValues) => {
     console.log(data)
   };
-  
+
 
   const onError = (errors: Record<string, any>) => {
     Swal.fire({
@@ -85,7 +85,7 @@ export function OperationManagement() {
       confirmButtonText: 'Ok'
     });
   };
-  
+
 
   const handleExport = () => {
     const spacer = { id: '', Documento: '', Licenciado: '', Fornecedor: '', QtdTransações: '', TPV: '', Comissão: '', Lucro: '', Tarifas: '' };
@@ -95,7 +95,7 @@ export function OperationManagement() {
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Summary');
     XLSX.writeFile(workbook, 'Summary.xlsx');
   };
-  
+
 
   const isTotalsEmpty = Object.keys(mockRows).length === 0;
 
@@ -103,7 +103,7 @@ export function OperationManagement() {
 <>
 {isTotalsEmpty  && <NoDataFound onReload={() => false} />}
 
-{!isTotalsEmpty && 
+{!isTotalsEmpty &&
 <>
 <form onSubmit={handleSubmit(onSubmit, onError)}>
       <Container>
@@ -116,7 +116,7 @@ export function OperationManagement() {
             hasError={errors.fornecedor ? true : false}
             placeholder='Fornecedor'
           />
-         
+
           <CustomSelect {...register("mesReferencia")} optionsData={optionsMeses} label="Mês de referência"
             onChange={(selectedOption: { value: string }) => setValue('mesReferencia', selectedOption.value)}
             hasError={errors.mesReferencia ? true : false}
@@ -140,11 +140,11 @@ export function OperationManagement() {
 
         <OperationManagementTable rows={mockRows} />
         <ManagementTable rows={mockRowsMock} />
-   
+
         <ContainerCardsMobile>
 
            <CardOperationSummary transactions={mockRows} />
-            <CardSummaryOperation transactions={mockRowsMock} /> 
+            <CardSummaryOperation transactions={mockRowsMock} />
         </ContainerCardsMobile>
 
 
@@ -169,7 +169,7 @@ export function OperationManagement() {
 
 
 
-     
+
 
 
       </Container>

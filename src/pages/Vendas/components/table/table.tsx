@@ -111,16 +111,16 @@ export function TabelaVendas({ rows }: TabelaProps) {
                 <S.FlagContainer>
                   <img
                     src={
-                      transaction.brand === null && transaction.payment_type === 'Pix' ? pix :
-                      transaction.brand === 'visa' ? visa :
-                      transaction.brand === 'elo' ? elo :
-                      transaction.brand === 'masterCard' ? masterCard :
-                      transaction.brand === 'maestro' ? maestro :
-                      transaction.brand === 'pix' ? pix : undefined
+                      transaction.brand.toLocaleLowerCase() === null && transaction.payment_type === 'Pix' ? pix :
+                      transaction.brand.toLocaleLowerCase() === 'visa' ? visa :
+                      transaction.brand.toLocaleLowerCase() === 'elo' ? elo :
+                      transaction.brand.toLocaleLowerCase() === 'mastercard' ? masterCard :
+                      transaction.brand.toLocaleLowerCase() === 'maestro' ? maestro :
+                      transaction.brand.toLocaleLowerCase() === 'pix' ? pix : undefined
                     }
                     alt={transaction.brand}
                   />
-                  {transaction.brand === null && transaction.payment_type === 'Pix' ? <p>Pix</p> : <p>{transaction.brand}</p>}
+                 
                 </S.FlagContainer>
               </S.TableData>
               <S.TableData>R$ {formattedAmount}</S.TableData>

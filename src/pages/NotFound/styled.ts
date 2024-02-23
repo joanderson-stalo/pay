@@ -33,7 +33,6 @@ export const Title404 = styled.h2`
 color:  ${ThemeColor.primaria};
 text-align: center;
 text-shadow: 0px 15px 12px 0px rgba(0, 0, 0, 0.25);
-font-family: DM Sans;
 font-size: 288px;
 font-weight: 700;
 margin-top: 30px;

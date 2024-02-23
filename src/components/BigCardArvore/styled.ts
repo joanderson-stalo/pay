@@ -61,7 +61,6 @@ export const ContainerBig = styled.div<ContainerBigProps>`
   > span {
     color: #08bbe9;
     font-feature-settings: 'clig' off, 'liga' off;
-    font-family: Poppins;
     font-size: 24.293px;
     font-weight: 700;
     line-height: 26.723px;
@@ -70,7 +69,6 @@ export const ContainerBig = styled.div<ContainerBigProps>`
   > h3 {
     color: #383838;
     font-feature-settings: 'clig' off, 'liga' off;
-    font-family: Poppins;
     font-size: 14.576px;
     font-weight: 500;
     line-height: 26.723px;

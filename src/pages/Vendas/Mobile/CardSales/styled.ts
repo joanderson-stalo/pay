@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 
 type CardStatusProps = {
-  status: string | undefined; 
+  status: string | undefined;
 };
 
 
@@ -21,7 +21,7 @@ export const CardHeader = styled.div`
 display: flex;
 align-items: center;
 justify-content: space-between;
-padding: 12px 20px; 
+padding: 12px 20px;
 background: ${ThemeColor.primaria};
 
 >h4{
@@ -31,7 +31,6 @@ padding: 1px 8px;
 
 color: var(--foundation-neutral-dark-hover, #4B4B4B);
 text-align: center;
-font-family: Poppins;
 font-size: 10px;
 font-style: normal;
 font-weight: 400;
@@ -53,7 +52,7 @@ line-height: 15.566px;
 font-size: 11px;
 font-style: normal;
 font-weight: 400;
-line-height: 15.566px; 
+line-height: 15.566px;
 }
 
 `;
@@ -61,11 +60,10 @@ line-height: 15.566px;
 export const CardDate = styled.p`
 color: var(--light-secondary, #6C757D);
 font-feature-settings: 'clig' off, 'liga' off;
-font-family: Poppins;
 font-size: 11px;
 font-style: normal;
 font-weight: 400;
-line-height: 15.566px; 
+line-height: 15.566px;
 
 display: flex;
 gap: 7px;
@@ -76,7 +74,7 @@ gap: 7px;
 font-feature-settings: 'clig' off, 'liga' off;
 font-size: 11px;
 font-weight: 600;
-line-height: 15.566px; 
+line-height: 15.566px;
 }
 `;
 
@@ -99,18 +97,16 @@ export const CardLabel = styled.span`
 export const CardValue = styled.span`
 color: var(--foundation-white-light, #FDFDFD);
 font-feature-settings: 'clig' off, 'liga' off;
-font-family: Poppins;
 font-size: 11px;
 font-style: normal;
 font-weight: 400;
-line-height: 22px; 
+line-height: 22px;
 `;
 
 export const CardAmount = styled.span`
 color: var(--foundation-white-light, #FDFDFD);
 text-align: center;
 font-feature-settings: 'clig' off, 'liga' off;
-font-family: Poppins;
 font-size: 16px;
 font-style: normal;
 font-weight: 600;

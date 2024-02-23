@@ -10,7 +10,7 @@ export const ContainerManageAccessLicensed = styled.div`
 `
 export const ButtonBlack = styled.button`
   color: ${ThemeColor.primaria};
-font-family: Poppins;
+
 font-size: 12px;
 font-style: normal;
 font-weight: 500;

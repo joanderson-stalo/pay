@@ -13,7 +13,7 @@ import { mockData } from './mock'
 import { HeaderCommission } from './components/HeaderCommission/headerCommission'
 import { useFilterDailyCommission } from './hooks/useFilterDailyCommission'
 import { EditableButton } from './components/ButtonEdit/buttonEdit'
-import { CardInfo } from '@/pages/Financial/components/CardInfo/cardInfo'
+import { CardInfo } from '@/components/CardInfo/cardInfo'
 import { TabelaToDayCommission } from './components/TabelaToDayCommission/tabelaToDayCommission'
 import { ToDayCommisionCard } from './Mobile/ToDayCommisionCard/toDayCommisionCard'
 

@@ -13,7 +13,7 @@ export const ContainerGrafico = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 36px;
-  gap: 60px;
+  gap: 20px;
 
   @media (max-width: 900px) {
     flex-wrap: wrap;
@@ -26,7 +26,7 @@ export const ContainerTable = styled.div`
   justify-content: center;
 
   margin-top: 36px;
-  gap: 80px;
+  gap: 20px;
 
   @media (max-width: 900px) {
     flex-wrap: wrap;
@@ -36,8 +36,7 @@ export const ContainerTable = styled.div`
 `
 export const ContainerCards = styled.div`
   display: flex;
-  justify-content: center;
-  gap: 10px;
+  gap: 20px;
 
   @media (max-width: 1200px) {
     flex-wrap: wrap;

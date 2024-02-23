@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 type FuncionamentoTableDataProps = {
   funcionamento: 'quebrado' | 'estável' | 'incompleto';
-}; 
+};
 
 export const ContainerCardDetalhes = styled.div`
   width: 100%;
@@ -42,7 +42,6 @@ export const InfoContainer = styled.div`
 
 export const InfoTitle = styled.h1`
   color: var(--Foundation-neutral-Normal, #7D7D7D);
-  font-family: Poppins;
   font-size: 24px;
   font-style: normal;
   font-weight: 700;
@@ -59,14 +58,13 @@ export const InfoSubtitle = styled.h2<FuncionamentoTableDataProps>`
       case 'quebrado':
         return '#E91414';
       case 'estável':
-        return '#02B1F1'; 
+        return '#02B1F1';
       case 'incompleto':
-        return '#FF7C33'; 
+        return '#FF7C33';
       default:
-        return '#343A40'; 
+        return '#343A40';
     }
-  }}; 
-  font-family: Poppins;
+  }};
   font-size: 18px;
   font-style: normal;
   font-weight: 700;
@@ -83,7 +81,6 @@ export const EditButton = styled.button`
   background: var(--foundation-white-light-hover, #FBFBFB);
   box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.25);
   color: var(--Foundation-PagueAssim02-Normal, #02B1F1);
-  font-family: Poppins;
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
@@ -105,7 +102,7 @@ export const InfoGroup = styled.div`
   flex-direction: column;
   gap: 8px;
 
- 
+
 `;
 
 export const InfoItem = styled.div`
@@ -129,11 +126,11 @@ export const InfoValue = styled.h2`
   font-weight: 500;
   line-height: 18px;
 
-  max-height: 72px;                    
-  overflow: hidden;                  
-  display: -webkit-box;                 
-  -webkit-box-orient: vertical;        
-  -webkit-line-clamp: 4;            
+  max-height: 72px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
 `;
 
 export const DownloadButton = styled.button`
@@ -141,8 +138,6 @@ export const DownloadButton = styled.button`
   border-radius: 4px;
   border: 1px dashed var(--foundation-brand-02-light-active, #B2EAF8);
   color: var(--Foundation-PagueAssim02-Normal, #02B1F1);
-  font-family: Poppins;
-  font-size: 12px;
   font-style: normal;
   font-weight: 500;
   line-height: 14px;

@@ -1,5 +1,4 @@
 import { FunnelSimple, MagnifyingGlass } from '@phosphor-icons/react';
-import { Card } from './components/Card/card';
 import * as S from './styled';
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { ModalFilterVenda } from './components/ModalFilterVenda/modalFilterVenda';
@@ -18,9 +17,9 @@ import { EditableButton } from './components/ButtonEdit/buttonEdit';
 import { useFilterSales } from './hooks/useFilterSales';
 import { useLogin } from '@/context/user.login';
 import { CardSales } from './Mobile/CardSales/cardSales';
-import * as XLSX from 'xlsx';
 import { TransactionsToExcel} from '@/utils/Xlsx/transactions';
-import { CardInfo } from '../Financial/components/CardInfo/cardInfo';
+import { CardInfo } from '../../components/CardInfo/cardInfo';
+import { ExportData } from '@/components/ExportData/exportData';
 
 
 export function Vendas() {
@@ -36,6 +35,7 @@ export function Vendas() {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const { state } = useFilterSales();
   const { dataUser } = useLogin();
+  const [isFocused, setIsFocused] = useState(false);
 
 
 
@@ -147,8 +147,14 @@ export function Vendas() {
 
 
   const handleExportClick = () => {
-    TransactionsToExcel(transactions);
+    if (dataUser) {
+      TransactionsToExcel(dataUser.token);
+    } else {
+      console.error('Usuário não está autenticado.');
+    }
   };
+
+
 
 
 
@@ -164,30 +170,34 @@ export function Vendas() {
         <S.ContextTitleVendas>
             <S.Title>Vendas</S.Title>
             <S.ContainerCardVendas>
-              <CardInfo shouldFormat={false} label="Qtd de Vendas" value={totalTransactions}  />
+              <CardInfo shouldFormat={false} label="Quantidade de Vendas" value={totalTransactions}  />
               <CardInfo  label="TPV" value={Number(tpvGlobal)} />
-              <CardInfo label="Valor Liq." value={Number(totalAmount)} />
-              <CardInfo shouldFormat={false} label="Taxa Média apl." formatTaxa value={Number(averageTaxApplied)} />
+              <CardInfo label="Valor Líquido" value={Number(totalAmount)} />
+              <CardInfo shouldFormat={false} label="Taxa Média" formatTaxa value={Number(averageTaxApplied)} />
             </S.ContainerCardVendas>
-            <S.Input>
+            <S.Input isFocused={isFocused}>
               <input
                 type="text"
                 placeholder="Pesquise por NSU"
                 value={searchValue}
                 onChange={handleChange}
+                onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
               />
-              <S.SearchIcon onClick={handleSearch}>
+              <S.SearchIcon isFocused={isFocused}onClick={handleSearch}>
                 <MagnifyingGlass />
               </S.SearchIcon>
             </S.Input>
           </S.ContextTitleVendas>
           <S.ContainerButton>
-            <S.ButtonTotal>Todos ({totalTransactions})</S.ButtonTotal>
+           <div style={{display: 'flex'}}>
+           <S.ButtonTotal>Todos ({totalTransactions})</S.ButtonTotal>
             {state ? <EditableButton /> : null}
             <S.ButtonFilter onClick={handleOpenModal}>
               <FunnelSimple />Filtrar
             </S.ButtonFilter>
-            <S.ButtonExport onClick={handleExportClick}>Exportar</S.ButtonExport>
+           </div>
+            <ExportData title='Exportar dados' onClick={handleExportClick} />
 
           </S.ContainerButton>
 

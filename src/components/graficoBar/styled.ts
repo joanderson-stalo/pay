@@ -3,15 +3,16 @@ import styled from "styled-components";
 
 export const ContainerGrafico = styled.div`
   width: 100%;
-  max-width: 692px;
+  max-width: 792px;
   height: 328px;
-  
+
   border-radius: 12px;
   background: #FFF;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); 
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   padding: 15px;
+  padding-bottom: 20px;
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
 
   @media (max-width: 1200px) {
     padding: 12px;
@@ -24,7 +25,7 @@ export const ContainerGrafico = styled.div`
   @media (max-width: 900px) {
     max-width: 100%;
   }
-  
+
 `;
 
 export const ContainerText = styled.div`
@@ -35,14 +36,13 @@ export const ContainerText = styled.div`
 
   > p {
     color: #2C2C2C;
-    font-family: Poppins;
     font-size: 14px;
     line-height: 20px;
   }
 
   @media (max-width: 1200px) {
     margin-left: 18px;
-    
+
     > p {
       font-size: 13px;
       line-height: 18px;

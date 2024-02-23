@@ -22,11 +22,11 @@ const Bar = styled.div<MonthlyIndicatorProps>`
 const Label = styled.span`
   color: var(--foundation-white-dark-active, #676767);
   font-feature-settings: 'clig' off, 'liga' off;
-  font-family: Poppins;
+
   font-size: 12px;
   font-style: normal;
   font-weight: 400;
-  line-height: 20px; 
+  line-height: 20px;
 `;
 
 export const Indicator = (props: MonthlyIndicatorProps) => {

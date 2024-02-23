@@ -18,7 +18,6 @@ export const IconSquare = styled.span`
 
 export const LinkTitle = styled.h3`
   color: #3C0A6D;
-  font-family: Poppins;
   font-size: 20px;
   font-weight: 700;
   line-height: normal;

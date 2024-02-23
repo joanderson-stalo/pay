@@ -11,7 +11,7 @@ import { useFilterLicensed } from './hooks/useFilterLicensed';
 import { EditableButton } from './components/ButtonEdit/buttonEdit';
 import { mockDataTable } from './mock';
 import { ModalBilling } from './components/ModalBilling/modalBilling';
-import { CardInfo } from '../../components/CardInfo/cardInfo';
+import { CardInfo } from '../../../../components/CardInfo/cardInfo';
 import { HeaderTariffs } from './components/HeaderTariffs/headerTariffs';
 import { TableTariffs } from './components/TableStock/tableTariffs';
 import { TariffsCard } from './Mobile/TariffsCard/tariffsCard';
@@ -67,7 +67,7 @@ export function Tariffs() {
   const totalPages = Math.ceil(totalSellers / (itensPorPage || 1));
 
   useEffect(() => {
- 
+
   }, [dataUser, itensPorPage, currentPage]);
 
   useEffect(() => {
@@ -75,7 +75,7 @@ export function Tariffs() {
       fetchData();
     }
   }, [searchValue])
-  
+
 
   return (
     <>
@@ -99,9 +99,9 @@ export function Tariffs() {
  </S.ContainerButton>
 
 
- 
+
 <TableTariffs rows={mockDataTable} />
-  
+
 <S.ContainerCardsMobile>
 <TariffsCard data={mockDataTable} />
 </S.ContainerCardsMobile>
@@ -126,15 +126,15 @@ export function Tariffs() {
    </S.ContainerPagina>
 </S.Context>
       </S.Container>
- 
-    
+
+
         </>
-  
+
       }
 
-      
+
     </>
 
-    
+
   );
 }

@@ -14,7 +14,7 @@ import { HeaderCommission } from './components/HeaderCommission/headerCommission
 import { TabelaDailyCommission } from './components/TabelaDailyCommission/tabelaDailyCommission'
 import { useFilterDailyCommission } from './hooks/useFilterDailyCommission'
 import { EditableButton } from './components/ButtonEdit/buttonEdit'
-import { CardInfo } from '@/pages/Financial/components/CardInfo/cardInfo'
+import { CardInfo } from '@/components/CardInfo/cardInfo'
 import { DailyCommissionCard } from './Mobile/DaillyCommisionCard/daillyCommisionCard'
 
 export function DailyCommission() {

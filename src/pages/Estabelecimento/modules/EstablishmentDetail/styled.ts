@@ -94,7 +94,6 @@ padding: 7.5px 16px;
 
 export const ButtonBlack = styled.button`
   color: ${ThemeColor.primaria};
-font-family: Poppins;
 font-size: 12px;
 font-style: normal;
 font-weight: 500;

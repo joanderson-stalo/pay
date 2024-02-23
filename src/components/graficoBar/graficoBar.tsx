@@ -5,7 +5,11 @@ import { ThemeColor } from '@/config/color';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const getFontSize = () => {
+interface GraficoBarProps {
+  hourly_transaction_totals: { [hour: string]: string };
+}
+
+const getFontSize = (): number => {
   if (window.innerWidth < 600) return 12;
   if (window.innerWidth < 900) return 12;
   if (window.innerWidth < 1100) return 12;
@@ -40,26 +44,21 @@ export const options = {
       borderColor: 'transparent',
       ticks: {
         display: true,
-        stepSize: 25,
+        stepSize: 10000000, // Ajuste conforme a necessidade
         drawBorder: false,
         font: {
           size: getFontSize(),
         },
-        callback: (value: string | number) => {
-          if (value === 0) {
-            return value;
-          } else {
-            return 'R$ ' + value;
-          }
+        callback: (value: number) => {
+          return 'R$ ' + value.toLocaleString('pt-BR');
         }
       },
       offset: true,
-      beginAtZero: false,
+      beginAtZero: true,
       padding: {
         top: 5,
         bottom: 0
       },
-      max: 100
     }
   },
   plugins: {
@@ -81,17 +80,19 @@ export const options = {
   },
 };
 
-const labels = ['08h', '09h', '10h', '11h', '12h', '13h', '14h', '15h', '16h', '17h', '18h', '19h'];
+export function GraficoBar({ hourly_transaction_totals }: GraficoBarProps) {
+  // Transformando o objeto recebido em arrays de labels e dados
+  const labels = Object.keys(hourly_transaction_totals).map(hour => `${hour}h`);
+  const dataValues = Object.values(hourly_transaction_totals).map(value => parseFloat(value));
 
-export function GraficoBar({ dataArray }: any) {
   const data = {
     labels,
     datasets: [
       {
         label: 'R$',
-        data: dataArray.map(Number),
-        backgroundColor: `${ThemeColor.primaria}`,
-        barThickness:  16,
+        data: dataValues,
+        backgroundColor: ThemeColor.primaria,
+        barThickness: 16,
         borderRadius: 100,
       },
     ],
@@ -101,7 +102,7 @@ export function GraficoBar({ dataArray }: any) {
     <ContainerGrafico>
       <ContainerText>
         <Bolinha />
-        <p>Comissões</p>
+        <p>Comissões por Hora</p>
       </ContainerText>
       <Bar options={options} data={data}/>
     </ContainerGrafico>

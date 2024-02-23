@@ -3,12 +3,11 @@ import styled from 'styled-components';
 export const Container = styled.div`
     display: flex;
     flex-direction: column;
+    border-radius: 12px 12px 0 0px;
     width: 100%;
-    max-width: 492px;
+
     box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.25);
-    @media (max-width: 1200px) { max-width: 450px; }
-    @media (max-width: 1100px) { max-width: 400px; }
-    @media (max-width: 900px) { max-width: 100%; }
+
     @media (max-width: 600px) { font-size: 12px; }
 `;
 
@@ -18,14 +17,14 @@ export const Header = styled.div`
     align-items: center;
     width: 100%;
     padding: 12px 11px;
+    border-radius: 12px 12px 0 0px;
     background: var(--foundation-brand-02-normal, #08BBE9);
     > button {
         border-radius: 3.532px;
         border: 0.353px solid #F5F4F4;
         background: #FFF;
-        color: var(--foundation-brand-02-normal, #08BBE9);
-        font-family: Poppins;
-        font-size: 12px;
+        color:  #3C0A6D;
+   font-size: 10px;
         padding: 5px 16px;
         font-style: normal;
         font-weight: 500;
@@ -34,7 +33,7 @@ export const Header = styled.div`
     }
     > h2 {
         color: var(--foundation-white-light, #FDFDFD);
-        font-family: Poppins;
+
         font-size: 12px;
         font-weight: 700;
         line-height: 15.566px;
@@ -68,7 +67,6 @@ export const TableCell = styled.td`
     text-overflow: ellipsis;
     max-width: 150px;
     color: var(--light-secondary, #6C757D);
-    font-family: Poppins;
     font-size: 12px;
     line-height: 22px;
     text-align: center;
@@ -82,7 +80,6 @@ export const TableCell = styled.td`
 export const TableHeader = styled.th`
     padding: 8px 16px;
     color: var(--light-secondary, #6C757D);
-    font-family: Poppins;
     font-size: 12px;
     line-height: 22px;
     text-align: center;
@@ -98,7 +95,6 @@ export const TableCellImg = styled.td`
     text-overflow: ellipsis;
     max-width: 150px;
     color: var(--light-secondary, #6C757D);
-    font-family: Poppins;
     font-size: 12px;
     line-height: 22px;
     text-align: center;

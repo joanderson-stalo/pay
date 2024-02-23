@@ -80,7 +80,6 @@ export const WrapperTag = styled.div`
 `;
 
 export const Tag = styled.p`
-  font-family: DM Sans;
   font-size: 12px;
   font-weight: 700;
   line-height: 14px;

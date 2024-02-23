@@ -12,7 +12,7 @@ import { EditableButton } from './components/ButtonEdit/buttonEdit';
 import { HeaderBilling } from './components/HeaderBilling/headerBilling';
 import { TableBillingRequest } from './components/TableBillingRequest/tableBillingRequest';
 import { mockDataTable } from './mock';
-import { CardInfo } from '../../components/CardInfo/cardInfo';
+import { CardInfo } from '../../../../components/CardInfo/cardInfo';
 import { BillingRequestCard } from './Mobile/BillingRequestCard/billingRequestCard';
 import { ModalBilling } from './components/ModalBilling/modalBilling';
 
@@ -67,7 +67,7 @@ export function BillingRequest() {
   const totalPages = Math.ceil(totalSellers / (itensPorPage || 1));
 
   useEffect(() => {
- 
+
   }, [dataUser, itensPorPage, currentPage]);
 
   useEffect(() => {
@@ -75,7 +75,7 @@ export function BillingRequest() {
       fetchData();
     }
   }, [searchValue])
-  
+
 
   return (
     <>
@@ -98,7 +98,7 @@ export function BillingRequest() {
  </S.ContainerButton>
 
 
- 
+
 <TableBillingRequest rows={mockDataTable} />
 
 <S.ContainerCardsMobile>
@@ -125,15 +125,15 @@ export function BillingRequest() {
    </S.ContainerPagina>
 </S.Context>
       </S.Container>
- 
-    
+
+
         </>
-  
+
       }
 
-      
+
     </>
 
-    
+
   );
 }

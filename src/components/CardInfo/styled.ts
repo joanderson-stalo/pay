@@ -9,12 +9,13 @@ export const InvoiceWrapper = styled.div`
 
 width: 100%;
 max-width: 260px;
-height: 78px;
+height: 90px;
 gap: 4px;
 
-border-radius: 12px;
+border-radius: 6px;
+border: 1px solid #E6E6E6;
 background: #FFF;
-box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.05);
 
 display: flex;
 flex-direction: column;
@@ -24,13 +25,16 @@ padding-left: 24px;
 
 export const InvoiceLabel = styled.div`
 
+color:  #7D7D7D;
 font-size: 16px;
 font-weight: 500;
-line-height: 18px;
+line-height: 26.723px;
 
 white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+
+
 
 
   @media (max-width: 900px) {
@@ -42,9 +46,10 @@ white-space: nowrap;
 export const InvoiceValue = styled.div<InvoiceValueProps>`
   color: ${props => props.color || (props.value < 0 ? 'red' : '#02B1F1')};
 
- font-size: 30px;
+  font-size: 24px;
+font-style: normal;
 font-weight: 700;
-line-height: 32px; 
+line-height: 26.723px;
 
     white-space: nowrap;
   overflow: hidden;

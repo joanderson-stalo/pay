@@ -12,7 +12,7 @@ const Container = styled.div`
     width: 100%;
     max-width: 492px;
     max-height: 282px;
-    overflow-y: auto; 
+    overflow-y: auto;
     box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.25);
 `;
 
@@ -29,7 +29,7 @@ const Header = styled.div`
         border: 0.353px solid #F5F4F4;
         background: #FFF;
         color: var(--foundation-brand-02-normal, #08BBE9);
-        font-family: Poppins;
+
         font-size: 9.477px;
         padding: 5px 16px;
         font-style: normal;
@@ -40,7 +40,7 @@ const Header = styled.div`
 
     > h2 {
         color: var(--foundation-white-light, #FDFDFD);
-        font-family: Poppins;
+
         font-size: 12.906px;
         font-weight: 700;
         line-height: 15.566px;
@@ -65,7 +65,7 @@ const TableCell = styled.td`
     text-overflow: ellipsis;
     max-width: 150px;
     color: var(--light-secondary, #6C757D);
-    font-family: Poppins;
+
     font-size: 11px;
     line-height: 22px;
     text-align: center;
@@ -74,7 +74,7 @@ const TableCell = styled.td`
 const TableHeader = styled.th`
     padding: 8px 16px;
     color: var(--light-secondary, #6C757D);
-    font-family: Poppins;
+ 
     font-size: 11px;
     line-height: 22px;
     text-align: center;
@@ -87,7 +87,7 @@ const TableCellImg = styled.td`
     text-overflow: ellipsis;
     max-width: 150px;
     color: var(--light-secondary, #6C757D);
-    font-family: Poppins;
+
     font-size: 11px;
     line-height: 22px;
     text-align: center;
@@ -144,7 +144,7 @@ export function UltimasVendas() {
             bandeira: 'Mastercard',
             valor: 150.50
         },
-       
+
     ];
 
     function formatToBRL(value: number | bigint) {

@@ -10,7 +10,7 @@ export default createGlobalStyle`
   list-style: none;
   text-decoration: none;
   font-size: 1.6rem;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Public Sans", sans-serif;
 }
 
 body, input, button, textarea{

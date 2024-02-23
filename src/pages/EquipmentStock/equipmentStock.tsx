@@ -12,7 +12,7 @@ import { EditableButton } from './components/ButtonEdit/buttonEdit';
 import { mockDataTable } from './mock';
 
 import { ModalBilling } from './components/ModalBilling/modalBilling';
-import { CardInfo } from '../Financial/components/CardInfo/cardInfo';
+import { CardInfo } from '../../components/CardInfo/cardInfo';
 import { StockCard } from './Mobile/StockCard/stockCard';
 import { TableStock } from './components/TableStock/tableStock';
 import { HeaderStock } from './components/HeaderStock/headerStock';
@@ -68,7 +68,7 @@ export function EquipmentStock() {
   const totalPages = Math.ceil(totalSellers / (itensPorPage || 1));
 
   useEffect(() => {
- 
+
   }, [dataUser, itensPorPage, currentPage]);
 
   useEffect(() => {
@@ -76,7 +76,7 @@ export function EquipmentStock() {
       fetchData();
     }
   }, [searchValue])
-  
+
 
   return (
     <>
@@ -101,7 +101,7 @@ export function EquipmentStock() {
  </S.ContainerButton>
 
 
- 
+
 <TableStock rows={mockDataTable} />
 
 <S.ContainerCardsMobile>
@@ -128,15 +128,15 @@ export function EquipmentStock() {
    </S.ContainerPagina>
 </S.Context>
       </S.Container>
- 
-    
+
+
         </>
-  
+
       }
 
-      
+
     </>
 
-    
+
   );
 }

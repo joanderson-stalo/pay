@@ -10,7 +10,7 @@ import { Loading } from '@/components/Loading/loading';
 import { useFilterLicensed } from './hooks/useFilterLicensed';
 import { EditableButton } from './components/ButtonEdit/buttonEdit';
 import { mockDataTable } from './mock';
-import { CardInfo } from '../Financial/components/CardInfo/cardInfo';
+import { CardInfo } from '../../components/CardInfo/cardInfo';
 import { ModalExtract } from './components/ModalExtract/modalExtract';
 import { HeaderExtract } from './components/HeaderExtract/headerExtract';
 import { TableExtract } from './components/TableExtract/tableExtract';

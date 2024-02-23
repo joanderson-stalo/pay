@@ -23,21 +23,20 @@ const Header = styled.div`
       border: 0.353px solid #F5F4F4;
       background: #FFF;
       color: ${ThemeColor.primaria};
-      font-family: Poppins;
       font-size: 9.477px;
       padding: 5px 16px;
       font-style: normal;
       font-weight: 500;
-      line-height: 14.128px; 
+      line-height: 14.128px;
       letter-spacing: 0.353px;
     }
 
     > h2{
       color: var(--foundation-white-light, #FDFDFD);
-      font-family: Poppins;
+
       font-size: 12.906px;
       font-weight: 700;
-      line-height: 15.566px; 
+      line-height: 15.566px;
     }
 `;
 
@@ -59,7 +58,7 @@ const TableCell = styled.td`
     text-overflow: ellipsis;
     max-width: 150px;
     color: var(--light-secondary, #6C757D);
-    font-family: Poppins;
+
     font-size: 11px;
     line-height: 22px;
     text-align: center;
@@ -68,7 +67,7 @@ const TableCell = styled.td`
 const TableHeader = styled.th`
     padding: 8px 16px;
     color: var(--light-secondary, #6C757D);
-    font-family: Poppins;
+   
     font-size: 11px;
     line-height: 22px;
     text-align: center;
@@ -92,7 +91,7 @@ export function TopEstabelecimentos() {
     console.log("Botão 'Ver todos' clicado!");
 }
 
-  
+
 
     return (
         <Container>

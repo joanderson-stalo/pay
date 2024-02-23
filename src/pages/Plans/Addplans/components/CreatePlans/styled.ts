@@ -221,7 +221,7 @@ export const StyledTable = styled.table`
                 text-align: center;
                 border-bottom: 2px solid #fff;
                 font-feature-settings: 'clig' off, 'liga' off;
-                font-family: Poppins, sans-serif;
+
                 font-size: 10.99px;
                 font-style: normal;
                 font-weight: 700;
@@ -239,7 +239,6 @@ export const StyledTable = styled.table`
                 text-align: center;
                 vertical-align: middle;
                 font-feature-settings: 'clig' off, 'liga' off;
-                font-family: Poppins, sans-serif;
                 font-size: 12.204px;
                 font-style: normal;
                 font-weight: 400;
@@ -253,7 +252,7 @@ export const StyledTable = styled.table`
                     border: 0.593px solid var(--foundation-neutral-light-active, #D7D7D7);
                     background: var(--foundation-white-light, #FDFDFD);
                     color: var(--foundation-neutral-light-active, #5E5E5E);
-                    font-family: Poppins, sans-serif;
+                  
                     font-size: 9.298px;
                     font-style: normal;
                     font-weight: 400;
@@ -320,9 +319,9 @@ export const ButtonGroup = styled.div`
     flex-direction: row;
     > button {
       width: 100% !important;
-      padding: 10px; 
+      padding: 10px;
 
-      
+
 
     }
   }
