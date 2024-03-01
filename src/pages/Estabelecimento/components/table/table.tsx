@@ -121,9 +121,9 @@ export function Tabela({ rows }: TabelaProps) {
                 ))}
               </S.FornecedorWrapper>
             </S.TableData>
-            <S.TableData>
+            {/* <S.TableData>
               <S.Button onClick={() => handleViewMoreClick(row.id.toString())}>Visão Geral</S.Button>
-            </S.TableData>
+            </S.TableData> */}
           </tr>
         ))}
       </tbody>
