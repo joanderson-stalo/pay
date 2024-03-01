@@ -1,6 +1,5 @@
 import * as S from './styled';
 import { useNavigate } from 'react-router-dom';
-import { useEstablishmentDetail } from '@/hooks/useEstablishmentDetail';
 
 export interface RowData {
   id: number;
@@ -24,16 +23,16 @@ export function CardTablet({ data = {
   acquires: []
 } }: CardProps) {
   const navigate = useNavigate();
-  const { setDetailNumber } = useEstablishmentDetail();
+
 
   const handleViewMoreClick = async (id: number) => {
-    setDetailNumber(id);
+
     await new Promise(resolve => setTimeout(resolve, 20));
     navigate(`/establishmentdetail`);
   };
 
   if (!data) {
-    return null;  // Renderiza nada se data for undefined ou null.
+    return null;
   }
 
   return (

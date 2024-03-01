@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import * as S from './styled';
-import { useDetailLicensed } from '@/hooks/useDetailLicensed';
 import { useNavigate } from 'react-router-dom';
 import { maskCpfCnpj } from '@/utils/maskCpfCnpj';
 import { useLicensed } from '@/context/useLicensed';

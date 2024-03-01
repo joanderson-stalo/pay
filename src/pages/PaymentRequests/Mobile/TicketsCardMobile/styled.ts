@@ -1,3 +1,4 @@
+import { ThemeColor } from '@/config/color';
 import styled from 'styled-components';
 
 export const CardContainer = styled.div`
