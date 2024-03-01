@@ -1,3 +1,4 @@
+import { ThemeColor } from '@/config/color';
 import styled from 'styled-components';
 
 export const Container = styled.div`
@@ -18,23 +19,12 @@ export const Header = styled.div`
     width: 100%;
     padding: 12px 11px;
     border-radius: 12px 12px 0 0px;
-    background: var(--foundation-brand-02-normal, #08BBE9);
-    > button {
-        border-radius: 3.532px;
-        border: 0.353px solid #F5F4F4;
-        background: #FFF;
-        color:  #3C0A6D;
-   font-size: 10px;
-        padding: 5px 16px;
-        font-style: normal;
-        font-weight: 500;
-        line-height: 14.128px;
-        letter-spacing: 0.353px;
-    }
+    background: ${ThemeColor.primaria};
+
     > h2 {
         color: var(--foundation-white-light, #FDFDFD);
 
-        font-size: 12px;
+        font-size: 16px;
         font-weight: 700;
         line-height: 15.566px;
     }
@@ -107,11 +97,11 @@ export const TableCellImg = styled.td`
 
 export const TableContainerImg = styled.div`
     display: flex;
-    gap: 2.5px;
+
     justify-content: center;
     align-items: center;
     border-top: 1px solid #E0E0E0;
-
+    margin-top: -1px;
     padding: 4px 16px;
     @media (max-width: 600px) {
         gap: 2px;

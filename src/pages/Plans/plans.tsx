@@ -8,6 +8,7 @@ import { Loading } from '@/components/Loading/loading';
 import { TablePlans } from './components/TablePlans/tablePlans';
 import { HeaderPlans } from './components/HeaderPlans/headerPlans';
 import { PlansCard } from './Mobile/PlansCard';
+import { TotalBtn } from '@/components/TotalBtn/totalBtn';
 
 interface Plan {
   id: number;
@@ -16,6 +17,8 @@ interface Plan {
   anticipation_fee: string;
   status: string;
   level_seller: string;
+  plan_id_base: string;
+  acquires: string[];
 }
 
 interface RowData {
@@ -26,6 +29,7 @@ interface RowData {
   planoBase: string;
   fornecedor: string;
   tipo: 'Base' | 'Comercial';
+
 }
 
 export function Plans() {
@@ -35,6 +39,7 @@ export function Plans() {
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
   const [plans, setPlans] = useState<RowData[]>([]);
+  const [totalPlans, setTotalPlans] = useState(0);
   const { dataUser } = useLogin();
 
   const fetchPlans = async () => {
@@ -54,8 +59,12 @@ export function Plans() {
         status: plan.status,
         name: plan.name,
         antecipacao: plan.anticipation,
+        tipo: plan.level_seller,
+        fornecedor: plan.acquires,
+        planoBase : plan.plan_id_base
       }));
       setPlans(transformedPlans);
+      setTotalPlans(data.total_plans);
       setTotalPages(data.last_page);
     } catch (error) {
       console.error('Error fetching plans:', error);
@@ -80,6 +89,10 @@ export function Plans() {
     }
   };
 
+  const fetchData = async (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+  };
+
   return (
     <>
       {loading ? (
@@ -88,15 +101,27 @@ export function Plans() {
         <>
 
             <HeaderPlans />
-     
+
+
+
+
+
+
+
+
 
           <S.Container>
+          <div style={{display: 'flex', gap: '8px'}}>
+<TotalBtn total={totalPlans} />
+ {/* {state ? <EditableButton /> : null}
+ <BtnFilter onClick={handleOpenModal} /> */}
+</div>
           <TablePlans rows={plans} />
 
           <S.ContainerCardsMobile >
           <PlansCard cards={plans} />
           </S.ContainerCardsMobile>
-         
+
 
 
           <S.Context>
@@ -109,7 +134,7 @@ export function Plans() {
                   setItensPorPage={setItensPorPage}
                 />
                 <Pagination
-                  onPageClick={fetchPlans}
+                  onPageClick={fetchData}
                   currentPage={currentPage}
                   totalPages={totalPages}
                   onNextPage={handleNextPage}
@@ -121,7 +146,7 @@ export function Plans() {
 
 
           </S.Container>
-  
+
         </>
       )}
     </>

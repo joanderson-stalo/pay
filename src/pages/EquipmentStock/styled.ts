@@ -9,7 +9,9 @@ export const Container = styled.div`
 
 export const ContainerButton = styled.div`
   display: flex;
-  margin-top: 35px;
+  margin-top: 36px;
+  gap: 8px;
+  margin-bottom: 8px;
 `
 
 export const Linha = styled.div`

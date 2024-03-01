@@ -59,13 +59,13 @@ export function Header() {
       <ContainerPerfil>
         {openModal ? (
           <ButtonHeader color={ThemeColor.secundaria} onClick={closeModal}>
-            <ImagPerfil color={ThemeColor.secundaria} src={fotoPerfil} />
+            <ImagPerfil color={ThemeColor.secundaria} src={dataUser?.document_id} />
             <NomePerfil>{dataUser?.name}</NomePerfil>
             <CaretUp />
           </ButtonHeader>
         ) : (
           <ButtonHeader color={ThemeColor.secundaria} onClick={() => setOpenModal(true)}>
-            <ImagPerfil color={ThemeColor.secundaria} src={fotoPerfil} />
+            <ImagPerfil color={ThemeColor.secundaria} src={dataUser?.document_id} />
             <NomePerfil>{dataUser?.name}</NomePerfil>
             <CaretDown  />
           </ButtonHeader>

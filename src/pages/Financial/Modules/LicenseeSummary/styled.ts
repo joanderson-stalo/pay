@@ -1,3 +1,4 @@
+import { ThemeColor } from "@/config/color";
 import styled from "styled-components";
 
 
@@ -7,7 +8,7 @@ export const Container = styled.div`
 `
 
 export const Title = styled.h1`
-color: var(--Foundation-PagueAssim02-Normal, #02B1F1);
+color: ${ThemeColor.secundaria};
 font-size: 24px;
 font-weight: 700;
 margin-bottom: 36px;
@@ -34,8 +35,8 @@ margin-bottom: 36px;
 
 export const ConsultarBtn = styled.button`
 border-radius: 5px;
-border: 0.5px solid #02B1F1;
-background:  #02B1F1;
+border: 0.5px solid ${ThemeColor.secundaria};
+background:  ${ThemeColor.secundaria};
 
 height: 44px;
 padding: 14px 24px;
@@ -43,14 +44,14 @@ padding: 14px 24px;
 color: #FFF;
 font-size: 14px;
 font-weight: 500;
-line-height: 16px; 
+line-height: 16px;
 letter-spacing: 0.5px;
 margin-top: 30px;
 
 `
 
 export const ExportarBtn = styled(ConsultarBtn)`
-  color: #3C0A6D;
+  color: ${ThemeColor.primaria};
   border-radius: 5px;
 border: 0.5px solid #F5F4F4;
 background: #FFF;

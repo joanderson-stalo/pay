@@ -112,11 +112,10 @@ export const ContainerInput2 = styled.section`
 `;
 
 export const ButtonAvançar = styled.button`
-  width: 109px;
-  height: 35px;
+  padding: 8px 24px;
   background: ${ThemeColor.secundaria};
-  border: 0.5px solid #0086ED;
-  border-radius: 5px;
+  border-radius: 4px;
+background: ${ThemeColor.primaria};
   font-weight: 500;
   font-size: 12px;
   line-height: 20px;
@@ -131,16 +130,19 @@ export const ButtonAvançar = styled.button`
 `;
 
 export const ButtonVoltar = styled.button`
-  width: 109px;
-  height: 35px;
+
   background: #FFFFFF;
   border: 0.5px solid #F5F4F4;
   border-radius: 5px;
   font-weight: 500;
+  padding: 8px 24px;
   font-size: 12px;
   line-height: 20px;
   letter-spacing: 0.5px;
-  color: #5A6ACF;
+  color: ${ThemeColor.primaria};
+
+  border-radius: 4px;
+border: 1px solid ${ThemeColor.primaria};
 `;
 
 export const ContainerButton = styled.div`
@@ -165,21 +167,22 @@ export const FileInputLabel = styled.label`
   gap: 18px;
   padding: 12px 23px;
   border-radius: 4px;
-  background: #E6F8FD;
+  background: transparent;
   cursor: pointer;
-  color: #07A8D2;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 24px;
-  letter-spacing: 0.5px;
+  color:  ${ThemeColor.primaria};
+  border: 1px solid  ${ThemeColor.primaria};
 
-  &:hover {
-    background: #d1eaf3;
-  }
+
+
+  font-size: 14px;
+font-weight: 500;
+line-height: 24px;
+letter-spacing: 0.5px;
+
 `;
 
 export const StyledUploadIcon = styled(UploadSimple)`
-  color: #07A8D2;
+  color: ${ThemeColor.primaria};
   width: 30px;
   height: 30px;
 `;

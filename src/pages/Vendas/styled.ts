@@ -18,7 +18,7 @@ export const Container = styled.div`
 export const ContainerCardVendas = styled.div`
   display: flex;
   gap: 20px;
-  margin: 45px 0 45px 0;
+  margin: 30px 0 38px 0;
   @media (max-width: 1100px) {
     flex-wrap: wrap;
     justify-content: center;
@@ -31,7 +31,7 @@ export const ContainerCardVendas = styled.div`
 
  export const Title = styled.h2`
     color: ${ThemeColor.secundaria};
-    font-size: 24px;
+    font-size: 32px;
     font-weight: 700;
     line-height: normal;
 
@@ -122,68 +122,12 @@ export const ContainerItens = styled.div`
 `
 export const ContainerButton = styled.div`
   display: flex;
-  margin-top: 35px;
+  margin-top: 36px;
   align-items: center;
   justify-content: space-between;
-`
-export const ButtonTotal = styled.button`
-  width: 118px;
-height: 35px;
-
-
-border-radius: 6px 6px 0px 0px;
-background: #DAF5FC;
-
-color:  #08BBE9;
-font-feature-settings: 'clig' off, 'liga' off;
-font-size: 9.906px;
-font-style: normal;
-font-weight: 500;
+  margin-bottom: 32px;
 `
 
-export const ButtonFilter = styled.button`
-color: #000;
-font-feature-settings: 'clig' off, 'liga' off;
-font-size: 9.906px;
-font-weight: 500;
-line-height: 15.566px;
-
-width: 76px;
-height: 35px;
-
-border-radius: 6px 6px 0px 0px;
-border: 0.5px solid #F7F7F7;
-background:  #F7F7F7;
-
-
-
-display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 5px;
-`
-
-export const ButtonExport = styled.button`
-color:  #08BBE9;
-font-size: 9.906px;
-font-weight: 500;
-line-height: 15.566px;
-
-width: 76px;
-height: 35px;
-
-border-radius: 6px 6px 0px 0px;
-border: 0.5px solid #F7F7F7;
-
-background: #DAF5FC;
-
-
-
-display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 5px;
-`
 
 export const ContainerMobile = styled.div`
   flex-direction: column;

@@ -18,7 +18,7 @@ interface IModalSucesso {
 
 export function ModalFilterVenda({ onClose, visible }: IModalSucesso) {
   const { register, reset, setError, handleSubmit, setValue, getValues, formState: { errors } } = useForm({
-   
+
   });
   const { setTrue } = useFilterSales();
 
@@ -29,7 +29,7 @@ export function ModalFilterVenda({ onClose, visible }: IModalSucesso) {
    const startDate = data.captured_in_start ? new Date(data.captured_in_start) : null;
    const endDate = data.captured_in_end ? new Date(data.captured_in_end) : null;
 
-  
+
    if (!startDate && endDate) {
      setError("captured_in_start", {
        type: "manual",
@@ -48,8 +48,6 @@ export function ModalFilterVenda({ onClose, visible }: IModalSucesso) {
    }
 
 
-      console.log('Dados validados:', data);
-
       if (data.bandeira && data.bandeira !== 'null' && data.bandeira !== '') {
         localStorage.setItem('@bandeira', data.bandeira);
       }
@@ -65,7 +63,7 @@ export function ModalFilterVenda({ onClose, visible }: IModalSucesso) {
       if (endDate) {
         localStorage.setItem('@captured_in_end', data.captured_in_end);
       }
-  
+
       reset(); // Limpa os campos após o salvamento
       setTrue();
       onClose();
@@ -81,7 +79,7 @@ export function ModalFilterVenda({ onClose, visible }: IModalSucesso) {
       }
     }
   };
-  
+
 
   useEffect(() => {
     console.log('Estado inicial - captured_in_start:', getValues('captured_in_start'));
@@ -115,14 +113,14 @@ export function ModalFilterVenda({ onClose, visible }: IModalSucesso) {
               <S.ContainerPeriodo>
                 <h2>Período</h2>
                 <S.ContainerData>
-                  <CustomInput 
+                  <CustomInput
                     {...register('captured_in_start')}
                     colorInputDefault={ThemeColor.primaria}
                     colorInputSuccess={ThemeColor.secundaria}
                     hasError={!!errors.captured_in_start}
                     type='date' />
                   <span>até</span>
-                  <CustomInput 
+                  <CustomInput
                     {...register("captured_in_end")}
                     colorInputDefault={ThemeColor.primaria}
                     colorInputSuccess={ThemeColor.secundaria}

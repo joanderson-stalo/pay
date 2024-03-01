@@ -6,6 +6,8 @@ import { useFormContext } from 'react-hook-form';
 import { CustomSelect } from '@/components/Select/select';
 import { optionsData } from '../Step1/option';
 import { Loading } from '@/components/Loading/loading';
+import { accountType } from '@/json/accountType';
+import { bancos } from '@/json/bancos';
 
 interface IStep5 {
   Avançar: () => void;
@@ -74,6 +76,10 @@ const handleCpfCnpjChange = (event: { target: { value: any; }; }) => {
       .filter(key => key.startsWith('Fornecedor'))
       .length;
 
+      const Banco = watch('Banco');
+      const bancoSelecionado = bancos.options.find((option: { value: string; label: string }) => option.value === Banco);
+      const tipoDeContaValue = watch('TipoDeConta');
+      const tipoDeContaSelecionado = accountType.options.find((option: { value: string; label: string }) => option.value === tipoDeContaValue);
 
 
   return (
@@ -90,7 +96,8 @@ const handleCpfCnpjChange = (event: { target: { value: any; }; }) => {
                   <CustomSelect
                     {...register('Banco', { required: true })}
                     label="Banco"
-                    optionsData={optionsData}
+                    value={bancoSelecionado}
+                    optionsData={bancos}
                     placeholder={'Clique para ver a lista'}
                     hasError={!!errors.Banco}
                     onChange={(selectedOption: { value: string }) => {
@@ -103,7 +110,8 @@ const handleCpfCnpjChange = (event: { target: { value: any; }; }) => {
                     {...register('TipoDeConta', { required: true })}
                     label="Tipo de Conta"
                     placeholder={''}
-                    optionsData={optionsData}
+                    value={tipoDeContaSelecionado}
+                    optionsData={accountType}
                     hasError={!!errors['Tipo de Conta']}
                     onChange={(selectedOption: { value: string }) => {
                       setValue('TipoDeConta', selectedOption.value);

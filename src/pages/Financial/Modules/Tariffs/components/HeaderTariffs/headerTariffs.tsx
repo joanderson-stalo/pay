@@ -6,7 +6,7 @@ export function HeaderTariffs() {
   const navigate = useNavigate();
 
   const handleAddRequest = () => {
-    navigate('/addStock');
+    navigate('/addRate');
   };
 
 

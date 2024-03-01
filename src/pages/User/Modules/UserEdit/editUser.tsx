@@ -14,37 +14,63 @@ import Swal from 'sweetalert2';
 import './styled.css'
 import { Loading } from '@/components/Loading/loading';
 import { validationSchema } from './schema';
+import s3Client from '@/s3Config';
+import { PutObjectCommand } from '@aws-sdk/client-s3';
 
 export function EditUser() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
   const { id } = useParams();
   const { dataUser } = useLogin();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [file, setFile] = useState<File | null>(null);
+  const [isDirty, setIsDirty] = useState(false); // Flag para indicar se houve alterações nos dados
 
   const methods = useForm<UserData>({
-    resolver: yupResolver(validationSchema)
+    resolver: yupResolver(validationSchema),
   });
 
-  const { register, handleSubmit, watch, formState: { errors } } = methods;
+  const { register, handleSubmit, watch, formState: { errors, isValid } } = methods;
 
-  const isAllFieldsFilled = watch('Nome') || watch('Telefone');
+  const extractKeyFromCurrentURL = () => {
+    const url = window.location.hostname;
+    const parts = url.split('.');
+    return parts.length > 2 ? parts[0] : parts.join('.');
+  };
+
+  const uploadFileToS3 = async (file: File): Promise<string> => {
+    const currentDate = await new Date();
+    const formattedDate = await currentDate.toISOString().replace(/[-:.]/g, '');
+    const fileNameWithTimestamp = await `${formattedDate}${file.name.replace(/\s/g, '-')}`;
+    const keyPrefix = await extractKeyFromCurrentURL();
+    const params = {
+      Bucket: 'stalopay',
+      Key: `${keyPrefix}/user_photo/${fileNameWithTimestamp}`,
+      Body: file,
+    };
+
+    await s3Client.send(new PutObjectCommand(params));
+    return `https://usc1.contabostorage.com/d6d39f0192924488b37d9be5d805e5e8:stalopay/${params.Key}`;
+  };
+
+  const isAllFieldsFilled = watch('Nome') && watch('Telefone');
 
   const onFileInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
       const imageUrl = URL.createObjectURL(file);
       setSelectedImage(imageUrl);
+      setFile(file);
+      setIsDirty(true); // Indicar que houve alterações nos dados
     }
   };
 
-
   const handleUserlist = () => {
-    navigate('/userlist')
-  }
+    navigate('/user-seller');
+  };
 
   const onSubmit = handleSubmit(async (data) => {
-    if (isAllFieldsFilled) {
+    if (isValid && isDirty) { // Verificar se os dados são válidos e se houve alterações
       Swal.fire({
         title: "Você deseja salvar as alterações?",
         showDenyButton: true,
@@ -57,10 +83,15 @@ export function EditUser() {
           actions: 'swal-actions-stacked'
         }
       }).then(async (result) => {
+        let imageUrl = null;
+        if (file) {
+          imageUrl = await uploadFileToS3(file);
+        }
         if (result.isConfirmed) {
           const updatedData = {
             name: data.Nome,
             phone_number: data.Telefone,
+            document_id: imageUrl ? imageUrl : selectedImage,
           };
 
           try {
@@ -100,6 +131,7 @@ export function EditUser() {
       const userData = response.data.user;
       const name = userData.name;
       const phoneNumber = userData.phone_number;
+      setSelectedImage(userData.document_id)
 
       methods.setValue('Nome', name);
       methods.setValue('Telefone', phoneNumber);
@@ -115,6 +147,21 @@ export function EditUser() {
     GetUser();
   }, []);
 
+  useEffect(() => {
+    const subscription = watch((value, { name, type }) => {
+      if (name === 'Nome' || name === 'Telefone') {
+        setIsDirty(true);
+      }
+    });
+    return () => subscription.unsubscribe();
+  }, [watch]);
+
+
+  const handleVoltar = () => {
+    navigate('/user-seller');
+  };
+
+
   return (
 <>
 {isLoading && <Loading />}
@@ -127,7 +174,7 @@ export function EditUser() {
               <S.Line />
               <S.ContainerForm>
                 <S.ContainerPhoto>
-                  <img src={selectedImage || iconPhoto} alt="Foto do Usuário" />
+                  <img src={selectedImage?.includes('contabostorage') ? selectedImage : iconPhoto} alt="Foto do Usuário" />
                   <S.HiddenFileInput
                     id="fileInput"
                     type="file"
@@ -156,8 +203,8 @@ export function EditUser() {
               </S.ContainerForm>
             </S.ContextStep>
             <S.ContainerButton>
-              <S.ButtonVoltar type='button' onClick={() => false}>Cancelar</S.ButtonVoltar>
-              <S.ButtonAvançar type="submit" disabled={!isAllFieldsFilled}>
+              <S.ButtonVoltar type='button' onClick={handleVoltar}>Cancelar</S.ButtonVoltar>
+              <S.ButtonAvançar type="submit"  disabled={!isValid || !isDirty}>
                 Salvar
               </S.ButtonAvançar>
             </S.ContainerButton>

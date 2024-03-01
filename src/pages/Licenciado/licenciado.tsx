@@ -1,7 +1,7 @@
 import { PaginaView } from '@/components/PaginaView/paginaView';
 import { Tabela } from './components/table/table';
 import * as S from './styled';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { ItensPorPage } from '@/components/ItensPorPage/itensPorPage';
 import { Pagination } from '@/components/Pagination/pagination';
 import { FunnelSimple } from '@phosphor-icons/react';
@@ -12,6 +12,8 @@ import { Loading } from '@/components/Loading/loading';
 import { useFilterLicensed } from './hooks/useFilterLicensed';
 import { EditableButton } from './components/ButtonEdit/buttonEdit';
 import { ModalLicensed } from './components/ModalLicensed/modalLicensed';
+import { TotalBtn } from '@/components/TotalBtn/totalBtn';
+import { BtnFilter } from '@/components/BtnFilter/btnFilter';
 
 export function Licenciado() {
   const [itensPorPage, setItensPorPage] = useState<number | ''>(10);
@@ -24,23 +26,35 @@ export function Licenciado() {
   const [sellers, setSellers] = useState([]);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const fetchData = async (pageNumber: number = currentPage) => {
+  const fetchData = useCallback(async (pageNumber: number = currentPage) => {
     setLoading(true);
     let apiUrl = `https://api-pagueassim.stalopay.com.br/seller/indexla?perpage=${String(itensPorPage)}&page=${pageNumber}`;
     if (searchValue) {
-      apiUrl += `&trading_name=${searchValue}`;
+      apiUrl += `&company_name=${searchValue}`;
     }
-    const response = await axios.get(apiUrl, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${dataUser?.token}`
-      }
-    });
-    setSellers(response.data.sellers);
-    setTotalSellers(response.data.total_sellers);
-    setCurrentPage(response.data.current_page);
-    setLoading(false);
-  };
+
+    const licenciadoAutorizadoLicensed = localStorage.getItem('@licenciadoAutorizadoLicensed');
+    if (licenciadoAutorizadoLicensed) {
+      apiUrl += `&seller_id=${licenciadoAutorizadoLicensed}`;
+    }
+
+    try {
+      const response = await axios.get(apiUrl, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${dataUser?.token}`
+        }
+      });
+      setSellers(response.data.sellers);
+      setTotalSellers(response.data.total_sellers);
+      setCurrentPage(response.data.current_page);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  }, [dataUser, itensPorPage, searchValue, currentPage]);
+
 
   const handleNextPage = () => {
     setCurrentPage(prevPage => prevPage + 1);
@@ -63,37 +77,38 @@ export function Licenciado() {
   const totalPages = Math.ceil(totalSellers / (itensPorPage || 1));
 
   useEffect(() => {
- 
-  }, [dataUser, itensPorPage, currentPage]);
+    fetchData()
+  }, [dataUser, itensPorPage, state, currentPage]);
 
   useEffect(() => {
     if (searchValue.trim() === '') {
       fetchData();
     }
   }, [searchValue])
-  
+
 
   const handleSearch = (value: string) => {
     setSearchValue(value);
-    
+
     if (value.trim() === '') {
-      setSearchValue(''); 
+      setSearchValue('');
     }
-    
+
     fetchData();
   };
-  
+
 
   return (
     <>
       <ModalLicensed onClose={handleCloseModal} visible={filter} />
       {loading ? <Loading /> :
         <>
+        <S.Container>
            <LicenciadoHeader onSearch={handleSearch} searchValue={searchValue} setSearchValue={setSearchValue} />
           <S.ContainerButton>
-            <S.ButtonTotal>Todos ({totalSellers})</S.ButtonTotal>
+            <TotalBtn total={totalSellers} />
             {state ? <EditableButton /> : ''}
-            <S.ButtonFilter onClick={handleOpenModal}> <FunnelSimple />Filtrar</S.ButtonFilter>
+            <BtnFilter  onClick={handleOpenModal} />
           </S.ContainerButton>
           <Tabela rows={sellers} />
           <S.Context>
@@ -112,8 +127,10 @@ export function Licenciado() {
               </S.ContainerItens>
             </S.ContainerPagina>
           </S.Context>
+          </S.Container>
         </>
       }
+
     </>
   );
 }

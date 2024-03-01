@@ -9,8 +9,7 @@ import { DefaultHome } from '@/layout/DefaultHome/defaultHome'
 import { LAcadastro } from '@/pages/LAcadastro/LAcadastro'
 import { Estabelecimento } from '@/pages/Estabelecimento/estabelecimento'
 import { ECcadastro } from '@/pages/ECcadastro/ECcadastro'
-import { Vendas } from '@/pages/Vendas/vendas'
-import { DetalheVenda } from '../pages/Vendas/Detalhes/detalhe'
+
 import { Licenciado } from '@/pages/Licenciado/licenciado'
 import { Home } from '@/pages/Home/home'
 
@@ -26,7 +25,6 @@ import { ManageAccessEstablishment } from '@/pages/Estabelecimento/modules/Manag
 import { EditRegistrationEC } from '@/pages/Estabelecimento/modules/EditRegistrationEC/editRegistrationEC'
 import { ECHome } from '@/pages/ECHome/ECHome'
 
-import { UserCreation } from '@/pages/User/Modules/UserCreation/userCreation'
 import { UserListLogged } from '@/pages/User/Modules/UserListLogged/userListLogged'
 import { EditUser } from '@/pages/User/Modules/UserEdit/editUser'
 import { LicenseeSummary } from '@/pages/Financial/Modules/LicenseeSummary/licenseeSummary'
@@ -47,6 +45,10 @@ import { AddTickets } from '@/pages/Tickets/Modules/AddTickets/addTickets'
 import { Documents } from '@/pages/Documents/documents'
 import { TodayCommission } from '@/pages/Commission/TodayCommission/todayCommission'
 import { PaymentRequests } from '@/pages/PaymentRequests/paymentRequests'
+import { CreateUser } from '@/pages/User/Modules/UserCreation/components/CreateUser/createUser'
+import { ImportSpreadsheet } from '@/pages/Financial/Modules/Tariffs/Modules/AddRate/Modules/ImportSpreadsheet/importSpreadsheet'
+import { Vendas } from '@/pages/Vendas/vendas'
+import { DetalheVenda } from '@/pages/Vendas/Detalhes/detalhe'
 
 
 
@@ -70,12 +72,12 @@ export function Router() {
 
         <Route path="/" element={<DefaultHome />}>
           <Route path="/home" element={<ECHome />} />
-          <Route path="/userlist" element={<UserListLogged />} />
+          <Route path="/user-seller" element={<UserListLogged />} />
 
-          <Route path="/vendas" element={<Vendas />} />
-          <Route path="/detalhe" element={<DetalheVenda />} />
+          <Route path="/transaction" element={<Vendas />} />
+          <Route path="/transaction-description" element={<DetalheVenda />} />
 
-          <Route path="/estabelecimentos" element={<Estabelecimento />} />
+          <Route path="/sellers-ec" element={<Estabelecimento />} />
           <Route path="/eccadastro" element={<ECcadastro />} />
           <Route path="/establishmentdetail" element={<EstablishmentDetail />} />
           <Route path="/manageAccessEstablishment" element={<ManageAccessEstablishment />} />
@@ -89,7 +91,7 @@ export function Router() {
 
 
 
-          <Route path="/userCreation" element={<UserCreation />} />
+          <Route path="/user-seller-create" element={<CreateUser  />} />
           <Route path='/user/edit/:id' element={<EditUser  />} />
 
           <Route path="/commission/daily" element={<DailyCommission />} />
@@ -112,6 +114,7 @@ export function Router() {
 
           <Route path='/tariffs' element={<Tariffs />} />
           <Route path='/addRate' element={<AddRate />} />
+          <Route path= '/importSpreadsheet' element={<ImportSpreadsheet /> } />
           <Route path='/addRateManual' element={<AddRateManual />} />
 
 

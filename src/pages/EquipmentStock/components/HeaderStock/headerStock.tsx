@@ -1,6 +1,7 @@
 
 import { useNavigate } from 'react-router-dom';
 import * as S from './styled';
+import { TitleH } from '@/components/Title/title';
 
 export function HeaderStock() {
   const navigate = useNavigate();
@@ -12,8 +13,8 @@ export function HeaderStock() {
 
   return (
     <S.Container>
-      <S.Title>Estoque de Equipamentos</S.Title>
-      <S.Button onClick={handleAddRequest}>Adicionar POS</S.Button>
+      <TitleH title='Estoque de Equipamentos' />
+      {/* <S.Button onClick={handleAddRequest}>Adicionar POS</S.Button> */}
     </S.Container>
   );
 }

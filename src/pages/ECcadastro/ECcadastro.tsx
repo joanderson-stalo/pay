@@ -19,6 +19,11 @@ import { convertDateFormat } from "@/utils/convertDateFormat";
 import { useNavigate } from "react-router-dom";
 import { useDocumentEC } from "@/context/useDocumentEC";
 import { toast } from "react-toastify";
+import { TranslateErrorMessage } from "@/utils/translateErrorMessage";
+
+interface ApiResponse {
+  message: string;
+}
 
 export const ECcadastro = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -29,9 +34,11 @@ export const ECcadastro = () => {
   const [isLoading, setIsLoading] = useState(false)
 
   const handleModalClose = () => {
-    navigate('/estabelecimentos')
+    navigate('/sellers-ec')
     setOpenModal(false);
   };
+
+
 
   const methods = useForm();
   const { getValues } = methods;
@@ -143,12 +150,10 @@ const handleNextStep = async () => {
               setCurrentStep(5);
           }
       }  catch (error: any) {
-        const err = error as AxiosError; 
-        if (err.response && err.response.status === 409) {
-            toast.error('Já existe vendedor com o mesmo documento e tipo.');
-        } else {
-            toast.error('Verifique a sua conexão');
-        }
+        const err = error as AxiosError<ApiResponse>;
+        const errorMessage = err.response?.data?.message || 'Ocorreu um error';
+        const translatedMessage = await TranslateErrorMessage(errorMessage);
+        toast.error(translatedMessage);
         setIsLoading(false);
     }
   }

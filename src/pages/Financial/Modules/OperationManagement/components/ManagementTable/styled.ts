@@ -1,3 +1,4 @@
+import { ThemeColor } from "@/config/color";
 import styled from "styled-components";
 
 interface StatusTextProps {
@@ -8,7 +9,7 @@ export const Table = styled.table`
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
-  
+
   @media (max-width: 900px) {
     display: none;
   }
@@ -34,7 +35,7 @@ export const TableData = styled.td`
   border-bottom: 1px solid #E9ECEF;
 
 
-  
+
 `;
 
 
@@ -54,7 +55,7 @@ export const FornecedorItem = styled.p`
 `;
 
 export const TableDataLucro = styled(TableData)`
-  color: #02B1F1;
+  color: ${ThemeColor.secundaria};
 `;
 
 export const Button = styled.button`

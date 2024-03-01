@@ -1,3 +1,4 @@
+import { ThemeColor } from '@/config/color';
 import styled from 'styled-components';
 
 type CustomTableHeaderProps = {
@@ -14,7 +15,7 @@ export const TariffCardWrapper = styled.div`
 export const TariffCardHeader = styled.div<CustomTableHeaderProps>`
   width: 100%;
   padding: 10px 28px;
-  background:${({ tipo }) => tipo === 'Crédito' ? '#02B1F1' : '#E91414'};
+  background:${({ tipo }) => tipo === 'Crédito' ? `${ThemeColor.secundaria}` : '#E91414'};
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -76,7 +77,7 @@ export const EditButton = styled.button`
   background: #FFF;
   border: 0.429px solid #F5F4F4;
   border-radius: 4.286px;
-  color: #3C0A6D;
+  color: ${ThemeColor.primaria};
   display: flex;
   align-items: center;
   justify-content: center;

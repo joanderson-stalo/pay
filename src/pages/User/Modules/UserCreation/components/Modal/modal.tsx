@@ -40,7 +40,7 @@ export function Modal({ onClose, visible }: IModalSucesso) {
           <BackgroundLogin />
           <ContextModal>
             <div>
-              <Image src={ThemeImg.deixaNoAzul} alt="" />
+              <Image src={ThemeImg.logo} alt="" />
               <ContainerText>
                 <p>Usuário
             cadastrado!</p>

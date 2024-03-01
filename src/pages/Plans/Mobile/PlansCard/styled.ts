@@ -1,3 +1,4 @@
+import { ThemeColor } from '@/config/color';
 import styled from 'styled-components';
 
 export const CardWrapper = styled.div`
@@ -98,7 +99,7 @@ export const EditButton = styled.button`
   border-radius: 4.286px;
   border: 0.429px solid #F5F4F4;
   background: #FFF;
-  color:  #02B1F1;
+  color:  ${ThemeColor.secundaria};
   font-size: 12.002px;
   font-style: normal;
   font-weight: 500;

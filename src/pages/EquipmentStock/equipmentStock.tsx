@@ -16,6 +16,8 @@ import { CardInfo } from '../../components/CardInfo/cardInfo';
 import { StockCard } from './Mobile/StockCard/stockCard';
 import { TableStock } from './components/TableStock/tableStock';
 import { HeaderStock } from './components/HeaderStock/headerStock';
+import { TotalBtn } from '@/components/TotalBtn/totalBtn';
+import { BtnFilter } from '@/components/BtnFilter/btnFilter';
 
 
 export function EquipmentStock() {
@@ -26,12 +28,12 @@ export function EquipmentStock() {
   const { dataUser } = useLogin();
   const [totalSellers, setTotalSellers] = useState(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [sellers, setSellers] = useState([]);
+  const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState<boolean>(false);
 
   const fetchData = async (pageNumber: number = currentPage) => {
     setLoading(true);
-    let apiUrl = `https://api-pagueassim.stalopay.com.br/seller/indexla?perpage=${String(itensPorPage)}&page=${pageNumber}`;
+    let apiUrl = `https://api-pagueassim.stalopay.com.br/products/index?perpage=${String(itensPorPage)}&page=${pageNumber}`;
     if (searchValue) {
       apiUrl += `&trading_name=${searchValue}`;
     }
@@ -41,8 +43,9 @@ export function EquipmentStock() {
         'Authorization': `Bearer ${dataUser?.token}`
       }
     });
-    setSellers(response.data.sellers);
-    setTotalSellers(response.data.total_sellers);
+    setProducts(response.data.products);
+    console.log(response.data.products)
+    setTotalSellers(response.data.total_products);
     setCurrentPage(response.data.current_page);
     setLoading(false);
   };
@@ -87,22 +90,22 @@ export function EquipmentStock() {
       <HeaderStock />
 
 <S.ContainerCard>
-<CardInfo color='#7D7D7D' shouldFormat={false} label='Qtd de POS' value={500}/>
-<CardInfo color='#2BC6F6' shouldFormat={false} label='POS Estáveis' value={500}/>
-<CardInfo color='#FF7C33' shouldFormat={false} label='POS Incompletos' value={500}/>
-<CardInfo color='#E91414' shouldFormat={false} label='POS Quebrados' value={500}/>
+<CardInfo  shouldFormat={false} label='Quantidade de POS' value={500}/>
+<CardInfo shouldFormat={false} label='POS Estáveis' value={500}/>
+<CardInfo shouldFormat={false} label='POS Transacionando' value={500}/>
+<CardInfo  shouldFormat={false} label='Média TPV por POS' value={500}/>
 </S.ContainerCard>
 
 
  <S.ContainerButton>
-   <S.ButtonTotal>Todos ({totalSellers})</S.ButtonTotal>
+   <TotalBtn total={totalSellers}/>
    {state ? <EditableButton /> : ''}
-   <S.ButtonFilter onClick={handleOpenModal}> <FunnelSimple />Filtrar</S.ButtonFilter>
+   <BtnFilter onClick={handleOpenModal} />
  </S.ContainerButton>
 
 
 
-<TableStock rows={mockDataTable} />
+<TableStock rows={products} />
 
 <S.ContainerCardsMobile>
     <StockCard data={mockDataTable} />

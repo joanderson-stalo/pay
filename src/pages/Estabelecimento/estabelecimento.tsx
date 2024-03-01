@@ -12,6 +12,8 @@ import { useFilterEstablishment } from './hooks/useFilterEstablishment';
 import { ModalEstablishment } from './components/ModalEstablishment/modalEstablishment';
 import { EditableButton } from './components/ButtonEdit/buttonEdit';
 import { EstabelecimentoHeader } from './components/estabelecimentoHeader/estabelecimentoHeader';
+import { TotalBtn } from '@/components/TotalBtn/totalBtn';
+import { BtnFilter } from '@/components/BtnFilter/btnFilter';
 
 
 export function Estabelecimento() {
@@ -31,6 +33,14 @@ export function Estabelecimento() {
     if (searchValue) {
       apiUrl += `&trading_name=${searchValue}`;
     }
+
+    const licenciadoAutorizadoEstablishment = localStorage.getItem('@licenciadoAutorizadoEstablishment');
+    if (licenciadoAutorizadoEstablishment) {
+      apiUrl += `&seller_id=${licenciadoAutorizadoEstablishment}`;
+    }
+
+
+
     const response = await axios.get(apiUrl, {
       headers: {
         'Content-Type': 'application/json',
@@ -49,7 +59,7 @@ export function Estabelecimento() {
     if (value.trim() === '') {
       setSearchValue('');
     }
-    
+
     fetchData();
   };
 
@@ -74,8 +84,8 @@ export function Estabelecimento() {
   const totalPages = Math.ceil(totalSellers / (itensPorPage || 1));
 
   useEffect(() => {
-
-  }, [dataUser, itensPorPage, currentPage]);
+    fetchData()
+  }, [dataUser, itensPorPage, state, currentPage]);
 
   useEffect(() => {
     if (searchValue.trim() === '') {
@@ -88,11 +98,12 @@ export function Estabelecimento() {
       <ModalEstablishment onClose={handleCloseModal} visible={filter} />
       {loading ? <Loading /> :
         <>
+        <S.Container>
           <EstabelecimentoHeader onSearch={handleSearch} searchValue={searchValue} setSearchValue={setSearchValue} />
           <S.ContainerButton>
-            <S.ButtonTotal>Todos ({totalSellers})</S.ButtonTotal>
+            <TotalBtn total={totalSellers} />
             {state ? <EditableButton /> : ''}
-            <S.ButtonFilter onClick={handleOpenModal}><FunnelSimple />Filtrar</S.ButtonFilter>
+            <BtnFilter  onClick={handleOpenModal} />
           </S.ContainerButton>
           <Tabela rows={sellers} />
           <S.Context>
@@ -111,6 +122,7 @@ export function Estabelecimento() {
               </S.ContainerItens>
             </S.ContainerPagina>
           </S.Context>
+          </S.Container>
         </>
       }
     </>

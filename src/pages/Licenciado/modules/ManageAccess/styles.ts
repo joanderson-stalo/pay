@@ -3,9 +3,7 @@ import styled from "styled-components";
 
 
 export const ContainerManageAccessLicensed = styled.div`
-      margin-left: 44px;
-    margin-top: 45px;
-    margin-right: 52px;
+  margin: 36px 20px 20px 20px;
 
 `
 export const ButtonBlack = styled.button`

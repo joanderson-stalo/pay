@@ -12,12 +12,8 @@ import { Step4 } from "./components/Step4/step4";
 import { Step1 } from "./components/Step1/step1";
 import { Step2 } from "./components/Step2/step2";
 import { useLogin } from "@/context/user.login";
-import { sanitizeNumeric } from "@/utils/sanitizeNumeric";
-import { getCurrentFormattedDate } from "@/utils/dataFormat";
-import { convertDateFormat } from "@/utils/convertDateFormat";
 import { useNavigate } from "react-router-dom";
 import { useDocumentEC } from "@/context/useDocumentEC";
-import { toast } from "react-toastify";
 
 export const EditRegistrationEC = () => {
   const [currentStep, setCurrentStep] = useState(1);

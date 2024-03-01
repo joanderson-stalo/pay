@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { Loading } from '@/components/Loading/loading'
+import { optionsCnae } from '@/json/cnae'
 
 interface IStep1 {
   Avançar: () => void
@@ -66,7 +67,7 @@ export function PJ({ Avançar, BPF, BPJ }: IStep1) {
 
   const cnpjValue = watch('CNPJEstabelecimento');
   const cpfValue = watch('CPFEstabelecimento');
-  
+
 
 
 
@@ -76,11 +77,11 @@ export function PJ({ Avançar, BPF, BPJ }: IStep1) {
       const response = await axios.get(`https://ws.hubdodesenvolvedor.com.br/v2/cnpj/?cnpj=${cnpj}&token=YOUR_TOKEN`);
       const { result } = response.data;
       const { abertura, nome, fantasia } = result; // Destruturando o valor fantasia também
-       
+
       setValue('DataCriacaoEstabelecimento', abertura);
       setValue('RazaoSocialEstabelecimento', nome);
       setValue('NomeFantasiaEstabelecimento', fantasia); // Adicionando essa linha
-  
+
     } catch (error) {
       console.error('Error fetching company data by CNPJ:', error);
     } finally {
@@ -92,36 +93,45 @@ export function PJ({ Avançar, BPF, BPJ }: IStep1) {
     try {
       setIsLoading(true);
       const response = await axios.get(`https://ws.hubdodesenvolvedor.com.br/v2/cpf/?cpf=${cpf}&token=119905575VQLhxBIJgu216485880`);
-        
+
       const { result } = response.data;
-      const { nome_da_pf, data_nascimento } = result; 
-  
+      const { nome_da_pf, data_nascimento } = result;
+
       console.log(nome_da_pf, data_nascimento)
-  
+
       setValue('NomeSocioEstabelecimento', nome_da_pf);
       setValue('NascimentoSocio', data_nascimento);
-    
+
     } catch (error) {
       console.error('Error fetching person data by CPF:', error);
     } finally {
       setIsLoading(false);
     }
   };
-  
+
 
   useEffect(() => {
-    if (validateCNPJ(cnpjValue)) {
+    const shouldFetchCNPJData = validateCNPJ(cnpjValue)
+
+    if (shouldFetchCNPJData) {
       fetchCompanyDataByCNPJ(cnpjValue);
     }
   }, [cnpjValue]);
-  
-useEffect(() => {
-    if (validateCPF(cpfValue)) {
-      fetchPersonDataByCPF(cpfValue.replace(/\D/g, ''));
+
+  useEffect(() => {
+
+    const cleanedCPF = (cpfValue || '').replace(/\D/g, '');
+    const shouldFetchCPFData = validateCPF(cleanedCPF) && !watch('NomeSocioEstabelecimento');
+
+    if (shouldFetchCPFData) {
+      fetchPersonDataByCPF(cleanedCPF);
     }
-  }, [cpfValue]);
+  }, [cpfValue, watch('NomeSocioEstabelecimento')]);
 
 
+
+
+  const areaAtuacaoValue = watch('AreaAtuacaoEstabelecimento');
 
   return (
 
@@ -130,7 +140,7 @@ useEffect(() => {
 
     {isLoading && <Loading />}
 
-  
+
 
       <S.ContainerStep>
       <S.ContextStepContainer>
@@ -222,19 +232,20 @@ useEffect(() => {
                 colorInputSuccess={ThemeColor.secundaria}
                 hasError={!!errors.EmailEstabelecimento}
               />
-              
+
             </S.ContainerInput>
             <S.ContainerInput2>
-              <CustomSelect
-                optionsData={optionsData}
-                {...register('AreaAtuacaoEstabelecimento')}
-                placeholder="Digite aqui ou clique para ver a lista"
-                label="Área de Atuação"
-                onChange={(selectedOption: { value: string }) => {
-                  setValue('AreaAtuacaoEstabelecimento', selectedOption.value)
-                }}
-                hasError={!!errors.AreaAtuacaoEstabelecimento}
-              />
+            <CustomSelect
+  optionsData={optionsCnae}
+  value={optionsCnae.options.find(option => option.value === areaAtuacaoValue)}
+  {...register('AreaAtuacaoEstabelecimento')}
+  placeholder="Digite aqui ou clique para ver a lista"
+  label="Área de Atuação"
+  onChange={(selectedOption: { value: string }) => {
+    setValue('AreaAtuacaoEstabelecimento', selectedOption.value)
+  }}
+  hasError={!!errors.AreaAtuacaoEstabelecimento}
+/>
               <button>Pesquise pelo CNAE ou Nome</button>
             </S.ContainerInput2>
           </S.ContainerForm>
@@ -249,6 +260,6 @@ useEffect(() => {
 
 
     </>
-    
+
   )
 }

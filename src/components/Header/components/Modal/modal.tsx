@@ -12,7 +12,7 @@ export function Modal({ closeModal }: ModalProps) {
 
   const handleUserListClick = () => {
     console.log("handleUserListClick chamado");
-    navigate('/userlist');
+    navigate('/user-seller');
     closeModal();
     localStorage.setItem('selectedItem', '0');
 console.log(localStorage.getItem('selectedItem'));

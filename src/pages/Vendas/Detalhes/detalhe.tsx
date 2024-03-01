@@ -2,7 +2,7 @@ import { useTransactionVendas } from '@/context/useVendas'
 import { CardDetalhes } from './components/CardDetalhes/cardDetalhes'
 import { CardInfo } from './components/CardInfo/cardInfo'
 import { CardInfo2 } from './components/CardInfo2/cardInfo2'
-import { ComissoesTable } from './components/ComissoesTable/comissoesTable'
+import { ComissoesTable, Commission } from './components/ComissoesTable/comissoesTable'
 import { HistoricoTableDetalhes } from './components/historicoTableDetalhes/historicoTableDetalhes'
 import * as S from './styled'
 import { useEffect, useState } from 'react'
@@ -25,6 +25,7 @@ type DateFormatOptions = {
 export function DetalheVenda() {
   const { selectedTransactionId } = useTransactionVendas()
   const [loading, setLoading] = useState<boolean>(false)
+  const [commissions, setCommissions] = useState<Commission[]>([])
   const { dataUser } = useLogin()
   const [transactionDetails, setTransactionDetails] =
     useState<TransactionDetails | null>(null)
@@ -58,6 +59,7 @@ export function DetalheVenda() {
           )
           if (data) {
             setTransactionDetails(data.transaction)
+            setCommissions(data.transaction.commissions)
           }
         } catch (error) {
           toast.error('Erro ao buscar os detalhes da transação')
@@ -73,7 +75,7 @@ export function DetalheVenda() {
   const navigate = useNavigate()
 
   const handleVendas = () => {
-    navigate('/vendas')
+    navigate('/transaction')
   }
 
   return (
@@ -114,8 +116,8 @@ export function DetalheVenda() {
             seller_company_name={transactionDetails?.seller_company_name}
           />
 
- 
-      
+
+
           <S.SectionTable>
             <S.ContextContainer>
             <S.SectionCard>
@@ -133,12 +135,12 @@ export function DetalheVenda() {
                   : undefined
               )}
             />
-  
+
           </S.SectionCard>
           <HistoricoTableDetalhes />
             </S.ContextContainer>
-            <ComissoesTable />
-            
+            <ComissoesTable  commissions={commissions}/>
+
           </S.SectionTable>
         </S.ContextDetalhes>
       </S.ContainerDetalhe>

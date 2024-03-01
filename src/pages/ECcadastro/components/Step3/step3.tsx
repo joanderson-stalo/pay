@@ -34,7 +34,7 @@ interface IOption {
 
 export function Step3({ Avançar, Voltar }: IStep3) {
   const [dados, setDados] = useState(false);
-  const [fetchedOptions, setFetchedOptions] = useState([]);
+  const [fetchedOptions, setFetchedOptions] = useState<IOption[]>([]);
   const [acquires, setAcquires] = useState<IOption[]>([]);
   const [inputs, setInputs] = useState<{}[]>([{}]);
   const [selectedAcquires, setSelectedAcquires] = useState<string[]>([]);
@@ -91,53 +91,62 @@ export function Step3({ Avançar, Voltar }: IStep3) {
     });
   };
 
-  const renderInputs = () => {
-    return inputs.map((_, index) => {
-      const availableAcquires = acquires.filter(
-        option => !selectedAcquires.includes(option.value)
-      );
+  const renderInputs = (index: number) => {
+    const fornecedorValue = watch(`Fornecedor${index}`);
+    const selectedFornecedor = acquires.find(option => option.value === fornecedorValue);
 
-      const removeButton = index !== 0 && (
-        <ButtonRemover onClick={() => removeInput(index)}>Remover</ButtonRemover>
-      );
+    const planoComercialValue = watch(`PlanoComercial${index}`);
+    const selectedPlanoComercial = optionsData.options.find(option => option.value === planoComercialValue);
 
-      const isLastInput = index === inputs.length - 1;
-      const addButton = isLastInput && inputs.length !== acquires.length && (
-        <ButtonAdd onClick={addInput}>Adicionar outro</ButtonAdd>
-      );
+    const availableAcquires = acquires.filter(
+      option => !selectedAcquires.includes(option.value)
+    );
 
-      return (
-        <ContainerInput key={index}>
-          <WInput>
-            <CustomSelect
-              {...register(`Fornecedor${index}`)}
-              label="Fornecedor"
-              placeholder=""
-              hasError={!!errors[`Fornecedor${index}`]}
-              optionsData={{ options: availableAcquires }}
-              onChange={(selectedOption: { value: string }) => handleAcquireChange(selectedOption, index)}
-            />
-          </WInput>
-          <WInput>
-            <CustomSelect
-              {...register(`PlanoComercial${index}`)}
-              label="Plano Comercial"
-              optionsData={optionsData}
-              placeholder=""
-              hasError={!!errors[`PlanoComercial${index}`]}
-              onChange={(selectedOption: { value: string }) => {
-                setValue(`PlanoComercial${index}`, selectedOption.value);
-              }}
-            />
-          </WInput>
+    const removeButton = index !== 0 && (
+      <ButtonRemover onClick={() => removeInput(index)}>Remover</ButtonRemover>
+    );
 
-          {removeButton}
-          {addButton}
-        </ContainerInput>
-      );
-    });
+    const isLastInput = index === inputs.length - 1;
+    const addButton = isLastInput && inputs.length !== acquires.length && (
+      <ButtonAdd onClick={addInput}>Adicionar outro</ButtonAdd>
+    );
+
+    return (
+      <ContainerInput key={index}>
+        <WInput>
+          <CustomSelect
+            {...register(`Fornecedor${index}`)}
+            label="Fornecedor"
+            value={selectedFornecedor || {value: '', label: ''}}
+            placeholder=""
+            hasError={!!errors[`Fornecedor${index}`]}
+            optionsData={{ options: availableAcquires }}
+            onChange={(selectedOption: { value: string }) => handleAcquireChange(selectedOption, index)}
+          />
+        </WInput>
+        <WInput>
+          <CustomSelect
+            {...register(`PlanoComercial${index}`)}
+            label="Plano Comercial"
+            value={selectedPlanoComercial || {value: '', label: ''}}
+            optionsData={optionsData}
+            placeholder=""
+            hasError={!!errors[`PlanoComercial${index}`]}
+            onChange={(selectedOption: { value: string }) => {
+              setValue(`PlanoComercial${index}`, selectedOption.value);
+            }}
+          />
+        </WInput>
+
+        {removeButton}
+        {addButton}
+      </ContainerInput>
+    );
   };
 
+  const renderAllInputs = () => {
+    return inputs.map((_, index) => renderInputs(index));
+  };
 
 
   useEffect(() => {
@@ -202,6 +211,13 @@ export function Step3({ Avançar, Voltar }: IStep3) {
       });
   }, []);
 
+  const licenciadoValue = watch('licenciado');
+  const selectedOption = fetchedOptions.find(option => option.value === licenciadoValue);
+
+
+
+
+
   return (
     <>
       {dados && <Loading />}
@@ -215,6 +231,7 @@ export function Step3({ Avançar, Voltar }: IStep3) {
                 <CustomSelect
                   {...register('licenciado')}
                   label="Licenciado Autorizado"
+                  value={selectedOption || {value: '', label: ''}}
                   optionsData={{ options: fetchedOptions }}
                   hasError={!!errors.licenciado}
                   onChange={(selectedOption: { value: string }) => {
@@ -223,7 +240,7 @@ export function Step3({ Avançar, Voltar }: IStep3) {
                 <button>Pesquise pelo nome do Licenciado</button>
               </ContainerInput2>
 
-              {renderInputs()}
+              {renderAllInputs()}
             </ContainerForm>
           </ContextStep>
           <ContainerButton>

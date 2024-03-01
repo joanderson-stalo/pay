@@ -1,22 +1,22 @@
+import React from 'react';
 import { Doughnut } from 'react-chartjs-2';
-import Chart, { ChartData, ChartOptions } from 'chart.js/auto';
+import { Chart as ChartJS, ChartData, ChartOptions, TooltipItem } from 'chart.js/auto';
 import { ContainerGrafico } from './styled';
 import { ThemeColor } from '@/config/color';
-import React from 'react';
 
 interface CustomChartOptions extends ChartOptions<'doughnut'> {
   centerText?: string;
   centerValue?: string;
 }
 
-const getFontSizeValue = () => {
+const getFontSizeValue = (): number => {
   if (window.innerWidth < 600) return 18;
   if (window.innerWidth < 900) return 20;
   if (window.innerWidth < 1100) return 22;
   return 24.293;
 };
 
-const getFontSizeText = () => {
+const getFontSizeText = (): number => {
   if (window.innerWidth < 600) return 14;
   if (window.innerWidth < 900) return 12;
   if (window.innerWidth < 1100) return 13;
@@ -25,7 +25,7 @@ const getFontSizeText = () => {
 
 const centerTextPlugin = {
   id: 'custom_center_text_plugin',
-  beforeDraw: (chart) => {
+  beforeDraw: (chart: ChartJS<'doughnut', number[], string>) => {
     const { width, height, ctx, options } = chart;
     if (!options) return;
     ctx.restore();
@@ -47,7 +47,7 @@ const centerTextPlugin = {
   },
 };
 
-Chart.register(centerTextPlugin);
+ChartJS.register(centerTextPlugin);
 
 interface AppProps {
   debit: string;
@@ -63,20 +63,20 @@ export function GraficoCicle({ debit, credit, pix, total }: AppProps) {
     currency: 'BRL',
   });
 
-  const data: ChartData<'doughnut'> = {
+  const data: ChartData<'doughnut', number[], string> = {
     labels: ['Débito', 'Crédito', 'Pix'],
     datasets: [
       {
         data: [
-          parseFloat(debit.replace(".", "").replace(",", ".")),
-          parseFloat(credit.replace(".", "").replace(",", ".")),
-          parseFloat(pix.replace(".", "").replace(",", "."))
+          parseFloat(debit.replace('.', '').replace(',', '.')),
+          parseFloat(credit.replace('.', '').replace(',', '.')),
+          parseFloat(pix.replace('.', '').replace(',', '.'))
         ],
         backgroundColor: [ThemeColor.primaria, ThemeColor.secundaria, '#045469'],
         borderColor: [ThemeColor.primaria, ThemeColor.secundaria, '#045469'],
         borderWidth: 1,
         borderRadius: 100,
-        spacing: 2
+        spacing: 2,
       },
     ],
   };
@@ -92,13 +92,13 @@ export function GraficoCicle({ debit, credit, pix, total }: AppProps) {
         labels: {
           pointStyle: 'circle',
           usePointStyle: true,
-          padding: 20
-        }
+          padding: 20,
+        },
       },
       tooltip: {
         callbacks: {
-          label: (context) => {
-            const value = parseFloat(context.raw);
+          label: (context: TooltipItem<'doughnut'>) => {
+            const value = context.raw as number;
             const formattedValue = (value / 100).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
             return `R$ ${formattedValue}`;
           },
@@ -114,14 +114,14 @@ export function GraficoCicle({ debit, credit, pix, total }: AppProps) {
           ? data.datasets[0].backgroundColor[hoveredElementIndex]
           : data.datasets[0].backgroundColor;
         if (hoveredColor === ThemeColor.primaria) {
-          customOptions.centerText = "TPV DEBITO";
-          customOptions.centerValue = "R$ " + (parseFloat(debit)).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+          customOptions.centerText = "TPV DÉBITO";
+          customOptions.centerValue = "R$ " + parseFloat(debit).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
         } else if (hoveredColor === ThemeColor.secundaria) {
-          customOptions.centerText = "TPV CREDITO";
-          customOptions.centerValue = "R$ " + (parseFloat(credit)).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+          customOptions.centerText = "TPV CRÉDITO";
+          customOptions.centerValue = "R$ " + parseFloat(credit).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
         } else if (hoveredColor === '#045469') {
           customOptions.centerText = "TPV PIX";
-          customOptions.centerValue = "R$ " + (parseFloat(pix)).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+          customOptions.centerValue = "R$ " + parseFloat(pix).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
         }
       } else {
         customOptions.centerText = "TPV TOTAL";

@@ -33,8 +33,8 @@ export function TopEstabelecimentos({ topSellers }: TopEstabelecimentosProps) {
   return (
       <S.Container>
           <S.Header>
-              <h2>TOP Estabelecimentos</h2>
-              <button onClick={handleButtonClick}>Ver todos</button>
+              <h2>Ranking de estabelecimentos </h2>
+
           </S.Header>
           <S.Table>
               <thead>

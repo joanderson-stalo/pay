@@ -47,7 +47,7 @@ export function CardDetalhes({
             brand?.toLocaleLowerCase() === null && payment_type === 'pix' ?pix :
             brand === 'visa' ? visa :
             brand === 'elo' ? elo :
-            brand === 'masterCard' ? masterCard :
+            brand === 'mastercard' ? masterCard :
             brand === 'maestro' ? maestro :
             brand === 'pix' ? pix : undefined
         } alt="" />
@@ -111,7 +111,7 @@ export function CardDetalhes({
           </div>
           <div>
           <h2>Parcelas</h2>
-            <span>{number_installments}x</span>
+            <span>{number_installments == 0 ? 'à vista' : `${number_installments} x` }</span>
           </div>
         </S.InfoTre>
       </S.DetalheInfo>

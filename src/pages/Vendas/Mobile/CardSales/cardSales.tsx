@@ -30,7 +30,7 @@ export const CardSales: React.FC<CardSalesProps> = ({ transactions }) => {
 
   const handleCardClick = (transactionId: string) => {
     setSelectedTransactionId(transactionId);
-    navigate('/detalhe');
+    navigate('/transaction-description');
   };
 
   const getBrandImageSrc = (brand: string | null) => {
@@ -50,14 +50,14 @@ export const CardSales: React.FC<CardSalesProps> = ({ transactions }) => {
         const formattedAmount = transaction.amount.replace('.', ',');
         const capturedDate = new Date(transaction.captured_in);
         const formattedDate = `${capturedDate.toLocaleDateString('pt-BR')} ${capturedDate.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}`;
-        
+
         return (
           <S.Card key={transaction.id} onClick={() => handleCardClick(transaction.id)}>
 
             <S.CardHeader>
-    
+
                 <S.BrandImage src={getBrandImageSrc(transaction.brand)} alt={transaction.brand || 'Pix'} />
-             
+
               <h4>{transaction.payment_type}</h4>
               <S.CardValue>{transaction.nsu_external}</S.CardValue>
               <S.CardAmount>R$ {formattedAmount}</S.CardAmount>
@@ -75,7 +75,7 @@ export const CardSales: React.FC<CardSalesProps> = ({ transactions }) => {
             </S.ContainerInfo>
 
 
-     
+
           </S.Card>
         );
       })}

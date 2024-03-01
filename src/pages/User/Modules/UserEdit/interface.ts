@@ -1,5 +1,6 @@
 
 export interface UserData {
-  Nome: string 
-  Telefone: string 
+  Nome: string
+  Telefone: string
+  
 }

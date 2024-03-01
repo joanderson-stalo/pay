@@ -1,12 +1,9 @@
-import { useDetailLicensed } from "@/hooks/useDetailLicensed";
 import { CustomTable } from "./components/Table/table";
 import { ButtonBlack, ContainerManageAccessLicensed } from "./styles";
-import { useEstablishmentDetail } from "@/hooks/useEstablishmentDetail";
 import { CaretLeft } from "@phosphor-icons/react";
 import { useNavigate } from "react-router-dom";
 
 export function ManageAccessEstablishment(){
-  const {detailNumber} = useEstablishmentDetail()
   const navigate = useNavigate()
 
   const handleEstablishmentdetail = () => {

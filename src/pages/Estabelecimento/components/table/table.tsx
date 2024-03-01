@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import * as S from './styled';
 import { useNavigate } from 'react-router-dom';
-import { useEstablishmentDetail } from '@/hooks/useEstablishmentDetail';
 import { maskCpfCnpj } from '@/utils/maskCpfCnpj';
+import { useEstablishment } from '@/context/useEstablishment';
 
 export interface RowData {
   id: number;
@@ -10,7 +10,7 @@ export interface RowData {
   cnpj_cpf: string;
   trading_name: string;
   tpv: number;
-  acquires: ('F1' | 'F2' | 'F3')[];
+  acquires: [];
 }
 
 type SortField = 'id' | 'trading_name' | 'tpv';
@@ -22,9 +22,9 @@ interface TabelaProps {
 export function Tabela({ rows }: TabelaProps) {
   const [sortField, setSortField] = useState<SortField>('id');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
-
+  const { setEstablishmentId } = useEstablishment();
   const navigate = useNavigate();
-  const {setDetailNumber} = useEstablishmentDetail()
+
 
   const handleSort = (field: SortField) => {
     if (field === sortField) {
@@ -67,7 +67,7 @@ export function Tabela({ rows }: TabelaProps) {
   }
 
   const handleViewMoreClick = async (id: string) => {
-    setDetailNumber(Number(id))
+    setEstablishmentId(id);
     await new Promise(resolve => setTimeout(resolve, 20));
     navigate(`/establishmentdetail`);
 };
@@ -90,7 +90,7 @@ export function Tabela({ rows }: TabelaProps) {
             Id
             <SortIndicator direction={getDirectionForField('id')} />
           </S.TableHeader>
-          <S.TableHeader>CNPJ/CPF</S.TableHeader>
+          <S.TableHeader>Documento</S.TableHeader>
           <S.TableHeader style={{cursor: 'pointer'}}  onClick={() => handleSort('trading_name')}>
             Estabelecimento
             <SortIndicator direction={getDirectionForField('trading_name')} />
@@ -101,7 +101,7 @@ export function Tabela({ rows }: TabelaProps) {
             <SortIndicator  direction={getDirectionForField('tpv')} />
           </S.TableHeader>
           <S.TableHeader>Fornecedor</S.TableHeader>
-          <S.TableHeader style={{ paddingLeft: '28px' }}>Ver mais</S.TableHeader>
+          <S.TableHeader ></S.TableHeader>
         </tr>
       </thead>
       <tbody>
@@ -115,7 +115,7 @@ export function Tabela({ rows }: TabelaProps) {
             <S.TableData>
               <S.FornecedorWrapper>
                 {row.acquires.map((fornecedor, index) => (
-                  <S.FornecedorItem key={index} fornecedor={fornecedor}>
+                  <S.FornecedorItem key={index}>
                     {fornecedor}
                   </S.FornecedorItem>
                 ))}

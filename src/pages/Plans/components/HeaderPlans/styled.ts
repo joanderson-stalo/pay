@@ -1,6 +1,10 @@
 import { ThemeColor } from '@/config/color';
 import styled from 'styled-components';
 
+type InputContainerProps = {
+  isFocused: boolean;
+};
+
 export const Container = styled.div`
   margin: 36px 20px 20px 20px;
 `;
@@ -8,7 +12,7 @@ export const Container = styled.div`
 export const Context = styled.div`
   display: flex;
   align-items: center;
-  margin-top: 30px;
+  margin-top: 36px;
   justify-content: space-between;
 
   @media (max-width: 900px) {
@@ -38,7 +42,7 @@ export const Button = styled.button`
 
 export const Title = styled.h2`
 color: ${ThemeColor.secundaria};
-font-size: 24px;
+font-size: 32px;
 font-weight: 700;
 line-height: normal;
 
@@ -47,14 +51,16 @@ font-size: 16px;
 }
 `;
 
-export const Input = styled.div`
+
+export const Input = styled.div<InputContainerProps>`
   position: relative;
   display: flex;
   align-items: center;
-  width: 525px;
+  width: 100%;
+  max-width: 525px;
   height: 44px;
   border-radius: 4px;
-  border: 1px solid #E2E2E2;
+  border: 1px solid ${props => props.isFocused ? '#0D0D3F' : '#E2E2E2'};
   background: #FFF;
   padding: 10px 16px;
   font-size: 14px;
@@ -63,18 +69,15 @@ export const Input = styled.div`
   color: #9B959F;
   padding-right: 15px;
 
-  @media (max-width: 900px) {
-    width: 100%;
-}
 
   > input {
-        width: 100%;
-        padding-right: 40px;
+    width: 100%;
+    padding-right: 40px;
+    color:  #9B959F;
+    font-size: 14px;
+    line-height: 24px;
+    letter-spacing: 0.5px;
 
-        color:  #9B959F;
-font-size: 14px;
-line-height: 24px;
-letter-spacing: 0.5px;
   }
 
   .search-icon {
@@ -82,17 +85,23 @@ letter-spacing: 0.5px;
     right: 20px;
     color: #000;
   }
+
+  @media (max-width: 560px) {
+    max-width: 100%;
+  }
 `;
 
-export const SearchIcon = styled.span`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #9B959F;
-  font-size: 21px;
-  cursor: pointer;
-  svg {
-  width: 21.429px;
+
+export const SearchIcon = styled.span<InputContainerProps>`
+display: flex;
+align-items: center;
+justify-content: center;
+color: ${props => (props.isFocused ? '#0D0D3F' : '#9B959F')};
+font-size: 21px;
+cursor: pointer;
+svg {
+width: 21.429px;
 height: 21.429px;
 }
 `;
+

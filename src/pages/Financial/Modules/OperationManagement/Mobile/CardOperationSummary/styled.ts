@@ -1,3 +1,4 @@
+import { ThemeColor } from '@/config/color';
 import styled from 'styled-components';
 
 export const Card = styled.div`
@@ -74,7 +75,7 @@ export const CardValue = styled.span`
 
 export const CardHighlightValue = styled.span`
   font-size: 12px;
-  color: #3C0A6D;
+  color: ${ThemeColor.primaria};
   font-weight: 600;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -91,7 +92,7 @@ export const CardLabel = styled.span`
 export const CardHighlightLabel = styled.span`
   font-size: 12px;
   font-weight: 600;
-  color: #02B1F1;
+  color: ${ThemeColor.secundaria};
   overflow: hidden;
   text-overflow: ellipsis;
 `;

@@ -21,6 +21,7 @@ export function ItensPorPage({  itensPorPage, setItensPorPage }: ItensPorPagePro
         value={itensPorPage === '' ? '' : itensPorPage}
         min="1"
         onChange={handleInputChange}
+        disabled
       />
     </S.Container>
   )

@@ -74,7 +74,7 @@ export const EditButton = styled.button`
   border-radius: 4px;
   border: 1px solid #F5F4F4;
   background: #FFF;
-  color: #3C0A6D;
+  color: ${ThemeColor.primaria};
   font-size: 12px;
   font-weight: 500;
   line-height: 14px;

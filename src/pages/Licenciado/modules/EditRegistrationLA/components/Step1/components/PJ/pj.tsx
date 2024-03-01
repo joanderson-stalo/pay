@@ -26,13 +26,16 @@ import { validateEmail } from '@/utils/validateEmail'
 import { CustomSelect } from '@/components/Select/select'
 import { optionsData } from './option'
 import { useNavigate } from 'react-router-dom'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
+import { useLogin } from '@/context/user.login'
 
 interface IStep1 {
   Avançar: () => void
   BPJ: () => void
   BPF: () => void
 }
+
 
 export function PJ({ Avançar, BPF, BPJ }: IStep1) {
   const {
@@ -44,7 +47,9 @@ export function PJ({ Avançar, BPF, BPJ }: IStep1) {
   } = useFormContext()
 
   const navigate = useNavigate()
+  const { dataUser } = useLogin();
 
+  const [sellerData, setSellerData] = useState(null);
   const allFieldsFilled =
     !!watch('CNPJEstabelecimento') &&
     !!watch('RazaoSocialEstabelecimento') &&
@@ -74,23 +79,34 @@ export function PJ({ Avançar, BPF, BPJ }: IStep1) {
     navigate('/licenseddetail')
   }
 
-  const mockFillInputs = () => {
-    setValue('CNPJEstabelecimento', '23.699.017/0001-84');
-    setValue('RazaoSocialEstabelecimento', 'Mocked Company Ltd.');
-    setValue('NomeFantasiaEstabelecimento', 'Mocked Company');
-    setValue('DataCriacaoEstabelecimento', '01/01/2000');
-    setValue('NascimentoSocio', '15/05/1985');
-    setValue('CPFEstabelecimento', '913.482.830-33');
-    setValue('NomeSocioEstabelecimento', 'Mocked Partner Name');
-    setValue('EmailEstabelecimento', 'mocked.email@example.com');
-    setValue('TelefoneEstabelecimento', '(81) 991431834');
-    setValue('AreaAtuacaoEstabelecimento', 'option1');
+  const fetchData = async () => {
+    try {
+      const response = await axios.get('https://api-pagueassim.stalopay.com.br/seller/3', {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${dataUser?.token}`,
+        },
+      });
+      return response.data.seller;
+    } catch (error) {
+      console.error('Erro ao buscar dados da API:', error);
+      return null;
+    }
+  };
 
-};
 
-useEffect(() => {
-  mockFillInputs();
-}, []);
+
+
+  useEffect(() => {
+    const fetchSellerData = async () => {
+      const data = await fetchData();
+      if (data) {
+        setSellerData(data);
+        setValue('EmailEstabelecimento', data.email);
+      }
+    };
+    fetchSellerData();
+  }, []);
 
   return (
     <ContainerStep>

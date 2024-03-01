@@ -54,7 +54,7 @@ export const BackgroundLogin = styled.div`
     left: 0;
     width: 100%;
     height: 100%;
-    background: ${ThemeColor.secundaria};
+    background: ${ThemeColor.primaria};
     opacity: 0.6;
     z-index: 1;
     border-radius: 0rem 2rem 2rem 0rem;
@@ -86,7 +86,7 @@ export const ContextModal = styled.div`
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  gap: 100px;
+  gap: 50px;
 
   > div {
     display: flex;
@@ -105,7 +105,7 @@ export const ContextModal = styled.div`
 
 export const ContainerText = styled.div`
   width: 349px;
-
+  text-align: center;
   p {
     font-weight: 700;
     font-size: 38px;
@@ -135,7 +135,7 @@ export const ContainerText = styled.div`
 `
 
 export const ButtonModal = styled.button`
-  background: ${ThemeColor.secundaria};
+  background: ${ThemeColor.primaria};
   border: 0.5px solid ${ThemeColor.primaria};
   border-radius: 5px;
 

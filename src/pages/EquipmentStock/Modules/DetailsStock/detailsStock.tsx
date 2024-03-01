@@ -17,7 +17,7 @@ export function DetailsStock() {
   const navigate = useNavigate()
 
   const handleVendas = () => {
-    navigate('/vendas')
+    navigate('/transaction')
   }
 
   return (
@@ -29,11 +29,11 @@ export function DetailsStock() {
 
         <S.ContextDetalhes>
         <CardStock {...mockCardStock} />
-   
+
         </S.ContextDetalhes>
-       
+
        <S.ContainerWrapper>
-        
+
        < TableStock  />
 
         <S.ContainerBtn>

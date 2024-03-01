@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { MagnifyingGlass } from '@phosphor-icons/react';
 import * as S from './styled';
 import debounce from 'lodash/debounce';
+import { TitleH } from '@/components/Title/title';
 
 interface Props {
   onSearch: (searchValue: string) => void;
@@ -13,6 +14,7 @@ interface Props {
 export function LicenciadoHeader({ onSearch, searchValue, setSearchValue }: Props) {
   const navigate = useNavigate();
   const [isTyping, setIsTyping] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const valorTrimmed = event.target.value.trim();
@@ -22,6 +24,11 @@ export function LicenciadoHeader({ onSearch, searchValue, setSearchValue }: Prop
 
   const handleBlur = () => {
     setIsTyping(false);
+    setIsFocused(false);
+  };
+
+  const handleFocus = () => {
+    setIsFocused(true);
   };
 
   const handleAddEstablishment = () => {
@@ -48,17 +55,18 @@ export function LicenciadoHeader({ onSearch, searchValue, setSearchValue }: Prop
 
   return (
     <S.Container>
-      <S.Title>Licenciados</S.Title>
+       <TitleH title='Licenciados' />
       <S.Context>
-        <S.Input>
+        <S.Input  isFocused={isFocused}>
           <input
             type="text"
-            placeholder="Pesquise por nome do licenciado, CPF ou CNPJ"
+            placeholder="Pesquise por nome do licenciado"
             value={searchValue}
             onChange={handleChange}
             onBlur={handleBlur}
+            onFocus={handleFocus}
           />
-          <S.SearchIcon className='search-icon' onClick={() => onSearch(searchValue.trim())}>
+          <S.SearchIcon isFocused className='search-icon' onClick={() => onSearch(searchValue.trim())}>
             <MagnifyingGlass />
           </S.SearchIcon>
         </S.Input>

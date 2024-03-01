@@ -36,7 +36,7 @@ export const ContainerTitle = styled.div`
   align-items: center;
   gap: 12px;
 
-  
+
   > p {
     color: ${ThemeColor.secundaria};
     font-size: 24px;
@@ -55,11 +55,11 @@ export const ContainerTitle = styled.div`
     flex-direction: column;
 
     > p {
-      font-size: 22px; 
+      font-size: 22px;
     }
 
     > span {
-      font-size: 12px;  
+      font-size: 12px;
     }
   }
 `;
@@ -86,16 +86,17 @@ export const ContainerSelect = styled.div`
 export const ContextButton = styled.div`
   display: flex;
   justify-content: end;
+  gap: 20px;
   position: absolute;
-  width: 100%; 
-  bottom: 15px;  
-  padding: 0 30px; 
+  width: 100%;
+  bottom: 15px;
+  padding: 0 30px;
 
   @media (max-width: 900px) {
     justify-content: center;
     position: initial;
     margin-bottom: 40px;
-    padding: 0 15px; 
+    padding: 0 15px;
   }
 `;
 
@@ -143,7 +144,7 @@ export const ContainerPeriodo = styled.div`
 export const ContainerData = styled.div`
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 16px;
   @media (max-width: 900px) {
     flex-direction: column;
     gap: 10px;

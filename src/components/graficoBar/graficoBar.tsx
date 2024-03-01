@@ -2,6 +2,7 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Toolti
 import { Bar } from 'react-chartjs-2';
 import { Bolinha, ContainerGrafico, ContainerText } from './styled';
 import { ThemeColor } from '@/config/color';
+import { useSidebarVisibility } from '@/context/sidebarVisibilityContext';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -44,15 +45,17 @@ export const options = {
       borderColor: 'transparent',
       ticks: {
         display: true,
-        stepSize: 10000000, // Ajuste conforme a necessidade
+        stepSize: 25,
         drawBorder: false,
         font: {
           size: getFontSize(),
         },
-        callback: (value: number) => {
+        callback: (tickValue: string | number) => {
+          const value = typeof tickValue === 'number' ? tickValue : parseFloat(tickValue);
           return 'R$ ' + value.toLocaleString('pt-BR');
         }
       },
+
       offset: true,
       beginAtZero: true,
       padding: {
@@ -81,7 +84,7 @@ export const options = {
 };
 
 export function GraficoBar({ hourly_transaction_totals }: GraficoBarProps) {
-  // Transformando o objeto recebido em arrays de labels e dados
+  const { isVisible} = useSidebarVisibility();
   const labels = Object.keys(hourly_transaction_totals).map(hour => `${hour}h`);
   const dataValues = Object.values(hourly_transaction_totals).map(value => parseFloat(value));
 
@@ -99,7 +102,7 @@ export function GraficoBar({ hourly_transaction_totals }: GraficoBarProps) {
   };
 
   return (
-    <ContainerGrafico>
+    <ContainerGrafico isShow={isVisible}>
       <ContainerText>
         <Bolinha />
         <p>Comissões por Hora</p>

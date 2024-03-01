@@ -1,10 +1,11 @@
 export const ThemeColor = {
   primaria : '#3c0a6d',
-  secundaria: '#02b2f2'
+  secundaria: '#02B1F1'
 }
 
 
 export const baseURL = 'https://api-pagueassim.stalopay.com.br/'
+
 
 
 

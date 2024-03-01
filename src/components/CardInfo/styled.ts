@@ -1,3 +1,4 @@
+import { ThemeColor } from '@/config/color';
 import styled from 'styled-components';
 
 interface InvoiceValueProps {
@@ -21,6 +22,10 @@ display: flex;
 flex-direction: column;
 justify-content: center;
 padding-left: 24px;
+
+@media (max-width: 900px) {
+  max-width: 100%;
+}
 `;
 
 export const InvoiceLabel = styled.div`
@@ -44,7 +49,7 @@ white-space: nowrap;
 `;
 
 export const InvoiceValue = styled.div<InvoiceValueProps>`
-  color: ${props => props.color || (props.value < 0 ? 'red' : '#02B1F1')};
+  color: ${props => props.color || (props.value < 0 ? 'red' : `${ThemeColor.primaria}`)};
 
   font-size: 24px;
 font-style: normal;

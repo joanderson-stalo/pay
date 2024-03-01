@@ -1,3 +1,4 @@
+import { ThemeColor } from '@/config/color';
 import styled from 'styled-components';
 
 export const CustomCard = styled.div`
@@ -143,7 +144,7 @@ export const CustomViewButton = styled.button`
   justify-content: center;
   align-items: center;
   gap: 6.858px;
-  color: #3C0A6D;
+  color: ${ThemeColor.primaria};
   font-size: 12.002px;
   font-style: normal;
   font-weight: 500;

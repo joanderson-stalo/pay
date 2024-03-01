@@ -36,7 +36,7 @@ export const Table = styled.table`
 
 export const TableHeader = styled.th`
   color: var(--light-dark, #343A40);
-  font-size: 13.252px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 500;
   line-height: 20.824px;
@@ -56,7 +56,7 @@ export const TableHeader = styled.th`
 
 export const TableData = styled.td`
   color: var(--light-secondary, #6C757D);
-  font-size: 13.252px;
+  font-size: 14px;
   line-height: 20.824px;
   padding: 8px;
   text-align: center;
@@ -101,22 +101,14 @@ export const StyledImage = styled.img`
 `;
 
 export const ButtonRetrieve = styled.button`
-  color: #5A6ACF;
-  font-size: 11px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 14.128px;
-  background: transparent;
-  letter-spacing: 0.353px;
-  border-radius: 3.532px;
-
-
-  @media (max-width: 900px) {
-    font-size: 10px;
-  }
-  @media (max-width: 600px) {
-    font-size: 9px;
-  }
+ color: var(--color-neutra-ttulos, #3D4449);
+background-color: transparent;
+font-size: 14px;
+font-style: normal;
+font-weight: 400;
+line-height: 24px;
+letter-spacing: 0.5px;
+text-decoration-line: underline;
 `;
 
 export const ButtonRemove = styled(ButtonRetrieve)`

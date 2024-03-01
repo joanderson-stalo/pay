@@ -3,6 +3,7 @@ import * as S from './styled';
 import { useDetailLicensed } from '@/hooks/useDetailLicensed';
 import { useNavigate } from 'react-router-dom';
 import { maskCpfCnpj } from '@/utils/maskCpfCnpj';
+import { useLicensed } from '@/context/useLicensed';
 
 export interface RowData {
   id: number;
@@ -24,8 +25,7 @@ interface TabelaProps {
 export function Tabela({ rows }: TabelaProps) {
   const [sortField, setSortField] = useState<SortField>('id');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
-  const {setLicensedNumber} = useDetailLicensed()
-
+  const { setLicensedId } = useLicensed();
   const navigate = useNavigate();
 
 
@@ -88,8 +88,8 @@ export function Tabela({ rows }: TabelaProps) {
   }
 
   const handleViewMoreClick = async (id: string) => {
-    setLicensedNumber(Number(id))
     await new Promise(resolve => setTimeout(resolve, 20));
+    setLicensedId(id)
     navigate(`/licenseddetail`);
   };
 
@@ -99,7 +99,7 @@ export function Tabela({ rows }: TabelaProps) {
       currency: 'BRL',
     }).format(value);
   }
-  
+
 
 
   useEffect(() => {

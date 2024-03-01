@@ -1,16 +1,21 @@
 import { ThemeColor } from "@/config/color";
 import styled from "styled-components";
 
-export const ContainerGrafico = styled.div`
-  width: 100%;
-  max-width: 792px;
+interface ContainerGraficoProps {
+  isShow: boolean;
+}
+
+
+export const ContainerGrafico = styled.div<ContainerGraficoProps>`
+  width: ${(props) => (props.isShow ? '68%' : '100%')};
+
   height: 328px;
 
   border-radius: 12px;
   background: #FFF;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-  padding: 15px;
-  padding-bottom: 20px;
+  padding: 16px;
+  padding-bottom: 24px;
   display: flex;
   flex-direction: column;
 
@@ -23,7 +28,7 @@ export const ContainerGrafico = styled.div`
   }
 
   @media (max-width: 900px) {
-    max-width: 100%;
+    width: 100%;
   }
 
 `;

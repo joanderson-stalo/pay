@@ -13,7 +13,7 @@ export function AddStock() {
   const { dataUser } = useLogin();
   const [fetchedOptionsFN, setFetchedOptionsFN] = useState([]);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const allFieldsFilled = watch('serial') && watch('modelo') && watch('fornecedor') && watch('situacao') && watch('funcionamento') && watch('carregador') && watch('chip') && watch('comentarios');
+  const allFieldsFilled = watch('serial') && watch('modelo') && watch('fornecedor') && watch('situacao') && watch('funcionamento') && watch('comentarios');
 
 
 
@@ -29,7 +29,7 @@ export function AddStock() {
       const data = response.data;
       const options = data.acquires.map((acquire: { acquire_label: any; id: { toString: () => any; }; }) => ({
         label: acquire.acquire_label,
-        value: acquire.id.toString() 
+        value: acquire.id.toString()
       }));
       setFetchedOptionsFN(options);
     } catch (error) {
@@ -80,16 +80,10 @@ export function AddStock() {
     setValue('funcionamento', selectedOption.value)
   }}
 />
-                <CustomSelect {...register("carregador")} optionsData={optionsDataYesOrNo} placeholder="Clique para ver a lista" label="Carregador"    onChange={(selectedOption: { value: string }) => {
-    setValue('carregador', selectedOption.value)
-  }}
-/>
+
               </ContainerInput>
               <ContainerInput>
-                <CustomSelect {...register("chip")} optionsData={optionsDataYesOrNo} placeholder="Clique para ver a lista" label="Chip"   onChange={(selectedOption: { value: string }) => {
-    setValue('chip', selectedOption.value)
-  }}
-/>
+
                 <CustomInput {...register('comentarios')} label="Comentários" colorInputDefault={ThemeColor.primaria} colorInputSuccess={ThemeColor.secundaria} hasError={!!errors.comentarios}/>
               </ContainerInput>
               <ContainerInput>

@@ -5,6 +5,7 @@ import profile from '@assets/icons/perfil.svg';
 interface CustomTableProps {
     data: {
         id: number;
+        document_id: string
         name: string;
         profile_id: string;
         email: string;
@@ -19,7 +20,7 @@ export function CustomTableUserList({ data, handlePasswordRetrieve, handleRemove
     const handleEditClick = (id: number): void => {
         navigate(`/user/edit/${id}`);
     }
-    
+
     return (
         <S.Table>
             <thead>
@@ -35,7 +36,7 @@ export function CustomTableUserList({ data, handlePasswordRetrieve, handleRemove
             <tbody>
                 {data.map((item, index) => (
                     <S.TableRow key={index}>
-                        <S.TableData><S.StyledImage src={profile} alt="Profile" /></S.TableData>
+                        <S.TableData><S.StyledImage src={item.document_id && item.document_id.includes('contabostorage') ? item.document_id : profile} alt="Profile" /></S.TableData>
                         <S.TableData >
     {item.name}
     {index === 0 && <> <S.TagYou>você</S.TagYou></>}

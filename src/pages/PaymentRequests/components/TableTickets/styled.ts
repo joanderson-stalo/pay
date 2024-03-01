@@ -1,3 +1,4 @@
+import { ThemeColor } from "@/config/color";
 import styled from "styled-components";
 
 type FuncionamentoTableDataProps = {
@@ -32,7 +33,7 @@ export const TableHeader = styled.th`
 `;
 
 export const CustomTableHeader = styled.th<CustomTableHeaderProps>`
-  color: ${({ tipo }) => tipo === 'Crédito' ? '#02B1F1' : '#E91414'};
+  color: ${({ tipo }) => tipo === 'Crédito' ? `${ThemeColor.secundaria}` : '#E91414'};
   font-size: ${({theme }) => theme.text_xs};
   font-weight: ${({theme }) => theme.font_medium};
   line-height: 15.566px;
@@ -125,7 +126,7 @@ export const StatusTableData = styled.div<{ status: 'Em análise' | 'Cancelado' 
       case 'Cancelado':
         return '#E91414';
       default:
-        return '#2BC6F6'; 
+        return '#2BC6F6';
     }
   }};
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);

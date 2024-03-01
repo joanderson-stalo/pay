@@ -41,7 +41,7 @@ export function ModalSucesso({ onClose, visible, text }: IModalSucesso) {
           <BackgroundLogin />
           <ContextModal>
             <div>
-              <Image src={ThemeImg.deixaNoAzul} alt="" />
+              <Image src={ThemeImg.logo} alt="" />
               <ContainerText>
                 <p>{text} <span>com sucesso!</span></p>
               </ContainerText>

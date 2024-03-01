@@ -1,3 +1,4 @@
+import { ThemeColor } from "@/config/color";
 import styled from "styled-components";
 
 export const UsefulLinkCardContainer = styled.div`
@@ -12,12 +13,12 @@ export const IconSquare = styled.span`
   width: 12px;
   height: 12px;
   border-radius: 2px;
-  background: #3C0A6D;
+  background: ${ThemeColor.primaria};
   margin-top: 8px;
 `;
 
 export const LinkTitle = styled.h3`
-  color: #3C0A6D;
+  color: ${ThemeColor.primaria};
   font-size: 20px;
   font-weight: 700;
   line-height: normal;

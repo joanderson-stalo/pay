@@ -15,6 +15,7 @@ type User = {
   name: string
   profile_id: string
   email: string
+  document_id: string
 }
 
 export function UserListLogged() {
@@ -116,7 +117,7 @@ export function UserListLogged() {
       }
     });
   }
-  
+
 
   useEffect(() => {
     fetchData()

@@ -1,3 +1,4 @@
+import { ThemeColor } from '@/config/color';
 import styled from 'styled-components';
 
 type FuncionamentoTableDataProps = {
@@ -19,11 +20,11 @@ export const StockCardHeader = styled.div<FuncionamentoTableDataProps>`
       case 'quebrado':
         return '#E91414';
       case 'estável':
-        return '#02B1F1'; 
+        return `${ThemeColor.secundaria}`;
       case 'incompleto':
-        return '#FF7C33'; 
+        return '#FF7C33';
       default:
-        return '#343A40'; 
+        return '#343A40';
     }
   }};
   display: flex;
@@ -54,11 +55,11 @@ export const StockStatus = styled.p<FuncionamentoTableDataProps>`
       case 'quebrado':
         return '#E91414';
       case 'estável':
-        return '#02B1F1'; 
+        return `${ThemeColor.secundaria}`;
       case 'incompleto':
-        return '#FF7C33'; 
+        return '#FF7C33';
       default:
-        return '#343A40'; 
+        return '#343A40';
     }
   }};
 `;

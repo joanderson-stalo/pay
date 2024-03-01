@@ -1,9 +1,15 @@
 import styled from "styled-components";
 
+export const Container = styled.div`
+  margin: 36px 20px 20px 20px;
+
+`
 
 export const ContainerButton = styled.div`
   display: flex;
-  margin-top: 35px;
+  margin-top: 36px;
+  gap: 8px;
+  margin-bottom: 8px;
 `
 
 export const Linha = styled.div`

@@ -56,7 +56,7 @@ export function PF({ Avançar, BPF, BPJ }: IStep1) {
   const navigate = useNavigate()
 
   const handleEstabelecimentos = () => {
-    navigate('/estabelecimentos')
+    navigate('/sellers-ec')
   }
 
   const cpfValue = watch('CPFEstabelecimento');
@@ -64,15 +64,15 @@ export function PF({ Avançar, BPF, BPJ }: IStep1) {
     try {
       setIsLoading(true);
       const response = await axios.get(`https://ws.hubdodesenvolvedor.com.br/v2/cpf/?cpf=${cpf}&token=119905575VQLhxBIJgu216485880`);
-        
+
       const { result } = response.data;
-      const { nome_da_pf, data_nascimento } = result; 
-  
+      const { nome_da_pf, data_nascimento } = result;
+
       console.log(nome_da_pf, data_nascimento)
-  
+
       setValue('NomeSocioEstabelecimento', nome_da_pf);
       setValue('NascimentoSocio', data_nascimento);
-    
+
     } catch (error) {
       console.error('Error fetching person data by CPF:', error);
     } finally {
@@ -130,7 +130,7 @@ export function PF({ Avançar, BPF, BPJ }: IStep1) {
                 colorInputSuccess={ThemeColor.secundaria}
                 hasError={!!errors.NomeFantasiaEstabelecimento}
               />
-           
+
               <CustomInput
                 {...register('NomeSocioEstabelecimento')}
                 label="Nome Completo"

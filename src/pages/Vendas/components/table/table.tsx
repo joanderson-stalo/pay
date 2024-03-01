@@ -53,7 +53,7 @@ export function TabelaVendas({ rows }: TabelaProps) {
 
   const handleButtonClick = (id: string) => {
     setSelectedTransactionId(id);
-    navigate('/detalhe');
+    navigate('/transaction-description');
   };
 
   useEffect(() => {
@@ -103,7 +103,7 @@ export function TabelaVendas({ rows }: TabelaProps) {
               <S.TableData>{transaction.company_name}</S.TableData>
               <S.FormaPagamentoData>
   <S.FormaPagamentoText>
-    {transaction.payment_type.toLocaleLowerCase() === 'credit' ? 'Crédito' : 'Débito'}
+  {transaction.payment_type.toLocaleLowerCase() === 'credit' ? 'crédito' : (transaction.payment_type.toLocaleLowerCase() === 'debit' ? 'débito' : 'pix')}
   </S.FormaPagamentoText>
 </S.FormaPagamentoData>
 
@@ -120,7 +120,6 @@ export function TabelaVendas({ rows }: TabelaProps) {
                     }
                     alt={transaction.brand}
                   />
-                 
                 </S.FlagContainer>
               </S.TableData>
               <S.TableData>R$ {formattedAmount}</S.TableData>

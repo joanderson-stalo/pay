@@ -1,3 +1,4 @@
+import { ThemeColor } from "@/config/color";
 import styled from "styled-components";
 
 export const SpreadsheetWrapper = styled.ul`
@@ -12,7 +13,7 @@ export const SpreadsheetItem = styled.li`
 export const LabelBox = styled.div`
   width: 60px;
   flex-shrink: 0;
-  background: #3C0A6D;
+  background: ${ThemeColor.primaria};
   display: flex;
   align-items: center;
   justify-content: center;

@@ -8,6 +8,9 @@ import 'react-toastify/dist/ReactToastify.css'
 import { AppProvider } from './context'
 
 export function App() {
+  const titulo = 'aasdasdas';
+  document.title = titulo;
+
   return (
     <AppProvider>
       <ThemeProvider theme={defaultTheme}>

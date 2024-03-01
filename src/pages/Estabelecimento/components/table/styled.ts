@@ -1,8 +1,6 @@
+import { ThemeColor } from "@/config/color";
 import styled from "styled-components";
 
-interface FornecedorItemProps {
-  fornecedor: 'F1' | 'F2' | 'F3';
-}
 
 export const Table = styled.table`
   width: 100%;
@@ -16,7 +14,7 @@ export const TableHeader = styled.th`
   font-size: ${({theme }) => theme.text_xs};
   font-weight: ${({theme }) => theme.font_medium};
   line-height: 15.566px;
-  text-align: center; 
+  text-align: center;
   padding: 8px;
   border-bottom: 1px solid #E9ECEF;
   vertical-align: middle;
@@ -33,18 +31,16 @@ export const TableData = styled.td`
 `;
 
 export const Button = styled.button`
-  color: #5A6ACF;
-  font-size: ${({theme }) => theme.text_xss};
-  font-style: normal;
-  font-weight: 500;
-  line-height: 14.128px;
-  letter-spacing: 0.353px;
-  width: 77px;
-  height: 24.725px;
-  border-radius: 3.532px;
-  border: 0.353px solid #F5F4F4;
-  background: #FFF;
-  margin-left: 20px;
+color: ${ThemeColor.primaria};
+  font-size: ${({theme }) => theme.text_xs};
+color:  ${ThemeColor.primaria};
+font-style: normal;
+font-weight: 500;
+line-height: 11.303px;
+letter-spacing: 0.353px;
+text-decoration-line: underline;
+background-color: transparent;
+
 
 `;
 
@@ -61,7 +57,7 @@ export const FornecedorWrapper = styled.div`
   align-items: center;
 `;
 
-export const FornecedorItem = styled.p<FornecedorItemProps>`
+export const FornecedorItem = styled.p`
   width: 23px;
   height: 26px;
   font-size: 10px;
@@ -71,12 +67,7 @@ export const FornecedorItem = styled.p<FornecedorItemProps>`
   border-radius: 4px;
   text-align: center;
   color: #fff;
-  background-color: ${({ fornecedor }) => {
-    if (fornecedor === 'F1') return '#7D7D7D';
-    if (fornecedor === 'F2') return '#F9C716';
-    if (fornecedor === 'F3') return '#48F041';
-    return 'transparent';
-  }};
+  background-color: #55B938;
 `;
 
 export const SortContainer = styled.div`

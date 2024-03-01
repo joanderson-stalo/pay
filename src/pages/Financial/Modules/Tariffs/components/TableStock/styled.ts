@@ -1,3 +1,4 @@
+import { ThemeColor } from "@/config/color";
 import styled from "styled-components";
 
 type FuncionamentoTableDataProps = {
@@ -12,12 +13,12 @@ export const Table = styled.table`
   border-collapse: separate;
   border-spacing: 0;
 
-  
+
   @media (max-width: 900px) {
     display: none;
   }
 
-  
+
 `;
 
 export const TableHeader = styled.th`
@@ -32,7 +33,7 @@ export const TableHeader = styled.th`
 `;
 
 export const CustomTableHeader = styled.th<CustomTableHeaderProps>`
-  color: ${({ tipo }) => tipo === 'Crédito' ? '#02B1F1' : '#E91414'};
+  color: ${({ tipo }) => tipo === 'Crédito' ? `${ThemeColor.secundaria}` : '#E91414'};
   font-size: ${({theme }) => theme.text_xs};
   font-weight: ${({theme }) => theme.font_medium};
   line-height: 15.566px;
@@ -70,7 +71,7 @@ export const Button = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto; 
+  margin: 0 auto;
 `;
 
 export const TableRow = styled.tr`
@@ -108,11 +109,11 @@ export const FuncionamentoTableData = styled(TableData)<FuncionamentoTableDataPr
       case 'quebrado':
         return '#E91414';
       case 'estável':
-        return '#02B1F1'; 
+        return `${ThemeColor.secundaria}`;
       case 'incompleto':
-        return '#FF7C33'; 
+        return '#FF7C33';
       default:
-        return '#343A40'; 
+        return '#343A40';
     }
   }};
 `;

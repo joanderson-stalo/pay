@@ -1,3 +1,4 @@
+import { ThemeColor } from "@/config/color";
 import styled from "styled-components";
 
 interface StatusTextProps {
@@ -8,7 +9,7 @@ export const Table = styled.table`
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
-  
+
   @media (max-width: 900px) {
     display: none;
   }
@@ -35,17 +36,15 @@ export const TableData = styled.td`
 `;
 
 export const Button = styled.button`
-  color: #5A6ACF;
-  font-size: ${({theme }) => theme.text_xss};
-  font-style: normal;
-  font-weight: 500;
-  line-height: 14.128px;
-  letter-spacing: 0.353px;
-  width: 77px;
-  height: 24.725px;
-  border-radius: 3.532px;
-  border: 0.353px solid #F5F4F4;
-  background: #FFF;
+  color: ${ThemeColor.primaria};
+  font-size: ${({theme }) => theme.text_xs};
+color:  ${ThemeColor.primaria};
+font-style: normal;
+font-weight: 500;
+line-height: 11.303px;
+letter-spacing: 0.353px;
+text-decoration-line: underline;
+background-color: transparent;
 `;
 
 export const TableRow = styled.tr`
@@ -84,7 +83,7 @@ export const FormaPagamentoText = styled.span`
   line-height: 15.566px;
   background-color: #E6E6E6;
   border-radius: 4px;
-  padding: 1px 8px;
+  padding: 4px 16.5px;
   font-weight:  ${({theme }) => theme.font_medium};
 `;
 
@@ -101,7 +100,7 @@ export const StatusText = styled.span<StatusTextProps>`
   line-height: 15.566px;
   background-color: ${props => props.status === 'succeeded' ? '#55B938' : '#EC5252'};
   border-radius: 4px;
-  padding: 2px 8px;
+  padding: 4px 16.5px;
 `;
 
 export const SortContainer = styled.div`

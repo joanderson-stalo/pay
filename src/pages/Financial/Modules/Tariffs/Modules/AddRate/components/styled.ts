@@ -1,3 +1,4 @@
+import { ThemeColor } from "@/config/color";
 import styled from "styled-components";
 
 export const ContainerButton = styled.button`
@@ -19,11 +20,11 @@ box-shadow: 0px 4.498px 4.498px 0px rgba(0, 0, 0, 0.25);
 
 > svg {
   font-size: 80px;
-  color: var(--Foundation-PagueAssim02-Normal, #02B1F1);
+  color: ${ThemeColor.secundaria};
 }
 
 >h2{
-  color: var(--Foundation-PagueAssim02-Normal, #02B1F1);
+  color:${ThemeColor.secundaria};
 text-align: center;
 font-size: 28px;
 font-weight: 700;
@@ -36,7 +37,7 @@ padding: 40px 2px;
 
   >h2{
 font-size: 24px;
-line-height: 26px; 
+line-height: 26px;
 }
 
 > svg {

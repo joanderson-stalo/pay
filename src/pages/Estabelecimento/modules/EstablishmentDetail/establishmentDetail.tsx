@@ -1,86 +1,137 @@
+import { useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import * as S from './styled';
+import { GraficoCicle } from '@/components/graficoCicle/graficoCicle';
+import { GraficoBar } from '@/components/graficoBar/graficoBar';
+import { CaretLeft } from '@phosphor-icons/react';
+import { useLogin } from '@/context/user.login';
+import { useEstablishment } from '@/context/useEstablishment';
+import { Loading } from '@/components/Loading/loading';
+import { DetalhesTable } from '@/components/detalhesTable/detalhesTable';
+import Swal from 'sweetalert2';
 
-import { GraficoCicle } from '@/components/graficoCicle/graficoCicle'
-import { DetalhesTable } from './components/detalhesTable/detalhesTable'
-import { HistoricoTable } from './components/historicoTable/historicoTable'
-import * as S from './styled'
-import { GraficoBar } from '@/components/graficoBar/graficoBar'
-import { Pagination } from '@/components/Pagination/pagination'
-import { useNavigate } from 'react-router-dom'
-import { useEstablishmentDetail } from '@/hooks/useEstablishmentDetail'
-import { CaretLeft } from '@phosphor-icons/react'
+type PaymentTypes = {
+  credit: string;
+  debit: string;
+  pix: string;
+};
 
-export function EstablishmentDetail(){
 
+type HourlyTransactionTotals = {
+  [key: string]: string;
+};
+
+type EstablishmentDetailType = {
+  trading_name: string;
+  transactions_TPV: string;
+  payment_types: PaymentTypes;
+  hourly_transaction_totals: HourlyTransactionTotals;
+};
+
+export function EstablishmentDetail() {
   const navigate = useNavigate();
-  const {detailNumber} = useEstablishmentDetail()
+  const { establishmentId } = useEstablishment();
+  const { dataUser } = useLogin();
+  const [loading, setLoading] = useState(false);
+  const [establishmentDetails, setEstablishmentDetails] = useState<EstablishmentDetailType | null>(null);
 
-  const navigateToManageAccessLicensed = () => {
-    navigate('/manageAccessEstablishment');
-  }
+  const fetchEstablishmentDetail = useCallback(async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(`https://api-pagueassim.stalopay.com.br/detail/ec/${establishmentId}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${dataUser?.token}`
+        }
+      });
+      setEstablishmentDetails(response.data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  }, [establishmentId, dataUser?.token]);
 
-  const navigateToEditRegistrationLA = () => {
-    navigate('/editRegistrationEC');
-}
+  useEffect(() => {
+    if (establishmentId) {
+      fetchEstablishmentDetail();
+    }
+  }, [establishmentId, fetchEstablishmentDetail]);
 
 
-console.log('oii', detailNumber);
+  const handleEstablishment = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.delete(`https://api-pagueassim.stalopay.com.br/seller/delete/${establishmentId}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${dataUser?.token}`
+        }
+      });
 
 
-  const fetchData = async (pageNumber: number) => {
+        navigate('/sellers-ec');
 
-    console.log(`Fetching data for page ${pageNumber}`)
-  }
+    } catch (error) {
+      console.error(error);
+    }
+    finally {
+      setLoading(false);
+    }
+  };
 
-  const handleNextPage = (pageNumber: number) => {
-    fetchData(pageNumber)
-  }
-
-  const handlePrevPage = (pageNumber: number) => {
-    fetchData(pageNumber)
-  }
+  const handleDeleteConfirmation = () => {
+    Swal.fire({
+      title: 'Tem certeza?',
+      text: 'Esta ação é irreversível!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sim, deletar!',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        handleEstablishment();
+      }
+    });
+  };
 
   const handEstabelecimentos = () => {
-    navigate('/estabelecimentos')
-  }
+    navigate('/sellers-ec');
+  };
+
+  return (
+    <>
+      {loading && <Loading />}
+      <S.Container>
+      <S.ButtonBlack onClick={handEstabelecimentos}><CaretLeft size={18} />Voltar</S.ButtonBlack>
+      <S.ContainerInfo>
+        <S.Title>{establishmentDetails?.trading_name || 'Nome do Estabelecimento'} <span>| CNPJ aqui</span></S.Title>
+      </S.ContainerInfo>
+
+      <S.ContainerGrafico>
+        <GraficoCicle
+          credit={establishmentDetails?.payment_types?.credit || '0.00'}
+          debit={establishmentDetails?.payment_types?.debit || '0.00'}
+          pix={establishmentDetails?.payment_types?.pix || '0.00'}
+          total={establishmentDetails?.transactions_TPV || '0.00'}
+        />
+        <GraficoBar hourly_transaction_totals={establishmentDetails?.hourly_transaction_totals || {}} />
+      </S.ContainerGrafico>
+      <DetalhesTable  />
 
 
-  return(
-      <>
-       <S.ButtonBlack onClick={handEstabelecimentos}><CaretLeft size={18} />Voltar</S.ButtonBlack>
-        <S.ContainerInfo>
-      <S.Title>Padaria Trevo 4 Folhas <span>| 03.458.698/0001-96</span></S.Title>
-      <S.ContainerButton>
-        <S.ButtonVisualizar>Visualizar como</S.ButtonVisualizar>
-        <S.EditarCadastro onClick={navigateToEditRegistrationLA}>Editar cadastro</S.EditarCadastro>
-      </S.ContainerButton>
-    </S.ContainerInfo>
+      < S.ContainerBnt>
+        <S.ButtonEditRegistration type='button'>Editar cadastro</S.ButtonEditRegistration>
+        <S.ButtonManageAccess  type='button' >Gerenciar acessos</S.ButtonManageAccess>
+        <S.ButtonDelete type='button' onClick={handleDeleteConfirmation}>Excluir EC</S.ButtonDelete>
+        </S.ContainerBnt>
+      </S.Container>
 
 
-    <S.ContainerGrafico>
-      <GraficoCicle pix='5.000,00' credit='6.000,20' debit='2.000,20' />
-      <div style={{width: '510px', height: '20px'}}>
-      <GraficoBar dataArray={['15', '19', '30', '50', '20', '30', '70', '80', '50', '10', '20', '15']} />
-      </div>
-    </S.ContainerGrafico>
 
-        <S.ContainerTable>
-          <DetalhesTable />
-          <div style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-end'}}>
-          <HistoricoTable />
-          <Pagination
-          currentPage={1}
-        onPageClick={fetchData}
-        totalPages={10}
-        onNextPage={handleNextPage}
-        onPrevPage={handlePrevPage}
-      />
-          </div>
-
-        </S.ContainerTable>
-
-        <S.ContainerHits>
-        <S.ButtonHits onClick={navigateToManageAccessLicensed}>Gerenciar acessos</S.ButtonHits>
-        </S.ContainerHits>
-      </>
-  )
+    </>
+  );
 }

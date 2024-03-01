@@ -17,8 +17,10 @@ export const ContainerPerfil = styled.div`
 `
 
 export const NomePerfil = styled.p`
- color: #1F384C;
+color: #1F384C;
 font-size: 12px;
+font-style: normal;
+font-weight: 400;
 line-height: 13px;
 letter-spacing: 0.5px;
 `

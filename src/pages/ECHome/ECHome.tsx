@@ -6,6 +6,7 @@ import { LatestSales } from "./components/LatestSales/latestSales";
 import { CardInfo } from "../../components/CardInfo/cardInfo";
 import { useLogin } from "@/context/user.login";
 import { useEffect, useState } from "react";
+import { Loading } from "@/components/Loading/loading";
 
 interface Transaction {
   captured_in: string;
@@ -37,8 +38,11 @@ interface HomeData {
 export function ECHome() {
   const { dataUser } = useLogin();
   const [homeData, setHomeData] = useState<HomeData | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
 
   const fetchHomeLA = async () => {
+    setIsLoading(true);
     const url = `https://api-pagueassim.stalopay.com.br/homescreenwlela`;
     try {
       const response = await fetch(url, {
@@ -51,6 +55,8 @@ export function ECHome() {
       setHomeData(data);
     } catch (error) {
       console.error('Error fetching plans:', error);
+    } finally{
+      setIsLoading(false);
     }
   };
 
@@ -77,6 +83,11 @@ export function ECHome() {
   const latestTransactions = homeData?.latest_transactions || [];
   const topSellers = homeData?.top_Seller || [];
   const hourlyTransactionTotals = homeData?.hourly_transaction_totals || {};
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return (
     <>
       <S.Container>

@@ -1,3 +1,4 @@
+import { ThemeColor } from '@/config/color';
 import styled from 'styled-components';
 
 type FuncionamentoTableDataProps = {
@@ -58,7 +59,7 @@ export const InfoSubtitle = styled.h2<FuncionamentoTableDataProps>`
       case 'quebrado':
         return '#E91414';
       case 'estável':
-        return '#02B1F1';
+        return `${ThemeColor.secundaria};` ;
       case 'incompleto':
         return '#FF7C33';
       default:
@@ -80,7 +81,7 @@ export const EditButton = styled.button`
   border-radius: 5px;
   background: var(--foundation-white-light-hover, #FBFBFB);
   box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.25);
-  color: var(--Foundation-PagueAssim02-Normal, #02B1F1);
+  color: ${ThemeColor.secundaria};
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
@@ -112,7 +113,7 @@ export const InfoItem = styled.div`
 `;
 
 export const InfoLabel = styled.h1`
-  color: var(--Foundation-PagueAssim01-Normal, #3C0A6D);
+  color: ${ThemeColor.primaria};
   font-size: 16px;
   font-style: normal;
   font-weight: 700;
@@ -137,7 +138,7 @@ export const DownloadButton = styled.button`
   background: #B2EAF8;
   border-radius: 4px;
   border: 1px dashed var(--foundation-brand-02-light-active, #B2EAF8);
-  color: var(--Foundation-PagueAssim02-Normal, #02B1F1);
+  color: ${ThemeColor.secundaria};
   font-style: normal;
   font-weight: 500;
   line-height: 14px;

@@ -1,6 +1,7 @@
 import { createContext, useState, useCallback, useContext, useEffect } from 'react';
 import axios from 'axios';
 import { baseURL } from '@/config/color';
+import secureLocalStorage from 'react-secure-storage';
 
 type FormData = {
   email: string;
@@ -12,7 +13,8 @@ type User = {
   name: string;
   email: string;
   token: string;
-  seller_id: string
+  seller_id: string;
+  document_id: string;
 };
 
 type LoginContextData = {
@@ -28,14 +30,17 @@ export const LoginContext = createContext<LoginContextData>({} as LoginContextDa
 
 export const LoginProvider = ({ children }: { children: React.ReactNode }) => {
 
-  const initialUserData = JSON.parse(localStorage.getItem('@App:user') || 'null');
-  const initialLoginState = JSON.parse(localStorage.getItem('@App:isLogin') || 'false');
+  const initialUserDataRaw = secureLocalStorage.getItem('@App:user');
+  const initialUserData = typeof initialUserDataRaw === 'string' ? JSON.parse(initialUserDataRaw) as User | null : null;
+
+  const initialLoginStateRaw = secureLocalStorage.getItem('@App:isLogin');
+  const initialLoginState = typeof initialLoginStateRaw === 'string' ? JSON.parse(initialLoginStateRaw) as boolean : false;
 
   const [dataUser, setDataUser] = useState<User | null>(initialUserData);
   const [isLogin, setIsLogin] = useState<boolean>(initialLoginState);
 
   useEffect(() => {
-    localStorage.setItem('@App:isLogin', JSON.stringify(isLogin));
+    secureLocalStorage.setItem('@App:isLogin', JSON.stringify(isLogin));
   }, [isLogin]);
 
   const login = useCallback(async (formData: FormData) => {
@@ -46,13 +51,15 @@ export const LoginProvider = ({ children }: { children: React.ReactNode }) => {
         name: response.data.user.name,
         email: response.data.user.email,
         token: response.data.access_token,
+        document_id: response.data.user.document_id,
         seller_id: response.data.sellers[0]?.seller_id || null,
       };
 
-      localStorage.setItem('@App:user', JSON.stringify(user));
-      const storedUser = localStorage.getItem('@App:user');
+      secureLocalStorage.setItem('@App:user', JSON.stringify(user));
+      const storedUserRaw = secureLocalStorage.getItem('@App:user');
+      const storedUser = typeof storedUserRaw === 'string' ? JSON.parse(storedUserRaw) as User : null;
       if (storedUser) {
-        setDataUser(JSON.parse(storedUser));
+        setDataUser(storedUser);
       }
 
       setIsLogin(true);
@@ -68,9 +75,9 @@ export const LoginProvider = ({ children }: { children: React.ReactNode }) => {
         headers: { Authorization: `Bearer ${dataUser?.token}` }
       });
 
-      localStorage.removeItem('@App:isLogin')
-      localStorage.removeItem('@App:user')
-      localStorage.removeItem('selectedItem')
+      secureLocalStorage.removeItem('@App:isLogin')
+      secureLocalStorage.removeItem('@App:user')
+      secureLocalStorage.removeItem('selectedItem')
       setDataUser(null);
       setIsLogin(false);
 
@@ -81,9 +88,10 @@ export const LoginProvider = ({ children }: { children: React.ReactNode }) => {
   }, [dataUser]);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem('@App:user');
+    const storedUserRaw = secureLocalStorage.getItem('@App:user');
+    const storedUser = typeof storedUserRaw === 'string' ? JSON.parse(storedUserRaw) as User : null;
     if (storedUser) {
-      setDataUser(JSON.parse(storedUser));
+      setDataUser(storedUser);
     }
   }, []);
 
@@ -94,9 +102,9 @@ export const LoginProvider = ({ children }: { children: React.ReactNode }) => {
           headers: { Authorization: `Bearer ${dataUser?.token}` }
         });
       } catch (error) {
-        localStorage.removeItem('@App:isLogin')
-        localStorage.removeItem('@App:user')
-        localStorage.removeItem('selectedItem')
+        secureLocalStorage.removeItem('@App:isLogin')
+        secureLocalStorage.removeItem('@App:user')
+        secureLocalStorage.removeItem('selectedItem')
         setDataUser(null);
         setIsLogin(false);
       }
@@ -108,7 +116,6 @@ export const LoginProvider = ({ children }: { children: React.ReactNode }) => {
       clearInterval(intervalId);
     };
   }, [dataUser]);
-
 
   return (
     <LoginContext.Provider
@@ -123,7 +130,7 @@ export function useLogin(): LoginContextData {
   const context = useContext(LoginContext);
 
   if (!context) {
-    throw new Error('error');
+    throw new Error('useLogin must be used within a LoginProvider');
   }
 
   return context;

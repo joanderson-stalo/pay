@@ -20,6 +20,9 @@ import { CardSales } from './Mobile/CardSales/cardSales';
 import { TransactionsToExcel} from '@/utils/Xlsx/transactions';
 import { CardInfo } from '../../components/CardInfo/cardInfo';
 import { ExportData } from '@/components/ExportData/exportData';
+import { BtnFilter } from '@/components/BtnFilter/btnFilter';
+import { TitleH } from '@/components/Title/title';
+import { TotalBtn } from '@/components/TotalBtn/totalBtn';
 
 
 export function Vendas() {
@@ -44,7 +47,18 @@ export function Vendas() {
 
     let url = `${baseURL}transactions?perpage=${String(itensPorPage)}&page=${currentPage}`;
 
+
+    const formaDePagamento = localStorage.getItem('@formaDePagamento');
+
+
+    if (formaDePagamento && formaDePagamento !== 'undefined') {
+      url += `&payment_type=${formaDePagamento}`;
+    }
+
+
     const statusPagamento = localStorage.getItem('@statusPagamento');
+
+
     if (statusPagamento && statusPagamento !== 'undefined') {
       url += `&status=${statusPagamento}`;
     }
@@ -168,12 +182,11 @@ export function Vendas() {
         <>
         <S.Container>
         <S.ContextTitleVendas>
-            <S.Title>Vendas</S.Title>
+            <TitleH title='Vendas' />
             <S.ContainerCardVendas>
               <CardInfo shouldFormat={false} label="Quantidade de Vendas" value={totalTransactions}  />
               <CardInfo  label="TPV" value={Number(tpvGlobal)} />
               <CardInfo label="Valor Líquido" value={Number(totalAmount)} />
-              <CardInfo shouldFormat={false} label="Taxa Média" formatTaxa value={Number(averageTaxApplied)} />
             </S.ContainerCardVendas>
             <S.Input isFocused={isFocused}>
               <input
@@ -184,19 +197,19 @@ export function Vendas() {
                 onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
               />
-              <S.SearchIcon isFocused={isFocused}onClick={handleSearch}>
+              <S.SearchIcon isFocused onClick={handleSearch}>
                 <MagnifyingGlass />
               </S.SearchIcon>
             </S.Input>
           </S.ContextTitleVendas>
           <S.ContainerButton>
-           <div style={{display: 'flex'}}>
-           <S.ButtonTotal>Todos ({totalTransactions})</S.ButtonTotal>
+
+           <div style={{display: 'flex', gap: '8px'}}>
+           <TotalBtn total={totalTransactions} />
             {state ? <EditableButton /> : null}
-            <S.ButtonFilter onClick={handleOpenModal}>
-              <FunnelSimple />Filtrar
-            </S.ButtonFilter>
+            <BtnFilter onClick={handleOpenModal} />
            </div>
+
             <ExportData title='Exportar dados' onClick={handleExportClick} />
 
           </S.ContainerButton>

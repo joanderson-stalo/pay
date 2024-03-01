@@ -2,35 +2,15 @@ import { ThemeColor } from '@/config/color';
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  margin-left: 44px;
-  margin-top: 30px;
-  margin-right: 52px;
 
-  @media (max-width: 1200px) {
-    margin-left: 24px;
-    margin-right: 32px;
-  }
 
-  @media (max-width: 1100px) {
-    margin-left: 20px;
-    margin-right: 28px;
-  }
 
-  @media (max-width: 900px) {
-    margin-left: 16px;
-    margin-right: 24px;
-  }
-
-  @media (max-width: 600px) {
-    margin-left: 12px;
-    margin-right: 20px;
-  }
 `;
 
 export const Context = styled.div`
   display: flex;
   align-items: center;
-  margin-top: 30px;
+  margin-top: 36px;
   justify-content: space-between;
 
   @media (max-width: 600px) {
@@ -42,30 +22,22 @@ export const Context = styled.div`
 
 export const Button = styled.button`
   display: flex;
-  min-width: 140px;
-  height: 35px;
-  padding: 0px 8px;
+  padding: 14px 24px;
   justify-content: center;
   align-items: center;
-  border-radius: 5px;
-  border: 0.5px solid #0086ED;
-  background: ${ThemeColor.secundaria};
-  color: #FFF;
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 20px;
-  letter-spacing: 0.5px;
-  white-space: nowrap;
+  border-radius: 4px;
 
-  @media (max-width: 900px) {
-    min-width: 130px;
-    font-size: 11px;
-  }
 
-  @media (max-width: 600px) {
-    min-width: 110px;
-    font-size: 10px;
-  }
+color: #FFF;
+font-size: 14px;
+font-style: normal;
+font-weight: 500;
+line-height: 15.566px;
+
+
+border-radius: 4px;
+background:${ThemeColor.primaria};
+white-space: nowrap;
 `;
 
 export const Title = styled.h2`

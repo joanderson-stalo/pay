@@ -38,8 +38,9 @@ export function ImportSpreadsheet() {
       return false;
     }
 
-    const sheetColumns: string[] = rawData[0] as string[];
+    const sheetColumns: string[] = (rawData[0] as string[]).map(column => column.trim());
     return requiredColumns.every(column => sheetColumns.includes(column));
+
   };
 
   const validateData = (data: SpreadsheetData[]): boolean => {
@@ -146,9 +147,9 @@ export function ImportSpreadsheet() {
               <S.StyledUploadIcon /> {fileSelected ? 'Alterar arquivo' : 'Anexar arquivo'}
             </S.FileInputLabel>
           </S.ContainerInput>
-  
+
         </S.Box>
-     
+
         {jsonData && jsonData.length > 0 && (
         <TableSpreadSheet dataSpreadSheet={jsonData} />
       )}
@@ -157,13 +158,13 @@ export function ImportSpreadsheet() {
       <CardSpreadsheet data={jsonData}/>
       </S.ContainerCardsMobile>
 
-         
+
         <S.ButtonArea>
           <S.BackButton>Cancelar</S.BackButton>
           <S.NextButton disabled={jsonData.length === 0}>Salvar</S.NextButton>
         </S.ButtonArea>
       </S.ContentWrapper>
-      
+
     </S.Container>
   );
 }

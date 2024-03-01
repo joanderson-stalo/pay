@@ -61,8 +61,8 @@ export const ButtonSider = styled.button<Props>`
   align-items: center;
   gap: 12px;
 
-  font-weight: 700;
-font-size: 12px;
+  font-weight: 400;
+font-size: 14px;
 line-height: 12px;
 letter-spacing: 0.5px;
 color: #FDFDFD;
@@ -72,9 +72,10 @@ color: #FDFDFD;
     selected &&
 
     css`
-         color: #FDFDFD ;
-       background: #08BBE9;
-       border-radius: 5px;
+         color: ${ThemeColor.primaria} ;
+       background: #FFF;
+       border-radius: 12px;
+       font-weight: 700;
     `}
 
   > svg {
@@ -85,7 +86,7 @@ color: #FDFDFD;
 export const ButtonSiderArrow = styled.button<{ isCondensed: boolean }>`
   background-color: transparent;
   position: absolute;
-       
+
   width: 100%;
   max-width: 238px;
   height: 51px;
@@ -103,10 +104,12 @@ color: #FDFDFD;
 
   > svg {
     font-size: 24px;
-    border-radius: 10px;
+    border-radius: 50%;
     position: relative;
-    top: 22px;
-    background-color:  ${ThemeColor.primaria};;
+    padding: 4px;
+    top: -6px;
+    background-color:  ${ThemeColor.secundaria};
+    color: ${ThemeColor.primaria};
     left: ${({ isCondensed }) => isCondensed ? '224px' :  '150px'};
     margin-top: ${({ isCondensed }) => isCondensed ? '0' :  '20px'};
     margin-bottom: ${({ isCondensed }) => isCondensed ? '0' :  '20px'};
@@ -131,7 +134,7 @@ export const SubMenuItem = styled.button`
 
   background-color: transparent;;
   cursor: pointer; // Cursor do tipo ponteiro
-  font-weight: 700;
+  font-weight: 00;
 font-size: 12px;
 line-height: 12px;
 letter-spacing: 0.5px;

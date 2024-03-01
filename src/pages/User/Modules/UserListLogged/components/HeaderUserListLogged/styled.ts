@@ -28,37 +28,13 @@ export const Container = styled.div`
 `;
 
 export const Button = styled.button`
-  display: flex;
-  width: 213px;
-  height: 35px;
-  padding: 0px 16px;
-  justify-content: center;
-  align-items: center;
-  border-radius: 5px;
-  border: 0.5px solid #0086ED;
-  background: ${ThemeColor.secundaria};
-  color: #FFF;
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 20px;
-  letter-spacing: 0.5px;
-  min-width: 100px;
-
-  @media (max-width: 1200px) {
-    max-width: 190px;
-  }
-
-  @media (max-width: 1100px) {
-    max-width: 170px;
-  }
-
-  @media (max-width: 900px) {
-    max-width: 150px;
-  }
-
-  @media (max-width: 600px) {
-    font-size: 10px;
-  }
+  border-radius: 4px;
+background: ${ThemeColor.primaria};
+padding: 14px 24px;
+color: #FFF;
+font-size: 14px;
+font-weight: 500;
+line-height: 15.566px;
 `;
 
 export const Title = styled.h2`

@@ -29,6 +29,7 @@ import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { Loading } from '@/components/Loading/loading'
+import { optionsCnae } from '@/json/cnae'
 
 interface IStep1 {
   Avançar: () => void
@@ -75,12 +76,12 @@ export function PJ({ Avançar, BPF, BPJ }: IStep1) {
   const navigate = useNavigate()
 
   const handleEstabelecimentos = () => {
-    navigate('/estabelecimentos')
+    navigate('/sellers-ec')
   }
 
   const cnpjValue = watch('CNPJEstabelecimento');
   const cpfValue = watch('CPFEstabelecimento');
-  
+
 
 
 
@@ -89,12 +90,12 @@ export function PJ({ Avançar, BPF, BPJ }: IStep1) {
       setIsLoading(true)
       const response = await axios.get(`https://ws.hubdodesenvolvedor.com.br/v2/cnpj/?cnpj=${cnpj}&token=YOUR_TOKEN`);
       const { result } = response.data;
-      const { abertura, nome, fantasia } = result; 
-       
+      const { abertura, nome, fantasia } = result;
+
       setValue('DataCriacaoEstabelecimento', abertura);
       setValue('RazaoSocialEstabelecimento', nome);
-      setValue('NomeFantasiaEstabelecimento', fantasia); 
-  
+      setValue('NomeFantasiaEstabelecimento', fantasia);
+
     } catch (error) {
       console.error('Error fetching company data by CNPJ:', error);
     } finally {
@@ -106,22 +107,22 @@ export function PJ({ Avançar, BPF, BPJ }: IStep1) {
     try {
       setIsLoading(true);
       const response = await axios.get(`https://ws.hubdodesenvolvedor.com.br/v2/cpf/?cpf=${cpf}&token=119905575VQLhxBIJgu216485880`);
-        
+
       const { result } = response.data;
-      const { nome_da_pf, data_nascimento } = result; 
-  
+      const { nome_da_pf, data_nascimento } = result;
+
       console.log(nome_da_pf, data_nascimento)
-  
+
       setValue('NomeSocioEstabelecimento', nome_da_pf);
       setValue('NascimentoSocio', data_nascimento);
-    
+
     } catch (error) {
       console.error('Error fetching person data by CPF:', error);
     } finally {
       setIsLoading(false);
     }
   };
-  
+
 
 
   useEffect(() => {
@@ -135,6 +136,8 @@ export function PJ({ Avançar, BPF, BPJ }: IStep1) {
       fetchPersonDataByCPF(cpfValue.replace(/\D/g, ''));
     }
   }, [cpfValue]);
+
+  const areaAtuacaoValue = watch('AreaAtuacaoEstabelecimento');
 
   return (
    <>
@@ -234,7 +237,8 @@ export function PJ({ Avançar, BPF, BPJ }: IStep1) {
             </ContainerInput>
             <ContainerInput2>
               <CustomSelect
-                optionsData={optionsData}
+                 optionsData={optionsCnae}
+                 value={optionsCnae.options.find(option => option.value === areaAtuacaoValue)}
                 {...register('AreaAtuacaoEstabelecimento')}
                 placeholder="Digite aqui ou clique para ver a lista"
                 label="Área de Atuação"

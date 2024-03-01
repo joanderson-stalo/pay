@@ -34,7 +34,7 @@ export function LatestSales({ latest_transactions }: LatestSalesProps) {
 
   const handleButtonClick = () => {
     localStorage.setItem('selectedItem', '4');
-    navigate('/vendas');
+    navigate('/transaction');
   };
 
   return (
@@ -42,7 +42,7 @@ export function LatestSales({ latest_transactions }: LatestSalesProps) {
       <S.Container>
         <S.Header>
           <h2>Últimas vendas</h2>
-          <button onClick={handleButtonClick}>Ver todos</button>
+
         </S.Header>
         <S.Table>
           <thead>

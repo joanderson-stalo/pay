@@ -4,6 +4,8 @@ import { LoginProvider } from './user.login';
 import { DocumentProviderLA } from './useDocumentLA';
 import { DocumentProviderEC } from './useDocumentEC';
 import { SidebarVisibilityProvider } from './sidebarVisibilityContext';
+import { UseLicensedProvider } from './useLicensed';
+import { UseEstablishmentProvider } from './useEstablishment';
 
 
 type AppProviderProps = {
@@ -16,9 +18,13 @@ export function AppProvider({ children }: AppProviderProps) {
       <TransactionVendasProvider>
         <DocumentProviderLA>
           <DocumentProviderEC>
+            <UseLicensedProvider>
+              <UseEstablishmentProvider>
             <SidebarVisibilityProvider>
               {children}
             </SidebarVisibilityProvider>
+            </UseEstablishmentProvider>
+            </UseLicensedProvider>
           </DocumentProviderEC>
         </DocumentProviderLA>
       </TransactionVendasProvider>

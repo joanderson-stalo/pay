@@ -1,86 +1,144 @@
+import { useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import * as S from './styled';
+import { GraficoCicle } from '@/components/graficoCicle/graficoCicle';
+import { DetalhesTable } from '../../../../components/detalhesTable/detalhesTable';
+import { GraficoBar } from '@/components/graficoBar/graficoBar';
+import { TopEstabelecimentos } from '@/pages/ECHome/components/TopEstabelecimento/topEstabelecimentos';
+import { useLicensed } from '@/context/useLicensed';
+import { useLogin } from '@/context/user.login';
+import { CaretLeft } from '@phosphor-icons/react';
+import Swal from 'sweetalert2';
+import { Loading } from '@/components/Loading/loading';
 
-import { GraficoCicle } from '@/components/graficoCicle/graficoCicle'
-import { DetalhesTable } from './components/detalhesTable/detalhesTable'
-import { HistoricoTable } from './components/historicoTable/historicoTable'
-import * as S from './styled'
-import { GraficoBar } from '@/components/graficoBar/graficoBar'
-import { Pagination } from '@/components/Pagination/pagination'
-import { useDetailLicensed } from '@/hooks/useDetailLicensed'
-import { useNavigate } from 'react-router-dom'
-import { CaretLeft } from '@phosphor-icons/react'
+type TopSellerType = {
+  seller_id: number;
+  trading_name: string;
+  total_amount: string;
+};
 
-export function LicensedDetail(){
+type LicensedDetailType = {
+  trading_name: string;
+  payment_types: {
+    credit: string;
+    debit: string;
+    pix: string;
+  };
+  transactions_TPV: string;
+  hourly_transaction_totals: Record<string, string>;
+  top_Seller: TopSellerType[];
+};
 
+export function LicensedDetail() {
   const navigate = useNavigate();
-  const {licensedNumber} = useDetailLicensed()
+  const [licensedDetail, setLicensedDetail] = useState<LicensedDetailType | null>(null);
+  const [loading, setLoading] = useState(false);
+  const { licensedId } = useLicensed();
+  const { dataUser } = useLogin();
+
+  const fetchLicensedDetail = useCallback(async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(`https://api-pagueassim.stalopay.com.br/detail/la/${licensedId}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${dataUser?.token}`
+        }
+      });
+
+      setLicensedDetail(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+    finally {
+      setLoading(false);
+    }
+  }, [licensedId, dataUser?.token]);
+
+  useEffect(() => {
+    if (licensedId) {
+      fetchLicensedDetail();
+    }
+  }, [licensedId, fetchLicensedDetail]);
 
   const navigateToManageAccessLicensed = () => {
     navigate('/manageAccessLicensed');
-  }
-
-  const navigateToEditRegistrationLA = () => {
-    navigate('/editRegistrationLA');
-}
-
-
-console.log(licensedNumber);
-
-
-  const fetchData = async (pageNumber: number) => {
-
-    console.log(`Fetching data for page ${pageNumber}`)
-  }
-
-  const handleNextPage = (pageNumber: number) => {
-    fetchData(pageNumber)
-  }
-
-  const handlePrevPage = (pageNumber: number) => {
-    fetchData(pageNumber)
-  }
+  };
 
   const handleLicenciados = () => {
-    navigate('/licenciados')
-  }
+    navigate('/licenciados');
+  };
+
+  const handleDeleteLicensed = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.delete(`https://api-pagueassim.stalopay.com.br/seller/delete/${licensedId}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${dataUser?.token}`
+        }
+      });
 
 
-  return(
-      <>
+        navigate('/licenciados');
+
+    } catch (error) {
+      console.error(error);
+    }
+    finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDeleteConfirmation = () => {
+    Swal.fire({
+      title: 'Tem certeza?',
+      text: 'Esta ação é irreversível!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sim, deletar!',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        handleDeleteLicensed();
+      }
+    });
+  };
+
+  return (
+    <>
+    {loading && <Loading />}
+      <S.Container>
         <S.ButtonBlack onClick={handleLicenciados}><CaretLeft size={18} />Voltar</S.ButtonBlack>
         <S.ContainerInfo>
-      <S.Title>Padaria Trevo 4 Folhas <span>| 03.458.698/0001-96</span></S.Title>
-      <S.ContainerButton>
-        <S.ButtonVisualizar>Visualizar como</S.ButtonVisualizar>
-        <S.EditarCadastro onClick={navigateToEditRegistrationLA}>Editar cadastro</S.EditarCadastro>
-      </S.ContainerButton>
-    </S.ContainerInfo>
+          <S.Title>{licensedDetail?.trading_name || 'Nome da Empresa'}</S.Title>
+        </S.ContainerInfo>
 
-
-    <S.ContainerGrafico>
-      <GraficoCicle pix='5.000,0' credit='6.000,20' debit='2.000,20' />
-      <div style={{width: '510px', height: '20px'}}>
-      <GraficoBar dataArray={['15', '19', '30', '50', '20', '30', '70', '80', '50', '10', '20', '15']} />
-      </div>
-    </S.ContainerGrafico>
+        <S.ContainerGrafico>
+          <GraficoCicle
+            credit={licensedDetail?.payment_types?.credit || '0.00'}
+            debit={licensedDetail?.payment_types?.debit || '0.00'}
+            pix={licensedDetail?.payment_types?.pix || '0.00'}
+            total={licensedDetail?.transactions_TPV || '0.00'}
+          />
+          <GraficoBar hourly_transaction_totals={licensedDetail?.hourly_transaction_totals || {}} />
+        </S.ContainerGrafico>
 
         <S.ContainerTable>
           <DetalhesTable />
-          <div style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-end'}}>
-          <HistoricoTable />
-          <Pagination
-          currentPage={1}
-        onPageClick={fetchData}
-        totalPages={10}
-        onNextPage={handleNextPage}
-        onPrevPage={handlePrevPage}
-      />
-          </div>
-
+          <TopEstabelecimentos topSellers={licensedDetail?.top_Seller || []} />
         </S.ContainerTable>
 
-        <S.ContainerHits>
-        <S.ButtonHits onClick={navigateToManageAccessLicensed}>Gerenciar acessos</S.ButtonHits>
-        </S.ContainerHits>
-      </>
-  )
+        < S.ContainerBnt>
+        <S.ButtonEditRegistration type='button'>Editar cadastro</S.ButtonEditRegistration>
+        <S.ButtonManageAccess  type='button' onClick={navigateToManageAccessLicensed}>Gerenciar acessos</S.ButtonManageAccess>
+        <S.ButtonDelete type='button' onClick={handleDeleteConfirmation}>Excluir LA</S.ButtonDelete>
+        </S.ContainerBnt>
+
+      </S.Container>
+    </>
+  );
 }

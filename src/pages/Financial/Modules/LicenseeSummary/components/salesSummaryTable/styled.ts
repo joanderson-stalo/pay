@@ -1,3 +1,4 @@
+import { ThemeColor } from "@/config/color";
 import styled from "styled-components";
 
 export const Table = styled.table`
@@ -21,7 +22,7 @@ export const TableHeader = styled.th`
   text-align: center;
   padding: 8px;
   border-bottom: 1px solid #E9ECEF;
-  background: var(--Sys---Neutro-04, #FFF); 
+  background: var(--Sys---Neutro-04, #FFF);
 `;
 
 export const TableData = styled.td`
@@ -37,10 +38,10 @@ export const TableData = styled.td`
 export const TableRow = styled.tr`
   height: 35.377px;
   &:nth-child(even) {
-    background-color: #f1f8fe; 
+    background-color: #f1f8fe;
   }
   &:nth-child(odd) {
-    background-color: #FFF; 
+    background-color: #FFF;
   }
   &.highlighted {
     background-color: #F5F4F4;
@@ -63,7 +64,7 @@ export const SortArrow = styled.span<{ isActive: boolean }>`
 `;
 
 export const TableFooterRow = styled.tr`
-  background-color: #02B1F1; 
+  background-color: ${ThemeColor.secundaria};
   color: white;
   font-weight: bold;
 

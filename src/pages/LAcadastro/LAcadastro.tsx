@@ -11,13 +11,19 @@ import { Step3 } from "./components/Step3/step3";
 import { Step4 } from "./components/Step4/step4";
 import { Step1 } from "./components/Step1/step1";
 import { Step2 } from "./components/Step2/step2";
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useLogin } from "@/context/user.login";
 import { sanitizeNumeric } from "@/utils/sanitizeNumeric";
 import { convertDateFormat } from "@/utils/convertDateFormat";
 import { useNavigate } from "react-router-dom";
 import {  useDocumentLA } from "@/context/useDocumentLA";
 import { toast } from "react-toastify";
+import { TranslateErrorMessage } from "@/utils/translateErrorMessage";
+
+export interface ApiResponse {
+  message: string;
+}
+
 
 export const LAcadastro = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -83,6 +89,7 @@ export const LAcadastro = () => {
                   {
                       agency: requestData.Agência,
                       account: requestData.Conta,
+                      pix: requestData.pix,
                       type_account: requestData.TipoDeConta,
                       document: requestData.CpfCnpj,
                       document_type: requestData.CpfCnpj.length === 18 ? "CNPJ" : "CPF",
@@ -107,20 +114,12 @@ export const LAcadastro = () => {
             if (response) {
                 setCurrentStep(5);
             }
-        } catch (error: unknown) {
-          if (typeof error === 'object' && error !== null && 'response' in error) {
-              const typedError = error as { response: { status: number, data: any } };
-      
-              if (typedError.response.status === 409) {
-                  console.error('Erro 409:', typedError.response.data);
-                  toast.error('Já existe vendedor com o mesmo documento e tipo.');
-              } else if (typedError.response.status === 500) {
-                  setCurrentStep(5);
-              }
-          } else {
-              toast.error('Verifique a sua conexão');
-          }
-        } finally {
+        } catch (error: any) {
+          const err = error as AxiosError<ApiResponse>;
+          const errorMessage = err.response?.data?.message || 'Ocorreu um error';
+          const translatedMessage = await TranslateErrorMessage(errorMessage);
+          toast.error(translatedMessage)
+      } finally {
             setIsLoading(false);
         }
     } else if (currentStep < 4 && currentStepIsValid()) {

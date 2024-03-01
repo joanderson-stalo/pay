@@ -34,7 +34,8 @@ interface IOption {
 
 export function Step3({ Avançar, Voltar }: IStep3) {
   const [dados, setDados] = useState(false)
-  const [fetchedOptions, setFetchedOptions] = useState([])
+  const [fetchedOptions, setFetchedOptions] = useState<IOption[]>([]);
+
 
   const { dataUser } = useLogin()
 
@@ -75,6 +76,9 @@ export function Step3({ Avançar, Voltar }: IStep3) {
       });
   }, []);
 
+  const licenciadoValue = watch('licenciado');
+  const selectedOption = fetchedOptions.find(option => option.value === licenciadoValue);
+
   return (
     <>
       {dados && <Loading />}
@@ -88,6 +92,8 @@ export function Step3({ Avançar, Voltar }: IStep3) {
                 <CustomSelect
                   placeholder='-'
                   {...register('licenciado')}
+                  value={selectedOption || {value: '', label: ''}}
+
                   label="Licenciado Autorizado"
                   optionsData={{ options: fetchedOptions }}
                   hasError={!!errors.licenciado}

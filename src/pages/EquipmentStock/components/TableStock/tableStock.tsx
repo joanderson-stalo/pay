@@ -2,14 +2,13 @@ import { useState, useEffect } from 'react';
 import * as S from './styled';
 import { formatCurrencyBR } from '@/utils/convertBRDinheiro';
 
-
-export interface RowData {
+interface RowData {
   id: number;
   cadastro: string;
-  serial: number | string;
-  modelo: string;
-  fornecedor: string;
-  funcionamento: string;
+  serial_number: number | string;
+  model: string;
+  acquire: string;
+  status: string;
 }
 
 interface TabelaProps {
@@ -50,12 +49,12 @@ export function TableStock({ rows }: TabelaProps) {
     <S.Table>
       <thead>
         <tr>
-          <S.TableHeader style={{ cursor: 'pointer' }} onClick={handleSort}>
-            Cadastro
-            <SortIndicator direction={sortDirection} />
-          </S.TableHeader>
-          <S.TableHeader>Serial</S.TableHeader>
-          <S.TableHeader>Modelo</S.TableHeader>
+        <S.TableHeader>Serial</S.TableHeader>
+        <S.TableHeader>Modelo</S.TableHeader>
+        <S.TableHeader>Estabelecimento</S.TableHeader>
+        <S.TableHeader>Proprietário</S.TableHeader>
+
+
           <S.TableHeader>Fornecedor</S.TableHeader>
           <S.TableHeader>Funcionamento</S.TableHeader>
           <S.TableHeader></S.TableHeader>
@@ -64,14 +63,14 @@ export function TableStock({ rows }: TabelaProps) {
       <tbody>
         {sortedRows.map((row, index) => (
           <tr key={index}>
-            <S.TableData>{formatDateBR(row.cadastro)}</S.TableData>
-            <S.TableData>{row.serial}</S.TableData>
-            <S.TableData>{row.modelo}</S.TableData>
-            <S.TableData>{row.fornecedor}</S.TableData>
-            <S.FuncionamentoTableData funcionamento={row.funcionamento.toLowerCase() as 'quebrado' | 'estável' | 'incompleto'}>
-  {row.funcionamento}
-</S.FuncionamentoTableData>
+            <S.TableData>{row.serial_number}</S.TableData>
+            <S.TableData>{row.model}</S.TableData>
+            <S.TableData></S.TableData>
+            <S.TableData></S.TableData>
 
+
+            <S.TableData><S.FornecedorStatus>{row.acquire}</S.FornecedorStatus></S.TableData>
+            <S.TableData>{row.status.toLocaleLowerCase()}</S.TableData>
             <S.TableData>
               <S.Button onClick={() => false}>Ver POS</S.Button>
             </S.TableData>
@@ -81,5 +80,3 @@ export function TableStock({ rows }: TabelaProps) {
     </S.Table>
   );
 }
-
-

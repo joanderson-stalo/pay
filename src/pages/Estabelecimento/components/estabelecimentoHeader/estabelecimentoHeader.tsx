@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { MagnifyingGlass } from '@phosphor-icons/react';
 import * as S from './styled';
 import debounce from 'lodash/debounce';
+import { TitleH } from '@/components/Title/title';
 
 interface Props {
   onSearch: (searchValue: string) => void;
@@ -48,7 +49,7 @@ export function EstabelecimentoHeader({ onSearch, searchValue, setSearchValue }:
 
   return (
     <S.Container>
-      <S.Title>Estabelecimentos</S.Title>
+      <TitleH title='Estabelecimentos' />
       <S.Context>
         <S.Input>
           <input

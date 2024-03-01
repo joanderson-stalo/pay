@@ -24,15 +24,15 @@ export function DetalhesTable(){
           </tr>
         </thead>
         <tbody>
-    {dadosFornecedores.map(fornecedor => (
-      <tr key={fornecedor.nome}>
-        <S.TableCell>{fornecedor.nome}</S.TableCell>
-        <S.TableCell>{fornecedor.pos}</S.TableCell>
-        <S.TableCell>{fornecedor.transacoes}</S.TableCell>
-        <S.TableCell>R$ {fornecedor.tpv}</S.TableCell>
-        <S.TableCell>R$ {fornecedor.comissao}</S.TableCell>
-      </tr>
-    ))}
+        {dadosFornecedores.map((fornecedor, index) => (
+  <tr key={index}>
+    <S.TableCell>{fornecedor.nome}</S.TableCell>
+    <S.TableCell>{fornecedor.pos}</S.TableCell>
+    <S.TableCell>{fornecedor.transacoes}</S.TableCell>
+    <S.TableCell>R$ {fornecedor.tpv}</S.TableCell>
+    <S.TableCell>R$ {fornecedor.comissao}</S.TableCell>
+  </tr>
+))}
     <S.TotalRow>
       <S.TableCellTotal>Totais</S.TableCellTotal>
       <S.TableCellTotal>{totais.pos}</S.TableCellTotal>

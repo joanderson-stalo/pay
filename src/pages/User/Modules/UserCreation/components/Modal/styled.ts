@@ -42,7 +42,7 @@ export const BackgroundLogin = styled.div`
   width: 50%;
   height: 100%;
   border-radius: 0rem 2rem 2rem 0rem;
-  background-image: url(${ThemeImg.backModal});
+  background-image: url(${ThemeImg.sucesso});
   background-size: cover;
   background-position: center;
 
@@ -54,7 +54,7 @@ export const BackgroundLogin = styled.div`
     left: 0;
     width: 100%;
     height: 100%;
-    background: ${ThemeColor.secundaria};
+    background: ${ThemeColor.primaria};
     opacity: 0.6;
     z-index: 1;
     border-radius: 0rem 2rem 2rem 0rem;
@@ -111,10 +111,9 @@ export const ContainerText = styled.div`
   gap: 20px;
 
  > p {
-    font-weight: 700;
-    font-size: 38px;
-    line-height: 52px;
-    color: ${ThemeColor.secundaria};
+  color: var(--color-neutra-ttulo, var(--color-neutra-ttulos, #3D4449));
+font-size: 32px;
+font-weight: 600;
   }
 
 
@@ -140,18 +139,15 @@ font-weight: 500;
 `
 
 export const ButtonModal = styled.button`
-  background: ${ThemeColor.secundaria};
-  border: 0.5px solid ${ThemeColor.primaria};
-  border-radius: 5px;
-
-  width: 213px;
-  height: 35px;
-
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 20px;
-  letter-spacing: 0.5px;
-  color: #ffffff;
+ border-radius: 5px;
+background: ${ThemeColor.primaria};
+padding: 14px 50px;
+color: #FFF;
+font-size: 14px;
+font-style: normal;
+font-weight: 500;
+line-height: 24px;
+letter-spacing: 0.5px;
 `
 
 export const Image = styled.img`
