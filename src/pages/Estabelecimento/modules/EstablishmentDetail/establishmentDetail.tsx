@@ -8,7 +8,6 @@ import { CaretLeft } from '@phosphor-icons/react';
 import { useLogin } from '@/context/user.login';
 import { useEstablishment } from '@/context/useEstablishment';
 import { Loading } from '@/components/Loading/loading';
-import { DetalhesTable } from '@/components/DetalhesTable/detalhesTable';
 import Swal from 'sweetalert2';
 import { LatestSales } from '@/pages/Home/components/LAHome/components/LatestSales/latestSales';
 
