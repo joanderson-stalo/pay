@@ -78,7 +78,11 @@ export function CardDetalhes({
         <S.InfoTw>
           <div>
             <h2>Forma de pagamento</h2>
-            <span>{payment_type === 'debit' ? 'Dépor bito' : 'Crédito'}</span>
+            <span>
+  {payment_type === 'debit' ? 'Débito' :
+   payment_type === 'credit' ? 'Crédito' : 'Pix'}
+</span>
+
           </div>
           <div>
             <h2>Bandeira</h2>

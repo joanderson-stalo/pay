@@ -58,8 +58,8 @@ export function Sidebar() {
     { label: 'Resumo de Licenciados', path: '/licenseesummary' },
     { label: 'Extrato', path: '/extract' },
     { label: 'Tarifas', path: '/tariffs' },
-    { label: 'Solicitação de Cobrança', path: '/billingRequest' },
-    { label: 'Pagamentos', path: '/pagamentos' }
+    { label: 'Solicitação de Cobrança', path: '/billingRequest' }
+    // { label: 'Pagamentos', path: '/pagamentos' }
   ];
 
   const financeiroIndex = menuItems.findIndex(item => item.label === 'Financeiro');
