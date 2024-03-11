@@ -35,11 +35,10 @@ import { useNavigate } from 'react-router-dom'
 
 interface IStep1 {
   Avançar: () => void
-  BPJ: () => void
-  BPF: () => void
+
 }
 
-export function PJ({ Avançar, BPF, BPJ }: IStep1) {
+export function PJ({ Avançar }: IStep1) {
   const {
     register,
     setValue,
@@ -185,8 +184,8 @@ export function PJ({ Avançar, BPF, BPJ }: IStep1) {
     }
   };
 
-  const handleBack = () => {
-    navigate(-1)
+  const handleEC = () => {
+    navigate('/sellers-ec')
   }
 
   return (
@@ -197,10 +196,7 @@ export function PJ({ Avançar, BPF, BPJ }: IStep1) {
         <ContextStep>
           <ContainerDados>
             <TitleStep>Dados do Estabelecimento</TitleStep>
-            <ContainerPJPF>
-            <ButtonPJ active onClick={BPJ}>PJ</ButtonPJ>
-            <ButtonPF active={false} onClick={BPF}>PF</ButtonPF>
-            </ContainerPJPF>
+          
           </ContainerDados>
           <Line />
           <ContainerForm>
@@ -301,9 +297,9 @@ export function PJ({ Avançar, BPF, BPJ }: IStep1) {
           </ContainerForm>
         </ContextStep>
         <ContainerButton>
-        <ButtonVoltar >Cancelar</ButtonVoltar>
-          <ButtonAvançar disabled={!allFieldsFilled} onClick={handleSalvar}>Salvar</ButtonAvançar>
-        <ButtonAvançar disabled={!allFieldsFilled} onClick={handleAvancar}>
+        <ButtonVoltar type='button' onClick={handleEC} >Cancelar</ButtonVoltar>
+          <ButtonAvançar type='button'  disabled={!allFieldsFilled} onClick={handleSalvar}>Salvar</ButtonAvançar>
+        <ButtonAvançar type='button' disabled={!allFieldsFilled} onClick={handleAvancar}>
           Avançar
         </ButtonAvançar>
         </ContainerButton>

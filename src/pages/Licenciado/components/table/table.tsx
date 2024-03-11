@@ -9,6 +9,7 @@ export interface RowData {
   cnpj_cpf: string;
   trading_name: string;
   type: string;
+  owner_name: string;
   tpv: number;
   commission: string;
   ec_count: number;
@@ -142,7 +143,7 @@ export function Tabela({ rows }: TabelaProps) {
           <tr key={index}>
             <S.TableData>{seller.id}</S.TableData>
             <S.TableData>{maskCpfCnpj(seller.cnpj_cpf)}</S.TableData>
-            <S.TableData>{seller.trading_name}</S.TableData>
+            <S.TableData>{seller.trading_name ? seller.trading_name  : seller.owner_name}</S.TableData>
             <S.TableData>{seller.type} {seller.network_index}</S.TableData>
             <S.TableData>{seller.ec_count}</S.TableData>
             <S.TableData>{formatToBRL(parseFloat(seller.commission.replace(',', '.')))}</S.TableData>

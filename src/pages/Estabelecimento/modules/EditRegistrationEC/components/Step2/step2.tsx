@@ -10,6 +10,7 @@ import { SellerData } from "@/pages/Licenciado/modules/EditRegistrationLA/compon
 import { useLogin } from "@/context/user.login";
 import { useEstablishment } from "@/context/useEstablishment";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 interface IStep2 {
   Avançar: () => void;
@@ -22,6 +23,7 @@ export function Step2({ Avançar, Voltar }: IStep2) {
   const { dataUser } = useLogin();
   const { establishmentId } = useEstablishment();
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate()
   const allFieldsFilled = !!watch('CEP') && !!watch('Endereco') && !!watch('Numero') && !!watch('Bairro') && !!watch('Cidade') && !!watch('Estado');
 
   useEffect(() => {
@@ -59,11 +61,13 @@ export function Step2({ Avançar, Voltar }: IStep2) {
   const handleSalvar = async () => {
     try {
       setLoading(true);
+
+      const number =  watch('Numero')
   
       const updatedData = {
         address_cep: watch('CEP'),
         address_street: watch('Endereco'),
-        address_number: watch('Numero'),
+        address_number: String(number),
         address_complement: watch('Complemento'),
         address_neighborhood: watch('Bairro'),
         address_city: watch('Cidade'),
@@ -91,15 +95,14 @@ export function Step2({ Avançar, Voltar }: IStep2) {
         confirmButtonText: 'Continuar',
         showCancelButton: true,
         cancelButtonText: 'OK',
-        cancelButtonColor: '#17ec3b',
         showCloseButton: true,
         closeButtonAriaLabel: 'Fechar modal'
         
       }).then((result) => {
         if (result.isConfirmed) {
-          console.log('Continuar clicado');
+          Avançar();
         } else {
-          console.log('OK clicado');
+          handleEC();
         }
       });
     } catch (error) {
@@ -116,6 +119,9 @@ export function Step2({ Avançar, Voltar }: IStep2) {
 
 
 
+  const handleEC = () => {
+    navigate('/sellers-ec')
+  }
 
 
   return (

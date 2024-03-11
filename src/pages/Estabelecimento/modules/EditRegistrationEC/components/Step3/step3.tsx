@@ -23,6 +23,7 @@ import { useLogin } from '@/context/user.login';
 import { useFormContext } from 'react-hook-form';
 import Swal from 'sweetalert2';
 import { useEstablishment } from '@/context/useEstablishment';
+import { useNavigate } from 'react-router-dom';
 
 interface IStep3 {
   Avançar: () => void;
@@ -42,7 +43,7 @@ export function Step3({ Avançar, Voltar }: IStep3) {
   const [selectedAcquires, setSelectedAcquires] = useState<string[]>([]);
   const { establishmentId } = useEstablishment();
   const [loading, setLoading] = useState(false);
-
+  const navigate = useNavigate()
   const { dataUser } = useLogin();
 
   const {
@@ -256,15 +257,14 @@ export function Step3({ Avançar, Voltar }: IStep3) {
         confirmButtonText: 'Continuar',
         showCancelButton: true,
         cancelButtonText: 'OK',
-        cancelButtonColor: '#17ec3b',
         showCloseButton: true,
         closeButtonAriaLabel: 'Fechar modal'
         
       }).then((result) => {
         if (result.isConfirmed) {
-          console.log('Continuar clicado');
+          Avançar();
         } else {
-          console.log('OK clicado');
+          handleEC();
         }
       });
     } catch (error) {
@@ -282,7 +282,9 @@ export function Step3({ Avançar, Voltar }: IStep3) {
   const licenciadoValue = watch('licenciado');
   const selectedOption = fetchedOptions.find(option => option.value === licenciadoValue);
 
-
+  const handleEC = () => {
+    navigate('/sellers-ec')
+  }
 
 
   return (

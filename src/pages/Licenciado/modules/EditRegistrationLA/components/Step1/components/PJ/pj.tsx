@@ -37,12 +37,10 @@ import Swal from 'sweetalert2'
 
 interface IStep1 {
   Avançar: () => void
-  BPJ: () => void
-  BPF: () => void
 }
 
 
-export function PJ({ Avançar, BPF, BPJ }: IStep1) {
+export function PJ({ Avançar}: IStep1) {
   const {
     register,
     setValue,
@@ -70,16 +68,9 @@ export function PJ({ Avançar, BPF, BPJ }: IStep1) {
     !!watch('TelefoneEstabelecimento')
 
   const handleAvancar = async () => {
-    const result = await trigger()
-    if (
-      result &&
-      !errors.CNPJEstabelecimento &&
-      !errors.CPFEstabelecimento &&
-      allFieldsFilled &&
-      formIsValid
-    ) {
+    
       Avançar()
-    }
+    
   }
 
   const handleLicenseddetail = () => {

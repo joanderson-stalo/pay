@@ -9,15 +9,20 @@ import { validateTelefone } from '@/utils/telefoneValid'
 import { validateEmail } from '@/utils/validateEmail'
 import { CustomSelect } from '@/components/Select/select'
 import { optionsData } from './option'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { optionsCnae } from '@/json/cnae'
+import axios from 'axios'
+import { useLogin } from '@/context/user.login'
+import { useEstablishment } from '@/context/useEstablishment'
+import Swal from 'sweetalert2'
+import { useNavigate } from 'react-router-dom'
 
 interface IStep1 {
   Avançar: () => void
-  BPJ: () => void
-  BPF: () => void
+
 }
 
-export function PF({ Avançar, BPF, BPJ }: IStep1) {
+export function PF({ Avançar}: IStep1) {
   const {
     register,
     setValue,
@@ -25,6 +30,12 @@ export function PF({ Avançar, BPF, BPJ }: IStep1) {
     trigger,
     watch
   } = useFormContext()
+
+  const { dataUser } = useLogin();
+  const { establishmentId } = useEstablishment();
+  const [loading, setLoading] = useState(true);
+  const [typeDocument, setTypeDocument] = useState<string>('');
+  const navigate = useNavigate();
 
   const allFieldsFilled =
     !!watch('NomeFantasiaEstabelecimento') &&
@@ -36,47 +47,127 @@ export function PF({ Avançar, BPF, BPJ }: IStep1) {
     !!watch('TelefoneEstabelecimento')
 
   const handleAvancar = async () => {
-    const result = await trigger()
-    if (
-      result &&
-      !errors.CNPJEstabelecimento &&
-      !errors.CPFEstabelecimento &&
-      allFieldsFilled &&
-      formIsValid
-    ) {
-      Avançar()
-    }
+    Avançar();
   }
 
-    const mockFillInputs = () => {
-    setValue('CNPJEstabelecimento', '23.699.017/0001-84');
-    setValue('RazaoSocialEstabelecimento', 'Mocked Company Ltd.');
-    setValue('NomeFantasiaEstabelecimento', 'Mocked Company');
-    setValue('DataCriacaoEstabelecimento', '01/01/2000');
-    setValue('NascimentoSocio', '15/05/1985');
-    setValue('CPFEstabelecimento', '913.482.830-33');
-    setValue('NomeSocioEstabelecimento', 'Mocked Partner Name');
-    setValue('EmailEstabelecimento', 'mocked.email@example.com');
-    setValue('TelefoneEstabelecimento', '(81) 991431834');
-    setValue('AreaAtuacaoEstabelecimento', 'option1');
+  useEffect(() => {
+    const fetchSellerData = async () => {
+      setLoading(true); 
+      try {
+        const response = await axios.get(
+          `https://api-pagueassim.stalopay.com.br/seller/show/${establishmentId}`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${dataUser?.token}`,
+            },
+          }
+        );
+        setValue('EmailEstabelecimento', response.data.seller.email);
+        setValue('NomeFantasiaEstabelecimento', response.data.seller.trading_name);
+        const nascimentoSocio = new Date(response.data.seller.owner_birthday).toLocaleDateString('pt-BR');
+        setValue('NascimentoSocio', nascimentoSocio);
+        setValue('CPFEstabelecimento', response.data.seller.owner_cpf);
+        setValue('TelefoneEstabelecimento', response.data.seller.phone);
+        setValue('NomeSocioEstabelecimento', response.data.seller.owner_name);
+        setValue('AreaAtuacaoEstabelecimento', response.data.seller.mcc);
+        setTypeDocument(response.data.seller.type_document);
+        
+        
+        !!watch('NomeFantasiaEstabelecimento') &&
+        !!watch('NascimentoSocio') &&
+        !!watch('CPFEstabelecimento') &&
+        !!watch('NomeSocioEstabelecimento') &&
+        !!watch('EmailEstabelecimento') &&
+        !!watch('AreaAtuacaoEstabelecimento') &&
+        !!watch('TelefoneEstabelecimento')
+      } catch (error) {
+        console.error('Erro ao buscar dados da API:', error);
+   
+      } finally {
+        setLoading(false); 
+      }
+    };
+    fetchSellerData();
+  }, []);
 
-};
 
-useEffect(() => {
-  mockFillInputs();
-}, []);
+  const handleSalvar = async () => {
+    try {
+      setLoading(true);
+  
+      const formatDate = (dateString: { split: (arg0: string) => [any, any, any] }) => {
+        const [day, month, year] = dateString.split('/');
+        return `${year}-${month}-${day}`;
+      };
+  
+      const updatedData = {
+        mcc: areaAtuacaoValue,
+      
+        trading_name: watch('NomeFantasiaEstabelecimento'),
+      company_name: watch('RazaoSocialEstabelecimento'),
+        owner_birthday: formatDate(watch('NascimentoSocio')),
+        owner_cpf: watch('CPFEstabelecimento'),
+        owner_name: watch('NomeSocioEstabelecimento'),
+        email: watch('EmailEstabelecimento'),
+        phone: watch('TelefoneEstabelecimento'),
+        document: watch('CPFEstabelecimento'),
+        type_document: typeDocument
+      };
+  
+      await axios.put(`https://api-pagueassim.stalopay.com.br/seller/update/${establishmentId}`, updatedData, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${dataUser?.token}`
+        }
+      });
+  
+      setLoading(false);
+  
+      Swal.fire({
+        icon: 'success',
+        title: 'Licenciado atualizado com sucesso!',
+        showConfirmButton: true,
+        confirmButtonText: 'Continuar',
+        showCancelButton: true,
+        cancelButtonText: 'OK',
+        showCloseButton: true,
+        closeButtonAriaLabel: 'Fechar modal'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Avançar();
+        } else {
+          handleEC();
+        }
+      });
+    } catch (error) {
+      console.error('Erro ao atualizar dados:', error);
+      setLoading(false);
+      Swal.fire({
+        icon: 'error',
+        title: 'Erro ao atualizar dados',
+        text: 'Ocorreu um erro ao tentar atualizar os dados do licenciado. Por favor, tente novamente mais tarde.',
+        confirmButtonText: 'OK'
+      });
+    }
+  };
 
 
+
+  const handleEC = () => {
+    navigate('/sellers-ec')
+  }
+
+ 
+
+  const areaAtuacaoValue = watch('AreaAtuacaoEstabelecimento');
   return (
     <S.ContainerStep>
       <S.ContextStepContainer>
         <S.ContextStep>
           <S.ContainerDados>
             <S.TitleStep>Dados do Estabelecimento</S.TitleStep>
-            <S.ContainerPJPF>
-            <S.ButtonPJ active={false} onClick={BPJ}>PJ</S.ButtonPJ>
-            <S.ButtonPF active onClick={BPF}>PF</S.ButtonPF>
-            </S.ContainerPJPF>
+          
           </S.ContainerDados>
           <S.Line />
           <S.ContainerForm>
@@ -136,23 +227,24 @@ useEffect(() => {
             </S.ContainerInput>
             <S.ContainerInput2>
               <CustomSelect
-                optionsData={optionsData}
-                {...register('AreaAtuacaoEstabelecimento')}
-                placeholder="Digite aqui ou clique para ver a lista"
-                label="Área de Atuação"
-                onChange={(selectedOption: { value: string }) => {
-                  setValue('AreaAtuacaoEstabelecimento', selectedOption.value)
-                }}
-                hasError={!!errors.AreaAtuacaoEstabelecimento}
-              />
+                optionsData={optionsCnae}
+                value={optionsCnae.options.find(option => option.value === areaAtuacaoValue)}
+                              {...register('AreaAtuacaoEstabelecimento')}
+                              placeholder="Digite aqui ou clique para ver a lista"
+                              label="Área de Atuação"
+                              onChange={(selectedOption: { value: string }) => {
+                                setValue('AreaAtuacaoEstabelecimento', selectedOption.value)
+                              }}
+                              hasError={!!errors.AreaAtuacaoEstabelecimento}
+                            />
               <button>Pesquise pelo CNAE ou Nome</button>
             </S.ContainerInput2>
           </S.ContainerForm>
         </S.ContextStep>
         <S.ContainerButton>
-        <S.ButtonVoltar >Cancelar</S.ButtonVoltar>
-          <S.ButtonAvançar disabled={!allFieldsFilled} onClick={Avançar}>Salvar</S.ButtonAvançar>
-        <S.ButtonAvançar disabled={!allFieldsFilled} onClick={handleAvancar}>
+        <S.ButtonVoltar type='button' onClick={handleEC} >Cancelar</S.ButtonVoltar>
+          <S.ButtonAvançar  type='button' disabled={!allFieldsFilled} onClick={handleSalvar}>Salvar</S.ButtonAvançar>
+        <S.ButtonAvançar  type='button' disabled={!allFieldsFilled} onClick={handleAvancar}>
           Avançar
         </S.ButtonAvançar>
         </S.ContainerButton>

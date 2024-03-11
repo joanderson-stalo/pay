@@ -62,11 +62,13 @@ export function Step2({ Avançar, Voltar }: IStep2) {
   const handleSalvar = async () => {
     try {
       setLoading(true);
+
+      const number =  watch('Numero')
   
       const updatedData = {
         address_cep: watch('CEP'),
         address_street: watch('Endereco'),
-        address_number: watch('Numero'),
+        address_number: String(number),
         address_complement: watch('Complemento'),
         address_neighborhood: watch('Bairro'),
         address_city: watch('Cidade'),
@@ -75,6 +77,7 @@ export function Step2({ Avançar, Voltar }: IStep2) {
         email: watch('EmailEstabelecimento'),
         phone: watch('TelefoneEstabelecimento'),
         trading_name: watch('NomeFantasiaEstabelecimento'),
+        
         document: sellerData?.document,
       };
   

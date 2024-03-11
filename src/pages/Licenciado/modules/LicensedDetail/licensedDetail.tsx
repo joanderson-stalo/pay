@@ -12,6 +12,11 @@ import { Loading } from '@/components/Loading/loading';
 import { TopEstabelecimentos } from '@/pages/Home/components/LAHome/components/TopEstabelecimento/topEstabelecimentos';
 import { DetalhesTable } from '@/components/DetalhesTableNew/detalhesTable';
 
+interface TransactionsGroupedByAcquireIdType {
+  total_amount: number;
+  total_transactions: number;
+}
+
 interface TopSellerType {
   seller_id: number;
   trading_name: string;
@@ -29,6 +34,7 @@ interface LicensedDetailType {
   transactions_TPV: string;
   hourly_transaction_totals: Record<string, string>;
   top_Seller: TopSellerType[];
+  transactions_grouped_by_acquire_id: Record<string, TransactionsGroupedByAcquireIdType>;
 }
 
 export function LicensedDetail() {
@@ -72,7 +78,7 @@ export function LicensedDetail() {
   };
 
   const handleEdit = () => {
-    // navigate('/sellers-la-edit');
+    navigate('/sellers-la-edit');
   };
   
   const handleDeleteLicensed = async () => {
@@ -113,12 +119,6 @@ export function LicensedDetail() {
     });
   };
 
-  const transactionsGroupedByAcquireId = {
-    "3": {
-      "total_amount": 1967.91,
-      "total_transactions": 26
-    }
-  };
 
   return (
     <>
@@ -140,7 +140,7 @@ export function LicensedDetail() {
         </S.ContainerGrafico>
 
         <S.ContainerTable>
-          <DetalhesTable transactions_grouped_by_acquire_id={transactionsGroupedByAcquireId} />
+        <DetalhesTable transactions_grouped_by_acquire_id={licensedDetail?.transactions_grouped_by_acquire_id || {}} />
           <TopEstabelecimentos topSellers={licensedDetail?.top_Seller || []} />
         </S.ContainerTable>
 

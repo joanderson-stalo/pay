@@ -111,7 +111,7 @@ export function EstablishmentDetail() {
   };
 
   const handEditRegistrationEC = () => {
-    // navigate('/sellers-ec-edit');
+    navigate('/sellers-ec-edit');
   };
 
   const handManage = () => {

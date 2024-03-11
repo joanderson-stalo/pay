@@ -22,6 +22,7 @@ import { LabelCustomInputMask } from '@/components/CustomInputMask';
 import { SellerData } from '../interface';
 import { useLicensed } from '@/context/useLicensed';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
 interface IStep3 {
   Avançar: () => void;
@@ -34,12 +35,11 @@ interface IOption {
 }
 
 export function Step3({ Avançar, Voltar }: IStep3) {
-  const [dados, setDados] = useState(false);
   const [fetchedOptions, setFetchedOptions] = useState<IOption[]>([]);
   const [loading, setLoading] = useState(true);
   const [sellerData, setSellerData] = useState<SellerData | null>(null);
   const { licensedId } = useLicensed();
-
+  const navigate = useNavigate()
   const { dataUser } = useLogin();
 
   const {
@@ -52,7 +52,7 @@ export function Step3({ Avançar, Voltar }: IStep3) {
   const allFieldsFilled = !!watch('licenciado');
 
   useEffect(() => {
-    setDados(true);
+    setLoading(true);
     axios.get('https://api-pagueassim.stalopay.com.br/seller/indexla', {
       headers: {
         'Content-Type': 'application/json',
@@ -72,7 +72,7 @@ export function Step3({ Avançar, Voltar }: IStep3) {
 
           setFetchedOptions(options);
         }
-        setDados(false);
+        setLoading(false);
       })
       .catch(error => {
         console.error('Houve um erro ao buscar os dados:', error);
@@ -138,15 +138,14 @@ export function Step3({ Avançar, Voltar }: IStep3) {
         confirmButtonText: 'Continuar',
         showCancelButton: true,
         cancelButtonText: 'OK',
-        cancelButtonColor: '#17ec3b',
         showCloseButton: true,
         closeButtonAriaLabel: 'Fechar modal'
         
       }).then((result) => {
         if (result.isConfirmed) {
-          console.log('Continuar clicado');
+          Avançar();
         } else {
-          console.log('OK clicado');
+          handleLicenseddetail();
         }
       });
     } catch (error) {
@@ -164,9 +163,14 @@ export function Step3({ Avançar, Voltar }: IStep3) {
   const licenciadoValue = watch('licenciado');
   const selectedOption = fetchedOptions.find(option => option.value === licenciadoValue);
 
+  const handleLicenseddetail = () => {
+    navigate('/sellers-la')
+  }
+
+
   return (
     <>
-      {dados && <Loading />}
+      {loading && <Loading />}
       <ContainerStep>
         <ContextStepContainer>
           <ContextStep>
