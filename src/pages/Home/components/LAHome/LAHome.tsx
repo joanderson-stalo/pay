@@ -8,6 +8,11 @@ import { useEffect, useState } from "react";
 import { Loading } from "@/components/Loading/loading";
 import { CardInfo } from "@/components/CardInfo/cardInfo";
 
+interface HourlyTransactionTotals {
+  [hour: string]: string;
+}
+
+
 interface Transaction {
   captured_in: string;
   payment_type: string;
@@ -29,7 +34,7 @@ interface HomeData {
   transactions_EC_total: number;
   transactions_TPV: string;
   payment_types: { [key: string]: string };
-  hourly_transaction_totals: { [key: string]: string };
+  hourly_transaction_totals: HourlyTransactionTotals;
   commission_TPV: string;
   top_Seller: TopSeller[];
   latest_transactions: Transaction[];
@@ -98,7 +103,7 @@ export function LAHome() {
         </S.ContainerCards>
 
         <S.ContainerGrafico>
-          <GraficoCicle total={transactionsTPV} pix={pixValue} credit={creditValue } debit={debitValue} />
+        <GraficoCicle total={transactionsTPV.toString()} pix={pixValue.toString()} credit={creditValue.toString()} debit={debitValue.toString()} />
           <GraficoBar hourly_transaction_totals={hourlyTransactionTotals} />
         </S.ContainerGrafico>
 
