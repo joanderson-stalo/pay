@@ -1,5 +1,3 @@
-import { GraficoBar } from "@/components/GraficoBar/graficoBar";
-import { GraficoCicle } from "@/components/GraficoCicle/graficoCicle";
 import * as S from './styled'
 import { TopEstabelecimentos } from "./components/TopEstabelecimento/topEstabelecimentos";
 import { LatestSales } from "./components/LatestSales/latestSales";
@@ -7,6 +5,8 @@ import { useLogin } from "@/context/user.login";
 import { useEffect, useState } from "react";
 import { Loading } from "@/components/Loading/loading";
 import { CardInfo } from "@/components/CardInfo/cardInfo";
+import { GraficoCicle } from '@/components/GraficoCicle/graficoCicle';
+import { GraficoBar } from '@/components/GraficoBar/graficoBar';
 
 interface HourlyTransactionTotals {
   [hour: string]: string;
