@@ -86,9 +86,9 @@ export function Tickets() {
       <HeaderTickets />
 
 <S.ContainerCard>
-<CardInfo color='#7D7D7D' shouldFormat={false} label='Qtd de Tickets' value={500}/>
-<CardInfo color='#2BC6F6' shouldFormat={false}  label='Qtd Finalizados' value={500}/>
-<CardInfo color='#FF7C33'  shouldFormat={false} label='Qtd em Tratamento' value={500}/>
+<CardInfo  shouldFormat={false} label='Quantidade Tickets' value={500}/>
+<CardInfo  shouldFormat={false}  label='Quantidade Finalizados' value={500}/>
+<CardInfo   shouldFormat={false} label='Quantidade em Tratamento' value={500}/>
 </S.ContainerCard>
 
 

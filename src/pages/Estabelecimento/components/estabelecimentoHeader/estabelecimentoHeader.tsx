@@ -26,7 +26,7 @@ export function EstabelecimentoHeader({ onSearch, searchValue, setSearchValue }:
   };
 
   const handleAddEstablishment = () => {
-    navigate('/eccadastro');
+    navigate('/sellers-ec-register');
   };
 
   useEffect(() => {

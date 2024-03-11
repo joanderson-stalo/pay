@@ -1,6 +1,7 @@
 
 import { useNavigate } from 'react-router-dom';
 import * as S from './styled';
+import { TitleH } from '@/components/Title/title';
 
 export function HeaderTariffs() {
   const navigate = useNavigate();
@@ -12,7 +13,7 @@ export function HeaderTariffs() {
 
   return (
     <S.Container>
-      <S.Title>Tarifas</S.Title>
+      <TitleH title='Tarifas' />
       <S.Button onClick={handleAddRequest}>Adicionar Tarifa</S.Button>
     </S.Container>
   );

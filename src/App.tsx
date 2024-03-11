@@ -8,7 +8,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import { AppProvider } from './context'
 
 export function App() {
-  const titulo = 'aasdasdas';
+  const titulo = 'Pague Assim';
   document.title = titulo;
 
   return (

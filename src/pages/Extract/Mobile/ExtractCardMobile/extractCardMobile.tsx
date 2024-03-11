@@ -1,43 +1,46 @@
 import { formatCurrencyBR } from '@/utils/convertBRDinheiro';
 import * as S from './styled';
 
-export interface RowDataTickets {
-  id: number;
-  data: string;
-  titulo: string;
-  valor: number;
-  tipo: 'Entrada' | 'Saída';
+export interface StatementData {
+  [date: string]: {
+    title: string;
+    amount: number;
+    tpv: number;
+    type: string;
+  }[];
 }
 
-export function ExtractCardMobile({ data }: { data: RowDataTickets[] }) {
+export function ExtractCardMobile({ data }: { data: StatementData }) {
   return (
     <>
-      {data.map((ticket) => (
-        <S.CardContainer key={ticket.id}>
-          <S.CardHeader status={ticket.tipo}>
-            <S.TicketNumber>{formatCurrencyBR(ticket.valor)}</S.TicketNumber>
-            <S.RequestLabel>{ticket.titulo}</S.RequestLabel>
-            <S.RequestStatus>{ticket.tipo}</S.RequestStatus>
-          </S.CardHeader>
+      {Object.entries(data).map(([date, statements]) => (
+        <S.CardContainer key={date}>
+          {statements.map((statement, index) => (
+            <div key={index}>
+              <S.CardHeader status={statement.type === 'credit' ? 'Entrada' : 'Saída'}>
+                <S.TicketNumber>{formatCurrencyBR(statement.amount)}</S.TicketNumber>
+                <S.RequestLabel>{date}</S.RequestLabel>
+                <S.RequestStatus>{statement.type === 'credit' ? 'Crédito' : 'Saída'}</S.RequestStatus>
+              </S.CardHeader>
 
-          <S.CardContent>
-            <S.DetailColumn>
-              <S.DetailRow>
-                <S.SectionTitle>Data</S.SectionTitle>
-                <S.SectionDescription>{ticket.data}</S.SectionDescription>
-              </S.DetailRow>
+              <S.CardContent>
+                <S.DetailColumn>
+                  <S.DetailRow>
+                    <S.SectionTitle>Data</S.SectionTitle>
+                    <S.SectionDescription>{statement.title}</S.SectionDescription>
+                  </S.DetailRow>
+                  <S.DetailRow>
+                    <S.SectionTitle>TPV</S.SectionTitle>
+                    <S.SectionDescription>{formatCurrencyBR(statement.tpv)}</S.SectionDescription>
+                  </S.DetailRow>
+                </S.DetailColumn>
 
-
-
-
-
-
-            </S.DetailColumn>
-
-            <S.DetailColumnBtn>
-              <S.EditButton>Visualizar</S.EditButton>
-            </S.DetailColumnBtn>
-          </S.CardContent>
+                <S.DetailColumnBtn>
+                  <S.EditButton>Visualizar</S.EditButton>
+                </S.DetailColumnBtn>
+              </S.CardContent>
+            </div>
+          ))}
         </S.CardContainer>
       ))}
     </>

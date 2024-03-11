@@ -2,7 +2,7 @@ export const bancos = {
   "options": [
     {
       "value": "001",
-      "label": "Banco do Brasil S.A."
+      "label": "001 - Banco do Brasil S.A."
     },
     {
       "value": "237",

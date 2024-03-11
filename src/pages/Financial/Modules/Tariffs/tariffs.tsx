@@ -7,7 +7,6 @@ import { FunnelSimple } from '@phosphor-icons/react';
 import { useLogin } from '@/context/user.login';
 import axios from 'axios';
 import { Loading } from '@/components/Loading/loading';
-import { useFilterLicensed } from './hooks/useFilterLicensed';
 import { EditableButton } from './components/ButtonEdit/buttonEdit';
 import { mockDataTable } from './mock';
 import { ModalBilling } from './components/ModalBilling/modalBilling';
@@ -15,34 +14,64 @@ import { CardInfo } from '../../../../components/CardInfo/cardInfo';
 import { HeaderTariffs } from './components/HeaderTariffs/headerTariffs';
 import { TableTariffs } from './components/TableStock/tableTariffs';
 import { TariffsCard } from './Mobile/TariffsCard/tariffsCard';
+import { useFilterBilling } from './hooks/useFilterBilling';
+import { TotalBtn } from '@/components/TotalBtn/totalBtn';
+import { BtnFilter } from '@/components/BtnFilter/btnFilter';
 
 
 export function Tariffs() {
   const [itensPorPage, setItensPorPage] = useState<number | ''>(10);
   const [filter, setFilter] = useState(false);
   const [searchValue, setSearchValue] = useState('');
-  const { state } = useFilterLicensed();
+  const { state } = useFilterBilling();
   const { dataUser } = useLogin();
-  const [totalSellers, setTotalSellers] = useState(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [sellers, setSellers] = useState([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [totalTariffs, setTotalTariffs] = useState<number>(0);
+  const [tariffs, setTariffs] = useState<any[]>([]);
+  const [amountDebit, setAmountDebit] = useState<number>(0);
+  const [amountCredit, setAmountCredit] = useState<number>(0);
 
   const fetchData = async (pageNumber: number = currentPage) => {
     setLoading(true);
-    let apiUrl = `https://api-pagueassim.stalopay.com.br/seller/indexla?perpage=${String(itensPorPage)}&page=${pageNumber}`;
-    if (searchValue) {
-      apiUrl += `&trading_name=${searchValue}`;
+    let apiUrl = `https://api-pagueassim.stalopay.com.br/tariffs/index?perpage=${String(itensPorPage)}&page=${pageNumber}`;
+  
+    const billingStartDate = localStorage.getItem('@billingStartDate');
+    if (billingStartDate && billingStartDate !== 'undefined') {
+      apiUrl += `&billing_start_date=${billingStartDate}`;
     }
+
+    const billingEndDate = localStorage.getItem('@billingEndDate');
+    if (billingEndDate && billingEndDate !== 'undefined') {
+      apiUrl += `&billing_end_date=${billingEndDate}`;
+    }
+
+
+    const billingLicensed = localStorage.getItem('@billingLicensed');
+    if (billingLicensed && billingLicensed !== 'undefined') {
+      apiUrl += `&responsible_seller_id=${billingLicensed}`;
+    }
+
+
+    const seller_id = localStorage.getItem('@billingEstablishment');
+    if (seller_id && seller_id !== 'undefined') {
+      apiUrl += `&seller_id=${seller_id}`;
+    }
+
+
+
     const response = await axios.get(apiUrl, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${dataUser?.token}`
       }
     });
-    setSellers(response.data.sellers);
-    setTotalSellers(response.data.total_sellers);
-    setCurrentPage(response.data.current_page);
+    const { total_tariffs: total, tariffs: data, current_page: page, amount_debit, amount_credit } = response.data;
+    setTotalTariffs(total);
+    setTariffs(data);
+    setCurrentPage(page);
+    setAmountDebit(amount_debit);
+    setAmountCredit(amount_credit);
     setLoading(false);
   };
 
@@ -64,77 +93,58 @@ export function Tariffs() {
     setFilter(false);
   };
 
-  const totalPages = Math.ceil(totalSellers / (itensPorPage || 1));
+  const totalPages = Math.ceil(totalTariffs / (itensPorPage || 1));
 
   useEffect(() => {
-
-  }, [dataUser, itensPorPage, currentPage]);
-
-  useEffect(() => {
-    if (searchValue.trim() === '') {
-      fetchData();
-    }
-  }, [searchValue])
-
+    fetchData();
+  }, [dataUser, itensPorPage, currentPage, state]);
 
   return (
     <>
       <ModalBilling onClose={handleCloseModal} visible={filter} />
       {loading ? <Loading /> :
         <>
-      <S.Container>
-      <HeaderTariffs />
+          <S.Container>
+            <HeaderTariffs />
 
-<S.ContainerCard>
-<CardInfo color='#7D7D7D' shouldFormat={false} label='Qtd de Tarifas' value={500}/>
-<CardInfo color='#2BC6F6'  label='Total Crédito' value={500}/>
-<CardInfo color='#E91414'  label='Total Débito' value={500}/>
-</S.ContainerCard>
+            <S.ContainerCard>
+              <CardInfo  shouldFormat={false} label='Quantidade de Tarifas' value={totalTariffs} />
+              <CardInfo  label='Total Crédito' value={amountCredit} />
+              <CardInfo  label='Total Débito' value={amountDebit} />
+            </S.ContainerCard>
 
+            <S.ContainerButton>
+              <TotalBtn total={totalTariffs}/>
+              
+              {state ? <EditableButton /> : ''}
+              <BtnFilter onClick={handleOpenModal} /> 
+            </S.ContainerButton>
 
- <S.ContainerButton>
-   <S.ButtonTotal>Todos ({totalSellers})</S.ButtonTotal>
-   {state ? <EditableButton /> : ''}
-   <S.ButtonFilter onClick={handleOpenModal}> <FunnelSimple />Filtrar</S.ButtonFilter>
- </S.ContainerButton>
+            <TableTariffs rows={tariffs} />
 
+            <S.ContainerCardsMobile>
+              <TariffsCard data={tariffs} />
+            </S.ContainerCardsMobile>
 
-
-<TableTariffs rows={mockDataTable} />
-
-<S.ContainerCardsMobile>
-<TariffsCard data={mockDataTable} />
-</S.ContainerCardsMobile>
-
-
-
-
- <S.Context>
-   <S.Linha />
-   <S.ContainerPagina>
-     <PaginaView totalItens={itensPorPage} />
-     <S.ContainerItens>
-       <ItensPorPage itensPorPage={itensPorPage} setItensPorPage={setItensPorPage} />
-       <Pagination
-         currentPage={currentPage}
-         onPageClick={fetchData}
-         totalPages={totalPages}
-         onNextPage={handleNextPage}
-         onPrevPage={handlePrevPage}
-       />
-     </S.ContainerItens>
-   </S.ContainerPagina>
-</S.Context>
-      </S.Container>
-
-
+            <S.Context>
+              <S.Linha />
+              <S.ContainerPagina>
+                <PaginaView totalItens={itensPorPage} />
+                <S.ContainerItens>
+                  <ItensPorPage itensPorPage={itensPorPage} setItensPorPage={setItensPorPage} />
+                  <Pagination
+                    currentPage={currentPage}
+                    onPageClick={fetchData}
+                    totalPages={totalPages}
+                    onNextPage={handleNextPage}
+                    onPrevPage={handlePrevPage}
+                  />
+                </S.ContainerItens>
+              </S.ContainerPagina>
+            </S.Context>
+          </S.Container>
         </>
-
       }
-
-
     </>
-
-
   );
 }

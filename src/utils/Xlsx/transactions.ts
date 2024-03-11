@@ -57,7 +57,7 @@ export const TransactionsToExcel = async (token: string) => {
         'Parcelas': transaction.number_installments,
         'Bandeira': transaction.brand,
         'SN': transaction.equipment_sn,
-        'NSU': transaction.nsu_external,
+        'NSU': transaction.nsu_internal,
         'Antecipado': transaction.is_anteciped === 0 ? 'sim' : 'não'
       };
     });

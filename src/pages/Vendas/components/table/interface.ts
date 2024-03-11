@@ -1,7 +1,7 @@
 export interface Transaction {
   id: string;
   acquire_id: string;
-  nsu_external: string;
+  nsu_internal: string;
   status: string;
   captured_in: string;
   amount: string;

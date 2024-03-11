@@ -29,7 +29,6 @@ interface RowData {
   planoBase: string;
   fornecedor: string;
   tipo: 'Base' | 'Comercial';
-
 }
 
 export function Plans() {
@@ -44,7 +43,11 @@ export function Plans() {
 
   const fetchPlans = async () => {
     setLoading(true);
-    const url = `https://api-pagueassim.stalopay.com.br/plan/index?perpage=${itensPorPage}&page=${currentPage}`;
+    let url = `https://api-pagueassim.stalopay.com.br/plan/index?perpage=${itensPorPage}&page=${currentPage}`;
+
+    if (searchValue) {
+      url += `&name=${searchValue}`;
+    }
 
     try {
       const response = await fetch(url, {
@@ -61,7 +64,7 @@ export function Plans() {
         antecipacao: plan.anticipation,
         tipo: plan.level_seller,
         fornecedor: plan.acquires,
-        planoBase : plan.plan_id_base
+        planoBase: plan.plan_id_base,
       }));
       setPlans(transformedPlans);
       setTotalPlans(data.total_plans);
@@ -75,7 +78,7 @@ export function Plans() {
 
   useEffect(() => {
     fetchPlans();
-  }, [itensPorPage, currentPage, searchValue]);
+  }, [itensPorPage, currentPage]);
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
@@ -93,60 +96,57 @@ export function Plans() {
     setCurrentPage(pageNumber);
   };
 
+  const handleSearch = (value: string) => {
+    setSearchValue(value);
+
+    if (value.trim() === '') {
+      setSearchValue('');
+    }
+
+    fetchPlans();
+  };
+
   return (
     <>
       {loading ? (
         <Loading />
       ) : (
         <>
-
-            <HeaderPlans />
-
-
-
-
-
-
-
-
+          <HeaderPlans
+           onSearch={handleSearch} searchValue={searchValue} setSearchValue={setSearchValue}
+          />
 
           <S.Container>
-          <div style={{display: 'flex', gap: '8px'}}>
-<TotalBtn total={totalPlans} />
- {/* {state ? <EditableButton /> : null}
- <BtnFilter onClick={handleOpenModal} /> */}
-</div>
-          <TablePlans rows={plans} />
+            <div style={{ display: 'flex', gap: '8px' }}>
+              <TotalBtn total={totalPlans} />
+            </div>
 
-          <S.ContainerCardsMobile >
-          <PlansCard cards={plans} />
-          </S.ContainerCardsMobile>
+            <TablePlans rows={plans} />
 
+            <S.ContainerCardsMobile>
+              <PlansCard cards={plans} />
+            </S.ContainerCardsMobile>
 
-
-          <S.Context>
-            <S.Linha />
-            <S.ContainerPagina>
-              <PaginaView totalItens={itensPorPage} />
-              <S.ContainerItens>
-                <ItensPorPage
-                  itensPorPage={itensPorPage}
-                  setItensPorPage={setItensPorPage}
-                />
-                <Pagination
-                  onPageClick={fetchData}
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  onNextPage={handleNextPage}
-                  onPrevPage={handlePrevPage}
-                />
-              </S.ContainerItens>
-            </S.ContainerPagina>
-          </S.Context>
-
-
+            <S.Context>
+              <S.Linha />
+              <S.ContainerPagina>
+                <PaginaView totalItens={itensPorPage} />
+                <S.ContainerItens>
+                  <ItensPorPage
+                    itensPorPage={itensPorPage}
+                    setItensPorPage={setItensPorPage}
+                  />
+                  <Pagination
+                    onPageClick={fetchData}
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onNextPage={handleNextPage}
+                    onPrevPage={handlePrevPage}
+                  />
+                </S.ContainerItens>
+              </S.ContainerPagina>
+            </S.Context>
           </S.Container>
-
         </>
       )}
     </>

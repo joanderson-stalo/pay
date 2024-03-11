@@ -21,6 +21,8 @@ import { CustomSelect } from '@/components/Select/select';
 import { optionsData } from './optionsData';
 import { useLogin } from '@/context/user.login';
 import { useFormContext } from 'react-hook-form';
+import Swal from 'sweetalert2';
+import { useEstablishment } from '@/context/useEstablishment';
 
 interface IStep3 {
   Avançar: () => void;
@@ -34,10 +36,12 @@ interface IOption {
 
 export function Step3({ Avançar, Voltar }: IStep3) {
   const [dados, setDados] = useState(false);
-  const [fetchedOptions, setFetchedOptions] = useState([]);
+  const [fetchedOptions, setFetchedOptions] = useState<IOption[]>([]);
   const [acquires, setAcquires] = useState<IOption[]>([]);
   const [inputs, setInputs] = useState<{}[]>([{}]);
   const [selectedAcquires, setSelectedAcquires] = useState<string[]>([]);
+  const { establishmentId } = useEstablishment();
+  const [loading, setLoading] = useState(false);
 
   const { dataUser } = useLogin();
 
@@ -50,8 +54,8 @@ export function Step3({ Avançar, Voltar }: IStep3) {
   } = useFormContext();
 
   const allFieldsFilled =
-    !!watch('licenciado') &&
-    inputs.every((_, index) => !!watch(`Fornecedor${index}`) && !!watch(`PlanoComercial${index}`));
+    !!watch('licenciado') 
+    // && inputs.every((_, index) => !!watch(`Fornecedor${index}`) && !!watch(`PlanoComercial${index}`));
 
   const handleAcquireChange = (selectedOption: { value: string }, index: number) => {
     setValue(`Fornecedor${index}`, selectedOption.value);
@@ -151,7 +155,6 @@ export function Step3({ Avançar, Voltar }: IStep3) {
         }
       })
       .then((response) => {
-        console.log('hello',response)
         const numberOfAcquiresFields = Object.keys(watch()).filter(key => key.startsWith("Fornecedor")).length;
 
         if (numberOfAcquiresFields > 0) {
@@ -202,27 +205,89 @@ export function Step3({ Avançar, Voltar }: IStep3) {
       });
   }, []);
 
-  const mockFillInputsStep3 = () => {
-    setValue('licenciado', '101'); // Assuming '101' is one of the option values for Licenciado Autorizado
+  useEffect(() => {
+    const fetchSellerData = async () => {
+      setLoading(true); 
+      try {
+        const response = await axios.get(
+          `https://api-pagueassim.stalopay.com.br/seller/show/${establishmentId}`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${dataUser?.token}`,
+            },
+          }
+        );
+  
+        const sellerData = response.data;
+        setValue('licenciado', sellerData.seller.seller_la.id_la);
+      
+      } catch (error) {
+        console.error('Erro ao obter dados do vendedor:', error);
+      } finally {
+        setLoading(false); 
+      }
+    };
+    fetchSellerData();
+  }, [establishmentId, dataUser?.token, setValue]);
 
-    // For dynamic Fornecedor and PlanoComercial fields
-    const fornecedores = ['1', '2']; // These should be valid option values from mockAcquires
-    const planosComerciais = ['planOption1', 'planOption2']; // Assuming these are some valid option values for Plano Comercial
 
-    fornecedores.forEach((fornecedor, index) => {
-      setValue(`Fornecedor${index}`, fornecedor);
-      setValue(`PlanoComercial${index}`, planosComerciais[index]);
-    });
+  const handleSalvar = async () => {
+    try {
+      setLoading(true);
+      const updatedData = {
+        id_seller_origin: watch('licenciado'),
+        id_seller_destiny: establishmentId
+      };
+  
+      await axios.put(`https://api-pagueassim.stalopay.com.br/update-seller-network`, updatedData, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${dataUser?.token}`
+        }
+      });
+  
+      setLoading(false);
+  
+      Swal.fire({
+        icon: 'success',
+        title: 'Licenciado atualizado com sucesso!',
+        showConfirmButton: true,
+        confirmButtonText: 'Continuar',
+        showCancelButton: true,
+        cancelButtonText: 'OK',
+        cancelButtonColor: '#17ec3b',
+        showCloseButton: true,
+        closeButtonAriaLabel: 'Fechar modal'
+        
+      }).then((result) => {
+        if (result.isConfirmed) {
+          console.log('Continuar clicado');
+        } else {
+          console.log('OK clicado');
+        }
+      });
+    } catch (error) {
+      console.error('Erro ao atualizar dados:', error);
+      setLoading(false);
+      Swal.fire({
+        icon: 'error',
+        title: 'Erro ao atualizar dados',
+        text: 'Ocorreu um erro ao tentar atualizar os dados do licenciado. Por favor, tente novamente mais tarde.',
+        confirmButtonText: 'OK'
+      });
+    }
   };
 
-  useEffect(() => {
-    mockFillInputsStep3();
-  }, []);
+  const licenciadoValue = watch('licenciado');
+  const selectedOption = fetchedOptions.find(option => option.value === licenciadoValue);
+
+
 
 
   return (
     <>
-      {dados && <Loading />}
+      {loading && <Loading />}
       <ContainerStep>
         <ContextStepContainer>
           <ContextStep>
@@ -231,22 +296,24 @@ export function Step3({ Avançar, Voltar }: IStep3) {
             <ContainerForm>
               <ContainerInput2>
                 <CustomSelect
-                  {...register('licenciado')}
-                  label="Licenciado Autorizado"
-                  optionsData={{ options: fetchedOptions }}
-                  hasError={!!errors.licenciado}
-                  onChange={(selectedOption: { value: string }) => {
-                    setValue('licenciado', selectedOption.value);
-                  }} />
+                 placeholder='-'
+                 {...register('licenciado')}
+                 value={selectedOption || {value: '', label: ''}}
+                 label="Licenciado Autorizado"
+                 optionsData={{ options: fetchedOptions }}
+                 hasError={!!errors.licenciado}
+                 onChange={(selectedOption: { value: string }) => {
+                   setValue('licenciado', selectedOption.value)
+                 }} />
                 <button>Pesquise pelo nome do Licenciado</button>
               </ContainerInput2>
-
-              {renderInputs()}
+              {/* {renderInputs()} */}
+            
             </ContainerForm>
           </ContextStep>
           <ContainerButton>
             <ButtonVoltar onClick={Voltar}>Voltar</ButtonVoltar>
-            <ButtonAvançar disabled={!allFieldsFilled} onClick={Avançar}>
+            <ButtonAvançar disabled={!allFieldsFilled} onClick={handleSalvar}>
               Salvar
             </ButtonAvançar>
             <ButtonAvançar disabled={!allFieldsFilled} onClick={Avançar}>

@@ -1,8 +1,8 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { ModalSucesso } from "@/components/ModalSucesso/modalSucesso";
 import { ContainerHome, ContainerProgressSteps } from "./styled";
 import { ProgressSteps } from "./components/ProgressSteps/progressSteps";
-import { useForm, FormProvider, FieldValues } from "react-hook-form";
+import { useForm, FormProvider } from "react-hook-form";
 import { validateCNPJ, validateCPF } from "validations-br";
 import { validateEmail } from "@/utils/validateEmail";
 import { validateDataCriacao } from "@/utils/dataValid";
@@ -12,42 +12,80 @@ import { Step4 } from "./components/Step4/step4";
 import { Step1 } from "./components/Step1/step1";
 import { Step2 } from "./components/Step2/step2";
 import axios from 'axios';
-import { useLogin } from "@/context/user.login";
-import { sanitizeNumeric } from "@/utils/sanitizeNumeric";
-import { convertDateFormat } from "@/utils/convertDateFormat";
 import { useNavigate } from "react-router-dom";
-import {  useDocumentLA } from "@/context/useDocumentLA";
+import { useDocumentLA } from "@/context/useDocumentLA";
 import { toast } from "react-toastify";
+import { useLicensed } from "@/context/useLicensed";
+import { useLogin } from "@/context/user.login";
 
 export const EditRegistrationLA = () => {
   const [currentStep, setCurrentStep] = useState(1);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [openModal, setOpenModal] = useState(true);
+  const { documentTypeLA } = useDocumentLA();
+  const methods = useForm();
   const { dataUser } = useLogin();
-  const { documentTypeLA } = useDocumentLA()
-  const [isLoading, setIsLoading] = useState(false)
+  const { getValues } = methods;
+  const [isLoading, setIsLoading] = useState(false); 
+  const { licensedId } = useLicensed();
 
   const handleModalClose = () => {
-    navigate('/licenseddetail')
-    localStorage.setItem('selectedItem', '0');
+    navigate('/sellers-la-detail');
     setOpenModal(false);
   };
 
-  const methods = useForm();
-  const { getValues } = methods;
+  const handleNextStep = async () => {
+    if (currentStep === 4) {
+      const isStep4Valid = validateStep4();
+      if (isStep4Valid) {
+        try {
+          const step4Values = getValues();
+          const sellerDataResponse = await axios.get(`https://api-pagueassim.stalopay.com.br/seller/show/${licensedId}`, {
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${dataUser?.token}`
+            }
+          });
+  
+          const sellerData = sellerDataResponse.data;
+  
+          const banks= sellerData.seller.banks[0].id;
 
 
-
-  const handleNextStep = () => {
-    if (currentStep < 4) {
-      setCurrentStep((prevStep) => prevStep + 1);
+          const requestBody = {
+            seller_id: licensedId,
+            agency: step4Values.Agência,
+            account: step4Values.Conta,
+            type_account: step4Values.TipoDeConta,
+            document: step4Values.CpfCnpj.replace(/\D/g, ""),
+            document_type: step4Values.CpfCnpj.length <= 11 ? "cpf" : "cnpj",
+            code: step4Values.Banco ,
+            pix: step4Values.pix
+          };
+          setIsLoading(true); 
+          await axios.put(`https://api-pagueassim.stalopay.com.br/banks/update-la/${banks}`, requestBody,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${dataUser?.token}`
+            }
+          });
+          setCurrentStep(5);
+        } catch (error) {
+          console.error("Error updating bank details:", error);
+          toast.error("Error updating bank details. Please try again later.");
+        } finally {
+          setIsLoading(false); 
+        }
+      }
     } else {
-      setCurrentStep(5);
+      if (currentStep < 4) {
+        setCurrentStep((prevStep) => prevStep + 1);
+      } else {
+        setCurrentStep(5);
+      }
     }
-
   };
-
-
 
   const handlePreviousStep = () => {
     if (currentStep > 1) {
@@ -74,8 +112,7 @@ export const EditRegistrationLA = () => {
       isDataCriacaoValid;
 
     return isStep1Valid;
-};
-
+  };
 
   const validateStep2 = () => {
     const step2Values = getValues();
@@ -99,7 +136,6 @@ export const EditRegistrationLA = () => {
         !!step3Values[`Fornecedor${index}`] && !!step3Values[`PlanoComercial${index}`]
     );
 };
-
 
 const validateStep4 = () => {
   const step4Values = getValues();
@@ -126,52 +162,52 @@ const validateStep4 = () => {
   return isStep4Valid;
 };
 
-  const currentStepIsValid = () => {
-    switch (currentStep) {
-      case 1:
-        return validateStep1();
-      case 2:
-        return validateStep2();
-      case 3:
-        return validateStep3();
-      case 4:
-        return validateStep4();
-      default:
-        return true;
-    }
-  };
+const currentStepIsValid = () => {
+  switch (currentStep) {
+    case 1:
+      return validateStep1();
+    case 2:
+      return validateStep2();
+    case 3:
+      return validateStep3();
+    case 4:
+      return validateStep4();
+    default:
+      return true;
+  }
+};
 
-  const steps = [1, 2, 3, 4];
-  const successModalText = "Licenciado Atualizado";
+const steps = [1, 2, 3, 4];
+const successModalText = "Licenciado Atualizado";
 
-  console.log('oiiss',  getValues())
+console.log('oiiss',  getValues())
 
-  return (
-    <>
-      <ContainerHome>
-        <ContainerProgressSteps>
-          <ProgressSteps
-         stepLabels={["Dados do Licenciado", "Endereço", "Comercial", "Dados Bancários"]}
-            startProgress={0}
-            endProgress={steps.length + 1}
-            currentStep={currentStep}
-            setCurrentStep={setCurrentStep}
-            steps={steps}
-            canAdvance={currentStepIsValid()}
-            canGoBack={currentStep > 1}
-          />
-        </ContainerProgressSteps>
+return (
+  <>
+    <ContainerHome>
+      <ContainerProgressSteps>
+        <ProgressSteps
+          stepLabels={["Dados do Licenciado", "Endereço", "Comercial", "Dados Bancários"]}
+          startProgress={0}
+          endProgress={steps.length + 1}
+          currentStep={currentStep}
+          setCurrentStep={setCurrentStep}
+          steps={steps}
+          canAdvance={currentStepIsValid()}
+          canGoBack={currentStep > 1}
+        />
+      </ContainerProgressSteps>
 
-        <FormProvider {...methods}>
-          {currentStep === 1 && <Step1 Avançar={handleNextStep} />}
-          {currentStep === 2 && <Step2 Avançar={handleNextStep} Voltar={handlePreviousStep} />}
-          {currentStep === 3 && <Step3 Avançar={handleNextStep} Voltar={handlePreviousStep} />}
-          {currentStep === 4 && <Step4 isLoading={isLoading} Avançar={handleNextStep} Voltar={handlePreviousStep} />}
-          {currentStep === 5 && (
-            <ModalSucesso text={successModalText} visible={openModal} onClose={handleModalClose} />
-          )}
-        </FormProvider>
-      </ContainerHome>
-    </>
-  );
+      <FormProvider {...methods}>
+        {currentStep === 1 && <Step1 Avançar={handleNextStep} />}
+        {currentStep === 2 && <Step2 Avançar={handleNextStep} Voltar={handlePreviousStep} />}
+        {currentStep === 3 && <Step3 Avançar={handleNextStep} Voltar={handlePreviousStep} />}
+        {currentStep === 4 && <Step4 isLoading={isLoading} Avançar={handleNextStep} Voltar={handlePreviousStep} />}
+        {currentStep === 5 && (
+          <ModalSucesso text={successModalText} visible={openModal} onClose={handleModalClose} />
+        )}
+      </FormProvider>
+    </ContainerHome>
+  </>
+);
 };

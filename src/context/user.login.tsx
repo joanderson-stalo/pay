@@ -15,6 +15,7 @@ type User = {
   token: string;
   seller_id: string;
   document_id: string;
+  seller_type: string
 };
 
 type LoginContextData = {
@@ -53,6 +54,7 @@ export const LoginProvider = ({ children }: { children: React.ReactNode }) => {
         token: response.data.access_token,
         document_id: response.data.user.document_id,
         seller_id: response.data.sellers[0]?.seller_id || null,
+        seller_type: response.data.sellers[0]?.seller_type,
       };
 
       secureLocalStorage.setItem('@App:user', JSON.stringify(user));
@@ -60,6 +62,7 @@ export const LoginProvider = ({ children }: { children: React.ReactNode }) => {
       const storedUser = typeof storedUserRaw === 'string' ? JSON.parse(storedUserRaw) as User : null;
       if (storedUser) {
         setDataUser(storedUser);
+        
       }
 
       setIsLogin(true);
@@ -98,9 +101,21 @@ export const LoginProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const validateToken = async () => {
       try {
-        await axios.get('https://api-pagueassim.stalopay.com.br/validatetoken', {
+        const response = await axios.get('https://api-pagueassim.stalopay.com.br/validatetoken', {
           headers: { Authorization: `Bearer ${dataUser?.token}` }
         });
+  
+        const expiresIn = response.data.expires_in * 1000;
+        console.log(response.data.expires_in)
+        const now = new Date().getTime();
+        const tokenExpirationTime = new Date(now + expiresIn).getTime();
+  
+        const timeUntilExpiration = tokenExpirationTime - now;
+      
+        const expirationTimer = setTimeout(() => {
+          validateToken();
+        }, timeUntilExpiration);
+  
       } catch (error) {
         secureLocalStorage.removeItem('@App:isLogin')
         secureLocalStorage.removeItem('@App:user')
@@ -109,13 +124,11 @@ export const LoginProvider = ({ children }: { children: React.ReactNode }) => {
         setIsLogin(false);
       }
     };
+  
+    validateToken(); // Executar a validação do token quando este efeito for montado pela primeira vez
+  }, [dataUser]); // Execute novamente quando o dataUser for alterado
+  
 
-    const intervalId = setInterval(validateToken, 20000);
-
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, [dataUser]);
 
   return (
     <LoginContext.Provider

@@ -1,4 +1,3 @@
-import { useTransactionVendas } from '@/context/useVendas'
 import { CardDetalhes } from './components/CardDetalhes/cardDetalhes'
 import { CardInfo } from './components/CardInfo/cardInfo'
 import { CardInfo2 } from './components/CardInfo2/cardInfo2'
@@ -15,6 +14,8 @@ import { formatTaxa } from '@/utils/formatTaxa'
 import { toast } from 'react-toastify'
 import { CaretLeft } from '@phosphor-icons/react'
 import { useNavigate } from 'react-router-dom'
+import { useTransactionVendas } from '@/context/useTransaction'
+import { useSidebarVisibility } from '@/context/sidebarVisibilityContext'
 
 type DateFormatOptions = {
   year: 'numeric' | '2-digit'
@@ -27,6 +28,8 @@ export function DetalheVenda() {
   const [loading, setLoading] = useState<boolean>(false)
   const [commissions, setCommissions] = useState<Commission[]>([])
   const { dataUser } = useLogin()
+  const [liquidations, setLiquidations] = useState([]);
+  const { isVisible } = useSidebarVisibility();
   const [transactionDetails, setTransactionDetails] =
     useState<TransactionDetails | null>(null)
 
@@ -60,6 +63,7 @@ export function DetalheVenda() {
           if (data) {
             setTransactionDetails(data.transaction)
             setCommissions(data.transaction.commissions)
+            setLiquidations(data.transaction.liquidations); 
           }
         } catch (error) {
           toast.error('Erro ao buscar os detalhes da transação')
@@ -83,7 +87,7 @@ export function DetalheVenda() {
       {loading ? <Loading />
       :
     <>
-            <S.ButtonBlack onClick={handleVendas}><CaretLeft size={18} />Voltar</S.ButtonBlack>
+            <S.ButtonBlack isActive={isVisible} onClick={handleVendas}><CaretLeft size={18} />Voltar</S.ButtonBlack>
       <S.ContainerDetalhe>
         <S.ContextDetalhes>
           <CardDetalhes
@@ -107,13 +111,14 @@ export function DetalheVenda() {
                 : undefined
             )}
             status={transactionDetails?.status}
-            nsu_external={transactionDetails?.nsu_external}
+            nsu_internal={transactionDetails?.nsu_internal}
             number_installments={transactionDetails?.number_installments}
             card_number={transactionDetails?.card_number}
             brand={transactionDetails?.brand}
             comment={transactionDetails?.comment}
             payment_type={transactionDetails?.payment_type}
             seller_company_name={transactionDetails?.seller_company_name}
+            id={transactionDetails?.id}
           />
 
 
@@ -137,7 +142,7 @@ export function DetalheVenda() {
             />
 
           </S.SectionCard>
-          <HistoricoTableDetalhes />
+          <HistoricoTableDetalhes  liquidations={liquidations}  />
             </S.ContextContainer>
             <ComissoesTable  commissions={commissions}/>
 

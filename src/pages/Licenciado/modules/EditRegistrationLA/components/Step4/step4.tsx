@@ -6,7 +6,12 @@ import { useFormContext } from 'react-hook-form';
 import { CustomSelect } from '@/components/Select/select';
 import { optionsData } from '../Step1/option';
 import { Loading } from '@/components/Loading/loading';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { bancos } from '@/json/bancos';
+import { accountType } from '@/json/accountType';
+import axios from 'axios';
+import { useLicensed } from '@/context/useLicensed';
+import { useLogin } from '@/context/user.login';
 
 interface IStep5 {
   Avançar: () => void;
@@ -15,6 +20,9 @@ interface IStep5 {
 }
 
 export function Step4({ Avançar, Voltar, isLoading }: IStep5) {
+  const { licensedId } = useLicensed();
+  const [loading, setLoading] = useState(false);
+  const { dataUser } = useLogin();
   const {
     register,
     setValue,
@@ -57,18 +65,6 @@ const formatCpfOrCnpj = (value: string) => {
   );
 };
 
-const mockFillInputsStep4 = () => {
-  setValue('Banco', 'Banco do Brasil'); // Use a appropriate mock value
-  setValue('TipoDeConta', 'Conta Corrente'); // Exemplo
-  setValue('Agência', '1234-5'); // Mock de agência bancária
-  setValue('Conta', '12345-6'); // Mock de conta bancária
-  setValue('CpfCnpj', '123.456.789-10'); // Mock CPF
-  setValue('pix', 'mock.pix@email.com'); // Mock chave PIX
-};
-
-useEffect(() => {
-  mockFillInputsStep4();
-}, []);
 
 
 
@@ -91,6 +87,46 @@ const handleCpfCnpjChange = (event: { target: { value: any; }; }) => {
 
 
 
+      useEffect(() => {
+        const fetchSellerData = async () => {
+          setLoading(true); 
+          try {
+            const response = await axios.get(
+              `https://api-pagueassim.stalopay.com.br/seller/show/${licensedId}`,
+              {
+                headers: {
+                  'Content-Type': 'application/json',
+                  Authorization: `Bearer ${dataUser?.token}`,
+                },
+              }
+            );
+      
+            const sellerData = response.data;
+            if (sellerData && sellerData.seller && sellerData.seller.banks && sellerData.seller.banks.length > 0) {
+              const banco = sellerData.seller.banks[0]; 
+              setValue('Banco', banco.code);
+              setValue('Agência', banco.agency);
+              setValue('Conta', banco.account);
+              setValue('pix', banco.pix);
+              setValue('TipoDeConta', banco.type_account);
+              setValue('CpfCnpj', banco.document);
+            }
+            
+          
+          } catch (error) {
+            console.error('Erro ao obter dados do vendedor:', error);
+          } finally {
+            setLoading(false); 
+          }
+        };
+        fetchSellerData();
+      }, [licensedId, dataUser?.token, setValue]);
+
+      const Banco = watch('Banco');
+      const bancoSelecionado = bancos.options.find((option: { value: string; label: string }) => option.value === Banco);
+      const tipoDeContaValue = watch('TipoDeConta');
+      const tipoDeContaSelecionado = accountType.options.find((option: { value: string; label: string }) => option.value === tipoDeContaValue);
+
   return (
     <>
    {isLoading && <Loading />}
@@ -105,7 +141,8 @@ const handleCpfCnpjChange = (event: { target: { value: any; }; }) => {
                   <CustomSelect
                     {...register('Banco', { required: true })}
                     label="Banco"
-                    optionsData={optionsData}
+                    optionsData={bancos}
+                    value={bancoSelecionado}
                     placeholder={'Clique para ver a lista'}
                     hasError={!!errors.Banco}
                     onChange={(selectedOption: { value: string }) => {
@@ -117,8 +154,9 @@ const handleCpfCnpjChange = (event: { target: { value: any; }; }) => {
                   <CustomSelect
                     {...register('TipoDeConta', { required: true })}
                     label="Tipo de Conta"
+                    value={tipoDeContaSelecionado}
                     placeholder={''}
-                    optionsData={optionsData}
+                    optionsData={accountType}
                     hasError={!!errors['Tipo de Conta']}
                     onChange={(selectedOption: { value: string }) => {
                       setValue('TipoDeConta', selectedOption.value);

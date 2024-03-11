@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 import {
-  ButtonAdd,
   ButtonAvançar,
-  ButtonRemover,
   ButtonVoltar,
   ContainerButton,
   ContainerForm,
@@ -15,39 +13,43 @@ import {
   Line,
   TitleStep,
   WInput
-} from './styled'
-import { Loading } from '@/components/Loading/loading'
-import { CustomSelect } from '@/components/Select/select'
-import { optionsData } from './optionsData'
-import { useLogin } from '@/context/user.login'
-import { useFormContext } from 'react-hook-form'
-import { CustomInput } from '@/components/Input/input'
-import { ThemeColor } from '@/config/color'
+} from './styled';
+import { Loading } from '@/components/Loading/loading';
+import { CustomSelect } from '@/components/Select/select';
+import { useLogin } from '@/context/user.login';
+import { useFormContext } from 'react-hook-form';
+import { LabelCustomInputMask } from '@/components/CustomInputMask';
+import { SellerData } from '../interface';
+import { useLicensed } from '@/context/useLicensed';
+import Swal from 'sweetalert2';
 
 interface IStep3 {
-  Avançar: () => void
-  Voltar: () => void
+  Avançar: () => void;
+  Voltar: () => void;
 }
 
 interface IOption {
-  value: string
-  label: string
+  value: string;
+  label: string;
 }
 
 export function Step3({ Avançar, Voltar }: IStep3) {
-  const [dados, setDados] = useState(false)
-  const [fetchedOptions, setFetchedOptions] = useState([])
+  const [dados, setDados] = useState(false);
+  const [fetchedOptions, setFetchedOptions] = useState<IOption[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [sellerData, setSellerData] = useState<SellerData | null>(null);
+  const { licensedId } = useLicensed();
 
-  const { dataUser } = useLogin()
+  const { dataUser } = useLogin();
 
   const {
     register,
     setValue,
     formState: { errors },
     watch
-  } = useFormContext()
+  } = useFormContext();
 
-  const allFieldsFilled = !!watch('licenciado')
+  const allFieldsFilled = !!watch('licenciado');
 
   useEffect(() => {
     setDados(true);
@@ -77,15 +79,90 @@ export function Step3({ Avançar, Voltar }: IStep3) {
       });
   }, []);
 
-  const mockFillInputsStep3 = () => {
-    setValue('licenciado', 'someLicenciadoValue'); // use appropriate mock value
-    setValue('RegraMarkup', '20'); // 20% markup as a mock example
+  useEffect(() => {
+    const fetchSellerData = async () => {
+      setLoading(true); 
+      try {
+        const response = await axios.get(
+          `https://api-pagueassim.stalopay.com.br/seller/show/${licensedId}`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${dataUser?.token}`,
+            },
+          }
+        );
+  
+        const sellerData = response.data;
+        setValue('licenciado', sellerData.seller.seller_la.id_la);
+        setValue('RegraMarkup', sellerData.seller.markup);
+      
+        setSellerData(response.data.seller);
+      } catch (error) {
+        console.error('Erro ao obter dados do vendedor:', error);
+      } finally {
+        setLoading(false); 
+      }
+    };
+    fetchSellerData();
+  }, [licensedId, dataUser?.token, setValue]);
+
+
+  const handleSalvar = async () => {
+    try {
+      setLoading(true);
+
+      const markupValue = watch('RegraMarkup')
+      .replace(',', '.')
+      .replace(/ %/, '');
+  
+      const updatedData = {
+        markup_seller_destiny: markupValue,
+        id_seller_origin: watch('licenciado'),
+        id_seller_destiny: licensedId
+      };
+  
+      await axios.put(`https://api-pagueassim.stalopay.com.br/update-seller-network`, updatedData, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${dataUser?.token}`
+        }
+      });
+  
+      setLoading(false);
+  
+      Swal.fire({
+        icon: 'success',
+        title: 'Licenciado atualizado com sucesso!',
+        showConfirmButton: true,
+        confirmButtonText: 'Continuar',
+        showCancelButton: true,
+        cancelButtonText: 'OK',
+        cancelButtonColor: '#17ec3b',
+        showCloseButton: true,
+        closeButtonAriaLabel: 'Fechar modal'
+        
+      }).then((result) => {
+        if (result.isConfirmed) {
+          console.log('Continuar clicado');
+        } else {
+          console.log('OK clicado');
+        }
+      });
+    } catch (error) {
+      console.error('Erro ao atualizar dados:', error);
+      setLoading(false);
+      Swal.fire({
+        icon: 'error',
+        title: 'Erro ao atualizar dados',
+        text: 'Ocorreu um erro ao tentar atualizar os dados do licenciado. Por favor, tente novamente mais tarde.',
+        confirmButtonText: 'OK'
+      });
+    }
   };
 
-  useEffect(() => {
-    mockFillInputsStep3();
-  }, []);
-
+  const licenciadoValue = watch('licenciado');
+  const selectedOption = fetchedOptions.find(option => option.value === licenciadoValue);
 
   return (
     <>
@@ -100,6 +177,7 @@ export function Step3({ Avançar, Voltar }: IStep3) {
                 <CustomSelect
                   placeholder='-'
                   {...register('licenciado')}
+                  value={selectedOption || {value: '', label: ''}}
                   label="Licenciado Autorizado"
                   optionsData={{ options: fetchedOptions }}
                   hasError={!!errors.licenciado}
@@ -111,13 +189,12 @@ export function Step3({ Avançar, Voltar }: IStep3) {
               </ContainerInput2>
               <ContainerInput>
                 <WInput>
-                  <CustomInput
-                    {...register('RegraMarkup')}
-                    label="Regra Markup"
+                  <LabelCustomInputMask
                     placeholder="Regra Markup %"
-                    hasError={!!errors.Fornecedor}
-                    colorInputDefault={ThemeColor.primaria}
-                    colorInputSuccess={ThemeColor.secundaria}
+                    label="Regra Markup"
+                    mask='99,99 %'
+                    {...register('RegraMarkup')}
+                    hasError={!!errors.TaxaAntecipacao}
                   />
                 </WInput>
               </ContainerInput>
@@ -125,11 +202,11 @@ export function Step3({ Avançar, Voltar }: IStep3) {
           </ContextStep>
           <ContainerButton>
             <ButtonVoltar onClick={Voltar}>Voltar</ButtonVoltar>
-            <ButtonAvançar disabled={!allFieldsFilled} onClick={Avançar}>Salvar</ButtonAvançar>
+            <ButtonAvançar disabled={!allFieldsFilled} onClick={handleSalvar}>Salvar</ButtonAvançar>
             <ButtonAvançar disabled={!allFieldsFilled} onClick={Avançar}>Avançar</ButtonAvançar>
           </ContainerButton>
         </ContextStepContainer>
       </ContainerStep>
     </>
-  )
+  );
 }

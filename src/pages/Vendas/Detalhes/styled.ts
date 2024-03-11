@@ -1,6 +1,11 @@
 import { ThemeColor } from "@/config/color";
 import styled from "styled-components";
 
+
+interface ButtonProps {
+  isActive: boolean;
+}
+
 export const ContainerDetalhe = styled.div`
   display: flex;
   margin: 36px 20px 20px 20px;
@@ -48,15 +53,15 @@ export const SectionTable = styled.section`
   }
 
 `
-export const ButtonBlack = styled.button`
+export const ButtonBlack = styled.button<ButtonProps>`
   color: ${ThemeColor.primaria};
-font-size: 12px;
-font-style: normal;
-font-weight: 500;
-line-height: 20px;
-letter-spacing: 0.5px;
-background-color: transparent;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0.5px;
+  background-color: transparent;
+  display: flex;
+  margin: ${({ isActive }) => (isActive ? '40px 0 0 40px' : '40px 0 0 100px')};
+`;
 
-display: flex;
-margin: 40px 0 0 100px;
-`

@@ -1,51 +1,57 @@
-import { FunnelSimple, MagnifyingGlass } from '@phosphor-icons/react'
-import { Card } from './components/Card/card'
 import * as S from './styled'
-import { SetStateAction, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { PaginaView } from '@/components/PaginaView/paginaView'
 import { ItensPorPage } from '@/components/ItensPorPage/itensPorPage'
 import { Pagination } from '@/components/Pagination/pagination'
 
 import { useLogin } from '@/context/user.login'
-import { Transaction } from './components/TabelaToDayCommission/interface'
 import { Loading } from '@/components/Loading/loading'
-import { mockData } from './mock'
 import { HeaderCommission } from './components/HeaderCommission/headerCommission'
-import { useFilterDailyCommission } from './hooks/useFilterDailyCommission'
-import { EditableButton } from './components/ButtonEdit/buttonEdit'
 import { CardInfo } from '@/components/CardInfo/cardInfo'
 import { TabelaToDayCommission } from './components/TabelaToDayCommission/tabelaToDayCommission'
 import { ToDayCommisionCard } from './Mobile/ToDayCommisionCard/toDayCommisionCard'
+import axios from 'axios'
+import { baseURL } from '@/config/color'
+
+
+interface CommissionData {
+  ec_seller_document: string;
+  la_seller_trading_name: string;
+  total_amount: string;
+  commission_count:string;
+  total_transaction_amount:string;
+}
+
+interface SellerCommissions {
+  [fornecedor: string]: CommissionData;
+}
+
+interface ECCommissions {
+  [sellerName: string]: SellerCommissions;
+}
+
+interface APIResponse {
+  status: number;
+  success: boolean;
+  total_transaction_amount: string;
+  total_commission_count: string;
+  total_commission_amount: string;
+  commissions_by_EC: ECCommissions;
+}
+
 
 export function TodayCommission() {
-  const [searchValue, setSearchValue] = useState('')
   const [itensPorPage, setItensPorPage] = useState<number | ''>(10)
-  const [filter, setFilter] = useState(false)
   const [loading, setLoading] = useState<boolean>(false)
 
-  const [transactions, setTransactions] = useState<Transaction[]>([])
-  const [totalTransactions, setTotalTransactions] = useState<number>(0)
-  const [totalAmount, setTotalAmount] = useState<string>('0.00')
-  const [averageTaxApplied, setAverageTaxApplied] = useState<string>('0.000')
-  const [tpvGlobal, setTpvGlobal] = useState<string>('0')
+ 
   const [currentPage, setCurrentPage] = useState<number>(1)
-
-  const { state } = useFilterDailyCommission()
   const { dataUser } = useLogin()
+  const [totalCommissionsByEC, setTotalCommissionsByEC] = useState<number>(0);
+  const [totalTransactionAmount, setTotalTransactionAmount] = useState<number>(0);
+  const [totalCommissionCount, setTotalCommissionCount] = useState<number>(0);
+  const [commissionsByEC, setCommissionsByEC] = useState<ECCommissions>({});
 
-  const handleChange = (event: {
-    target: { value: SetStateAction<string> }
-  }) => {
-    setSearchValue(event.target.value)
-  }
-
-  const handleOpenModal = () => {
-    setFilter(true)
-  }
-
-  const handleCloseModal = () => {
-    setFilter(false)
-  }
 
   const fetchData = async (pageNumber: number) => {
     setCurrentPage(pageNumber)
@@ -61,70 +67,40 @@ export function TodayCommission() {
     }
   }
 
-  const fetchDataFromAPI = async (search?: string) => {
-    setLoading(true)
+  const fetchDataFromAPI = useCallback(async (search?: string) => {
+    setLoading(true);
 
-    let url = `https://api-pagueassim.stalopay.com.br/transactions?perpage=${String(
-      itensPorPage
-    )}&page=${currentPage}`
-    if (search) {
-      url += `&nsu_external=${search}`
-    }
+    let url = `${baseURL}commisssion/la-network-commission?perpage=${String(itensPorPage)}&page=${currentPage}`;
 
-    const totalUrl = 'https://api-pagueassim.stalopay.com.br/transactions'
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${dataUser?.token}`,
+      },
+    };
 
     try {
-      const [response, totalResponse] = await Promise.all([
-        fetch(url, {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${dataUser?.token}`
-          }
-        }),
-        fetch(totalUrl, {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${dataUser?.token}`
-          }
-        })
-      ])
+      const response = await axios.get(url, config);
+      const { data } = response;
+      setTotalTransactionAmount(Number(data.total_transaction_amount));
+      setTotalCommissionCount(Number(data.total_transaction_count));
+      setCommissionsByEC(data.commissions_by_EC);
 
-      if (response.ok && totalResponse.ok) {
-        const data = await response.json()
-        const totalData = await totalResponse.json()
-        setTransactions(data.transactions)
-        setTotalTransactions(data.total_transactions)
-        setTpvGlobal(totalData.total_amountTPV)
-
-        setCurrentPage(data.current_page)
-        setTotalAmount(totalData.net_value)
-        setAverageTaxApplied(totalData.average_taxApplied)
-      } else {
-        console.error(`Error fetching paginated data: ${response.statusText}`)
-        console.error(`Error fetching total data: ${totalResponse.statusText}`)
-      }
+      let totalCommissions = Object.keys(data.commissions_by_EC).length;
+      setTotalCommissionsByEC(totalCommissions);
+    
     } catch (error) {
-      console.error('Error fetching data:', error)
+      console.error('Erro ao buscar dados:', error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  }, [itensPorPage, currentPage, baseURL, dataUser?.token]);
 
-  useEffect(() => {
-    if (searchValue.trim() === '') {
-      fetchDataFromAPI()
-    }
-  }, [searchValue])
 
-  const handleSearch = () => {
-    if (searchValue.trim() !== '') {
-      fetchDataFromAPI(searchValue)
-    } else {
-      fetchDataFromAPI()
-    }
-  }
 
-  const totalPages = Math.ceil(totalTransactions / (itensPorPage || 1))
+
+  const totalPages = Math.ceil(totalCommissionsByEC / (itensPorPage || 1))
 
   useEffect(() => {
     fetchDataFromAPI()
@@ -134,7 +110,7 @@ export function TodayCommission() {
 
   return (
     <>
-      {/* <ModalFilterVenda onClose={handleCloseModal} visible={filter} /> */}
+    
       {loading ? (
         <Loading />
       ) : (
@@ -147,42 +123,24 @@ export function TodayCommission() {
 
             <S.ContainerCardVendas>
               <CardInfo
-                label="Total de Transações"
-                value={totalTransactions}
+                label="Valor total da transação"
+                value={totalTransactionAmount}
               />
               <CardInfo
-                label="TPV"
-                value={Number(totalAmount)}
+                label="Transações totais"
+                shouldFormat={false}
+                value={totalCommissionCount}
               />
-              <CardInfo
-                label="Comissão"
-                value={Number(totalAmount)}
-              />
+          
             </S.ContainerCardVendas>
-            <S.Input>
-              <input
-                type="text"
-                placeholder="Pesquise por NSU"
-                value={searchValue}
-                onChange={handleChange}
-              />
-              <S.SearchIcon className="search-icon" onClick={handleSearch}>
-                <MagnifyingGlass />
-              </S.SearchIcon>
-            </S.Input>
+      
           </S.ContextTitleVendas>
 
-          <S.ContainerButton>
-            <S.ButtonTotal>Todos ({totalTransactions})</S.ButtonTotal>
-
-            {state ? <EditableButton /> : ''}
-            <S.ButtonFilter onClick={handleOpenModal}> <FunnelSimple />Filtrar</S.ButtonFilter>
-          </S.ContainerButton>
-
-          <TabelaToDayCommission rows={mockData} />
+        
+          <TabelaToDayCommission commissions_by_EC={commissionsByEC} />
 
           <S.ContainerCardsMobile>
-          <ToDayCommisionCard mockData={mockData} />
+          <ToDayCommisionCard data={commissionsByEC}  />
           </S.ContainerCardsMobile>
 
 

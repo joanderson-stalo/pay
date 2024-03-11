@@ -117,7 +117,7 @@ export const ContainerPagina = styled.div`
   justify-content: space-between;
   margin: 12px;
 
-  @media (max-width: 600px) {
+  @media (max-width: 900px) {
     justify-content: center;
 }
 `

@@ -34,7 +34,7 @@ export const LAcadastro = () => {
   const [isLoading, setIsLoading] = useState(false)
 
   const handleModalClose = () => {
-    navigate('/licenciados')
+    navigate('/sellers-la')
     setOpenModal(false);
   };
 
@@ -60,7 +60,7 @@ export const LAcadastro = () => {
                         status: "ativo",
                         company_name: requestData.RazaoSocialEstabelecimento,
                         opening_date:  documentTypeLA === "CPF" ? null : convertDateFormat(requestData.DataCriacaoEstabelecimento)  ,
-                        mcc: "5678",
+                        mcc: requestData.AreaAtuacaoEstabelecimento,
                         phone: sanitizeNumeric(requestData.TelefoneEstabelecimento),
                         owner_name: requestData.NomeSocioEstabelecimento,
                         owner_birthday:  convertDateFormat(requestData.NascimentoSocio),
@@ -96,7 +96,7 @@ export const LAcadastro = () => {
                       code: requestData.Banco,
                   },
               ],
-              markup_seller_destiny: requestData.RegraMarkup,
+              markup_seller_destiny: requestData.RegraMarkup.replace(/ %/, '').replace(',', '.'),
               id_licensed_origin: String(requestData.licenciado),
             };
 

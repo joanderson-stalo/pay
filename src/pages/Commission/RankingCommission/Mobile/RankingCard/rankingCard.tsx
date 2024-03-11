@@ -1,49 +1,56 @@
-import { formatCurrencyBR } from '@/utils/convertBRDinheiro';
+import * as React from 'react';
 import * as S from './styled';
+import { formatCurrencyBR } from '@/utils/convertBRDinheiro';
 
-interface RowData {
-  id: number;
-  nome: string;
-  posicao: string;
-  papel: string;
-  comissao_total: number;
-  tpv_total: number;
-  fornecedor: ('F1' | 'F2' | 'F3')[];
+interface CommissionData {
+  ec_seller_document: string;
+  la_seller_trading_name: string;
+  total_amount: string;
+  commission_count: string;
+  total_transaction_amount: string;
+}
+
+interface SellerCommissions {
+  [fornecedor: string]: CommissionData;
+}
+
+interface ECCommissions {
+  [sellerName: string]: SellerCommissions;
 }
 
 interface RankingCardProps {
-  data: RowData[];
+  data: ECCommissions;
 }
 
 export function RankingCard({ data }: RankingCardProps) {
   return (
     <>
-      {data.map((item, index) => (
-        <S.CustomCard key={index}>
-          <S.CustomHeader>
-            <S.CustomId>{item.posicao}</S.CustomId>
-            <S.CustomName>{item.nome}</S.CustomName>
-            <S.CustomValue>{formatCurrencyBR(item.comissao_total)}</S.CustomValue>
-          </S.CustomHeader>
-
-          <S.CustomMainContent>
-            <S.CustomLeftContent>
-              <S.CustomDateInfo>
-                <S.CustomTitle>TPV Mensal: <span>{formatCurrencyBR(item.tpv_total)}</span></S.CustomTitle>
-                <S.CustomTags>
-                  <S.Container>
-                    {item.fornecedor.map((fornecedor, idx) => (
-                      <S.CustomTagOne key={idx}><p>{fornecedor}</p></S.CustomTagOne>
-                    ))}
-                  </S.Container>
-                  <S.CustomTagOne><p>{item.papel}</p></S.CustomTagOne>
-                </S.CustomTags>
-              </S.CustomDateInfo>
-            </S.CustomLeftContent>
-
-            <S.CustomViewButton>Ver venda</S.CustomViewButton>
-          </S.CustomMainContent>
-        </S.CustomCard>
+      {Object.entries(data).map(([sellerName, sellerCommissions]) => (
+        <React.Fragment key={sellerName}>
+          {Object.entries(sellerCommissions).map(([fornecedor, commissionData], index) => (
+            <S.CustomCard key={index}>
+              <S.CustomHeader>
+                <S.CustomName>{commissionData.la_seller_trading_name}</S.CustomName>
+                <S.CustomValue>{formatCurrencyBR(parseFloat(commissionData.total_amount))}</S.CustomValue>
+              </S.CustomHeader>
+              <S.CustomMainContent>
+                <S.CustomLeftContent>
+                  <S.CustomDateInfo>
+                    <S.CustomTitle>
+                    Valor total : <span>{formatCurrencyBR(parseFloat(commissionData.total_transaction_amount))}</span>
+                    </S.CustomTitle>
+                    <S.CustomTags>
+                      <S.Container>
+                        <S.CustomTagOne><p>{fornecedor}</p></S.CustomTagOne>
+                      </S.Container>
+                    
+                    </S.CustomTags>
+                  </S.CustomDateInfo>
+                </S.CustomLeftContent>
+              </S.CustomMainContent>
+            </S.CustomCard>
+          ))}
+        </React.Fragment>
       ))}
     </>
   );

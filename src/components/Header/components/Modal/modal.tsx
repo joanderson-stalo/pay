@@ -14,8 +14,7 @@ export function Modal({ closeModal }: ModalProps) {
     console.log("handleUserListClick chamado");
     navigate('/user-seller');
     closeModal();
-    localStorage.setItem('selectedItem', '0');
-console.log(localStorage.getItem('selectedItem'));
+
 
   }
 

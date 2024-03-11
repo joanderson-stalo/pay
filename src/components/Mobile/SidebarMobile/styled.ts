@@ -25,6 +25,7 @@ export const ContainerSidebarMobile = styled.div<{ isOpen: boolean; color: strin
   transition: transform 0.3s ease-in-out;
   z-index: 10;
   box-shadow: 4px 0 15px rgba(0, 0, 0, 0.2);
+  overflow-y: auto;
 `;
 
 export const Logo = styled.img`

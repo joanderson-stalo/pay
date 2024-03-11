@@ -12,7 +12,7 @@ import { Modal } from './components/Modal/modal';
 import { ThemeColor } from '@/config/color';
 import { useLogin } from '@/context/user.login';
 import { CaretDown, CaretUp } from '@phosphor-icons/react';
-import fotoPerfil from '@assets/icons/perfil.svg';
+import profile from '@assets/icons/perfil.svg';
 import notif from '@assets/icons/Notif.svg';
 
 export function Header() {
@@ -59,13 +59,13 @@ export function Header() {
       <ContainerPerfil>
         {openModal ? (
           <ButtonHeader color={ThemeColor.secundaria} onClick={closeModal}>
-            <ImagPerfil color={ThemeColor.secundaria} src={dataUser?.document_id} />
+            <ImagPerfil color={ThemeColor.secundaria} src={dataUser?.document_id.includes('contabostorage') ? dataUser?.document_id : profile}  />
             <NomePerfil>{dataUser?.name}</NomePerfil>
             <CaretUp />
           </ButtonHeader>
         ) : (
           <ButtonHeader color={ThemeColor.secundaria} onClick={() => setOpenModal(true)}>
-            <ImagPerfil color={ThemeColor.secundaria} src={dataUser?.document_id} />
+            <ImagPerfil color={ThemeColor.secundaria} src={dataUser?.document_id.includes('contabostorage') ? dataUser?.document_id : profile} />
             <NomePerfil>{dataUser?.name}</NomePerfil>
             <CaretDown  />
           </ButtonHeader>

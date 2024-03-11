@@ -1,9 +1,6 @@
 import { ThemeColor } from '@/config/color';
 import styled from 'styled-components';
 
-type FuncionamentoTableDataProps = {
-  funcionamento: 'quebrado' | 'estável' | 'incompleto';
-};
 
 export const StockCardWrapper = styled.div`
   width: 100%;
@@ -12,21 +9,10 @@ export const StockCardWrapper = styled.div`
   height: 150px;
 `;
 
-export const StockCardHeader = styled.div<FuncionamentoTableDataProps>`
+export const StockCardHeader = styled.div`
   width: 100%;
   padding: 10px 28px;
-  background: ${({ funcionamento }) => {
-    switch (funcionamento) {
-      case 'quebrado':
-        return '#E91414';
-      case 'estável':
-        return `${ThemeColor.secundaria}`;
-      case 'incompleto':
-        return '#FF7C33';
-      default:
-        return '#343A40';
-    }
-  }};
+  background: #343A40;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -47,21 +33,10 @@ export const StockReference = styled.span`
   color: #E6F8FD;
 `;
 
-export const StockStatus = styled.p<FuncionamentoTableDataProps>`
+export const StockStatus = styled.p`
   font-size: 12px;
   font-weight: 700;
-  color: ${({ funcionamento }) => {
-    switch (funcionamento) {
-      case 'quebrado':
-        return '#E91414';
-      case 'estável':
-        return `${ThemeColor.secundaria}`;
-      case 'incompleto':
-        return '#FF7C33';
-      default:
-        return '#343A40';
-    }
-  }};
+  color:'#343A40';
 `;
 
 export const StockCardContent = styled.div`

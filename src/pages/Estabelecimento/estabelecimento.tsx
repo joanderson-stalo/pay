@@ -14,6 +14,7 @@ import { EditableButton } from './components/ButtonEdit/buttonEdit';
 import { EstabelecimentoHeader } from './components/estabelecimentoHeader/estabelecimentoHeader';
 import { TotalBtn } from '@/components/TotalBtn/totalBtn';
 import { BtnFilter } from '@/components/BtnFilter/btnFilter';
+import { CardEstablishment } from './Mobile/CardEstablishment/cardEstablishment';
 
 
 export function Estabelecimento() {
@@ -106,6 +107,10 @@ export function Estabelecimento() {
             <BtnFilter  onClick={handleOpenModal} />
           </S.ContainerButton>
           <Tabela rows={sellers} />
+          <S.ContainerMobile>
+          <CardEstablishment rows={sellers} />
+          </S.ContainerMobile>
+         
           <S.Context>
             <S.Linha />
             <S.ContainerPagina>

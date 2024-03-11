@@ -59,5 +59,5 @@ export const TableHeaderCell = styled(TableCell).attrs({ as: 'th' })`
 `;
 
 export const TotalRow = styled.tr`
-  background: #10104F;
+  background: ${ThemeColor.primaria};
 `;

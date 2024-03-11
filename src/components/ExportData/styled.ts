@@ -26,6 +26,11 @@ export const ButtonContainer = styled.button`
       color: #FFF;
     }
   }
+
+  @media (max-width: 900px) {
+    padding: 6px 16px;
+    font-size: 10px;
+  }
 `
 
 

@@ -1,11 +1,13 @@
 import { ReactNode } from 'react';
-import { TransactionVendasProvider } from './useVendas';
+
 import { LoginProvider } from './user.login';
 import { DocumentProviderLA } from './useDocumentLA';
 import { DocumentProviderEC } from './useDocumentEC';
 import { SidebarVisibilityProvider } from './sidebarVisibilityContext';
 import { UseLicensedProvider } from './useLicensed';
 import { UseEstablishmentProvider } from './useEstablishment';
+import { TransactionVendasProvider } from './useTransaction';
+import { UseTariffProvider } from './useTariff';
 
 
 type AppProviderProps = {
@@ -21,7 +23,9 @@ export function AppProvider({ children }: AppProviderProps) {
             <UseLicensedProvider>
               <UseEstablishmentProvider>
             <SidebarVisibilityProvider>
-              {children}
+              <UseTariffProvider>
+                  {children}
+              </UseTariffProvider>
             </SidebarVisibilityProvider>
             </UseEstablishmentProvider>
             </UseLicensedProvider>

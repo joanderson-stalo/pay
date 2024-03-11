@@ -62,6 +62,10 @@ export const ContainerGrafico = styled.div`
   display: flex;
   gap: 20px;
   margin-top: 36px;
+
+  @media (max-width: 900px) {
+    flex-direction: column;
+  }
 `
 
 export const ContainerTable = styled.div`
@@ -69,6 +73,10 @@ export const ContainerTable = styled.div`
   justify-content: space-between;
   margin-top: 36px;
   gap: 20px;
+
+  @media (max-width: 900px) {
+    flex-direction: column;
+  }
 `
 
 export const ButtonBlack = styled.button`

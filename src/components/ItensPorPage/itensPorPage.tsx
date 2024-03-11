@@ -15,7 +15,7 @@ export function ItensPorPage({  itensPorPage, setItensPorPage }: ItensPorPagePro
 
   return (
     <S.Container>
-      <S.Span>Estabelecimentos por página</S.Span>
+      <S.Span>Itens por página</S.Span>
       <S.InputPage
         type="number"
         value={itensPorPage === '' ? '' : itensPorPage}

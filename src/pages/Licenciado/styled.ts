@@ -27,6 +27,10 @@ export const ContainerPagina = styled.div`
   align-items: center;
   justify-content: space-between;
   margin: 12px;
+
+  @media (max-width: 900px) {
+    justify-content: center;
+  }
 `
 
 export const ContainerItens = styled.div`
@@ -85,3 +89,16 @@ export const Button = styled.button`
   border: 0.353px solid #F5F4F4;
   background: #FFF;
 `;
+
+
+export const ContainerCardsMobile = styled.div`
+  flex-direction: column;
+  gap: 12px;
+
+  display: none;
+
+
+  @media (max-width: 900px) {
+    display: flex;
+  }
+`

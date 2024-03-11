@@ -1,10 +1,15 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useState, useEffect } from 'react';
 import * as S from './styled';
 import * as XLSX from 'xlsx';
 import Swal from 'sweetalert2';
+import axios from 'axios';
 import { TableSpreadSheet } from './Components/TableSpreadSheet/tableSpreadSheet';
 import { CardSpreadsheet } from './Mobile/CardSpreadsheet/cardSpreadsheet';
-
+import { useLogin } from '@/context/user.login';
+import { CustomInput } from '@/components/Input/input';
+import { ThemeColor } from '@/config/color';
+import { useNavigate } from 'react-router-dom';
+import { Loading } from '@/components/Loading/loading';
 
 type SpreadsheetData = {
   ID_EC: string | number;
@@ -20,6 +25,30 @@ type SpreadsheetData = {
 export function ImportSpreadsheet() {
   const [jsonData, setJsonData] = useState<SpreadsheetData[]>([]);
   const [fileSelected, setFileSelected] = useState<boolean>(false);
+  const [referenceDate, setReferenceDate] = useState<string>('');
+  const [billingDate, setBillingDate] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
+  const { dataUser } = useLogin();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const today = new Date();
+    const lastDayOfLastMonth = new Date(today.getFullYear(), today.getMonth(), 0);
+    const formattedLastDayOfLastMonth = formatDate(lastDayOfLastMonth);
+    setReferenceDate(formattedLastDayOfLastMonth);
+
+    const nextMonth = new Date(today.getFullYear(), today.getMonth() + 1, 1);
+    nextMonth.setDate(15);
+    const formattedFifteenthOfNextMonth = formatDate(nextMonth);
+    setBillingDate(formattedFifteenthOfNextMonth);
+  }, []);
+
+  const formatDate = (date: Date): string => {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
 
   const verifyFileFormat = (sheet: XLSX.WorkSheet): boolean => {
     const requiredColumns: string[] = [
@@ -40,7 +69,6 @@ export function ImportSpreadsheet() {
 
     const sheetColumns: string[] = (rawData[0] as string[]).map(column => column.trim());
     return requiredColumns.every(column => sheetColumns.includes(column));
-
   };
 
   const validateData = (data: SpreadsheetData[]): boolean => {
@@ -132,39 +160,125 @@ export function ImportSpreadsheet() {
     }
   };
 
+  const handleSave = async () => {
+    try {
+      setLoading(true);
+
+      const mappedData = jsonData.map(entry => ({
+        seller_id: entry.ID_EC,
+        responsible_seller_id: entry.ID_LA,
+        acquire_id: entry.ID_LA,
+        amount: parseFloat(entry.Valor.toString()),
+        serial_terminal: entry.SN.toString(),
+        payable_by: 'LA',
+        status: 'Ativo',
+        operation_type: entry.TIPO.toLowerCase() === 'crédito' ? 'credit' : entry.TIPO,
+        comment: entry.Observação,
+        description: entry.Observação,
+        type: entry.TIPO,
+        reference_date: referenceDate,
+        billing_date: billingDate
+      }));
+
+      const response = await axios.post(
+        'https://api-pagueassim.stalopay.com.br/tariffs/create',
+        { tariffs: mappedData },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${dataUser?.token}`
+          }
+        }
+      );
+
+      if (response) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Dados salvos com sucesso!',
+          text: 'Os dados foram salvos com sucesso.',
+        }).then(() => {
+          navigate('/tariffs'); 
+        });
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Erro ao salvar',
+          text: 'Ocorreu um erro ao salvar os dados.',
+        }).then(() => {
+          navigate('/tariffs'); 
+        });
+      }
+    } catch (error) {
+      console.error('Erro ao salvar os dados:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Erro ao salvar',
+        text: 'Ocorreu um erro ao salvar os dados.',
+      }).then(() => {
+        navigate('/tariffs'); 
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleCancel = () => {
+    navigate('/tariffs');
+  };
+  
   return (
-    <S.Container>
-      <S.ContentWrapper>
-        <S.Box>
-          <S.Title>Importar Planilha de Tarifa</S.Title>
-          <S.Separator />
-          <S.BoxTitle>
-            <p>Para importar a planilha para preenchimento automático, utilize o modelo disponível para download <a href="#">clicando aqui</a></p>
-          </S.BoxTitle>
-          <S.ContainerInput>
-            <S.HiddenFileInput id="fileInput" type="file" onChange={handleFileChange} />
-            <S.FileInputLabel htmlFor="fileInput">
-              <S.StyledUploadIcon /> {fileSelected ? 'Alterar arquivo' : 'Anexar arquivo'}
-            </S.FileInputLabel>
-          </S.ContainerInput>
+    <>
+      {loading && <Loading />}
+      <S.Container>
+        <S.ContentWrapper>
+          <S.Box>
+            <S.Title>Importar Planilha de Tarifa</S.Title>
+            <S.Separator />
+            <S.BoxTitle>
+              <p>Para importar a planilha para preenchimento automático, utilize o modelo disponível para download <a href="https://usc1.contabostorage.com/d6d39f0192924488b37d9be5d805e5e8:utilitarios/ExamploTarifas (1).xlsx">clicando aqui</a></p>
+            </S.BoxTitle>
+            <S.ContainerInput>
+              <S.HiddenFileInput id="fileInput" type="file" onChange={handleFileChange} />
+              <S.FileInputLabel htmlFor="fileInput">
+                <S.StyledUploadIcon /> {fileSelected ? 'Alterar arquivo' : 'Anexar arquivo'}
+              </S.FileInputLabel>
+            </S.ContainerInput>
+          </S.Box>
 
-        </S.Box>
+          <div style={{display: 'flex', gap: '50px', justifyContent: 'flex-start', alignItems: 'start', width: '60%', marginBottom: '20px'}}>
+            <CustomInput 
+              label='Data Referência'
+              colorInputDefault={ThemeColor.primaria}
+              colorInputSuccess={ThemeColor.secundaria}
+              type='date'
+              value={referenceDate}
+              onChange={(e) => setReferenceDate(e.target.value)}
+            />
 
-        {jsonData && jsonData.length > 0 && (
-        <TableSpreadSheet dataSpreadSheet={jsonData} />
-      )}
+            <CustomInput 
+              label='Data Cobrança'
+              colorInputDefault={ThemeColor.primaria}
+              colorInputSuccess={ThemeColor.secundaria}
+              type='date'
+              value={billingDate}
+              onChange={(e) => setBillingDate(e.target.value)}
+            />
+          </div>
+          
+          {jsonData && jsonData.length > 0 && (
+            <TableSpreadSheet dataSpreadSheet={jsonData} />
+          )}
 
-      <S.ContainerCardsMobile>
-      <CardSpreadsheet data={jsonData}/>
-      </S.ContainerCardsMobile>
+          <S.ContainerCardsMobile>
+            <CardSpreadsheet data={jsonData}/>
+          </S.ContainerCardsMobile>
 
-
-        <S.ButtonArea>
-          <S.BackButton>Cancelar</S.BackButton>
-          <S.NextButton disabled={jsonData.length === 0}>Salvar</S.NextButton>
-        </S.ButtonArea>
-      </S.ContentWrapper>
-
-    </S.Container>
+          <S.ButtonArea>
+            <S.BackButton type='button' onClick={handleCancel}>Cancelar</S.BackButton>
+            <S.NextButton disabled={jsonData.length === 0} onClick={handleSave}>Salvar</S.NextButton>
+          </S.ButtonArea>
+        </S.ContentWrapper>
+      </S.Container>
+    </>
   );
 }

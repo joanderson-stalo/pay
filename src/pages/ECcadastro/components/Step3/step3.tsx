@@ -18,7 +18,6 @@ import {
 } from './styled';
 import { Loading } from '@/components/Loading/loading';
 import { CustomSelect } from '@/components/Select/select';
-import { optionsData } from './optionsData';
 import { useLogin } from '@/context/user.login';
 import { useFormContext } from 'react-hook-form';
 
@@ -37,6 +36,8 @@ export function Step3({ Avançar, Voltar }: IStep3) {
   const [fetchedOptions, setFetchedOptions] = useState<IOption[]>([]);
   const [acquires, setAcquires] = useState<IOption[]>([]);
   const [inputs, setInputs] = useState<{}[]>([{}]);
+  const [commercialPlans, setCommercialPlans] = useState<IOption[]>([]);
+
   const [selectedAcquires, setSelectedAcquires] = useState<string[]>([]);
 
   const { dataUser } = useLogin();
@@ -96,7 +97,7 @@ export function Step3({ Avançar, Voltar }: IStep3) {
     const selectedFornecedor = acquires.find(option => option.value === fornecedorValue);
 
     const planoComercialValue = watch(`PlanoComercial${index}`);
-    const selectedPlanoComercial = optionsData.options.find(option => option.value === planoComercialValue);
+    const selectedPlanoComercial = commercialPlans.find(option => option.value === planoComercialValue);
 
     const availableAcquires = acquires.filter(
       option => !selectedAcquires.includes(option.value)
@@ -129,7 +130,7 @@ export function Step3({ Avançar, Voltar }: IStep3) {
             {...register(`PlanoComercial${index}`)}
             label="Plano Comercial"
             value={selectedPlanoComercial || {value: '', label: ''}}
-            optionsData={optionsData}
+            optionsData={{ options: commercialPlans }}
             placeholder=""
             hasError={!!errors[`PlanoComercial${index}`]}
             onChange={(selectedOption: { value: string }) => {
@@ -160,7 +161,6 @@ export function Step3({ Avançar, Voltar }: IStep3) {
         }
       })
       .then((response) => {
-        console.log('hello',response)
         const numberOfAcquiresFields = Object.keys(watch()).filter(key => key.startsWith("Fornecedor")).length;
 
         if (numberOfAcquiresFields > 0) {
@@ -210,6 +210,39 @@ export function Step3({ Avançar, Voltar }: IStep3) {
         console.error('Houve um erro ao buscar os dados:', error);
       });
   }, []);
+
+
+  useEffect(() => {
+    if (selectedAcquires.length > 0) {
+      const selectedAcquire = selectedAcquires[0];
+      setDados(true);
+      axios.get(`https://api-pagueassim.stalopay.com.br/plan/commercial/${selectedAcquire}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${dataUser?.token}`
+        }
+      })
+      .then(response => {
+        const data = response.data;
+        if (data && data.plans) {
+          const options = data.plans.map((plan: { id: any; name: any; }) => ({
+            value: plan.id,
+            label: plan.name
+          }));
+          setCommercialPlans(options);
+        }
+        setDados(false);
+      })
+      .catch(error => {
+        console.error(`Houve um erro ao buscar os dados para o fornecedor ${selectedAcquire}:`, error);
+        setDados(false);
+      });
+    }
+  }, [selectedAcquires]);
+  
+  
+  
+  
 
   const licenciadoValue = watch('licenciado');
   const selectedOption = fetchedOptions.find(option => option.value === licenciadoValue);

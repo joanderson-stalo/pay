@@ -26,11 +26,18 @@ export const ContainerPagina = styled.div`
   align-items: center;
   justify-content: space-between;
   margin: 12px;
+
+  @media (max-width: 900px) {
+    justify-content: center;
+    align-items: center;
+  }
 `
 
 export const ContainerItens = styled.div`
   display: flex;
   flex-direction: row;
+
+
 `
 
 export const ButtonTotal = styled.button`
@@ -83,3 +90,14 @@ export const Button = styled.button`
   border: 0.353px solid #F5F4F4;
   background: #FFF;
 `;
+
+
+export const ContainerMobile = styled.div`
+display: none;
+
+   @media (max-width: 900px) {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+`

@@ -20,6 +20,7 @@ import { Pagination } from '@/components/Pagination/pagination';
 import { PaginaView } from '@/components/PaginaView/paginaView';
 import { CardOperationSummary } from './Mobile/CardOperationSummary/cardOperationSummary';
 import { CardSummaryOperation } from './Mobile/CardSummaryOperation/cardSummaryOperation';
+import { TitleH } from '@/components/Title/title';
 
 
 const schema = Yup.object().shape({
@@ -108,7 +109,7 @@ export function OperationManagement() {
 <form onSubmit={handleSubmit(onSubmit, onError)}>
       <Container>
 
-        <Title>Resumo da Operação</Title>
+          <TitleH title='Resumo da Operação' />
 
         <ContainerSelect>
           <CustomSelect {...register("fornecedor")}  optionsData={{ options: fetchedOptions }} label="Fornecedor"

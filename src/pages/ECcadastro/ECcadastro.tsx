@@ -108,7 +108,7 @@ const handleNextStep = async () => {
                       status: "ativo",
                       company_name: requestData.RazaoSocialEstabelecimento,
                       opening_date:  documentTypeEC === "CPF" ? null : convertDateFormat(requestData.DataCriacaoEstabelecimento)  ,
-                      mcc: "5678",
+                      mcc: requestData.AreaAtuacaoEstabelecimento,
                       phone: sanitizeNumeric(requestData.TelefoneEstabelecimento),
                       owner_name: requestData.NomeSocioEstabelecimento,
                       owner_birthday:  convertDateFormat(requestData.NascimentoSocio),

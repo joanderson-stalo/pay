@@ -6,6 +6,10 @@ import { ButtonAvançar, ButtonVoltar, ContainerButton, ContainerForm, Container
 import { CustomInput } from "@/components/Input/input";
 import { LabelCustomInputMask } from "@/components/CustomInputMask";
 import { Loading } from "@/components/Loading/loading";
+import { SellerData } from "@/pages/Licenciado/modules/EditRegistrationLA/components/interface";
+import { useLogin } from "@/context/user.login";
+import { useEstablishment } from "@/context/useEstablishment";
+import Swal from "sweetalert2";
 
 interface IStep2 {
   Avançar: () => void;
@@ -14,64 +18,109 @@ interface IStep2 {
 
 export function Step2({ Avançar, Voltar }: IStep2) {
   const { register, formState: { errors }, setValue, watch } = useFormContext();
-  const [dados, setDados] = useState(false);
-
+  const [sellerData, setSellerData] = useState<SellerData | null>(null);
+  const { dataUser } = useLogin();
+  const { establishmentId } = useEstablishment();
+  const [loading, setLoading] = useState(false);
   const allFieldsFilled = !!watch('CEP') && !!watch('Endereco') && !!watch('Numero') && !!watch('Bairro') && !!watch('Cidade') && !!watch('Estado');
 
-  const searchAddressByCEP = async (cep: string) => {
-    setDados(true);
-    try {
-      const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
-      if (response.data) {
-        const { logradouro, complemento, bairro, localidade, uf } = response.data;
-        setValue('Endereco', logradouro || '');
-        setValue('Complemento', complemento || '');
-        setValue('Bairro', bairro || '');
-        setValue('Cidade', localidade || '');
-        setValue('Estado', uf || '');
+  useEffect(() => {
+    const fetchSellerData = async () => {
+      setLoading(true); 
+      try {
+        const response = await axios.get(
+          `https://api-pagueassim.stalopay.com.br/seller/show/${establishmentId}`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${dataUser?.token}`,
+            },
+          }
+        );
+  
+        const sellerData = response.data;
+        setValue('CEP', sellerData.seller.address_cep);
+        setValue('Endereco', sellerData.seller.address_street);
+        setValue('Numero', sellerData.seller.address_number);
+        setValue('Complemento', sellerData.seller.address_complement);
+        setValue('Bairro', sellerData.seller.address_neighborhood);
+        setValue('Cidade', sellerData.seller.address_city);
+        setValue('Estado', sellerData.seller.address_state);
+        setSellerData(response.data.seller);
+      } catch (error) {
+        console.error('Erro ao obter dados do vendedor:', error);
+      } finally {
+        setLoading(false); 
       }
+    };
+    fetchSellerData();
+  }, [establishmentId, dataUser?.token, setValue]);
+
+  const handleSalvar = async () => {
+    try {
+      setLoading(true);
+  
+      const updatedData = {
+        address_cep: watch('CEP'),
+        address_street: watch('Endereco'),
+        address_number: watch('Numero'),
+        address_complement: watch('Complemento'),
+        address_neighborhood: watch('Bairro'),
+        address_city: watch('Cidade'),
+        address_state: watch('Estado'),
+        type_document: sellerData?.type_document,
+        email: watch('EmailEstabelecimento'),
+        phone: watch('TelefoneEstabelecimento'),
+        trading_name: watch('NomeFantasiaEstabelecimento'),
+        document: sellerData?.document,
+      };
+  
+      await axios.put(`https://api-pagueassim.stalopay.com.br/seller/update/${establishmentId}`, updatedData, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${dataUser?.token}`
+        }
+      });
+  
+      setLoading(false);
+  
+      Swal.fire({
+        icon: 'success',
+        title: 'Licenciado atualizado com sucesso!',
+        showConfirmButton: true,
+        confirmButtonText: 'Continuar',
+        showCancelButton: true,
+        cancelButtonText: 'OK',
+        cancelButtonColor: '#17ec3b',
+        showCloseButton: true,
+        closeButtonAriaLabel: 'Fechar modal'
+        
+      }).then((result) => {
+        if (result.isConfirmed) {
+          console.log('Continuar clicado');
+        } else {
+          console.log('OK clicado');
+        }
+      });
     } catch (error) {
-      console.error('Erro ao buscar endereço:', error);
-    } finally {
-      setDados(false);
+      console.error('Erro ao atualizar dados:', error);
+      setLoading(false);
+      Swal.fire({
+        icon: 'error',
+        title: 'Erro ao atualizar dados',
+        text: 'Ocorreu um erro ao tentar atualizar os dados do licenciado. Por favor, tente novamente mais tarde.',
+        confirmButtonText: 'OK'
+      });
     }
   };
 
-  const mockFillAddressInputs = () => {
-    setValue('CEP', '12345-678');
-    setValue('Endereco', 'Rua Exemplo Mocked');
-    setValue('Numero', '123');
-    setValue('Complemento', 'Apto 1');
-    setValue('Bairro', 'Bairro Mocked');
-    setValue('Cidade', 'Cidade Mocked');
-    setValue('Estado', 'SP');
-  };
 
-  useEffect(() => {
-    setDados(false);
-    register('CEP');
 
-    const handleChangeCEP = (event: React.ChangeEvent<HTMLInputElement>) => {
-      const cep = event.target.value.replace(/\D/g, '');
-      if (cep.length === 8) {
-        searchAddressByCEP(cep);
-      }
-    };
 
-    const cepInput = document.getElementById('cep') as HTMLInputElement;
-    cepInput.addEventListener('change', handleChangeCEP as any);
-
-    // Adição da função de mock
-    mockFillAddressInputs();
-
-    return () => {
-      cepInput.removeEventListener('change', handleChangeCEP as any);
-    };
-  }, [register, setValue]);
 
   return (
     <>
-      {dados && <Loading />}
+      {loading && <Loading />}
       <ContainerStep>
         <ContextStepContainer>
           <ContextStep>
@@ -124,7 +173,6 @@ export function Step2({ Avançar, Voltar }: IStep2) {
                   label='Cidade'
                   colorInputDefault={ThemeColor.primaria}
                   colorInputSuccess={ThemeColor.secundaria}
-                  disabled
                   hasError={!!errors.Cidade}
                 />
               </ContainerInput>
@@ -134,7 +182,6 @@ export function Step2({ Avançar, Voltar }: IStep2) {
                   label='Estado'
                   colorInputDefault={ThemeColor.primaria}
                   colorInputSuccess={ThemeColor.secundaria}
-                  disabled
                   hasError={!!errors.Estado}
                 />
               </ContainerInput2>
@@ -142,7 +189,7 @@ export function Step2({ Avançar, Voltar }: IStep2) {
           </ContextStep>
           <ContainerButton>
             <ButtonVoltar onClick={Voltar}>Voltar</ButtonVoltar>
-            <ButtonAvançar disabled={!allFieldsFilled} onClick={Avançar}>Salvar</ButtonAvançar>
+            <ButtonAvançar disabled={!allFieldsFilled} onClick={handleSalvar}>Salvar</ButtonAvançar>
             <ButtonAvançar disabled={!allFieldsFilled} onClick={Avançar}>Avançar</ButtonAvançar>
           </ContainerButton>
         </ContextStepContainer>

@@ -28,7 +28,8 @@ export function EditableButton() {
 
   const handleXClick = (event: React.MouseEvent) => {
     event.stopPropagation();
-    localStorage.removeItem('@licenciadoAutorizadoLicensed');
+    localStorage.removeItem('@licensedStock');
+    localStorage.removeItem('@supplierStock');
     setFalse();
 };
 

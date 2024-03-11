@@ -1,5 +1,7 @@
-  import React from 'react';
   import * as S from './styled';
+  import gold from '@assets/icons/plan-gold.svg'
+  import silver from '@assets/icons/plan-silver.svg'
+  import bronze from '@assets/icons/plan-bronze.svg'
 
   export interface RowData {
     id: number;
@@ -8,7 +10,7 @@
     antecipacao: number;
     planoBase: string;
     fornecedor: string | string[];
-    tipo: 'Base' | 'Comercial';
+    tipo: string;
 
   }
 
@@ -62,7 +64,7 @@
               <S.TableData>{renderCellContent(row.planoBase)}</S.TableData>
               <S.TableData><S.FornecedorStatus>{renderCellContent(row.fornecedor)}</S.FornecedorStatus></S.TableData>
               <S.PapelData>
-                <S.PapelText type={row.tipo}>{renderCellContent(row.tipo)}</S.PapelText>
+                <S.PapelText type={row.tipo.toLocaleLowerCase()}>{renderCellContent(row.tipo)}<img src={gold} alt="" /> </S.PapelText>
               </S.PapelData>
               <S.TableData>
                 {/* <S.ButtonEditar onClick={() => handleActionClick(row.id, 'edit')}>Editar</S.ButtonEditar> */}

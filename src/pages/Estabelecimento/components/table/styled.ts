@@ -7,6 +7,10 @@ export const Table = styled.table`
   border-collapse: separate;
   border-spacing: 0;
   text-align: center;
+
+  @media (max-width: 900px) {
+    display: none;
+  }
 `;
 
 export const TableHeader = styled.th`
@@ -57,7 +61,7 @@ export const FornecedorWrapper = styled.div`
   align-items: center;
 `;
 
-export const FornecedorItem = styled.p`
+export const FornecedorItem = styled.p<{ status: string }>`
   width: 23px;
   height: 26px;
   font-size: 10px;
@@ -67,7 +71,7 @@ export const FornecedorItem = styled.p`
   border-radius: 4px;
   text-align: center;
   color: #fff;
-  background-color: #55B938;
+  background-color: ${({ status }) => (status === 'enable' ? '#55B938' : '#7D7D7D')}; 
 `;
 
 export const SortContainer = styled.div`

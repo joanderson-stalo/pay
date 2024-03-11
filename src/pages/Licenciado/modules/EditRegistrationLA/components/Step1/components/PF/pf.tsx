@@ -51,27 +51,7 @@ export function PF({ Avançar, BPF, BPJ }: IStep1) {
     }
   }
 
-  const mockFillInputs = () => {
-    setValue('CNPJEstabelecimento', '23.699.017/0001-84');
-    setValue('RazaoSocialEstabelecimento', 'Mocked Company Ltd.');
-    setValue('NomeFantasiaEstabelecimento', 'Mocked Company');
-    setValue('DataCriacaoEstabelecimento', '01/01/2000');
-    setValue('NascimentoSocio', '15/05/1985');
-    setValue('CPFEstabelecimento', '913.482.830-33');
-    setValue('NomeSocioEstabelecimento', 'Mocked Partner Name');
-    setValue('EmailEstabelecimento', 'mocked.email@example.com');
-    setValue('TelefoneEstabelecimento', '(81) 991431834');
-    setValue('AreaAtuacaoEstabelecimento', 'option1');
 
-};
-
-useEffect(() => {
-  mockFillInputs();
-}, []);
-
-  const handleLicenseddetail = () => {
-    navigate('/licenseddetail')
-  }
 
   return (
     <S.ContainerStep>
@@ -79,10 +59,7 @@ useEffect(() => {
         <S.ContextStep>
           <S.ContainerDados>
             <S.TitleStep>Dados do Licenciado</S.TitleStep>
-            <S.ContainerPJPF>
-            <S.ButtonPJ active={false} onClick={BPJ}>PJ</S.ButtonPJ>
-            <S.ButtonPF active onClick={BPF}>PF</S.ButtonPF>
-            </S.ContainerPJPF>
+        
           </S.ContainerDados>
           <S.Line />
           <S.ContainerForm>

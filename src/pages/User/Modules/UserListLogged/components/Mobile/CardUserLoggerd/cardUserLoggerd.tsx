@@ -7,6 +7,7 @@ interface CardUserLoggedProps {
     name: string;
     profile_id: string;
     email: string;
+    document_id: string;
   }[];
   handlePasswordRetrieve: (email: string) => void;
   handleRemove: (id: number) => void;
@@ -25,7 +26,7 @@ export function CardUserLogged({ data, handlePasswordRetrieve, handleRemove }: C
         <S.ContainerCardUserLogged key={user.id}>
 
           <S.HeaderUserLogged>
-            <S.UserAvatar />
+          
             <h2>{user.name}</h2>
             {index === 0 ? <h4>Você</h4> : <h5></h5>} 
           </S.HeaderUserLogged>

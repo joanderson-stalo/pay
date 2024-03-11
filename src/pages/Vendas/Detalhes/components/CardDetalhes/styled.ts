@@ -50,7 +50,7 @@ export const ContextCard = styled.div`
 export const TagDetalhes = styled.p<ITagDetalhes>`
   border-radius: 4px;
   background: ${(props) => (props.label === 'succeeded' ? '#55B938' : 'red')};
-  padding: 0 8px 0 8px;
+  padding: 4px 8px;
   color: #e6f8fd;
   font-size: 12px;
   font-weight: 600;

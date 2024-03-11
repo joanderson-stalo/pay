@@ -1,12 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as S from './styled';
 import { CustomSelect } from '@/components/Select/select';
 import { useLogin } from '@/context/user.login';
 import axios from 'axios';
 import { useFilterLicensed } from '../../hooks/useFilterLicensed';
-import { CustomInput } from '@/components/Input/input';
-import { ThemeColor } from '@/config/color';
 
 interface IModalSucesso {
   visible: boolean;
@@ -18,9 +16,11 @@ export function ModalBilling({ onClose, visible }: IModalSucesso) {
   const { setTrue } = useFilterLicensed();
   const { dataUser } = useLogin();
   const [fetchedOptions, setFetchedOptions] = useState([]);
+  const [fetchedOptionsFN, setFetchedOptionsFN] = useState([]);
 
   const onSubmit = (data: any) => {
-    localStorage.setItem('@licenciadoAutorizadoLicensed', data.licenciadoAutorizado || '');
+    localStorage.setItem('@licensedStock', data.licenciadoAutorizado || '');
+    localStorage.setItem('@supplierStock', data.fornecedor || '');
     setTrue();
     onClose();
   };
@@ -50,7 +50,6 @@ export function ModalBilling({ onClose, visible }: IModalSucesso) {
       const data = response.data;
 
       if (data && data.sellers) {
-        console.log(data.sellers.trading_name)
         const options = data.sellers.map((seller: { trading_name: any; type: any; id: any, cnpj_cpf: any }, index: number) => ({
           value: seller.id,
           label: `${seller.trading_name}-${seller.type}-${seller.cnpj_cpf}`
@@ -63,9 +62,28 @@ export function ModalBilling({ onClose, visible }: IModalSucesso) {
     }
   };
 
+  const fetchDataFN = useCallback(async () => {
+    try {
+      const response = await axios.get('https://api-pagueassim.stalopay.com.br/acquire/index', {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${dataUser?.token}`
+        }
+      });
+      const data = response.data;
+      const options = data.acquires.map((acquire: { acquire_label: any; id: { toString: () => any; }; }) => ({
+        label: acquire.acquire_label,
+        value: acquire.id.toString() 
+      }));
+      setFetchedOptionsFN(options);
+    } catch (error) {
+      console.error('Houve um erro ao buscar os dados:', error);
+    }
+  }, [dataUser?.token]); 
+
   useEffect(() => {
-    
     fetchData();
+    fetchDataFN();
   }, []);
 
   if (!visible) {
@@ -81,27 +99,6 @@ export function ModalBilling({ onClose, visible }: IModalSucesso) {
         </S.ContainerTitle>
         <S.Linha />
         <form onSubmit={handleSubmit(onSubmit)}>
-
-        <S.ContainerSelect>
-        <         CustomInput 
-                    label='Data Inicial'
-                    {...register("captured_in_end")}
-                    colorInputDefault={ThemeColor.primaria}
-                    colorInputSuccess={ThemeColor.secundaria}
-                    hasError={!!errors.captured_in_end}
-                    type='date' />
-
-
-           <         CustomInput 
-                    label='Data Final'
-                    {...register("captured_in_end")}
-                    colorInputDefault={ThemeColor.primaria}
-                    colorInputSuccess={ThemeColor.secundaria}
-                    hasError={!!errors.captured_in_end}
-                    type='date' />
-          </S.ContainerSelect>
-
-
           <S.ContainerSelect>
             <CustomSelect
               {...register("licenciadoAutorizado")}
@@ -112,38 +109,16 @@ export function ModalBilling({ onClose, visible }: IModalSucesso) {
                 setValue('licenciadoAutorizado', selectedOption.value);
               }}
             />
-               <CustomSelect
-              {...register("licenciadoAutorizado")}
-              optionsData={{ options: fetchedOptions }}
+            <CustomSelect
+              {...register("fornecedor")}
+              optionsData={{ options: fetchedOptionsFN }}
               placeholder="Digite aqui ou clique para ver a lista"
-              label="Tipo"
+              label="Fornecedor"
               onChange={(selectedOption: { value: string }) => {
-                setValue('licenciadoAutorizado', selectedOption.value);
+                setValue('fornecedor', selectedOption.value);
               }}
             />
           </S.ContainerSelect>
-
-
-          <S.ContainerSelect>
-          <         CustomInput 
-                    label='Tarifa mínima'
-                    {...register("captured_in_end")}
-                    colorInputDefault={ThemeColor.primaria}
-                    colorInputSuccess={ThemeColor.secundaria}
-                    placeholder='R$'
-                    hasError={!!errors.captured_in_end}
-                    type='number' />
-       <         CustomInput 
-                    label='Tarifa máxima'
-                    {...register("captured_in_end")}
-                    colorInputDefault={ThemeColor.primaria}
-                    colorInputSuccess={ThemeColor.secundaria}
-                    placeholder='R$'
-                    hasError={!!errors.captured_in_end}
-                    type='number' />
-          </S.ContainerSelect>
-
-
           <S.ContextButton>
             <S.ButtonCancelar onClick={onClose}>Cancelar</S.ButtonCancelar>
             <S.ButtonSalvar type='submit'>Salvar</S.ButtonSalvar>

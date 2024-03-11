@@ -86,7 +86,7 @@ export function BillingRequest() {
       <HeaderBilling />
 
 <S.ContainerCard>
-<CardInfo color='#7D7D7D' shouldFormat={false} label='Qtd de Cobranças' value={500}/>
+<CardInfo shouldFormat={false} label='Quantidade de Cobranças' value={500}/>
    <CardInfo label='Total' value={100000}/>
 </S.ContainerCard>
 

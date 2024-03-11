@@ -1,8 +1,31 @@
-import React from 'react';
 import * as S from './styled';
-import { dadosHistorico } from './dados';
 
-export function HistoricoTableDetalhes(){
+interface Liquidation {
+  amount: number;
+  status: string;
+  dueDate: string;
+  executedDate: string;
+  receiptDocumentLink: string | null;
+  id: string | null;
+}
+
+interface HistoricoTableDetalhesProps {
+  liquidations: Liquidation[];
+}
+
+function formatDate(dateString: string): string {
+  const date = new Date(dateString);
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const year = date.getFullYear();
+  return `${day}/${month}/${year}`;
+}
+
+function formatCurrency(value: number): string {
+  return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+}
+
+export function HistoricoTableDetalhes({ liquidations }: HistoricoTableDetalhesProps) {
   return (
     <S.HistoricoContainer>
       <S.HistoricoHeader>Histórico de conciliações</S.HistoricoHeader>
@@ -15,11 +38,11 @@ export function HistoricoTableDetalhes(){
           </tr>
         </thead>
         <tbody>
-          {dadosHistorico.map((acao, index) => (
+          {liquidations.map((liquidation, index) => (
             <tr key={index}>
-              <S.HistoricoTableCell>{acao.data}</S.HistoricoTableCell>
-              <S.HistoricoTableCell>{acao.valor}</S.HistoricoTableCell>
-              <S.HistoricoTableCell>{acao.status}</S.HistoricoTableCell>
+              <S.HistoricoTableCell>{formatDate(liquidation.executedDate)}</S.HistoricoTableCell>
+              <S.HistoricoTableCell>{formatCurrency(liquidation.amount)}</S.HistoricoTableCell>
+              <S.HistoricoTableCell>{liquidation.status.toLocaleLowerCase() === 'payed' ? 'pago' : liquidation.status}</S.HistoricoTableCell>
             </tr>
           ))}
         </tbody>

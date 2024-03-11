@@ -24,18 +24,7 @@ justify-content: space-between;
 padding: 12px 20px;
 background: ${ThemeColor.primaria};
 
->h4{
-  border-radius: 4px;
-background: var(--foundation-white-normal, #E6E6E6);
-padding: 1px 8px;
 
-color: var(--foundation-neutral-dark-hover, #4B4B4B);
-text-align: center;
-font-size: 10px;
-font-style: normal;
-font-weight: 400;
-line-height: normal;
-}
 
 `;
 
@@ -146,4 +135,20 @@ display: flex;
   justify-content: space-between;
 text-align: center;
 align-items: center;
+`
+
+export const Tag = styled.h4`
+
+  border-radius: 4px;
+background: var(--foundation-white-normal, #E6E6E6);
+padding: 2px 8px;
+
+color: var(--foundation-neutral-dark-hover, #4B4B4B);
+font-size: 10px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+text-align: center;
+width: 30%;
+
 `

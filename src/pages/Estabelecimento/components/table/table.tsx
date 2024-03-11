@@ -4,13 +4,20 @@ import { useNavigate } from 'react-router-dom';
 import { maskCpfCnpj } from '@/utils/maskCpfCnpj';
 import { useEstablishment } from '@/context/useEstablishment';
 
+export interface AcquireData {
+  [key: string]: {
+    status_acquire: string;
+    acquire_name: string;
+  };
+}
+
 export interface RowData {
   id: number;
   registration_date: string;
   cnpj_cpf: string;
   trading_name: string;
   tpv: number;
-  acquires: [];
+  acquire: AcquireData;
 }
 
 type SortField = 'id' | 'trading_name' | 'tpv';
@@ -69,7 +76,7 @@ export function Tabela({ rows }: TabelaProps) {
   const handleViewMoreClick = async (id: string) => {
     setEstablishmentId(id);
     await new Promise(resolve => setTimeout(resolve, 20));
-    navigate(`/establishmentdetail`);
+    navigate(`/sellers-ec-detail`);
 };
 
 
@@ -114,16 +121,22 @@ export function Tabela({ rows }: TabelaProps) {
             <S.TableData>R$ {row.tpv.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</S.TableData>
             <S.TableData>
               <S.FornecedorWrapper>
-                {row.acquires.map((fornecedor, index) => (
-                  <S.FornecedorItem key={index}>
-                    {fornecedor}
-                  </S.FornecedorItem>
-                ))}
+              {Object.keys(row.acquire).map((fornecedorKey) => (
+    <S.FornecedorItem 
+        status={row.acquire[fornecedorKey as keyof typeof row.acquire].status_acquire} 
+        key={fornecedorKey}
+    >
+        {fornecedorKey} 
+    </S.FornecedorItem>
+))}
+
+
+
               </S.FornecedorWrapper>
             </S.TableData>
-            {/* <S.TableData>
+            <S.TableData>
               <S.Button onClick={() => handleViewMoreClick(row.id.toString())}>Visão Geral</S.Button>
-            </S.TableData> */}
+            </S.TableData>
           </tr>
         ))}
       </tbody>

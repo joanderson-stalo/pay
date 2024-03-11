@@ -119,7 +119,6 @@ export function CreateUser() {
 
   const handleVoltar = () => {
     navigate('/user-seller');
-    localStorage.setItem('selectedItem', '0');
   };
 
   const handleFormData = async (data: UserData) => {
@@ -163,7 +162,7 @@ export function CreateUser() {
 
   const resetFormSuccess = () => {
     setFormSuccess(false);
-    navigate('/userlist');
+    navigate('/user-seller');
   };
 
   if (formSuccess) {

@@ -15,6 +15,11 @@ type InputContainerProps = {
     align-items: center;
     margin-top: 30px;
     justify-content: space-between;
+
+    @media (max-width: 900px) {
+      flex-direction: column;
+      gap: 20px;
+    }
   `;
 
   export const Button = styled.button`
@@ -35,6 +40,10 @@ line-height: 15.566px;
 border-radius: 4px;
 background:${ThemeColor.primaria};
 white-space: nowrap;
+
+@media (max-width: 900px) {
+  width: 100%;
+}
   `;
 
   export const Title = styled.h2`

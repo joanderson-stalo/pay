@@ -1,4 +1,5 @@
 import { createContext, useContext, ReactNode, useState, useEffect } from 'react';
+import secureLocalStorage from 'react-secure-storage';
 
 type UseLicensedContextType = {
   licensedId: string | null;
@@ -12,15 +13,16 @@ type UseLicensedProviderProps = {
 };
 
 export function UseLicensedProvider({ children }: UseLicensedProviderProps) {
-
-  const initialLicensedId = localStorage.getItem('licensedId');
+  const initialLicensedId = secureLocalStorage.getItem('@licensedId') as string | null;
   const [licensedId, setLicensedId] = useState<string | null>(initialLicensedId);
+
+ 
 
   useEffect(() => {
     if (licensedId) {
-      localStorage.setItem('licensedId', licensedId);
+      secureLocalStorage.setItem('@licensedId', licensedId);
     } else {
-      localStorage.removeItem('licensedId');
+      secureLocalStorage.removeItem('@licensedId');
     }
   }, [licensedId]);
 

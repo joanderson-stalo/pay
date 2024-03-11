@@ -28,7 +28,7 @@ export function CardTablet({ data = {
   const handleViewMoreClick = async (id: number) => {
 
     await new Promise(resolve => setTimeout(resolve, 20));
-    navigate(`/establishmentdetail`);
+    navigate(`/sellers-ec-detail`);
   };
 
   if (!data) {

@@ -84,9 +84,12 @@ export const options = {
 };
 
 export function GraficoBar({ hourly_transaction_totals }: GraficoBarProps) {
-  const { isVisible} = useSidebarVisibility();
-  const labels = Object.keys(hourly_transaction_totals).map(hour => `${hour}h`);
-  const dataValues = Object.values(hourly_transaction_totals).map(value => parseFloat(value));
+  const { isVisible } = useSidebarVisibility();
+  
+  const sortedHours = Object.keys(hourly_transaction_totals).sort((a, b) => parseInt(a) - parseInt(b));
+  
+  const labels = sortedHours.map(hour => `${hour}h`);
+  const dataValues = sortedHours.map(hour => parseFloat(hourly_transaction_totals[hour]));
 
   const data = {
     labels,
@@ -105,7 +108,7 @@ export function GraficoBar({ hourly_transaction_totals }: GraficoBarProps) {
     <ContainerGrafico isShow={isVisible}>
       <ContainerText>
         <Bolinha />
-        <p>Comissões por Hora</p>
+        <p>TPV por Hora</p>
       </ContainerText>
       <Bar options={options} data={data}/>
     </ContainerGrafico>

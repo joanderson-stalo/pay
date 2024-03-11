@@ -35,8 +35,9 @@ export const customStyles = (hasError: boolean) => ({
     ...base,
     display: 'flex',
     alignItems: 'center',
-    transform: 'translateY(-20%)',
+    transform: 'translateY(-40%)',
     color: hasError ? 'red' : '#A0A0A0',
+    fontSize: '12px'
   }),
   dropdownIndicator: (base: any, state: any) => ({
     ...base,

@@ -16,11 +16,9 @@ import {
 } from './styled'
 import { Loading } from '@/components/Loading/loading'
 import { CustomSelect } from '@/components/Select/select'
-import { optionsData } from './optionsData'
 import { useLogin } from '@/context/user.login'
 import { useFormContext } from 'react-hook-form'
-import { CustomInput } from '@/components/Input/input'
-import { ThemeColor } from '@/config/color'
+import { LabelCustomInputMask } from '@/components/CustomInputMask'
 
 interface IStep3 {
   Avançar: () => void
@@ -105,14 +103,14 @@ export function Step3({ Avançar, Voltar }: IStep3) {
               </ContainerInput2>
               <ContainerInput>
                 <WInput>
-                  <CustomInput
-                    {...register('RegraMarkup')}
-                    label="Regra Markup"
-                    placeholder="Regra Markup %"
-                    hasError={!!errors.Fornecedor}
-                    colorInputDefault={ThemeColor.primaria}
-                    colorInputSuccess={ThemeColor.secundaria}
-                  />
+              
+                    <LabelCustomInputMask
+    placeholder="Regra Markup %"
+    label="Regra Markup"
+    mask='99,99 %'
+    {...register('RegraMarkup')}
+    hasError={!!errors.TaxaAntecipacao}
+  />
                 </WInput>
               </ContainerInput>
             </ContainerForm>

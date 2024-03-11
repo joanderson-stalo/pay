@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import * as S from './styled'
+import { TitleH } from '@/components/Title/title'
 
 export function HeaderCommission() {
   const navigate = useNavigate()
@@ -9,16 +10,16 @@ export function HeaderCommission() {
   }
 
   const handleToDay = () => {
-    navigate('/commission/today')
+    navigate('/commission/network')
   }
 
   return (
     <S.Container>
-      <S.Title>Comissões - Ranking</S.Title>
+      <TitleH title='Minhas comissões' />
+
       <S.ContainerPJPF>
-            <S.ButtonToday active={false}  onClick={handleToDay}>DIÁRIA</S.ButtonToday>
-            <S.ButtonPJ active={false} onClick={handleDaily}>POR VENDA</S.ButtonPJ>
-            <S.ButtonPF  active >RANKING</S.ButtonPF>
+            <S.ButtonToday active={false}  onClick={handleToDay}>REDE</S.ButtonToday>
+            <S.ButtonPF  active >MY</S.ButtonPF>
       </S.ContainerPJPF>
     </S.Container>
   )

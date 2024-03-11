@@ -4,14 +4,15 @@ import pix from '@assets/bandeiras/pix.svg';
 import visa from '@assets/bandeiras/visa.svg';
 import elo from '@assets/bandeiras/elo.svg';
 import maestro from '@assets/bandeiras/maestro.svg';
-import masterCard from '@assets/bandeiras/maestro.svg';
+import masterCard from '@assets/bandeiras/master.svg';
 import { useNavigate } from 'react-router-dom';
-import { useTransactionVendas } from '@/context/useVendas';
+import { useTransactionVendas } from '@/context/useTransaction';
+import { formatCurrencyBR } from '@/utils/convertBRDinheiro';
 
 export interface Transaction {
   id: string;
   acquire_id: string;
-  nsu_external: string;
+  nsu_internal: string;
   status: string;
   captured_in: string;
   amount: string;
@@ -34,11 +35,12 @@ export const CardSales: React.FC<CardSalesProps> = ({ transactions }) => {
   };
 
   const getBrandImageSrc = (brand: string | null) => {
-    switch (brand) {
-      case 'Visa': return visa;
-      case 'Elo': return elo;
-      case 'MasterCard': return masterCard;
-      case 'Maestro': return maestro;
+    switch (brand?.toLocaleLowerCase()) {
+      case 'visa': return visa;
+      case 'elo': return elo;
+      case 'mastercard': return masterCard;
+      case 'maestro': return maestro;
+      case 'pix' : return pix;
       case null : return pix;
       default: return undefined;
     }
@@ -47,7 +49,6 @@ export const CardSales: React.FC<CardSalesProps> = ({ transactions }) => {
   return (
     <>
       {transactions.map((transaction) => {
-        const formattedAmount = transaction.amount.replace('.', ',');
         const capturedDate = new Date(transaction.captured_in);
         const formattedDate = `${capturedDate.toLocaleDateString('pt-BR')} ${capturedDate.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}`;
 
@@ -58,9 +59,9 @@ export const CardSales: React.FC<CardSalesProps> = ({ transactions }) => {
 
                 <S.BrandImage src={getBrandImageSrc(transaction.brand)} alt={transaction.brand || 'Pix'} />
 
-              <h4>{transaction.payment_type}</h4>
-              <S.CardValue>{transaction.nsu_external}</S.CardValue>
-              <S.CardAmount>R$ {formattedAmount}</S.CardAmount>
+              
+              <S.CardValue>{transaction.nsu_internal}</S.CardValue>
+              <S.CardAmount>{formatCurrencyBR(Number(transaction.amount))}</S.CardAmount>
             </S.CardHeader>
 
 
@@ -68,6 +69,7 @@ export const CardSales: React.FC<CardSalesProps> = ({ transactions }) => {
              <div>
              <S.CardTitle>Estabelecimento: <h4>{transaction.company_name}</h4> </S.CardTitle>
               <S.CardDate><h4>Data:</h4>{formattedDate}</S.CardDate>
+              <S.Tag>{transaction.payment_type}</S.Tag>
              </div>
                 <S.CardStatus status={transaction.status}>
                   {transaction.status === 'succeeded' ? 'SUCESSO' : 'FALHA'}

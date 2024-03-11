@@ -8,7 +8,6 @@ import { validateDataCriacao } from '@/utils/dataValid'
 import { validateTelefone } from '@/utils/telefoneValid'
 import { validateEmail } from '@/utils/validateEmail'
 import { CustomSelect } from '@/components/Select/select'
-import { optionsData } from './option'
 import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
@@ -60,7 +59,7 @@ export function PJ({ Avançar, BPF, BPJ }: IStep1) {
   const navigate = useNavigate()
 
   const handleLicenciado = () => {
-    navigate('/licenciados')
+    navigate('/sellers-la')
   }
 
 

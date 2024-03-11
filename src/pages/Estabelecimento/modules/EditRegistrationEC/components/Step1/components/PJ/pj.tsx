@@ -24,8 +24,14 @@ import { validateDataCriacao } from '@/utils/dataValid'
 import { validateTelefone } from '@/utils/telefoneValid'
 import { validateEmail } from '@/utils/validateEmail'
 import { CustomSelect } from '@/components/Select/select'
-import { optionsData } from './option'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
+import { useLogin } from '@/context/user.login'
+import { useEstablishment } from '@/context/useEstablishment'
+import { optionsCnae } from '@/json/cnae'
+import Swal from 'sweetalert2'
+import { Loading } from '@/components/Loading/loading'
+import { useNavigate } from 'react-router-dom'
 
 interface IStep1 {
   Avançar: () => void
@@ -41,6 +47,15 @@ export function PJ({ Avançar, BPF, BPJ }: IStep1) {
     trigger,
     watch
   } = useFormContext()
+
+  const { dataUser } = useLogin();
+  const { establishmentId } = useEstablishment();
+
+  const [loading, setLoading] = useState(false);
+  const [sellerData, setSellerData] = useState(null);
+  const [typeDocument, setTypeDocument] = useState(null);
+  const navigate = useNavigate()
+  
 
   const allFieldsFilled =
     !!watch('CNPJEstabelecimento') &&
@@ -67,26 +82,117 @@ export function PJ({ Avançar, BPF, BPJ }: IStep1) {
     }
   }
 
-  const mockFillInputs = () => {
-    setValue('CNPJEstabelecimento', '23.699.017/0001-84');
-    setValue('RazaoSocialEstabelecimento', 'Mocked Company Ltd.');
-    setValue('NomeFantasiaEstabelecimento', 'Mocked Company');
-    setValue('DataCriacaoEstabelecimento', '01/01/2000');
-    setValue('NascimentoSocio', '15/05/1985');
-    setValue('CPFEstabelecimento', '913.482.830-33');
-    setValue('NomeSocioEstabelecimento', 'Mocked Partner Name');
-    setValue('EmailEstabelecimento', 'mocked.email@example.com');
-    setValue('TelefoneEstabelecimento', '(81) 991431834');
-    setValue('AreaAtuacaoEstabelecimento', 'option1');
+  useEffect(() => {
+    const fetchSellerData = async () => {
+      setLoading(true); 
+      try {
+        const response = await axios.get(
+          `https://api-pagueassim.stalopay.com.br/seller/show/${establishmentId}`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${dataUser?.token}`,
+            },
+          }
+        );
+        console.log(response.data.seller)
+        setSellerData(response.data.seller);
+        setValue('EmailEstabelecimento', response.data.seller.email);
+        setValue('CNPJEstabelecimento', response.data.seller.document);
+        setValue('RazaoSocialEstabelecimento', response.data.seller.company_name);
+        setValue('NomeFantasiaEstabelecimento', response.data.seller.trading_name);
+        const dataCriacao = new Date(response.data.seller.opening_date).toLocaleDateString('pt-BR');
+        setValue('DataCriacaoEstabelecimento', dataCriacao);
+        const nascimentoSocio = new Date(response.data.seller.owner_birthday).toLocaleDateString('pt-BR');
+        setValue('NascimentoSocio', nascimentoSocio);
+        setValue('CPFEstabelecimento', response.data.seller.owner_cpf);
+        setValue('TelefoneEstabelecimento', response.data.seller.phone);
+        setValue('NomeSocioEstabelecimento', response.data.seller.owner_name);
+        setValue('AreaAtuacaoEstabelecimento', response.data.seller.mcc);
+        console.log(response.data.seller.mcc)
+        setTypeDocument(response.data.seller.type_document); 
+      } catch (error) {
+        console.error('Erro ao buscar dados da API:', error);
+        setSellerData(null);
+      } finally {
+        setLoading(false); 
+      }
+    };
+    fetchSellerData();
+  }, []);
 
-};
+  const areaAtuacaoValue = watch('AreaAtuacaoEstabelecimento');
 
-useEffect(() => {
-  mockFillInputs();
-}, []);
+
+  const handleSalvar = async () => {
+    try {
+      setLoading(true);
+  
+      const formatDate = (dateString: { split: (arg0: string) => [any, any, any] }) => {
+        const [day, month, year] = dateString.split('/');
+        return `${year}-${month}-${day}`;
+      };
+  
+      const updatedData = {
+        mcc: areaAtuacaoValue,
+        company_name: watch('RazaoSocialEstabelecimento'),
+        trading_name: watch('NomeFantasiaEstabelecimento'),
+        opening_date: formatDate(watch('DataCriacaoEstabelecimento')),
+        owner_birthday: formatDate(watch('NascimentoSocio')),
+        owner_cpf: watch('CPFEstabelecimento'),
+        owner_name: watch('NomeSocioEstabelecimento'),
+        email: watch('EmailEstabelecimento'),
+        phone: watch('TelefoneEstabelecimento'),
+        document: watch('CNPJEstabelecimento'),
+        type_document: typeDocument
+      };
+  
+      await axios.put(`https://api-pagueassim.stalopay.com.br/seller/update/${establishmentId}`, updatedData, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${dataUser?.token}`
+        }
+      });
+  
+      setLoading(false);
+  
+      Swal.fire({
+        icon: 'success',
+        title: 'Licenciado atualizado com sucesso!',
+        showConfirmButton: true,
+        confirmButtonText: 'Continuar',
+        showCancelButton: true,
+        cancelButtonText: 'OK',
+        cancelButtonColor: '#17ec3b',
+        showCloseButton: true,
+        closeButtonAriaLabel: 'Fechar modal'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          console.log('Continuar clicado');
+        } else {
+          console.log('OK clicado');
+        }
+      });
+    } catch (error) {
+      console.error('Erro ao atualizar dados:', error);
+      setLoading(false);
+      Swal.fire({
+        icon: 'error',
+        title: 'Erro ao atualizar dados',
+        text: 'Ocorreu um erro ao tentar atualizar os dados do licenciado. Por favor, tente novamente mais tarde.',
+        confirmButtonText: 'OK'
+      });
+    }
+  };
+
+  const handleBack = () => {
+    navigate(-1)
+  }
 
   return (
-    <ContainerStep>
+    <>
+    {loading && <  Loading />}  
+      <ContainerStep>
       <ContextStepContainer>
         <ContextStep>
           <ContainerDados>
@@ -180,7 +286,8 @@ useEffect(() => {
             </ContainerInput>
             <ContainerInput2>
               <CustomSelect
-                optionsData={optionsData}
+  optionsData={optionsCnae}
+  value={optionsCnae.options.find(option => option.value === areaAtuacaoValue)}
                 {...register('AreaAtuacaoEstabelecimento')}
                 placeholder="Digite aqui ou clique para ver a lista"
                 label="Área de Atuação"
@@ -195,12 +302,13 @@ useEffect(() => {
         </ContextStep>
         <ContainerButton>
         <ButtonVoltar >Cancelar</ButtonVoltar>
-          <ButtonAvançar disabled={!allFieldsFilled} onClick={Avançar}>Salvar</ButtonAvançar>
+          <ButtonAvançar disabled={!allFieldsFilled} onClick={handleSalvar}>Salvar</ButtonAvançar>
         <ButtonAvançar disabled={!allFieldsFilled} onClick={handleAvancar}>
           Avançar
         </ButtonAvançar>
         </ContainerButton>
       </ContextStepContainer>
     </ContainerStep>
+    </>
   )
 }

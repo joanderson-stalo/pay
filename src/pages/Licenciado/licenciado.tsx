@@ -14,6 +14,7 @@ import { EditableButton } from './components/ButtonEdit/buttonEdit';
 import { ModalLicensed } from './components/ModalLicensed/modalLicensed';
 import { TotalBtn } from '@/components/TotalBtn/totalBtn';
 import { BtnFilter } from '@/components/BtnFilter/btnFilter';
+import { LicensedCard } from './mobile/LicenciadosCard/licensedCard';
 
 export function Licenciado() {
   const [itensPorPage, setItensPorPage] = useState<number | ''>(10);
@@ -111,10 +112,16 @@ export function Licenciado() {
             <BtnFilter  onClick={handleOpenModal} />
           </S.ContainerButton>
           <Tabela rows={sellers} />
+
+          <S.ContainerCardsMobile>
+          <LicensedCard rows={sellers} />
+          </S.ContainerCardsMobile>
+        
           <S.Context>
             <S.Linha />
             <S.ContainerPagina>
               <PaginaView totalItens={itensPorPage} />
+         
               <S.ContainerItens>
                 <ItensPorPage itensPorPage={itensPorPage} setItensPorPage={setItensPorPage} />
                 <Pagination

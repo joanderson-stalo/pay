@@ -62,6 +62,11 @@ export const ContainerGrafico = styled.div`
   display: flex;
   gap: 20px;
   margin-top: 36px;
+  margin-bottom: 36px;;
+
+  @media (max-width: 900px) {
+    flex-direction: column;
+  }
 `
 
 export const ContainerTable = styled.div`

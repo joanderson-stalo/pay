@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
 
 interface PapelTextProps {
-  type: 'Base' | 'Comercial';
+  type: string;
 }
 
 interface StatusProps {
@@ -68,13 +68,15 @@ export const PapelData = styled.td`
 `;
 
 export const PapelText = styled.span<PapelTextProps>`
-  color: #F2F2F2;
+  color: #3D4449;
   font-size: ${({theme }) => theme.text_xs};
   line-height: 18px;
-  background-color: ${({ type }) => (type === 'Base' ? '#02B1F1' : '#cccc')};
   border-radius: 4px;
   padding: 4px 24px;
-  display: inline-block;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const TableRow = styled.tr`

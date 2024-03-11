@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect, ReactNode, useContext } from 'react';
+import secureLocalStorage from 'react-secure-storage';
 
 interface SidebarVisibilityContextData {
   isVisible: boolean;
@@ -10,12 +11,12 @@ const SidebarVisibilityContext = createContext<SidebarVisibilityContextData | un
 
 export const SidebarVisibilityProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [isVisible, setIsVisibleState] = useState(() => {
-    const storedVisibility = localStorage.getItem('@Sidebar:visibility');
+    const storedVisibility = secureLocalStorage.getItem('@Sidebar:visibility');
     return storedVisibility === null ? true : storedVisibility === 'true';
   });
 
   useEffect(() => {
-    localStorage.setItem('@Sidebar:visibility', JSON.stringify(isVisible));
+    secureLocalStorage.setItem('@Sidebar:visibility', JSON.stringify(isVisible));
   }, [isVisible]);
 
   const showSidebar = () => {

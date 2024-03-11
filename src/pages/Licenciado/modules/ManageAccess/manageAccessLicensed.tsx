@@ -60,7 +60,7 @@ export function ManageAccessLicensed(){
   }, []);
 
   const handleEstablishmentdetail = () => {
-    navigate('/licenseddetail');
+    navigate('/sellers-la-detail');
   };
 
   return (

@@ -6,11 +6,9 @@ export const Container = styled.div`
 `
 
 export const ContainerMobile = styled.div`
-    display: none;
-    margin: 0 30px;
-
-  @media (max-width: 900px) {
+display: none;
+   margin: 36px 20px 20px 20px;
+   @media (max-width: 900px) {
     display: block;
   }
-
 `

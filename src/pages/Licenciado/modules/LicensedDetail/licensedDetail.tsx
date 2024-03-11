@@ -2,24 +2,25 @@ import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import * as S from './styled';
-import { GraficoCicle } from '@/components/graficoCicle/graficoCicle';
-import { DetalhesTable } from '../../../../components/detalhesTable/detalhesTable';
-import { GraficoBar } from '@/components/graficoBar/graficoBar';
-import { TopEstabelecimentos } from '@/pages/ECHome/components/TopEstabelecimento/topEstabelecimentos';
+import { GraficoCicle } from '@/components/GraficoCicle/graficoCicle';
+import { DetalhesTable } from '../../../../components/DetalhesTable/detalhesTable';
+import { GraficoBar } from '@/components/GraficoBar/graficoBar';
 import { useLicensed } from '@/context/useLicensed';
 import { useLogin } from '@/context/user.login';
 import { CaretLeft } from '@phosphor-icons/react';
 import Swal from 'sweetalert2';
 import { Loading } from '@/components/Loading/loading';
+import { TopEstabelecimentos } from '@/pages/Home/components/LAHome/components/TopEstabelecimento/topEstabelecimentos';
 
-type TopSellerType = {
+interface TopSellerType {
   seller_id: number;
   trading_name: string;
   total_amount: string;
-};
+}
 
-type LicensedDetailType = {
+interface LicensedDetailType {
   trading_name: string;
+  seller_name: string;
   payment_types: {
     credit: string;
     debit: string;
@@ -28,7 +29,7 @@ type LicensedDetailType = {
   transactions_TPV: string;
   hourly_transaction_totals: Record<string, string>;
   top_Seller: TopSellerType[];
-};
+}
 
 export function LicensedDetail() {
   const navigate = useNavigate();
@@ -63,13 +64,17 @@ export function LicensedDetail() {
   }, [licensedId, fetchLicensedDetail]);
 
   const navigateToManageAccessLicensed = () => {
-    navigate('/manageAccessLicensed');
+    navigate('/sellers-la-manage');
   };
 
   const handleLicenciados = () => {
-    navigate('/licenciados');
+    navigate('/sellers-la');
   };
 
+  const handleEdit = () => {
+    // navigate('/sellers-la-edit');
+  };
+  
   const handleDeleteLicensed = async () => {
     setLoading(true);
     try {
@@ -81,7 +86,7 @@ export function LicensedDetail() {
       });
 
 
-        navigate('/licenciados');
+        navigate('/sellers-la');
 
     } catch (error) {
       console.error(error);
@@ -108,13 +113,20 @@ export function LicensedDetail() {
     });
   };
 
+  const transactionsGroupedByAcquireId = {
+    "3": {
+      "total_amount": 1967.91,
+      "total_transactions": 26
+    }
+  };
+
   return (
     <>
     {loading && <Loading />}
       <S.Container>
         <S.ButtonBlack onClick={handleLicenciados}><CaretLeft size={18} />Voltar</S.ButtonBlack>
         <S.ContainerInfo>
-          <S.Title>{licensedDetail?.trading_name || 'Nome da Empresa'}</S.Title>
+          <S.Title>{licensedDetail?.seller_name || 'Nome do Vendedor'}</S.Title>
         </S.ContainerInfo>
 
         <S.ContainerGrafico>
@@ -128,12 +140,12 @@ export function LicensedDetail() {
         </S.ContainerGrafico>
 
         <S.ContainerTable>
-          <DetalhesTable />
+          <DetalhesTable transactions_grouped_by_acquire_id={transactionsGroupedByAcquireId} />
           <TopEstabelecimentos topSellers={licensedDetail?.top_Seller || []} />
         </S.ContainerTable>
 
         < S.ContainerBnt>
-        <S.ButtonEditRegistration type='button'>Editar cadastro</S.ButtonEditRegistration>
+        <S.ButtonEditRegistration onClick={handleEdit} type='button'>Editar cadastro</S.ButtonEditRegistration>
         <S.ButtonManageAccess  type='button' onClick={navigateToManageAccessLicensed}>Gerenciar acessos</S.ButtonManageAccess>
         <S.ButtonDelete type='button' onClick={handleDeleteConfirmation}>Excluir LA</S.ButtonDelete>
         </S.ContainerBnt>

@@ -29,6 +29,11 @@ import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useLogin } from '@/context/user.login'
+import { useLicensed } from '@/context/useLicensed'
+import { Loading } from '@/components/Loading/loading'
+import { optionsCnae } from '@/json/cnae'
+import { SellerData } from '../../../interface'
+import Swal from 'sweetalert2'
 
 interface IStep1 {
   Avançar: () => void
@@ -48,8 +53,10 @@ export function PJ({ Avançar, BPF, BPJ }: IStep1) {
 
   const navigate = useNavigate()
   const { dataUser } = useLogin();
+  const { licensedId } = useLicensed();
+  const [loading, setLoading] = useState(true);
 
-  const [sellerData, setSellerData] = useState(null);
+  const [sellerData, setSellerData] = useState<SellerData | null>(null);
   const allFieldsFilled =
     !!watch('CNPJEstabelecimento') &&
     !!watch('RazaoSocialEstabelecimento') &&
@@ -76,48 +83,121 @@ export function PJ({ Avançar, BPF, BPJ }: IStep1) {
   }
 
   const handleLicenseddetail = () => {
-    navigate('/licenseddetail')
+    navigate('/sellers-la')
   }
 
-  const fetchData = async () => {
-    try {
-      const response = await axios.get('https://api-pagueassim.stalopay.com.br/seller/3', {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${dataUser?.token}`,
-        },
-      });
-      return response.data.seller;
-    } catch (error) {
-      console.error('Erro ao buscar dados da API:', error);
-      return null;
-    }
-  };
-
-
-
-
+ 
   useEffect(() => {
     const fetchSellerData = async () => {
-      const data = await fetchData();
-      if (data) {
-        setSellerData(data);
-        setValue('EmailEstabelecimento', data.email);
+      setLoading(true); 
+      try {
+        const response = await axios.get(
+          `https://api-pagueassim.stalopay.com.br/seller/show/${licensedId}`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${dataUser?.token}`,
+            },
+          }
+        );
+        setSellerData(response.data.seller);
+        setValue('EmailEstabelecimento', response.data.seller.email);
+        setValue('CNPJEstabelecimento', response.data.seller.document);
+        setValue('RazaoSocialEstabelecimento', response.data.seller.company_name);
+        setValue('NomeFantasiaEstabelecimento', response.data.seller.trading_name);
+        const dataCriacao = new Date(response.data.seller.opening_date).toLocaleDateString('pt-BR');
+        setValue('DataCriacaoEstabelecimento', dataCriacao);
+        const nascimentoSocio = new Date(response.data.seller.owner_birthday).toLocaleDateString('pt-BR');
+        setValue('NascimentoSocio', nascimentoSocio);
+        setValue('CPFEstabelecimento', response.data.seller.owner_cpf);
+        setValue('TelefoneEstabelecimento', response.data.seller.phone);
+        setValue('NomeSocioEstabelecimento', response.data.seller.owner_name);
+        setValue('AreaAtuacaoEstabelecimento', response.data.seller.mcc);
+       
+      } catch (error) {
+        console.error('Erro ao buscar dados da API:', error);
+        setSellerData(null);
+      } finally {
+        setLoading(false); 
       }
     };
     fetchSellerData();
   }, []);
 
+  const areaAtuacaoValue = watch('AreaAtuacaoEstabelecimento');
+
+
+  const handleSalvar = async () => {
+    try {
+      setLoading(true);
+  
+      const formatDate = (dateString: { split: (arg0: string) => [any, any, any] }) => {
+        const [day, month, year] = dateString.split('/');
+        return `${year}-${month}-${day}`;
+      };
+  
+      const updatedData = {
+        mcc: areaAtuacaoValue,
+        company_name: watch('RazaoSocialEstabelecimento'),
+        trading_name: watch('NomeFantasiaEstabelecimento'),
+        opening_date: formatDate(watch('DataCriacaoEstabelecimento')),
+        owner_birthday: formatDate(watch('NascimentoSocio')),
+        owner_cpf: watch('CPFEstabelecimento'),
+        owner_name: watch('NomeSocioEstabelecimento'),
+        email: watch('EmailEstabelecimento'),
+        phone: watch('TelefoneEstabelecimento'),
+        document: watch('CNPJEstabelecimento'),
+        type_document: sellerData?.type_document
+      };
+  
+      await axios.put(`https://api-pagueassim.stalopay.com.br/seller/update/${licensedId}`, updatedData, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${dataUser?.token}`
+        }
+      });
+  
+      setLoading(false);
+  
+      Swal.fire({
+        icon: 'success',
+        title: 'Licenciado atualizado com sucesso!',
+        showConfirmButton: true,
+        confirmButtonText: 'Continuar',
+        showCancelButton: true,
+        cancelButtonText: 'OK',
+        showCloseButton: true,
+        closeButtonAriaLabel: 'Fechar modal'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Avançar();
+        } else {
+          handleLicenseddetail();
+        }
+      });
+    } catch (error) {
+      console.error('Erro ao atualizar dados:', error);
+      setLoading(false);
+      Swal.fire({
+        icon: 'error',
+        title: 'Erro ao atualizar dados',
+        text: 'Ocorreu um erro ao tentar atualizar os dados do licenciado. Por favor, tente novamente mais tarde.',
+        confirmButtonText: 'OK'
+      });
+    }
+  };
+  
+  
+
   return (
-    <ContainerStep>
+      <>
+  {loading && <Loading />}    
+      <ContainerStep>
       <ContextStepContainer>
         <ContextStep>
           <ContainerDados>
             <TitleStep>Dados do Licenciado</TitleStep>
-            <ContainerPJPF>
-            <ButtonPJ active onClick={BPJ}>PJ</ButtonPJ>
-            <ButtonPF active={false} onClick={BPF}>PF</ButtonPF>
-            </ContainerPJPF>
+         
           </ContainerDados>
           <Line />
           <ContainerForm>
@@ -203,7 +283,8 @@ export function PJ({ Avançar, BPF, BPJ }: IStep1) {
             </ContainerInput>
             <ContainerInput2>
               <CustomSelect
-                optionsData={optionsData}
+                optionsData={optionsCnae}
+                value={optionsCnae.options.find(option => option.value === areaAtuacaoValue)}
                 {...register('AreaAtuacaoEstabelecimento')}
                 placeholder="Digite aqui ou clique para ver a lista"
                 label="Área de Atuação"
@@ -218,12 +299,13 @@ export function PJ({ Avançar, BPF, BPJ }: IStep1) {
         </ContextStep>
         <ContainerButton>
         <ButtonVoltar onClick={handleLicenseddetail}>Cancelar</ButtonVoltar>
-          <ButtonAvançar disabled={!allFieldsFilled} onClick={Avançar}>Salvar</ButtonAvançar>
+          <ButtonAvançar disabled={!allFieldsFilled} onClick={handleSalvar}>Salvar</ButtonAvançar>
         <ButtonAvançar disabled={!allFieldsFilled} onClick={handleAvancar}>
           Avançar
         </ButtonAvançar>
         </ContainerButton>
       </ContextStepContainer>
     </ContainerStep>
+      </>
   )
 }

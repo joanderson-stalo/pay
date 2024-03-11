@@ -1,52 +1,95 @@
-import { FunnelSimple, MagnifyingGlass } from '@phosphor-icons/react'
-import { Card } from './components/Card/card'
 import * as S from './styled'
-import { SetStateAction, useEffect, useState } from 'react'
-import { ModalFilterVenda } from './components/ModalFilterVenda/modalFilterVenda'
+import { useCallback, useEffect, useState } from 'react'
 import { PaginaView } from '@/components/PaginaView/paginaView'
 import { ItensPorPage } from '@/components/ItensPorPage/itensPorPage'
 import { Pagination } from '@/components/Pagination/pagination'
 import { useLogin } from '@/context/user.login'
-import { Transaction } from './components/TabelaRankingCommission/interface'
 import { Loading } from '@/components/Loading/loading'
-import { formatCurrencyBR } from '@/utils/convertBRDinheiro'
-import { formatTaxa } from '@/utils/formatTaxa'
 import { mockData } from './mock'
 import { HeaderCommission } from './components/HeaderCommission/headerCommission'
-import { EditableButton } from './components/ButtonEdit/buttonEdit'
-import { useFilterRankingCommission } from './hooks/useFilterRankingCommission'
 import { TabelaRankingCommission } from './components/TabelaRankingCommission/tabelaRankingCommission'
 import { RankingCard } from './Mobile/RankingCard/rankingCard'
+import { baseURL } from '@/config/color'
+import axios from 'axios'
+import { CardInfo } from '@/components/CardInfo/cardInfo'
+
+interface CommissionData {
+  ec_seller_document: string;
+  la_seller_trading_name: string;
+  total_amount: string;
+  commission_count:string;
+  total_transaction_amount:string;
+}
+
+interface SellerCommissions {
+  [fornecedor: string]: CommissionData;
+}
+
+interface ECCommissions {
+  [sellerName: string]: SellerCommissions;
+}
+
+interface APIResponse {
+  status: number;
+  success: boolean;
+  total_transaction_amount: string;
+  total_commission_count: string;
+  total_commission_amount: string;
+  commissions_by_EC: ECCommissions;
+}
 
 export function RankingCommission() {
   const [searchValue, setSearchValue] = useState('')
   const [itensPorPage, setItensPorPage] = useState<number | ''>(10)
   const [filter, setFilter] = useState(false)
   const [loading, setLoading] = useState<boolean>(false)
+  
 
-  const [transactions, setTransactions] = useState<Transaction[]>([])
-  const [totalTransactions, setTotalTransactions] = useState<number>(0)
-  const [totalAmount, setTotalAmount] = useState<string>('0.00')
-  const [averageTaxApplied, setAverageTaxApplied] = useState<string>('0.000')
-  const [tpvGlobal, setTpvGlobal] = useState<string>('0')
+
   const [currentPage, setCurrentPage] = useState<number>(1)
 
-  const { state } = useFilterRankingCommission()
   const { dataUser } = useLogin()
+  const [apiData, setApiData] = useState<APIResponse | null>(null)
+  const [totalCommissionsByEC, setTotalCommissionsByEC] = useState<number>(0);
+  const [totalTransactionAmount, setTotalTransactionAmount] = useState<number>(0);
+  const [totalCommissionCount, setTotalCommissionCount] = useState<number>(0);
+  const [totalCommissionAmount, setTotalCommissionAmount] = useState<number>(0);
+  const [commissionsByEC, setCommissionsByEC] = useState<ECCommissions>({});
 
-  const handleChange = (event: {
-    target: { value: SetStateAction<string> }
-  }) => {
-    setSearchValue(event.target.value)
-  }
+  const fetchDataFromAPI = useCallback(async (search?: string) => {
+    setLoading(true);
 
-  const handleOpenModal = () => {
-    setFilter(true)
-  }
+    let url = `${baseURL}commisssion/mycommission?perpage=${String(itensPorPage)}&page=${currentPage}`;
 
-  const handleCloseModal = () => {
-    setFilter(false)
-  }
+
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${dataUser?.token}`,
+      },
+    };
+
+    try {
+      const response = await axios.get<APIResponse>(url, config);
+      const { data } = response;
+
+      setTotalTransactionAmount(Number(data.total_transaction_amount));
+      setTotalCommissionCount(Number(data.total_commission_count));
+      setTotalCommissionAmount(Number(data.total_commission_amount));
+      setCommissionsByEC(data.commissions_by_EC);
+
+      let totalCommissions = Object.keys(data.commissions_by_EC).length;
+      setTotalCommissionsByEC(totalCommissions);
+
+    } catch (error) {
+      console.error('Erro ao buscar dados:', error);
+    } finally {
+      setLoading(false);
+    }
+  }, [itensPorPage, currentPage, baseURL, dataUser?.token]);
+
+
 
   const fetchData = async (pageNumber: number) => {
     setCurrentPage(pageNumber)
@@ -62,54 +105,7 @@ export function RankingCommission() {
     }
   }
 
-  const fetchDataFromAPI = async (search?: string) => {
-    setLoading(true)
-
-    let url = `https://api-pagueassim.stalopay.com.br/transactions?perpage=${String(
-      itensPorPage
-    )}&page=${currentPage}`
-    if (search) {
-      url += `&nsu_external=${search}`
-    }
-
-    const totalUrl = 'https://api-pagueassim.stalopay.com.br/transactions'
-
-    try {
-      const [response, totalResponse] = await Promise.all([
-        fetch(url, {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${dataUser?.token}`
-          }
-        }),
-        fetch(totalUrl, {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${dataUser?.token}`
-          }
-        })
-      ])
-
-      if (response.ok && totalResponse.ok) {
-        const data = await response.json()
-        const totalData = await totalResponse.json()
-        setTransactions(data.transactions)
-        setTotalTransactions(data.total_transactions)
-        setTpvGlobal(totalData.total_amountTPV)
-
-        setCurrentPage(data.current_page)
-        setTotalAmount(totalData.net_value)
-        setAverageTaxApplied(totalData.average_taxApplied)
-      } else {
-        console.error(`Error fetching paginated data: ${response.statusText}`)
-        console.error(`Error fetching total data: ${totalResponse.statusText}`)
-      }
-    } catch (error) {
-      console.error('Error fetching data:', error)
-    } finally {
-      setLoading(false)
-    }
-  }
+ 
 
   useEffect(() => {
     if (searchValue.trim() === '') {
@@ -117,15 +113,11 @@ export function RankingCommission() {
     }
   }, [searchValue])
 
-  const handleSearch = () => {
-    if (searchValue.trim() !== '') {
-      fetchDataFromAPI(searchValue)
-    } else {
-      fetchDataFromAPI()
-    }
-  }
 
-  const totalPages = Math.ceil(totalTransactions / (itensPorPage || 1))
+
+  const totalPages = Math.ceil(totalCommissionsByEC / (itensPorPage || 1))
+
+
 
   useEffect(() => {
     fetchDataFromAPI()
@@ -135,39 +127,36 @@ export function RankingCommission() {
 
   return (
     <>
-      {/* <ModalFilterVenda onClose={handleCloseModal} visible={filter} /> */}
+    
       {loading ? (
         <Loading />
       ) : (
         <>
         <S.Container>
             <HeaderCommission />
-          <S.ContextTitleVendas>
-            <S.Input>
-              <input
-                type="text"
-                placeholder="Pesquise por NSU"
-                value={searchValue}
-                onChange={handleChange}
+       
+
+            <S.ContainerCardVendas>
+              <CardInfo
+                label="Valor total da transação"
+                value={totalTransactionAmount}
               />
-              <S.SearchIcon className="search-icon" onClick={handleSearch}>
-                <MagnifyingGlass />
-              </S.SearchIcon>
-            </S.Input>
-          </S.ContextTitleVendas>
+              <CardInfo
+                label="Valor total da comissão"
+                value={totalCommissionAmount}
+              />
+              <CardInfo
+                label="Contagem total de comissões"
+                shouldFormat={false}
+                value={totalCommissionCount}
+              />
+            </S.ContainerCardVendas>
 
-          <S.ContainerButton>
-            <S.ButtonTotal>Todos ({totalTransactions})</S.ButtonTotal>
-
-            {state ? <EditableButton /> : ''}
-            <S.ButtonFilter onClick={handleOpenModal}> <FunnelSimple />Filtrar</S.ButtonFilter>
-          </S.ContainerButton>
-
-          <TabelaRankingCommission rows={mockData} />
+          <TabelaRankingCommission commissions_by_EC={commissionsByEC}  />
           
 
           <S.ContainerCardsMobile>
-          <RankingCard data={mockData} />
+          <RankingCard data={commissionsByEC} />
           </S.ContainerCardsMobile>
 
 

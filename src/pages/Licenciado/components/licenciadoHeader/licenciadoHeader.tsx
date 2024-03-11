@@ -32,7 +32,7 @@ export function LicenciadoHeader({ onSearch, searchValue, setSearchValue }: Prop
   };
 
   const handleAddEstablishment = () => {
-    navigate('/lacadastro');
+    navigate('/sellers-la-register');
   };
 
   useEffect(() => {

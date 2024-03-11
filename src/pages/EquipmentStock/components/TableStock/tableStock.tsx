@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import * as S from './styled';
-import { formatCurrencyBR } from '@/utils/convertBRDinheiro';
 
 interface RowData {
   id: number;
@@ -9,6 +8,8 @@ interface RowData {
   model: string;
   acquire: string;
   status: string;
+  seller_name: string;
+  owner_name: string;
 }
 
 interface TabelaProps {
@@ -29,8 +30,15 @@ export function TableStock({ rows }: TabelaProps) {
 
   const sortedRows = [...rows].sort((a, b) => {
     let factor = sortDirection === 'asc' ? 1 : -1;
-    return factor * a.cadastro.localeCompare(b.cadastro);
+    if (a.cadastro && b.cadastro) {
+      return factor * a.cadastro.localeCompare(b.cadastro);
+    }
+    if (!a.cadastro && !b.cadastro) {
+      return 0;
+    }
+    return a.cadastro ? 1 : -1;
   });
+  
 
   function SortIndicator({ direction }: { direction: 'asc' | 'desc' }) {
     return (
@@ -65,15 +73,15 @@ export function TableStock({ rows }: TabelaProps) {
           <tr key={index}>
             <S.TableData>{row.serial_number}</S.TableData>
             <S.TableData>{row.model}</S.TableData>
-            <S.TableData></S.TableData>
-            <S.TableData></S.TableData>
+            <S.TableData>{row.seller_name}</S.TableData>
+            <S.TableData>{row.owner_name}</S.TableData>
 
 
             <S.TableData><S.FornecedorStatus>{row.acquire}</S.FornecedorStatus></S.TableData>
             <S.TableData>{row.status.toLocaleLowerCase()}</S.TableData>
-            <S.TableData>
+            {/* <S.TableData>
               <S.Button onClick={() => false}>Ver POS</S.Button>
-            </S.TableData>
+            </S.TableData> */}
           </tr>
         ))}
       </tbody>

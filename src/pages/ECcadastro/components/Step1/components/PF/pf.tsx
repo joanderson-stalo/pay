@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { Loading } from '@/components/Loading/loading'
+import { optionsCnae } from '@/json/cnae'
 
 interface IStep1 {
   Avançar: () => void
@@ -86,7 +87,7 @@ export function PF({ Avançar, BPF, BPJ }: IStep1) {
     }
   }, [cpfValue]);
 
-
+  const areaAtuacaoValue = watch('AreaAtuacaoEstabelecimento');
 
 
   return (
@@ -161,14 +162,15 @@ export function PF({ Avançar, BPF, BPJ }: IStep1) {
             </S.ContainerInput>
             <S.ContainerInput2>
               <CustomSelect
-                optionsData={optionsData}
-                {...register('AreaAtuacaoEstabelecimento')}
-                placeholder="Digite aqui ou clique para ver a lista"
-                label="Área de Atuação"
-                onChange={(selectedOption: { value: string }) => {
-                  setValue('AreaAtuacaoEstabelecimento', selectedOption.value)
-                }}
-                hasError={!!errors.AreaAtuacaoEstabelecimento}
+                optionsData={optionsCnae}
+                value={optionsCnae.options.find(option => option.value === areaAtuacaoValue)}
+               {...register('AreaAtuacaoEstabelecimento')}
+               placeholder="Digite aqui ou clique para ver a lista"
+               label="Área de Atuação"
+               onChange={(selectedOption: { value: string }) => {
+                 setValue('AreaAtuacaoEstabelecimento', selectedOption.value)
+               }}
+               hasError={!!errors.AreaAtuacaoEstabelecimento}
               />
               <button>Pesquise pelo CNAE ou Nome</button>
             </S.ContainerInput2>

@@ -17,6 +17,7 @@ import { useLogin } from '@/context/user.login';
 import { OperationSummaryCard } from './mobile/operationSummaryCard/operationSummaryCard ';
 import { OperationsSummaryList } from './mobile/operationSummaryCard/operationsSummaryList';
 import { OperationTotalCard } from './mobile/operationTotalCard/operationTotalCard';
+import { TitleH } from '@/components/Title/title';
 
 
 
@@ -107,7 +108,7 @@ export function LicenseeSummary() {
 <form onSubmit={handleSubmit(onSubmit, onError)}>
       <Container>
 
-        <Title>Resumo dos Licenciados</Title>
+        <TitleH title='Resumo dos Licenciados' />
 
         <ContainerSelect>
           <CustomSelect {...register("licenciado")}  optionsData={{ options: fetchedOptions }} label="Licenciado"

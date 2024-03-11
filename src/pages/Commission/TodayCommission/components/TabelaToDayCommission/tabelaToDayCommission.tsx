@@ -1,48 +1,32 @@
 import { useState } from 'react';
 import * as S from './styled';
+import { formatCurrencyBR } from '@/utils/convertBRDinheiro';
 
-export interface RowData {
-  id: number;
-  data: string;
-  licenciado: string;
-  transacoes: number;
-  tpv: number;
-  comissao: number;
-  fornecedor: 'F1' | 'F2' | 'F3';
+interface CommissionData {
+  ec_seller_document: string;
+  la_seller_trading_name: string;
+  total_amount: string;
+  commission_count: string;
+  total_transaction_amount: string;
 }
 
-type SortField = 'data' | 'licenciado' | 'transacoes' | 'tpv' | 'comissao';
+interface SellerCommissions {
+  [fornecedor: string]: CommissionData;
+}
+
+interface ECCommissions {
+  [sellerName: string]: SellerCommissions;
+}
 
 interface TabelaProps {
-  rows: RowData[];
+  commissions_by_EC: ECCommissions;
 }
 
-function formatDate(dateString: string): string {
-  const date = new Date(dateString);
-  const day = String(date.getDate()).padStart(2, '0');
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const year = date.getFullYear();
-  return `${day}/${month}/${year}`;
-}
-
-function formatToBRL(value: number): string {
-  return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
-}
-
-function SortIndicator({ direction }: { direction: 'asc' | 'desc' | undefined }) {
-  return (
-    <S.SortContainer>
-      <S.SortArrow isActive={direction !== 'asc'}>▲</S.SortArrow>
-      <S.SortArrow isActive={direction !== 'desc'}>▼</S.SortArrow>
-    </S.SortContainer>
-  );
-}
-
-export function TabelaToDayCommission({ rows }: TabelaProps) {
-  const [sortField, setSortField] = useState<SortField>('data');
+export function TabelaToDayCommission({ commissions_by_EC }: TabelaProps) {
+  const [sortField, setSortField] = useState<'nome' | 'sellerName' | 'comissao_total' | 'tpv_total'>('nome');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
 
-  const handleSort = (field: SortField) => {
+  const handleSort = (field: 'nome' | 'sellerName' | 'comissao_total' | 'tpv_total') => {
     if (field === sortField) {
       setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
     } else {
@@ -51,55 +35,80 @@ export function TabelaToDayCommission({ rows }: TabelaProps) {
     }
   };
 
-  const getDirectionForField = (field: SortField) => sortField === field ? sortDirection : undefined;
-
-  const sortedRows = [...rows].sort((a, b) => {
+  const sortedRows = Object.entries(commissions_by_EC).flatMap(([sellerName, sellerCommissions]) =>
+    Object.entries(sellerCommissions).map(([fornecedor, commissionData]) => ({
+      posicao: commissionData.ec_seller_document,
+      nome: commissionData.la_seller_trading_name,
+      comissao_total: parseFloat(commissionData.total_amount),
+      tpv_total: parseFloat(commissionData.total_transaction_amount),
+      fornecedor: fornecedor.split(','),
+      commission_count: commissionData.commission_count,
+      sellerName
+    }))
+  ).sort((a, b) => {
     let comparison = 0;
+
     switch (sortField) {
-      case 'data':
-        comparison = new Date(a.data).getTime() - new Date(b.data).getTime();
+      case 'nome':
+        comparison = (a.nome || '').localeCompare(b.nome || '');
         break;
-      case 'licenciado':
-        comparison = a.licenciado.localeCompare(b.licenciado);
+      case 'sellerName':
+        comparison = (a.sellerName || '').localeCompare(b.sellerName || '');
         break;
-      case 'transacoes':
-      case 'tpv':
-      case 'comissao':
-        comparison = a[sortField] - b[sortField];
+      case 'comissao_total':
+        comparison = a.comissao_total - b.comissao_total;
+        break;
+      case 'tpv_total':
+        comparison = a.tpv_total - b.tpv_total;
         break;
       default:
-        comparison = 0;
+        return 0;
     }
+
     return sortDirection === 'asc' ? comparison : -comparison;
   });
+
+  function SortIndicator({ direction }: { direction: 'asc' | 'desc' | undefined }) {
+    return (
+      <S.SortContainer>
+        <S.SortArrow isActive={direction === 'asc'}>▲</S.SortArrow>
+        <S.SortArrow isActive={direction === 'desc'}>▼</S.SortArrow>
+      </S.SortContainer>
+    );
+  }
+
+  const getDirectionForField = (field: 'nome' | 'sellerName' | 'comissao_total' | 'tpv_total') => {
+    return sortField === field ? sortDirection : undefined;
+  };
 
   return (
     <S.Table>
       <thead>
         <tr>
-          <S.TableHeader onClick={() => handleSort('data')}>Data<SortIndicator direction={getDirectionForField('data')} /></S.TableHeader>
-          <S.TableHeader onClick={() => handleSort('licenciado')}>Licenciado<SortIndicator direction={getDirectionForField('licenciado')} /></S.TableHeader>
-          <S.TableHeader onClick={() => handleSort('transacoes')}>Transações<SortIndicator direction={getDirectionForField('transacoes')} /></S.TableHeader>
-          <S.TableHeader onClick={() => handleSort('tpv')}>TPV<SortIndicator direction={getDirectionForField('tpv')} /></S.TableHeader>
-          <S.TableHeader onClick={() => handleSort('comissao')}>Comissão<SortIndicator direction={getDirectionForField('comissao')} /></S.TableHeader>
+        
+          <S.TableHeader onClick={() => handleSort('sellerName')}>Estabelecimento<SortIndicator direction={getDirectionForField('sellerName')} /></S.TableHeader>
           <S.TableHeader>Fornecedor</S.TableHeader>
+          <S.TableHeader onClick={() => handleSort('comissao_total')}>Valor da comissões<SortIndicator direction={getDirectionForField('comissao_total')} /></S.TableHeader>
+          <S.TableHeader onClick={() => handleSort('tpv_total')}>Valor total <SortIndicator direction={getDirectionForField('tpv_total')} /></S.TableHeader>
+          <S.TableHeader>Comissão</S.TableHeader>
         </tr>
       </thead>
       <tbody>
-        {sortedRows.map((row) => (
-          <tr key={row.id}>
-            <S.TableData>{formatDate(row.data)}</S.TableData>
-            <S.TableData>{row.licenciado}</S.TableData>
-            <S.TableData>{row.transacoes}</S.TableData>
-            <S.TableData>{formatToBRL(row.tpv)}</S.TableData>
-            <S.TableData>{formatToBRL(row.comissao)}</S.TableData>
+        {sortedRows.map((row, index) => (
+          <tr key={index}>
+            <S.TableData>{row.sellerName}</S.TableData>
             <S.TableData>
               <S.FornecedorWrapper>
-                <S.FornecedorItem fornecedor={row.fornecedor}>
-                  {row.fornecedor}
-                </S.FornecedorItem>
+                {row.fornecedor.map((fornecedor, idx) => (
+                  <S.FornecedorItem  key={idx} >
+                    {fornecedor}
+                  </S.FornecedorItem>
+                ))}
               </S.FornecedorWrapper>
             </S.TableData>
+            <S.TableData>{formatCurrencyBR(row.comissao_total)}</S.TableData>
+            <S.TableData>{formatCurrencyBR(row.tpv_total)}</S.TableData>
+            <S.TableData>{row.commission_count}</S.TableData>
           </tr>
         ))}
       </tbody>

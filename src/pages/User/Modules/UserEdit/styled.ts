@@ -11,7 +11,7 @@ export const ContainerStep = styled.div`
 
   @media (max-width: 600px) {
     display: block;
-    margin: 0 30px;
+    margin: 0 10px;
   }
 `;
 
@@ -178,6 +178,10 @@ export const FileInputLabel = styled.label`
 font-weight: 500;
 line-height: 24px;
 letter-spacing: 0.5px;
+
+@media (max-width: 600px) {
+  padding: 12px;
+}
 
 `;
 

@@ -67,7 +67,7 @@ export const FornecedorWrapper = styled.div`
   align-items: center;
 `;
 
-export const FornecedorItem = styled.p<{ fornecedor: 'F1' | 'F2' | 'F3' }>`
+export const FornecedorItem = styled.p`
   width: 23px;
   height: 26px;
   font-size: 12px;
@@ -77,12 +77,7 @@ export const FornecedorItem = styled.p<{ fornecedor: 'F1' | 'F2' | 'F3' }>`
   border-radius: 4px;
   text-align: center;
   color: #fff;
-  background-color: ${({ fornecedor }) => {
-    if (fornecedor === 'F1') return '#7D7D7D';
-    if (fornecedor === 'F2') return '#F9C716';
-    if (fornecedor === 'F3') return '#48F041';
-    return 'transparent';
-  }};
+  background-color: #48F041;
 `;
 
 export const SortContainer = styled.div`
@@ -95,8 +90,8 @@ export const SortContainer = styled.div`
 
 export const SortArrow = styled.span<{ isActive: boolean }>`
   display: block;
-  color: ${props => (props.isActive ? 'black': '#08BBE9')};
-  opacity: ${props => (props.isActive ? 0.5 : 1)};
+  color: ${props => (props.isActive ? '#08BBE9': 'black')};
+  opacity: ${props => (props.isActive ?1  : 0.5)};
   font-size: 8px;
 `;
 

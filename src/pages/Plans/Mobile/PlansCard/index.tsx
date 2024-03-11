@@ -41,10 +41,7 @@ export function PlansCard({ cards }: PlansCardProps) {
               </S.InfoBlock>
             </S.RightInfoSection>
 
-            <S.LeftActionSection>
-              <S.EditButton>Editar</S.EditButton>
-              <S.RemoveButton>Remover</S.RemoveButton>
-            </S.LeftActionSection>
+       
           </S.CardContent>
         </S.CardWrapper>
       ))}

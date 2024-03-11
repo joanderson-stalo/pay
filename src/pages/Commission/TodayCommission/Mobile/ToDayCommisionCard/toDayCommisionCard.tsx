@@ -1,48 +1,57 @@
+import * as React from 'react';
 import * as S from './styled';
+import { formatCurrencyBR } from '@/utils/convertBRDinheiro';
 
-interface RowData {
-  id: number;
-  data: string;
-  licenciado: string;
-  transacoes: number;
-  tpv: number;
-  comissao: number;
-  fornecedor: 'F1' | 'F2' | 'F3';
+interface CommissionData {
+  ec_seller_document: string;
+  la_seller_trading_name: string;
+  total_amount: string;
+  commission_count: string;
+  total_transaction_amount: string;
 }
 
-interface NewToDayCommissionCardProps {
-  mockData: RowData[];
+interface SellerCommissions {
+  [fornecedor: string]: CommissionData;
 }
 
-export function ToDayCommisionCard({ mockData }: NewToDayCommissionCardProps) {
+interface ECCommissions {
+  [sellerName: string]: SellerCommissions;
+}
+
+interface RankingCardProps {
+  data: ECCommissions;
+}
+
+export function ToDayCommisionCard({ data }: RankingCardProps) {
   return (
     <>
-      {mockData.map((rowData) => (
-        <S.CardWrapper key={rowData.id}>
-          <S.CardHeader>
-            <S.DateLabel>{new Date(rowData.data).toLocaleDateString('pt-BR')}</S.DateLabel>
-            <S.EstablishmentName>{rowData.licenciado}</S.EstablishmentName>
-            <S.CommissionAmount>R$ {rowData.comissao.toLocaleString('pt-BR')}</S.CommissionAmount>
-          </S.CardHeader>
+      {Object.entries(data).map(([sellerName, sellerCommissions]) => (
+        <React.Fragment key={sellerName}>
+          {Object.entries(sellerCommissions).map(([fornecedor, commissionData], index) => (
+            <S.CardWrapper key={index}>
+              <S.CardHeader>
+                <S.DateLabel>{sellerName}</S.DateLabel>
+                <S.EstablishmentName>{commissionData.la_seller_trading_name}</S.EstablishmentName>
+                <S.CommissionAmount>{formatCurrencyBR(Number(commissionData.total_amount))}</S.CommissionAmount>
+              </S.CardHeader>
 
-          <S.ContentMain>
-            <S.Info>
-              <S.DivText>
-                <S.Title>Transactions: </S.Title>
-                <S.Subvalue>{rowData.transacoes}</S.Subvalue>
-              </S.DivText>
+              <S.ContentMain>
+                <S.Info>
+                 
 
-              <S.DivText>
-                <S.Title>TPV:</S.Title>
-                <S.Subvalue>R$ {rowData.tpv.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</S.Subvalue>
-              </S.DivText>
+                  <S.DivText>
+                    <S.Title>Valor Total:</S.Title>
+                    <S.Subvalue>{formatCurrencyBR(Number(commissionData.total_transaction_amount))}</S.Subvalue>
+                  </S.DivText>
 
-              <S.WrapperTag>
-                <S.Tag>{rowData.fornecedor}</S.Tag>
-              </S.WrapperTag>
-            </S.Info>
-          </S.ContentMain>
-        </S.CardWrapper>
+                  <S.WrapperTag>
+                    <S.Tag>{fornecedor}</S.Tag>
+                  </S.WrapperTag>
+                </S.Info>
+              </S.ContentMain>
+            </S.CardWrapper>
+          ))}
+        </React.Fragment>
       ))}
     </>
   );

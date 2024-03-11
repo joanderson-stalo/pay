@@ -174,7 +174,7 @@ export function EditUser() {
               <S.Line />
               <S.ContainerForm>
                 <S.ContainerPhoto>
-                  <img src={selectedImage?.includes('contabostorage') ? selectedImage : iconPhoto} alt="Foto do Usuário" />
+                  <img src={selectedImage || iconPhoto} alt="Foto do Usuário" />
                   <S.HiddenFileInput
                     id="fileInput"
                     type="file"

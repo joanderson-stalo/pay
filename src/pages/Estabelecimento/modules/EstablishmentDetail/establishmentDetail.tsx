@@ -2,14 +2,15 @@ import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import * as S from './styled';
-import { GraficoCicle } from '@/components/graficoCicle/graficoCicle';
-import { GraficoBar } from '@/components/graficoBar/graficoBar';
+import { GraficoCicle } from '@/components/GraficoCicle/graficoCicle';
+import { GraficoBar } from '@/components/GraficoBar/graficoBar';
 import { CaretLeft } from '@phosphor-icons/react';
 import { useLogin } from '@/context/user.login';
 import { useEstablishment } from '@/context/useEstablishment';
 import { Loading } from '@/components/Loading/loading';
-import { DetalhesTable } from '@/components/detalhesTable/detalhesTable';
+import { DetalhesTable } from '@/components/DetalhesTable/detalhesTable';
 import Swal from 'sweetalert2';
+import { LatestSales } from '@/pages/Home/components/LAHome/components/LatestSales/latestSales';
 
 type PaymentTypes = {
   credit: string;
@@ -22,11 +23,19 @@ type HourlyTransactionTotals = {
   [key: string]: string;
 };
 
+type TransactionDetail = {
+  captured_in: string;
+  payment_type: string;
+  brand: string;
+  amount: string;
+};
+
 type EstablishmentDetailType = {
-  trading_name: string;
+  seller_name: string;
   transactions_TPV: string;
   payment_types: PaymentTypes;
   hourly_transaction_totals: HourlyTransactionTotals;
+  latest_transactions: TransactionDetail[];
 };
 
 export function EstablishmentDetail() {
@@ -102,13 +111,23 @@ export function EstablishmentDetail() {
     navigate('/sellers-ec');
   };
 
+  const handEditRegistrationEC = () => {
+    // navigate('/sellers-ec-edit');
+  };
+
+  const handManage = () => {
+    navigate('/sellers-ec-manage');
+  };
+
+  
+
   return (
     <>
       {loading && <Loading />}
       <S.Container>
       <S.ButtonBlack onClick={handEstabelecimentos}><CaretLeft size={18} />Voltar</S.ButtonBlack>
       <S.ContainerInfo>
-        <S.Title>{establishmentDetails?.trading_name || 'Nome do Estabelecimento'} <span>| CNPJ aqui</span></S.Title>
+        <S.Title>{establishmentDetails?.seller_name || 'Nome do Estabelecimento'}</S.Title>
       </S.ContainerInfo>
 
       <S.ContainerGrafico>
@@ -120,12 +139,12 @@ export function EstablishmentDetail() {
         />
         <GraficoBar hourly_transaction_totals={establishmentDetails?.hourly_transaction_totals || {}} />
       </S.ContainerGrafico>
-      <DetalhesTable  />
-
+    
+      <LatestSales latest_transactions={establishmentDetails?.latest_transactions || []} />
 
       < S.ContainerBnt>
-        <S.ButtonEditRegistration type='button'>Editar cadastro</S.ButtonEditRegistration>
-        <S.ButtonManageAccess  type='button' >Gerenciar acessos</S.ButtonManageAccess>
+        <S.ButtonEditRegistration type='button' onClick={handEditRegistrationEC}>Editar cadastro</S.ButtonEditRegistration>
+        <S.ButtonManageAccess  type='button' onClick={handManage}>Gerenciar acessos</S.ButtonManageAccess>
         <S.ButtonDelete type='button' onClick={handleDeleteConfirmation}>Excluir EC</S.ButtonDelete>
         </S.ContainerBnt>
       </S.Container>

@@ -6,7 +6,7 @@ export function HeaderTickets() {
   const navigate = useNavigate();
 
   const handleAddRequest = () => {
-    navigate('/addTickets');
+    navigate('/tickets-add');
   };
 
 

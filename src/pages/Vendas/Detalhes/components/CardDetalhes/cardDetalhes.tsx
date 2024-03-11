@@ -6,6 +6,7 @@ import visa from '@assets/bandeiras/visa.svg';
 import masterCard from '@assets/bandeiras/master.svg';
 
 interface CardDetalhesProps {
+  id: number | undefined;
   amount:  string | undefined
   seller_company_name: string | undefined
   payment_type: string | undefined
@@ -14,7 +15,7 @@ interface CardDetalhesProps {
   brand: string | undefined
   card_number: string | undefined
   number_installments: number| undefined
-  nsu_external: string | undefined
+  nsu_internal: string | undefined
   acquire: string | undefined
   id_acquire: string | undefined
   equipment_sn:string | undefined
@@ -30,7 +31,7 @@ export function CardDetalhes({
   brand,
   card_number,
   number_installments,
-  nsu_external,
+  nsu_internal,
   status,
   amount,
   acquire,
@@ -38,22 +39,23 @@ export function CardDetalhes({
   equipment_sn,
   tax_applied,
   captured_in_date,
-  captured_in_time
+  captured_in_time,
+  id,
 }: CardDetalhesProps) {
   return (
     <S.ContainerCardDetalhes>
       <S.ContextCard>
         <img src={
             brand?.toLocaleLowerCase() === null && payment_type === 'pix' ?pix :
-            brand === 'visa' ? visa :
-            brand === 'elo' ? elo :
-            brand === 'mastercard' ? masterCard :
-            brand === 'maestro' ? maestro :
-            brand === 'pix' ? pix : undefined
+            brand?.toLocaleLowerCase()  === 'visa' ? visa :
+            brand?.toLocaleLowerCase()  === 'elo' ? elo :
+            brand?.toLocaleLowerCase()  === 'mastercard' ? masterCard :
+            brand?.toLocaleLowerCase()  === 'maestro' ? maestro :
+            brand?.toLocaleLowerCase()  === 'pix' ? pix : undefined
         } alt="" />
         <h3>{amount}</h3>
         <span>{acquire}-{id_acquire}</span>
-        <S.TagDetalhes label={status}>SUCESSO</S.TagDetalhes>
+        <S.TagDetalhes label={status}>{status?.toLocaleLowerCase() === 'cancelled' ? 'cancelado' : 'sucesso'}</S.TagDetalhes>
       </S.ContextCard>
 
       <S.DetalheInfo>
@@ -76,7 +78,7 @@ export function CardDetalhes({
         <S.InfoTw>
           <div>
             <h2>Forma de pagamento</h2>
-            <span>{payment_type}</span>
+            <span>{payment_type === 'debit' ? 'Dépor bito' : 'Crédito'}</span>
           </div>
           <div>
             <h2>Bandeira</h2>
@@ -100,7 +102,7 @@ export function CardDetalhes({
           </div>
           <div>
             <h2>NSU</h2>
-            <span>{nsu_external}</span>
+            <span>{nsu_internal}</span>
           </div>
         </S.InfoTre>
         <S.InfoTre>
@@ -112,6 +114,10 @@ export function CardDetalhes({
           <div>
           <h2>Parcelas</h2>
             <span>{number_installments == 0 ? 'à vista' : `${number_installments} x` }</span>
+          </div>
+          <div>
+          <h2>ID</h2>
+            <span>{id}</span>
           </div>
         </S.InfoTre>
       </S.DetalheInfo>

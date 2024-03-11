@@ -1,14 +1,14 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { ButtonClose, EditButton, EditInput } from './styled';
 import closeX from '@assets/icons/X.svg'
-import { useFilterLicensed } from '../../hooks/useFilterLicensed';
-import { useLabelLicensed } from '../../hooks/useLabelLicensed';
+import { useLabelBilling } from '../../hooks/useLabelBilling';
+import { useFilterBilling } from '../../hooks/useFilterBilling';
 
 
 export function EditableButton() {
-  const { label, setLabel } = useLabelLicensed();
+  const { label, setLabel } = useLabelBilling();
   const [isEditing, setIsEditing] = useState(false);
-  const {setFalse } = useFilterLicensed();
+  const {setFalse } = useFilterBilling();
 
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -26,11 +26,15 @@ export function EditableButton() {
     }
   };
 
-  const handleXClick = (event: React.MouseEvent) => {
+  const handleXClick = async (event: React.MouseEvent) => {
     event.stopPropagation();
-    localStorage.removeItem('@licenciadoAutorizadoLicensed');
-    setFalse();
+    localStorage.removeItem('@billingStartDate');
+    localStorage.removeItem('@billingEndDate');
+    localStorage.removeItem('@billingEstablishment');
+    localStorage.removeItem('@billingLicensed');
+    await setFalse();
 };
+
 
 
   useEffect(() => {

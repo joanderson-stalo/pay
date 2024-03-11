@@ -89,7 +89,7 @@ export function Tabela({ rows }: TabelaProps) {
   const handleViewMoreClick = async (id: string) => {
     await new Promise(resolve => setTimeout(resolve, 20));
     setLicensedId(id)
-    navigate(`/licenseddetail`);
+    navigate(`/sellers-la-detail`);
   };
 
   function formatToBRL(value: number) {
@@ -147,9 +147,9 @@ export function Tabela({ rows }: TabelaProps) {
             <S.TableData>{seller.ec_count}</S.TableData>
             <S.TableData>{formatToBRL(parseFloat(seller.commission.replace(',', '.')))}</S.TableData>
             <S.TableData>{formatToBRL(seller.tpv)}</S.TableData>
-            {/* <S.TableData>
+            <S.TableData>
               <S.Button onClick={() => handleViewMoreClick(seller.id.toString())}>Dados</S.Button>
-            </S.TableData> */}
+            </S.TableData>
           </tr>
         ))}
       </tbody>

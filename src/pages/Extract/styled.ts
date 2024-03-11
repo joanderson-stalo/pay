@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 
+
 export const Container = styled.div`
   margin: 36px 20px 20px 20px;
 
@@ -104,7 +105,7 @@ gap: 20px;
 
 export const ContainerCardsMobile = styled.div`
   flex-direction: column;
-  gap: 12px;
+  gap: 20px;
 
   display: none;
 
@@ -113,3 +114,4 @@ export const ContainerCardsMobile = styled.div`
     display: flex;
   }
 `
+

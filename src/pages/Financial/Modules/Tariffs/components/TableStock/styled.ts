@@ -32,8 +32,8 @@ export const TableHeader = styled.th`
   vertical-align: middle;
 `;
 
-export const CustomTableHeader = styled.th<CustomTableHeaderProps>`
-  color: ${({ tipo }) => tipo === 'Crédito' ? `${ThemeColor.secundaria}` : '#E91414'};
+export const CustomTableHeader = styled.th`
+  color: ${ThemeColor.secundaria};
   font-size: ${({theme }) => theme.text_xs};
   font-weight: ${({theme }) => theme.font_medium};
   line-height: 15.566px;
@@ -57,21 +57,15 @@ export const TableData = styled.td`
 `;
 
 export const Button = styled.button`
-  color: #5A6ACF;
+ color: ${ThemeColor.primaria};
   font-size: ${({theme }) => theme.text_xs};
-  font-style: normal;
-  font-weight: 500;
-  line-height: 14.128px;
-  letter-spacing: 0.353px;
-  width: 77px;
-  height: 24.725px;
-  border-radius: 3.532px;
-  border: 0.353px solid #F5F4F4;
-  background: #FFF;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto;
+color:  ${ThemeColor.primaria};
+font-style: normal;
+font-weight: 500;
+line-height: 11.303px;
+letter-spacing: 0.353px;
+text-decoration-line: underline;
+background-color: transparent;
 `;
 
 export const TableRow = styled.tr`

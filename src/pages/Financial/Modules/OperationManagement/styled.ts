@@ -23,7 +23,7 @@ export const ContainerSelect = styled.div`
 display: flex;
 align-items: center;
 gap: 20px;
-margin-bottom: 36px;
+margin: 36px 0px;
 
 @media (max-width: 900px) {
   flex-wrap: wrap;

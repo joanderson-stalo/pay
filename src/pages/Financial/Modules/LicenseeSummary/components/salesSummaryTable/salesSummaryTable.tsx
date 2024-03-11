@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import * as S from './styled';
 import { useNavigate } from 'react-router-dom';
-import { useTransactionVendas } from '@/context/useVendas';
+
 import { Totals, Transaction } from './interface';
 import { formatCurrencyBR } from '@/utils/convertBRDinheiro';
+import { useTransactionVendas } from '@/context/useTransaction';
 
 
 type SortField = 'meta' | 'tpv' | 'gap' | 'comissao';

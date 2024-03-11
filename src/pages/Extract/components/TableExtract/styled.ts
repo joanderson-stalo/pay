@@ -101,8 +101,8 @@ export const TipoContainer = styled.div`
 
 `;
 
-export const TipoTableData = styled(TableData)<{ tipo: 'Entrada' | 'Saída' }>`
-  background-color: ${({ tipo }) => (tipo === 'Entrada' ? '#55B938' : '#E91414')};
+export const TipoTableData = styled(TableData)<{ tipo: string }>`
+  background-color: ${({ tipo }) => (tipo === 'credit' ? '#55B938' : '#E91414')};
   color: white;
   border-radius: 4px;
 `;

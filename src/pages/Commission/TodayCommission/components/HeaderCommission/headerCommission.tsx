@@ -1,11 +1,12 @@
 import { useNavigate } from 'react-router-dom'
 import * as S from './styled'
+import { TitleH } from '@/components/Title/title'
 
 export function HeaderCommission() {
   const navigate = useNavigate()
 
   const handleRanking = () => {
-    navigate('/commission/ranking')
+    navigate('/commission')
   }
 
   const handleDaily = () => {
@@ -14,11 +15,10 @@ export function HeaderCommission() {
 
   return (
     <S.Container>
-      <S.Title>Comissões Diárias</S.Title>
+      <TitleH title='Comissões de rede' />
       <S.ContainerPJPF>
-            <S.ButtonToday active >DIÁRIA</S.ButtonToday>
-            <S.ButtonPJ active={false} onClick={handleDaily }>POR VENDA</S.ButtonPJ>
-            <S.ButtonPF active={false} onClick={handleRanking} >RANKING</S.ButtonPF>
+            <S.ButtonToday active >REDE</S.ButtonToday>
+            <S.ButtonPF active={false} onClick={handleRanking} >MY</S.ButtonPF>
       </S.ContainerPJPF>
     </S.Container>
   )
