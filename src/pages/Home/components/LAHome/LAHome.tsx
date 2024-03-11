@@ -5,8 +5,9 @@ import { useLogin } from "@/context/user.login";
 import { useEffect, useState } from "react";
 import { Loading } from "@/components/Loading/loading";
 import { CardInfo } from "@/components/CardInfo/cardInfo";
-import { GraficoCicle } from '@/components/GraficoCicle/graficoCicle';
-import { GraficoBar } from '@/components/GraficoBar/graficoBar';
+import { GraficoCicle } from '@/components/GraficoCicleNew/graficoCicle';
+import { GraficoBar } from '@/components/GraficoBarNew/graficoBar';
+
 
 interface HourlyTransactionTotals {
   [hour: string]: string;

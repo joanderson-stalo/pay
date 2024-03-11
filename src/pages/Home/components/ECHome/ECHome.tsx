@@ -1,4 +1,4 @@
-import { GraficoCicle } from "@/components/GraficoCicle/graficoCicle";
+import { GraficoCicle } from "@/components/GraficoCicleNew/graficoCicle";
 import * as S from './styled';
 import { CustomChart } from "@/components/GraficoDelinha/graficolinha";
 import { MonthYearSelector } from "@/components/MonthYearPicker/MonthYearPicker";
