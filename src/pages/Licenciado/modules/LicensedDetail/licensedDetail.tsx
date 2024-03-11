@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import * as S from './styled';
 import { GraficoCicle } from '@/components/GraficoCicle/graficoCicle';
-import { DetalhesTable } from '../../../../components/DetalhesTable/detalhesTable';
 import { GraficoBar } from '@/components/GraficoBar/graficoBar';
 import { useLicensed } from '@/context/useLicensed';
 import { useLogin } from '@/context/user.login';
@@ -11,6 +10,7 @@ import { CaretLeft } from '@phosphor-icons/react';
 import Swal from 'sweetalert2';
 import { Loading } from '@/components/Loading/loading';
 import { TopEstabelecimentos } from '@/pages/Home/components/LAHome/components/TopEstabelecimento/topEstabelecimentos';
+import { DetalhesTable } from '@/components/DetalhesTable/detalhesTable';
 
 interface TopSellerType {
   seller_id: number;
