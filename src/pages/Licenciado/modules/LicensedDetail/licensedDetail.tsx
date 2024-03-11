@@ -10,7 +10,7 @@ import { CaretLeft } from '@phosphor-icons/react';
 import Swal from 'sweetalert2';
 import { Loading } from '@/components/Loading/loading';
 import { TopEstabelecimentos } from '@/pages/Home/components/LAHome/components/TopEstabelecimento/topEstabelecimentos';
-import { DetalhesTable } from '@/components/DetalhesTable/detalhesTable';
+import { DetalhesTable } from '@/components/DetalhesTableNew/detalhesTable';
 
 interface TopSellerType {
   seller_id: number;
