@@ -4,7 +4,6 @@ import * as S from './styled';
 import { useCallback, useEffect, useState } from 'react';
 import { ItensPorPage } from '@/components/ItensPorPage/itensPorPage';
 import { Pagination } from '@/components/Pagination/pagination';
-import { FunnelSimple } from '@phosphor-icons/react';
 import { LicenciadoHeader } from './components/licenciadoHeader/licenciadoHeader';
 import { useLogin } from '@/context/user.login';
 import axios from 'axios';
