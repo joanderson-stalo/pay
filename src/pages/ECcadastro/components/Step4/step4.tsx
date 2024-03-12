@@ -45,7 +45,6 @@ export function Step4({ Avançar, Voltar, isLoading }: IStep5) {
     return fields.every(field => !!getValues(field));
 };
 
-const [banks, setBanks] = useState<{ options: BankOption[] }>({ options: [] });
 
 
 
@@ -93,28 +92,6 @@ const handleCpfCnpjChange = (event: { target: { value: any; }; }) => {
 
   const cpfOuCnpjValue = watch('CpfCnpj');
 
-  useEffect(() => {
-    const fetchBanks = async () => {
-      try {
-        const response = await axios.get('https://brasilapi.com.br/api/banks/v1');
-        const data = response.data;
-        const options = data && Array.isArray(data) ? data.map((bank: any) => ({
-          value: (bank.code !== null ? bank.code.toString() : ''),
-          label: `${bank.code !== null ? bank.code.toString() : ''} - ${bank.fullName}`  
-        })) : [];
-        
-        
-        setBanks({ options });
-
-        console.log(options);
-      } catch (error) {
-        console.error('Error fetching banks:', error);
-      }
-    };
-
-    fetchBanks();
-  }, []);
-
   const mask =
     cpfOuCnpjValue && cpfOuCnpjValue.length > 14
       ? '99.999.999/9999-99'
@@ -155,7 +132,7 @@ const handleCpfCnpjChange = (event: { target: { value: any; }; }) => {
                     {...register('Banco', { required: true })}
                     label="Banco"
                     value={bancoSelecionado}
-                    optionsData={banks}
+                    optionsData={bancos}
                     placeholder={'Clique para ver a lista'}
                     hasError={!!errors.Banco}
                     onChange={(selectedOption: { value: string }) => {
