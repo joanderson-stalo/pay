@@ -69,16 +69,8 @@ export function PJ({ Avançar }: IStep1) {
     !!watch('TelefoneEstabelecimento')
 
   const handleAvancar = async () => {
-    const result = await trigger()
-    if (
-      result &&
-      !errors.CNPJEstabelecimento &&
-      !errors.CPFEstabelecimento &&
-      allFieldsFilled &&
-      formIsValid
-    ) {
+    
       Avançar()
-    }
   }
 
   useEffect(() => {
@@ -162,14 +154,13 @@ export function PJ({ Avançar }: IStep1) {
         confirmButtonText: 'Continuar',
         showCancelButton: true,
         cancelButtonText: 'OK',
-        cancelButtonColor: '#17ec3b',
         showCloseButton: true,
         closeButtonAriaLabel: 'Fechar modal'
       }).then((result) => {
         if (result.isConfirmed) {
-          console.log('Continuar clicado');
+          Avançar();
         } else {
-          console.log('OK clicado');
+          handleEC();
         }
       });
     } catch (error) {

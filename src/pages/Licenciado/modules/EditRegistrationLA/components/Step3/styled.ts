@@ -49,7 +49,7 @@ export const ContextStep = styled.div`
     padding: 15px 20px;
   }
   @media(max-width: 600px) {
-    width: 120%;
+    width: 90%;
     padding: 20px;
     margin-top: 10px;
     margin-bottom: 20px
