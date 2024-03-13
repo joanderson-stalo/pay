@@ -17,10 +17,12 @@ background: #fff;
 font-size: 12px;
 font-weight: 700;
 line-height: 15.566px;
+cursor: pointer;
 
 @media (max-width: 900px) {
     padding: 6px 16px;
     font-size: 10px;
+    z-index: 5;
   }
 
 `

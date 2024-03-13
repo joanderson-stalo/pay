@@ -8,7 +8,7 @@ interface IBtnFilter {
 export function BtnFilter({onClick}: IBtnFilter){
   return(
     <>
-      <ButtonFilter onClick={onClick}>
+      <ButtonFilter type="button" onClick={onClick}>
          <FunnelSimple />Filtrar
       </ButtonFilter>
     </>
