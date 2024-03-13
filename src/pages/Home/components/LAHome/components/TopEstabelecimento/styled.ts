@@ -126,4 +126,6 @@ line-height: 15px;
 text-decoration-line: underline;
 
 background-color: transparent;
+cursor: pointer;
+z-index: 5;
 `
