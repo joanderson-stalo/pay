@@ -11,6 +11,7 @@ import { ApiResponse } from "@/pages/LAcadastro/LAcadastro";
 import { TranslateErrorMessage } from "@/utils/translateErrorMessage";
 import { toast } from "react-toastify";
 import { useEstablishment } from "@/context/useEstablishment";
+import { baseURL } from "@/config/color";
 
 interface UserData {
   id: number;
@@ -39,7 +40,7 @@ export function ManageAccessEstablishment(){
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(`https://api-pagueassim.stalopay.com.br/user/getuserby/${establishmentId}`, {
+      const response = await axios.get(`${baseURL}user/getuserby/${establishmentId}`, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${dataUser?.token}`

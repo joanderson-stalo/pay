@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useForm, SubmitHandler, FieldValues } from 'react-hook-form';
-import { ThemeColor } from "@/config/color";
+import { ThemeColor, baseURL } from "@/config/color";
 import { ButtonAvançar, ButtonVoltar, ContainerButton, ContainerForm, ContainerInput, ContainerStep, ContextStep, ContextStepContainer, Line, TitleStep } from "./styled";
 import { CustomInput } from "@/components/Input/input";
 import { Loading } from "@/components/Loading/loading";
@@ -39,7 +39,7 @@ export function EditRate() {
   const fetchDataLA = async () => {
     setLoading(true);
     try {
-      const response = await axios.get('https://api-pagueassim.stalopay.com.br/seller/indexla', {
+      const response = await axios.get(`${baseURL}seller/indexla`, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${dataUser?.token}`
@@ -66,7 +66,7 @@ export function EditRate() {
   const fetchDataEC = async () => {
     setLoading(true);
     try {
-      const response = await axios.get('https://api-pagueassim.stalopay.com.br/seller/indexec', {
+      const response = await axios.get(`${baseURL}seller/indexec`, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${dataUser?.token}`
@@ -94,7 +94,7 @@ export function EditRate() {
   const fetchTariffDetails = async () => {
     setLoading(true);
     try {
-      const response = await axios.get( `https://api-pagueassim.stalopay.com.br/tariffs/show/${tariffId}`, {
+      const response = await axios.get( `${baseURL}tariffs/show/${tariffId}`, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${dataUser?.token}`
@@ -175,7 +175,7 @@ export function EditRate() {
     try {
       setLoading(true);
       console.log(payload)
-      const response = await axios.put(`https://api-pagueassim.stalopay.com.br/tariffs/update/${tariffId}`, payload, {
+      const response = await axios.put(`${baseURL}tariffs/update/${tariffId}`, payload, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${dataUser?.token}`

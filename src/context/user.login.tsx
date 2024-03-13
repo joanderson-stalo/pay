@@ -101,7 +101,7 @@ export const LoginProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const validateToken = async () => {
       try {
-        const response = await axios.get('https://api-pagueassim.stalopay.com.br/validatetoken', {
+        const response = await axios.get(`${baseURL}validatetoken`, {
           headers: { Authorization: `Bearer ${dataUser?.token}` }
         });
   

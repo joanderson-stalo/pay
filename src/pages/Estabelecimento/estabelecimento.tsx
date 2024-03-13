@@ -15,6 +15,7 @@ import { EstabelecimentoHeader } from './components/estabelecimentoHeader/estabe
 import { TotalBtn } from '@/components/TotalBtn/totalBtn';
 import { BtnFilter } from '@/components/BtnFilter/btnFilter';
 import { CardEstablishment } from './Mobile/CardEstablishment/cardEstablishment';
+import { baseURL } from '@/config/color';
 
 
 export function Estabelecimento() {
@@ -30,7 +31,7 @@ export function Estabelecimento() {
 
   const fetchData = async (pageNumber: number = currentPage) => {
     setLoading(true);
-    let apiUrl = `https://api-pagueassim.stalopay.com.br/seller/indexec?perpage=${String(itensPorPage)}&page=${pageNumber}`;
+    let apiUrl = `${baseURL}seller/indexec?perpage=${String(itensPorPage)}&page=${pageNumber}`;
     if (searchValue) {
       apiUrl += `&trading_name=${searchValue}`;
     }

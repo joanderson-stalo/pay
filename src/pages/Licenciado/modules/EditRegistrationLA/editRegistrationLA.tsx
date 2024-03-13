@@ -17,6 +17,7 @@ import { useDocumentLA } from "@/context/useDocumentLA";
 import { toast } from "react-toastify";
 import { useLicensed } from "@/context/useLicensed";
 import { useLogin } from "@/context/user.login";
+import { baseURL } from "@/config/color";
 
 export const EditRegistrationLA = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -40,7 +41,7 @@ export const EditRegistrationLA = () => {
       if (isStep4Valid) {
         try {
           const step4Values = getValues();
-          const sellerDataResponse = await axios.get(`https://api-pagueassim.stalopay.com.br/seller/show/${licensedId}`, {
+          const sellerDataResponse = await axios.get(`${baseURL}seller/show/${licensedId}`, {
             headers: {
               'Content-Type': 'application/json',
               'Authorization': `Bearer ${dataUser?.token}`
@@ -63,7 +64,7 @@ export const EditRegistrationLA = () => {
             pix: step4Values.pix
           };
           setIsLoading(true); 
-          await axios.put(`https://api-pagueassim.stalopay.com.br/banks/update-la/${banks}`, requestBody,
+          await axios.put(`${baseURL}banks/update-la/${banks}`, requestBody,
           {
             headers: {
               'Content-Type': 'application/json',

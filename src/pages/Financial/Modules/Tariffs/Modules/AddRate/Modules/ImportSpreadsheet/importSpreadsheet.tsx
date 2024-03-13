@@ -7,7 +7,7 @@ import { TableSpreadSheet } from './Components/TableSpreadSheet/tableSpreadSheet
 import { CardSpreadsheet } from './Mobile/CardSpreadsheet/cardSpreadsheet';
 import { useLogin } from '@/context/user.login';
 import { CustomInput } from '@/components/Input/input';
-import { ThemeColor } from '@/config/color';
+import { ThemeColor, baseURL } from '@/config/color';
 import { useNavigate } from 'react-router-dom';
 import { Loading } from '@/components/Loading/loading';
 
@@ -181,7 +181,7 @@ export function ImportSpreadsheet() {
       }));
 
       const response = await axios.post(
-        'https://api-pagueassim.stalopay.com.br/tariffs/create',
+        `${baseURL}tariffs/create`,
         { tariffs: mappedData },
         {
           headers: {

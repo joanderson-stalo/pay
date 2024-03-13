@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from 'react-hook-form';
-import { ThemeColor } from "@/config/color";
+import { ThemeColor, baseURL } from "@/config/color";
 import { ButtonAvançar, ButtonVoltar, ContainerButton, ContainerForm, ContainerInput, ContainerStep, ContextStep, ContextStepContainer, CustomTextArea, FileInputLabel, HiddenFileInput, Label, Line, StyledUploadIcon, TitleStep } from "./styled";
 import { CustomInput } from "@/components/Input/input";
 import { CustomSelect } from "@/components/Select/select";
@@ -19,7 +19,7 @@ export function AddTickets() {
 
   const fetchDataFN = async () => {
     try {
-      const response = await axios.get('https://api-pagueassim.stalopay.com.br/acquire/index', {
+      const response = await axios.get(`${baseURL}acquire/index`, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${dataUser?.token}`

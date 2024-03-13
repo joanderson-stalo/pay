@@ -19,6 +19,7 @@ import { CustomSelect } from '@/components/Select/select'
 import { useLogin } from '@/context/user.login'
 import { useFormContext } from 'react-hook-form'
 import { LabelCustomInputMask } from '@/components/CustomInputMask'
+import { baseURL } from '@/config/color'
 
 interface IStep3 {
   Avançar: () => void
@@ -48,7 +49,7 @@ export function Step3({ Avançar, Voltar }: IStep3) {
 
   useEffect(() => {
     setDados(true);
-    axios.get('https://api-pagueassim.stalopay.com.br/seller/indexla', {
+    axios.get(`${baseURL}seller/indexla`, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${dataUser?.token}`

@@ -10,6 +10,7 @@ import { useLicensed } from "@/context/useLicensed";
 import { ApiResponse } from "@/pages/LAcadastro/LAcadastro";
 import { TranslateErrorMessage } from "@/utils/translateErrorMessage";
 import { toast } from "react-toastify";
+import { baseURL } from "@/config/color";
 
 interface UserData {
   id: number;
@@ -38,7 +39,7 @@ export function ManageAccessLicensed(){
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(`https://api-pagueassim.stalopay.com.br/user/getuserby/${licensedId}`, {
+      const response = await axios.get(`${baseURL}user/getuserby/${licensedId}`, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${dataUser?.token}`

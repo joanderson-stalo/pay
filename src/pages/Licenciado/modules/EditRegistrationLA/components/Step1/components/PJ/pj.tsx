@@ -1,4 +1,4 @@
-import { ThemeColor } from '@/config/color'
+import { ThemeColor, baseURL } from '@/config/color'
 import { useFormContext } from 'react-hook-form'
 import {
   ButtonAvançar,
@@ -83,7 +83,7 @@ export function PJ({ Avançar}: IStep1) {
       setLoading(true); 
       try {
         const response = await axios.get(
-          `https://api-pagueassim.stalopay.com.br/seller/show/${licensedId}`,
+          `${baseURL}seller/show/${licensedId}`,
           {
             headers: {
               'Content-Type': 'application/json',
@@ -141,7 +141,7 @@ export function PJ({ Avançar}: IStep1) {
         type_document: sellerData?.type_document
       };
   
-      await axios.put(`https://api-pagueassim.stalopay.com.br/seller/update/${licensedId}`, updatedData, {
+      await axios.put(`${baseURL}seller/update/${licensedId}`, updatedData, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${dataUser?.token}`

@@ -14,6 +14,7 @@ import { ModalLicensed } from './components/ModalLicensed/modalLicensed';
 import { TotalBtn } from '@/components/TotalBtn/totalBtn';
 import { BtnFilter } from '@/components/BtnFilter/btnFilter';
 import { LicensedCard } from './mobile/LicenciadosCard/licensedCard';
+import { baseURL } from '@/config/color';
 
 export function Licenciado() {
   const [itensPorPage, setItensPorPage] = useState<number | ''>(10);
@@ -28,7 +29,7 @@ export function Licenciado() {
 
   const fetchData = useCallback(async (pageNumber: number = currentPage) => {
     setLoading(true);
-    let apiUrl = `https://api-pagueassim.stalopay.com.br/seller/indexla?perpage=${String(itensPorPage)}&page=${pageNumber}`;
+    let apiUrl = `${baseURL}seller/indexla?perpage=${String(itensPorPage)}&page=${pageNumber}`;
     if (searchValue) {
       apiUrl += `&company_name=${searchValue}`;
     }

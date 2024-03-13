@@ -1,6 +1,7 @@
 import * as XLSX from 'xlsx';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { baseURL } from '@/config/color';
 
 const formatDateAndTime = (dateString: string | number | Date) => {
   const date = new Date(dateString);
@@ -34,7 +35,7 @@ export const TransactionsToExcel = async (token: string) => {
     let totalPages = 1;
 
     do {
-      const response = await axios.get(`https://api-pagueassim.stalopay.com.br/transactions?perpage=1000000000000000000000000`, { headers });
+      const response = await axios.get( `${baseURL}transactions?perpage=1000000000000000000000000`, { headers });
       const { data } = response;
       totalPages = data.last_page;
       allTransactions = allTransactions.concat(data.transactions);

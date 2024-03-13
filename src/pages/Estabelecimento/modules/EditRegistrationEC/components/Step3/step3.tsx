@@ -24,6 +24,7 @@ import { useFormContext } from 'react-hook-form';
 import Swal from 'sweetalert2';
 import { useEstablishment } from '@/context/useEstablishment';
 import { useNavigate } from 'react-router-dom';
+import { baseURL } from '@/config/color';
 
 interface IStep3 {
   Avançar: () => void;
@@ -148,7 +149,7 @@ export function Step3({ Avançar, Voltar }: IStep3) {
   useEffect(() => {
     setDados(true);
     axios
-      .get('https://api-pagueassim.stalopay.com.br/acquire/index', {
+      .get(`${baseURL}acquire/index`, {
 
         headers: {
           'Content-Type': 'application/json',
@@ -180,7 +181,7 @@ export function Step3({ Avançar, Voltar }: IStep3) {
 
   useEffect(() => {
     setDados(true);
-    axios.get('https://api-pagueassim.stalopay.com.br/seller/indexla', {
+    axios.get(`${baseURL}seller/indexla`, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${dataUser?.token}`
@@ -211,7 +212,7 @@ export function Step3({ Avançar, Voltar }: IStep3) {
       setLoading(true); 
       try {
         const response = await axios.get(
-          `https://api-pagueassim.stalopay.com.br/seller/show/${establishmentId}`,
+          `${baseURL}seller/show/${establishmentId}`,
           {
             headers: {
               'Content-Type': 'application/json',
@@ -241,7 +242,7 @@ export function Step3({ Avançar, Voltar }: IStep3) {
         id_seller_destiny: establishmentId
       };
   
-      await axios.put(`https://api-pagueassim.stalopay.com.br/update-seller-network`, updatedData, {
+      await axios.put(`${baseURL}update-seller-network`, updatedData, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${dataUser?.token}`

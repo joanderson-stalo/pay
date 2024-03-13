@@ -11,6 +11,7 @@ import Swal from 'sweetalert2';
 import { Loading } from '@/components/Loading/loading';
 import { TopEstabelecimentos } from '@/pages/Home/components/LAHome/components/TopEstabelecimento/topEstabelecimentos';
 import { DetalhesTable } from '@/components/DetalhesTableNew/detalhesTable';
+import { baseURL } from '@/config/color';
 
 interface TransactionsGroupedByAcquireIdType {
   total_amount: number;
@@ -47,7 +48,7 @@ export function LicensedDetail() {
   const fetchLicensedDetail = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`https://api-pagueassim.stalopay.com.br/detail/la/${licensedId}`, {
+      const response = await axios.get(`${baseURL}detail/la/${licensedId}`, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${dataUser?.token}`
@@ -84,7 +85,7 @@ export function LicensedDetail() {
   const handleDeleteLicensed = async () => {
     setLoading(true);
     try {
-      const response = await axios.delete(`https://api-pagueassim.stalopay.com.br/seller/delete/${licensedId}`, {
+      const response = await axios.delete(`${baseURL}seller/delete/${licensedId}`, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${dataUser?.token}`

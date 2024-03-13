@@ -10,6 +10,7 @@ import { useEstablishment } from '@/context/useEstablishment';
 import { Loading } from '@/components/Loading/loading';
 import Swal from 'sweetalert2';
 import { LatestSales } from '@/pages/Home/components/LAHome/components/LatestSales/latestSales';
+import { baseURL } from '@/config/color';
 
 type PaymentTypes = {
   credit: string;
@@ -47,7 +48,7 @@ export function EstablishmentDetail() {
   const fetchEstablishmentDetail = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`https://api-pagueassim.stalopay.com.br/detail/ec/${establishmentId}`, {
+      const response = await axios.get(`${baseURL}detail/ec/${establishmentId}`, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${dataUser?.token}`
@@ -71,7 +72,7 @@ export function EstablishmentDetail() {
   const handleEstablishment = async () => {
     setLoading(true);
     try {
-      const response = await axios.delete(`https://api-pagueassim.stalopay.com.br/seller/delete/${establishmentId}`, {
+      const response = await axios.delete(`${baseURL}seller/delete/${establishmentId}`, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${dataUser?.token}`

@@ -8,6 +8,7 @@ import { CardInfo } from "@/components/CardInfo/cardInfo";
 import { useLogin } from "@/context/user.login";
 import { Loading } from "@/components/Loading/loading";
 import { LatestSales } from "../LAHome/components/LatestSales/latestSales";
+import { baseURL } from "@/config/color";
 
 interface Transaction {
   captured_in: string;
@@ -55,7 +56,7 @@ export function ECHome(){
 
   const fetchHomeEC = async () => {
     setIsLoading(true);
-    const url = `https://api-pagueassim.stalopay.com.br/homescreenec`;
+    const url = `${baseURL}homescreenec`;
     try {
       const response = await fetch(url, {
         headers: {

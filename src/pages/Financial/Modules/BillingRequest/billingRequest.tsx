@@ -15,6 +15,7 @@ import { mockDataTable } from './mock';
 import { CardInfo } from '../../../../components/CardInfo/cardInfo';
 import { BillingRequestCard } from './Mobile/BillingRequestCard/billingRequestCard';
 import { ModalBilling } from './components/ModalBilling/modalBilling';
+import { baseURL } from '@/config/color';
 
 
 export function BillingRequest() {
@@ -30,7 +31,7 @@ export function BillingRequest() {
 
   const fetchData = async (pageNumber: number = currentPage) => {
     setLoading(true);
-    let apiUrl = `https://api-pagueassim.stalopay.com.br/seller/indexla?perpage=${String(itensPorPage)}&page=${pageNumber}`;
+    let apiUrl = `${baseURL}seller/indexla?perpage=${String(itensPorPage)}&page=${pageNumber}`;
     if (searchValue) {
       apiUrl += `&trading_name=${searchValue}`;
     }

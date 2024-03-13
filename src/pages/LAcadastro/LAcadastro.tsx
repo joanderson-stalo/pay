@@ -19,6 +19,7 @@ import { useNavigate } from "react-router-dom";
 import {  useDocumentLA } from "@/context/useDocumentLA";
 import { toast } from "react-toastify";
 import { TranslateErrorMessage } from "@/utils/translateErrorMessage";
+import { baseURL } from "@/config/color";
 
 export interface ApiResponse {
   message: string;
@@ -100,7 +101,7 @@ export const LAcadastro = () => {
               id_licensed_origin: String(requestData.licenciado),
             };
 
-            const response = await axios.post('https://api-pagueassim.stalopay.com.br/create/sellerla', requestBody, {
+            const response = await axios.post(`${baseURL}create/sellerla`, requestBody, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${dataUser?.token}`

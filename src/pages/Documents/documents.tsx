@@ -13,6 +13,7 @@ import {
   TitleStep
 } from './styled';
 import { Loading } from '@/components/Loading/loading';
+import { baseURL } from '@/config/color';
 
 interface UsefulLink {
   title: string;
@@ -30,7 +31,7 @@ export function Documents() {
       setLoading(true);
       try {
         if (dataUser && dataUser.token) {
-          const response = await axios.get('https://api-pagueassim.stalopay.com.br/configs/getConfigsWL', {
+          const response = await axios.get(`${baseURL}configs/getConfigsWL`, {
             headers: {
               'Content-Type': 'application/json',
               'Authorization': `Bearer ${dataUser.token}`

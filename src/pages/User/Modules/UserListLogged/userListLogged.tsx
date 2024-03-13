@@ -52,7 +52,7 @@ export function UserListLogged() {
     try {
       setLoading(true)
       const response = await axios.post(
-        'https://api-pagueassim.stalopay.com.br/forgot-password',
+         `${baseURL}forgot-password`,
         {
           email: email
         },

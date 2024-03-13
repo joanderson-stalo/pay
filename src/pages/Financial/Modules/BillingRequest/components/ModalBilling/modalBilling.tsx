@@ -6,7 +6,7 @@ import { useLogin } from '@/context/user.login';
 import axios from 'axios';
 import { useFilterLicensed } from '../../hooks/useFilterLicensed';
 import { CustomInput } from '@/components/Input/input';
-import { ThemeColor } from '@/config/color';
+import { ThemeColor, baseURL } from '@/config/color';
 
 interface IModalSucesso {
   visible: boolean;
@@ -40,7 +40,7 @@ export function ModalBilling({ onClose, visible }: IModalSucesso) {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('https://api-pagueassim.stalopay.com.br/seller/indexla', {
+      const response = await axios.get(`${baseURL}seller/indexla`, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${dataUser?.token}`

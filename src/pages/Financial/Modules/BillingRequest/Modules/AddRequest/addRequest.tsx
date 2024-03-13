@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from 'react-hook-form';
-import { ThemeColor } from "@/config/color";
+import { ThemeColor, baseURL } from "@/config/color";
 import { ButtonAvançar, ButtonVoltar, ContainerButton, ContainerForm, ContainerInput, ContainerStep, ContextStep, ContextStepContainer, Line, TitleStep } from "./styled";
 import { CustomInput } from "@/components/Input/input";
 import { LabelCustomInputMask } from "@/components/CustomInputMask";
@@ -18,7 +18,7 @@ export function AddRequest() {
 
   const fetchDataLA = async () => {
     try {
-      const response = await axios.get('https://api-pagueassim.stalopay.com.br/seller/indexla', {
+      const response = await axios.get(`${baseURL}seller/indexla`, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${dataUser?.token}`
@@ -40,7 +40,7 @@ export function AddRequest() {
 
   const fetchDataEC = async () => {
     try {
-      const response = await axios.get('https://api-pagueassim.stalopay.com.br/seller/indexec', {
+      const response = await axios.get(`${baseURL}seller/indexec`, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${dataUser?.token}`

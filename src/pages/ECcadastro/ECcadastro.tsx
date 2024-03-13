@@ -20,6 +20,7 @@ import { useNavigate } from "react-router-dom";
 import { useDocumentEC } from "@/context/useDocumentEC";
 import { toast } from "react-toastify";
 import { TranslateErrorMessage } from "@/utils/translateErrorMessage";
+import { baseURL } from "@/config/color";
 
 interface ApiResponse {
   message: string;
@@ -137,7 +138,7 @@ const handleNextStep = async () => {
               id_licensed_origin: String(requestData.licenciado),
           };
 
-          const response = await axios.post('https://api-pagueassim.stalopay.com.br/create/sellerec', requestBody, {
+          const response = await axios.post(`${baseURL}create/sellerec`, requestBody, {
               headers: {
                   'Content-Type': 'application/json',
                   'Authorization': `Bearer ${dataUser?.token}`

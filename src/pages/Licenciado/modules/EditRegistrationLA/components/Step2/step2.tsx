@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useFormContext } from 'react-hook-form';
-import { ThemeColor } from "@/config/color";
+import { ThemeColor, baseURL } from "@/config/color";
 import { ButtonAvançar, ButtonVoltar, ContainerButton, ContainerForm, ContainerInput, ContainerInput2, ContainerStep, ContextStep, ContextStepContainer, Line, TitleStep } from "./styled";
 import { CustomInput } from "@/components/Input/input";
 import { LabelCustomInputMask } from "@/components/CustomInputMask";
@@ -32,7 +32,7 @@ export function Step2({ Avançar, Voltar }: IStep2) {
       setLoading(true); 
       try {
         const response = await axios.get(
-          `https://api-pagueassim.stalopay.com.br/seller/show/${licensedId}`,
+          `${baseURL}seller/show/${licensedId}`,
           {
             headers: {
               'Content-Type': 'application/json',
@@ -81,7 +81,7 @@ export function Step2({ Avançar, Voltar }: IStep2) {
         document: sellerData?.document,
       };
   
-      await axios.put(`https://api-pagueassim.stalopay.com.br/seller/update/${licensedId}`, updatedData, {
+      await axios.put(`${baseURL}seller/update/${licensedId}`, updatedData, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${dataUser?.token}`

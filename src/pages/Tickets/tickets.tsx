@@ -15,6 +15,7 @@ import { TicketsCardMobile } from './Mobile/TicketsCardMobile/ticketsCardMobile'
 import { HeaderTickets } from './components/HeaderTickets/headerTickets';
 import { TableTickets } from './components/TableTickets/tableTickets';
 import { ModalTickets } from './components/ModalTickets/modalTickets';
+import { baseURL } from '@/config/color';
 
 
 export function Tickets() {
@@ -30,7 +31,7 @@ export function Tickets() {
 
   const fetchData = async (pageNumber: number = currentPage) => {
     setLoading(true);
-    let apiUrl = `https://api-pagueassim.stalopay.com.br/seller/indexla?perpage=${String(itensPorPage)}&page=${pageNumber}`;
+    let apiUrl = `${baseURL}seller/indexla?perpage=${String(itensPorPage)}&page=${pageNumber}`;
     if (searchValue) {
       apiUrl += `&trading_name=${searchValue}`;
     }

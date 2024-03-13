@@ -6,6 +6,7 @@ import { optionsData } from '@/pages/ECcadastro/components/Step1/option';
 import { useFilterEstablishment } from '../../hooks/useFilterEstablishment';
 import { useLogin } from '@/context/user.login';
 import axios from 'axios';
+import { baseURL } from '@/config/color';
 
 interface IModalSucesso {
   visible: boolean;
@@ -34,7 +35,7 @@ export function ModalEstablishment({ onClose, visible }: IModalSucesso) {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('https://api-pagueassim.stalopay.com.br/acquire/index', {
+      const response = await axios.get(`${baseURL}acquire/index`, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${dataUser?.token}`
@@ -56,7 +57,7 @@ export function ModalEstablishment({ onClose, visible }: IModalSucesso) {
 
   const fetchDataLA = async () => {
     try {
-      const response = await axios.get('https://api-pagueassim.stalopay.com.br/seller/indexla', {
+      const response = await axios.get(`${baseURL}seller/indexla`, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${dataUser?.token}`

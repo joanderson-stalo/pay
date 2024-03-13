@@ -21,6 +21,7 @@ import { PaginaView } from '@/components/PaginaView/paginaView';
 import { CardOperationSummary } from './Mobile/CardOperationSummary/cardOperationSummary';
 import { CardSummaryOperation } from './Mobile/CardSummaryOperation/cardSummaryOperation';
 import { TitleH } from '@/components/Title/title';
+import { baseURL } from '@/config/color';
 
 
 const schema = Yup.object().shape({
@@ -46,7 +47,7 @@ export function OperationManagement() {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('https://api-pagueassim.stalopay.com.br/acquire/index', {
+      const response = await axios.get(`${baseURL}acquire/index`, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${dataUser?.token}`

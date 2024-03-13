@@ -23,6 +23,7 @@ import { SellerData } from '../interface';
 import { useLicensed } from '@/context/useLicensed';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
+import { baseURL } from '@/config/color';
 
 interface IStep3 {
   Avançar: () => void;
@@ -53,7 +54,7 @@ export function Step3({ Avançar, Voltar }: IStep3) {
 
   useEffect(() => {
     setLoading(true);
-    axios.get('https://api-pagueassim.stalopay.com.br/seller/indexla', {
+    axios.get(`${baseURL}seller/indexla`, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${dataUser?.token}`
@@ -84,7 +85,7 @@ export function Step3({ Avançar, Voltar }: IStep3) {
       setLoading(true); 
       try {
         const response = await axios.get(
-          `https://api-pagueassim.stalopay.com.br/seller/show/${licensedId}`,
+          `${baseURL}seller/show/${licensedId}`,
           {
             headers: {
               'Content-Type': 'application/json',
@@ -122,7 +123,7 @@ export function Step3({ Avançar, Voltar }: IStep3) {
         id_seller_destiny: licensedId
       };
   
-      await axios.put(`https://api-pagueassim.stalopay.com.br/update-seller-network`, updatedData, {
+      await axios.put(`${baseURL}update-seller-network`, updatedData, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${dataUser?.token}`

@@ -14,6 +14,7 @@ import { TableExtract } from './components/TableExtract/tableExtract';
 import { ExtractCardMobile } from './Mobile/ExtractCardMobile/extractCardMobile';
 import { TotalBtn } from '@/components/TotalBtn/totalBtn';
 import { BtnFilter } from '@/components/BtnFilter/btnFilter';
+import { baseURL } from '@/config/color';
 
 export function Extract() {
   const [filter, setFilter] = useState(false);
@@ -29,7 +30,7 @@ export function Extract() {
  
   const fetchData = async () => {
     setLoading(true);
-    let apiUrl = `https://api-pagueassim.stalopay.com.br/getStatementLA`;
+    let apiUrl = `${baseURL}getStatementLA`;
 
     const startDate = localStorage.getItem('@extractStartDate');
     if (startDate && startDate !== 'undefined') {

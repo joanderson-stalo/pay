@@ -1,5 +1,5 @@
 
-import { ThemeColor } from '@/config/color';
+import { ThemeColor, baseURL } from '@/config/color';
 import * as S from './styled';
 import { CustomInput } from '@/components/Input/input';
 import { useFormContext } from 'react-hook-form';
@@ -95,7 +95,7 @@ const handleCpfCnpjChange = (event: { target: { value: any; }; }) => {
           setLoading(true); 
           try {
             const response = await axios.get(
-              `https://api-pagueassim.stalopay.com.br/seller/show/${establishmentId}`,
+              `${baseURL}seller/show/${establishmentId}`,
               {
                 headers: {
                   'Content-Type': 'application/json',

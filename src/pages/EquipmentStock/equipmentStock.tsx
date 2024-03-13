@@ -18,6 +18,7 @@ import { HeaderStock } from './components/HeaderStock/headerStock';
 import { TotalBtn } from '@/components/TotalBtn/totalBtn';
 import { BtnFilter } from '@/components/BtnFilter/btnFilter';
 import { debounce } from 'lodash';
+import { baseURL } from '@/config/color';
 
 export function EquipmentStock() {
   const [itensPorPage, setItensPorPage] = useState<number | ''>(10);
@@ -37,7 +38,7 @@ export function EquipmentStock() {
 
   const fetchData = useCallback(async (search?: string) => {
     setLoading(true);
-    let apiUrl = `https://api-pagueassim.stalopay.com.br/products/index?perpage=${String(itensPorPage)}&page=${currentPage}`;
+    let apiUrl = `${baseURL}products/index?perpage=${String(itensPorPage)}&page=${currentPage}`;
     if (search) {
       apiUrl += `&serial_number=${search}`;
     }

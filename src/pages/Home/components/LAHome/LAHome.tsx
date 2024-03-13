@@ -7,6 +7,7 @@ import { Loading } from "@/components/Loading/loading";
 import { CardInfo } from "@/components/CardInfo/cardInfo";
 import { GraficoCicle } from '@/components/GraficoCicleNew/graficoCicle';
 import { GraficoBar } from '@/components/GraficoBarNew/graficoBar';
+import { baseURL } from '@/config/color';
 
 
 interface HourlyTransactionTotals {
@@ -34,6 +35,7 @@ interface HomeData {
   total_sellers_LA: number;
   transactions_EC_total: number;
   transactions_TPV: string;
+  sum_payment_types: string;
   payment_types: { [key: string]: string };
   hourly_transaction_totals: HourlyTransactionTotals;
   commission_TPV: string;
@@ -49,7 +51,7 @@ export function LAHome() {
 
   const fetchHomeLA = async () => {
     setIsLoading(true);
-    const url = `https://api-pagueassim.stalopay.com.br/homescreenwlela`;
+    const url = `${baseURL}homescreenwlela`;
     try {
       const response = await fetch(url, {
         headers: {
@@ -89,6 +91,7 @@ export function LAHome() {
   const latestTransactions = homeData?.latest_transactions || [];
   const topSellers = homeData?.top_Seller || [];
   const hourlyTransactionTotals = homeData?.hourly_transaction_totals || {};
+  const sum_payment_types = homeData?.sum_payment_types || '0';
 
   if (isLoading) {
     return <Loading />;
@@ -101,10 +104,11 @@ export function LAHome() {
           <CardInfo label="Comissão" value={commissionTPV} />
           <CardInfo label="Quantidade de EC" shouldFormat={false} value={homeData?.total_sellers_EC || 0} />
           <CardInfo label="Quantidade de LA" shouldFormat={false} value={homeData?.total_sellers_LA || 0} />
+          <CardInfo label="TPV Mensal" shouldFormat value={Number(transactionsTPV) || 0} />
         </S.ContainerCards>
 
         <S.ContainerGrafico>
-        <GraficoCicle total={transactionsTPV.toString()} pix={pixValue.toString()} credit={creditValue.toString()} debit={debitValue.toString()} />
+        <GraficoCicle total={sum_payment_types.toString()} pix={pixValue.toString()} credit={creditValue.toString()} debit={debitValue.toString()} />
           <GraficoBar hourly_transaction_totals={hourlyTransactionTotals} />
         </S.ContainerGrafico>
 

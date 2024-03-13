@@ -5,7 +5,7 @@ import { CustomSelect } from '@/components/Select/select';
 import { useLogin } from '@/context/user.login';
 import axios from 'axios';
 import { CustomInput } from '@/components/Input/input';
-import { ThemeColor } from '@/config/color';
+import { ThemeColor, baseURL } from '@/config/color';
 import { useFilterBilling } from '../../hooks/useFilterBilling';
 import { Loading } from '@/components/Loading/loading';
 
@@ -75,7 +75,7 @@ export function ModalBilling({ onClose, visible }: IModalSucesso) {
   const fetchDataLA = async () => {
     setLoading(true);
     try {
-      const response = await axios.get('https://api-pagueassim.stalopay.com.br/seller/indexla', {
+      const response = await axios.get(`${baseURL}seller/indexla`, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${dataUser?.token}`
@@ -99,7 +99,7 @@ export function ModalBilling({ onClose, visible }: IModalSucesso) {
   const fetchDataEC = async () => {
     setLoading(true);
     try {
-      const response = await axios.get('https://api-pagueassim.stalopay.com.br/seller/indexec', {
+      const response = await axios.get(`${baseURL}seller/indexec`, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${dataUser?.token}`

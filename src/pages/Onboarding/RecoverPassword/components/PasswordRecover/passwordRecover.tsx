@@ -17,7 +17,7 @@ import {
 
 import { schema } from './schema';
 
-import { ThemeColor } from '@/config/color';
+import { ThemeColor, baseURL } from '@/config/color';
 import { ButtonText, Placeholder, RecoverPassword } from '@/config/text';
 
 import { Button } from '@/components/Button/button';
@@ -55,7 +55,7 @@ export function PasswordRecover() {
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
     try {
-      const response = await axios.post('https://api-pagueassim.stalopay.com.br/forgot-password', data);
+      const response = await axios.post(`${baseURL}forgot-password`, data);
       if (response.status === 200) {
         setSuccess(true);
       }

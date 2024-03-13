@@ -18,6 +18,7 @@ import { OperationSummaryCard } from './mobile/operationSummaryCard/operationSum
 import { OperationsSummaryList } from './mobile/operationSummaryCard/operationsSummaryList';
 import { OperationTotalCard } from './mobile/operationTotalCard/operationTotalCard';
 import { TitleH } from '@/components/Title/title';
+import { baseURL } from '@/config/color';
 
 
 
@@ -44,7 +45,7 @@ export function LicenseeSummary() {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('https://api-pagueassim.stalopay.com.br/seller/indexla', {
+      const response = await axios.get(`${baseURL}seller/indexla`, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${dataUser?.token}`

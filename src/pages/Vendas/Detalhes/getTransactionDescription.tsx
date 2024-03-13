@@ -1,3 +1,5 @@
+import { baseURL } from "@/config/color";
+
 interface UserData {
   token: string;
 }
@@ -9,7 +11,7 @@ export async function fetchTransactionDetails(selectedTransactionId: string, dat
       'Authorization': `Bearer ${dataUser?.token}`
     };
 
-    const response = await fetch(`https://api-pagueassim.stalopay.com.br/transactions/${selectedTransactionId}`, { headers });
+    const response = await fetch(`${baseURL}transactions/${selectedTransactionId}`, { headers });
 
     if (!response.ok) {
       throw new Error('Erro ao buscar os detalhes da transação');

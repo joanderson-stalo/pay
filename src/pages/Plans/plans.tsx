@@ -9,6 +9,7 @@ import { TablePlans } from './components/TablePlans/tablePlans';
 import { HeaderPlans } from './components/HeaderPlans/headerPlans';
 import { PlansCard } from './Mobile/PlansCard';
 import { TotalBtn } from '@/components/TotalBtn/totalBtn';
+import { baseURL } from '@/config/color';
 
 interface Plan {
   id: number;
@@ -43,7 +44,7 @@ export function Plans() {
 
   const fetchPlans = async () => {
     setLoading(true);
-    let url = `https://api-pagueassim.stalopay.com.br/plan/index?perpage=${itensPorPage}&page=${currentPage}`;
+    let url = `${baseURL}plan/index?perpage=${itensPorPage}&page=${currentPage}`;
 
     if (searchValue) {
       url += `&name=${searchValue}`;

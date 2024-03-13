@@ -10,6 +10,7 @@ import { AppProvider } from './context'
 export function App() {
   const titulo = 'Pague Assim';
   document.title = titulo;
+  
 
   return (
     <AppProvider>

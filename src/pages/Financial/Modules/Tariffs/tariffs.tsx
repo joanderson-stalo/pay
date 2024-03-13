@@ -17,6 +17,7 @@ import { TariffsCard } from './Mobile/TariffsCard/tariffsCard';
 import { useFilterBilling } from './hooks/useFilterBilling';
 import { TotalBtn } from '@/components/TotalBtn/totalBtn';
 import { BtnFilter } from '@/components/BtnFilter/btnFilter';
+import { baseURL } from '@/config/color';
 
 
 export function Tariffs() {
@@ -34,7 +35,7 @@ export function Tariffs() {
 
   const fetchData = async (pageNumber: number = currentPage) => {
     setLoading(true);
-    let apiUrl = `https://api-pagueassim.stalopay.com.br/tariffs/index?perpage=${String(itensPorPage)}&page=${pageNumber}`;
+    let apiUrl = `${baseURL}tariffs/index?perpage=${String(itensPorPage)}&page=${pageNumber}`;
   
     const billingStartDate = localStorage.getItem('@billingStartDate');
     if (billingStartDate && billingStartDate !== 'undefined') {

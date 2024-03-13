@@ -17,6 +17,7 @@ import { useDocumentEC } from "@/context/useDocumentEC";
 import { toast } from "react-toastify";
 import { useLogin } from "@/context/user.login";
 import { useEstablishment } from "@/context/useEstablishment";
+import { baseURL } from "@/config/color";
 
 export const EditRegistrationEC = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -40,7 +41,7 @@ export const EditRegistrationEC = () => {
       if (isStep4Valid) {
         try {
           const step4Values = getValues();
-        const sellerDataResponse = await axios.get(`https://api-pagueassim.stalopay.com.br/seller/show/${establishmentId}`, {
+        const sellerDataResponse = await axios.get(`${baseURL}seller/show/${establishmentId}`, {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${dataUser?.token}`
@@ -64,7 +65,7 @@ export const EditRegistrationEC = () => {
         };
 
           setIsLoading(true);
-          await axios.put(`https://api-pagueassim.stalopay.com.br/banks/update-ec`, requestBody, {
+          await axios.put(`${baseURL}banks/update-ec`, requestBody, {
             headers: {
               'Content-Type': 'application/json',
               'Authorization': `Bearer ${dataUser?.token}`

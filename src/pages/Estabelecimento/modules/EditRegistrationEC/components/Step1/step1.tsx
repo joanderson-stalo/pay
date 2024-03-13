@@ -8,6 +8,7 @@ import { useLicensed } from '@/context/useLicensed';
 import { Loading } from '@/components/Loading/loading';
 import { useEstablishment } from '@/context/useEstablishment';
 import { useDocumentEC } from '@/context/useDocumentEC';
+import { baseURL } from '@/config/color';
 
 interface IStep1 {
   Avançar: () => void;
@@ -24,7 +25,7 @@ export function Step1({ Avançar }: IStep1) {
     const fetchSellerData = async () => {
       try {
         const response = await axios.get(
-          `https://api-pagueassim.stalopay.com.br/seller/show/${establishmentId}`,
+          `${baseURL}seller/show/${establishmentId}`,
           {
             headers: {
               'Content-Type': 'application/json',

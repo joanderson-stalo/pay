@@ -18,7 +18,7 @@ import {
 
 import { schema } from './schema';
 
-import { ThemeColor } from '@/config/color';
+import { ThemeColor, baseURL } from '@/config/color';
 import { ButtonText, ChangePassword, Placeholder } from '@/config/text';
 
 import { ChangeSuccess } from '../ChangeSuccess/changeSuccess';
@@ -69,7 +69,7 @@ export function PasswordChange({ email, token }: Props) {
     setIsSubmitting(true);
     try {
       const response = await axios.post(
-        'https://api-pagueassim.stalopay.com.br/reset-password',
+        `${baseURL}reset-password`,
         {
           token: token,
           email: email,
