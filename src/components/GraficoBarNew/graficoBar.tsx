@@ -45,7 +45,7 @@ export const options = {
       borderColor: 'transparent',
       ticks: {
         display: true,
-        stepSize: 25,
+        stepSize: 100,
         drawBorder: false,
         font: {
           size: getFontSize(),

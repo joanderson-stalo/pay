@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Storefront, Tag, ChartBar, Basket, Money, Stack, Wallet, FileText, Laptop } from '@phosphor-icons/react';
+import { Storefront, Tag, ChartBar, Basket, Money, Stack, Wallet, FileText, Laptop, Ticket } from '@phosphor-icons/react';
 import { ButtonSider, ContainerSidebarMobile, Logo, Menu, Overlay } from './styled';
 import { ThemeImg } from '@/config/img';
 import { ThemeColor } from '@/config/color';
+import { useLogin } from '@/context/user.login';
 
 interface SidebarMobileProps {
   isOpen: boolean;
@@ -21,25 +22,30 @@ interface MenuItem {
 export function SidebarMobile({ isOpen, toggleSidebar }: SidebarMobileProps) {
   const navigate = useNavigate();
   const location = useLocation();
+  const { dataUser } = useLogin();
 
   const menuItems: MenuItem[] = [
     { icon: <ChartBar />, label: 'Resumo', path: "/home" },
     { icon: <Basket />, label: 'Vendas', path: "/transaction" },
-    { icon: <Storefront />, label: 'Estabelecimentos', path: "/sellers-ec" },
-    { icon: <Tag />, label: 'Licenciados', path: "/sellers-la" },
-    { icon: <Money />, label: 'Comissões', path: "/commission" },
-    { icon: <Stack />, label: 'Planos', path: "/plans" },
-    { icon: <Laptop />, label: 'Equipamentos', path: "/equipmentStock" },
-    { icon: <Wallet />, label: 'Financeiro', isSubmenu: true, submenuItems: [
-      { label: 'Gestão da Operação', path: '/operationManagement' },
-      { label: 'Resumo de Licenciados', path: '/licenseesummary' },
-      { label: 'Extrato', path: '/extract' },
-      { label: 'Tarifas', path: '/tariffs' }, 
-      { label: 'Solicitação de Cobrança', path: '/billingRequest' },
-      { label: 'Pagamentos', path: '/pagamentos' }
-    ] },
+    ...(dataUser?.seller_type !== 'EC' ? [
+        { icon: <Storefront />, label: 'Estabelecimentos', path: "/sellers-ec" },
+        { icon: <Tag />, label: 'Licenciados', path: "/sellers-la" },
+        { icon: <Money />, label: 'Comissões', path: "/commission" },
+        { icon: <Stack />, label: 'Planos', path: "/plans" },
+        { icon: <Laptop />, label: 'Equipamentos', path: "/equipmentStock" },
+        { icon: <Wallet />, label: 'Financeiro', isSubmenu: true, submenuItems: [
+            { label: 'Gestão da Operação', path: '/operationManagement' },
+            { label: 'Resumo de Licenciados', path: '/licenseesummary' },
+            { label: 'Extrato', path: '/extract' },
+            { label: 'Tarifas', path: '/tariffs' }, 
+            { label: 'Solicitação de Cobrança', path: '/billingRequest' },
+            { label: 'Pagamentos', path: '/pagamentos' }
+        ] },
+    ] : []),
+    { icon: <Ticket />, label: 'Tickets', path: "/tickets" },
     { icon: <FileText />, label: 'Documentos', path: "/documents" }
-  ];
+];
+
 
   const [selectedItem, setSelectedItem] = useState<number | null>(null);
   const [subMenuOpen, setSubMenuOpen] = useState<boolean[]>(menuItems.map(() => false));

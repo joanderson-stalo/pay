@@ -6,24 +6,29 @@ import { ButtonSider, ButtonSiderArrow, ContainerSidebar, Logo, Menu, SubMenu, S
 import { ThemeColor } from '@/config/color';
 import { ThemeImg } from '@/config/img';
 import { useSidebarVisibility } from '@/context/sidebarVisibilityContext';
+import { useLogin } from '@/context/user.login';
 
 export function Sidebar() {
   const navigate = useNavigate();
   const location = useLocation();
   const { isVisible, showSidebar, hideSidebar } = useSidebarVisibility();
+  const { dataUser } = useLogin();
 
   const menuItems = [
     { icon: <ChartBar />, label: 'Resumo', path: "/home" },
     { icon: <Basket />, label: 'Vendas', path: "/transaction" },
-    { icon: <Storefront />, label: 'Estabelecimentos', path: "/sellers-ec" },
-    { icon: <Tag />, label: 'Licenciados', path: "/sellers-la" },
-    { icon: <Money />, label: 'Comissões', path: "/commission" },
-    { icon: <Stack />, label: 'Planos', path: "/plans" },
-    { icon: <Laptop />, label: 'Equipamentos', path: "/equipmentStock" },
-    { icon: <Wallet />, label: 'Financeiro', isSubmenu: true },
+    ...(dataUser?.seller_type !== 'EC' ? [
+      { icon: <Storefront />, label: 'Estabelecimentos', path: "/sellers-ec" },
+      { icon: <Tag />, label: 'Licenciados', path: "/sellers-la" },
+      { icon: <Money />, label: 'Comissões', path: "/commission" },
+      { icon: <Stack />, label: 'Planos', path: "/plans" },
+      { icon: <Laptop />, label: 'Equipamentos', path: "/equipmentStock" },
+      { icon: <Wallet />, label: 'Financeiro', isSubmenu: true },
+    ] : []),
     { icon: <Ticket />, label: 'Tickets', path: "/tickets" },
     { icon: <FileText />, label: 'Documentos', path: "/documents" }
   ];
+
 
   const [selectedItem, setSelectedItem] = useState<number | null>(() => {
     const paths = menuItems.map(item => item.path);
