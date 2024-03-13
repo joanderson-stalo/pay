@@ -18,8 +18,8 @@ export function HeaderCommission() {
       <TitleH title='Minhas comissões' />
 
       <S.ContainerPJPF>
-            <S.ButtonToday active={false}  onClick={handleToDay}>REDE</S.ButtonToday>
-            <S.ButtonPF  active >MY</S.ButtonPF>
+            <S.ButtonToday active={false}  onClick={handleToDay}>Comissão por Rede</S.ButtonToday>
+            <S.ButtonPF  active >Minhas Comissões</S.ButtonPF>
       </S.ContainerPJPF>
     </S.Container>
   )

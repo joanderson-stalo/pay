@@ -53,7 +53,7 @@ export const ContainerPJPF = styled.div`
 
 export const ButtonPJ = styled.button<{active: boolean}>`
 padding: 7px 18px;
-  background-color: ${({ active }) => (active ? '#08BBE9' : '#E6E6E6')};
+  background-color: ${({ active }) => (active ? `${ThemeColor.primaria}` : '#E6E6E6')};
 
   color: ${({ active }) => (active ? 'white' : 'black')};
 
@@ -70,7 +70,7 @@ letter-spacing: 0.5px;
 
 export const ButtonPF = styled.button<{active: boolean}>`
 padding: 7px 18px;
-  background-color: ${({ active }) => (active ? '#08BBE9' : '#E6E6E6')};
+  background-color: ${({ active }) => (active ? `${ThemeColor.primaria}` : '#E6E6E6')};
   color: ${({ active }) => (active ? 'white' : 'black')};
 
 
@@ -80,12 +80,16 @@ padding: 7px 18px;
 font-size: 12px;
 line-height: 20px;
 letter-spacing: 0.5px;
+
+@media (max-width: 600px) {
+  z-index: 4;
+}
 `;
 
 
 export const ButtonToday = styled.button<{active: boolean}>`
 padding: 7px 18px;
-  background-color: ${({ active }) => (active ? '#08BBE9' : '#E6E6E6')};
+  background-color: ${({ active }) => (active ? `${ThemeColor.primaria}` : '#E6E6E6')};
 
   color: ${({ active }) => (active ? 'white' : 'black')};
 
@@ -98,4 +102,8 @@ padding: 7px 18px;
   font-size: 12px;
 line-height: 20px;
 letter-spacing: 0.5px;
+
+@media (max-width: 600px) {
+  z-index: 4;
+}
 `;
