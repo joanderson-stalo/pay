@@ -99,4 +99,8 @@ padding: 7px 18px;
   font-size: 12px;
 line-height: 20px;
 letter-spacing: 0.5px;
+
+@media (max-width: 600px) {
+  z-index: 4;
+}
 `;
