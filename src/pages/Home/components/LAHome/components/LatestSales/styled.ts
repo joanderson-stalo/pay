@@ -126,6 +126,6 @@ font-style: normal;
 font-weight: 500;
 line-height: 15px;
 text-decoration-line: underline;
-
+padding: 10px;
 background-color: transparent;
 `

@@ -82,7 +82,7 @@ export function LatestSales({ latest_transactions }: LatestSalesProps) {
         </S.Table>
        
       </S.Container>
-      <S.CustomButtonLink type='button' onClick={handleButtonClick}>Ver todas as vendas</S.CustomButtonLink>
+      <S.CustomButtonLink onClick={handleButtonClick}>Ver todas as vendas</S.CustomButtonLink>
       </S.Context>
     
     </>
