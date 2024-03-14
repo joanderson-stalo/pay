@@ -196,7 +196,7 @@ const handleCpfCnpjChange = (event: { target: { value: any; }; }) => {
           {renderInfosForFornecedores()}
           <S.ContainerButton>
             <S.ButtonVoltar onClick={Voltar}>Voltar</S.ButtonVoltar>
-            <S.ButtonAvançar disabled={!areAllFieldsFilled()} onClick={Avançar}>
+            <S.ButtonAvançar  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}  disabled={!areAllFieldsFilled()} onClick={Avançar}>
               Finalizar
             </S.ButtonAvançar>
           </S.ContainerButton>

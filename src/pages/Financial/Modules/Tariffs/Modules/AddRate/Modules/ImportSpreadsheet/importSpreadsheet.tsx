@@ -278,7 +278,7 @@ export function ImportSpreadsheet() {
 
           <S.ButtonArea>
             <S.BackButton type='button' onClick={handleCancel}>Cancelar</S.BackButton>
-            <S.NextButton disabled={jsonData.length === 0} onClick={handleSave}>Salvar</S.NextButton>
+            <S.NextButton  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} disabled={jsonData.length === 0} onClick={handleSave}>Salvar</S.NextButton>
           </S.ButtonArea>
         </S.ContentWrapper>
       </S.Container>
