@@ -1,7 +1,7 @@
 export const optionsCnae = {
   options:
   [
-    { "value":"0111-3/01", "label": "Cultivo de arroz"},
+    { "value":"0111-3/01", "label": "0111-3/01 - Cultivo de arroz"},
     { "value":"0111-3/02", "label": "Cultivo de milho"},
     { "value":"0111-3/03", "label": "Cultivo de trigo"},
     { "value":"0111-3/99", "label": "Cultivo de outros cereais não especificados anteriormente"},

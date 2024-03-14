@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useFormContext } from 'react-hook-form';
-import { ThemeColor } from "@/config/color";
+
 import { ButtonAvançar, ButtonVoltar, ContainerButton, ContainerForm, ContainerInput, ContainerInput2, ContainerStep, ContextStep, ContextStepContainer, Line, TitleStep } from "./styled";
 import { CustomInput } from "@/components/Input/input";
 import { LabelCustomInputMask } from "@/components/CustomInputMask";
 import { Loading } from "@/components/Loading/loading";
+import { useTenantData } from "@/context";
 
 interface IStep2 {
   Avançar: () => void;
@@ -57,6 +58,9 @@ export function Step2({ Avançar, Voltar }: IStep2) {
     };
   }, [register, setValue]);
 
+  const tenantData = useTenantData();
+
+
   return (
     <>
     {dados && <Loading />}
@@ -78,8 +82,8 @@ export function Step2({ Avançar, Voltar }: IStep2) {
               <CustomInput
                 {...register('Endereco')}
                 label='Endereço'
-                colorInputDefault={ThemeColor.primaria}
-                colorInputSuccess={ThemeColor.secundaria}
+                colorInputDefault={tenantData.primary_color_identity}
+                colorInputSuccess={tenantData.secondary_color_identity}
                 hasError={!!errors.Endereco}
               />
             </ContainerInput>
@@ -87,16 +91,16 @@ export function Step2({ Avançar, Voltar }: IStep2) {
               <CustomInput
                 {...register('Numero')}
                 label='Número'
-                colorInputDefault={ThemeColor.primaria}
-                colorInputSuccess={ThemeColor.secundaria}
+                colorInputDefault={tenantData.primary_color_identity}
+                colorInputSuccess={tenantData.secondary_color_identity}
 
                 hasError={!!errors.Numero}
               />
               <CustomInput
                 {...register('Complemento')}
                 label='Complemento'
-                colorInputDefault={ThemeColor.primaria}
-                colorInputSuccess={ThemeColor.secundaria}
+                colorInputDefault={tenantData.primary_color_identity}
+                colorInputSuccess={tenantData.secondary_color_identity}
 
                 hasError={!!errors.Complemento}
               />
@@ -105,16 +109,16 @@ export function Step2({ Avançar, Voltar }: IStep2) {
               <CustomInput
                 {...register('Bairro')}
                 label='Bairro'
-                colorInputDefault={ThemeColor.primaria}
-                colorInputSuccess={ThemeColor.secundaria}
+                colorInputDefault={tenantData.primary_color_identity}
+                colorInputSuccess={tenantData.secondary_color_identity}
 
                 hasError={!!errors.Bairro}
               />
               <CustomInput
                 {...register('Cidade')}
                 label='Cidade'
-                colorInputDefault={ThemeColor.primaria}
-                colorInputSuccess={ThemeColor.secundaria}
+                colorInputDefault={tenantData.primary_color_identity}
+                colorInputSuccess={tenantData.secondary_color_identity}
                 disabled
                 hasError={!!errors.Cidade}
               />
@@ -123,8 +127,8 @@ export function Step2({ Avançar, Voltar }: IStep2) {
               <CustomInput
                 {...register('Estado')}
                 label='Estado'
-                colorInputDefault={ThemeColor.primaria}
-                colorInputSuccess={ThemeColor.secundaria}
+                colorInputDefault={tenantData.primary_color_identity}
+                colorInputSuccess={tenantData.secondary_color_identity}
                 disabled
                 hasError={!!errors.Estado}
               />

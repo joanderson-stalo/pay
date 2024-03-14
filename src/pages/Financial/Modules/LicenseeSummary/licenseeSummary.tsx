@@ -19,6 +19,7 @@ import { OperationsSummaryList } from './mobile/operationSummaryCard/operationsS
 import { OperationTotalCard } from './mobile/operationTotalCard/operationTotalCard';
 import { TitleH } from '@/components/Title/title';
 import { baseURL } from '@/config/color';
+import { useTenantData } from '@/context';
 
 
 
@@ -41,7 +42,7 @@ export function LicenseeSummary() {
 
   const { dataUser } = useLogin();
   const [fetchedOptions, setFetchedOptions] = useState([]);
-
+  const tenantData = useTenantData();
 
   const fetchData = async () => {
     try {
@@ -128,8 +129,8 @@ export function LicenseeSummary() {
             hasError={errors.anoReferencia ? true : false}
             placeholder='Ano'
           />
-          <ConsultarBtn type="submit">Consultar</ConsultarBtn>
-          <ExportarBtn type="button" onClick={handleExport}>Exportar Dados</ExportarBtn>
+          <ConsultarBtn  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} type="submit">Consultar</ConsultarBtn>
+          <ExportarBtn  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} type="button" onClick={handleExport}>Exportar Dados</ExportarBtn>
         </ContainerSelect>
 
         <ContainerCards>

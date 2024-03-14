@@ -1,3 +1,4 @@
+import { useTenantData } from '@/context';
 import * as S from './styled';
 
 export interface CardData {
@@ -15,6 +16,7 @@ interface PlansCardProps {
 
 export function PlansCard({ cards }: PlansCardProps) {
   const renderContent = (content: string | number) => content ? content.toString() : '---';
+  const tenantData = useTenantData();
 
   return (
     <>

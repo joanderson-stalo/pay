@@ -3,8 +3,8 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { Storefront, Tag, ChartBar, Basket, Money, Stack, Wallet, FileText, Laptop, Ticket } from '@phosphor-icons/react';
 import { ButtonSider, ContainerSidebarMobile, Logo, Menu, Overlay } from './styled';
 import { ThemeImg } from '@/config/img';
-import { ThemeColor } from '@/config/color';
 import { useLogin } from '@/context/user.login';
+import { useTenantData } from '@/context';
 
 interface SidebarMobileProps {
   isOpen: boolean;
@@ -23,6 +23,7 @@ export function SidebarMobile({ isOpen, toggleSidebar }: SidebarMobileProps) {
   const navigate = useNavigate();
   const location = useLocation();
   const { dataUser } = useLogin();
+  const tenantData = useTenantData();
 
   const menuItems: MenuItem[] = [
     { icon: <ChartBar />, label: 'Resumo', path: "/home" },
@@ -80,13 +81,13 @@ export function SidebarMobile({ isOpen, toggleSidebar }: SidebarMobileProps) {
   return (
     <>
       <Overlay isOpen={isOpen} onClick={toggleSidebar} />
-      <ContainerSidebarMobile isOpen={isOpen} color={ThemeColor.primaria}>
-        <Logo src={ThemeImg.backgroundLogo} alt="Logo" />
-        <Menu colorSec={ThemeColor.secundaria}>
+      <ContainerSidebarMobile isOpen={isOpen} color={tenantData.primary_color_identity}>
+        <Logo src={tenantData.attachment_logo_white} alt="Logo" />
+        <Menu colorSec={tenantData.secondary_color_identity}>
           {menuItems.map((item, index) => (
             <React.Fragment key={index}>
               <ButtonSider
-                colorSec={ThemeColor.secundaria}
+                colorSec={tenantData.secondary_color_identity}
                 selected={selectedItem === index}
                 onClick={() => {
                   handleCloseMenu();
@@ -100,11 +101,11 @@ export function SidebarMobile({ isOpen, toggleSidebar }: SidebarMobileProps) {
                 {item.icon} {item.label}
               </ButtonSider>
               {item.isSubmenu && subMenuOpen[index] && (
-                <Menu colorSec={ThemeColor.secundaria}>
+                <Menu colorSec={tenantData.secondary_color_identity}>
                   {item.submenuItems && item.submenuItems.map((subItem, subIndex) => (
                     <ButtonSider
                       key={subIndex}
-                      colorSec={ThemeColor.secundaria}
+                      colorSec={tenantData.secondary_color_identity}
                       selected={false}
                       onClick={() => handleSubmenuItemNavigation(subItem.path)}
                     >

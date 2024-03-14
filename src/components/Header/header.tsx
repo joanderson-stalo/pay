@@ -9,16 +9,17 @@ import {
   NomePerfil
 } from './styled';
 import { Modal } from './components/Modal/modal';
-import { ThemeColor } from '@/config/color';
 import { useLogin } from '@/context/user.login';
 import { CaretDown, CaretUp } from '@phosphor-icons/react';
 import profile from '@assets/icons/perfil.svg';
 import notif from '@assets/icons/Notif.svg';
+import { useTenantData } from '@/context';
 
 export function Header() {
   const { dataUser } = useLogin();
   const [openModal, setOpenModal] = useState(false);
   const modalRef = useRef<HTMLDivElement | null>(null);
+  const tenantData = useTenantData();
 
   const closeModal = () => {
     setOpenModal(false);
@@ -58,14 +59,14 @@ export function Header() {
       <p></p>
       <ContainerPerfil>
         {openModal ? (
-          <ButtonHeader color={ThemeColor.secundaria} onClick={closeModal}>
-            <ImagPerfil color={ThemeColor.secundaria} src={dataUser?.document_id.includes('contabostorage') ? dataUser?.document_id : profile}  />
+          <ButtonHeader color={tenantData.secondary_color_identity} onClick={closeModal}>
+            <ImagPerfil color={tenantData.secondary_color_identity} src={dataUser?.document_id.includes('contabostorage') ? dataUser?.document_id : profile}  />
             <NomePerfil>{dataUser?.name}</NomePerfil>
             <CaretUp />
           </ButtonHeader>
         ) : (
-          <ButtonHeader color={ThemeColor.secundaria} onClick={() => setOpenModal(true)}>
-            <ImagPerfil color={ThemeColor.secundaria} src={dataUser?.document_id.includes('contabostorage') ? dataUser?.document_id : profile} />
+          <ButtonHeader color={tenantData.secondary_color_identity} onClick={() => setOpenModal(true)}>
+            <ImagPerfil color={tenantData.secondary_color_identity} src={dataUser?.document_id.includes('contabostorage') ? dataUser?.document_id : profile} />
             <NomePerfil>{dataUser?.name}</NomePerfil>
             <CaretDown  />
           </ButtonHeader>

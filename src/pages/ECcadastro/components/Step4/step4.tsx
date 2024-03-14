@@ -1,5 +1,4 @@
 
-import { ThemeColor } from '@/config/color';
 import * as S from './styled';
 import { CustomInput } from '@/components/Input/input';
 import { useFormContext } from 'react-hook-form';
@@ -12,6 +11,7 @@ import { useEffect, useState } from 'react';
 import { bancos } from '@/json/bancos';
 import { accountType } from '@/json/accountType';
 import axios from 'axios';
+import { useTenantData } from '@/context';
 
 interface IStep5 {
   Avançar: () => void;
@@ -117,6 +117,9 @@ const handleCpfCnpjChange = (event: { target: { value: any; }; }) => {
     const tipoDeContaValue = watch('TipoDeConta');
     const tipoDeContaSelecionado = accountType.options.find((option: { value: string; label: string }) => option.value === tipoDeContaValue);
 
+    const tenantData = useTenantData();
+
+
   return (
     <>
    {isLoading && <Loading />}
@@ -159,8 +162,8 @@ const handleCpfCnpjChange = (event: { target: { value: any; }; }) => {
                   <CustomInput
                     {...register('Agência', { required: true })}
                     label="Agência"
-                    colorInputDefault={ThemeColor.primaria}
-                    colorInputSuccess={ThemeColor.secundaria}
+                    colorInputDefault={tenantData.primary_color_identity}
+                    colorInputSuccess={tenantData.secondary_color_identity}
                     hasError={!!errors.Agência}
                     hasSuccess={false}
                   />
@@ -169,8 +172,8 @@ const handleCpfCnpjChange = (event: { target: { value: any; }; }) => {
                   <CustomInput
                     {...register('Conta', { required: true })}
                     label="Conta"
-                    colorInputDefault={ThemeColor.primaria}
-                    colorInputSuccess={ThemeColor.secundaria}
+                    colorInputDefault={tenantData.primary_color_identity}
+                    colorInputSuccess={tenantData.secondary_color_identity}
                     hasError={!!errors.Conta}
                     hasSuccess={false}
                   />
@@ -179,8 +182,8 @@ const handleCpfCnpjChange = (event: { target: { value: any; }; }) => {
               <S.ContainerInput2>
               <CustomInput
                   key={mask}
-                  colorInputDefault={ThemeColor.primaria}
-                  colorInputSuccess={ThemeColor.secundaria}
+                  colorInputDefault={tenantData.primary_color_identity}
+                  colorInputSuccess={tenantData.secondary_color_identity}
                   {...register('CpfCnpj', { required: true })}
                   label="CPF ou CNPJ"
                   placeholder="--.---.---/---.--"

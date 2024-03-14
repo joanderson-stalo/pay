@@ -12,6 +12,7 @@ import { Loading } from '@/components/Loading/loading';
 import { TopEstabelecimentos } from '@/pages/Home/components/LAHome/components/TopEstabelecimento/topEstabelecimentos';
 import { DetalhesTable } from '@/components/DetalhesTableNew/detalhesTable';
 import { baseURL } from '@/config/color';
+import { useTenantData } from '@/context';
 
 interface TransactionsGroupedByAcquireIdType {
   total_amount: number;
@@ -120,14 +121,16 @@ export function LicensedDetail() {
     });
   };
 
-
+  const tenantData = useTenantData();
   return (
     <>
     {loading && <Loading />}
       <S.Container>
-        <S.ButtonBlack onClick={handleLicenciados}><CaretLeft size={18} />Voltar</S.ButtonBlack>
+        <S.ButtonBlack  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}
+ onClick={handleLicenciados}><CaretLeft size={18} />Voltar</S.ButtonBlack>
         <S.ContainerInfo>
-          <S.Title>{licensedDetail?.seller_name || 'Nome do Vendedor'}</S.Title>
+          <S.Title  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}
+>{licensedDetail?.seller_name || 'Nome do Vendedor'}</S.Title>
         </S.ContainerInfo>
 
         <S.ContainerGrafico>
@@ -146,8 +149,10 @@ export function LicensedDetail() {
         </S.ContainerTable>
 
         < S.ContainerBnt>
-        <S.ButtonEditRegistration onClick={handleEdit} type='button'>Editar cadastro</S.ButtonEditRegistration>
-        <S.ButtonManageAccess  type='button' onClick={navigateToManageAccessLicensed}>Gerenciar acessos</S.ButtonManageAccess>
+        <S.ButtonEditRegistration  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}
+ onClick={handleEdit} type='button'>Editar cadastro</S.ButtonEditRegistration>
+        <S.ButtonManageAccess   primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}
+ type='button' onClick={navigateToManageAccessLicensed}>Gerenciar acessos</S.ButtonManageAccess>
         <S.ButtonDelete type='button' onClick={handleDeleteConfirmation}>Excluir LA</S.ButtonDelete>
         </S.ContainerBnt>
 

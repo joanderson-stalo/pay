@@ -1,6 +1,10 @@
 import styled from "styled-components";
 import IconTooltip from '@assets/icons/toostip.svg'
-import { ThemeColor } from "@/config/color";
+
+interface Color {
+  primary: string;
+  secundary: string;
+}
 
 
 export const Container = styled.div`
@@ -94,10 +98,10 @@ export const ContainerCalendar = styled.div`
   gap: 30px;
 `
 
-export const Title = styled.h2`
+export const Title = styled.h2<Color>`
 margin-top: 28px;
 margin-bottom: 28px;
-color: ${ThemeColor.secundaria};
+color: ${(props) => props.secundary};
 font-size: 24px;
 font-weight: 700;
 padding: 0 20px;

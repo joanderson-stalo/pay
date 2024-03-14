@@ -2,9 +2,13 @@ import { useState } from 'react';
 import {ThemeImg} from '@config/img';
 import * as S from './styled';
 import { SidebarMobile } from '../SidebarMobile/sidebarMobile';
+import { useTenantData } from '@/context';
 
 export function HeaderMobile() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const tenantData = useTenantData();
+
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -12,8 +16,8 @@ export function HeaderMobile() {
 
   return (
     <>
-      <S.ContainerMobileHeader>
-        <S.LogoImg src={ThemeImg.backgroundLogo} alt="Logo" />
+      <S.ContainerMobileHeader  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>
+        <S.LogoImg src={tenantData.attachment_logo_white} alt="Logo" />
         <S.ButtonContainer onClick={toggleSidebar}>
           {isSidebarOpen ? <S.StyledCloseIcon /> : <S.StyledListIcon />}
         </S.ButtonContainer>

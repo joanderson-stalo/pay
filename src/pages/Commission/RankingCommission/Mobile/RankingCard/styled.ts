@@ -1,5 +1,10 @@
-import { ThemeColor } from '@/config/color';
+
 import styled from 'styled-components';
+
+interface Color {
+  primary: string;
+  secundary: string;
+}
 
 export const CustomCard = styled.div`
   width: 100%;
@@ -135,7 +140,7 @@ export const CustomTagTwo = styled.div`
   }
 `;
 
-export const CustomViewButton = styled.button`
+export const CustomViewButton = styled.button<Color>`
   border-radius: 4.286px;
   border: 0.429px solid #F5F4F4;
   background: #FFF;
@@ -144,7 +149,7 @@ export const CustomViewButton = styled.button`
   justify-content: center;
   align-items: center;
   gap: 6.858px;
-  color: ${ThemeColor.primaria};
+  color:  ${(props) => props.primary};
   font-size: 12.002px;
   font-style: normal;
   font-weight: 500;

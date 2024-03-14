@@ -1,4 +1,4 @@
-import { ThemeColor } from "@/config/color";
+
 import styled from "styled-components";
 
 interface ContainerGraficoProps {
@@ -64,11 +64,16 @@ export const ContainerText = styled.div`
   }
 `;
 
-export const Bolinha = styled.span`
+interface Color {
+  primary: string;
+  secundary: string;
+}
+
+export const Bolinha = styled.span<Color>`
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  background-color: ${ThemeColor.primaria};
+  background-color:  ${(props) => props.primary};
   display: inline-block;
   margin-right: 5px;
   vertical-align: middle;

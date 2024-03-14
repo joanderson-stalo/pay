@@ -1,8 +1,8 @@
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import { Bolinha, ContainerGrafico, ContainerText } from './styled';
-import { ThemeColor } from '@/config/color';
 import { useSidebarVisibility } from '@/context/sidebarVisibilityContext';
+import { useTenantData } from '@/context';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -85,6 +85,7 @@ export const options = {
 
 export function GraficoBar({ hourly_transaction_totals }: GraficoBarProps) {
   const { isVisible } = useSidebarVisibility();
+  const tenantData = useTenantData();
   
   const sortedHours = Object.keys(hourly_transaction_totals).sort((a, b) => parseInt(a) - parseInt(b));
   
@@ -97,7 +98,7 @@ export function GraficoBar({ hourly_transaction_totals }: GraficoBarProps) {
       {
         label: 'R$',
         data: dataValues,
-        backgroundColor: ThemeColor.primaria,
+        backgroundColor: tenantData.primary_color_identity,
         barThickness: 16,
         borderRadius: 100,
       },
@@ -107,7 +108,7 @@ export function GraficoBar({ hourly_transaction_totals }: GraficoBarProps) {
   return (
     <ContainerGrafico isShow={isVisible}>
       <ContainerText>
-        <Bolinha />
+        <Bolinha  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} />
         <p>TPV por Hora</p>
       </ContainerText>
       <Bar options={options} data={data}/>

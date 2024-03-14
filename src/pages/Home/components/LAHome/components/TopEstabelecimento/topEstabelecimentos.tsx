@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import * as S from './styled';
+import { useTenantData } from '@/context';
 
 interface Seller {
   seller_id: number;
@@ -29,11 +30,13 @@ export function TopEstabelecimentos({ topSellers }: TopEstabelecimentosProps) {
       navigate('/sellers-ec');
   }
 
+  const tenantData = useTenantData();
+
   return (
         <>
             <S.Context>
             <S.Container>
-          <S.Header>
+          <S.Header  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>
               <h2>Ranking de estabelecimentos </h2>
 
           </S.Header>

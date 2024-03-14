@@ -1,5 +1,6 @@
 import { formatCurrencyBR } from '@/utils/convertBRDinheiro';
 import * as S from './styles';
+import { useTenantData } from '@/context';
 
 interface TransactionsGroupedByAcquireId {
   [key: string]: {
@@ -20,9 +21,11 @@ export function DetalhesTable({ transactions_grouped_by_acquire_id }: DetalhesTa
     comissao: acc.comissao + fornecedor.total_amount
   }), { pos: 0, transacoes: 0, tpv: 0, comissao: 0 });
 
+  const tenantData = useTenantData();
+
   return (
     <S.Container>
-      <S.Header>Detalhes</S.Header>
+      <S.Header  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>Detalhes</S.Header>
       <S.Table>
         <thead>
           <tr>
@@ -41,7 +44,7 @@ export function DetalhesTable({ transactions_grouped_by_acquire_id }: DetalhesTa
               <S.TableCell>{formatCurrencyBR(fornecedor.total_amount)}</S.TableCell>
             </tr>
           ))}
-          <S.TotalRow>
+          <S.TotalRow  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>
             <S.TableCellTotal>Totais</S.TableCellTotal>
          
             <S.TableCellTotal>{totais.transacoes}</S.TableCellTotal>

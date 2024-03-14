@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from 'react-hook-form';
-import { ThemeColor, baseURL } from "@/config/color";
+import {  baseURL } from "@/config/color";
 import { ButtonAvançar, ButtonVoltar, ContainerButton, ContainerForm, ContainerInput, ContainerStep, ContextStep, ContextStepContainer, CustomTextArea, FileInputLabel, HiddenFileInput, Label, Line, StyledUploadIcon, TitleStep } from "./styled";
 import { CustomInput } from "@/components/Input/input";
 import { CustomSelect } from "@/components/Select/select";
@@ -8,12 +8,15 @@ import { useLogin } from "@/context/user.login";
 import axios from "axios";
 import { optionsDataSituation, optionsDataYesOrNo } from "./option";
 import { useNavigate } from "react-router-dom";
+import { useTenantData } from "@/context";
 
 export function AddTickets() {
   const { register, formState: { errors }, watch, setValue } = useForm();
   const { dataUser } = useLogin();
   const [fetchedOptionsFN, setFetchedOptionsFN] = useState([]);
   const navigate = useNavigate()
+  const tenantData = useTenantData();
+
 
   const allFieldsFilled = watch('titulo') && watch('solicitacao') && watch('link_problema') && watch('fornecedor') && watch('estabelecimento') && watch('licenciado') && watch('descricao');
 
@@ -55,11 +58,11 @@ export function AddTickets() {
             <Line />
             <ContainerForm>
               <ContainerInput>
-                <CustomInput {...register('titulo')} label="Título" colorInputDefault={ThemeColor.primaria} colorInputSuccess={ThemeColor.secundaria} hasError={!!errors.titulo}/>
+                <CustomInput {...register('titulo')} label="Título" colorInputDefault={tenantData.primary_color_identity} colorInputSuccess={tenantData.secondary_color_identity} hasError={!!errors.titulo}/>
                 <CustomSelect {...register("solicitacao")} optionsData={optionsDataYesOrNo} placeholder="Clique para ver a lista" label="Tipo de solicitação"   onChange={(selectedOption: { value: string }) => {
                   setValue('solicitacao', selectedOption.value)
                 }} />
-                <CustomInput {...register('link_problema')} label="Link do problema" colorInputDefault={ThemeColor.primaria} colorInputSuccess={ThemeColor.secundaria} hasError={!!errors.link_problema}/>
+                <CustomInput {...register('link_problema')} label="Link do problema" colorInputDefault={tenantData.primary_color_identity} colorInputSuccess={tenantData.secondary_color_identity} hasError={!!errors.link_problema}/>
               </ContainerInput>
               <ContainerInput>
                 <CustomSelect {...register("fornecedor")} optionsData={{ options: fetchedOptionsFN }} placeholder="Clique para ver a lista" label="Fornecedor"   onChange={(selectedOption: { value: string }) => {
@@ -84,7 +87,8 @@ export function AddTickets() {
           </ContextStep>
           <ContainerButton>
             <ButtonVoltar onClick={handleBack}>Cancelar</ButtonVoltar>
-            <ButtonAvançar disabled={!allFieldsFilled}>Criar ticket</ButtonAvançar>
+            <ButtonAvançar  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}
+ disabled={!allFieldsFilled}>Criar ticket</ButtonAvançar>
           </ContainerButton>
         </ContextStepContainer>
       </ContainerStep>

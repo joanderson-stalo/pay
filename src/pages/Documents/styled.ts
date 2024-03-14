@@ -1,4 +1,4 @@
-import { ThemeColor } from "@/config/color";
+
 import styled from "styled-components";
 
 export const ContainerStep = styled.div`
@@ -73,9 +73,15 @@ export const ContainerForm = styled.div`
   }
 `;
 
+interface Color {
+  primary: string;
+  secundary: string;
+}
 
-export const Title = styled.h2`
-  color: ${ThemeColor.secundaria};
+
+
+export const Title = styled.h2<Color>`
+  color: ${(props) => props.secundary};
   font-size: 24px;
   font-weight: 700;
   line-height: normal;

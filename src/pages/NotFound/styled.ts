@@ -1,9 +1,13 @@
 import styled from 'styled-components'
 import background from '@assets/404.svg'
-import { ThemeColor } from '@/config/color'
 
 interface Props {
   color: string
+}
+
+interface Color {
+  primary: string;
+  secundary: string;
 }
 
 
@@ -29,8 +33,8 @@ height: 395px;
 }
 `
 
-export const Title404 = styled.h2`
-color:  ${ThemeColor.primaria};
+export const Title404 = styled.h2<Color>`
+color:   ${(props) => props.primary};
 text-align: center;
 text-shadow: 0px 15px 12px 0px rgba(0, 0, 0, 0.25);
 font-size: 288px;

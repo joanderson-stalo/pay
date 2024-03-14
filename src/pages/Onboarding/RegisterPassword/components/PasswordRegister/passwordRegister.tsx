@@ -16,7 +16,7 @@ import {
 } from './styled'
 import { schema } from './schema'
 
-import { ThemeColor } from '@/config/color'
+
 import { ButtonText, Placeholder, RegisterPassword } from '@/config/text'
 
 import { RegisterSuccess } from '../RegisterSuccess/registerSuccess'
@@ -26,6 +26,7 @@ import { ContainerSubmit, ContextTitle } from '@/styles/default'
 import { MessageErrorList } from '@/components/MessageErrorList/messageErrorList'
 import { MessageError } from '@/components/MessageError/messageError'
 import { StyledP } from '@/components/MessageErrorList/styled'
+import { useTenantData } from '@/context'
 
 type FormData = {
   password: string
@@ -35,6 +36,7 @@ type FormData = {
 export function PasswordRegister() {
   const [success, setSucess] = useState(false)
   const navigate = useNavigate()
+  const tenantData = useTenantData();
 
   const {
     register,
@@ -82,8 +84,8 @@ export function PasswordRegister() {
             <ConatainerInput>
               <ContextInput>
                 <InputMask
-                  colorInputDefault={ThemeColor.primaria}
-                  colorInputSuccess={ThemeColor.secundaria}
+                  colorInputDefault={tenantData.primary_color_identity}
+                  colorInputSuccess={tenantData.secondary_color_identity}
                   placeholder={Placeholder.placeholderNova}
                   {...register('password')}
                   hasError={
@@ -114,8 +116,8 @@ export function PasswordRegister() {
             <ConatainerInput>
               <ContextInput>
                 <InputMask
-                  colorInputDefault={ThemeColor.primaria}
-                  colorInputSuccess={ThemeColor.secundaria}
+                  colorInputDefault={tenantData.primary_color_identity}
+                  colorInputSuccess={tenantData.secondary_color_identity}
                   placeholder={Placeholder.placeholderRepita}
                   {...register('passwordConfirm')}
                   hasError={
@@ -164,7 +166,7 @@ export function PasswordRegister() {
             <ContainerSubmit className='containerSubmit'>
               <Button
                 type="submit"
-                colorBackground={ThemeColor.secundaria}
+                colorBackground={tenantData.secondary_color_identity}
                 success={isValid}
                 label={ButtonText.salvar}
               />

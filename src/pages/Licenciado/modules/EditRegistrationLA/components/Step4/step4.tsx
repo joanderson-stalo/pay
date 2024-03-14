@@ -1,5 +1,5 @@
 
-import { ThemeColor, baseURL } from '@/config/color';
+import {  baseURL } from '@/config/color';
 import * as S from './styled';
 import { CustomInput } from '@/components/Input/input';
 import { useFormContext } from 'react-hook-form';
@@ -12,6 +12,7 @@ import { accountType } from '@/json/accountType';
 import axios from 'axios';
 import { useLicensed } from '@/context/useLicensed';
 import { useLogin } from '@/context/user.login';
+import { useTenantData } from '@/context';
 
 interface IStep5 {
   Avançar: () => void;
@@ -127,6 +128,8 @@ const handleCpfCnpjChange = (event: { target: { value: any; }; }) => {
       const tipoDeContaValue = watch('TipoDeConta');
       const tipoDeContaSelecionado = accountType.options.find((option: { value: string; label: string }) => option.value === tipoDeContaValue);
 
+      const tenantData = useTenantData();
+
   return (
     <>
    {isLoading && <Loading />}
@@ -168,8 +171,8 @@ const handleCpfCnpjChange = (event: { target: { value: any; }; }) => {
               <S.ContainerInput>
               <CustomInput
                   key={mask}
-                  colorInputDefault={ThemeColor.primaria}
-                  colorInputSuccess={ThemeColor.secundaria}
+                  colorInputDefault={tenantData.primary_color_identity}
+                  colorInputSuccess={tenantData.secondary_color_identity}
                   {...register('CpfCnpj', { required: true })}
                   label="CPF ou CNPJ"
                   placeholder="--.---.---/---.--"
@@ -180,8 +183,8 @@ const handleCpfCnpjChange = (event: { target: { value: any; }; }) => {
 <CustomInput
                     {...register('pix', { required: true })}
                     label="Chave PIX"
-                    colorInputDefault={ThemeColor.primaria}
-                    colorInputSuccess={ThemeColor.secundaria}
+                    colorInputDefault={tenantData.primary_color_identity}
+                    colorInputSuccess={tenantData.secondary_color_identity}
                     hasError={!!errors.Agência}
                     hasSuccess={false}
                   />
@@ -192,8 +195,8 @@ const handleCpfCnpjChange = (event: { target: { value: any; }; }) => {
                   <CustomInput
                     {...register('Agência', { required: true })}
                     label="Agência"
-                    colorInputDefault={ThemeColor.primaria}
-                    colorInputSuccess={ThemeColor.secundaria}
+                    colorInputDefault={tenantData.primary_color_identity}
+                    colorInputSuccess={tenantData.secondary_color_identity}
                     hasError={!!errors.Agência}
                     hasSuccess={false}
                   />
@@ -202,8 +205,8 @@ const handleCpfCnpjChange = (event: { target: { value: any; }; }) => {
                   <CustomInput
                     {...register('Conta', { required: true })}
                     label="Conta"
-                    colorInputDefault={ThemeColor.primaria}
-                    colorInputSuccess={ThemeColor.secundaria}
+                    colorInputDefault={tenantData.primary_color_identity}
+                    colorInputSuccess={tenantData.secondary_color_identity}
                     hasError={!!errors.Conta}
                     hasSuccess={false}
                   />
@@ -217,7 +220,8 @@ const handleCpfCnpjChange = (event: { target: { value: any; }; }) => {
           </S.ContextStep>
           <S.ContainerButton>
             <S.ButtonVoltar onClick={Voltar}>Voltar</S.ButtonVoltar>
-            <S.ButtonAvançar disabled={!areAllFieldsFilled()} onClick={Avançar}>
+            <S.ButtonAvançar 
+ primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} disabled={!areAllFieldsFilled()} onClick={Avançar}>
               Salvar
             </S.ButtonAvançar>
           </S.ContainerButton>

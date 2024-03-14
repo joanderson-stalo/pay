@@ -9,6 +9,7 @@ import { Transaction } from './interface';
 import { useNavigate } from 'react-router-dom';
 import { useTransactionVendas } from '@/context/useTransaction';
 import { formatCurrencyBR } from '@/utils/convertBRDinheiro';
+import { useTenantData } from '@/context';
 
 
 type SortField = 'captured_in' | 'amount';
@@ -61,6 +62,8 @@ export function TabelaVendas({ rows }: TabelaProps) {
   useEffect(() => {
     handleSort('captured_in');
   }, []);
+
+  const tenantData = useTenantData();
 
   return (
     <S.Table>
@@ -131,7 +134,7 @@ export function TabelaVendas({ rows }: TabelaProps) {
                 </S.StatusText>
               </S.StatusData>
               <S.TableData>
-                <S.Button onClick={() => handleButtonClick(transaction.id)}>
+                <S.Button  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} onClick={() => handleButtonClick(transaction.id)}>
                   Visão Geral
                 </S.Button>
               </S.TableData>

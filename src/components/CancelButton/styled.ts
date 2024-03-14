@@ -1,7 +1,13 @@
-import { ThemeColor } from "@/config/color";
+
 import styled from "styled-components";
 
-export const CancelButtonContainer = styled.button`
+
+interface Color {
+  primary: string;
+  secundary: string;
+}
+
+export const CancelButtonContainer = styled.button<Color>`
 
   background: #FFFFFF;
   border: 0.5px solid #F5F4F4;
@@ -11,18 +17,18 @@ export const CancelButtonContainer = styled.button`
   font-size: 12px;
   line-height: 20px;
   letter-spacing: 0.5px;
-  color: ${ThemeColor.primaria};
+  color:  ${(props) => props.primary};
 
   border-radius: 4px;
-border: 1px solid ${ThemeColor.primaria};
+border: 1px solid  ${(props) => props.primary};
 `;
 
 
-export const ButtonAvançar = styled.button`
+export const ButtonAvançar = styled.button<Color>`
   padding: 8px 24px;
-  background: ${ThemeColor.secundaria};
+  background: ${(props) => props.secundary};
   border-radius: 4px;
-background: ${ThemeColor.primaria};
+background:  ${(props) => props.primary};
   font-weight: 500;
   font-size: 12px;
   line-height: 20px;

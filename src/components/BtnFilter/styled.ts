@@ -1,11 +1,16 @@
-import { ThemeColor } from "@/config/color";
+
+
 import styled from "styled-components";
 
-export const ButtonFilter = styled.button`
+interface Color {
+  primary: string;
+  secundary: string;
+}
+export const ButtonFilter = styled.button<Color>`
 
 padding: 8px 22px;
 border-radius: 4px;
-border: 1px solid ${ThemeColor.primaria};
+border: 1px solid  ${(props) => props.primary};
 background: #fff;
 
   display: flex;
@@ -13,7 +18,7 @@ background: #fff;
   align-items: center;
   gap: 5px;
 
-  color: ${ThemeColor.primaria};
+  color:  ${(props) => props.primary};
 font-size: 12px;
 font-weight: 700;
 line-height: 15.566px;

@@ -11,6 +11,7 @@ import { Loading } from '@/components/Loading/loading';
 import Swal from 'sweetalert2';
 import { LatestSales } from '@/pages/Home/components/LAHome/components/LatestSales/latestSales';
 import { baseURL } from '@/config/color';
+import { useTenantData } from '@/context';
 
 type PaymentTypes = {
   credit: string;
@@ -119,15 +120,15 @@ export function EstablishmentDetail() {
     navigate('/sellers-ec-manage');
   };
 
-  
+  const tenantData = useTenantData();
 
   return (
     <>
       {loading && <Loading />}
       <S.Container>
-      <S.ButtonBlack onClick={handEstabelecimentos}><CaretLeft size={18} />Voltar</S.ButtonBlack>
+      <S.ButtonBlack  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} onClick={handEstabelecimentos}><CaretLeft size={18} />Voltar</S.ButtonBlack>
       <S.ContainerInfo>
-        <S.Title>{establishmentDetails?.seller_name || 'Nome do Estabelecimento'}</S.Title>
+        <S.Title  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>{establishmentDetails?.seller_name || 'Nome do Estabelecimento'}</S.Title>
       </S.ContainerInfo>
 
       <S.ContainerGrafico>
@@ -143,8 +144,8 @@ export function EstablishmentDetail() {
       <LatestSales latest_transactions={establishmentDetails?.latest_transactions || []} />
 
       < S.ContainerBnt>
-        <S.ButtonEditRegistration type='button' onClick={handEditRegistrationEC}>Editar cadastro</S.ButtonEditRegistration>
-        <S.ButtonManageAccess  type='button' onClick={handManage}>Gerenciar acessos</S.ButtonManageAccess>
+        <S.ButtonEditRegistration  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} type='button' onClick={handEditRegistrationEC}>Editar cadastro</S.ButtonEditRegistration>
+        <S.ButtonManageAccess  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}  type='button' onClick={handManage}>Gerenciar acessos</S.ButtonManageAccess>
         <S.ButtonDelete type='button' onClick={handleDeleteConfirmation}>Excluir EC</S.ButtonDelete>
         </S.ContainerBnt>
       </S.Container>

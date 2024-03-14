@@ -4,6 +4,7 @@ import { MagnifyingGlass } from '@phosphor-icons/react';
 import * as S from './styled';
 import debounce from 'lodash/debounce';
 import { TitleH } from '@/components/Title/title';
+import { useTenantData } from '@/context';
 
 interface Props {
   onSearch: (searchValue: string) => void;
@@ -47,6 +48,8 @@ export function EstabelecimentoHeader({ onSearch, searchValue, setSearchValue }:
     };
   }, [onSearch, searchValue, isTyping]);
 
+  const tenantData = useTenantData();
+
   return (
     <S.Container>
       <TitleH title='Estabelecimentos' />
@@ -63,7 +66,7 @@ export function EstabelecimentoHeader({ onSearch, searchValue, setSearchValue }:
             <MagnifyingGlass />
           </S.SearchIcon>
         </S.Input>
-        <S.Button onClick={handleAddEstablishment}>Adicionar Estabelecimento</S.Button>
+        <S.Button  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} onClick={handleAddEstablishment}>Adicionar Estabelecimento</S.Button>
       </S.Context>
     </S.Container>
   );

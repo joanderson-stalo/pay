@@ -1,5 +1,10 @@
-import { ThemeColor } from "@/config/color";
+
 import styled from "styled-components";
+
+interface Color {
+  primary: string;
+  secundary: string;
+}
 
 export const Table = styled.table`
   width: 100%;
@@ -33,10 +38,10 @@ export const TableData = styled.td`
   vertical-align: middle;
 `;
 
-export const Button = styled.button`
-  color: ${ThemeColor.primaria};
+export const Button = styled.button<Color>`
+  color:  ${(props) => props.primary};
   font-size: ${({theme }) => theme.text_xs};
-color:  ${ThemeColor.primaria};
+color:   ${(props) => props.primary};
 font-style: normal;
 font-weight: 500;
 line-height: 11.303px;

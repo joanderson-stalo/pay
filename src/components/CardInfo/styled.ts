@@ -1,9 +1,16 @@
-import { ThemeColor } from '@/config/color';
 import styled from 'styled-components';
+
+interface Color {
+  primary: string;
+  secundary: string;
+}
 
 interface InvoiceValueProps {
   value: number;
+  primary: string;
+  secundary: string;
 }
+
 
 
 export const InvoiceWrapper = styled.div`
@@ -49,7 +56,7 @@ white-space: nowrap;
 `;
 
 export const InvoiceValue = styled.div<InvoiceValueProps>`
-  color: ${props => props.color || (props.value < 0 ? 'red' : `${ThemeColor.primaria}`)};
+  color: ${props => props.color || (props.value < 0 ? 'red' : ` ${props.primary}`)};
 
   font-size: 24px;
 font-style: normal;

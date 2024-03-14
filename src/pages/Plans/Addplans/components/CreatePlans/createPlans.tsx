@@ -2,7 +2,7 @@ import  { useCallback, useEffect, useState } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import { ThemeColor, baseURL } from '@/config/color';
+import {  baseURL } from '@/config/color';
 import { CustomInput } from '@/components/Input/input';
 import { CustomSelect } from '@/components/Select/select';
 import { optionsData, yesOrNo } from '../../optionsData';
@@ -41,6 +41,7 @@ import { CaretLeft } from '@phosphor-icons/react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useLogin } from '@/context/user.login';
+import { useTenantData } from '@/context';
 
 interface ICreateUser {
   Voltar: () => void;
@@ -56,7 +57,7 @@ export function CreatePlans({ Voltar, onSubmitData }: ICreateUser) {
   const [showTaxaAntecipacao, setShowTaxaAntecipacao] = useState(false);
   const [fetchedOptionsFN, setFetchedOptionsFN] = useState([]);
   const { dataUser } = useLogin();
-
+  const tenantData = useTenantData();
 
   const titulo = watch('Titulo');
   const fornecedor = watch('Fornecedor');
@@ -187,8 +188,9 @@ const handlePlans = () => {
 
 
   const renderTable = (tableType: string) => {
+    const tenantData = useTenantData();
     return (
-      <StyledTable>
+      <StyledTable  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>
         <thead>
           <tr>
             <th>Forma de Pagamento</th>
@@ -231,8 +233,8 @@ const handlePlans = () => {
   return (
  <>
    <ContainerButtonBlack>
-    <ButtonBlack><CaretLeft size={18} />Voltar</ButtonBlack>
-    <Title>Adicionar Plano</Title>
+    <ButtonBlack  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}><CaretLeft size={18} />Voltar</ButtonBlack>
+    <Title  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>Adicionar Plano</Title>
     </ContainerButtonBlack>
     <FormProvider {...methods}>
   
@@ -250,8 +252,8 @@ const handlePlans = () => {
                 <ContainerInput>
                   <CustomInput
                     label="Título"
-                    colorInputDefault={ThemeColor.primaria}
-                    colorInputSuccess={ThemeColor.secundaria}
+                    colorInputDefault={tenantData.primary_color_identity}
+                    colorInputSuccess={tenantData.secondary_color_identity}
                     {...register('Titulo')}
                     hasError={!!errors.Titulo}
                   />
@@ -330,7 +332,7 @@ const handlePlans = () => {
             </ContextStep>
             <ContainerButton>
               <ButtonVoltar onClick={Voltar}>Cancelar</ButtonVoltar>
-              <ButtonAvançar type="submit" disabled={!isAllFieldsFilled}>
+              <ButtonAvançar  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} type="submit" disabled={!isAllFieldsFilled}>
                 Salvar
               </ButtonAvançar>
             </ContainerButton>

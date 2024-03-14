@@ -1,10 +1,14 @@
-// MonthYearSelector.js
 
-import { ThemeColor } from '@/config/color';
+import { useTenantData } from '@/context';
 import React, { useState, ChangeEvent } from 'react';
 import styled from 'styled-components';
 
-const Container = styled.input`
+interface Color {
+  primary: string;
+  secundary: string;
+}
+
+const Container = styled.input<Color>`
   display: flex;
   align-items: center;
   width: 100%;
@@ -15,7 +19,7 @@ const Container = styled.input`
   border-radius: 3.598px;
   border: 0.9px solid var(--foundation-brand-02-light-active, #B2EAF8);
   background: var(--foundation-white-light, #FDFDFD);
-  color: ${ThemeColor.primaria};
+  color: ${(props) => props.secundary};;
 `;
 
 interface MonthYearSelectorProps {
@@ -25,6 +29,7 @@ interface MonthYearSelectorProps {
 
 export function MonthYearSelector(props: MonthYearSelectorProps) {
   const { selectedYear, onYearChange } = props;
+  const tenantData = useTenantData();
 
   const handleDateChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newYear = event.target.value;
@@ -33,6 +38,8 @@ export function MonthYearSelector(props: MonthYearSelectorProps) {
 
   return (
     <Container
+    primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}
+
       type='month'
       value={selectedYear}
       onChange={handleDateChange}

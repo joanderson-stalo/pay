@@ -4,6 +4,7 @@ import { MagnifyingGlass } from '@phosphor-icons/react';
 import * as S from './styled';
 import debounce from 'lodash/debounce';
 import { TitleH } from '@/components/Title/title';
+import { useTenantData } from '@/context';
 
 interface Props {
   onSearch: (searchValue: string) => void;
@@ -15,6 +16,7 @@ export function LicenciadoHeader({ onSearch, searchValue, setSearchValue }: Prop
   const navigate = useNavigate();
   const [isTyping, setIsTyping] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
+  const tenantData = useTenantData();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const valorTrimmed = event.target.value.trim();
@@ -70,7 +72,7 @@ export function LicenciadoHeader({ onSearch, searchValue, setSearchValue }: Prop
             <MagnifyingGlass />
           </S.SearchIcon>
         </S.Input>
-        <S.Button onClick={handleAddEstablishment}>Adicionar Licenciado</S.Button>
+        <S.Button primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} onClick={handleAddEstablishment}>Adicionar Licenciado</S.Button>
       </S.Context>
     </S.Container>
   );

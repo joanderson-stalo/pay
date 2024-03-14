@@ -1,6 +1,11 @@
-import { ThemeColor } from '@/config/color'
+
 import { ThemeImg } from '@/config/img'
 import styled from 'styled-components'
+
+interface Color {
+  primary: string;
+  secundary: string;
+}
 
 export const Overlay = styled.div`
   width: 100%;
@@ -37,7 +42,7 @@ export const ContainerModal = styled.div`
 
 `
 
-export const BackgroundLogin = styled.div`
+export const BackgroundLogin = styled.div<Color>`
   position: relative;
   width: 50%;
   height: 100%;
@@ -54,7 +59,7 @@ export const BackgroundLogin = styled.div`
     left: 0;
     width: 100%;
     height: 100%;
-    background: ${ThemeColor.primaria};
+    background:  ${(props) => props.primary};
     opacity: 0.6;
     z-index: 1;
     border-radius: 0rem 2rem 2rem 0rem;
@@ -103,7 +108,7 @@ export const ContextModal = styled.div`
 
 `
 
-export const ContainerText = styled.div`
+export const ContainerText = styled.div<Color>`
     width: 404px;
   text-align: center;
   display: flex;
@@ -121,7 +126,7 @@ font-weight: 600;
     font-size: 32px;
 font-style: normal;
 font-weight: 500;
-      color: ${ThemeColor.primaria};
+      color:  ${(props) => props.primary};;
     }
 
   @media (max-width: 900px) {
@@ -138,9 +143,9 @@ font-weight: 500;
   }
 `
 
-export const ButtonModal = styled.button`
+export const ButtonModal = styled.button<Color>`
  border-radius: 5px;
-background: ${ThemeColor.primaria};
+background:  ${(props) => props.primary};
 padding: 14px 50px;
 color: #FFF;
 font-size: 14px;

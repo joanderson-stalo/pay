@@ -1,5 +1,10 @@
-import { ThemeColor } from "@/config/color";
+
 import styled from "styled-components";
+
+interface Color {
+  primary: string;
+  secundary: string;
+}
 
 export const Table = styled.table`
   width: 100%;
@@ -63,8 +68,8 @@ export const SortArrow = styled.span<{ isActive: boolean }>`
   font-size: 9px;
 `;
 
-export const TableFooterRow = styled.tr`
-  background-color: ${ThemeColor.secundaria};
+export const TableFooterRow = styled.tr<Color>`
+  background-color: ${(props) => props.secundary};
   color: white;
   font-weight: bold;
 

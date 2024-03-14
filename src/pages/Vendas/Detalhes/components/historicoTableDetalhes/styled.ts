@@ -1,5 +1,10 @@
-import { ThemeColor } from '@/config/color';
 import styled from 'styled-components';
+
+interface Color {
+  primary: string;
+  secundary: string;
+}
+
 
 export const HistoricoContainer = styled.div`
   display: flex;
@@ -9,8 +14,8 @@ export const HistoricoContainer = styled.div`
   }
 `;
 
-export const HistoricoHeader = styled.h1`
-  background: ${ThemeColor.primaria};
+export const HistoricoHeader = styled.h1<Color>`
+  background: ${(props) => props.primary};
   width: 430px;
   height: 35px;
   color: #FDFDFD;

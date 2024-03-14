@@ -1,5 +1,6 @@
 import { formatCurrencyBR } from "@/utils/convertBRDinheiro";
 import { InvoiceLabel, InvoiceValue, InvoiceWrapper } from "./styled";
+import { useTenantData } from "@/context";
 
 interface InvoiceComponentProps {
   label: string;
@@ -20,10 +21,12 @@ export function CardInfo({ label, value, shouldFormat = true, color, formatTaxa 
     formattedValue = value;
   }
 
+  const tenantData = useTenantData();
+
   return (
     <InvoiceWrapper>
       <InvoiceLabel>{label}</InvoiceLabel>
-      <InvoiceValue color={color} value={value}>
+      <InvoiceValue  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}  color={color} value={value}>
         {formattedValue}
       </InvoiceValue>
     </InvoiceWrapper>

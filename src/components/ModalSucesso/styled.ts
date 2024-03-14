@@ -1,6 +1,13 @@
-import { ThemeColor } from '@/config/color'
+
 import { ThemeImg } from '@/config/img'
+
 import styled from 'styled-components'
+
+interface Color {
+  primary: string;
+  secundary: string;
+}
+
 
 export const Overlay = styled.div`
   width: 100%;
@@ -37,7 +44,7 @@ export const ContainerModal = styled.div`
 
 `
 
-export const BackgroundLogin = styled.div`
+export const BackgroundLogin = styled.div<Color>`
   position: relative;
   width: 50%;
   height: 100%;
@@ -54,7 +61,7 @@ export const BackgroundLogin = styled.div`
     left: 0;
     width: 100%;
     height: 100%;
-    background: ${ThemeColor.primaria};
+    background:  ${(props) => props.primary};
     opacity: 0.6;
     z-index: 1;
     border-radius: 0rem 2rem 2rem 0rem;
@@ -103,20 +110,20 @@ export const ContextModal = styled.div`
 
 `
 
-export const ContainerText = styled.div`
+export const ContainerText = styled.div<Color>`
   width: 349px;
   text-align: center;
   p {
     font-weight: 700;
     font-size: 38px;
     line-height: 52px;
-    color: ${ThemeColor.secundaria};
+    color: ${(props) => props.secundary};
 
     span {
       font-weight: 700;
       font-size: 38px;
       line-height: 52px;
-      color: ${ThemeColor.primaria};
+      color: ${(props) => props.primary};
     }
   }
 
@@ -134,9 +141,9 @@ export const ContainerText = styled.div`
   }
 `
 
-export const ButtonModal = styled.button`
-  background: ${ThemeColor.primaria};
-  border: 0.5px solid ${ThemeColor.primaria};
+export const ButtonModal = styled.button<Color>`
+  background:  ${(props) => props.primary};
+  border: 0.5px solid  ${(props) => props.primary};
   border-radius: 5px;
 
   width: 213px;

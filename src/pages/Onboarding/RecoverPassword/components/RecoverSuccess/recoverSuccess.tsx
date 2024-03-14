@@ -4,9 +4,9 @@ import { Button } from '@/components/Button/button'
 
 import { ContainerRecover, ContextTitle } from './styled'
 
-import { ThemeColor } from '@/config/color'
 import { ButtonText, RecoverPasswordSuccess } from '@/config/text'
 import { ContainerSubmit } from '@/styles/default'
+import { useTenantData } from '@/context'
 
 interface Props {
   email: string
@@ -14,6 +14,7 @@ interface Props {
 
 export function RecoverSuccess({ email }: Props) {
   const navigate = useNavigate()
+  const tenantData = useTenantData();
 
   const handleLogin = () => {
     navigate('/')
@@ -21,7 +22,7 @@ export function RecoverSuccess({ email }: Props) {
 
   return (
     <ContainerRecover>
-      <ContextTitle colorTitle={ThemeColor.secundaria}>
+      <ContextTitle colorTitle={tenantData.secondary_color_identity}>
         <h2>{RecoverPasswordSuccess.enviado}</h2>
         <p>
           {RecoverPasswordSuccess.text} {email}.{' '}
@@ -32,7 +33,7 @@ export function RecoverSuccess({ email }: Props) {
       <Button
         type="button"
         onClick={handleLogin}
-        colorBackground={ThemeColor.secundaria}
+        colorBackground={tenantData.secondary_color_identity}
         success={true}
         label={ButtonText.irLogin}
       />

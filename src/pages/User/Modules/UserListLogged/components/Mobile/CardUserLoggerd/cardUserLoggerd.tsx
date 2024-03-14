@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import * as S from "./styled";
+import { useTenantData } from "@/context";
 
 interface CardUserLoggedProps {
   data: {
@@ -15,6 +16,7 @@ interface CardUserLoggedProps {
 
 export function CardUserLogged({ data, handlePasswordRetrieve, handleRemove }: CardUserLoggedProps) {
   const navigate = useNavigate()
+  const tenantData = useTenantData();
 
   const handleEditClick = (id: number): void => {
     navigate(`/user/edit/${id}`);
@@ -25,7 +27,7 @@ export function CardUserLogged({ data, handlePasswordRetrieve, handleRemove }: C
       {data.map((user, index) => (
         <S.ContainerCardUserLogged key={user.id}>
 
-          <S.HeaderUserLogged>
+          <S.HeaderUserLogged  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>
           
             <h2>{user.name}</h2>
             {index === 0 ? <h4>Você</h4> : <h5></h5>} 

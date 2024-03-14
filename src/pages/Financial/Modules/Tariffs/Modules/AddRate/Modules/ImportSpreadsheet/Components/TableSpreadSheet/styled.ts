@@ -1,5 +1,10 @@
 import styled from 'styled-components';
-import { ThemeColor } from '@/config/color';
+
+interface Color {
+  primary: string;
+  secundary: string;
+}
+
 
 export const TableContainer = styled.div`
   display: flex;
@@ -13,8 +18,8 @@ export const TableContainer = styled.div`
 }
 `;
 
-export const TableHeader = styled.h1`
-  background: ${ThemeColor.primaria};
+export const TableHeader = styled.h1<Color>`
+  background: ${(props) => props.primary};
   width: 100%;
   max-width: 920px;
   height: 35px;
@@ -29,13 +34,13 @@ export const TableHeader = styled.h1`
   line-height: 14px;
 `;
 
-export const DataTable = styled.table`
+export const DataTable = styled.table<Color>`
   width: 100%;
   max-width: 920px;
   border-collapse: collapse;
 
   > thead {
-    background: ${ThemeColor.primaria};
+    background:  ${(props) => props.primary};
   }
 
   th, td {

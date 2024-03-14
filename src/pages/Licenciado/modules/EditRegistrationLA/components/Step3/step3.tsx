@@ -24,6 +24,7 @@ import { useLicensed } from '@/context/useLicensed';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import { baseURL } from '@/config/color';
+import { useTenantData } from '@/context';
 
 interface IStep3 {
   Avançar: () => void;
@@ -167,7 +168,7 @@ export function Step3({ Avançar, Voltar }: IStep3) {
   const handleLicenseddetail = () => {
     navigate('/sellers-la')
   }
-
+  const tenantData = useTenantData();
 
   return (
     <>
@@ -207,8 +208,8 @@ export function Step3({ Avançar, Voltar }: IStep3) {
           </ContextStep>
           <ContainerButton>
             <ButtonVoltar onClick={Voltar}>Voltar</ButtonVoltar>
-            <ButtonAvançar disabled={!allFieldsFilled} onClick={handleSalvar}>Salvar</ButtonAvançar>
-            <ButtonAvançar disabled={!allFieldsFilled} onClick={Avançar}>Avançar</ButtonAvançar>
+            <ButtonAvançar  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} disabled={!allFieldsFilled} onClick={handleSalvar}>Salvar</ButtonAvançar>
+            <ButtonAvançar  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} disabled={!allFieldsFilled} onClick={Avançar}>Avançar</ButtonAvançar>
           </ContainerButton>
         </ContextStepContainer>
       </ContainerStep>

@@ -1,10 +1,15 @@
-import { ThemeColor } from '@/config/color';
 import styled, { css } from 'styled-components'
+
 
 interface Props {
   color?: string
   colorSec?: string
   selected?: boolean
+}
+
+interface Color {
+  primary: string;
+  secundary: string;
 }
 
 export const ContainerSidebar = styled.div<Props & { isVisible: boolean }>`
@@ -72,7 +77,7 @@ color: #FDFDFD;
     selected &&
 
     css`
-         color: ${ThemeColor.primaria} ;
+         color:  #3c0a6d;
        background: #FFF;
        border-radius: 12px;
        font-weight: 700;
@@ -83,7 +88,7 @@ color: #FDFDFD;
   }
 `;
 
-export const ButtonSiderArrow = styled.button<{ isCondensed: boolean }>`
+export const ButtonSiderArrow = styled.button<{ isCondensed: boolean, primary: string, secundary: string }>`
   background-color: transparent;
   position: absolute;
 
@@ -108,8 +113,8 @@ color: #FDFDFD;
     position: relative;
     padding: 4px;
     top: -6px;
-    background-color:  ${ThemeColor.secundaria};
-    color: ${ThemeColor.primaria};
+    background-color: ${(props) => props.secundary};
+    color: ${(props) => props.primary};
     left: ${({ isCondensed }) => isCondensed ? '224px' :  '150px'};
     margin-top: ${({ isCondensed }) => isCondensed ? '0' :  '20px'};
     margin-bottom: ${({ isCondensed }) => isCondensed ? '0' :  '20px'};

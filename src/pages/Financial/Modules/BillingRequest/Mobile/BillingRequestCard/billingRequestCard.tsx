@@ -1,6 +1,7 @@
 import { formatCurrencyBR } from '@/utils/convertBRDinheiro';
 import * as S from './styled';
 import { convertDateFormat } from '@/utils/convertDateFormat';
+import { useTenantData } from '@/context';
 
 export interface BillingData {
   id: number;
@@ -18,6 +19,8 @@ interface BillingRequestCardProps {
 }
 
 export function BillingRequestCard({ data }: BillingRequestCardProps) {
+
+  const tenantData = useTenantData();
   
   function formatDateBR(dateString: string | number | Date) {
     const date = new Date(dateString);
@@ -59,7 +62,7 @@ export function BillingRequestCard({ data }: BillingRequestCardProps) {
                 <S.InfoDescription>{item.tipo}</S.InfoDescription>
               </S.LeftInfoBlock>
 
-              <S.EditButton>Editar</S.EditButton>
+              <S.EditButton  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>Editar</S.EditButton>
             </S.LeftSection>
           </S.CardBody>
         </S.Card>

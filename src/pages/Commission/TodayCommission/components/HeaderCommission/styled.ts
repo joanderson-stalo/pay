@@ -1,5 +1,10 @@
-  import { ThemeColor } from '@/config/color';
+
 import styled from 'styled-components';
+
+interface Color {
+  primary: string;
+  secundary: string;
+}
 
   export const Container = styled.div`
     margin-top: 30px;
@@ -10,7 +15,7 @@ import styled from 'styled-components';
   `;
 
 
-  export const Button = styled.button`
+  export const Button = styled.button<Color>`
     display: flex;
     width: 213px;
     height: 35px;
@@ -19,7 +24,7 @@ import styled from 'styled-components';
     align-items: center;
     border-radius: 5px;
     border: 0.5px solid #0086ED;
-    background: ${ThemeColor.secundaria};
+    background: ${(props) => props.secundary};
     color: #FFF;
     font-size: 12px;
     font-weight: 500;
@@ -27,8 +32,8 @@ import styled from 'styled-components';
     letter-spacing: 0.5px;
   `;
 
-export const Title = styled.h2`
-color: ${ThemeColor.secundaria};
+export const Title = styled.h2<Color>`
+color: ${(props) => props.secundary};
 font-size: 24px;
 font-weight: 700;
 line-height: normal;
@@ -51,9 +56,9 @@ export const ContainerPJPF = styled.div`
 
 `;
 
-export const ButtonPJ = styled.button<{active: boolean}>`
+export const ButtonPJ = styled.button<{active: boolean, primary: string}>`
 padding: 7px 18px;
-  background-color: ${({ active }) => (active ? `${ThemeColor.primaria}` : '#E6E6E6')};
+  background-color: ${({ active, primary }) => (active ? primary : '#E6E6E6')};
 
   color: ${({ active }) => (active ? 'white' : 'black')};
 
@@ -68,9 +73,9 @@ line-height: 20px;
 letter-spacing: 0.5px;
 `;
 
-export const ButtonPF = styled.button<{active: boolean}>`
+export const ButtonPF = styled.button<{active: boolean, primary: string}>`
 padding: 7px 18px;
-  background-color: ${({ active }) => (active ? `${ThemeColor.primaria}` : '#E6E6E6')};
+  background-color: ${({ active, primary }) => (active ? primary : '#E6E6E6')};
   color: ${({ active }) => (active ? 'white' : 'black')};
 
 
@@ -87,9 +92,9 @@ letter-spacing: 0.5px;
 `;
 
 
-export const ButtonToday = styled.button<{active: boolean}>`
+export const ButtonToday = styled.button<{active: boolean, primary: string}>`
 padding: 7px 18px;
-  background-color: ${({ active }) => (active ? `${ThemeColor.primaria}` : '#E6E6E6')};
+  background-color: ${({ active, primary }) => (active ? primary : '#E6E6E6')};
 
   color: ${({ active }) => (active ? 'white' : 'black')};
 

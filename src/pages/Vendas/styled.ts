@@ -1,9 +1,14 @@
-import { ThemeColor } from "@/config/color";
+
 import styled from "styled-components";
 
 type InputContainerProps = {
   isFocused: boolean;
 };
+
+interface Color {
+  primary: string;
+  secundary: string;
+}
 
 export const ContextTitleVendas = styled.div`
 
@@ -29,8 +34,8 @@ export const ContainerCardVendas = styled.div`
 
 
 
- export const Title = styled.h2`
-    color: ${ThemeColor.secundaria};
+ export const Title = styled.h2<Color>`
+    color: ${(props) => props.secundary};
     font-size: 32px;
     font-weight: 700;
     line-height: normal;

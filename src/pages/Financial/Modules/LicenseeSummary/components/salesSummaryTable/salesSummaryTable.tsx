@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { Totals, Transaction } from './interface';
 import { formatCurrencyBR } from '@/utils/convertBRDinheiro';
 import { useTransactionVendas } from '@/context/useTransaction';
+import { useTenantData } from '@/context';
 
 
 type SortField = 'meta' | 'tpv' | 'gap' | 'comissao';
@@ -68,6 +69,8 @@ export function SalesSummaryTable({ rows, totals }: TabelaProps) {
     );
   }
 
+  const tenantData = useTenantData();
+
   return (
     <S.Table>
       <thead>
@@ -103,7 +106,7 @@ export function SalesSummaryTable({ rows, totals }: TabelaProps) {
         ))}
       </tbody>
       <tfoot>
-      <S.TableFooterRow>
+      <S.TableFooterRow  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>
      <S.TableDataWhite>TOTAL</S.TableDataWhite>
           <S.TableDataWhite>{formatCurrencyBR(parseFloat(totals.meta))}</S.TableDataWhite>
           <S.TableDataWhite>{formatCurrencyBR(parseFloat(totals.tpv))}</S.TableDataWhite>

@@ -25,6 +25,7 @@ import Swal from 'sweetalert2';
 import { useEstablishment } from '@/context/useEstablishment';
 import { useNavigate } from 'react-router-dom';
 import { baseURL } from '@/config/color';
+import { useTenantData } from '@/context';
 
 interface IStep3 {
   Avançar: () => void;
@@ -287,7 +288,7 @@ export function Step3({ Avançar, Voltar }: IStep3) {
     navigate('/sellers-ec')
   }
 
-
+  const tenantData = useTenantData();
   return (
     <>
       {loading && <Loading />}
@@ -316,10 +317,12 @@ export function Step3({ Avançar, Voltar }: IStep3) {
           </ContextStep>
           <ContainerButton>
             <ButtonVoltar onClick={Voltar}>Voltar</ButtonVoltar>
-            <ButtonAvançar disabled={!allFieldsFilled} onClick={handleSalvar}>
+            <ButtonAvançar 
+ primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} disabled={!allFieldsFilled} onClick={handleSalvar}>
               Salvar
             </ButtonAvançar>
-            <ButtonAvançar disabled={!allFieldsFilled} onClick={Avançar}>
+            <ButtonAvançar 
+ primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} disabled={!allFieldsFilled} onClick={Avançar}>
               Avançar
             </ButtonAvançar>
           </ContainerButton>

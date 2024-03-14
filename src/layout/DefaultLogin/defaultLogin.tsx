@@ -8,15 +8,15 @@ import { Outlet } from 'react-router-dom'
 
 import { Text } from '@/config/text'
 import { ThemeImg } from '@/config/img'
-import { ThemeColor } from '@/config/color'
+import { useTenantData } from '@/context'
 
 export function DefaultLogin() {
-
+  const tenantData = useTenantData();
   return (
     <>
       <DefaultContainerLogin>
-        <BackgroundLogin colorOverlay={ThemeColor.primaria} background={ThemeImg.backgroundLogin}>
-          <img style={{zIndex: 100}} src={ThemeImg.backgroundLogo}  />
+        <BackgroundLogin colorOverlay={tenantData.primary_color_identity} background={ThemeImg.backgroundLogin}>
+          <img style={{zIndex: 100}} src={tenantData.attachment_logo_white}  />
         </BackgroundLogin>
         <DefaultContext>
           <Outlet />

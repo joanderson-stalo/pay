@@ -1,14 +1,18 @@
-import { ThemeColor } from "@/config/color";
+
 import styled from "styled-components";
 
+interface Color {
+  primary: string;
+  secundary: string;
+}
 
 export const Container = styled.div`
   margin: 36px 20px 20px 20px;
 
 `
 
-export const Title = styled.h1`
-color: ${ThemeColor.secundaria};
+export const Title = styled.h1<Color>`
+color: ${(props) => props.secundary};
 font-size: 24px;
 font-weight: 700;
 margin-bottom: 36px;
@@ -33,11 +37,10 @@ margin: 36px 0px;
 `
 
 
-export const ConsultarBtn = styled.button`
+export const ConsultarBtn = styled.button<Color>`
 border-radius: 5px;
-border: 0.5px solid ${ThemeColor.secundaria};
-background:  ${ThemeColor.secundaria};
-
+border: 0.5px solid ${(props) => props.secundary};
+background:  ${(props) => props.secundary};
 height: 44px;
 padding: 14px 24px;
 
@@ -50,8 +53,8 @@ margin-top: 30px;
 
 `
 
-export const ExportarBtn = styled(ConsultarBtn)`
-  color: ${ThemeColor.primaria};
+export const ExportarBtn = styled(ConsultarBtn)<Color>`
+  color:  ${(props) => props.primary};
   border-radius: 5px;
 border: 0.5px solid #F5F4F4;
 background: #FFF;

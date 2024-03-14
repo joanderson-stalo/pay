@@ -1,6 +1,7 @@
 import React from 'react';
 import * as S from './styled';
 import { formatCurrencyBR } from '@/utils/convertBRDinheiro';
+import { useTenantData } from '@/context';
 
 type dataSpreadSheetType = {
   ID_EC: string | number;
@@ -18,9 +19,12 @@ type TableStockProps = {
 };
 
 export function TableSpreadSheet({ dataSpreadSheet  }: TableStockProps) {
+
+  const tenantData = useTenantData();
+
   return (
     <S.TableContainer>
-      <S.DataTable>
+      <S.DataTable  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>
         <thead>
           <tr>
             <S.TableHeaderCell>ID_EC</S.TableHeaderCell>

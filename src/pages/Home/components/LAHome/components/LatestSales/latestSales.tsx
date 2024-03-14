@@ -6,6 +6,7 @@ import elo from '@assets/bandeiras/elo.svg';
 import maestro from '@assets/bandeiras/maestro.svg';
 import visa from '@assets/bandeiras/visa.svg';
 import masterCard from '@assets/bandeiras/master.svg';
+import { useTenantData } from '@/context';
 
 interface Sale {
   captured_in: string;
@@ -35,11 +36,13 @@ export function LatestSales({ latest_transactions }: LatestSalesProps) {
     navigate('/transaction');
   };
 
+  const tenantData = useTenantData();
+
   return (
     <>
       <S.Context>
       <S.Container>
-        <S.Header>
+        <S.Header  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>
           <h2>Últimas vendas</h2>
 
         </S.Header>

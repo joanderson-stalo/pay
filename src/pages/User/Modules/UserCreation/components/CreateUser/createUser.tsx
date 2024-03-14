@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { ThemeColor, baseURL } from '@/config/color';
+import {  baseURL } from '@/config/color';
 import {
   ButtonAvançar,
   ButtonVoltar,
@@ -35,6 +35,7 @@ import { Modal } from '../Modal/modal';
 import { TranslateErrorMessage } from '@/utils/translateErrorMessage';
 import { toast } from 'react-toastify';
 import { ApiResponse } from '@/pages/LAcadastro/LAcadastro';
+import { useTenantData } from '@/context';
 
 interface SelectOption {
   value: string;
@@ -165,6 +166,8 @@ export function CreateUser() {
     navigate('/user-seller');
   };
 
+  const tenantData = useTenantData();
+
   if (formSuccess) {
     return <Modal onClose={resetFormSuccess} visible />;
   }
@@ -188,22 +191,22 @@ export function CreateUser() {
                     type="file"
                     onChange={onFileInputChange}
                   />
-                  <FileInputLabel htmlFor="fileInput">
-                    <StyledUploadIcon /> Enviar foto
+                  <FileInputLabel  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} htmlFor="fileInput">
+                    <StyledUploadIcon  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} /> Enviar foto
                   </FileInputLabel>
                 </ContainerPhoto>
                 <ContainerInput>
                   <CustomInput
                     label="Nome"
-                    colorInputDefault={ThemeColor.primaria}
-                    colorInputSuccess={ThemeColor.secundaria}
+                    colorInputDefault={tenantData.primary_color_identity}
+                    colorInputSuccess={tenantData.secondary_color_identity}
                     {...register('Nome')}
                     hasError={!!errors.Nome}
                   />
                   <CustomInput
                     label="E-mail"
-                    colorInputDefault={ThemeColor.primaria}
-                    colorInputSuccess={ThemeColor.secundaria}
+                    colorInputDefault={tenantData.primary_color_identity}
+                    colorInputSuccess={tenantData.secondary_color_identity}
                     {...register('Email')}
                     hasError={!!errors.Email}
                   />
@@ -228,8 +231,8 @@ export function CreateUser() {
               </ContainerForm>
             </ContextStep>
             <ContainerButton>
-              <ButtonVoltar onClick={handleVoltar}>Cancelar</ButtonVoltar>
-              <ButtonAvançar type="submit" disabled={!isAllFieldsFilled}>
+              <ButtonVoltar  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} onClick={handleVoltar}>Cancelar</ButtonVoltar>
+              <ButtonAvançar  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} type="submit" disabled={!isAllFieldsFilled}>
                 Salvar
               </ButtonAvançar>
             </ContainerButton>

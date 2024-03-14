@@ -1,6 +1,11 @@
-import { ThemeColor } from "@/config/color";
+
 import { UploadSimple } from "@phosphor-icons/react";
 import styled from "styled-components";
+
+interface Color {
+  primary: string;
+  secundary: string;
+}
 
 export const ContainerStep = styled.div`
   display: flex;
@@ -111,11 +116,11 @@ export const ContainerInput2 = styled.section`
   }
 `;
 
-export const ButtonAvançar = styled.button`
+export const ButtonAvançar = styled.button<Color>`
   padding: 8px 24px;
-  background: ${ThemeColor.secundaria};
+  background: ${(props) => props.secundary};
   border-radius: 4px;
-background: ${ThemeColor.primaria};
+background: ${(props) => props.primary};
   font-weight: 500;
   font-size: 12px;
   line-height: 20px;
@@ -129,7 +134,7 @@ background: ${ThemeColor.primaria};
   }
 `;
 
-export const ButtonVoltar = styled.button`
+export const ButtonVoltar = styled.button<Color>`
 
   background: #FFFFFF;
   border: 0.5px solid #F5F4F4;
@@ -139,10 +144,10 @@ export const ButtonVoltar = styled.button`
   font-size: 12px;
   line-height: 20px;
   letter-spacing: 0.5px;
-  color: ${ThemeColor.primaria};
+  color:  ${(props) => props.primary};
 
   border-radius: 4px;
-border: 1px solid ${ThemeColor.primaria};
+border: 1px solid  ${(props) => props.primary};
 `;
 
 export const ContainerButton = styled.div`
@@ -161,7 +166,7 @@ export const HiddenFileInput = styled.input.attrs({ type: "file" })`
   display: none;
 `;
 
-export const FileInputLabel = styled.label`
+export const FileInputLabel = styled.label<Color>`
   display: flex;
   align-items: center;
   gap: 18px;
@@ -169,8 +174,8 @@ export const FileInputLabel = styled.label`
   border-radius: 4px;
   background: transparent;
   cursor: pointer;
-  color:  ${ThemeColor.primaria};
-  border: 1px solid  ${ThemeColor.primaria};
+  color:   ${(props) => props.primary};
+  border: 1px solid   ${(props) => props.primary};
 
 
 
@@ -186,8 +191,8 @@ letter-spacing: 0.5px;
 
 `;
 
-export const StyledUploadIcon = styled(UploadSimple)`
-  color: ${ThemeColor.primaria};
+export const StyledUploadIcon = styled(UploadSimple)<Color>`
+  color:  ${(props) => props.primary};
   width: 30px;
   height: 30px;
 `;

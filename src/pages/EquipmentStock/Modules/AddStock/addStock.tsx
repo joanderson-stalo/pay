@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from 'react-hook-form';
-import { ThemeColor, baseURL } from "@/config/color";
+import {  baseURL } from "@/config/color";
 import { ButtonAvançar, ButtonVoltar, ContainerButton, ContainerForm, ContainerInput, ContainerStep, ContextStep, ContextStepContainer, FileInputLabel, HiddenFileInput, Line, StyledUploadIcon, TitleStep } from "./styled";
 import { CustomInput } from "@/components/Input/input";
 import { CustomSelect } from "@/components/Select/select";
 import { useLogin } from "@/context/user.login";
 import axios from "axios";
 import { optionsDataSituation, optionsDataYesOrNo } from "./option";
+import { useTenantData } from "@/context";
 
 export function AddStock() {
   const { register, formState: { errors }, watch, setValue } = useForm();
@@ -49,7 +50,7 @@ export function AddStock() {
     fetchDataFN();
   }, []);
 
-
+  const tenantData = useTenantData();
 
 
   return (
@@ -61,7 +62,7 @@ export function AddStock() {
             <Line />
             <ContainerForm>
               <ContainerInput>
-                <CustomInput {...register('serial')} label="Serial" colorInputDefault={ThemeColor.primaria} colorInputSuccess={ThemeColor.secundaria} hasError={!!errors.serial}/>
+                <CustomInput {...register('serial')} label="Serial" colorInputDefault={tenantData.primary_color_identity} colorInputSuccess={tenantData.secondary_color_identity} hasError={!!errors.serial}/>
                 <CustomSelect {...register("modelo")} optionsData={optionsDataYesOrNo} placeholder="Clique para ver a lista" label="Modelo"   onChange={(selectedOption: { value: string }) => {
     setValue('modelo', selectedOption.value)
   }}
@@ -84,7 +85,7 @@ export function AddStock() {
               </ContainerInput>
               <ContainerInput>
 
-                <CustomInput {...register('comentarios')} label="Comentários" colorInputDefault={ThemeColor.primaria} colorInputSuccess={ThemeColor.secundaria} hasError={!!errors.comentarios}/>
+                <CustomInput {...register('comentarios')} label="Comentários" colorInputDefault={tenantData.primary_color_identity} colorInputSuccess={tenantData.secondary_color_identity} hasError={!!errors.comentarios}/>
               </ContainerInput>
               <ContainerInput>
                 <HiddenFileInput id="fileInput" type="file" onChange={onFileInputChange}/>
@@ -94,7 +95,7 @@ export function AddStock() {
           </ContextStep>
           <ContainerButton>
             <ButtonVoltar>Cancelar</ButtonVoltar>
-            <ButtonAvançar disabled={!allFieldsFilled}>Salvar</ButtonAvançar>
+            <ButtonAvançar  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} disabled={!allFieldsFilled}>Salvar</ButtonAvançar>
           </ContainerButton>
         </ContextStepContainer>
       </ContainerStep>

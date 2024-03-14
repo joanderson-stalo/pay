@@ -1,7 +1,10 @@
-import { ThemeColor } from "@/config/color";
+
 import styled from "styled-components";
 
-
+interface Color {
+  primary: string;
+  secundary: string;
+}
 
 export const Container = styled.div`
 
@@ -18,8 +21,8 @@ export const ContainerCardVendas = styled.div`
 
 
 
-export const Title = styled.div`
-  color: ${ThemeColor.secundaria};
+export const Title = styled.div<Color>`
+  color: ${(props) => props.secundary};
 font-size: 24px;
 font-weight: 700;
 margin-top: 30px;

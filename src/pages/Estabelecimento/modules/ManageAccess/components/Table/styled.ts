@@ -1,4 +1,4 @@
-import { ThemeColor } from "@/config/color";
+
 import styled from "styled-components";
 
 export const Table = styled.table`
@@ -78,11 +78,14 @@ export const TableRow = styled.tr`
 `;
 
 
+interface Color {
+  primary: string;
+  secundary: string;
+}
 
-
-export const TagYou = styled.span`
+export const TagYou = styled.span<Color>`
   border-radius: 4px;
-background: ${ThemeColor.secundaria};
+background: ${(props) => props.secundary};
 padding: 1px 8px;
 
 color: var(--foundation-brand-02-light, #E6F8FD);

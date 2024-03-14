@@ -1,4 +1,4 @@
-import { ThemeColor } from '@/config/color';
+
 import styled from 'styled-components';
 
 interface ActiveProps {
@@ -142,10 +142,15 @@ export const ButtonPF = styled.button<ActiveProps>`
   letter-spacing: 0.5px;
 `;
 
-export const ButtonAvançar = styled.button`
+interface Color {
+  primary: string;
+  secundary: string;
+}
+
+export const ButtonAvançar = styled.button<Color>`
   width: 109px;
   height: 35px;
-  background: ${ThemeColor.secundaria};;
+  background: ${(props) => props.secundary};
   border: 0.5px solid #0086ed;
   border-radius: 5px;
   font-weight: 500;

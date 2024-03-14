@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ThemeColor } from "@/config/color";
+
 import {
   Agencia,
   Banco,
@@ -20,6 +20,7 @@ import { CustomInput } from "@/components/Input/input";
 import { useFormContext } from 'react-hook-form';
 import { CustomSelect } from "@/components/Select/select";
 import { optionsData } from "../../Step1/option";
+import { useTenantData } from "@/context";
 
 interface InfosProps {
   stepName: string;
@@ -87,7 +88,7 @@ const handleCpfCnpjChange = (event: { target: { value: any; }; }) => {
     }
   }, [setValue, fieldSuffix, isChecked, currentValues]);
 
-
+  const tenantData = useTenantData();
   return (
     <>
       <ContainerStep>
@@ -132,8 +133,8 @@ const handleCpfCnpjChange = (event: { target: { value: any; }; }) => {
                         <CustomInput
                   {...register(`Agência${fieldSuffix}`)}
                     label="Agência"
-                    colorInputDefault={ThemeColor.primaria}
-                    colorInputSuccess={ThemeColor.secundaria}
+                    colorInputDefault={tenantData.primary_color_identity}
+                    colorInputSuccess={tenantData.secondary_color_identity}
                     hasSuccess={false}
                   />
                   </Agencia>
@@ -142,16 +143,16 @@ const handleCpfCnpjChange = (event: { target: { value: any; }; }) => {
                         <CustomInput
                     {...register(`Conta${fieldSuffix}`)}
                     label="Conta"
-                    colorInputDefault={ThemeColor.primaria}
-                    colorInputSuccess={ThemeColor.secundaria}
+                    colorInputDefault={tenantData.primary_color_identity}
+                    colorInputSuccess={tenantData.secondary_color_identity}
                     hasSuccess={false}
                   />
                   </Conta>
                 </ContainerInput>
                 <ContainerInput2>
                     <CustomInput
-                  colorInputDefault={ThemeColor.primaria}
-                  colorInputSuccess={ThemeColor.secundaria}
+                  colorInputDefault={tenantData.primary_color_identity}
+                  colorInputSuccess={tenantData.secondary_color_identity}
                   {...register(`CpfCnpj${fieldSuffix}`)}
                   label="CPF ou CNPJ"
                   placeholder="--.---.---/---.--"

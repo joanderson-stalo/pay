@@ -1,13 +1,13 @@
-export const ThemeColor = {
-  primaria : '#3c0a6d',
-  secundaria: '#02B1F1'
-}
-
-
-export const baseURL = 'https://api-pagueassim.stalopay.com.br/'
 
 
 
+const currentHost = window.location.hostname;
+const segment = currentHost.split('.')[0]; 
+export const baseURL = `https://api-${segment}.stalopay.com.br/`;
+
+
+
+// xport const baseURL = 'https://api-pagueassim.stalopay.com.br/'
 
 // const currentURL = window.location.hostname;
 // const segment = currentURL.split('.')[0];

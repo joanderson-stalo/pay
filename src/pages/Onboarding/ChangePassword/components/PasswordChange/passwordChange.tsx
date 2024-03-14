@@ -18,7 +18,7 @@ import {
 
 import { schema } from './schema';
 
-import { ThemeColor, baseURL } from '@/config/color';
+import {  baseURL } from '@/config/color';
 import { ButtonText, ChangePassword, Placeholder } from '@/config/text';
 
 import { ChangeSuccess } from '../ChangeSuccess/changeSuccess';
@@ -31,6 +31,7 @@ import { StyledP } from '@/components/MessageErrorList/styled';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { Loading } from '@/components/Loading/loading';
+import { useTenantData } from '@/context';
 
 type FormData = {
   password: string;
@@ -89,6 +90,8 @@ export function PasswordChange({ email, token }: Props) {
     }
   };
 
+  const tenantData = useTenantData();
+
   return (
     <>
       {success ? (
@@ -117,8 +120,8 @@ export function PasswordChange({ email, token }: Props) {
               <ContextInput>
                 <InputMask
                   label='Nova Senha'
-                  colorInputDefault={ThemeColor.primaria}
-                  colorInputSuccess={ThemeColor.secundaria}
+                  colorInputDefault={tenantData.primary_color_identity}
+                  colorInputSuccess={tenantData.secondary_color_identity}
                   placeholder={Placeholder.placeholderNova}
                   {...register('password')}
                   hasError={
@@ -151,8 +154,8 @@ export function PasswordChange({ email, token }: Props) {
               <ContextInput>
                 <InputMask
                   label='Repetir Nova Senha'
-                  colorInputDefault={ThemeColor.primaria}
-                  colorInputSuccess={ThemeColor.secundaria}
+                  colorInputDefault={tenantData.primary_color_identity}
+                  colorInputSuccess={tenantData.secondary_color_identity}
                   placeholder={Placeholder.placeholderRepita}
                   {...register('passwordConfirm')}
                   hasError={
@@ -212,7 +215,7 @@ export function PasswordChange({ email, token }: Props) {
             <ContainerSubmit className='containerSubmit'>
               <Button
                 type='submit'
-                colorBackground={ThemeColor.secundaria}
+                colorBackground={tenantData.secondary_color_identity}
                 success={isValid}
                 disabled={isSubmitting}
                 label={isSubmitting ? <ClipLoader size={20} color="#ffffff" /> : ButtonText.salvar}

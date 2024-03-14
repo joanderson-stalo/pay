@@ -1,4 +1,4 @@
-import { ThemeColor } from "@/config/color";
+
 import styled from "styled-components";
 
 
@@ -54,7 +54,7 @@ export const SectionTable = styled.section`
 
 `
 export const ButtonBlack = styled.button<ButtonProps>`
-  color: ${ThemeColor.primaria};
+  color: #3c0a6d;
   font-size: 12px;
   font-style: normal;
   font-weight: 500;

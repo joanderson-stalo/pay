@@ -8,6 +8,7 @@ import masterCard from '@assets/bandeiras/master.svg';
 import { useNavigate } from 'react-router-dom';
 import { useTransactionVendas } from '@/context/useTransaction';
 import { formatCurrencyBR } from '@/utils/convertBRDinheiro';
+import { useTenantData } from '@/context';
 
 export interface Transaction {
   id: string;
@@ -28,6 +29,7 @@ interface CardSalesProps {
 export const CardSales: React.FC<CardSalesProps> = ({ transactions }) => {
   const navigate = useNavigate();
   const { setSelectedTransactionId } = useTransactionVendas();
+  const tenantData = useTenantData();
 
   const handleCardClick = (transactionId: string) => {
     setSelectedTransactionId(transactionId);
@@ -55,7 +57,7 @@ export const CardSales: React.FC<CardSalesProps> = ({ transactions }) => {
         return (
           <S.Card key={transaction.id} onClick={() => handleCardClick(transaction.id)}>
 
-            <S.CardHeader>
+            <S.CardHeader secundary='' primary={tenantData.primary_color_identity}>
 
                 <S.BrandImage src={getBrandImageSrc(transaction.brand)} alt={transaction.brand || 'Pix'} />
 

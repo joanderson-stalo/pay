@@ -9,6 +9,7 @@ import {
   Overlay
 } from './styled'
 import { ThemeImg } from '@/config/img'
+import { useTenantData } from '@/context'
 
 interface IModalSucesso {
   visible: boolean
@@ -33,20 +34,20 @@ export function ModalSucesso({ onClose, visible, text }: IModalSucesso) {
   if (!visible) {
     return null
   }
-
+  const tenantData = useTenantData();
   return (
     <>
       <Overlay>
         <ContainerModal>
-          <BackgroundLogin />
+          <BackgroundLogin  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}/>
           <ContextModal>
             <div>
-              <Image src={ThemeImg.logo} alt="" />
-              <ContainerText>
+              <Image src={tenantData.attachment_logo_colorful} alt="" />
+              <ContainerText  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>
                 <p>{text} <span>com sucesso!</span></p>
               </ContainerText>
             </div>
-            <ButtonModal onClick={() => onClose()}>Concluir</ButtonModal>
+            <ButtonModal  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} onClick={() => onClose()}>Concluir</ButtonModal>
           </ContextModal>
         </ContainerModal>
       </Overlay>

@@ -1,5 +1,11 @@
-import { ThemeColor } from "@/config/color";
+
 import styled from "styled-components";
+
+interface Color {
+  primary: string;
+  secundary: string;
+}
+
 
 export const ContainerCardUserLogged = styled.div`
 width: 100%;
@@ -8,17 +14,17 @@ box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 margin-bottom: 40px;
 `;
 
-export const HeaderUserLogged = styled.div`
+export const HeaderUserLogged = styled.div<Color>`
 display: flex;
 align-items: center;
 justify-content: space-between;
 text-align: center;
-background: ${ThemeColor.primaria};
+background:  ${(props) => props.primary};
 padding: 18px 30px ;
 
 >h4 {
   border-radius: 4px;
-background: ${ThemeColor.secundaria};
+background: ${(props) => props.secundary};
 padding: 4px;
 
 color: var(--foundation-brand-02-light, #E6F8FD);

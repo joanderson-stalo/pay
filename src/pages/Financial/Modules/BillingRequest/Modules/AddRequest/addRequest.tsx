@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from 'react-hook-form';
-import { ThemeColor, baseURL } from "@/config/color";
+import { baseURL } from "@/config/color";
 import { ButtonAvançar, ButtonVoltar, ContainerButton, ContainerForm, ContainerInput, ContainerStep, ContextStep, ContextStepContainer, Line, TitleStep } from "./styled";
 import { CustomInput } from "@/components/Input/input";
 import { LabelCustomInputMask } from "@/components/CustomInputMask";
@@ -8,6 +8,7 @@ import { Loading } from "@/components/Loading/loading";
 import { CustomSelect } from "@/components/Select/select";
 import { useLogin } from "@/context/user.login";
 import axios from "axios";
+import { useTenantData } from "@/context";
 
 export function AddRequest() {
   const { register, formState: { errors }, watch, setValue } = useForm();
@@ -65,6 +66,8 @@ export function AddRequest() {
     fetchDataEC()
   }, []);
 
+  const tenantData = useTenantData();
+
   return (
     <>
       <ContainerStep>
@@ -97,8 +100,8 @@ export function AddRequest() {
                 <CustomInput
                   {...register('descrição')}
                   label="Descrição"
-                  colorInputDefault={ThemeColor.primaria}
-                  colorInputSuccess={ThemeColor.secundaria}
+                  colorInputDefault={tenantData.primary_color_identity}
+                  colorInputSuccess={tenantData.secondary_color_identity}
                   hasError={!!errors.descrição}
                 />
                 <LabelCustomInputMask
@@ -113,8 +116,8 @@ export function AddRequest() {
                 <CustomInput
                   {...register('serial')}
                   label="Serial"
-                  colorInputDefault={ThemeColor.primaria}
-                  colorInputSuccess={ThemeColor.secundaria}
+                  colorInputDefault={tenantData.primary_color_identity}
+                  colorInputSuccess={tenantData.secondary_color_identity}
                   hasError={!!errors.serial}
                 />
                 <CustomSelect
@@ -141,8 +144,8 @@ export function AddRequest() {
                   {...register('data')}
                   label="Data"
                   type="date"
-                  colorInputDefault={ThemeColor.primaria}
-                  colorInputSuccess={ThemeColor.secundaria}
+                  colorInputDefault={tenantData.primary_color_identity}
+                  colorInputSuccess={tenantData.secondary_color_identity}
                   hasError={!!errors.data}
                 />
               </ContainerInput>
@@ -150,7 +153,7 @@ export function AddRequest() {
           </ContextStep>
           <ContainerButton>
             <ButtonVoltar>Cancelar</ButtonVoltar>
-            <ButtonAvançar disabled={!allFieldsFilled}>Criar solicitação</ButtonAvançar>
+            <ButtonAvançar  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} disabled={!allFieldsFilled}>Criar solicitação</ButtonAvançar>
           </ContainerButton>
         </ContextStepContainer>
       </ContainerStep>

@@ -1,5 +1,9 @@
-import { ThemeColor } from '@/config/color';
 import styled from 'styled-components';
+
+interface Color {
+  primary: string | undefined
+  secundary:string | undefined
+}
 
 
 type CardStatusProps = {
@@ -17,12 +21,12 @@ box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 `;
 
 
-export const CardHeader = styled.div`
+export const CardHeader = styled.div<Color>`
 display: flex;
 align-items: center;
 justify-content: space-between;
 padding: 12px 20px;
-background: ${ThemeColor.primaria};
+background: ${(props) => props.primary};
 
 
 

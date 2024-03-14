@@ -1,4 +1,4 @@
-import { ThemeColor } from "@/config/color";
+
 import styled from "styled-components";
 
 
@@ -9,8 +9,14 @@ export const ContainerManageAccessLicensed = styled.div`
 
 `
 
-export const ButtonBlack = styled.button`
-  color: ${ThemeColor.primaria};
+interface Color {
+  primary: string;
+  secundary: string;
+}
+
+
+export const ButtonBlack = styled.button<Color>`
+  color: ${(props) => props.primary};
 font-size: 12px;
 font-style: normal;
 font-weight: 500;

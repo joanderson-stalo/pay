@@ -1,5 +1,9 @@
-import { ThemeColor } from '@/config/color';
 import styled from 'styled-components';
+
+interface Color {
+  primary: string;
+  secundary: string;
+}
 
 export const CardWrapper = styled.div`
   width: 100%;
@@ -48,9 +52,9 @@ export const TextValue = styled.span`
   color: #6C757D;
 `;
 
-export const ActiveTextValue = styled.span`
+export const ActiveTextValue = styled.span<Color>`
   font-size: 11px;
-  color: ${ThemeColor.primaria};
+  color: ${(props) => props.primary};
   font-weight: 600;
 `;
 
@@ -60,8 +64,8 @@ export const TextTitle = styled.span`
   color: #8A8A8A;
 `;
 
-export const ActiveTextTitle = styled.span`
+export const ActiveTextTitle = styled.span<Color>`
   font-size: 11px;
   font-weight: 600;
-  color: ${ThemeColor.secundaria};
+  color: ${(props) => props.secundary};
 `;

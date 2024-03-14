@@ -2,7 +2,7 @@ import React from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, ChartData, ChartOptions, TooltipItem } from 'chart.js/auto';
 import { ContainerGrafico } from './styled';
-import { ThemeColor } from '@/config/color';
+import { useTenantData } from '@/context';
 
 interface CustomChartOptions extends ChartOptions<'doughnut'> {
   centerText?: string;
@@ -58,6 +58,7 @@ interface AppProps {
 
 export function GraficoCicle({ debit, credit, pix, total }: AppProps) {
   const totalFloat = parseFloat(total);
+  const tenantData = useTenantData();
   const totalStr = totalFloat.toLocaleString('pt-BR', {
     style: 'currency',
     currency: 'BRL',
@@ -72,8 +73,8 @@ export function GraficoCicle({ debit, credit, pix, total }: AppProps) {
           parseFloat(credit.replace('.', '').replace(',', '.')),
           parseFloat(pix.replace('.', '').replace(',', '.'))
         ],
-        backgroundColor: [ThemeColor.primaria, ThemeColor.secundaria, '#045469'],
-        borderColor: [ThemeColor.primaria, ThemeColor.secundaria, '#045469'],
+        backgroundColor: [tenantData.primary_color_identity, tenantData.secondary_color_identity, '#045469'],
+        borderColor: [tenantData.primary_color_identity, tenantData.secondary_color_identity, '#045469'],
         borderWidth: 1,
         borderRadius: 100,
         spacing: 2,
@@ -113,10 +114,10 @@ export function GraficoCicle({ debit, credit, pix, total }: AppProps) {
         const hoveredColor = Array.isArray(data.datasets[0].backgroundColor)
           ? data.datasets[0].backgroundColor[hoveredElementIndex]
           : data.datasets[0].backgroundColor;
-        if (hoveredColor === ThemeColor.primaria) {
+        if (hoveredColor === tenantData.primary_color_identity) {
           customOptions.centerText = "TPV DÉBITO";
           customOptions.centerValue = "R$ " + parseFloat(debit).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
-        } else if (hoveredColor === ThemeColor.secundaria) {
+        } else if (hoveredColor === tenantData.secondary_color_identity) {
           customOptions.centerText = "TPV CRÉDITO";
           customOptions.centerValue = "R$ " + parseFloat(credit).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
         } else if (hoveredColor === '#045469') {

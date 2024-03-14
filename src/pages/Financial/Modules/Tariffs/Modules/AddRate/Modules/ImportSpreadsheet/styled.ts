@@ -1,6 +1,11 @@
 import styled from "styled-components";
-import { ThemeColor } from "@/config/color";
+
 import { UploadSimple } from "@phosphor-icons/react";
+
+interface Color {
+  primary: string;
+  secundary: string;
+}
 
 export const Container = styled.div`
   display: flex;
@@ -59,10 +64,10 @@ export const Separator = styled.div`
   margin-top: 15px;
 `;
 
-export const NextButton = styled.button`
+export const NextButton = styled.button<Color>`
   padding: 0px 24px;
   height: 35px;
-  background: ${ThemeColor.secundaria};
+  background: ${(props) => props.secundary};
   border: 0.5px solid #0086ed;
   border-radius: 5px;
   font-weight: 500;

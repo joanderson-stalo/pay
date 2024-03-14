@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useForm, SubmitHandler, FieldValues } from 'react-hook-form';
-import { ThemeColor, baseURL } from "@/config/color";
+import { baseURL } from "@/config/color";
 import { ButtonAvançar, ButtonVoltar, ContainerButton, ContainerForm, ContainerInput, ContainerStep, ContextStep, ContextStepContainer, Line, TitleStep } from "./styled";
 import { CustomInput } from "@/components/Input/input";
 import { Loading } from "@/components/Loading/loading";
@@ -13,6 +13,7 @@ import { TranslateErrorMessage } from "@/utils/translateErrorMessage";
 import Swal from 'sweetalert2';
 import { useNavigate } from "react-router-dom";
 import { useTariff } from "@/context/useTariff";
+import { useTenantData } from "@/context";
 
 interface FormData {
   tipo: string;
@@ -205,7 +206,7 @@ export function EditRate() {
   const estabelecimentoValue = watch('estabelecimento') as string | undefined;
   
   const licenciadoValue = watch('licenciadoAutorizado') as string | undefined;
-
+  const tenantData = useTenantData();
   return (
     <>
       {loading && <Loading />}
@@ -243,14 +244,14 @@ export function EditRate() {
                 <CustomInput 
                   label='Serial Terminal'
                   {...register('serialTerminal')}
-                  colorInputDefault={ThemeColor.primaria}
-                  colorInputSuccess={ThemeColor.secundaria}
+                  colorInputDefault={tenantData.primary_color_identity}
+                  colorInputSuccess={tenantData.secondary_color_identity}
                 />
                 <CustomInput 
                   label='Tipo'
                   {...register('tipo')}
-                  colorInputDefault={ThemeColor.primaria}
-                  colorInputSuccess={ThemeColor.secundaria}
+                  colorInputDefault={tenantData.primary_color_identity}
+                  colorInputSuccess={tenantData.secondary_color_identity}
                 />
               </ContainerInput>
 
@@ -260,14 +261,14 @@ export function EditRate() {
                   placeholder="R$"
                   type="number"
                   {...register('valor')}
-                  colorInputDefault={ThemeColor.primaria}
-                  colorInputSuccess={ThemeColor.secundaria}
+                  colorInputDefault={tenantData.primary_color_identity}
+                  colorInputSuccess={tenantData.secondary_color_identity}
                 />
                 <CustomInput 
                   label='Observação'
                   {...register('observação')}
-                  colorInputDefault={ThemeColor.primaria}
-                  colorInputSuccess={ThemeColor.secundaria}
+                  colorInputDefault={tenantData.primary_color_identity}
+                  colorInputSuccess={tenantData.secondary_color_identity}
                 />
               </ContainerInput>
 
@@ -276,22 +277,22 @@ export function EditRate() {
                   label='Data Referência'
                   {...register('dataReferência')}
                   type="date"
-                  colorInputDefault={ThemeColor.primaria}
-                  colorInputSuccess={ThemeColor.secundaria}
+                  colorInputDefault={tenantData.primary_color_identity}
+                  colorInputSuccess={tenantData.secondary_color_identity}
                 />
                 <CustomInput 
                   label='Data Cobrança'
                   {...register('dataCobrança')}
                   type="date"
-                  colorInputDefault={ThemeColor.primaria}
-                  colorInputSuccess={ThemeColor.secundaria}
+                  colorInputDefault={tenantData.primary_color_identity}
+                  colorInputSuccess={tenantData.secondary_color_identity}
                 />
               </ContainerInput>
             </ContainerForm>
           </ContextStep>
           <ContainerButton>
             <ButtonVoltar type="button" onClick={handleCancel }>Cancelar</ButtonVoltar>
-            <ButtonAvançar type="submit" disabled={!allFieldsFilled} >Salvar</ButtonAvançar>
+            <ButtonAvançar  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} type="submit" disabled={!allFieldsFilled} >Salvar</ButtonAvançar>
           </ContainerButton>
         </ContextStepContainer>
         </form>

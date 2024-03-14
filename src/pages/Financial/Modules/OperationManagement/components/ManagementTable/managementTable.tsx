@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import * as S from './styled';
 import { Transaction } from './interface';
 import { formatCurrencyBR } from '@/utils/convertBRDinheiro';
+import { useTenantData } from '@/context';
 
 type SortField = 'QtdTransações' | 'TPV' | 'Comissão' | 'Lucro' | 'Tarifas';
 
@@ -12,6 +13,7 @@ interface TabelaProps {
 export function ManagementTable({ rows }: TabelaProps) {
   const [sortField, setSortField] = useState<SortField>('QtdTransações');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+  const tenantData = useTenantData();
 
   const handleSort = (field: SortField) => {
     if (field === sortField) {
@@ -73,7 +75,7 @@ export function ManagementTable({ rows }: TabelaProps) {
             <S.TableData>{transaction.QtdTransações}</S.TableData>
             <S.TableData>{formatCurrencyBR(parseFloat(transaction.TPV))}</S.TableData>
             <S.TableData>{formatCurrencyBR(parseFloat(transaction.Comissão))}</S.TableData>
-            <S.TableDataLucro>{formatCurrencyBR(parseFloat(transaction.Lucro))}</S.TableDataLucro>
+            <S.TableDataLucro  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>{formatCurrencyBR(parseFloat(transaction.Lucro))}</S.TableDataLucro>
             <S.TableData>{formatCurrencyBR(parseFloat(transaction.Tarifas))}</S.TableData>
           </tr>
         ))}

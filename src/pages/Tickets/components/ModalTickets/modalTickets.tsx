@@ -7,7 +7,8 @@ import { CustomSelect } from '@/components/Select/select';
 import { useLogin } from '@/context/user.login';
 import { useFilterLicensed } from '../../hooks/useFilterLicensed';
 import axios from 'axios';
-import { ThemeColor, baseURL } from '@/config/color';
+import { baseURL } from '@/config/color';
+import { useTenantData } from '@/context';
 
 interface IModalSucesso {
   visible: boolean;
@@ -69,11 +70,11 @@ export function ModalTickets({ onClose, visible }: IModalSucesso) {
   }, [onClose]);
 
   if (!visible) return null;
-
+  const tenantData = useTenantData();
   return (
     <S.Overlay>
       <S.ContainerModal>
-        <S.ContainerTitle>
+        <S.ContainerTitle  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>
           <p>Adicionar Filtros</p>
           <span>Preencha os campos que deseja filtrar</span>
         </S.ContainerTitle>
@@ -84,8 +85,8 @@ export function ModalTickets({ onClose, visible }: IModalSucesso) {
               label='Data Inicial'
               {...register("dataInicial")}
               defaultValue={searchParams.get("dataInicial") || ""}
-              colorInputDefault={ThemeColor.primaria}
-              colorInputSuccess={ThemeColor.secundaria}
+              colorInputDefault={tenantData.primary_color_identity}
+              colorInputSuccess={tenantData.secondary_color_identity}
               hasError={!!errors.dataInicial}
               type='date'
             />
@@ -94,8 +95,8 @@ export function ModalTickets({ onClose, visible }: IModalSucesso) {
               label='Data Final'
               {...register("dataFinal")}
               defaultValue={searchParams.get("dataFinal") || ""}
-              colorInputDefault={ThemeColor.primaria}
-              colorInputSuccess={ThemeColor.secundaria}
+              colorInputDefault={tenantData.primary_color_identity}
+              colorInputSuccess={tenantData.secondary_color_identity}
               hasError={!!errors.dataFinal}
               type='date'
             />
@@ -125,7 +126,7 @@ export function ModalTickets({ onClose, visible }: IModalSucesso) {
 
           <S.ContextButton>
             <S.ButtonCancelar onClick={onClose}>Cancelar</S.ButtonCancelar>
-            <S.ButtonSalvar type='submit'>Salvar</S.ButtonSalvar>
+            <S.ButtonSalvar  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} type='submit'>Salvar</S.ButtonSalvar>
           </S.ContextButton>
         </form>
       </S.ContainerModal>

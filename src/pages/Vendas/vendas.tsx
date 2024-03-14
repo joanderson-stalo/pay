@@ -8,8 +8,6 @@ import { ItensPorPage } from '@/components/ItensPorPage/itensPorPage';
 import { Pagination } from '@/components/Pagination/pagination';
 import { Transaction } from './components/table/interface';
 import { Loading } from '@/components/Loading/loading';
-import { formatCurrencyBR } from '@/utils/convertBRDinheiro';
-import { formatTaxa } from '@/utils/formatTaxa';
 import axios from 'axios';
 import { baseURL } from '@/config/color';
 import debounce from 'lodash/debounce';

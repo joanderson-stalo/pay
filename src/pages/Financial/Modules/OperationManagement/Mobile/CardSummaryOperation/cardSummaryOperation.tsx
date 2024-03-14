@@ -1,3 +1,4 @@
+import { useTenantData } from '@/context';
 import * as S from './styled';
 
 interface Transaction {
@@ -18,13 +19,14 @@ interface CardSummaryOperationProps {
 }
 
 export function CardSummaryOperation({ transactions }: CardSummaryOperationProps) {
+  const tenantData = useTenantData();
   return (
    <>
  
       {transactions.map((transaction) => (
  
      <>   <S.CardWrapper key={transaction.id}>
-           <S.CardHeader >
+           <S.CardHeader   primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>
             <S.HeaderTitle>{transaction.Licenciado}</S.HeaderTitle>
             <S.HeaderCNPJ>{transaction.Documento}</S.HeaderCNPJ>
           </S.CardHeader>

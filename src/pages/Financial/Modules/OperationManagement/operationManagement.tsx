@@ -22,6 +22,7 @@ import { CardOperationSummary } from './Mobile/CardOperationSummary/cardOperatio
 import { CardSummaryOperation } from './Mobile/CardSummaryOperation/cardSummaryOperation';
 import { TitleH } from '@/components/Title/title';
 import { baseURL } from '@/config/color';
+import { useTenantData } from '@/context';
 
 
 const schema = Yup.object().shape({
@@ -40,7 +41,7 @@ export function OperationManagement() {
   const { register, handleSubmit, setValue, formState: { errors } } = useForm<FormValues>({
     resolver: yupResolver(schema)
   });
-
+  const tenantData = useTenantData();
   const { dataUser } = useLogin();
   const [fetchedOptions, setFetchedOptions] = useState([]);
 
@@ -129,8 +130,8 @@ export function OperationManagement() {
             hasError={errors.anoReferencia ? true : false}
             placeholder='Ano'
           />
-          <ConsultarBtn type="submit">Consultar</ConsultarBtn>
-          <ExportarBtn type="button" onClick={handleExport}>Exportar Dados</ExportarBtn>
+          <ConsultarBtn  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} type="submit">Consultar</ConsultarBtn>
+          <ExportarBtn  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} type="button" onClick={handleExport}>Exportar Dados</ExportarBtn>
         </ContainerSelect>
 
         <ContainerCards>

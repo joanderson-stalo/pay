@@ -1,3 +1,4 @@
+import { useTenantData } from "@/context";
 import { BtnAdvanceContainer } from "./styled";
 
 interface BtnAdvanceProps {
@@ -6,8 +7,10 @@ interface BtnAdvanceProps {
 }
 
 export function BtnAdvance({onClick, title}: BtnAdvanceProps){
+  const tenantData = useTenantData();
+
   return(
-    <BtnAdvanceContainer onClick={onClick}>
+    <BtnAdvanceContainer primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} onClick={onClick}>
       {title}
     </BtnAdvanceContainer>
   )

@@ -4,6 +4,7 @@ import elo from '@assets/bandeiras/elo.svg';
 import maestro from '@assets/bandeiras/maestro.svg';
 import visa from '@assets/bandeiras/visa.svg';
 import masterCard from '@assets/bandeiras/master.svg';
+import { useTenantData } from '@/context';
 
 interface CardDetalhesProps {
   id: number | undefined;
@@ -42,6 +43,9 @@ export function CardDetalhes({
   captured_in_time,
   id,
 }: CardDetalhesProps) {
+
+  const tenantData = useTenantData();
+
   return (
     <S.ContainerCardDetalhes>
       <S.ContextCard>
@@ -59,7 +63,7 @@ export function CardDetalhes({
       </S.ContextCard>
 
       <S.DetalheInfo>
-        <S.InfoOne>
+        <S.InfoOne primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} >
           <div>
             <h2>Estabelecimento</h2>
             <span>{seller_company_name}</span>
@@ -75,7 +79,7 @@ export function CardDetalhes({
 
         </S.InfoOne>
 
-        <S.InfoTw>
+        <S.InfoTw  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>
           <div>
             <h2>Forma de pagamento</h2>
             <span>
@@ -95,8 +99,8 @@ export function CardDetalhes({
 
         </S.InfoTw>
 
-        <S.InfoTre>
-          <S.Taxas>
+        <S.InfoTre  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>
+          <S.Taxas  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>
             <h2>Taxas</h2>
             <span>{tax_applied}%</span>
           </S.Taxas>
@@ -109,7 +113,7 @@ export function CardDetalhes({
             <span>{nsu_internal}</span>
           </div>
         </S.InfoTre>
-        <S.InfoTre>
+        <S.InfoTre  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>
 
           <div>
           <h2>Titular</h2>

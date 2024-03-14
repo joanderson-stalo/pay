@@ -1,5 +1,6 @@
 import { formatCurrencyBR } from '@/utils/convertBRDinheiro';
 import * as S from './styled';
+import { useTenantData } from '@/context';
 
 export interface Totals {
   meta: string;
@@ -10,10 +11,11 @@ export interface Totals {
 
 export function OperationTotalCard(totals: Totals) {
   const { comissao, gap, meta, tpv } = totals;
+  const tenantData = useTenantData();
 
   return (
-    <S.CardWrapper>
-      <S.CardHeader>
+    <S.CardWrapper >
+      <S.CardHeader  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>
         <S.SupplierId>Total</S.SupplierId>
       </S.CardHeader>
 
@@ -37,9 +39,10 @@ export function OperationTotalCard(totals: Totals) {
           </S.TextGroup>
 
           <S.TextGroup>
-            <S.ActiveTextTitle>Comissão:</S.ActiveTextTitle>
-            <S.ActiveTextValue>{formatCurrencyBR(parseFloat(comissao))}</S.ActiveTextValue>
-          </S.TextGroup>
+            <S.ActiveTextTitle  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} >Comissão:</S.ActiveTextTitle>
+            <S.ActiveTextValue  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}
+>{formatCurrencyBR(parseFloat(comissao))}</S.ActiveTextValue>
+          </S.TextGroup >
         </S.ContentSide>
       </S.MainContent>
     </S.CardWrapper>

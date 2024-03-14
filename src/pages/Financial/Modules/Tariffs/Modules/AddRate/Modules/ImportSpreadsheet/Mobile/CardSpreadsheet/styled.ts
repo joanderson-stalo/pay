@@ -1,5 +1,10 @@
-import { ThemeColor } from "@/config/color";
+
 import styled from "styled-components";
+
+interface Color {
+  primary: string;
+  secundary: string;
+}
 
 export const SpreadsheetWrapper = styled.ul`
   border: 0.785px solid #DFDFDF;
@@ -10,10 +15,10 @@ export const SpreadsheetItem = styled.li`
   border-bottom: 0.785px solid #DFDFDF;
 `;
 
-export const LabelBox = styled.div`
+export const LabelBox = styled.div<Color>`
   width: 60px;
   flex-shrink: 0;
-  background: ${ThemeColor.primaria};
+  background:  ${(props) => props.primary};
   display: flex;
   align-items: center;
   justify-content: center;

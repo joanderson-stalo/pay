@@ -9,6 +9,7 @@ import {
   Overlay
 } from './styled'
 import { ThemeImg } from '@/config/img'
+import { useTenantData } from '@/context'
 
 interface IModalSucesso {
   visible: boolean
@@ -33,15 +34,17 @@ export function Modal({ onClose, visible }: IModalSucesso) {
     return null
   }
 
+  const tenantData = useTenantData();
+
   return (
     <>
       <Overlay>
         <ContainerModal>
-          <BackgroundLogin />
+          <BackgroundLogin primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} />
           <ContextModal>
             <div>
-              <Image src={ThemeImg.logo} alt="" />
-              <ContainerText>
+              <Image src={tenantData.attachment_logo_colorful} alt="" />
+              <ContainerText  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>
                 <p>Usuário
             cadastrado!</p>
             <span>Um e-mail de criação de
@@ -50,7 +53,7 @@ o novo usuário.</span>
               </ContainerText>
 
             </div>
-            <ButtonModal onClick={() => onClose()}>Concluir</ButtonModal>
+            <ButtonModal  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} onClick={() => onClose()}>Concluir</ButtonModal>
           </ContextModal>
         </ContainerModal>
       </Overlay>

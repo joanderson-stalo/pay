@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import * as S from './styled';
 import profile from '@assets/icons/perfil.svg';
+import { useTenantData } from '@/context';
 
 interface CustomTableProps {
     data: {
@@ -16,10 +17,12 @@ interface CustomTableProps {
 
 export function CustomTableUserList({ data, handlePasswordRetrieve, handleRemove }: CustomTableProps) {
     const navigate = useNavigate();
+    const tenantData = useTenantData();
 
     const handleEditClick = (id: number): void => {
         navigate(`/user/edit/${id}`);
     }
+
 
     return (
         <S.Table>
@@ -39,7 +42,7 @@ export function CustomTableUserList({ data, handlePasswordRetrieve, handleRemove
                         <S.TableData><S.StyledImage src={item.document_id && item.document_id.includes('contabostorage') ? item.document_id : profile} alt="Profile" /></S.TableData>
                         <S.TableData >
     {item.name}
-    {index === 0 && <> <S.TagYou>você</S.TagYou></>}
+    {index === 0 && <> <S.TagYou  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>você</S.TagYou></>}
 </S.TableData>
                         <S.TableData>{item.profile_id}</S.TableData>
                         <S.TableData>{item.email}</S.TableData>

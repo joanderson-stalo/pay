@@ -1,5 +1,10 @@
-import { ThemeColor } from "@/config/color";
+
 import styled from "styled-components";
+
+interface Color {
+  primary: string;
+  secundary: string;
+}
 
 export const LoadingContainer = styled.div`
   position: fixed;
@@ -7,7 +12,7 @@ export const LoadingContainer = styled.div`
   left: 0;
   height: 100vh;
   width: 100vw;
-  background: ${ThemeColor.primaria};
+  background:  #3c0a6d;
   display: flex;
   align-items: center;
   justify-content: center;

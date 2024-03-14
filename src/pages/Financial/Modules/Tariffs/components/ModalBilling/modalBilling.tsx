@@ -5,9 +5,10 @@ import { CustomSelect } from '@/components/Select/select';
 import { useLogin } from '@/context/user.login';
 import axios from 'axios';
 import { CustomInput } from '@/components/Input/input';
-import { ThemeColor, baseURL } from '@/config/color';
+import {  baseURL } from '@/config/color';
 import { useFilterBilling } from '../../hooks/useFilterBilling';
 import { Loading } from '@/components/Loading/loading';
+import { useTenantData } from '@/context';
 
 interface IModalSucesso {
   visible: boolean;
@@ -128,11 +129,13 @@ export function ModalBilling({ onClose, visible }: IModalSucesso) {
     return <Loading />;
   }
 
+  const tenantData = useTenantData();
+
   return (
     <>
       <S.Overlay>
         <S.ContainerModal>
-          <S.ContainerTitle>
+          <S.ContainerTitle  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>
             <p>Adicionar Filtros</p>
             <span>Preencha os campos que deseja filtrar</span>
           </S.ContainerTitle>
@@ -142,15 +145,15 @@ export function ModalBilling({ onClose, visible }: IModalSucesso) {
               <CustomInput 
                 label='Data Inicial'
                 {...register("billing_start_date")}
-                colorInputDefault={ThemeColor.primaria}
-                colorInputSuccess={ThemeColor.secundaria}
+                colorInputDefault={tenantData.primary_color_identity}
+                colorInputSuccess={tenantData.secondary_color_identity}
                 hasError={!!errors.billing_start_date}
                 type='date' />
               <CustomInput 
                 label='Data Final'
                 {...register("billing_end_date")}
-                colorInputDefault={ThemeColor.primaria}
-                colorInputSuccess={ThemeColor.secundaria}
+                colorInputDefault={tenantData.primary_color_identity}
+                colorInputSuccess={tenantData.secondary_color_identity}
                 hasError={!!errors.billing_end_date}
                 type='date' />
             </S.ContainerSelect>
@@ -178,7 +181,7 @@ export function ModalBilling({ onClose, visible }: IModalSucesso) {
 
             <S.ContextButton>
               <S.ButtonCancelar onClick={onClose}>Cancelar</S.ButtonCancelar>
-              <S.ButtonSalvar type='submit'>Salvar</S.ButtonSalvar>
+              <S.ButtonSalvar  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} type='submit'>Salvar</S.ButtonSalvar>
             </S.ContextButton>
           </form>
         </S.ContainerModal>

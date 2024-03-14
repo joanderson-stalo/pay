@@ -1,5 +1,6 @@
 import { formatCurrencyBR } from '@/utils/convertBRDinheiro';
 import * as S from './styled';
+import { useTenantData } from '@/context';
 
 export interface StatementData {
   [date: string]: {
@@ -11,6 +12,8 @@ export interface StatementData {
 }
 
 export function ExtractCardMobile({ data }: { data: StatementData }) {
+  const tenantData = useTenantData();
+
   return (
     <>
       {Object.entries(data).map(([date, statements]) => (
@@ -36,7 +39,8 @@ export function ExtractCardMobile({ data }: { data: StatementData }) {
                 </S.DetailColumn>
 
                 <S.DetailColumnBtn>
-                  <S.EditButton>Visualizar</S.EditButton>
+                  <S.EditButton  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}
+>Visualizar</S.EditButton>
                 </S.DetailColumnBtn>
               </S.CardContent>
             </div>

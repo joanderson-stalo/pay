@@ -1,5 +1,12 @@
-import { ThemeColor } from '@/config/color';
+
+
 import styled from 'styled-components';
+
+interface Color {
+    primary: string;
+    secundary: string;
+  }
+
 
 export const Container = styled.div`
     display: flex;
@@ -12,14 +19,14 @@ export const Container = styled.div`
     @media (max-width: 600px) { font-size: 12px; }
 `;
 
-export const Header = styled.div`
+export const Header = styled.div<Color>`
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
     padding: 12px 11px;
     border-radius: 12px 12px 0 0px;
-    background: ${ThemeColor.primaria};
+    background: ${(props) => props.primary};
 
     > h2 {
         color: var(--foundation-white-light, #FDFDFD);

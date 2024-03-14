@@ -1,10 +1,12 @@
 import * as S from './styled';
 import { dadosHistorico } from './dados';
+import { useTenantData } from '@/context';
 
 export function HistoricoTable(){
+  const tenantData = useTenantData();
   return (
     <S.HistoricoContainer>
-      <S.HistoricoHeader>Histórico de Ações</S.HistoricoHeader>
+      <S.HistoricoHeader  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>Histórico de Ações</S.HistoricoHeader>
       <S.HistoricoTable>
         <thead>
           <tr>

@@ -1,10 +1,15 @@
-import { ThemeColor } from '@/config/color';
 import { List, X} from '@phosphor-icons/react';  
 import styled from "styled-components";
 
-export const ContainerMobileHeader = styled.header`
+interface Color {
+  primary: string;
+  secundary: string;
+}
+
+
+export const ContainerMobileHeader = styled.header<Color>`
   display: none;
-  background: ${ThemeColor.primaria};
+  background:  ${(props) => props.primary};
   padding: 12px 26px;
   justify-content: space-between; 
   align-items: center; 

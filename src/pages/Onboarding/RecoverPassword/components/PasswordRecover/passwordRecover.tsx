@@ -17,7 +17,7 @@ import {
 
 import { schema } from './schema';
 
-import { ThemeColor, baseURL } from '@/config/color';
+import {  baseURL } from '@/config/color';
 import { ButtonText, Placeholder, RecoverPassword } from '@/config/text';
 
 import { Button } from '@/components/Button/button';
@@ -29,6 +29,7 @@ import { MessageError } from '@/components/MessageError/messageError';
 import { BeatLoader } from 'react-spinners';
 import { toast } from 'react-toastify';
 import { Loading } from '@/components/Loading/loading';
+import { useTenantData } from '@/context';
 
 type FormData = {
   email: string;
@@ -78,6 +79,8 @@ export function PasswordRecover() {
     setIsEmailValid(emailValue !== '' && Yup.string().trim().email().isValidSync(emailValue));
   };
 
+  const tenantData = useTenantData();
+
   return (
     <>
       {success ? (
@@ -105,8 +108,8 @@ export function PasswordRecover() {
                 <ContextInput>
                   <CustomInput
                     label='E-mail'
-                    colorInputDefault={ThemeColor.primaria}
-                    colorInputSuccess={ThemeColor.secundaria}
+                    colorInputDefault={tenantData.primary_color_identity}
+                    colorInputSuccess={tenantData.secondary_color_identity}
                     placeholder={Placeholder.placeholderEmail}
                     {...register('email')}
                     hasError={!!errors.email}
@@ -121,7 +124,7 @@ export function PasswordRecover() {
               <ContainerSubmit className='containerSubmit'>
                 <Button
                   type="submit"
-                  colorBackground={ThemeColor.secundaria}
+                  colorBackground={tenantData.secondary_color_identity}
                   success={isEmailValid && !isSubmitting}
                   disabled={isSubmitting}
                   label={isSubmitting ? <BeatLoader size={10} color="#ffffff" /> : ButtonText.enviar}

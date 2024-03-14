@@ -1,9 +1,12 @@
-import { ThemeColor } from '@/config/color';
-import React from 'react';
+
+import { useTenantData } from '@/context';
 import styled from 'styled-components';
+
+
 
 interface MonthlyIndicatorProps {
   label?: string;
+  primary?: string;
 }
 
 const Container = styled.div`
@@ -15,7 +18,7 @@ const Bar = styled.div<MonthlyIndicatorProps>`
   width: 61px;
   height: 4px;
   border-radius: 10px;
-  background: ${props => (props.label && props.label !== "Mês atual") ? "#B2EAF8" : `${ThemeColor.primaria};`};
+  background: ${props => (props.label && props.label !== "Mês atual") ? "#B2EAF8" : props.primary};
   margin-right: 10px;
 `;
 
@@ -31,9 +34,10 @@ const Label = styled.span`
 
 export const Indicator = (props: MonthlyIndicatorProps) => {
   const { label = "Mês atual" } = props;
+  const tenantData = useTenantData();
   return (
-    <Container>
-      <Bar label={label} />
+    <Container >
+      <Bar primary={tenantData.primary_color_identity} label={label} />
       <Label>{label}</Label>
     </Container>
   );

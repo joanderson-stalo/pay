@@ -1,4 +1,4 @@
-import { ThemeColor } from "@/config/color";
+
 import styled from "styled-components";
 
 export const UsefulLinkCardContainer = styled.div`
@@ -8,17 +8,22 @@ export const UsefulLinkCardContainer = styled.div`
   flex-wrap: wrap;
 `;
 
-export const IconSquare = styled.span`
+interface Color {
+  primary: string;
+  secundary: string;
+}
+
+export const IconSquare = styled.span<Color>`
   display: inline-block;
   width: 12px;
   height: 12px;
   border-radius: 2px;
-  background: ${ThemeColor.primaria};
+  background:  ${(props) => props.primary};
   margin-top: 8px;
 `;
 
-export const LinkTitle = styled.h3`
-  color: ${ThemeColor.primaria};
+export const LinkTitle = styled.h3<Color>`
+  color:  ${(props) => props.primary};
   font-size: 20px;
   font-weight: 700;
   line-height: normal;

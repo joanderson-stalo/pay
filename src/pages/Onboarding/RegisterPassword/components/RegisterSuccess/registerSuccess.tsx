@@ -4,12 +4,14 @@ import { useNavigate } from 'react-router-dom'
 
 import { ContainerRecover, ContextTitle } from './styled'
 
-import { ThemeColor } from '@/config/color'
+
 import { ButtonText, RegisterPasswordSuccess } from '@/config/text'
 import { ContainerSubmit } from '@/styles/default'
+import { useTenantData } from '@/context'
 
 export function RegisterSuccess() {
   const navigate = useNavigate()
+  const tenantData = useTenantData();
 
   const handleLogin = () => {
     navigate('/')
@@ -17,7 +19,7 @@ export function RegisterSuccess() {
 
   return (
     <ContainerRecover>
-      <ContextTitle colorTitle={ThemeColor.secundaria}>
+      <ContextTitle colorTitle={tenantData.secondary_color_identity}>
         <h2>{RegisterPasswordSuccess.senha}</h2>
         <p>{RegisterPasswordSuccess.text}</p>
       </ContextTitle>
@@ -25,7 +27,7 @@ export function RegisterSuccess() {
       <Button
         type="button"
         onClick={handleLogin}
-        colorBackground={ThemeColor.secundaria}
+        colorBackground={tenantData.secondary_color_identity}
         success={true}
         label={ButtonText.irLogin}
       />

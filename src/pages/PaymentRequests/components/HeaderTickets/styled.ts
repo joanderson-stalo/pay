@@ -1,5 +1,10 @@
-  import { ThemeColor } from '@/config/color';
 import styled from 'styled-components';
+
+interface Color {
+  primary: string;
+  secundary: string;
+}
+
 
   export const Container = styled.div`
     display: flex;
@@ -15,7 +20,7 @@ import styled from 'styled-components';
     justify-content: space-between;
   `;
 
-  export const Button = styled.button`
+  export const Button = styled.button<Color>`
     display: flex;
 
     height: 35px;
@@ -24,7 +29,7 @@ import styled from 'styled-components';
     align-items: center;
     border-radius: 5px;
     border: 0.5px solid #0086ED;
-    background: ${ThemeColor.secundaria};
+    background: ${(props) => props.secundary};
     color: #FFF;
     font-size: 12px;
     font-weight: 500;
@@ -32,8 +37,8 @@ import styled from 'styled-components';
     letter-spacing: 0.5px;
   `;
 
-  export const Title = styled.h2`
-    color: ${ThemeColor.secundaria};
+  export const Title = styled.h2<Color>`
+    color: ${(props) => props.secundary};
     font-size: 24px;
     font-weight: 700;
     line-height: normal;

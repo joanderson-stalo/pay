@@ -1,21 +1,23 @@
 import { Line } from 'react-chartjs-2';
 import { ChartOptions } from 'chart.js/auto';
-import { ThemeColor } from '@/config/color';
+import { useTenantData } from '@/context';
+
 
 export function CustomChart({ dataMesAtual, dataMesSelecionado }: { dataMesAtual: number[]; dataMesSelecionado: number[] }) {
+    const tenantData = useTenantData();
     const data = {
         labels: Array.from({ length: 30 }, (_, i) => i + 1),
         datasets: [
             {
                 label: 'Mês Atual',
                 data: dataMesAtual,
-                backgroundColor: `${ThemeColor.primaria}`,
-                borderColor: `${ThemeColor.primaria}`,
+                backgroundColor: `${tenantData.primary_color_identity}`,
+                borderColor: `${tenantData.primary_color_identity}`,
                 borderWidth: 2,
                 tension: 0.4,
                 pointRadius: 5,
                 pointHoverRadius: 7,
-                pointBackgroundColor: `${ThemeColor.primaria}`,
+                pointBackgroundColor: `${tenantData.primary_color_identity}`,
             },
             {
                 label: 'Mês Selecionado',

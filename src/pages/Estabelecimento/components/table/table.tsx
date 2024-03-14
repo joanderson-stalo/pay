@@ -3,6 +3,7 @@ import * as S from './styled';
 import { useNavigate } from 'react-router-dom';
 import { maskCpfCnpj } from '@/utils/maskCpfCnpj';
 import { useEstablishment } from '@/context/useEstablishment';
+import { useTenantData } from '@/context';
 
 export interface AcquireData {
   [key: string]: {
@@ -89,6 +90,9 @@ export function Tabela({ rows }: TabelaProps) {
     return `${day}/${month}/${year}`;
   }
 
+  const tenantData = useTenantData();
+
+
   return (
     <S.Table>
       <thead>
@@ -135,7 +139,8 @@ export function Tabela({ rows }: TabelaProps) {
               </S.FornecedorWrapper>
             </S.TableData>
             <S.TableData>
-              <S.Button onClick={() => handleViewMoreClick(row.id.toString())}>Visão Geral</S.Button>
+              <S.Button  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}
+ onClick={() => handleViewMoreClick(row.id.toString())}>Visão Geral</S.Button>
             </S.TableData>
           </tr>
         ))}

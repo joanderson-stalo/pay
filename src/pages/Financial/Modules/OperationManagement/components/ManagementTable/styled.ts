@@ -1,8 +1,13 @@
-import { ThemeColor } from "@/config/color";
+
 import styled from "styled-components";
 
 interface StatusTextProps {
   status: string;
+}
+
+interface Color {
+  primary: string;
+  secundary: string;
 }
 
 export const Table = styled.table`
@@ -54,8 +59,8 @@ export const FornecedorItem = styled.p`
 
 `;
 
-export const TableDataLucro = styled(TableData)`
-  color: ${ThemeColor.secundaria};
+export const TableDataLucro = styled(TableData)<Color>`
+  color: ${(props) => props.secundary};
 `;
 
 export const Button = styled.button`

@@ -1,5 +1,10 @@
-import { ThemeColor } from '@/config/color'
 import styled from 'styled-components'
+
+interface Color {
+  primary: string;
+  secundary: string;
+}
+
 
 export const ContainerInfo = styled.div`
   display: flex;
@@ -12,8 +17,8 @@ export const Container = styled.div`
 
 `
 
-export const Title = styled.p`
-  color: ${ThemeColor.secundaria};
+export const Title = styled.p<Color>`
+  color: ${(props) => props.secundary};
   font-size: 24px;
   font-weight: 700;
   margin-top: 36px;
@@ -28,13 +33,13 @@ export const ContainerButton = styled.div`
 
 `
 
-export const ButtonVisualizar = styled.button`
+export const ButtonVisualizar = styled.button<Color>`
 width: 129px;
 height: 35px;
 
 border-radius: 5px;
 border: 0.5px solid  #0E0E47;
-background: ${ThemeColor.primaria};
+background: ${(props) => props.primary};
 
 color:  #FDFDFD;
 font-size: 12px;
@@ -43,13 +48,13 @@ line-height: 20px;
 letter-spacing: 0.5px;
 `
 
-export const EditarCadastro = styled.button`
+export const EditarCadastro = styled.button<Color>`
   width: 213px;
 height: 35px;
 
 border-radius: 5px;
 border: 0.5px solid #0086ED;
-background: ${ThemeColor.secundaria};
+background: ${(props) => props.secundary};
 
 color: #FFF;
 font-size: 12px;
@@ -76,8 +81,8 @@ export const ContainerTable = styled.div`
   gap: 20px;
 `
 
-export const ButtonBlack = styled.button`
-  color: ${ThemeColor.primaria};
+export const ButtonBlack = styled.button<Color>`
+  color: ${(props) => props.primary};
 
 font-size: 12px;
 font-style: normal;
@@ -111,15 +116,15 @@ padding: 14px 40px;
 border-radius: 5px;
 border: 0.5px solid var(--Red-Error, #E91414);
 `
-export const ButtonManageAccess = styled(ButtonDelete)`
+export const ButtonManageAccess = styled(ButtonDelete)<Color>`
   background: #FBFBFB;
   border-color: #FBFBFB;
-  color: ${ThemeColor.primaria};
+  color:${(props) => props.primary};
   box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.25);
 `;
 
-export const ButtonEditRegistration = styled(ButtonDelete)`
-  background: ${ThemeColor.primaria};
-  border-color: ${ThemeColor.primaria};
+export const ButtonEditRegistration = styled(ButtonDelete)<Color>`
+  background: ${(props) => props.primary};
+  border-color: ${(props) => props.primary};
   color: #FDFDFD;
 `;

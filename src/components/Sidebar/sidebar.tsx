@@ -3,16 +3,17 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { BiChevronDown, BiChevronUp } from 'react-icons/bi';
 import { Storefront, Tag, ChartBar, Basket, Money, Stack, Wallet, FileText, CaretLeft, CaretRight, Laptop, Ticket } from '@phosphor-icons/react';
 import { ButtonSider, ButtonSiderArrow, ContainerSidebar, Logo, Menu, SubMenu, SubMenuItem } from './styled';
-import { ThemeColor } from '@/config/color';
 import { ThemeImg } from '@/config/img';
 import { useSidebarVisibility } from '@/context/sidebarVisibilityContext';
 import { useLogin } from '@/context/user.login';
+import { useTenantData } from '@/context';
 
 export function Sidebar() {
   const navigate = useNavigate();
   const location = useLocation();
   const { isVisible, showSidebar, hideSidebar } = useSidebarVisibility();
   const { dataUser } = useLogin();
+  const tenantData = useTenantData();
 
   const menuItems = [
     { icon: <ChartBar />, label: 'Resumo', path: "/home" },
@@ -75,16 +76,16 @@ export function Sidebar() {
   };
 
   return (
-    <ContainerSidebar color={ThemeColor.primaria} isVisible={isVisible}>
-      <Logo src={isVisible ? ThemeImg.backgroundLogo : ThemeImg.iconLogo} />
-      <ButtonSiderArrow isCondensed={isVisible} onClick={toggleVisibility} style={{ cursor: 'pointer' }}>
+    <ContainerSidebar color={tenantData.primary_color_identity} isVisible={isVisible}>
+      <Logo src={isVisible ? tenantData.attachment_logo_white : tenantData.icon} />
+      <ButtonSiderArrow   primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} isCondensed={isVisible} onClick={toggleVisibility} style={{ cursor: 'pointer' }}>
         {isVisible ? <CaretLeft /> : <CaretRight />}
       </ButtonSiderArrow>
-      <Menu colorSec={ThemeColor.secundaria}>
+      <Menu colorSec={tenantData.secondary_color_identity}>
         {menuItems.map((item, index) => (
           <React.Fragment key={index}>
             <ButtonSider
-              colorSec={ThemeColor.secundaria}
+              colorSec={tenantData.secondary_color_identity}
               selected={selectedItem === index}
               onClick={() => item.isSubmenu ? toggleFinanceiroSubmenu() : handleNavigation(index, item.path)}
             >

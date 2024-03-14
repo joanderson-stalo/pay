@@ -1,3 +1,4 @@
+import { useTenantData } from '@/context';
 import * as S from './styled';
 
 export interface Commission {
@@ -15,10 +16,12 @@ interface ComissoesTableProps {
 export function ComissoesTable({ commissions }: ComissoesTableProps) {
   const totalFee = commissions.reduce((total, commission) => total + commission.fee, 0);
   const totalAmount = commissions.reduce((total, commission) => total + commission.amount, 0);
+  const tenantData = useTenantData();
 
   return (
     <S.HistoricoContainer>
-      <S.HistoricoHeader>Comissões Geradas</S.HistoricoHeader>
+      <S.HistoricoHeader  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}
+>Comissões Geradas</S.HistoricoHeader>
       <S.HistoricoTable>
         <thead>
           <tr>
@@ -39,7 +42,8 @@ export function ComissoesTable({ commissions }: ComissoesTableProps) {
               <S.HistoricoTableCell>R$ {commission.amount.toLocaleString('pt-BR', {maximumFractionDigits: 2})}</S.HistoricoTableCell>
             </tr>
           ))}
-          <S.TotalRow>
+          <S.TotalRow  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}
+>
             <S.HistoricoTableHeaderCellTotal>Total</S.HistoricoTableHeaderCellTotal>
             <S.HistoricoTableHeaderCellTotal></S.HistoricoTableHeaderCellTotal>
             <S.HistoricoTableHeaderCellTotal>{totalFee.toLocaleString('pt-BR', {maximumFractionDigits: 2})}%</S.HistoricoTableHeaderCellTotal>

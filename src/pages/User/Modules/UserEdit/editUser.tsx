@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { ThemeColor, baseURL } from '@/config/color';
+import { baseURL } from '@/config/color';
 import * as S from './styled'
 import { CustomInput } from '@/components/Input/input';
 import { LabelCustomInputMask } from '@/components/CustomInputMask';
@@ -16,6 +16,7 @@ import { Loading } from '@/components/Loading/loading';
 import { validationSchema } from './schema';
 import s3Client from '@/s3Config';
 import { PutObjectCommand } from '@aws-sdk/client-s3';
+import { useTenantData } from '@/context';
 
 export function EditUser() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -25,6 +26,7 @@ export function EditUser() {
   const navigate = useNavigate();
   const [file, setFile] = useState<File | null>(null);
   const [isDirty, setIsDirty] = useState(false); // Flag para indicar se houve alterações nos dados
+  const tenantData = useTenantData();
 
   const methods = useForm<UserData>({
     resolver: yupResolver(validationSchema),
@@ -180,15 +182,15 @@ export function EditUser() {
                     type="file"
                     onChange={onFileInputChange}
                   />
-                  <S.FileInputLabel htmlFor="fileInput">
-                    <S.StyledUploadIcon /> Enviar foto
+                  <S.FileInputLabel primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} htmlFor="fileInput">
+                    <S.StyledUploadIcon primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} /> Enviar foto
                   </S.FileInputLabel>
                 </S.ContainerPhoto>
 
                 <CustomInput
                   label="Nome"
-                  colorInputDefault={ThemeColor.primaria}
-                  colorInputSuccess={ThemeColor.secundaria}
+                  colorInputDefault={tenantData.primary_color_identity}
+                  colorInputSuccess={tenantData.secondary_color_identity}
                   {...register('Nome')}
                   hasError={!!errors.Nome}
                 />
@@ -203,8 +205,8 @@ export function EditUser() {
               </S.ContainerForm>
             </S.ContextStep>
             <S.ContainerButton>
-              <S.ButtonVoltar type='button' onClick={handleVoltar}>Cancelar</S.ButtonVoltar>
-              <S.ButtonAvançar type="submit"  disabled={!isValid || !isDirty}>
+              <S.ButtonVoltar primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} type='button' onClick={handleVoltar}>Cancelar</S.ButtonVoltar>
+              <S.ButtonAvançar primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} type="submit"  disabled={!isValid || !isDirty}>
                 Salvar
               </S.ButtonAvançar>
             </S.ContainerButton>

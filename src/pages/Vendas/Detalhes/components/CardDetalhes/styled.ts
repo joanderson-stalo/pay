@@ -1,8 +1,12 @@
-import { ThemeColor } from '@/config/color';
 import styled from 'styled-components';
 
 interface ITagDetalhes {
   label: string | undefined;
+}
+
+interface Color {
+  primary: string;
+  secundary: string;
 }
 
 export const ContainerCardDetalhes = styled.div`
@@ -70,14 +74,14 @@ export const DetalheInfo = styled.div`
   }
 `;
 
-export const InfoOne = styled.div`
+export const InfoOne = styled.div<Color>`
   display: flex;
   flex-direction: column;
   gap: 10px;
 
   > div {
     h2 {
-      color: ${ThemeColor.primaria};
+      color:  ${(props) => props.primary};
       font-size: 16px;
       font-weight: 700;
     }
@@ -90,14 +94,14 @@ export const InfoOne = styled.div`
   }
 `;
 
-export const InfoTw = styled.div`
+export const InfoTw = styled.div<Color>`
   display: flex;
   flex-direction: column;
   gap: 10px;
 
   > div {
     h2 {
-      color: ${ThemeColor.primaria};
+      color:  ${(props) => props.primary};
       font-size: 16px;
       font-weight: 700;
     }
@@ -110,14 +114,14 @@ export const InfoTw = styled.div`
   }
 `;
 
-export const InfoTre = styled.div`
+export const InfoTre = styled.div<Color>`
   display: flex;
   flex-direction: column;
   gap: 10px;
 
   > div {
     h2 {
-      color: ${ThemeColor.primaria};
+      color: ${(props) => props.primary};
       font-size: 16px;
       font-weight: 700;
     }
@@ -130,9 +134,9 @@ export const InfoTre = styled.div`
   }
 `;
 
-export const Taxas = styled.div`
+export const Taxas = styled.div<Color>`
   h2 {
-    color: ${ThemeColor.primaria};
+    color:  ${(props) => props.primary};
     font-size: 16px;
     font-weight: 700;
   }

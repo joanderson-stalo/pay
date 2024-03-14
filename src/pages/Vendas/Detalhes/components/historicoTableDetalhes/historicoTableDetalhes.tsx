@@ -1,3 +1,4 @@
+import { useTenantData } from '@/context';
 import * as S from './styled';
 
 interface Liquidation {
@@ -26,9 +27,11 @@ function formatCurrency(value: number): string {
 }
 
 export function HistoricoTableDetalhes({ liquidations }: HistoricoTableDetalhesProps) {
+  const tenantData = useTenantData();
+
   return (
     <S.HistoricoContainer>
-      <S.HistoricoHeader>Histórico de conciliações</S.HistoricoHeader>
+      <S.HistoricoHeader primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>Histórico de conciliações</S.HistoricoHeader>
       <S.HistoricoTable>
         <thead>
           <tr>

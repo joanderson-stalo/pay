@@ -1,9 +1,14 @@
-import { ThemeColor } from '@/config/color';
 import styled from 'styled-components';
 
 type FuncionamentoTableDataProps = {
   funcionamento: 'quebrado' | 'estável' | 'incompleto';
+  primary?: string;
 };
+
+interface Color {
+  primary: string;
+  secundary: string;
+}
 
 export const ContainerCardDetalhes = styled.div`
   width: 100%;
@@ -54,12 +59,12 @@ export const InfoTitle = styled.h1`
 `;
 
 export const InfoSubtitle = styled.h2<FuncionamentoTableDataProps>`
- color: ${({ funcionamento }) => {
+ color: ${({ funcionamento, primary }) => {
     switch (funcionamento) {
       case 'quebrado':
         return '#E91414';
       case 'estável':
-        return `${ThemeColor.secundaria};` ;
+        return primary ;
       case 'incompleto':
         return '#FF7C33';
       default:
@@ -76,12 +81,12 @@ export const InfoSubtitle = styled.h2<FuncionamentoTableDataProps>`
   }
 `;
 
-export const EditButton = styled.button`
+export const EditButton = styled.button<Color>`
   padding: 14px 24px;
   border-radius: 5px;
   background: var(--foundation-white-light-hover, #FBFBFB);
   box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.25);
-  color: ${ThemeColor.secundaria};
+  color: ${(props) => props.secundary};
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
@@ -112,8 +117,8 @@ export const InfoItem = styled.div`
   gap: 8px;
 `;
 
-export const InfoLabel = styled.h1`
-  color: ${ThemeColor.primaria};
+export const InfoLabel = styled.h1<Color>`
+  color:  ${(props) => props.primary};
   font-size: 16px;
   font-style: normal;
   font-weight: 700;
@@ -134,11 +139,11 @@ export const InfoValue = styled.h2`
   -webkit-line-clamp: 4;
 `;
 
-export const DownloadButton = styled.button`
+export const DownloadButton = styled.button<Color>`
   background: #B2EAF8;
   border-radius: 4px;
   border: 1px dashed var(--foundation-brand-02-light-active, #B2EAF8);
-  color: ${ThemeColor.secundaria};
+  color: ${(props) => props.secundary};
   font-style: normal;
   font-weight: 500;
   line-height: 14px;

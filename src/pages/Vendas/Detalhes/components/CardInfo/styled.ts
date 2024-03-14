@@ -1,13 +1,18 @@
-import { ThemeColor } from "@/config/color"
+
 import styled from "styled-components"
 
 
-export const ContainerCardInfo = styled.div`
+interface Color {
+  primary: string;
+  secundary: string;
+}
+
+export const ContainerCardInfo = styled.div<Color>`
   width: 100%;
   max-width: 212px;
 height: 75px;
 border-radius: 8px;
-background:  ${ThemeColor.primaria};
+background:   ${(props) => props.primary};
 
 display: flex;
 flex-direction: column;

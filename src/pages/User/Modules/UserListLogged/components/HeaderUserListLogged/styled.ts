@@ -1,5 +1,9 @@
-import { ThemeColor } from '@/config/color';
 import styled from 'styled-components';
+
+interface Color {
+  primary: string;
+  secundary: string;
+}
 
 export const Container = styled.div`
  margin: 36px 20px 20px 20px;
@@ -11,9 +15,9 @@ export const Container = styled.div`
 
 `;
 
-export const Button = styled.button`
+export const Button = styled.button<Color>`
   border-radius: 4px;
-  background: ${ThemeColor.primaria};
+  background:  ${(props) => props.primary};
   padding: 14px 24px;
   color: #FFF;
   font-size: 14px;
@@ -26,8 +30,8 @@ export const Button = styled.button`
   }
 `;
 
-export const Title = styled.h2`
-  color: ${ThemeColor.secundaria};
+export const Title = styled.h2<Color>`
+  color: ${(props) => props.secundary};
   font-size: 24px;
   font-weight: 700;
   line-height: normal;

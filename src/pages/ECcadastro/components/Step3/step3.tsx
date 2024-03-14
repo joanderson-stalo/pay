@@ -21,6 +21,7 @@ import { CustomSelect } from '@/components/Select/select';
 import { useLogin } from '@/context/user.login';
 import { useFormContext } from 'react-hook-form';
 import { baseURL } from '@/config/color';
+import { useTenantData } from '@/context';
 
 interface IStep3 {
   Avançar: () => void;
@@ -250,7 +251,7 @@ export function Step3({ Avançar, Voltar }: IStep3) {
 
 
 
-
+  const tenantData = useTenantData();
 
   return (
     <>
@@ -279,7 +280,7 @@ export function Step3({ Avançar, Voltar }: IStep3) {
           </ContextStep>
           <ContainerButton>
             <ButtonVoltar onClick={Voltar}>Voltar</ButtonVoltar>
-            <ButtonAvançar disabled={!allFieldsFilled} onClick={Avançar}>
+            <ButtonAvançar  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} disabled={!allFieldsFilled} onClick={Avançar}>
               Avançar
             </ButtonAvançar>
           </ContainerButton>

@@ -1,4 +1,3 @@
-import { ThemeColor } from '@/config/color'
 import { useFormContext } from 'react-hook-form'
 import * as S from './styled'
 import { CustomInput } from '@/components/Input/input'
@@ -11,6 +10,7 @@ import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { Loading } from '@/components/Loading/loading'
+import { useTenantData } from '@/context'
 
 interface IStep1 {
   Avançar: () => void
@@ -69,6 +69,8 @@ export function PF({ Avançar, BPF, BPJ }: IStep1) {
     }
   }, [cpfValue]);
 
+  const tenantData = useTenantData();
+
   return (
     <>
     {isLoading && <Loading />}
@@ -109,8 +111,8 @@ export function PF({ Avançar, BPF, BPJ }: IStep1) {
               <CustomInput
                 {...register('NomeSocioEstabelecimento')}
                 label="Nome Completo"
-                colorInputDefault={ThemeColor.primaria}
-                colorInputSuccess={ThemeColor.secundaria}
+                colorInputDefault={tenantData.primary_color_identity}
+                colorInputSuccess={tenantData.secondary_color_identity}
                 hasError={!!errors.NomeSocioEstabelecimento}
               />
 
@@ -130,8 +132,8 @@ export function PF({ Avançar, BPF, BPJ }: IStep1) {
                   validate: validateEmail
                 })}
                 label="E-mail"
-                colorInputDefault={ThemeColor.primaria}
-                colorInputSuccess={ThemeColor.secundaria}
+                colorInputDefault={tenantData.primary_color_identity}
+                colorInputSuccess={tenantData.secondary_color_identity}
                 hasError={!!errors.EmailEstabelecimento}
               />
 
@@ -141,7 +143,7 @@ export function PF({ Avançar, BPF, BPJ }: IStep1) {
         </S.ContextStep>
         <S.ContainerButton>
           <S.ButtonVoltar onClick={handleLicenciado} >Cancelar</S.ButtonVoltar>
-          <S.ButtonAvançar disabled={!allFieldsFilled} onClick={Avançar}>Avançar</S.ButtonAvançar>
+          <S.ButtonAvançar  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} disabled={!allFieldsFilled} onClick={Avançar}>Avançar</S.ButtonAvançar>
         </S.ContainerButton>
       </S.ContextStepContainer>
     </S.ContainerStep>

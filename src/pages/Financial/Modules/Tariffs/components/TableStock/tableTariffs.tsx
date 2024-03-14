@@ -3,6 +3,7 @@ import * as S from './styled';
 import { formatCurrencyBR } from '@/utils/convertBRDinheiro';
 import { useTariff } from '@/context/useTariff';
 import { useNavigate } from 'react-router-dom';
+import { useTenantData } from '@/context';
 
 export interface RowData {
   id: number;
@@ -72,6 +73,8 @@ export function TableTariffs({ rows }: TabelaProps) {
     navigate(`/editRate`);
 };
 
+const tenantData = useTenantData();
+
   return (
     <S.Table>
       <thead>
@@ -117,11 +120,11 @@ export function TableTariffs({ rows }: TabelaProps) {
             <S.TableData>{row.seller_name}</S.TableData>
             <S.TableData>{row.responsible_seller_name}</S.TableData>
             <S.TableData>{row.serial_terminal}</S.TableData>
-            <S.CustomTableHeader>{formatCurrencyBR(Number(row.amount))}</S.CustomTableHeader >
+            <S.CustomTableHeader  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} >{formatCurrencyBR(Number(row.amount))}</S.CustomTableHeader >
             <S.TableData>{row.type}</S.TableData>
             <S.CommentTableData>{row.comment}</S.CommentTableData>
             <S.TableData>
-              <S.Button onClick={() => handleViewMoreClick(row.id.toString())}>Editar</S.Button>
+              <S.Button  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} onClick={() => handleViewMoreClick(row.id.toString())}>Editar</S.Button>
             </S.TableData>
           </tr>
         ))}

@@ -7,9 +7,10 @@ import { TableSpreadSheet } from './Components/TableSpreadSheet/tableSpreadSheet
 import { CardSpreadsheet } from './Mobile/CardSpreadsheet/cardSpreadsheet';
 import { useLogin } from '@/context/user.login';
 import { CustomInput } from '@/components/Input/input';
-import { ThemeColor, baseURL } from '@/config/color';
+import { baseURL } from '@/config/color';
 import { useNavigate } from 'react-router-dom';
 import { Loading } from '@/components/Loading/loading';
+import { useTenantData } from '@/context';
 
 type SpreadsheetData = {
   ID_EC: string | number;
@@ -225,6 +226,8 @@ export function ImportSpreadsheet() {
   const handleCancel = () => {
     navigate('/tariffs');
   };
+
+  const tenantData = useTenantData();
   
   return (
     <>
@@ -248,8 +251,8 @@ export function ImportSpreadsheet() {
           <div style={{display: 'flex', gap: '50px', justifyContent: 'flex-start', alignItems: 'start', width: '60%', marginBottom: '20px'}}>
             <CustomInput 
               label='Data Referência'
-              colorInputDefault={ThemeColor.primaria}
-              colorInputSuccess={ThemeColor.secundaria}
+              colorInputDefault={tenantData.primary_color_identity}
+              colorInputSuccess={tenantData.secondary_color_identity}
               type='date'
               value={referenceDate}
               onChange={(e) => setReferenceDate(e.target.value)}
@@ -257,8 +260,8 @@ export function ImportSpreadsheet() {
 
             <CustomInput 
               label='Data Cobrança'
-              colorInputDefault={ThemeColor.primaria}
-              colorInputSuccess={ThemeColor.secundaria}
+              colorInputDefault={tenantData.primary_color_identity}
+              colorInputSuccess={tenantData.secondary_color_identity}
               type='date'
               value={billingDate}
               onChange={(e) => setBillingDate(e.target.value)}

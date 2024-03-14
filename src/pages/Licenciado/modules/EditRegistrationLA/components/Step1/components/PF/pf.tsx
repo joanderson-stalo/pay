@@ -1,4 +1,4 @@
-import { ThemeColor, baseURL } from '@/config/color'
+import {  baseURL } from '@/config/color'
 import { useFormContext } from 'react-hook-form'
 import * as S from './styled'
 import { CustomInput } from '@/components/Input/input'
@@ -17,6 +17,7 @@ import { useLicensed } from '@/context/useLicensed'
 import { Loading } from '@/components/Loading/loading'
 import Swal from 'sweetalert2'
 import { SellerData } from '../../../interface'
+import { useTenantData } from '@/context'
 
 interface IStep1 {
   Avançar: () => void
@@ -143,7 +144,7 @@ export function PF({ Avançar }: IStep1) {
     navigate('/sellers-la')
   }
 
-
+  const tenantData = useTenantData();
   return (
     <>
     <S.ContainerStep>
@@ -180,8 +181,8 @@ export function PF({ Avançar }: IStep1) {
               <CustomInput
                 {...register('NomeSocioEstabelecimento')}
                 label="Nome Completo"
-                colorInputDefault={ThemeColor.primaria}
-                colorInputSuccess={ThemeColor.secundaria}
+                colorInputDefault={tenantData.primary_color_identity}
+                colorInputSuccess={tenantData.secondary_color_identity}
                 hasError={!!errors.NomeSocioEstabelecimento}
               />
 
@@ -201,8 +202,8 @@ export function PF({ Avançar }: IStep1) {
                   validate: validateEmail
                 })}
                 label="E-mail"
-                colorInputDefault={ThemeColor.primaria}
-                colorInputSuccess={ThemeColor.secundaria}
+                colorInputDefault={tenantData.primary_color_identity}
+                colorInputSuccess={tenantData.secondary_color_identity}
                 hasError={!!errors.EmailEstabelecimento}
               />
 
@@ -212,8 +213,8 @@ export function PF({ Avançar }: IStep1) {
         </S.ContextStep>
         <S.ContainerButton>
         <S.ButtonVoltar type='button' onClick={handleLicenseddetail} >Cancelar</S.ButtonVoltar>
-          <S.ButtonAvançar  type='button' disabled={!allFieldsFilled} onClick={handleSalvar}>Salvar</S.ButtonAvançar>
-        <S.ButtonAvançar type='button' disabled={!allFieldsFilled} onClick={handleAvancar}>
+          <S.ButtonAvançar  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}   type='button' disabled={!allFieldsFilled} onClick={handleSalvar}>Salvar</S.ButtonAvançar>
+        <S.ButtonAvançar  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} type='button' disabled={!allFieldsFilled} onClick={handleAvancar}>
           Avançar
         </S.ButtonAvançar>
         </S.ContainerButton>

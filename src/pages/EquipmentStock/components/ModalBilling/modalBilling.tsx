@@ -6,6 +6,7 @@ import { useLogin } from '@/context/user.login';
 import axios from 'axios';
 import { useFilterLicensed } from '../../hooks/useFilterLicensed';
 import { baseURL } from '@/config/color';
+import { useTenantData } from '@/context';
 
 interface IModalSucesso {
   visible: boolean;
@@ -91,10 +92,12 @@ export function ModalBilling({ onClose, visible }: IModalSucesso) {
     return null;
   }
 
+  const tenantData = useTenantData();
+
   return (
     <S.Overlay>
       <S.ContainerModal>
-        <S.ContainerTitle>
+        <S.ContainerTitle primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>
           <p>Adicionar Filtros</p>
           <span>Preencha os campos que deseja filtrar</span>
         </S.ContainerTitle>
@@ -122,7 +125,8 @@ export function ModalBilling({ onClose, visible }: IModalSucesso) {
           </S.ContainerSelect>
           <S.ContextButton>
             <S.ButtonCancelar onClick={onClose}>Cancelar</S.ButtonCancelar>
-            <S.ButtonSalvar type='submit'>Salvar</S.ButtonSalvar>
+            <S.ButtonSalvar 
+ primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} type='submit'>Salvar</S.ButtonSalvar>
           </S.ContextButton>
         </form>
       </S.ContainerModal>

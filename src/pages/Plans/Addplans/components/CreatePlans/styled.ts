@@ -1,6 +1,11 @@
-import { ThemeColor } from "@/config/color";
+
 import { UploadSimple } from "@phosphor-icons/react";
 import styled from "styled-components";
+
+interface Color {
+  primary: string;
+  secundary: string;
+}
 
 export const ContainerStep = styled.div`
   display: flex;
@@ -110,11 +115,12 @@ color: #665B6D;
     }
 `
 
-export const ButtonAvançar = styled.button`
+export const ButtonAvançar = styled.button<Color>`
   width: 109px;
 height: 35px;
 
-background: ${ThemeColor.secundaria};
+background: ${(props) => props.secundary};
+
 border: 0.5px solid #0086ED;
 border-radius: 5px;
 
@@ -207,13 +213,13 @@ export const ContainerPhoto = styled.div`
 
 
 
-export const StyledTable = styled.table`
+export const StyledTable = styled.table<Color>`
     width: 100%;
     border-collapse: collapse;
 
     thead {
         tr {
-            background: ${ThemeColor.primaria};
+            background:  ${(props) => props.primary};
 
             th {
                 padding: 8px 12px;
@@ -345,8 +351,8 @@ margin: 36px 20px 0px 110px;
 }
 `
 
-export const ButtonBlack = styled.button`
-  color: ${ThemeColor.primaria};
+export const ButtonBlack = styled.button<Color>`
+  color:  ${(props) => props.primary};
 font-size: 12px;
 font-style: normal;
 font-weight: 500;
@@ -358,8 +364,9 @@ display: flex;
 `
 
 
-export const Title = styled.h2`
-color: ${ThemeColor.secundaria};
+export const Title = styled.h2<Color>`
+color: ${(props) => props.secundary};
+
 font-size: 24px;
 font-weight: 700;
 line-height: normal;

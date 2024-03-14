@@ -6,8 +6,8 @@ import * as S from './styled';
 import { CustomSelect } from '@/components/Select/select';
 import { brandOptions, paymentMethodOptions, statusPaymentOptions } from './statusPaymentOptions';
 import { CustomInput } from '@/components/Input/input';
-import { ThemeColor } from '@/config/color';
 import { useFilterSales } from '../../hooks/useFilterSales';
+import { useTenantData } from '@/context';
 
 
 
@@ -99,10 +99,12 @@ export function ModalFilterVenda({ onClose, visible }: IModalSucesso) {
     return null;
   }
 
+  const tenantData = useTenantData();
+
   return (
     <S.Overlay>
       <S.ContainerModal>
-        <S.ContainerTitle>
+        <S.ContainerTitle  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} >
           <p>Adicionar Filtros</p>
           <span>Preencha os campos que deseja filtrar</span>
         </S.ContainerTitle>
@@ -115,15 +117,15 @@ export function ModalFilterVenda({ onClose, visible }: IModalSucesso) {
                 <S.ContainerData>
                   <CustomInput
                     {...register('captured_in_start')}
-                    colorInputDefault={ThemeColor.primaria}
-                    colorInputSuccess={ThemeColor.secundaria}
+                    colorInputDefault={tenantData.primary_color_identity}
+                    colorInputSuccess={tenantData.secondary_color_identity}
                     hasError={!!errors.captured_in_start}
                     type='date' />
                   <span>até</span>
                   <CustomInput
                     {...register("captured_in_end")}
-                    colorInputDefault={ThemeColor.primaria}
-                    colorInputSuccess={ThemeColor.secundaria}
+                    colorInputDefault={tenantData.primary_color_identity}
+                    colorInputSuccess={tenantData.secondary_color_identity}
                     hasError={!!errors.captured_in_end}
                     type='date' />
                 </S.ContainerData>
@@ -161,7 +163,7 @@ export function ModalFilterVenda({ onClose, visible }: IModalSucesso) {
           </S.ContainerSelect>
           <S.ContextButton>
             <S.ButtonCancelar onClick={onClose}>Cancelar</S.ButtonCancelar>
-            <S.ButtonSalvar type='submit'>Salvar</S.ButtonSalvar>
+            <S.ButtonSalvar  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} type='submit'>Salvar</S.ButtonSalvar>
           </S.ContextButton>
         </form>
       </S.ContainerModal>

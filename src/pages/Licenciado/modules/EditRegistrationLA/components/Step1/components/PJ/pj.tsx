@@ -1,4 +1,4 @@
-import { ThemeColor, baseURL } from '@/config/color'
+import { baseURL } from '@/config/color'
 import { useFormContext } from 'react-hook-form'
 import {
   ButtonAvançar,
@@ -34,6 +34,7 @@ import { Loading } from '@/components/Loading/loading'
 import { optionsCnae } from '@/json/cnae'
 import { SellerData } from '../../../interface'
 import Swal from 'sweetalert2'
+import { useTenantData } from '@/context'
 
 interface IStep1 {
   Avançar: () => void
@@ -53,6 +54,7 @@ export function PJ({ Avançar}: IStep1) {
   const { dataUser } = useLogin();
   const { licensedId } = useLicensed();
   const [loading, setLoading] = useState(true);
+  const tenantData = useTenantData();
 
   const [sellerData, setSellerData] = useState<SellerData | null>(null);
   const allFieldsFilled =
@@ -203,8 +205,8 @@ export function PJ({ Avançar}: IStep1) {
               <CustomInput
                 {...register('RazaoSocialEstabelecimento')}
                 label="Razão Social"
-                colorInputDefault={ThemeColor.primaria}
-                colorInputSuccess={ThemeColor.secundaria}
+                colorInputDefault={tenantData.primary_color_identity}
+                colorInputSuccess={tenantData.secondary_color_identity}
                 hasError={!!errors.RazaoSocialEstabelecimento}
               />
             </ContainerInput>
@@ -212,8 +214,8 @@ export function PJ({ Avançar}: IStep1) {
               <CustomInput
                 {...register('NomeFantasiaEstabelecimento')}
                 label="Nome Fantasia"
-                colorInputDefault={ThemeColor.primaria}
-                colorInputSuccess={ThemeColor.secundaria}
+                colorInputDefault={tenantData.primary_color_identity}
+                colorInputSuccess={tenantData.secondary_color_identity}
                 hasError={!!errors.NomeFantasiaEstabelecimento}
               />
               <LabelCustomInputMask
@@ -238,8 +240,8 @@ export function PJ({ Avançar}: IStep1) {
               <CustomInput
                 {...register('NomeSocioEstabelecimento')}
                 label="Nome Completo do Sócio"
-                colorInputDefault={ThemeColor.primaria}
-                colorInputSuccess={ThemeColor.secundaria}
+                colorInputDefault={tenantData.primary_color_identity}
+                colorInputSuccess={tenantData.secondary_color_identity}
                 hasError={!!errors.NomeSocioEstabelecimento}
               />
             </ContainerInput>
@@ -267,8 +269,8 @@ export function PJ({ Avançar}: IStep1) {
                   validate: validateEmail
                 })}
                 label="E-mail"
-                colorInputDefault={ThemeColor.primaria}
-                colorInputSuccess={ThemeColor.secundaria}
+                colorInputDefault={tenantData.primary_color_identity}
+                colorInputSuccess={tenantData.secondary_color_identity}
                 hasError={!!errors.EmailEstabelecimento}
               />
             </ContainerInput>
@@ -290,8 +292,8 @@ export function PJ({ Avançar}: IStep1) {
         </ContextStep>
         <ContainerButton>
         <ButtonVoltar onClick={handleLicenseddetail}>Cancelar</ButtonVoltar>
-          <ButtonAvançar disabled={!allFieldsFilled} onClick={handleSalvar}>Salvar</ButtonAvançar>
-        <ButtonAvançar disabled={!allFieldsFilled} onClick={handleAvancar}>
+          <ButtonAvançar  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} disabled={!allFieldsFilled} onClick={handleSalvar}>Salvar</ButtonAvançar>
+        <ButtonAvançar  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} disabled={!allFieldsFilled} onClick={handleAvancar}>
           Avançar
         </ButtonAvançar>
         </ContainerButton>

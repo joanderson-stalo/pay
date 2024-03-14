@@ -1,3 +1,4 @@
+import { useTenantData } from '@/context';
 import * as S from './styled';
 
 export interface RowDataTickets {
@@ -11,6 +12,9 @@ export interface RowDataTickets {
 }
 
 export function TicketsCardMobile({ data }: { data: RowDataTickets[] }) {
+
+  const tenantData = useTenantData();
+
   return (
     <>
       {data.map((ticket) => (
@@ -42,7 +46,7 @@ export function TicketsCardMobile({ data }: { data: RowDataTickets[] }) {
 
           </S.CardContent>
           <S.DetailColumnBtn>
-              <S.EditButton>Editar</S.EditButton>
+              <S.EditButton  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>Editar</S.EditButton>
             </S.DetailColumnBtn>
         </S.CardContainer>
       ))}

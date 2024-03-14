@@ -11,6 +11,7 @@ import { ApiResponse } from "@/pages/LAcadastro/LAcadastro";
 import { TranslateErrorMessage } from "@/utils/translateErrorMessage";
 import { toast } from "react-toastify";
 import { baseURL } from "@/config/color";
+import { useTenantData } from "@/context";
 
 interface UserData {
   id: number;
@@ -34,6 +35,7 @@ export function ManageAccessLicensed(){
   const [userData, setUserData] = useState<UserData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const { licensedId } = useLicensed();
+  const tenantData = useTenantData();
 
   const { dataUser } = useLogin();
 
@@ -68,7 +70,7 @@ export function ManageAccessLicensed(){
     <>
       {loading && <Loading />}
       <ContainerManageAccessLicensed>
-        <ButtonBlack onClick={handleEstablishmentdetail}><CaretLeft size={18} />Voltar</ButtonBlack>
+        <ButtonBlack primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} onClick={handleEstablishmentdetail}><CaretLeft size={18} />Voltar</ButtonBlack>
         <CustomTable data={userData} />
       </ContainerManageAccessLicensed>
     </>

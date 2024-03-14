@@ -1,8 +1,9 @@
-import { ThemeColor } from "@/config/color";
+
 import styled from "styled-components";
 
 type FuncionamentoTableDataProps = {
   funcionamento: 'quebrado' | 'estável' | 'incompleto';
+  secundary: string;
 };
 
 export const Table = styled.table`
@@ -40,8 +41,13 @@ export const TableData = styled.td`
   vertical-align: middle;
 `;
 
-export const Button = styled.button`
-color: ${ThemeColor.primaria};
+interface Color {
+  primary: string;
+  secundary: string;
+}
+
+export const Button = styled.button<Color>`
+color:  ${(props) => props.primary};
   font-size: ${({theme }) => theme.text_xs};
 font-style: normal;
 font-weight: 500;
@@ -81,12 +87,12 @@ export const CommentTableData = styled(TableData)`
 
 
 export const FuncionamentoTableData = styled(TableData)<FuncionamentoTableDataProps>`
-  color: ${({ funcionamento }) => {
+  color: ${({ funcionamento, secundary }) => {
     switch (funcionamento) {
       case 'quebrado':
         return '#E91414';
       case 'estável':
-        return `${ThemeColor.secundaria}`;
+        return secundary;
       case 'incompleto':
         return '#FF7C33';
       default:

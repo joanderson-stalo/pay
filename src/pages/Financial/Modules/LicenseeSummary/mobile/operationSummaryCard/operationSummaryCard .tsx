@@ -1,5 +1,6 @@
 import { formatCurrencyBR } from '@/utils/convertBRDinheiro';
 import * as S from './styled'
+import { useTenantData } from '@/context';
 
 export interface Transaction {
   id: number;
@@ -11,6 +12,8 @@ export interface Transaction {
 }
 
 export function OperationSummaryCard({ comissao, gap, fornecedor, meta, tpv }: Transaction) {
+  const tenantData = useTenantData();
+
   return (
     <S.CardWrapper>
       <S.CardHeader>
@@ -37,8 +40,8 @@ export function OperationSummaryCard({ comissao, gap, fornecedor, meta, tpv }: T
           </S.TextGroup>
 
           <S.TextGroup>
-            <S.ActiveTextTitle>Comissão:</S.ActiveTextTitle>
-            <S.ActiveTextValue>{formatCurrencyBR(parseFloat(comissao))}</S.ActiveTextValue>
+            <S.ActiveTextTitle  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>Comissão:</S.ActiveTextTitle>
+            <S.ActiveTextValue  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>{formatCurrencyBR(parseFloat(comissao))}</S.ActiveTextValue>
           </S.TextGroup>
         </S.ContentSide>
       </S.MainContent>

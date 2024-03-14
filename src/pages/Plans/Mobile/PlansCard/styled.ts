@@ -1,5 +1,11 @@
-import { ThemeColor } from '@/config/color';
+
+
 import styled from 'styled-components';
+
+interface Color {
+  primary: string;
+  secundary: string;
+}
 
 export const CardWrapper = styled.div`
   width: 100%;
@@ -91,7 +97,7 @@ export const InfoDescription = styled.p`
   line-height: 14px;
 `;
 
-export const EditButton = styled.button`
+export const EditButton = styled.button<Color>`
   display: flex;
   padding: 12.002px 20.575px;
   justify-content: center;
@@ -99,7 +105,7 @@ export const EditButton = styled.button`
   border-radius: 4.286px;
   border: 0.429px solid #F5F4F4;
   background: #FFF;
-  color:  ${ThemeColor.secundaria};
+  color: ${(props) => props.secundary};
   font-size: 12.002px;
   font-style: normal;
   font-weight: 500;

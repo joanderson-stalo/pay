@@ -1,13 +1,18 @@
 import styled from 'styled-components';
-import { ThemeColor } from '@/config/color';
+
+interface Color {
+  primary: string;
+  secundary: string;
+}
+
 
 export const HistoricoContainer = styled.div`
   display: flex;
   flex-direction: column;
 `;
 
-export const HistoricoHeader = styled.h1`
-  background: ${ThemeColor.primaria};
+export const HistoricoHeader = styled.h1<Color>`
+  background:  ${(props) => props.primary};
   width: 675px;
   height: 35px;
   display: flex;

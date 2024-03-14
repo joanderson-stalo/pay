@@ -7,7 +7,6 @@ import {BeatLoader
 import * as S from './styled';
 import { Button } from '@/components/Button/button';
 import { schema } from './schema';
-import { ThemeColor } from '@/config/color';
 import { ButtonText, Placeholder, Text } from '@/config/text';
 import { handleRecover } from '@/utils/handleNavigate';
 import { CustomInput } from '@/components/Input/input';
@@ -19,7 +18,7 @@ import { useLogin } from '@/context/user.login';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { Loading } from '@/components/Loading/loading';
-import axios from 'axios';
+import { useTenantData } from '@/context';
 
 
 type FormData = {
@@ -52,6 +51,7 @@ export function Login() {
 
   const email = watch('email');
   const password = watch('password');
+  const tenantData = useTenantData();
 
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
@@ -84,15 +84,14 @@ export function Login() {
   return (
     <S.ContainerLogin>
         {isSubmitting && <Loading />}
-      <S.TitleLogin colorTitle={ThemeColor.primaria}>{Text.title}</S.TitleLogin>
-
+      <S.TitleLogin colorTitle={tenantData.primary_color_identity}>{Text.title}</S.TitleLogin>
       <S.Form onSubmit={handleSubmit(onSubmit)}>
         <S.ConatainerInput>
           <S.ContextInput>
             <CustomInput
               label='Login'
-              colorInputDefault={ThemeColor.primaria}
-              colorInputSuccess={ThemeColor.secundaria}
+              colorInputDefault={tenantData.primary_color_identity}
+              colorInputSuccess={tenantData.secondary_color_identity}
               placeholder={Placeholder.placeholderEmail}
               {...register('email')}
               hasError={!!errors.email}
@@ -110,8 +109,8 @@ export function Login() {
           <S.ContextInput>
             <InputMask
               label='Senha'
-              colorInputDefault={ThemeColor.primaria}
-              colorInputSuccess={ThemeColor.secundaria}
+              colorInputDefault={tenantData.primary_color_identity}
+              colorInputSuccess={tenantData.secondary_color_identity}
               placeholder={Placeholder.placeholderSenha}
               {...register('password')}
               hasError={!!errors.password || (password ? password.length < 6 : undefined)}
@@ -134,7 +133,7 @@ export function Login() {
         <ContainerSubmit className='containerSubmit'>
           <Button
           type="submit"
-          colorBackground={ThemeColor.secundaria}
+          colorBackground={tenantData.secondary_color_identity}
           success={isValid}
           disabled={isSubmitting}
           label={isSubmitting ? <BeatLoader size={10} color="#ffffff" /> : ButtonText.login}

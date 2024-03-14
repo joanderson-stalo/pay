@@ -1,4 +1,4 @@
-import { ThemeColor } from "@/config/color";
+
 import styled from "styled-components";
 
 type FuncionamentoTableDataProps = {
@@ -7,6 +7,7 @@ type FuncionamentoTableDataProps = {
 
 type CustomTableHeaderProps = {
   tipo?: string;
+  primary?: string;
 };
 export const Table = styled.table`
   width: 100%;
@@ -33,7 +34,7 @@ export const TableHeader = styled.th`
 `;
 
 export const CustomTableHeader = styled.th<CustomTableHeaderProps>`
-  color: ${({ tipo }) => tipo === 'Crédito' ? `${ThemeColor.secundaria}` : '#E91414'};
+  color: ${({ tipo, primary }) => tipo === 'Crédito' ? primary : '#E91414'};
   font-size: ${({theme }) => theme.text_xs};
   font-weight: ${({theme }) => theme.font_medium};
   line-height: 15.566px;

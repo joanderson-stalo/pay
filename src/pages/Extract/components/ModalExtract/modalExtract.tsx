@@ -3,7 +3,8 @@ import { useForm } from 'react-hook-form';
 import * as S from './styled';
 import { useFilterLicensed } from '../../hooks/useFilterLicensed';
 import { CustomInput } from '@/components/Input/input';
-import { ThemeColor } from '@/config/color';
+import { useTenantData } from '@/context';
+
 
 interface IModalSucesso {
   visible: boolean;
@@ -61,10 +62,12 @@ export function ModalExtract({ onClose, visible }: IModalSucesso) {
     return null;
   }
 
+  const tenantData = useTenantData();
+
   return (
     <S.Overlay>
       <S.ContainerModal>
-        <S.ContainerTitle>
+        <S.ContainerTitle primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>
           <p>Adicionar Filtros</p>
           <span>Preencha os campos que deseja filtrar</span>
         </S.ContainerTitle>
@@ -77,8 +80,8 @@ export function ModalExtract({ onClose, visible }: IModalSucesso) {
                 value: defaultInitialDate(),
                 validate: value => value !== '' || 'Campo obrigatório' 
               })}
-              colorInputDefault={ThemeColor.primaria}
-              colorInputSuccess={ThemeColor.secundaria}
+              colorInputDefault={tenantData.primary_color_identity}
+              colorInputSuccess={tenantData.secondary_color_identity}
               hasError={!!errors.captured_in_start}
               type='date' />
           
@@ -88,15 +91,15 @@ export function ModalExtract({ onClose, visible }: IModalSucesso) {
                 value: defaultFinalDate(),
                 validate: value => value !== '' || 'Campo obrigatório' 
               })}
-              colorInputDefault={ThemeColor.primaria}
-              colorInputSuccess={ThemeColor.secundaria}
+              colorInputDefault={tenantData.primary_color_identity}
+              colorInputSuccess={tenantData.secondary_color_identity}
               hasError={!!errors.captured_in_end}
               type='date' />
           
           </S.ContainerSelect>
           <S.ContextButton>
             <S.ButtonCancelar type='button' onClick={onClose}>Cancelar</S.ButtonCancelar>
-            <S.ButtonSalvar type='submit'>Salvar</S.ButtonSalvar>
+            <S.ButtonSalvar  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} type='submit'>Salvar</S.ButtonSalvar>
           </S.ContextButton>
         </form>
       </S.ContainerModal>

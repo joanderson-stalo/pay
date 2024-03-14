@@ -1,6 +1,12 @@
-import { ThemeColor } from "@/config/color";
+
 import styled from "styled-components";
 
+
+
+interface Color {
+  primary: string;
+  secundary: string;
+}
 
 export const ContextDetalhes = styled.div`
   display: flex;
@@ -9,8 +15,8 @@ export const ContextDetalhes = styled.div`
   padding:  0 30px;
 `
 
-export const ButtonBlack = styled.button`
-  color: ${ThemeColor.primaria};
+export const ButtonBlack = styled.button<Color>`
+  color:  ${(props) => props.primary};
 font-size: 12px;
 font-style: normal;
 font-weight: 500;
@@ -21,12 +27,12 @@ background-color: transparent;
 display: flex;
 margin: 40px 0 0 100px;
 `
-export const EditButton = styled.button`
+export const EditButton = styled.button<Color>`
   padding: 14px 24px;
   border-radius: 5px;
   background: var(--foundation-white-light-hover, #FBFBFB);
   box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.25);
-  color: ${ThemeColor.secundaria};
+  color: ${(props) => props.secundary};
 
   font-size: 14px;
   font-weight: 500;

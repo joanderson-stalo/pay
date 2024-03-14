@@ -1,8 +1,9 @@
-import { ThemeColor } from "@/config/color";
+
 import styled from "styled-components";
 
 interface IHistoricoTableCellPapelText {
   label: string;
+  primary?: string;
 }
 
 export const HistoricoContainer = styled.div`
@@ -14,8 +15,13 @@ export const HistoricoContainer = styled.div`
   }
 `;
 
-export const HistoricoHeader = styled.h1`
-  background: ${ThemeColor.primaria};
+interface Color {
+  primary: string;
+  secundary: string;
+}
+
+export const HistoricoHeader = styled.h1<Color>`
+  background:  ${(props) => props.primary};
   width: 595px;
   height: 35px;
   color: #FDFDFD;
@@ -66,12 +72,12 @@ export const HistoricoTableHeaderCellTotal = styled(HistoricoTableCell).attrs({ 
   text-align: center;
 `;
 
-export const TotalRow = styled.tr`
-  background: ${ThemeColor.primaria};
+export const TotalRow = styled.tr<Color>`
+  background:  ${(props) => props.primary};
 `;
 
 export const HistoricoTableCellPapelText = styled.span<IHistoricoTableCellPapelText>`
-  background: ${props => props.label === 'ADQ' ? '#E6E6E6' : `${ThemeColor.primaria}`};
+  background: ${props => props.label === 'ADQ' ? '#E6E6E6' : props.primary};
   border-radius: 4px;
   color: ${props => props.label === 'ADQ' ? '#4B4B4B' : '#FDFDFD'};
   font-size: 12px;

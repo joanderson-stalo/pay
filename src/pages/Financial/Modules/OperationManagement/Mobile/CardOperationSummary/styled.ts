@@ -1,5 +1,9 @@
-import { ThemeColor } from '@/config/color';
 import styled from 'styled-components';
+
+interface Color {
+  primary: string;
+  secundary: string;
+}
 
 export const Card = styled.div`
   width: 100%;
@@ -73,9 +77,9 @@ export const CardValue = styled.span`
   text-overflow: ellipsis;
 `;
 
-export const CardHighlightValue = styled.span`
+export const CardHighlightValue = styled.span<Color>`
   font-size: 12px;
-  color: ${ThemeColor.primaria};
+  color:  ${(props) => props.primary};
   font-weight: 600;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -89,10 +93,10 @@ export const CardLabel = styled.span`
   text-overflow: ellipsis;
 `;
 
-export const CardHighlightLabel = styled.span`
+export const CardHighlightLabel = styled.span<Color>`
   font-size: 12px;
   font-weight: 600;
-  color: ${ThemeColor.secundaria};
+  color: ${(props) => props.secundary};
   overflow: hidden;
   text-overflow: ellipsis;
 `;

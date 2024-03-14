@@ -1,5 +1,6 @@
 import { formatCurrencyBR } from '@/utils/convertBRDinheiro';
 import * as S from './styled';
+import { useTenantData } from '@/context';
 
 interface Transaction {
   id: number;
@@ -16,6 +17,9 @@ interface CardOperationSummaryProps {
 }
 
 export function CardOperationSummary({ transactions }: CardOperationSummaryProps) {
+  const tenantData = useTenantData();
+
+
   return (
         <>
       {transactions.map((transaction) => (
@@ -48,8 +52,8 @@ export function CardOperationSummary({ transactions }: CardOperationSummaryProps
               </S.CardRow>
 
               <S.CardRow>
-                <S.CardHighlightLabel>Lucro:</S.CardHighlightLabel>
-                <S.CardHighlightValue>{formatCurrencyBR(parseFloat(transaction.lucro))}</S.CardHighlightValue>
+                <S.CardHighlightLabel  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>Lucro:</S.CardHighlightLabel>
+                <S.CardHighlightValue  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>{formatCurrencyBR(parseFloat(transaction.lucro))}</S.CardHighlightValue>
               </S.CardRow>
             </S.CardContentColumn>
           </S.CardContent>

@@ -1,6 +1,13 @@
 
-import { ThemeColor } from '@/config/color'
+
+
 import styled from 'styled-components'
+
+interface Color {
+  primary: string;
+  secundary: string;
+}
+
 
 export const Overlay = styled.div`
   width: 100%;
@@ -37,7 +44,7 @@ overflow: auto;
 
 `
 
-export const ContainerTitle = styled.div`
+export const ContainerTitle = styled.div<Color>`
 
     display: flex;
     padding: 27px 0 0 36px;
@@ -46,7 +53,7 @@ export const ContainerTitle = styled.div`
     gap: 12px;
 
   > p {
-    color: ${ThemeColor.secundaria};
+    color: ${(props) => props.secundary};
 font-size: 24px;
 font-weight: 700;
   }
@@ -109,10 +116,10 @@ export const ContextButton = styled.div`
   }
 `
 
-export const ButtonSalvar = styled.button`
+export const ButtonSalvar = styled.button<Color>`
 border-radius: 5px;
 border: 0.5px solid #0086ED;
-background: ${ThemeColor.secundaria};
+background: ${(props) => props.secundary};
 
 width: 109px;
 height: 35px;

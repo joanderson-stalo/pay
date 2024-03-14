@@ -1,13 +1,16 @@
-import { ThemeColor } from "@/config/color";
+
 import styled from "styled-components";
 
 type FuncionamentoTableDataProps = {
   funcionamento: 'quebrado' | 'estável' | 'incompleto';
+  primary: string
 };
 
-type CustomTableHeaderProps = {
-  tipo?: string;
-};
+interface Color {
+  primary: string;
+  secundary: string;
+}
+
 export const Table = styled.table`
   width: 100%;
   border-collapse: separate;
@@ -32,8 +35,8 @@ export const TableHeader = styled.th`
   vertical-align: middle;
 `;
 
-export const CustomTableHeader = styled.th`
-  color: ${ThemeColor.secundaria};
+export const CustomTableHeader = styled.th<Color>`
+${(props) => props.secundary};
   font-size: ${({theme }) => theme.text_xs};
   font-weight: ${({theme }) => theme.font_medium};
   line-height: 15.566px;
@@ -56,10 +59,10 @@ export const TableData = styled.td`
   vertical-align: middle;
 `;
 
-export const Button = styled.button`
- color: ${ThemeColor.primaria};
+export const Button = styled.button<Color>`
+ color: ${(props) => props.primary};
   font-size: ${({theme }) => theme.text_xs};
-color:  ${ThemeColor.primaria};
+color:   ${(props) => props.primary};;
 font-style: normal;
 font-weight: 500;
 line-height: 11.303px;
@@ -98,12 +101,12 @@ export const CommentTableData = styled(TableData)`
 
 
 export const FuncionamentoTableData = styled(TableData)<FuncionamentoTableDataProps>`
-  color: ${({ funcionamento }) => {
+  color: ${({ funcionamento, primary }) => {
     switch (funcionamento) {
       case 'quebrado':
         return '#E91414';
       case 'estável':
-        return `${ThemeColor.secundaria}`;
+        return primary;
       case 'incompleto':
         return '#FF7C33';
       default:

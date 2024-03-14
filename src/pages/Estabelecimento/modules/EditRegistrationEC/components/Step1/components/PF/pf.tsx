@@ -1,4 +1,4 @@
-import { ThemeColor, baseURL } from '@/config/color'
+import { baseURL } from '@/config/color'
 import { useFormContext } from 'react-hook-form'
 import * as S from './styled'
 import { CustomInput } from '@/components/Input/input'
@@ -16,6 +16,7 @@ import { useLogin } from '@/context/user.login'
 import { useEstablishment } from '@/context/useEstablishment'
 import Swal from 'sweetalert2'
 import { useNavigate } from 'react-router-dom'
+import { useTenantData } from '@/context'
 
 interface IStep1 {
   Avançar: () => void
@@ -159,7 +160,7 @@ export function PF({ Avançar}: IStep1) {
   }
 
  
-
+  const tenantData = useTenantData();
   const areaAtuacaoValue = watch('AreaAtuacaoEstabelecimento');
   return (
     <S.ContainerStep>
@@ -175,8 +176,8 @@ export function PF({ Avançar}: IStep1) {
               <CustomInput
                 {...register('NomeFantasiaEstabelecimento')}
                 label="Nome Fantasia"
-                colorInputDefault={ThemeColor.primaria}
-                colorInputSuccess={ThemeColor.secundaria}
+                colorInputDefault={tenantData.primary_color_identity}
+                colorInputSuccess={tenantData.secondary_color_identity}
                 hasError={!!errors.NomeFantasiaEstabelecimento}
               />
               <LabelCustomInputMask
@@ -200,8 +201,8 @@ export function PF({ Avançar}: IStep1) {
               <CustomInput
                 {...register('NomeSocioEstabelecimento')}
                 label="Nome Completo"
-                colorInputDefault={ThemeColor.primaria}
-                colorInputSuccess={ThemeColor.secundaria}
+                colorInputDefault={tenantData.primary_color_identity}
+                colorInputSuccess={tenantData.secondary_color_identity}
                 hasError={!!errors.NomeSocioEstabelecimento}
               />
             </S.ContainerInput>
@@ -211,8 +212,8 @@ export function PF({ Avançar}: IStep1) {
                   validate: validateEmail
                 })}
                 label="E-mail"
-                colorInputDefault={ThemeColor.primaria}
-                colorInputSuccess={ThemeColor.secundaria}
+                colorInputDefault={tenantData.primary_color_identity}
+                colorInputSuccess={tenantData.secondary_color_identity}
                 hasError={!!errors.EmailEstabelecimento}
               />
               <LabelCustomInputMask
@@ -243,8 +244,10 @@ export function PF({ Avançar}: IStep1) {
         </S.ContextStep>
         <S.ContainerButton>
         <S.ButtonVoltar type='button' onClick={handleEC} >Cancelar</S.ButtonVoltar>
-          <S.ButtonAvançar  type='button' disabled={!allFieldsFilled} onClick={handleSalvar}>Salvar</S.ButtonAvançar>
-        <S.ButtonAvançar  type='button' disabled={!allFieldsFilled} onClick={handleAvancar}>
+          <S.ButtonAvançar  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}
+  type='button' disabled={!allFieldsFilled} onClick={handleSalvar}>Salvar</S.ButtonAvançar>
+        <S.ButtonAvançar  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}
+ type='button' disabled={!allFieldsFilled} onClick={handleAvancar}>
           Avançar
         </S.ButtonAvançar>
         </S.ContainerButton>

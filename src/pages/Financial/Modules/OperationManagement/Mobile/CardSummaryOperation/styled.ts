@@ -1,5 +1,10 @@
-import { ThemeColor } from '@/config/color';
+
+
 import styled from 'styled-components';
+interface Color {
+  primary: string;
+  secundary: string;
+}
 
 export const CardWrapper = styled.div`
   width: 100%;
@@ -7,10 +12,10 @@ export const CardWrapper = styled.div`
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 `;
 
-export const CardHeader = styled.div`
+export const CardHeader = styled.div<Color>`
   width: 100%;
   padding: 10px 30px;
-  background: ${ThemeColor.primaria};
+  background:  ${(props) => props.primary};
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -77,9 +82,9 @@ export const CardInfoValue = styled.span`
   color: #6C757D;
 `;
 
-export const CardInfoValueHighlighted = styled.span`
+export const CardInfoValueHighlighted = styled.span<Color>`
   font-size: 12px;
-  color: ${ThemeColor.primaria};
+  color:  ${(props) => props.primary};
   font-weight: 600;
 `;
 
@@ -89,8 +94,8 @@ export const CardInfoLabel = styled.span`
   color: #8A8A8A;
 `;
 
-export const CardInfoLabelHighlighted = styled.span`
+export const CardInfoLabelHighlighted = styled.span<Color>`
   font-size: 12px;
   font-weight: 600;
-  color: ${ThemeColor.secundaria};
+  color: ${(props) => props.secundary};
 `;

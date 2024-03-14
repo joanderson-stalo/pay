@@ -2,6 +2,7 @@ import { formatCurrencyBR } from '@/utils/convertBRDinheiro';
 import * as S from './styled';
 import { useTariff } from '@/context/useTariff';
 import { useNavigate } from 'react-router-dom';
+import { useTenantData } from '@/context';
 
 export interface RowData {
   id: number;
@@ -35,7 +36,7 @@ export function TariffsCard({ data }: TariffsCardsProps) {
     navigate(`/editRate`);
 };
 
-
+const tenantData = useTenantData();
 
   return (
     <>
@@ -71,7 +72,8 @@ export function TariffsCard({ data }: TariffsCardsProps) {
                 <S.TariffCardDescription>{rowData.type}</S.TariffCardDescription>
               </S.DetailBlock>
 
-              <S.EditButton onClick={() => handleViewMoreClick(rowData.id.toString())}>Editor</S.EditButton>
+              <S.EditButton  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}
+ onClick={() => handleViewMoreClick(rowData.id.toString())}>Editor</S.EditButton>
             </S.TariffDetailsSection>
           </S.TariffCardContent>
         </S.TariffCardWrapper>

@@ -1,10 +1,14 @@
 import * as S from './styled';
 import { dadosHistorico } from './dados';
+import { useTenantData } from '@/context';
 
 export function TableStock() {
+  const tenantData = useTenantData();
+
+
   return (
     <S.HistoricoContainer>
-      <S.HistoricoHeader>Histórico de conciliações</S.HistoricoHeader>
+      <S.HistoricoHeader  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>Histórico de conciliações</S.HistoricoHeader>
       <S.HistoricoTable>
         <thead>
           <tr>
