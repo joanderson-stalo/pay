@@ -71,22 +71,17 @@ export function CreateUser() {
     }
   };
 
-  const extractKeyFromCurrentURL = () => {
-    const url = window.location.hostname;
-    const parts = url.split('.');
-    return parts.length > 2 ? parts[0] : parts.join('.');
-  };
-
+  
 
 
   const uploadFileToS3 = async (file: File): Promise<string> => {
     const currentDate = await new Date();
     const formattedDate = await  currentDate.toISOString().replace(/[-:.]/g, '');
     const fileNameWithTimestamp = await `${formattedDate}${file.name.replace(/\s/g, '-')}`;
-    const keyPrefix = await extractKeyFromCurrentURL();
+  
     const params = {
       Bucket: 'stalopay',
-      Key: `${keyPrefix}/user_photo/${fileNameWithTimestamp}`,
+      Key: `${tenantData.name}/user_photo/${fileNameWithTimestamp}`,
       Body: file,
     };
 
