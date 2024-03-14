@@ -179,6 +179,7 @@ export function PasswordChange({ email, token }: Props) {
             </ConatainerInput>
             <ContainerMessage>
               <StyledP
+                secundary={tenantData.secondary_color_identity}
                 success={
                   hasLowercase &&
                   hasUppercase &&

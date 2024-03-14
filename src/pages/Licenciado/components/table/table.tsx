@@ -3,6 +3,7 @@ import * as S from './styled';
 import { useNavigate } from 'react-router-dom';
 import { maskCpfCnpj } from '@/utils/maskCpfCnpj';
 import { useLicensed } from '@/context/useLicensed';
+import { useTenantData } from '@/context';
 
 export interface RowData {
   id: number;
@@ -106,6 +107,9 @@ export function Tabela({ rows }: TabelaProps) {
     handleSort('id');
   }, []);
 
+  const tenantData = useTenantData();
+
+
   return (
     <S.Table>
       <thead>
@@ -149,7 +153,7 @@ export function Tabela({ rows }: TabelaProps) {
             <S.TableData>{formatToBRL(parseFloat(seller.commission.replace(',', '.')))}</S.TableData>
             <S.TableData>{formatToBRL(seller.tpv)}</S.TableData>
             <S.TableData>
-              <S.Button onClick={() => handleViewMoreClick(seller.id.toString())}>Dados</S.Button>
+              <S.Button  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} onClick={() => handleViewMoreClick(seller.id.toString())}>Dados</S.Button>
             </S.TableData>
           </tr>
         ))}

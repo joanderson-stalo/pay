@@ -137,7 +137,7 @@ export function Step2({ Avançar, Voltar }: IStep2) {
         </ContextStep>
         <ContainerButton>
           <ButtonVoltar onClick={Voltar}>Voltar</ButtonVoltar>
-          <ButtonAvançar disabled={!allFieldsFilled} onClick={Avançar}>Avançar</ButtonAvançar>
+          <ButtonAvançar  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} disabled={!allFieldsFilled} onClick={Avançar}>Avançar</ButtonAvançar>
         </ContainerButton>
       </ContextStepContainer>
     </ContainerStep>

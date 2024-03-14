@@ -139,7 +139,7 @@ export function PasswordRegister() {
               </ContextInput>
             </ConatainerInput>
             <ContainerMessage>
-              <StyledP success={hasLowercase && hasUppercase && hasNumber && hasSpecialChar && hasSixCharacters}> A senha deve conter pelo menos: </StyledP>
+              <StyledP secundary={tenantData.secondary_color_identity} success={hasLowercase && hasUppercase && hasNumber && hasSpecialChar && hasSixCharacters}> A senha deve conter pelo menos: </StyledP>
               <ul>
 
                   <MessageErrorList success={hasLowercase}>
