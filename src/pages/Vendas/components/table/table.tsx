@@ -5,6 +5,7 @@ import elo from '@assets/bandeiras/elo.svg';
 import maestro from '@assets/bandeiras/maestro.svg';
 import visa from '@assets/bandeiras/visa.svg';
 import masterCard from '@assets/bandeiras/master.svg';
+import hyper from '@assets/Card/hypers.svg'
 import { Transaction } from './interface';
 import { useNavigate } from 'react-router-dom';
 import { useTransactionVendas } from '@/context/useTransaction';
@@ -121,6 +122,7 @@ export function TabelaVendas({ rows }: TabelaProps) {
                       transaction.brand.toLocaleLowerCase() === 'elo' ? elo :
                       transaction.brand.toLocaleLowerCase() === 'mastercard' ? masterCard :
                       transaction.brand.toLocaleLowerCase() === 'maestro' ? maestro :
+                      transaction.brand.toLocaleLowerCase() === 'hipercard' ?  hyper :
                       transaction.brand.toLocaleLowerCase() === 'pix' ? pix : undefined
                     }
                     alt={transaction.brand}
