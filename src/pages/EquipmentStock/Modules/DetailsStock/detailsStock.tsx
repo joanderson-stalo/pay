@@ -7,13 +7,14 @@ import { useNavigate } from 'react-router-dom'
 import { mockCardStock } from './components/CardStock/mockCardStock'
 import { CardStock } from './components/CardStock/cardStock'
 import { TableStock } from './components/TableStock/tableStock'
+import { useTenantData } from '@/context'
 
 
 
 export function DetailsStock() {
 
   const [loading, setLoading] = useState<boolean>(false)
-
+  const tenantData = useTenantData();
   const navigate = useNavigate()
 
   const handleVendas = () => {
@@ -25,7 +26,7 @@ export function DetailsStock() {
       {loading ? <Loading />
       :
     <>
-            <S.ButtonBlack onClick={handleVendas}><CaretLeft size={18} />Voltar</S.ButtonBlack>
+            <S.ButtonBlack  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}  onClick={handleVendas}><CaretLeft size={18} />Voltar</S.ButtonBlack>
 
         <S.ContextDetalhes>
         <CardStock {...mockCardStock} />
@@ -37,8 +38,8 @@ export function DetailsStock() {
        < TableStock  />
 
         <S.ContainerBtn>
-        <S.EditButton type='button'>Enviar para a rede</S.EditButton>
-        <S.CancelButton  type='button'>Excluir POS</S.CancelButton >
+        <S.EditButton  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}  type='button'>Enviar para a rede</S.EditButton>
+        <S.CancelButton  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}  type='button'>Excluir POS</S.CancelButton >
         </S.ContainerBtn>
 
        </S.ContainerWrapper>
