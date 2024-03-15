@@ -3,7 +3,7 @@
 
 const currentHost = window.location.hostname;
 const segment = currentHost.split('.')[0]; 
-export const baseURL = `https://api-${segment}.stalopay.com.br/`;
+export const baseURL = `http://api-${segment}.stalopay.com.br/`;
 
 
 

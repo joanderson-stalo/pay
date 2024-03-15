@@ -29,7 +29,7 @@ export function App() {
       try {
         const currentHost = window.location.hostname;
         const segment = currentHost.split('.')[0]; 
-        const apiURL = `https://api-${segment}.stalopay.com.br/api`; 
+        const apiURL = `http://api-${segment}.stalopay.com.br/api`; 
 
         const response = await axios.get(apiURL);
         const pageTitle = response.data.tenant.page_title;
