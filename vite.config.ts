@@ -1,21 +1,19 @@
-/// <reference types="vitest" />
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import svgr from 'vite-plugin-svgr';
 import * as path from 'path';
 
-// https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), svgr()],
+  plugins: [
+    react(),
+
+  ],
   server: {
-    port: 80
-  },
-  test: {
-    globals: true,
-    environment: 'jsdom',
-    setupFiles: ['./.test/setup.ts'],
-    include: ['**/(*.)?{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
-    exclude: ['node_modules', 'dist', '.idea', '.git', '.cache'],
+    port: 80,
+    watch: {
+      usePolling: true,
+    },
+    strictPort: true,
+    host: true
   },
   root: './',
   build: {
