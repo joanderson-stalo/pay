@@ -12,7 +12,7 @@ export const LoadingContainer = styled.div`
   left: 0;
   height: 100vh;
   width: 100vw;
-  background:  #3c0a6d;
+  background:  #3D4449;
   display: flex;
   align-items: center;
   justify-content: center;
