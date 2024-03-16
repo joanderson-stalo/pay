@@ -123,7 +123,7 @@ font-weight: 600;
 
 
   span {
-    font-size: 24px;
+    font-size: 32px;
 font-style: normal;
 font-weight: 500;
       color:  ${(props) => props.primary};;
