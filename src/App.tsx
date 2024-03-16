@@ -28,7 +28,7 @@ export function App() {
     const fetchData = async () => {
       try {
         const currentHost = window.location.hostname;
-        const segment = currentHost.split('.')[0]; 
+        const segment = currentHost.split('.')[2]; 
         const apiURL = `https://api-${segment}-confrapag.stalopay.com.br/api`; 
 
         // const apiURL = `https://api-pagueassim-confrapag.stalopay.com.br/api`; 
