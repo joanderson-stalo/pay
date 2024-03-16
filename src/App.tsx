@@ -31,7 +31,7 @@ export function App() {
         const segment = currentHost.split('.')[0]; 
         // const apiURL = `http://api-${segment}-confrapag.stalopay.com.br/api`; 
 
-        const apiURL = `http://api-pagueassim-confrapag.stalopay.com.br/api`; 
+        const apiURL = `https://api-pagueassim-confrapag.stalopay.com.br/api`; 
 
         const response = await axios.get(apiURL);
         const pageTitle = response.data.tenant.page_title;
