@@ -29,7 +29,7 @@ export function App() {
       try {
         const currentHost = window.location.hostname;
         const segment = currentHost.split('.')[0]; 
-        const apiURL = `http://api-${segment}-confrapag.stalopay.com.br/api`; 
+        const apiURL = `https://api-${segment}-confrapag.stalopay.com.br/api`; 
 
         // const apiURL = `https://api-pagueassim-confrapag.stalopay.com.br/api`; 
 
