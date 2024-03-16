@@ -64,7 +64,7 @@ export const RegisterPasswordSuccess = {
 }
 
 export const ButtonText = {
-  login: 'Login',
+  login: 'LOGIN',
   irLogin: 'Ir para o Login',
   salvar: 'Salvar',
   enviar: 'Enviar e-mail'
