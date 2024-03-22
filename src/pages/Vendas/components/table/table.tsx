@@ -3,6 +3,7 @@ import * as S from './styled';
 import pix from '@assets/bandeiras/pix.svg';
 import elo from '@assets/bandeiras/elo.svg';
 import maestro from '@assets/bandeiras/maestro.svg';
+import amex from '@assets/bandeiras/amex.svg'
 import visa from '@assets/bandeiras/visa.svg';
 import masterCard from '@assets/bandeiras/master.svg';
 import hyper from '@assets/Card/hypers.svg'
@@ -123,6 +124,7 @@ export function TabelaVendas({ rows }: TabelaProps) {
                       transaction.brand.toLocaleLowerCase() === 'mastercard' ? masterCard :
                       transaction.brand.toLocaleLowerCase() === 'maestro' ? maestro :
                       transaction.brand.toLocaleLowerCase() === 'hipercard' ?  hyper :
+                      transaction.brand.toLocaleLowerCase() === 'amex' ?  amex :
                       transaction.brand.toLocaleLowerCase() === 'pix' ? pix : undefined
                     }
                     alt={transaction.brand}

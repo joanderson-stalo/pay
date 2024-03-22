@@ -5,6 +5,7 @@ import maestro from '@assets/bandeiras/maestro.svg';
 import visa from '@assets/bandeiras/visa.svg';
 import masterCard from '@assets/bandeiras/master.svg';
 import hyper from '@assets/Card/hypers.svg'
+import amex from '@assets/bandeiras/amex.svg'
 import { useTenantData } from '@/context';
 
 interface CardDetalhesProps {
@@ -56,6 +57,7 @@ export function CardDetalhes({
             brand?.toLocaleLowerCase()  === 'elo' ? elo :
             brand?.toLocaleLowerCase()  === 'mastercard' ? masterCard :
             brand?.toLocaleLowerCase()  === 'maestro' ? maestro :
+            brand?.toLocaleLowerCase()  === 'amex'? amex :
             brand?.toLocaleLowerCase()  === 'hipercard' ?             hyper :
 
             brand?.toLocaleLowerCase()  === 'pix' ? pix : undefined
