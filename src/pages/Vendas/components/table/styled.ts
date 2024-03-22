@@ -75,6 +75,11 @@ export const FlagContainer = styled.div`
     line-height: 15.566px;
     padding: 8px;
   }
+
+  > img {
+    width: 40px;
+    height: 40px;
+  }
 `;
 
 export const FormaPagamentoData = styled.td`
