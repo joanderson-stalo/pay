@@ -127,5 +127,6 @@ export const SortArrow = styled.span<{ isActive: boolean }>`
   color: ${props => (props.isActive ? '#08BBE9' : 'black')};
   opacity: ${props => (props.isActive ? 1 : 0.5)};
   font-size: 9px;
+  
 `;
 
