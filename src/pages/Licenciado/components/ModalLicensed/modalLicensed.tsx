@@ -50,7 +50,6 @@ export function ModalLicensed({ onClose, visible }: IModalSucesso) {
       const data = response.data;
 
       if (data && data.sellers) {
-        console.log(data.sellers.trading_name)
         const options = data.sellers.map((seller: { trading_name: any; type: any; id: any, cnpj_cpf: any }, index: number) => ({
           value: seller.id,
           label: `${seller.trading_name}-${seller.type}-${seller.cnpj_cpf}`
@@ -64,14 +63,14 @@ export function ModalLicensed({ onClose, visible }: IModalSucesso) {
   };
 
   useEffect(() => {
-    
+
     fetchData();
   }, []);
 
   if (!visible) {
     return null;
   }
-  
+
   const tenantData = useTenantData();
 
   return (

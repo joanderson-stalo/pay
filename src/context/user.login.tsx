@@ -62,7 +62,7 @@ export const LoginProvider = ({ children }: { children: React.ReactNode }) => {
       const storedUser = typeof storedUserRaw === 'string' ? JSON.parse(storedUserRaw) as User : null;
       if (storedUser) {
         setDataUser(storedUser);
-        
+
       }
 
       setIsLogin(true);
@@ -104,18 +104,17 @@ export const LoginProvider = ({ children }: { children: React.ReactNode }) => {
         const response = await axios.get(`${baseURL}validatetoken`, {
           headers: { Authorization: `Bearer ${dataUser?.token}` }
         });
-  
+
         const expiresIn = response.data.expires_in * 1000;
-        console.log(response.data.expires_in)
         const now = new Date().getTime();
         const tokenExpirationTime = new Date(now + expiresIn).getTime();
-  
+
         const timeUntilExpiration = tokenExpirationTime - now;
-      
+
         const expirationTimer = setTimeout(() => {
           validateToken();
         }, timeUntilExpiration);
-  
+
       } catch (error) {
         secureLocalStorage.removeItem('@App:isLogin')
         secureLocalStorage.removeItem('@App:user')
@@ -124,10 +123,10 @@ export const LoginProvider = ({ children }: { children: React.ReactNode }) => {
         setIsLogin(false);
       }
     };
-  
+
     validateToken(); // Executar a validação do token quando este efeito for montado pela primeira vez
   }, [dataUser]); // Execute novamente quando o dataUser for alterado
-  
+
 
 
   return (

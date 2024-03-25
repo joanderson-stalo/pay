@@ -198,7 +198,6 @@ export function Step3({ Avançar, Voltar }: IStep3) {
         const data = response.data;
 
         if (data && data.sellers) {
-          console.log(data.sellers.trading_name)
           const options = data.sellers.map((seller: { trading_name: any; type: any; id: any, cnpj_cpf: any }, index: number) => ({
             value: seller.id,
             label: `${seller.trading_name}-${seller.type}-${seller.cnpj_cpf}`
@@ -241,10 +240,10 @@ export function Step3({ Avançar, Voltar }: IStep3) {
       });
     }
   }, [selectedAcquires]);
-  
-  
-  
-  
+
+
+
+
 
   const licenciadoValue = watch('licenciado');
   const selectedOption = fetchedOptions.find(option => option.value === licenciadoValue);

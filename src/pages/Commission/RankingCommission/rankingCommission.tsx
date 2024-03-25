@@ -42,7 +42,7 @@ export function RankingCommission() {
   const [itensPorPage, setItensPorPage] = useState<number | ''>(10)
   const [filter, setFilter] = useState(false)
   const [loading, setLoading] = useState<boolean>(false)
-  
+
 
 
   const [currentPage, setCurrentPage] = useState<number>(1)
@@ -104,7 +104,7 @@ export function RankingCommission() {
     }
   }
 
- 
+
 
   useEffect(() => {
     if (searchValue.trim() === '') {
@@ -122,18 +122,17 @@ export function RankingCommission() {
     fetchDataFromAPI()
   }, [itensPorPage, currentPage])
 
-  console.log('totalpage', totalPages)
 
   return (
     <>
-    
+
       {loading ? (
         <Loading />
       ) : (
         <>
         <S.Container>
             <HeaderCommission />
-       
+
 
             <S.ContainerCardVendas>
               <CardInfo
@@ -152,7 +151,7 @@ export function RankingCommission() {
             </S.ContainerCardVendas>
 
           <TabelaRankingCommission commissions_by_EC={commissionsByEC}  />
-          
+
 
           <S.ContainerCardsMobile>
           <RankingCard data={commissionsByEC} />

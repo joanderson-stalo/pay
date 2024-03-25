@@ -261,7 +261,6 @@ const validateStep4 = () => {
   const steps = [1, 2, 3, 4];
   const successModalText = "Estabelecimento Credenciado";
 
-  console.log('oii',  getValues())
 
   return (
     <>

@@ -11,7 +11,6 @@ export function Modal({ closeModal }: ModalProps) {
   const navigate = useNavigate();
 
   const handleUserListClick = () => {
-    console.log("handleUserListClick chamado");
     navigate('/user-seller');
     closeModal();
 

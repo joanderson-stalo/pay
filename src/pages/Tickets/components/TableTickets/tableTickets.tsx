@@ -120,7 +120,7 @@ export function TableTickets({ rows }: TabelaProps) {
         </S.TableData>
             <S.CommentTableData>{row.comentarios}</S.CommentTableData>
             <S.TableData>
-              <S.Button onClick={() => console.log(`Editar ${row.id}`)}>Editar</S.Button>
+              <S.Button onClick={() => false}>Editar</S.Button>
             </S.TableData>
           </tr>
         ))}

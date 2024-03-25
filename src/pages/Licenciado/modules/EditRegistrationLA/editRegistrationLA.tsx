@@ -27,7 +27,7 @@ export const EditRegistrationLA = () => {
   const methods = useForm();
   const { dataUser } = useLogin();
   const { getValues } = methods;
-  const [isLoading, setIsLoading] = useState(false); 
+  const [isLoading, setIsLoading] = useState(false);
   const { licensedId } = useLicensed();
 
   const handleModalClose = () => {
@@ -47,9 +47,9 @@ export const EditRegistrationLA = () => {
               'Authorization': `Bearer ${dataUser?.token}`
             }
           });
-  
+
           const sellerData = sellerDataResponse.data;
-  
+
           const banks= sellerData.seller.banks[0].id;
 
 
@@ -63,7 +63,7 @@ export const EditRegistrationLA = () => {
             code: step4Values.Banco ,
             pix: step4Values.pix
           };
-          setIsLoading(true); 
+          setIsLoading(true);
           await axios.put(`${baseURL}banks/update-la/${banks}`, requestBody,
           {
             headers: {
@@ -76,7 +76,7 @@ export const EditRegistrationLA = () => {
           console.error("Error updating bank details:", error);
           toast.error("Error updating bank details. Please try again later.");
         } finally {
-          setIsLoading(false); 
+          setIsLoading(false);
         }
       }
     } else {
@@ -181,7 +181,6 @@ const currentStepIsValid = () => {
 const steps = [1, 2, 3, 4];
 const successModalText = "Licenciado Atualizado";
 
-console.log('oiiss',  getValues())
 
 return (
   <>

@@ -19,8 +19,7 @@ export function DefaultHome() {
     }
   })
 
-console.log('hmm', isVisible)
-  
+
   return (
     <ContainerDefaultHome>
       <ContainerSidebarDefault>

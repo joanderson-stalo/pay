@@ -20,7 +20,6 @@
 
   export function TablePlans({ rows }: TabelaProps) {
     const handleActionClick = (id: number, action: 'edit' | 'remove') => {
-      console.log(`${action} action for ID: ${id}`);
     };
 
     const renderCellContent = (content: string | string[]) => {

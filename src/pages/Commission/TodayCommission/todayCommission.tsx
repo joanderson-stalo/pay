@@ -44,7 +44,7 @@ export function TodayCommission() {
   const [itensPorPage, setItensPorPage] = useState<number | ''>(10)
   const [loading, setLoading] = useState<boolean>(false)
 
- 
+
   const [currentPage, setCurrentPage] = useState<number>(1)
   const { dataUser } = useLogin()
   const [totalCommissionsByEC, setTotalCommissionsByEC] = useState<number>(0);
@@ -89,7 +89,7 @@ export function TodayCommission() {
 
       let totalCommissions = Object.keys(data.commissions_by_EC).length;
       setTotalCommissionsByEC(totalCommissions);
-    
+
     } catch (error) {
       console.error('Erro ao buscar dados:', error);
     } finally {
@@ -106,11 +106,10 @@ export function TodayCommission() {
     fetchDataFromAPI()
   }, [itensPorPage, currentPage])
 
-  console.log('totalpage', totalPages)
 
   return (
     <>
-    
+
       {loading ? (
         <Loading />
       ) : (
@@ -131,12 +130,12 @@ export function TodayCommission() {
                 shouldFormat={false}
                 value={totalCommissionCount}
               />
-          
+
             </S.ContainerCardVendas>
-      
+
           </S.ContextTitleVendas>
 
-        
+
           <TabelaToDayCommission commissions_by_EC={commissionsByEC} />
 
           <S.ContainerCardsMobile>

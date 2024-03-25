@@ -57,7 +57,7 @@ export function Step3({ Avançar, Voltar }: IStep3) {
   } = useFormContext();
 
   const allFieldsFilled =
-    !!watch('licenciado') 
+    !!watch('licenciado')
     // && inputs.every((_, index) => !!watch(`Fornecedor${index}`) && !!watch(`PlanoComercial${index}`));
 
   const handleAcquireChange = (selectedOption: { value: string }, index: number) => {
@@ -193,7 +193,6 @@ export function Step3({ Avançar, Voltar }: IStep3) {
         const data = response.data;
 
         if (data && data.sellers) {
-          console.log(data.sellers.trading_name)
           const options = data.sellers.map((seller: { trading_name: any; type: any; id: any, cnpj_cpf: any }, index: number) => ({
             value: seller.id,
             label: `${seller.trading_name}-${seller.type}-${seller.cnpj_cpf}`
@@ -210,7 +209,7 @@ export function Step3({ Avançar, Voltar }: IStep3) {
 
   useEffect(() => {
     const fetchSellerData = async () => {
-      setLoading(true); 
+      setLoading(true);
       try {
         const response = await axios.get(
           `${baseURL}seller/show/${establishmentId}`,
@@ -221,14 +220,14 @@ export function Step3({ Avançar, Voltar }: IStep3) {
             },
           }
         );
-  
+
         const sellerData = response.data;
         setValue('licenciado', sellerData.seller.seller_la.id_la);
-      
+
       } catch (error) {
         console.error('Erro ao obter dados do vendedor:', error);
       } finally {
-        setLoading(false); 
+        setLoading(false);
       }
     };
     fetchSellerData();
@@ -242,16 +241,16 @@ export function Step3({ Avançar, Voltar }: IStep3) {
         id_seller_origin: watch('licenciado'),
         id_seller_destiny: establishmentId
       };
-  
+
       await axios.put(`${baseURL}update-seller-network`, updatedData, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${dataUser?.token}`
         }
       });
-  
+
       setLoading(false);
-  
+
       Swal.fire({
         icon: 'success',
         title: 'Licenciado atualizado com sucesso!',
@@ -261,7 +260,7 @@ export function Step3({ Avançar, Voltar }: IStep3) {
         cancelButtonText: 'OK',
         showCloseButton: true,
         closeButtonAriaLabel: 'Fechar modal'
-        
+
       }).then((result) => {
         if (result.isConfirmed) {
           Avançar();
@@ -312,16 +311,16 @@ export function Step3({ Avançar, Voltar }: IStep3) {
                 <button>Pesquise pelo nome do Licenciado</button>
               </ContainerInput2>
               {/* {renderInputs()} */}
-            
+
             </ContainerForm>
           </ContextStep>
           <ContainerButton>
             <ButtonVoltar onClick={Voltar}>Voltar</ButtonVoltar>
-            <ButtonAvançar 
+            <ButtonAvançar
  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} disabled={!allFieldsFilled} onClick={handleSalvar}>
               Salvar
             </ButtonAvançar>
-            <ButtonAvançar 
+            <ButtonAvançar
  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} disabled={!allFieldsFilled} onClick={Avançar}>
               Avançar
             </ButtonAvançar>

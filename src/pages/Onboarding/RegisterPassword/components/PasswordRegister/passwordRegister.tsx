@@ -56,7 +56,6 @@ export function PasswordRegister() {
   const hasSixCharacters = (password || '').length >= 6
 
   const onSubmit = (data: FormData) => {
-    console.log(data)
 
     setSucess(true)
   }

@@ -55,7 +55,7 @@ export function PJ({ Avançar }: IStep1) {
   const [sellerData, setSellerData] = useState(null);
   const [typeDocument, setTypeDocument] = useState(null);
   const navigate = useNavigate()
-  
+
 
   const allFieldsFilled =
     !!watch('CNPJEstabelecimento') &&
@@ -70,13 +70,13 @@ export function PJ({ Avançar }: IStep1) {
     !!watch('TelefoneEstabelecimento')
 
   const handleAvancar = async () => {
-    
+
       Avançar()
   }
 
   useEffect(() => {
     const fetchSellerData = async () => {
-      setLoading(true); 
+      setLoading(true);
       try {
         const response = await axios.get(
           `${baseURL}seller/show/${establishmentId}`,
@@ -87,7 +87,6 @@ export function PJ({ Avançar }: IStep1) {
             },
           }
         );
-        console.log(response.data.seller)
         setSellerData(response.data.seller);
         setValue('EmailEstabelecimento', response.data.seller.email);
         setValue('CNPJEstabelecimento', response.data.seller.document);
@@ -101,13 +100,12 @@ export function PJ({ Avançar }: IStep1) {
         setValue('TelefoneEstabelecimento', response.data.seller.phone);
         setValue('NomeSocioEstabelecimento', response.data.seller.owner_name);
         setValue('AreaAtuacaoEstabelecimento', response.data.seller.mcc);
-        console.log(response.data.seller.mcc)
-        setTypeDocument(response.data.seller.type_document); 
+        setTypeDocument(response.data.seller.type_document);
       } catch (error) {
         console.error('Erro ao buscar dados da API:', error);
         setSellerData(null);
       } finally {
-        setLoading(false); 
+        setLoading(false);
       }
     };
     fetchSellerData();
@@ -119,12 +117,12 @@ export function PJ({ Avançar }: IStep1) {
   const handleSalvar = async () => {
     try {
       setLoading(true);
-  
+
       const formatDate = (dateString: { split: (arg0: string) => [any, any, any] }) => {
         const [day, month, year] = dateString.split('/');
         return `${year}-${month}-${day}`;
       };
-  
+
       const updatedData = {
         mcc: areaAtuacaoValue,
         company_name: watch('RazaoSocialEstabelecimento'),
@@ -138,16 +136,16 @@ export function PJ({ Avançar }: IStep1) {
         document: watch('CNPJEstabelecimento'),
         type_document: typeDocument
       };
-  
+
       await axios.put(`${baseURL}seller/update/${establishmentId}`, updatedData, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${dataUser?.token}`
         }
       });
-  
+
       setLoading(false);
-  
+
       Swal.fire({
         icon: 'success',
         title: 'Licenciado atualizado com sucesso!',
@@ -184,13 +182,13 @@ export function PJ({ Avançar }: IStep1) {
 
   return (
     <>
-    {loading && <  Loading />}  
+    {loading && <  Loading />}
       <ContainerStep>
       <ContextStepContainer>
         <ContextStep>
           <ContainerDados>
             <TitleStep>Dados do Estabelecimento</TitleStep>
-          
+
           </ContainerDados>
           <Line />
           <ContainerForm>

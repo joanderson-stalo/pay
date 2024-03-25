@@ -62,8 +62,6 @@ export function OperationManagement() {
       }));
 
       setFetchedOptions(options);
-      console.log('aq',data.acquires
-)
 
     } catch (error) {
       console.error('Houve um erro ao buscar os dados:', error);
@@ -76,7 +74,7 @@ export function OperationManagement() {
 
 
   const onSubmit = (data: FormValues) => {
-    console.log(data)
+   
   };
 
 

@@ -108,7 +108,7 @@ export function EditRate() {
       const tariffAmount = parseFloat(tariff.amount);
       const formattedAmount = tariffAmount.toFixed(2);
       setValue('valor', formattedAmount);
-      
+
 
       setValue('estabelecimento', tariff.seller_id);
       setValue('tipo', tariff.type);
@@ -152,9 +152,9 @@ export function EditRate() {
 
   const onSubmit: SubmitHandler<FieldValues> = async (data: FieldValues) => {
     const formData: FormData = data as FormData;
-  
+
     const operationType = ["Crédito", "credito", "Credito"].includes(formData.tipo) ? "credit" : formData.tipo;
-    const payload = 
+    const payload =
         {
           seller_id: formData.estabelecimento,
           responsible_seller_id: formData.licenciadoAutorizado,
@@ -169,13 +169,12 @@ export function EditRate() {
           type: formData.tipo,
           reference_date: formData['dataReferência'],
           billing_date: formData['dataCobrança']
-   
-   
+
+
     };
-  
+
     try {
       setLoading(true);
-      console.log(payload)
       const response = await axios.put(`${baseURL}tariffs/update/${tariffId}`, payload, {
         headers: {
           'Content-Type': 'application/json',
@@ -187,7 +186,7 @@ export function EditRate() {
         title: 'Sucesso!',
         text: 'A tarifa foi atualizada com sucesso.',
       }).then(() => {
-        navigate('/tariffs'); 
+        navigate('/tariffs');
       });
     } catch (error: any) {
       const err = error as AxiosError<ApiResponse>;
@@ -202,9 +201,9 @@ export function EditRate() {
   const handleCancel = () => {
     navigate('/tariffs');
   };
-  
+
   const estabelecimentoValue = watch('estabelecimento') as string | undefined;
-  
+
   const licenciadoValue = watch('licenciadoAutorizado') as string | undefined;
   const tenantData = useTenantData();
   return (
@@ -223,7 +222,7 @@ export function EditRate() {
              optionsData={{ options: fetchedOptionsEC }}
              placeholder="Clique para ver a lista"
              label="Estabelecimento"
-             value={fetchedOptionsEC.find(option => option.value === estabelecimentoValue)} 
+             value={fetchedOptionsEC.find(option => option.value === estabelecimentoValue)}
              onChange={(selectedOption: { value: string }) => {
                setValue('estabelecimento', selectedOption.value)
              }}
@@ -233,7 +232,7 @@ export function EditRate() {
   optionsData={{ options: fetchedOptionsLA }}
   placeholder="Clique para ver a lista"
   label="Licenciado"
-  value={fetchedOptionsLA.find(option => option.value === licenciadoValue)} 
+  value={fetchedOptionsLA.find(option => option.value === licenciadoValue)}
   onChange={(selectedOption: { value: string }) => {
     setValue('licenciadoAutorizado', selectedOption.value)
   }}
@@ -241,13 +240,13 @@ export function EditRate() {
               </ContainerInput>
 
               <ContainerInput>
-                <CustomInput 
+                <CustomInput
                   label='Serial Terminal'
                   {...register('serialTerminal')}
                   colorInputDefault={tenantData.primary_color_identity}
                   colorInputSuccess={tenantData.secondary_color_identity}
                 />
-                <CustomInput 
+                <CustomInput
                   label='Tipo'
                   {...register('tipo')}
                   colorInputDefault={tenantData.primary_color_identity}
@@ -256,7 +255,7 @@ export function EditRate() {
               </ContainerInput>
 
               <ContainerInput>
-                <CustomInput 
+                <CustomInput
                   label='Valor'
                   placeholder="R$"
                   type="number"
@@ -264,7 +263,7 @@ export function EditRate() {
                   colorInputDefault={tenantData.primary_color_identity}
                   colorInputSuccess={tenantData.secondary_color_identity}
                 />
-                <CustomInput 
+                <CustomInput
                   label='Observação'
                   {...register('observação')}
                   colorInputDefault={tenantData.primary_color_identity}
@@ -273,14 +272,14 @@ export function EditRate() {
               </ContainerInput>
 
               <ContainerInput>
-                <CustomInput 
+                <CustomInput
                   label='Data Referência'
                   {...register('dataReferência')}
                   type="date"
                   colorInputDefault={tenantData.primary_color_identity}
                   colorInputSuccess={tenantData.secondary_color_identity}
                 />
-                <CustomInput 
+                <CustomInput
                   label='Data Cobrança'
                   {...register('dataCobrança')}
                   type="date"

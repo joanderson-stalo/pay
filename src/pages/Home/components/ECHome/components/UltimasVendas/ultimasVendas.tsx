@@ -74,7 +74,7 @@ const TableCell = styled.td`
 const TableHeader = styled.th`
     padding: 8px 16px;
     color: var(--light-secondary, #6C757D);
- 
+
     font-size: 11px;
     line-height: 22px;
     text-align: center;
@@ -155,7 +155,7 @@ export function UltimasVendas() {
     }
 
     function handleButtonClick() {
-        console.log("Botão 'Ver todos' clicado!");
+   
     }
 
     return (

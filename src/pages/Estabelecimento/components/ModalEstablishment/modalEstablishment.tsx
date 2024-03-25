@@ -49,7 +49,6 @@ export function ModalEstablishment({ onClose, visible }: IModalSucesso) {
           label: acquire.acquire_label,
         }));
         setAcquires(options);
-        console.log(options);
       }
     } catch (error) {
       console.error('Houve um erro ao buscar os dados de acquires:', error);
@@ -70,8 +69,7 @@ export function ModalEstablishment({ onClose, visible }: IModalSucesso) {
           value: seller.id,
           label: `${seller.trading_name}-${seller.type}-${seller.cnpj_cpf}`
         }));
-        setDataLA(options); // Salvar os dados de LA no estado dataLA
-        console.log(options);
+        setDataLA(options);
       }
     } catch (error) {
       console.error('Houve um erro ao buscar os dados de LA:', error);

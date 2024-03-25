@@ -9,8 +9,6 @@ interface IStep1 {
 export function Step1({ Avançar }: IStep1) {
   const { documentTypeLA, updateToCNPJLA, updateToCPFLA } = useDocumentLA()
 
-  console.log(documentTypeLA)
-
   return (
     <>
       {documentTypeLA === 'CNPJ' ? (

@@ -108,7 +108,6 @@ export const LAcadastro = () => {
                 }
             });
 
-            console.log('oi LA');
 
             setIsLoading(false);
 
@@ -226,7 +225,6 @@ const validateStep4 = () => {
   const steps = [1, 2, 3, 4];
   const successModalText = "Licenciado Credenciado";
 
-  console.log('oiiss',  getValues())
 
   return (
     <>

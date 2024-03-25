@@ -51,7 +51,6 @@ export function ModalBilling({ onClose, visible }: IModalSucesso) {
       const data = response.data;
 
       if (data && data.sellers) {
-        console.log(data.sellers.trading_name)
         const options = data.sellers.map((seller: { trading_name: any; type: any; id: any, cnpj_cpf: any }, index: number) => ({
           value: seller.id,
           label: `${seller.trading_name}-${seller.type}-${seller.cnpj_cpf}`
@@ -65,7 +64,7 @@ export function ModalBilling({ onClose, visible }: IModalSucesso) {
   };
 
   useEffect(() => {
-    
+
     fetchData();
   }, []);
 
@@ -86,7 +85,7 @@ export function ModalBilling({ onClose, visible }: IModalSucesso) {
         <form onSubmit={handleSubmit(onSubmit)}>
 
         <S.ContainerSelect>
-        <         CustomInput 
+        <         CustomInput
                     label='Data Inicial'
                     {...register("captured_in_end")}
                     colorInputDefault={tenantData.primary_color_identity}
@@ -95,7 +94,7 @@ export function ModalBilling({ onClose, visible }: IModalSucesso) {
                     type='date' />
 
 
-           <         CustomInput 
+           <         CustomInput
                     label='Data Final'
                     {...register("captured_in_end")}
                     colorInputDefault={tenantData.primary_color_identity}
@@ -128,7 +127,7 @@ export function ModalBilling({ onClose, visible }: IModalSucesso) {
 
 
           <S.ContainerSelect>
-          <         CustomInput 
+          <         CustomInput
                     label='Tarifa mínima'
                     {...register("captured_in_end")}
                     colorInputDefault={tenantData.primary_color_identity}
@@ -136,7 +135,7 @@ export function ModalBilling({ onClose, visible }: IModalSucesso) {
                     placeholder='R$'
                     hasError={!!errors.captured_in_end}
                     type='number' />
-       <         CustomInput 
+       <         CustomInput
                     label='Tarifa máxima'
                     {...register("captured_in_end")}
                     colorInputDefault={tenantData.primary_color_identity}

@@ -82,8 +82,6 @@ export function ModalFilterVenda({ onClose, visible }: IModalSucesso) {
 
 
   useEffect(() => {
-    console.log('Estado inicial - captured_in_start:', getValues('captured_in_start'));
-    console.log('Estado inicial - captured_in_end:', getValues('captured_in_end'));
     function handleKeyDown(event: KeyboardEvent) {
       if (event.key === 'Escape') {
         onClose();

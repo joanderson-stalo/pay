@@ -97,8 +97,6 @@ export function PJ({ Avançar, BPF, BPJ }: IStep1) {
       const { result } = response.data;
       const { nome_da_pf, data_nascimento } = result;
 
-      console.log(nome_da_pf, data_nascimento)
-
       setValue('NomeSocioEstabelecimento', nome_da_pf);
       setValue('NascimentoSocio', data_nascimento);
 
@@ -134,7 +132,7 @@ export function PJ({ Avançar, BPF, BPJ }: IStep1) {
   const areaAtuacaoValue = watch('AreaAtuacaoEstabelecimento');
 
   const tenantData = useTenantData();
-  
+
 
   return (
 
