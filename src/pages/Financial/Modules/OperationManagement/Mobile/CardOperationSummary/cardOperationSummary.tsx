@@ -27,7 +27,7 @@ export function CardOperationSummary({ transactions }: CardOperationSummaryProps
           <S.CardHeader>
             <S.CardIdentifier>{transaction.fornecedor}</S.CardIdentifier>
             <S.CardStats>
-              <S.CardStatsDescription>Qtd Transações:</S.CardStatsDescription>
+              <S.CardStatsDescription>Quantidade Transações:</S.CardStatsDescription>
               <S.CardStatsNumber>{transaction.qtdTransacoes}</S.CardStatsNumber>
             </S.CardStats>
           </S.CardHeader>

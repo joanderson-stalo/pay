@@ -66,7 +66,7 @@ white-space: nowrap;
 export const ContainerCards = styled.div`
   display: flex;
   gap: 20px;
-margin-bottom: 36px;
+margin: 36px 0;
 
 @media (max-width: 900px) {
   flex-wrap: wrap;

@@ -12,7 +12,7 @@ export function OperationManagementTable({ rows }: TabelaProps) {
       <thead>
         <tr>
           <S.TableHeader>Fornecedor</S.TableHeader>
-          <S.TableHeader>Qtd Transações</S.TableHeader>
+          <S.TableHeader>Quantidade Transações</S.TableHeader>
           <S.TableHeader>TPV</S.TableHeader>
           <S.TableHeader>A receber</S.TableHeader>
           <S.TableHeader>A pagar</S.TableHeader>
@@ -23,11 +23,11 @@ export function OperationManagementTable({ rows }: TabelaProps) {
         {rows.map((transaction, index) => (
           <tr key={index}>
             <S.TableData>{transaction.fornecedor}</S.TableData>
-            <S.TableData>{transaction.qtdTransacoes}</S.TableData> 
+            <S.TableData>{transaction.qtdTransacoes}</S.TableData>
             <S.TableData>{formatCurrencyBR(parseFloat(transaction.tpv))}</S.TableData>
-            <S.TableData>{formatCurrencyBR(parseFloat(transaction.aReceber))}</S.TableData> 
-            <S.TableData>{formatCurrencyBR(parseFloat(transaction.aPagar))}</S.TableData> 
-            <S.TableData>{formatCurrencyBR(parseFloat(transaction.lucro))}</S.TableData> 
+            <S.TableData>{formatCurrencyBR(parseFloat(transaction.aReceber))}</S.TableData>
+            <S.TableData>{formatCurrencyBR(parseFloat(transaction.aPagar))}</S.TableData>
+            <S.TableData>{formatCurrencyBR(parseFloat(transaction.lucro))}</S.TableData>
           </tr>
         ))}
       </tbody>

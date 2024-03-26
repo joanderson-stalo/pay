@@ -55,10 +55,6 @@ export function Sidebar() {
     }
   };
 
-  const toggleVisibility = () => {
-    isVisible ? hideSidebar() : showSidebar();
-  };
-
   const financeiroSubmenuItems = [
     { label: 'Gestão da Operação', path: '/operationManagement' },
     { label: 'Resumo de Licenciados', path: '/licenseesummary' },
@@ -76,11 +72,9 @@ export function Sidebar() {
   };
 
   return (
-    <ContainerSidebar color={tenantData.primary_color_identity} isVisible={isVisible}>
+    <ContainerSidebar onMouseEnter={showSidebar} onMouseLeave={hideSidebar}  color={tenantData.primary_color_identity} isVisible={isVisible}>
       <Logo src={isVisible ? tenantData.attachment_logo_white : tenantData.icon} />
-      <ButtonSiderArrow   primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} isCondensed={isVisible} onClick={toggleVisibility} style={{ cursor: 'pointer' }}>
-        {isVisible ? <CaretLeft /> : <CaretRight />}
-      </ButtonSiderArrow>
+
       <Menu colorSec={tenantData.secondary_color_identity}>
         {menuItems.map((item, index) => (
           <React.Fragment key={index}>
