@@ -8,6 +8,7 @@ import { brandOptions, paymentMethodOptions, statusPaymentOptions } from './stat
 import { CustomInput } from '@/components/Input/input';
 import { useFilterSales } from '../../hooks/useFilterSales';
 import { useTenantData } from '@/context';
+import { useSalesPageContext } from '@/context/salesPageContext';
 
 
 
@@ -21,7 +22,7 @@ export function ModalFilterVenda({ onClose, visible }: IModalSucesso) {
 
   });
   const { setTrue } = useFilterSales();
-
+  const { currentPage, setCurrentPage } = useSalesPageContext();
 
   const onSubmit = async (data: any) => {
     try {
@@ -47,7 +48,7 @@ export function ModalFilterVenda({ onClose, visible }: IModalSucesso) {
      return;
    }
 
-
+  await setCurrentPage(1)
       if (data.bandeira && data.bandeira !== 'null' && data.bandeira !== '') {
         localStorage.setItem('@bandeira', data.bandeira);
       }

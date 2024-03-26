@@ -7,6 +7,7 @@ import { UseLicensedProvider } from './useLicensed';
 import { UseEstablishmentProvider } from './useEstablishment';
 import { TransactionVendasProvider } from './useTransaction';
 import { UseTariffProvider } from './useTariff';
+import { SalesPageProvider } from './salesPageContext';
 
 type TenantData = {
   name: string;
@@ -28,13 +29,13 @@ export const useTenantData = () => useContext(TenantDataContext);
 
 type AppProviderProps = {
   children: ReactNode;
-  tenantData: TenantData; 
+  tenantData: TenantData;
 };
 
 
 export function AppProvider({ children, tenantData }: AppProviderProps) {
   return (
-    <TenantDataContext.Provider value={tenantData}> 
+    <TenantDataContext.Provider value={tenantData}>
       <LoginProvider>
         <TransactionVendasProvider>
           <DocumentProviderLA>
@@ -43,7 +44,9 @@ export function AppProvider({ children, tenantData }: AppProviderProps) {
                 <UseEstablishmentProvider>
                   <SidebarVisibilityProvider>
                     <UseTariffProvider>
+                      <SalesPageProvider initialPage={1}>
                       {children}
+                      </SalesPageProvider>
                     </UseTariffProvider>
                   </SidebarVisibilityProvider>
                 </UseEstablishmentProvider>

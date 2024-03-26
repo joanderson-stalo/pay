@@ -21,6 +21,7 @@ import { ExportData } from '@/components/ExportData/exportData';
 import { BtnFilter } from '@/components/BtnFilter/btnFilter';
 import { TitleH } from '@/components/Title/title';
 import { TotalBtn } from '@/components/TotalBtn/totalBtn';
+import { useSalesPageContext } from '@/context/salesPageContext';
 
 
 export function Vendas() {
@@ -33,10 +34,10 @@ export function Vendas() {
   const [totalAmount, setTotalAmount] = useState<string>('0.00');
   const [averageTaxApplied, setAverageTaxApplied] = useState<string>('0.000');
   const [tpvGlobal, setTpvGlobal] = useState<string>('0');
-  const [currentPage, setCurrentPage] = useState<number>(1);
   const { state } = useFilterSales();
   const { dataUser } = useLogin();
   const [isFocused, setIsFocused] = useState(false);
+  const { currentPage, setCurrentPage } = useSalesPageContext();
 
 
 
@@ -77,7 +78,7 @@ export function Vendas() {
     }
 
     if (search) {
-      url += `&nsu_external=${search}`;
+      url += `&nsu_internal=${search}`;
     }
 
     const config = {
