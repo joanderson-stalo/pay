@@ -8,6 +8,7 @@ import { UseEstablishmentProvider } from './useEstablishment';
 import { TransactionVendasProvider } from './useTransaction';
 import { UseTariffProvider } from './useTariff';
 import { SalesPageProvider } from './salesPageContext';
+import { IdPosProvider } from './useIdPos';
 
 type TenantData = {
   name: string;
@@ -44,9 +45,11 @@ export function AppProvider({ children, tenantData }: AppProviderProps) {
                 <UseEstablishmentProvider>
                   <SidebarVisibilityProvider>
                     <UseTariffProvider>
+                      <IdPosProvider>
                       <SalesPageProvider initialPage={1}>
                       {children}
                       </SalesPageProvider>
+                      </IdPosProvider>
                     </UseTariffProvider>
                   </SidebarVisibilityProvider>
                 </UseEstablishmentProvider>

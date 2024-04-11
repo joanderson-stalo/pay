@@ -28,10 +28,10 @@ export function App() {
     const fetchData = async () => {
       try {
         const currentHost = window.location.hostname;
-        const segment = currentHost.split('.')[1]; 
-        const apiURL = `https://api-${segment}-confrapag.stalopay.com.br/api`; 
+        const segment = currentHost.split('.')[1];
+        // const apiURL = `https://api-${segment}-confrapag.stalopay.com.br/api`;
 
-        // const apiURL = `https://api-pagueassim-confrapag.stalopay.com.br/api`; 
+        const apiURL = `https://api-pagueassim-confrapag.stalopay.com.br/api`;
 
         const response = await axios.get(apiURL);
         const pageTitle = response.data.tenant.page_title;
@@ -53,9 +53,9 @@ export function App() {
 
   return (
     <AppProvider tenantData={tenantData as TenantData}>
-      {isLoading ? ( 
+      {isLoading ? (
         <Loading />
-      ) : ( 
+      ) : (
         <ThemeProvider theme={defaultTheme}>
           <ToastContainer position="top-right" />
           <Router />

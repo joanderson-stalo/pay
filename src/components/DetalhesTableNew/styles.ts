@@ -20,7 +20,7 @@ export const Table = styled.table`
   th, td {
     border-bottom: 1px solid #E9ECEF;
     text-align: center;
-    padding: 8px;
+    padding: 8px 16px;
   }
 `;
 
@@ -41,7 +41,7 @@ export const Header = styled.h1<Color>`
 export const TableCell = styled.td`
   border-bottom: 1px solid #E9ECEF;
   text-align: center;
-  padding: 8px;
+  padding: 8px 16px;
   color: #6C757D;
   font-size: 14px;
   line-height: 22px;
@@ -51,16 +51,17 @@ export const TableCellTotal = styled.td`
   text-align: center;
   padding: 8px;
   color: #FDFDFD;
-  font-size: 9.906px;
+  font-size: 12px;
   font-weight: 700;
-  line-height: 15.566px;
+  line-height: 22px;
 `;
 
 export const TableHeaderCell = styled(TableCell).attrs({ as: 'th' })`
   color: #343A40;
-  font-size: 9.906px;
+
   font-weight: 500;
-  line-height: 15.566px;
+  font-size: 12px;
+    line-height: 22px;
 `;
 
 export const TotalRow = styled.tr<Color>`

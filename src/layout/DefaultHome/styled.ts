@@ -21,5 +21,6 @@ export const ContainerContext = styled.div<{ isCondensed: boolean }>`
 export const ContextHome = styled.div`
   width: 100%;
   background-color: ${({ theme }) => theme.white_sys};
+  overflow-x: hidden;
   /* height: 100%; */
 `

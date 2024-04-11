@@ -6,14 +6,31 @@ import styled from "styled-components";
 interface Color {
   primary: string;
   secundary: string;
+  disassociate?: boolean;
 }
 
 export const ContextDetalhes = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding:  0 30px;
+  flex-direction: column;
+  margin: 36px 20px 0px 20px;
+  overflow: hidden;
 `
+
+export const ContainerWrapper = styled.div`
+  display: flex;
+  margin: 36px 20px 50px 20px;
+  justify-content: center;
+  gap: 20px;
+
+  @media (max-width: 900px) {
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: 20px;
+  }
+`
+
 
 export const ButtonBlack = styled.button<Color>`
   color:  ${(props) => props.primary};
@@ -23,40 +40,28 @@ font-weight: 500;
 line-height: 20px;
 letter-spacing: 0.5px;
 background-color: transparent;
-
 display: flex;
 margin: 40px 0 0 100px;
 `
 export const EditButton = styled.button<Color>`
-  padding: 14px 24px;
-  border-radius: 5px;
-  background: var(--foundation-white-light-hover, #FBFBFB);
-  box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.25);
-  color: ${(props) => props.secundary};
+border-radius: 4px;
+background: ${(props) => props.disassociate ? '#CD5600' : props.primary};
 
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 16px;
-  letter-spacing: 0.5px;
+cursor: pointer;
+
+
+color: var(--color-branco-puro, #FFF);
+font-size: 14px;
+font-style: normal;
+font-weight: 400;
+line-height: 24px;
+letter-spacing: 0.5px;
+padding: 8px 24px;
+z-index: 1;
 `;
 
-export const CancelButton = styled(EditButton)`
-color: var(--Red-Error, #E91414);
-`;
 
-export const ContainerWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  width: 100%;
-  justify-content: center;
-  gap: 40px;
-  margin:  36px 0px;
-  padding:  0 30px;
 
-  @media (max-width: 900px) {
-    flex-direction: column;
-  }
-`
 
 export const ContainerBtn = styled.div`
 display: flex;

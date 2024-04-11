@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react';
 import * as S from './styled';
+import { useTenantData } from '@/context';
+import { useIdPos } from '@/context/useIdPos';
+import { useNavigate } from 'react-router-dom';
 
 interface RowData {
   id: number;
@@ -18,6 +21,9 @@ interface TabelaProps {
 
 export function TableStock({ rows }: TabelaProps) {
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+  const tenantData = useTenantData();
+  const navigate = useNavigate();
+  const {setSelectedIdPos} = useIdPos();
 
   function formatDateBR(dateString: string) {
     const date = new Date(dateString);
@@ -38,7 +44,7 @@ export function TableStock({ rows }: TabelaProps) {
     }
     return a.cadastro ? 1 : -1;
   });
-  
+
 
   function SortIndicator({ direction }: { direction: 'asc' | 'desc' }) {
     return (
@@ -52,6 +58,13 @@ export function TableStock({ rows }: TabelaProps) {
   useEffect(() => {
     handleSort();
   }, []);
+
+  const handleViewMoreClick = async (id: string) => {
+    setSelectedIdPos(id);
+    await new Promise(resolve => setTimeout(resolve, 20));
+    navigate(`/detailsStock`);
+};
+
 
   return (
     <S.Table>
@@ -79,9 +92,14 @@ export function TableStock({ rows }: TabelaProps) {
 
             <S.TableData><S.FornecedorStatus>{row.acquire}</S.FornecedorStatus></S.TableData>
             <S.TableData>{row.status.toLocaleLowerCase()}</S.TableData>
-            {/* <S.TableData>
-              <S.Button onClick={() => false}>Ver POS</S.Button>
-            </S.TableData> */}
+            <S.TableData>
+              <S.Button
+              primary={tenantData.primary_color_identity}
+              secundary={tenantData.secondary_color_identity}
+              onClick={() => handleViewMoreClick(row.id.toString())}>
+                Ver POS
+              </S.Button>
+            </S.TableData>
           </tr>
         ))}
       </tbody>

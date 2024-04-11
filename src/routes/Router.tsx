@@ -48,6 +48,7 @@ import { Vendas } from '@/pages/Vendas/vendas';
 import { DetalheVenda } from '@/pages/Vendas/Detalhes/detalhe';
 import { EditRate } from '@/pages/Financial/Modules/Tariffs/Modules/EditRateManual/editRateManual';
 
+
 export function Router() {
   return (
     <BrowserRouter>
@@ -80,7 +81,7 @@ export function Router() {
             <Route path="/sellers-la-edit" element={<EditRegistrationLA />} />
             <Route path="/user-seller-create" element={<CreateUser />} />
             <Route path="/user/edit/:id" element={<EditUser />} />
-            
+
             <Route path="/commission" element={<RankingCommission />} />
             <Route path="/commission/network" element={<TodayCommission />} />
             <Route path="/plans" element={<Plans />} />
@@ -100,7 +101,7 @@ export function Router() {
             <Route path="/addRateManual" element={<AddRateManual />} />
             <Route path="/tickets" element={<Tickets />} />
             <Route path="/tickets-add" element={<AddTickets />} />
-         
+
             <Route path="/documents" element={<Documents />} />
             <Route path="/paymentRequests" element={<PaymentRequests />} />
 

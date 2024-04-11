@@ -71,14 +71,14 @@ export function CreateUser() {
     }
   };
 
-  
+
 
 
   const uploadFileToS3 = async (file: File): Promise<string> => {
     const currentDate = await new Date();
     const formattedDate = await  currentDate.toISOString().replace(/[-:.]/g, '');
     const fileNameWithTimestamp = await `${formattedDate}${file.name.replace(/\s/g, '-')}`;
-  
+
     const params = {
       Bucket: 'stalopay',
       Key: `${tenantData.name}/user_photo/${fileNameWithTimestamp}`,
@@ -128,7 +128,7 @@ export function CreateUser() {
       email: data.Email,
       profile_id: Number(data.Função),
       seller_id: dataUser?.seller_id,
-      document_id: imageUrl ? imageUrl : '12',
+      document_id: imageUrl ? imageUrl : '1sssss2',
       phone_number: sanitizeNumeric(`${data.Telefone}`),
       status: 'ativo',
       link: `${window.location.origin}/reset-password`,

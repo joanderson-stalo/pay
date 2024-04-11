@@ -3,69 +3,90 @@ import * as S from './styled';
 import { useTenantData } from '@/context';
 
 interface CardDetalhesProps {
-  modelo: string;
-  carregador: string;
-  fornecedor: string;
-  situacao: string;
-  comentarios: string;
-  chip: string;
+  model: string;
+  owner_name: string;
+  acquire: string;
+  location: string;
+  comment: string;
+  seller_name: string;
   funcionamento: 'quebrado' | 'estável' | 'incompleto';
-  posSN: string;
+  serial_number: string;
   link: string;
+
 }
 
 
-export function CardStock({carregador, chip, comentarios, fornecedor, funcionamento, link, modelo, posSN, situacao}: CardDetalhesProps) {
+export function CardStock({owner_name, seller_name, comment, acquire, funcionamento, link, model, serial_number, location}: CardDetalhesProps) {
   const tenantData = useTenantData();
-  
+
+  const renderValue = (value: string | null | undefined) => {
+    return value ? value : '---';
+  };
+
   return (
     <S.ContainerCardDetalhes>
       <S.WrapperContainer>
         <S.InfoContainer>
-          <S.InfoTitle>POS - {posSN}</S.InfoTitle>
+          <S.InfoTitle>POS - {serial_number}</S.InfoTitle>
           <S.InfoSubtitle funcionamento={funcionamento}>{funcionamento}</S.InfoSubtitle>
         </S.InfoContainer>
-        <S.EditButton  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} type='button'>Editar dados</S.EditButton>
+
       </S.WrapperContainer>
+
+      <div style={{display: 'flex'}}>
       <S.WrapperContainer2>
-        <S.InfoGroup>
-          <S.InfoItem>
-            <S.InfoLabel  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>Modelo</S.InfoLabel>
-            <S.InfoValue>{modelo}</S.InfoValue>
-          </S.InfoItem>
-          <S.InfoItem>
-            <S.InfoLabel  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>Carregador</S.InfoLabel>
-            <S.InfoValue>{carregador}</S.InfoValue>
-          </S.InfoItem>
-        </S.InfoGroup>
-        <S.InfoGroup>
-          <S.InfoItem>
-            <S.InfoLabel  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>Fornecedor</S.InfoLabel>
-            <S.InfoValue>{fornecedor}</S.InfoValue>
-          </S.InfoItem>
-          <S.InfoItem>
-            <S.InfoLabel  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>Chip</S.InfoLabel>
-            <S.InfoValue>{chip}</S.InfoValue>
-          </S.InfoItem>
-        </S.InfoGroup>
-        <S.InfoGroup>
-          <S.InfoItem>
-            <S.InfoLabel primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>Situação</S.InfoLabel>
-            <S.InfoValue>{situacao}</S.InfoValue>
-          </S.InfoItem>
-          <S.InfoItem>
-            <S.InfoLabel  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>Comentários</S.InfoLabel>
-            <S.InfoValue>
-            {comentarios}
-            </S.InfoValue>
-          </S.InfoItem>
-        </S.InfoGroup>
-      </S.WrapperContainer2>
-      <a target='_blank' href={link}>
-      <S.DownloadButton  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>
-      Download <DownloadSimple weight="fill" color='#71839B' />
-      </S.DownloadButton>
-      </a>
+
+<S.InfoWrapper>
+
+
+<S.InfoItem>
+  <S.InfoLabel  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>Modelo</S.InfoLabel>
+  <S.InfoValue>{model}</S.InfoValue>
+</S.InfoItem>
+
+
+<S.InfoItem>
+  <S.InfoLabel  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>Fornecedor</S.InfoLabel>
+  <S.InfoValue>{acquire}</S.InfoValue>
+</S.InfoItem>
+
+
+<S.InfoItem>
+  <S.InfoLabel primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>Localização</S.InfoLabel>
+  <S.InfoValue>{location === 'inventory' ? 'Inventário' : 'Estoque' }</S.InfoValue>
+</S.InfoItem>
+
+
+
+</S.InfoWrapper>
+
+<S.InfoWrapper2>
+<S.InfoItem>
+  <S.InfoLabel  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>Proprietário</S.InfoLabel>
+  <S.InfoValue>{renderValue(owner_name)}</S.InfoValue>
+</S.InfoItem>
+
+
+<S.InfoItem>
+  <S.InfoLabel  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>Estabelecimento</S.InfoLabel>
+  <S.InfoValue>{renderValue(seller_name)}</S.InfoValue>
+</S.InfoItem>
+
+</S.InfoWrapper2>
+
+<S.InfoItem>
+  <S.InfoLabel  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>Comentários</S.InfoLabel>
+  <S.InfoValueComent >
+  {comment}
+  </S.InfoValueComent >
+</S.InfoItem>
+
+
+</S.WrapperContainer2>
+
+< S.ImgPos src="https://custom-images.strikinglycdn.com/res/hrscywv4p/image/upload/c_limit,fl_lossy,h_9000,w_1200,f_auto,q_auto/1402119/183083_672647.png" alt="" />
+      </div>
+
     </S.ContainerCardDetalhes>
   );
 }

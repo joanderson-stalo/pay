@@ -1,4 +1,6 @@
+import { useNavigate } from 'react-router-dom';
 import * as S from './styled';
+import { useIdPos } from '@/context/useIdPos';
 
 interface StockCardProps {
   data: Array<{
@@ -7,12 +9,21 @@ interface StockCardProps {
     serial_number:  string;
     model: string;
     acquire: string;
-    status: string; 
+    status: string;
   }>;
 }
 
 export function StockCard(props: StockCardProps) {
   const { data } = props;
+  const navigate = useNavigate();
+  const {setSelectedIdPos} = useIdPos();
+
+  const handleViewMoreClick = async (id: string) => {
+    setSelectedIdPos(id);
+    await new Promise(resolve => setTimeout(resolve, 20));
+    navigate(`/detailsStock`);
+};
+
 
   return (
     <>
@@ -21,7 +32,7 @@ export function StockCard(props: StockCardProps) {
           <S.StockCardHeader>
             <S.StockNumber>{item.serial_number}</S.StockNumber>
             <S.StockReference>{item.model}</S.StockReference>
-            {/* <S.StockButton>Ver POS</S.StockButton> */}
+            <S.StockButton onClick={() => handleViewMoreClick(item.id.toString())}>Ver POS</S.StockButton>
           </S.StockCardHeader>
 
           <S.StockCardContent>

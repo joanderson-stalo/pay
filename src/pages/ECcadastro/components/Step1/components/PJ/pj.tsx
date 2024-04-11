@@ -89,7 +89,7 @@ export function PJ({ Avançar, BPF, BPJ }: IStep1) {
   const fetchCompanyDataByCNPJ = async (cnpj: string) => {
     try {
       setIsLoading(true)
-      const response = await axios.get(`https://ws.hubdodesenvolvedor.com.br/v2/cnpj/?cnpj=${cnpj}&token=YOUR_TOKEN`);
+      const response = await axios.get(`https://ws.hubdodesenvolvedor.com.br/v2/cnpj/?cnpj=${cnpj}&token=119905575VQLhxBIJgu216485880`);
       const { result } = response.data;
       const { abertura, nome, fantasia } = result;
 
