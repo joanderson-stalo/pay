@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { BiChevronDown, BiChevronUp } from 'react-icons/bi';
-import { Storefront, Tag, ChartBar, Basket, Money, Stack, Wallet, FileText, CaretLeft, CaretRight, Laptop, Ticket, Gear, DeviceMobile } from '@phosphor-icons/react';
+import { Storefront, Tag, ChartBar, Basket, Money, Stack, Wallet, FileText, Laptop, Ticket, Gear, DeviceMobile } from '@phosphor-icons/react';
 import { ButtonSider, ButtonSiderArrow, ContainerSidebar, Logo, Menu, SubMenu, SubMenuItem } from './styled';
 import { ThemeImg } from '@/config/img';
 import { useSidebarVisibility } from '@/context/sidebarVisibilityContext';
@@ -26,14 +26,11 @@ export function Sidebar() {
       { icon: <Laptop />, label: 'Equipamentos', path: "/equipmentStock" },
       { icon: <Wallet />, label: 'Financeiro', isSubmenu: true },
       { icon: <Ticket />, label: 'Tickets', path: "/tickets" },
-      { icon: <DeviceMobile />, label: 'Aquisiçãode produtos', path: "/e-com"  },
+      { icon: <DeviceMobile />, label: 'Aquisição de produtos', path: "/e-com"  },
       { icon: <Gear />, label: 'Configurações', isSubmenu: true },
-
     ] : []),
-
     { icon: <FileText />, label: 'Documentos', path: "/documents" }
   ];
-
 
   const [selectedItem, setSelectedItem] = useState<number | null>(() => {
     const paths = menuItems.map(item => item.path);
@@ -49,10 +46,14 @@ export function Sidebar() {
     const matchedIndex = paths.findIndex(path => path && location.pathname.includes(path));
     setSelectedItem(matchedIndex > -1 ? matchedIndex : null);
 
-    setFinanceiroSubmenuOpen(menuItems[matchedIndex]?.isSubmenu ?? false);
-    setConfigSubmenuOpen(menuItems[matchedIndex]?.isSubmenu ?? false);
-
-  }, [location.pathname]);
+    if (!isVisible) {
+      setFinanceiroSubmenuOpen(false);
+      setConfigSubmenuOpen(false);
+    } else {
+      setFinanceiroSubmenuOpen(menuItems[matchedIndex]?.isSubmenu ?? false);
+      setConfigSubmenuOpen(menuItems[matchedIndex]?.isSubmenu ?? false);
+    }
+  }, [location.pathname, isVisible]);
 
   const handleNavigation = (index: number, path?: string) => {
     if (path) {
@@ -67,8 +68,8 @@ export function Sidebar() {
     { label: 'Gestão da Operação', path: '/operationManagement' },
     { label: 'Extrato', path: '/extract' },
     { label: 'Tarifas', path: '/tariffs' },
-    { label: 'Solicitação de Cobrança', path: '/billingRequest' }
-    // { label: 'Pagamentos', path: '/pagamentos' }
+    { label: 'Solicitação de Cobrança', path: '/billingRequest' },
+    { label: 'Pagamentos', path: '/pagamentos' }
   ];
 
   const configSubmenuItems = [
@@ -90,7 +91,7 @@ export function Sidebar() {
   };
 
   return (
-    <ContainerSidebar onMouseEnter={showSidebar} onMouseLeave={hideSidebar}  color={tenantData.primary_color_identity} isVisible={isVisible}>
+    <ContainerSidebar onMouseEnter={showSidebar} onMouseLeave={hideSidebar} color={tenantData.primary_color_identity} isVisible={isVisible}>
       <Logo src={isVisible ? tenantData.attachment_logo_white : tenantData.icon} />
 
       <Menu colorSec={tenantData.secondary_color_identity}>
