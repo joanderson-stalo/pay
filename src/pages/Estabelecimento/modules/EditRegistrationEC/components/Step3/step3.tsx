@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import {
-  ButtonAdd,
   ButtonAvançar,
-  ButtonRemover,
   ButtonVoltar,
   ContainerButton,
   ContainerForm,
@@ -18,7 +16,6 @@ import {
 } from './styled';
 import { Loading } from '@/components/Loading/loading';
 import { CustomSelect } from '@/components/Select/select';
-import { optionsData } from './optionsData';
 import { useLogin } from '@/context/user.login';
 import { useFormContext } from 'react-hook-form';
 import Swal from 'sweetalert2';
@@ -26,6 +23,7 @@ import { useEstablishment } from '@/context/useEstablishment';
 import { useNavigate } from 'react-router-dom';
 import { baseURL } from '@/config/color';
 import { useTenantData } from '@/context';
+import { optionsData } from './optionsData';
 
 interface IStep3 {
   Avançar: () => void;
@@ -38,174 +36,72 @@ interface IOption {
 }
 
 export function Step3({ Avançar, Voltar }: IStep3) {
-  const [dados, setDados] = useState(false);
   const [fetchedOptions, setFetchedOptions] = useState<IOption[]>([]);
   const [acquires, setAcquires] = useState<IOption[]>([]);
-  const [inputs, setInputs] = useState<{}[]>([{}]);
-  const [selectedAcquires, setSelectedAcquires] = useState<string[]>([]);
+  const [planOptions, setPlanOptions] = useState<IOption[]>([]);
+  const [acquire, setAcquire] = useState()
   const { establishmentId } = useEstablishment();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate()
   const { dataUser } = useLogin();
 
   const {
     register,
     setValue,
-    unregister,
     formState: { errors },
     watch
   } = useFormContext();
 
-  const allFieldsFilled =
-    !!watch('licenciado')
-    // && inputs.every((_, index) => !!watch(`Fornecedor${index}`) && !!watch(`PlanoComercial${index}`));
-
-  const handleAcquireChange = (selectedOption: { value: string }, index: number) => {
-    setValue(`Fornecedor${index}`, selectedOption.value);
-
-    const updatedAcquires = [...selectedAcquires];
-    updatedAcquires[index] = selectedOption.value;
-    setSelectedAcquires(updatedAcquires);
-  };
-
-  const addInput = () => {
-    if (inputs.length < acquires.length) {
-      const newIndex = inputs.length;
-      setInputs(prevInputs => [...prevInputs, {}]);
-
-      setValue(`Fornecedor${newIndex}`, undefined);
-      setValue(`PlanoComercial${newIndex}`, undefined);
-    }
-  };
-
-
-
-  const removeInput = (indexToRemove: number) => {
-    setInputs(prevInputs => {
-      const newInputs = [...prevInputs];
-      newInputs.splice(indexToRemove, 1);
-
-      const updatedAcquires = [...selectedAcquires];
-      updatedAcquires.splice(indexToRemove, 1);
-      setSelectedAcquires(updatedAcquires);
-
-      const removedFields = [`Fornecedor${indexToRemove}`, `PlanoComercial${indexToRemove}`];
-      removedFields.forEach(field => {
-        unregister(field);
-      });;
-
-      return newInputs;
-    });
-  };
-
-  const renderInputs = () => {
-    return inputs.map((_, index) => {
-      const availableAcquires = acquires.filter(
-        option => !selectedAcquires.includes(option.value)
-      );
-
-      const removeButton = index !== 0 && (
-        <ButtonRemover onClick={() => removeInput(index)}>Remover</ButtonRemover>
-      );
-
-      const isLastInput = index === inputs.length - 1;
-      const addButton = isLastInput && inputs.length !== acquires.length && (
-        <ButtonAdd onClick={addInput}>Adicionar outro</ButtonAdd>
-      );
-
-      return (
-        <ContainerInput key={index}>
-          <WInput>
-            <CustomSelect
-              {...register(`Fornecedor${index}`)}
-              label="Fornecedor"
-              placeholder=""
-              hasError={!!errors[`Fornecedor${index}`]}
-              optionsData={{ options: availableAcquires }}
-              onChange={(selectedOption: { value: string }) => handleAcquireChange(selectedOption, index)}
-            />
-          </WInput>
-          <WInput>
-            <CustomSelect
-              {...register(`PlanoComercial${index}`)}
-              label="Plano Comercial"
-              optionsData={optionsData}
-              placeholder=""
-              hasError={!!errors[`PlanoComercial${index}`]}
-              onChange={(selectedOption: { value: string }) => {
-                setValue(`PlanoComercial${index}`, selectedOption.value);
-              }}
-            />
-          </WInput>
-
-          {removeButton}
-          {addButton}
-        </ContainerInput>
-      );
-    });
-  };
-
+  const allFieldsFilled = !!watch('licenciado');
 
 
   useEffect(() => {
-    setDados(true);
-    axios
-      .get(`${baseURL}acquire/index`, {
-
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${dataUser?.token}`
-        }
-      })
-      .then((response) => {
-        const numberOfAcquiresFields = Object.keys(watch()).filter(key => key.startsWith("Fornecedor")).length;
-
-        if (numberOfAcquiresFields > 0) {
-          setInputs(new Array(numberOfAcquiresFields).fill({}));
-        }
-
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${baseURL}acquire/index`, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${dataUser?.token}`
+          }
+        });
         const data = response.data;
         if (data && data.acquires) {
-          const options = data.acquires.map((acquire: { id: any; acquire_label: any }) => ({
+          setAcquires(data.acquires.map((acquire: { id: any; acquire_label: any }) => ({
             value: acquire.id,
             label: acquire.acquire_label,
-          }));
-          setAcquires(options);
+          })));
         }
-        setDados(false);
-      })
-      .catch((error) => {
-        console.error('Houve um erro ao buscar os dados:', error);
-        setDados(false);
-      });
-  }, []);
+      } catch (error) {
+        console.error('Houve um erro ao buscar os dados dos adquirentes:', error);
+      }
+    };
+
+    fetchData();
+  }, [dataUser?.token]);
 
   useEffect(() => {
-    setDados(true);
-    axios.get(`${baseURL}seller/indexla`, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${dataUser?.token}`
-      }
-    })
-      .then(response => {
-
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${baseURL}seller/indexla`, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${dataUser?.token}`
+          }
+        });
         const data = response.data;
-
         if (data && data.sellers) {
-          const options = data.sellers.map((seller: { trading_name: any; type: any; id: any, cnpj_cpf: any }, index: number) => ({
+          setFetchedOptions(data.sellers.map((seller: { trading_name: any; type: any; id: any, cnpj_cpf: any }) => ({
             value: seller.id,
             label: `${seller.trading_name}-${seller.type}-${seller.cnpj_cpf}`
-          }));
-
-          setFetchedOptions(options);
+          })));
         }
-        setDados(false);
-      })
-      .catch(error => {
-        console.error('Houve um erro ao buscar os dados:', error);
-      });
-  }, []);
+      } catch (error) {
+        console.error('Houve um erro ao buscar os dados dos vendedores:', error);
+      }
+    };
+
+    fetchData();
+  }, [dataUser?.token]);
 
   useEffect(() => {
     const fetchSellerData = async () => {
@@ -222,6 +118,8 @@ export function Step3({ Avançar, Voltar }: IStep3) {
         );
 
         const sellerData = response.data;
+        setValue('Fornecedor',response.data.seller.acquires[0].id)
+        setAcquire(response.data.seller.acquires[0].id)
         setValue('licenciado', sellerData.seller.seller_la.id_la);
 
       } catch (error) {
@@ -233,6 +131,32 @@ export function Step3({ Avançar, Voltar }: IStep3) {
     fetchSellerData();
   }, [establishmentId, dataUser?.token, setValue]);
 
+  useEffect(() => {
+    const fetchPlans = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.get(`${baseURL}plan/commercial/${acquire}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${dataUser?.token}`
+          }
+        });
+        const plansData = response.data.plans.map((plan: { id: any; name: any; }) => ({
+          value: plan.id,
+          label: `${plan.name}`
+        }));
+        setPlanOptions(plansData);
+      } catch (error) {
+        console.error('Erro ao buscar os dados dos planos comerciais:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (dataUser?.token && acquire) {
+      fetchPlans();
+    }
+  }, [dataUser?.token, acquire]);
 
   const handleSalvar = async () => {
     try {
@@ -280,14 +204,58 @@ export function Step3({ Avançar, Voltar }: IStep3) {
     }
   };
 
+  const handleUpdatePlan = async () => {
+    try {
+      setLoading(true);
+      const payload = {
+        seller_id: establishmentId,
+        acquire_id: acquire,
+        plan_id: watch('PlanoComercial')
+      };
+
+      const response = await axios.put(`${baseURL}plan/update-ec/`, payload, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${dataUser?.token}`
+        }
+      });
+
+      if (response.status === 200) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Plano atualizado com sucesso!',
+          showConfirmButton: true,
+          confirmButtonText: 'Continuar'
+        });
+      } else {
+        throw new Error('Falha ao atualizar plano');
+      }
+    } catch (error) {
+      console.error('Erro ao atualizar o plano:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Erro ao atualizar plano',
+        text: 'Ocorreu um erro ao tentar atualizar o plano. Por favor, tente novamente mais tarde.',
+        confirmButtonText: 'OK'
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
   const licenciadoValue = watch('licenciado');
   const selectedOption = fetchedOptions.find(option => option.value === licenciadoValue);
+
+  const fornecedor = watch('Fornecedor');
+  const selectedAcquire = acquires.find(acquire => acquire.value === fornecedor);
 
   const handleEC = () => {
     navigate('/sellers-ec')
   }
 
   const tenantData = useTenantData();
+
   return (
     <>
       {loading && <Loading />}
@@ -299,29 +267,53 @@ export function Step3({ Avançar, Voltar }: IStep3) {
             <ContainerForm>
               <ContainerInput2>
                 <CustomSelect
-                 placeholder='-'
-                 {...register('licenciado')}
-                 value={selectedOption || {value: '', label: ''}}
-                 label="Licenciado Autorizado"
-                 optionsData={{ options: fetchedOptions }}
-                 hasError={!!errors.licenciado}
-                 onChange={(selectedOption: { value: string }) => {
-                   setValue('licenciado', selectedOption.value)
-                 }} />
+                  placeholder='-'
+                  {...register('licenciado')}
+                  value={selectedOption || {value: '', label: ''}}
+                  label="Licenciado Autorizado"
+                  optionsData={{ options: fetchedOptions }}
+                  hasError={!!errors.licenciado}
+                  onChange={(selectedOption: { value: string }) => {
+                    setValue('licenciado', selectedOption.value)
+                  }} />
                 <button>Pesquise pelo nome do Licenciado</button>
               </ContainerInput2>
-              {/* {renderInputs()} */}
-
+              <ContainerInput>
+                <WInput>
+                  <CustomSelect
+                    {...register(`Fornecedor`)}
+                    label="Fornecedor"
+                    placeholder=""
+                    value={selectedAcquire}
+                    hasError={!!errors[`Fornecedor`]}
+                    optionsData={{ options: acquires }}
+                    onChange={(selectedOption: { value: string }) => {
+                      setValue('Fornecedor', selectedOption.value)
+                    }} />
+                </WInput>
+                <WInput>
+                  <CustomSelect
+                    {...register(`PlanoComercial`)}
+                    label="Plano Comercial"
+                    optionsData={{ options: planOptions }}
+                    placeholder=""
+                    hasError={!!errors[`PlanoComercial`]}
+                    onChange={(selectedOption: { value: string }) => {
+                      setValue(`PlanoComercial`, selectedOption.value);
+                    }}
+                  />
+                </WInput>
+              </ContainerInput>
             </ContainerForm>
           </ContextStep>
           <ContainerButton>
             <ButtonVoltar onClick={Voltar}>Voltar</ButtonVoltar>
             <ButtonAvançar
- primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} disabled={!allFieldsFilled} onClick={handleSalvar}>
+              primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} disabled={!allFieldsFilled} onClick={handleUpdatePlan}>
               Salvar
             </ButtonAvançar>
             <ButtonAvançar
- primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} disabled={!allFieldsFilled} onClick={Avançar}>
+              primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} disabled={!allFieldsFilled} onClick={Avançar}>
               Avançar
             </ButtonAvançar>
           </ContainerButton>

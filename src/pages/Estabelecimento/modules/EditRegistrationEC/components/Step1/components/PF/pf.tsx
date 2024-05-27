@@ -53,7 +53,7 @@ export function PF({ Avançar}: IStep1) {
 
   useEffect(() => {
     const fetchSellerData = async () => {
-      setLoading(true); 
+      setLoading(true);
       try {
         const response = await axios.get(
           `${baseURL}seller/show/${establishmentId}`,
@@ -73,8 +73,8 @@ export function PF({ Avançar}: IStep1) {
         setValue('NomeSocioEstabelecimento', response.data.seller.owner_name);
         setValue('AreaAtuacaoEstabelecimento', response.data.seller.mcc);
         setTypeDocument(response.data.seller.type_document);
-        
-        
+
+
         !!watch('NomeFantasiaEstabelecimento') &&
         !!watch('NascimentoSocio') &&
         !!watch('CPFEstabelecimento') &&
@@ -84,9 +84,9 @@ export function PF({ Avançar}: IStep1) {
         !!watch('TelefoneEstabelecimento')
       } catch (error) {
         console.error('Erro ao buscar dados da API:', error);
-   
+
       } finally {
-        setLoading(false); 
+        setLoading(false);
       }
     };
     fetchSellerData();
@@ -96,12 +96,12 @@ export function PF({ Avançar}: IStep1) {
   const handleSalvar = async () => {
     try {
       setLoading(true);
-  
+
       const formatDate = (dateString: { split: (arg0: string) => [any, any, any] }) => {
         const [day, month, year] = dateString.split('/');
         return `${year}-${month}-${day}`;
       };
-  
+
       const updatedData = {
         mcc: areaAtuacaoValue,
       
@@ -115,16 +115,16 @@ export function PF({ Avançar}: IStep1) {
         document: watch('CPFEstabelecimento'),
         type_document: typeDocument
       };
-  
+
       await axios.put(`${baseURL}seller/update/${establishmentId}`, updatedData, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${dataUser?.token}`
         }
       });
-  
+
       setLoading(false);
-  
+
       Swal.fire({
         icon: 'success',
         title: 'Licenciado atualizado com sucesso!',
@@ -159,7 +159,7 @@ export function PF({ Avançar}: IStep1) {
     navigate('/sellers-ec')
   }
 
- 
+
   const tenantData = useTenantData();
   const areaAtuacaoValue = watch('AreaAtuacaoEstabelecimento');
   return (
@@ -168,7 +168,7 @@ export function PF({ Avançar}: IStep1) {
         <S.ContextStep>
           <S.ContainerDados>
             <S.TitleStep>Dados do Estabelecimento</S.TitleStep>
-          
+
           </S.ContainerDados>
           <S.Line />
           <S.ContainerForm>

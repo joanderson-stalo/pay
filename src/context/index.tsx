@@ -7,8 +7,12 @@ import { UseLicensedProvider } from './useLicensed';
 import { UseEstablishmentProvider } from './useEstablishment';
 import { TransactionVendasProvider } from './useTransaction';
 import { UseTariffProvider } from './useTariff';
-import { SalesPageProvider } from './salesPageContext';
 import { IdPosProvider } from './useIdPos';
+import { SalesPageProvider } from './pages/salesPageContext';
+import { TicketsPageProvider } from './pages/ticketsPageContext';
+import { TicketIDProvider } from './id/ticketId';
+import { LogPageProvider } from './pages/logPageContext';
+import { CartProvider } from './e-com/cart';
 
 type TenantData = {
   name: string;
@@ -21,10 +25,10 @@ type TenantData = {
   attachment_logo_white: string;
 };
 
-// Defina o contexto com o tipo de dados do inquilino
+
 const TenantDataContext = createContext<TenantData>({} as TenantData);
 
-// Use o hook para acessar os dados do inquilino
+
 export const useTenantData = () => useContext(TenantDataContext);
 
 
@@ -46,9 +50,17 @@ export function AppProvider({ children, tenantData }: AppProviderProps) {
                   <SidebarVisibilityProvider>
                     <UseTariffProvider>
                       <IdPosProvider>
+                        <TicketIDProvider>
+                          <CartProvider>
+                          <LogPageProvider initialPage={1}>
+                        <TicketsPageProvider initialPage={1} >
                       <SalesPageProvider initialPage={1}>
                       {children}
                       </SalesPageProvider>
+                      </TicketsPageProvider>
+                      </LogPageProvider>
+                      </CartProvider>
+                      </TicketIDProvider>
                       </IdPosProvider>
                     </UseTariffProvider>
                   </SidebarVisibilityProvider>

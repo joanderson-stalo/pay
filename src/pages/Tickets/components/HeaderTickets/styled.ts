@@ -19,20 +19,14 @@ interface Color {
   `;
 
   export const Button = styled.button<Color>`
-    display: flex;
-
-    height: 35px;
-    padding: 0px 16px;
-    justify-content: center;
-    align-items: center;
-    border-radius: 5px;
-    border: 0.5px solid #0086ED;
-    background: ${(props) => props.secundary};
-    color: #FFF;
-    font-size: 12px;
-    font-weight: 500;
-    line-height: 20px;
-    letter-spacing: 0.5px;
+    border-radius: 4px;
+    background: #3C0A6D;
+    padding: 8px 24px;
+  color: #FFF;
+font-size: 14px;
+font-style: normal;
+font-weight: 400;
+line-height: 15.566px;
   `;
 
   export const Title = styled.h2<Color>`

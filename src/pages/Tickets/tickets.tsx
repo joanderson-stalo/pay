@@ -1,141 +1,259 @@
-import { PaginaView } from '@/components/PaginaView/paginaView';
-import * as S from './styled';
-import { useEffect, useState } from 'react';
-import { ItensPorPage } from '@/components/ItensPorPage/itensPorPage';
-import { Pagination } from '@/components/Pagination/pagination';
-import { FunnelSimple } from '@phosphor-icons/react';
-import { useLogin } from '@/context/user.login';
-import axios from 'axios';
-import { Loading } from '@/components/Loading/loading';
-import { useFilterLicensed } from './hooks/useFilterLicensed';
-import { EditableButton } from './components/ButtonEdit/buttonEdit';
-import { mockDataTable } from './mock';
-import { CardInfo } from '../../components/CardInfo/cardInfo';
-import { TicketsCardMobile } from './Mobile/TicketsCardMobile/ticketsCardMobile';
-import { HeaderTickets } from './components/HeaderTickets/headerTickets';
-import { TableTickets } from './components/TableTickets/tableTickets';
-import { ModalTickets } from './components/ModalTickets/modalTickets';
-import { baseURL } from '@/config/color';
-
+import { PaginaView } from '@/components/PaginaView/paginaView'
+import * as S from './styled'
+import { useEffect, useRef, useState } from 'react'
+import { ItensPorPage } from '@/components/ItensPorPage/itensPorPage'
+import { Pagination } from '@/components/Pagination/pagination'
+import { useLogin } from '@/context/user.login'
+import axios from 'axios'
+import { Loading } from '@/components/Loading/loading'
+import { CardInfo } from '../../components/CardInfo/cardInfo'
+import { TicketsCardMobile } from './Mobile/TicketsCardMobile/ticketsCardMobile'
+import { HeaderTickets } from './components/HeaderTickets/headerTickets'
+import { TableTickets } from './components/TableTickets/tableTickets'
+import { baseURL } from '@/config/color'
+import { useTicketsPageContext } from '@/context/pages/ticketsPageContext'
+import { BtnFilterModal } from '@/components/BtnFilterModal/btnFilterModal'
+import { CustomInput } from '@/components/Input/input'
+import { useTenantData } from '@/context'
+import { TagFilter } from '@/components/TagFilter/tagFilter'
+import { useFilterTicket } from './hooks/useFilterTicket'
+import { TotalBtn } from '@/components/TotalBtn/totalBtn'
+import { MagnifyingGlass } from '@phosphor-icons/react'
+import { debounce } from 'lodash'
 
 export function Tickets() {
-  const [itensPorPage, setItensPorPage] = useState<number | ''>(10);
-  const [filter, setFilter] = useState(false);
-  const [searchValue, setSearchValue] = useState('');
-  const { state } = useFilterLicensed();
-  const { dataUser } = useLogin();
-  const [totalSellers, setTotalSellers] = useState(0);
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [sellers, setSellers] = useState([]);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [itensPorPage, setItensPorPage] = useState<number | ''>(10)
+  const [searchValue, setSearchValue] = useState('')
+  const { dataUser } = useLogin()
+  const [totalTickets, setTotalTickets] = useState(0)
+  const [tickets, setTickets] = useState([])
+  const [loading, setLoading] = useState<boolean>(true)
+  const [openTickets, setOpenTickets] = useState<number>(0)
+  const [closedTickets, setClosedTickets] = useState<number>(0)
+  const [processingTickets, setProcessingTickets] = useState<number>(0)
+  const { currentPage, setCurrentPage } = useTicketsPageContext()
+  const [isFocused, setIsFocused] = useState(false);
 
-  const fetchData = async (pageNumber: number = currentPage) => {
-    setLoading(true);
-    let apiUrl = `${baseURL}seller/indexla?perpage=${String(itensPorPage)}&page=${pageNumber}`;
-    if (searchValue) {
-      apiUrl += `&trading_name=${searchValue}`;
+  const { setFalse, setTrue, state}  = useFilterTicket()
+  const [startDate, setStartDate] = useState<string>('')
+  const [endDate, setEndDate] = useState<string>('')
+
+  const tenantData = useTenantData()
+
+  const fetchDatatickets = async (search?: string)  => {
+    setLoading(true)
+    try {
+
+      let apiUrl = `${baseURL}tickets/index?perpage=${String(
+        itensPorPage
+      )}&page=${currentPage}`
+
+
+     const capturedInStart = localStorage.getItem('@startDateTicket');
+    if (capturedInStart) {
+      apiUrl += `&start_date=${capturedInStart}`;
     }
-    const response = await axios.get(apiUrl, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${dataUser?.token}`
-      }
-    });
-    setSellers(response.data.sellers);
-    setTotalSellers(response.data.total_sellers);
-    setCurrentPage(response.data.current_page);
-    setLoading(false);
-  };
 
-  const handleNextPage = () => {
-    setCurrentPage(prevPage => prevPage + 1);
-  };
+    const capturedInEnd = localStorage.getItem('@endDateTicket');
+    if (capturedInEnd) {
+      apiUrl += `&end_date=${capturedInEnd}`;
+    }
 
-  const handlePrevPage = () => {
+
+    if (search) {
+
+      apiUrl += `&number=${search}`;
+    }
+
+
+
+      const response = await axios.get(apiUrl, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${dataUser?.token}`
+        }
+      })
+
+      setTickets(response.data.tickets)
+      setTotalTickets(response.data.total_tickets)
+      setOpenTickets(response.data.open_tickets)
+      setClosedTickets(response.data.completed_tickets)
+      setProcessingTickets(response.data.processing_tickets)
+    } catch (error) {
+      console.error('Error fetching data:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleNextPage = async () => {
+ await   setCurrentPage(prevPage => prevPage + 1)
+  }
+
+  const handlePrevPage = async () => {
     if (currentPage > 1) {
-      setCurrentPage(prevPage => prevPage - 1);
+      await   setCurrentPage(prevPage => prevPage - 1)
     }
-  };
+  }
 
-  const handleOpenModal = () => {
-    setFilter(true);
-  };
 
-  const handleCloseModal = () => {
-    setFilter(false);
-  };
+  const fetchData = async (pageNumber: number) => {
+    setCurrentPage(pageNumber)
+  }
 
-  const totalPages = Math.ceil(totalSellers / (itensPorPage || 1));
+  const totalPages = Math.ceil(totalTickets / (itensPorPage || 1))
 
   useEffect(() => {
-
-  }, [dataUser, itensPorPage, currentPage]);
+    fetchDatatickets()
+  }, [dataUser, itensPorPage, currentPage, state])
 
   useEffect(() => {
     if (searchValue.trim() === '') {
-      fetchData();
+      fetchDatatickets()
     }
   }, [searchValue])
 
+  const handleSaveToLocalStorage = async () => {
+    await   setCurrentPage(1)
+    await localStorage.setItem('@startDateTicket', startDate)
+    await localStorage.setItem('@endDateTicket', endDate)
+    await setTrue()
+  }
+
+  const handleRemoveDateFilter = () => {
+    localStorage.removeItem('@startDateTicket')
+    localStorage.removeItem('@endDateTicket')
+    setStartDate('')
+    setEndDate('')
+    setFalse();
+  }
+
+  const debouncedFetchDataFromAPI = useRef(debounce(fetchDatatickets, 1000)).current;
+  const handleChange = async (event: { target: { value: string } }) => {
+    setSearchValue(event.target.value);
+    if (event.target.value.trim() !== '') {
+      await   setCurrentPage(1)
+      debouncedFetchDataFromAPI(event.target.value.trim());
+    } else {
+      debouncedFetchDataFromAPI.cancel();
+      fetchDatatickets();
+    }
+  };
+
+  const handleSearch = () => {
+    if (searchValue.trim() !== '') {
+      fetchDatatickets(searchValue);
+    } else {
+      fetchDatatickets();
+    }
+  };
+
+
+
+
+  if (loading) {
+    return <Loading />
+  }
 
   return (
     <>
-      <ModalTickets onClose={handleCloseModal} visible={filter} />
-      {loading ? <Loading /> :
-        <>
       <S.Container>
-      <HeaderTickets />
+        <HeaderTickets />
 
-<S.ContainerCard>
-<CardInfo  shouldFormat={false} label='Quantidade Tickets' value={500}/>
-<CardInfo  shouldFormat={false}  label='Quantidade Finalizados' value={500}/>
-<CardInfo   shouldFormat={false} label='Quantidade em Tratamento' value={500}/>
-</S.ContainerCard>
-
-
- <S.ContainerButton>
-   <S.ButtonTotal>Todos ({totalSellers})</S.ButtonTotal>
-   {state ? <EditableButton /> : ''}
-   <S.ButtonFilter onClick={handleOpenModal}> <FunnelSimple />Filtrar</S.ButtonFilter>
- </S.ContainerButton>
-
-
-
-<TableTickets rows={mockDataTable} />
-
-<S.ContainerCardsMobile>
-<TicketsCardMobile  data={mockDataTable}/>
-</S.ContainerCardsMobile>
+        <S.ContainerCard>
+          <CardInfo
+            shouldFormat={false}
+            label="Em Aberto"
+            value={openTickets}
+          />
+          <CardInfo
+            shouldFormat={false}
+            label="Em Processamento"
+            value={processingTickets}
+          />
+          <CardInfo
+            shouldFormat={false}
+            label="Finalizados"
+            value={closedTickets}
+          />
+        </S.ContainerCard>
 
 
+        <S.Input isFocused={isFocused}>
+              <input
+                type="text"
+                placeholder="Digite o número do ticket..."
+                value={searchValue}
+                onChange={handleChange}
+                onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
+              />
+              <S.SearchIcon isFocused onClick={handleSearch}>
+                <MagnifyingGlass />
+              </S.SearchIcon>
+            </S.Input>
 
 
- <S.Context>
-   <S.Linha />
-   <S.ContainerPagina>
-     <PaginaView totalItens={itensPorPage} />
-     <S.ContainerItens>
-       <ItensPorPage itensPorPage={itensPorPage} setItensPorPage={setItensPorPage} />
-       <Pagination
-         currentPage={currentPage}
-         onPageClick={fetchData}
-         totalPages={totalPages}
-         onNextPage={handleNextPage}
-         onPrevPage={handlePrevPage}
-       />
-     </S.ContainerItens>
-   </S.ContainerPagina>
-</S.Context>
+        <S.ContainerButton>
+          <TotalBtn total={totalTickets} />
+
+          <BtnFilterModal
+            disabled={!startDate || !endDate || endDate <= startDate}
+            onClick={handleSaveToLocalStorage}
+          >
+            <S.BtnFilterModalContainer>
+              <CustomInput
+                colorInputDefault={tenantData.primary_color_identity}
+                colorInputSuccess={tenantData.secondary_color_identity}
+                type="date"
+                label="Data inicial"
+                value={startDate}
+                hasError={!!endDate && startDate > endDate}
+                onChange={event => setStartDate(event.target.value)}
+              />
+              <CustomInput
+                colorInputDefault={tenantData.primary_color_identity}
+                colorInputSuccess={tenantData.secondary_color_identity}
+                type="date"
+                label="Data final"
+                value={endDate}
+                hasError={!!startDate && (endDate <= startDate || !endDate)}
+                onChange={event => setEndDate(event.target.value)}
+              />
+            </S.BtnFilterModalContainer>
+          </BtnFilterModal>
+
+        {state &&    <TagFilter
+            filters={[{ title: 'Data', onClick: handleRemoveDateFilter }]}
+          />}
+        </S.ContainerButton>
+
+        <TableTickets rows={tickets} />
+
+        <S.ContainerCardsMobile>
+          <TicketsCardMobile data={tickets} />
+        </S.ContainerCardsMobile>
+
+        <S.Context>
+          <S.Linha />
+          <S.ContainerPagina>
+            <PaginaView totalItens={itensPorPage} />
+            <S.ContainerItens>
+              <ItensPorPage
+                itensPorPage={itensPorPage}
+                setItensPorPage={setItensPorPage}
+              />
+              <Pagination
+                currentPage={currentPage}
+                onPageClick={fetchData}
+                totalPages={totalPages}
+                onNextPage={handleNextPage}
+                onPrevPage={handlePrevPage}
+              />
+            </S.ContainerItens>
+          </S.ContainerPagina>
+        </S.Context>
       </S.Container>
-
-
-        </>
-
-      }
-
-
     </>
-
-
-  );
+  )
 }

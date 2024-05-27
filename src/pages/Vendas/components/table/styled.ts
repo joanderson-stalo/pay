@@ -109,7 +109,7 @@ export const StatusText = styled.span<StatusTextProps>`
   color: #E6F8FD;
   font-size: ${({theme }) => theme.text_xss};
   line-height: 15.566px;
-  background-color: ${props => props.status === 'succeeded' ? '#55B938' : '#EC5252'};
+  background-color: ${props => props.status === 'succeeded' ? '#178629' : '#EC5252'};
   border-radius: 4px;
   padding: 4px 16.5px;
 `;
@@ -127,6 +127,6 @@ export const SortArrow = styled.span<{ isActive: boolean }>`
   color: ${props => (props.isActive ? '#08BBE9' : 'black')};
   opacity: ${props => (props.isActive ? 1 : 0.5)};
   font-size: 9px;
-  
+
 `;
 

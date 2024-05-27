@@ -1,25 +1,31 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import * as S from './styled';
+import { checkEmpty } from '@/utils/checkEmpty';
+import { useTicketID } from '@/context/id/ticketId';
+import { useNavigate } from 'react-router-dom';
 
 export interface RowDataTickets {
   id: number;
-  data: string;
-  numero: number;
-  titulo: string;
-  estabelecimento: string;
-  status: 'Em tratamento' | 'Finalizado';
-  comentarios: string;
+  created_at: string;
+  number: string;
+  title: string;
+  seller_name: string;
+  final_evaluation: string;
 }
 
-type SortField = 'data' | 'numero' | 'titulo' | 'estabelecimento' | 'status';
+type SortField = keyof RowDataTickets;
 
 interface TabelaProps {
   rows: RowDataTickets[];
 }
 
+
+
 export function TableTickets({ rows }: TabelaProps) {
-  const [sortField, setSortField] = useState<SortField>('data');
+  const [sortField, setSortField] = useState<SortField>('created_at');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+  const { setSelectedTicketID } = useTicketID();
+  const navigate = useNavigate();
 
   function formatDateBR(dateString: string) {
     const date = new Date(dateString);
@@ -39,20 +45,25 @@ export function TableTickets({ rows }: TabelaProps) {
     let comparison = 0;
 
     switch (sortField) {
-      case 'data':
-        comparison = a.data.localeCompare(b.data);
+      case 'created_at':
+        comparison = new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
         break;
-      case 'numero':
-        comparison = a.numero - b.numero;
+      case 'number':
+        comparison = Number(a.number) - Number(b.number);
         break;
-      case 'titulo':
-        comparison = a.titulo.localeCompare(b.titulo);
+      case 'title':
+        comparison = a.title.localeCompare(b.title);
         break;
-      case 'estabelecimento':
-        comparison = a.estabelecimento.localeCompare(b.estabelecimento);
-        break;
-      case 'status':
-        comparison = a.status.localeCompare(b.status);
+      case 'seller_name':
+        if (a.seller_name && b.seller_name) {
+          comparison = a.seller_name.localeCompare(b.seller_name);
+        } else if (!a.seller_name && !b.seller_name) {
+          comparison = 0;
+        } else if (!a.seller_name) {
+          comparison = 1;
+        } else {
+          comparison = -1;
+        }
         break;
       default:
         comparison = 0;
@@ -61,66 +72,60 @@ export function TableTickets({ rows }: TabelaProps) {
     return sortDirection === 'asc' ? comparison : -comparison;
   });
 
+  const handleViewMoreClick = async (id: string) => {
+    setSelectedTicketID(id)
+    await new Promise(resolve => setTimeout(resolve, 20));
+    navigate(`/tickets-view`);
+};
+
+
+
   return (
     <S.Table>
       <thead>
         <tr>
-          <S.TableHeader style={{ cursor: 'pointer' }} onClick={() => handleSort('data')}>
+          <S.TableHeader style={{ cursor: 'pointer' }} onClick={() => handleSort('created_at')}>
             Data
             <S.SortContainer>
-              <S.SortArrow isActive={sortField === 'data' && sortDirection === 'asc'}>▲</S.SortArrow>
-              <S.SortArrow isActive={sortField === 'data' && sortDirection === 'desc'}>▼</S.SortArrow>
+              <S.SortArrow isActive={sortField === 'created_at' && sortDirection === 'asc'}>▲</S.SortArrow>
+              <S.SortArrow isActive={sortField === 'created_at' && sortDirection === 'desc'}>▼</S.SortArrow>
             </S.SortContainer>
           </S.TableHeader>
-          <S.TableHeader style={{ cursor: 'pointer' }} onClick={() => handleSort('numero')}>
+          <S.TableHeader style={{ cursor: 'pointer' }} onClick={() => handleSort('number')}>
             Número
             <S.SortContainer>
-              <S.SortArrow isActive={sortField === 'numero' && sortDirection === 'asc'}>▲</S.SortArrow>
-              <S.SortArrow isActive={sortField === 'numero' && sortDirection === 'desc'}>▼</S.SortArrow>
+              <S.SortArrow isActive={sortField === 'number' && sortDirection === 'asc'}>▲</S.SortArrow>
+              <S.SortArrow isActive={sortField === 'number' && sortDirection === 'desc'}>▼</S.SortArrow>
             </S.SortContainer>
           </S.TableHeader>
-          <S.TableHeader style={{ cursor: 'pointer' }} onClick={() => handleSort('titulo')}>
+          <S.TableHeader style={{ cursor: 'pointer' }} onClick={() => handleSort('title')}>
             Título
             <S.SortContainer>
-              <S.SortArrow isActive={sortField === 'titulo' && sortDirection === 'asc'}>▲</S.SortArrow>
-              <S.SortArrow isActive={sortField === 'titulo' && sortDirection === 'desc'}>▼</S.SortArrow>
+              <S.SortArrow isActive={sortField === 'title' && sortDirection === 'asc'}>▲</S.SortArrow>
+              <S.SortArrow isActive={sortField === 'title' && sortDirection === 'desc'}>▼</S.SortArrow>
             </S.SortContainer>
           </S.TableHeader>
-          <S.TableHeader style={{ cursor: 'pointer' }} onClick={() => handleSort('estabelecimento')}>
+          <S.TableHeader style={{ cursor: 'pointer' }} onClick={() => handleSort('seller_name')}>
             Estabelecimento
             <S.SortContainer>
-              <S.SortArrow isActive={sortField === 'estabelecimento' && sortDirection === 'asc'}>▲</S.SortArrow>
-              <S.SortArrow isActive={sortField === 'estabelecimento' && sortDirection === 'desc'}>▼</S.SortArrow>
+              <S.SortArrow isActive={sortField === 'seller_name' && sortDirection === 'asc'}>▲</S.SortArrow>
+              <S.SortArrow isActive={sortField === 'seller_name' && sortDirection === 'desc'}>▼</S.SortArrow>
             </S.SortContainer>
           </S.TableHeader>
-          <S.TableHeader style={{ cursor: 'pointer' }} onClick={() => handleSort('status')}>
-            Status
-            <S.SortContainer>
-              <S.SortArrow isActive={sortField === 'status' && sortDirection === 'asc'}>▲</S.SortArrow>
-              <S.SortArrow isActive={sortField === 'status' && sortDirection === 'desc'}>▼</S.SortArrow>
-            </S.SortContainer>
-          </S.TableHeader>
-          <S.TableHeader>Comentários</S.TableHeader>
-          <S.TableHeader>Ação</S.TableHeader>
+
+
+          <S.TableHeader></S.TableHeader>
         </tr>
       </thead>
       <tbody>
         {sortedRows.map((row, index) => (
           <tr key={index}>
-            <S.TableData>{formatDateBR(row.data)}</S.TableData>
-            <S.TableData>{row.numero}</S.TableData>
-            <S.TableData>{row.titulo}</S.TableData>
-            <S.TableData>{row.estabelecimento}</S.TableData>
+            <S.TableData>{formatDateBR(row.created_at)}</S.TableData>
+            <S.TableData>{checkEmpty(row.number)}</S.TableData>
+            <S.TableData>{checkEmpty(row.title)}</S.TableData>
+            <S.TableData>{checkEmpty(row.seller_name)}</S.TableData>
             <S.TableData>
-          <S.StatusContainer>
-            <S.StatusTableData status={row.status}>
-              {row.status}
-            </S.StatusTableData>
-          </S.StatusContainer>
-        </S.TableData>
-            <S.CommentTableData>{row.comentarios}</S.CommentTableData>
-            <S.TableData>
-              <S.Button onClick={() => false}>Editar</S.Button>
+              <S.Button onClick={() => handleViewMoreClick(String(row.id))}>Visualizar</S.Button>
             </S.TableData>
           </tr>
         ))}

@@ -21,7 +21,7 @@ import { ExportData } from '@/components/ExportData/exportData';
 import { BtnFilter } from '@/components/BtnFilter/btnFilter';
 import { TitleH } from '@/components/Title/title';
 import { TotalBtn } from '@/components/TotalBtn/totalBtn';
-import { useSalesPageContext } from '@/context/salesPageContext';
+import { useSalesPageContext } from '@/context/pages/salesPageContext';
 
 
 export function Vendas() {

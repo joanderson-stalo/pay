@@ -25,7 +25,6 @@ import { ManageAccessEstablishment } from '@/pages/Estabelecimento/modules/Manag
 import { EditRegistrationEC } from '@/pages/Estabelecimento/modules/EditRegistrationEC/editRegistrationEC';
 import { UserListLogged } from '@/pages/User/Modules/UserListLogged/userListLogged';
 import { EditUser } from '@/pages/User/Modules/UserEdit/editUser';
-import { LicenseeSummary } from '@/pages/Financial/Modules/LicenseeSummary/licenseeSummary';
 import { OperationManagement } from '@/pages/Financial/Modules/OperationManagement/operationManagement';
 import { BillingRequest } from '@/pages/Financial/Modules/BillingRequest/billingRequest';
 import { AddRequest } from '@/pages/Financial/Modules/BillingRequest/Modules/AddRequest/addRequest';
@@ -47,6 +46,15 @@ import { ImportSpreadsheet } from '@/pages/Financial/Modules/Tariffs/Modules/Add
 import { Vendas } from '@/pages/Vendas/vendas';
 import { DetalheVenda } from '@/pages/Vendas/Detalhes/detalhe';
 import { EditRate } from '@/pages/Financial/Modules/Tariffs/Modules/EditRateManual/editRateManual';
+import { ViewTicket } from '@/pages/Tickets/Modules/ViewTicket/viewTicket';
+import { Log } from '@/pages/Config/modules/Log/log';
+import { LogDetail } from '@/pages/Config/modules/Log/modules/logDetail/logDetail';
+import { ListProducts } from '@/pages/E-com/Modules/ListProducts/listProducts';
+import { Cart } from '@/pages/E-com/Modules/Cart/cart';
+import { CartAddress } from '@/pages/E-com/Modules/CartAddress/cartaddress';
+import { PaymentsCart } from '@/pages/E-com/Modules/Payments/paymentsCart';
+import { PaymentsDetail } from '@/pages/E-com/Modules/PaymentsDetail/paymentsDetail';
+import { ProductsMy } from '@/pages/E-com/Modules/ProductsMy/productsMy';
 
 
 export function Router() {
@@ -86,7 +94,6 @@ export function Router() {
             <Route path="/commission/network" element={<TodayCommission />} />
             <Route path="/plans" element={<Plans />} />
             <Route path="/addplans" element={<AddPlans />} />
-            <Route path="/licenseesummary" element={<LicenseeSummary />} />
             <Route path="/operationManagement" element={<OperationManagement />} />
             <Route path="/billingRequest" element={<BillingRequest />} />
             <Route path="/addRequest" element={<AddRequest />} />
@@ -101,11 +108,26 @@ export function Router() {
             <Route path="/addRateManual" element={<AddRateManual />} />
             <Route path="/tickets" element={<Tickets />} />
             <Route path="/tickets-add" element={<AddTickets />} />
+            <Route path="/tickets-view" element={< ViewTicket />} />
+
 
             <Route path="/documents" element={<Documents />} />
             <Route path="/paymentRequests" element={<PaymentRequests />} />
 
             <Route path="/extract" element={<Extract />} />
+
+
+            <Route path="/log" element={<Log />} />
+            <Route path='/log-detail'  element={<LogDetail />} />
+
+            <Route path='/e-com' element={<ListProducts />} />
+            <Route path='/e-com-cart' element={<Cart />} />
+            <Route path='/e-com-address' element={< CartAddress />} />
+            <Route path='/e-com-payments' element={< PaymentsCart />} />
+            <Route path='/e-com-payments-detail' element={< PaymentsDetail />} />
+            <Route path='/e-com-payments-request' element={< ProductsMy />} />
+
+
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

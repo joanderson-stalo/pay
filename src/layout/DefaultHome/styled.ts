@@ -3,10 +3,10 @@ import styled from "styled-components";
 export const ContainerDefaultHome = styled.div`
   display: flex;
 `
-export const ContainerSidebarDefault = styled.div`
+export const ContainerSidebarDefault = styled.div<{ isVisible: boolean }>`
  position: fixed;
   width: 100%;
-  max-width: 240px;
+  max-width: ${props => props.isVisible ? '240px' : '100px'} ;
   height: 100vh;
 `
 export const ContainerContext = styled.div<{ isCondensed: boolean }>`

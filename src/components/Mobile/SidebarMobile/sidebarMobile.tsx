@@ -36,9 +36,8 @@ export function SidebarMobile({ isOpen, toggleSidebar }: SidebarMobileProps) {
         { icon: <Laptop />, label: 'Equipamentos', path: "/equipmentStock" },
         { icon: <Wallet />, label: 'Financeiro', isSubmenu: true, submenuItems: [
             { label: 'Gestão da Operação', path: '/operationManagement' },
-            { label: 'Resumo de Licenciados', path: '/licenseesummary' },
             { label: 'Extrato', path: '/extract' },
-            { label: 'Tarifas', path: '/tariffs' }, 
+            { label: 'Tarifas', path: '/tariffs' },
             { label: 'Solicitação de Cobrança', path: '/billingRequest' },
             { label: 'Pagamentos', path: '/pagamentos' }
         ] },
@@ -71,7 +70,7 @@ export function SidebarMobile({ isOpen, toggleSidebar }: SidebarMobileProps) {
   const handleSubmenuItemNavigation = (path: string) => {
     navigate(path);
     toggleSidebar();
-    handleCloseMenu(); 
+    handleCloseMenu();
   };
 
   const handleCloseMenu = () => {

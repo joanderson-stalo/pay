@@ -58,21 +58,15 @@ export const TableData = styled.td`
 `;
 
 export const Button = styled.button`
-  color: #5A6ACF;
-  font-size: ${({theme }) => theme.text_xs};
-  font-style: normal;
-  font-weight: 500;
-  line-height: 14.128px;
-  letter-spacing: 0.353px;
-  width: 77px;
-  height: 24.725px;
-  border-radius: 3.532px;
-  border: 0.353px solid #F5F4F4;
-  background: #FFF;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto;
+color:  #3C0A6D;
+font-family: "Public Sans";
+font-size: 12px;
+font-style: normal;
+font-weight: 500;
+line-height: 11.303px;
+letter-spacing: 0.353px;
+text-decoration-line: underline;
+background-color: transparent;
 `;
 
 export const TableRow = styled.tr`
@@ -104,21 +98,4 @@ export const CommentTableData = styled(TableData)`
 `;
 
 
-export const StatusContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-`;
 
-
-export const StatusTableData = styled.div<{ status: 'Em tratamento' | 'Finalizado' }>`
-  color: #fff;
-  font-size: ${({ theme }) => theme.text_xs};
-  font-weight: ${({ theme }) => theme.font_medium};
-  padding: 4px 12px;
-  border-radius: 16px;
-  background-color: ${({ status }) => (status === 'Em tratamento' ? '#FF7C33' : '#2BC6F6')};
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-  max-width: fit-content;
-`;

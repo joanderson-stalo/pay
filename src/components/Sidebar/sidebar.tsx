@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { BiChevronDown, BiChevronUp } from 'react-icons/bi';
-import { Storefront, Tag, ChartBar, Basket, Money, Stack, Wallet, FileText, CaretLeft, CaretRight, Laptop, Ticket } from '@phosphor-icons/react';
+import { Storefront, Tag, ChartBar, Basket, Money, Stack, Wallet, FileText, CaretLeft, CaretRight, Laptop, Ticket, Gear, DeviceMobile } from '@phosphor-icons/react';
 import { ButtonSider, ButtonSiderArrow, ContainerSidebar, Logo, Menu, SubMenu, SubMenuItem } from './styled';
 import { ThemeImg } from '@/config/img';
 import { useSidebarVisibility } from '@/context/sidebarVisibilityContext';
@@ -25,8 +25,12 @@ export function Sidebar() {
       { icon: <Stack />, label: 'Planos', path: "/plans" },
       { icon: <Laptop />, label: 'Equipamentos', path: "/equipmentStock" },
       { icon: <Wallet />, label: 'Financeiro', isSubmenu: true },
+      { icon: <Ticket />, label: 'Tickets', path: "/tickets" },
+      { icon: <DeviceMobile />, label: 'Aquisiçãode produtos', path: "/e-com"  },
+      { icon: <Gear />, label: 'Configurações', isSubmenu: true },
+
     ] : []),
-    { icon: <Ticket />, label: 'Tickets', path: "/tickets" },
+
     { icon: <FileText />, label: 'Documentos', path: "/documents" }
   ];
 
@@ -38,6 +42,7 @@ export function Sidebar() {
   });
 
   const [financeiroSubmenuOpen, setFinanceiroSubmenuOpen] = useState<boolean>(false);
+  const [configSubmenuOpen, setConfigSubmenuOpen] = useState<boolean>(false);
 
   useEffect(() => {
     const paths = menuItems.map(item => item.path);
@@ -45,6 +50,8 @@ export function Sidebar() {
     setSelectedItem(matchedIndex > -1 ? matchedIndex : null);
 
     setFinanceiroSubmenuOpen(menuItems[matchedIndex]?.isSubmenu ?? false);
+    setConfigSubmenuOpen(menuItems[matchedIndex]?.isSubmenu ?? false);
+
   }, [location.pathname]);
 
   const handleNavigation = (index: number, path?: string) => {
@@ -52,23 +59,34 @@ export function Sidebar() {
       navigate(path);
       setSelectedItem(index);
       setFinanceiroSubmenuOpen(menuItems[index]?.isSubmenu ?? false);
+      setConfigSubmenuOpen(menuItems[index]?.isSubmenu ?? false);
     }
   };
 
   const financeiroSubmenuItems = [
     { label: 'Gestão da Operação', path: '/operationManagement' },
-    { label: 'Resumo de Licenciados', path: '/licenseesummary' },
     { label: 'Extrato', path: '/extract' },
     { label: 'Tarifas', path: '/tariffs' },
     { label: 'Solicitação de Cobrança', path: '/billingRequest' }
     // { label: 'Pagamentos', path: '/pagamentos' }
   ];
 
+  const configSubmenuItems = [
+    { label: 'Log', path: '/log' },
+    { label: 'Gestão de Permissões', path: '/permissionManagement' }
+  ];
+
   const financeiroIndex = menuItems.findIndex(item => item.label === 'Financeiro');
+  const configIndex = menuItems.findIndex(item => item.label === 'Configurações');
 
   const toggleFinanceiroSubmenu = () => {
     setFinanceiroSubmenuOpen(!financeiroSubmenuOpen);
     setSelectedItem(financeiroIndex);
+  };
+
+  const toggleConfigSubmenu = () => {
+    setConfigSubmenuOpen(!configSubmenuOpen);
+    setSelectedItem(configIndex);
   };
 
   return (
@@ -81,18 +99,30 @@ export function Sidebar() {
             <ButtonSider
               colorSec={tenantData.secondary_color_identity}
               selected={selectedItem === index}
-              onClick={() => item.isSubmenu ? toggleFinanceiroSubmenu() : handleNavigation(index, item.path)}
+              onClick={() => item.isSubmenu ? (item.label === 'Financeiro' ? toggleFinanceiroSubmenu() : toggleConfigSubmenu()) : handleNavigation(index, item.path)}
             >
               {item.icon}
               {isVisible && item.label}
-              {item.isSubmenu && isVisible && (financeiroSubmenuOpen ? <BiChevronUp /> : <BiChevronDown />)}
+              {item.isSubmenu && isVisible && (item.label === 'Financeiro' ? (financeiroSubmenuOpen ? <BiChevronUp /> : <BiChevronDown />) : (configSubmenuOpen ? <BiChevronUp /> : <BiChevronDown />))}
             </ButtonSider>
-            {item.isSubmenu && financeiroSubmenuOpen && (
+            {item.isSubmenu && item.label === 'Financeiro' && financeiroSubmenuOpen && (
               <SubMenu>
                 {financeiroSubmenuItems.map((subItem, subIndex) => (
                   <SubMenuItem
                     key={subIndex}
                     onClick={() => handleNavigation(financeiroIndex, subItem.path)}
+                  >
+                    {subItem.label}
+                  </SubMenuItem>
+                ))}
+              </SubMenu>
+            )}
+            {item.isSubmenu && item.label === 'Configurações' && configSubmenuOpen && (
+              <SubMenu>
+                {configSubmenuItems.map((subItem, subIndex) => (
+                  <SubMenuItem
+                    key={subIndex}
+                    onClick={() => handleNavigation(configIndex, subItem.path)}
                   >
                     {subItem.label}
                   </SubMenuItem>

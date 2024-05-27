@@ -13,6 +13,7 @@ export function DefaultHome() {
   const navigate = useNavigate()
   const { isVisible } = useSidebarVisibility();
 
+
   useEffect(() => {
     if(!isLogin){
       navigate('/')
@@ -22,7 +23,7 @@ export function DefaultHome() {
 
   return (
     <ContainerDefaultHome>
-      <ContainerSidebarDefault>
+      <ContainerSidebarDefault isVisible={isVisible}>
         <Sidebar />
       </ContainerSidebarDefault>
       <ContainerContext isCondensed={isVisible}>

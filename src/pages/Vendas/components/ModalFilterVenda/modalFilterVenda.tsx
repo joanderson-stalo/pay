@@ -8,7 +8,8 @@ import { brandOptions, paymentMethodOptions, statusPaymentOptions } from './stat
 import { CustomInput } from '@/components/Input/input';
 import { useFilterSales } from '../../hooks/useFilterSales';
 import { useTenantData } from '@/context';
-import { useSalesPageContext } from '@/context/salesPageContext';
+import { useSalesPageContext } from '@/context/pages/salesPageContext';
+
 
 
 

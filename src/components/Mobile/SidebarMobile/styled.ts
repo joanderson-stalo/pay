@@ -2,15 +2,16 @@ import styled from 'styled-components';
 
 export const Overlay = styled.div<{ isOpen: boolean }>`
   position: fixed;
-  top: 60px; 
+  top: 60px;
   left: 0;
   width: 100vw;
-  height: calc(100vh - 60px); 
+  height: calc(100vh - 60px);
   background-color: rgba(0, 0, 0, 0.4);
   z-index: 9;
   display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
   transition: opacity 0.3s ease-in-out;
   opacity: ${({ isOpen }) => (isOpen ? 1 : 0)};
+
 `;
 
 
@@ -23,7 +24,7 @@ export const ContainerSidebarMobile = styled.div<{ isOpen: boolean; color: strin
   background-color: ${({ color }) => color};
   transform: ${({ isOpen }) => (isOpen ? 'translateX(0)' : 'translateX(-100%)')};
   transition: transform 0.3s ease-in-out;
-  z-index: 10;
+  z-index: ${({ isOpen }) => (isOpen ? '10' : '-1')};
   box-shadow: 4px 0 15px rgba(0, 0, 0, 0.2);
   overflow-y: auto;
 `;
@@ -62,7 +63,7 @@ export const ButtonSider = styled.button<{ selected: boolean; colorSec: string }
   }
 
   &:hover {
-    background-color: rgba(255, 255, 255, 0.05); 
+    background-color: rgba(255, 255, 255, 0.05);
 
     svg {
       transform: scale(1.1);

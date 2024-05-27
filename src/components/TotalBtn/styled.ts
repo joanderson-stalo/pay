@@ -3,8 +3,8 @@ import styled from "styled-components";
 export const ButtonTotal = styled.button`
 
 padding: 8px 22px;
-
-border-radius: 6px 6px 0px 0px; 
+height: 44px;
+border-radius: 6px 6px 0px 0px;
 
 color: #676767;
 font-size: 12px;

@@ -16,10 +16,12 @@ export const ContainerStep = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  margin: 36px 20px 20px 20px;
 `;
 
 export const ContextStepContainer = styled.div`
   display: flex;
+  width: 100%;
   flex-direction: column;
   align-items: center;
 `;
@@ -30,23 +32,9 @@ export const ContextStep = styled.div`
   border-radius: 8px;
   margin-top: 30px;
   margin-bottom: 32px;
-  width: 900px;
+  width: 100%;
   padding: 22px 39px 0px 39px;
 
-  @media (max-width: 1200px) {
-    width: 800px;
-  }
-
-  @media (max-width: 1100px) {
-    width: 700px;
-  }
-
-  @media (max-width: 900px) {
-    width: 100%;
-    border-radius: 0;
-    margin-top: 10px;
-    margin-bottom: 20px;
-  }
 `;
 
 export const TitleStep = styled.h2`
@@ -89,7 +77,7 @@ export const ContainerForm = styled.div`
 export const ContainerInput = styled.section`
   display: flex;
   justify-content: space-between;
-  gap: 50px;
+  gap: 20px;
 
   @media (max-width: 600px) {
     flex-direction: column;
@@ -118,18 +106,15 @@ export const ContainerInput2 = styled.section`
 `;
 
 export const ButtonAvançar = styled.button<Color>`
-  padding: 0px 24px;
-  height: 35px;
-  background: ${(props) => props.secundary};
-  border: 0.5px solid #0086ed;
-  border-radius: 5px;
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 20px;
-  letter-spacing: 0.5px;
-  color: #ffffff;
-  align-self: flex-end;
-  margin-bottom: 100px;
+border-radius: 4px;
+background:  #3C0A6D;
+
+color:  #FFF;
+font-size: 14px;
+font-weight: 400;
+line-height: 24px;
+letter-spacing: 0.5px;
+padding: 8px 24px;
 
   :disabled {
     background-color: gray;
@@ -139,16 +124,19 @@ export const ButtonAvançar = styled.button<Color>`
 `;
 
 export const ButtonVoltar = styled.button`
-  width: 109px;
-  height: 35px;
-  background: #FFFFFF;
-  border: 0.5px solid #F5F4F4;
-  border-radius: 5px;
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 20px;
-  letter-spacing: 0.5px;
-  color: #5A6ACF;
+
+padding: 8px 24px;
+
+
+  border-radius: 4px;
+border: 1px solid  #3C0A6D;
+
+font-size: 14px;
+font-weight: 400;
+line-height: 24px;
+letter-spacing: 0.5px;
+color: #3C0A6D;
+background-color: transparent;
 `;
 
 export const ContainerButton = styled.div`
@@ -163,43 +151,18 @@ export const ContainerButton = styled.div`
 `;
 
 
-export const HiddenFileInput = styled.input.attrs({ type: "file" })`
-  display: none;
-`;
-
-export const FileInputLabel = styled.label`
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  padding: 12px 23px;
-  border-radius: 4px;
-  background: #E6F8FD;
-  cursor: pointer;
-  color: #07A8D2;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 24px;
-  letter-spacing: 0.5px;
-
-  &:hover {
-    background: #d1eaf3;
-  }
-`;
-
-export const StyledUploadIcon = styled(UploadSimple)`
-  color: #07A8D2;
-  width: 30px;
-  height: 30px;
-`;
-
 
 export const CustomTextArea = styled.textarea<CustomTextAreaProps>`
   width: 100%;
-  padding: 8px;
+  padding: 8px 16px 8px 16px;
   border: 1px solid ${props => props.hasError ? 'red' : '#E2E2E2'};
   border-radius: 4px;
   margin-top: 5px;
   resize: none;
+  height: 100px;
+  max-height: calc(4 * 7m);
+  line-height: 1.5em;
+  overflow-y: auto;
 `;
 
 export const Label = styled.p`
@@ -210,3 +173,61 @@ letter-spacing: 0.5px;
 color: ${({ theme }) => theme.neutral_darker};
 margin-bottom: 4px;
 `
+
+
+
+export const HiddenFileInput = styled.input.attrs({ type: "file" })`
+  display: none;
+`;
+
+export const FileInputLabel = styled.label<Color>`
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 12px 23px;
+  border-radius: 4px;
+  background: transparent;
+  cursor: pointer;
+  color:  ${(props) => props.primary};
+  border: 1px solid   ${(props) => props.primary};
+
+
+
+  font-size: 14px;
+font-weight: 500;
+line-height: 24px;
+letter-spacing: 0.5px;
+
+@media (max-width: 600px) {
+  padding: 12px;
+}
+
+`;
+
+export const StyledUploadIcon = styled(UploadSimple)<Color>`
+  color:   ${(props) => props.primary};
+  width: 30px;
+  height: 30px;
+`;
+
+export const ContainerPhoto = styled.div`
+  display: flex;
+  align-items: end;
+  gap: 50px;
+
+  >img {
+    width: 161px;
+height: 154px;
+object-fit: contain;
+  }
+
+  @media (max-width: 900px) {
+    gap: 30px;
+
+  }
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    align-items: center;
+  }
+`;

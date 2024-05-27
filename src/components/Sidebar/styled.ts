@@ -14,9 +14,9 @@ interface Color {
 
 export const ContainerSidebar = styled.div<Props & { isVisible: boolean }>`
   background: ${props => `${props.color}`};
-  width: ${props => props.isVisible ? '100%' : '40%'};
+  width: ${props => props.isVisible ? '100%' : '100px'};
   height: 100vh;
-
+  z-index: ${props => props.isVisible ? '1px' : '-1px'};
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -13,12 +13,13 @@ export const CardContainer = styled.div`
   height: 191px;
 `;
 
-export const CardHeader = styled.div<{ status: 'Em tratamento' | 'Finalizado' }>`
+export const CardHeader = styled.div`
   width: 100%;
   padding: 10px 28px;
-  background-color: ${({ status }) => (status === 'Em tratamento' ? '#FF7C33' : '#2BC6F6')};
+  background-color: #2BC6F6;
   display: flex;
   justify-content: space-between;
+  flex-direction: column;
   align-items: center;
 `;
 

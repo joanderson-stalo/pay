@@ -1,4 +1,3 @@
-import React from 'react';
 import { ButtonTotal } from "./styled";
 
 interface TotalBtnProps {

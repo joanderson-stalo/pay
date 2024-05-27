@@ -10,7 +10,7 @@ export const customStyles = (hasError: boolean) => ({
     borderRadius: '4px',
     width: '100%',
     height: '45px',
-    padding: '10px 4px 10px 20px',
+    padding: '6px 4px 10px 20px',
     transition: 'none',
 
   }),
@@ -21,6 +21,7 @@ export const customStyles = (hasError: boolean) => ({
     alignItems: 'center',
     transform: 'translateY(-20%)',
     color: '#A0A0A0',
+    fontSize: '14px'
   }),
   input: (base: any, state: any) => ({
     ...base,
@@ -29,13 +30,13 @@ export const customStyles = (hasError: boolean) => ({
     transform: 'translateY(-20%)',
     boxShadow: 'none',
     outline: 'none',
-
+    fontSize: '14px'
   }),
   placeholder: (base: any, state: any) => ({
     ...base,
     display: 'flex',
     alignItems: 'center',
-    transform: 'translateY(-40%)',
+    transform: 'translateY(-20%)',
     color: hasError ? 'red' : '#A0A0A0',
     fontSize: '12px'
   }),
@@ -43,7 +44,7 @@ export const customStyles = (hasError: boolean) => ({
     ...base,
     display: 'flex',
     alignItems: 'center',
-    transform: 'translateY(-16%)',
+    transform: 'translateY(-6%)',
   }),
   indicatorSeparator: (base: any, state: any) => ({
     ...base,
@@ -56,7 +57,14 @@ export const customStyles = (hasError: boolean) => ({
       color: null,
       cursor: '',
       boxShadow: 'none',
-
+      fontSize: '14px'
     };
   },
+  menu: (base: any, state: any) => ({
+    ...base,
+    '& > div': {
+      maxHeight: '100px',
+      overflowY: 'auto',
+    }
+  }),
 });

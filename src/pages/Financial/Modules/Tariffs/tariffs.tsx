@@ -35,8 +35,8 @@ export function Tariffs() {
 
   const fetchData = async (pageNumber: number = currentPage) => {
     setLoading(true);
-    let apiUrl = `${baseURL}tariffs/index?perpage=${String(itensPorPage)}&page=${pageNumber}`;
-  
+    let apiUrl = `${baseURL}tariffs/index?perpage=${String(itensPorPage)}&page=${pageNumber}&payable_by=LA`;
+
     const billingStartDate = localStorage.getItem('@billingStartDate');
     if (billingStartDate && billingStartDate !== 'undefined') {
       apiUrl += `&billing_start_date=${billingStartDate}`;
@@ -116,9 +116,9 @@ export function Tariffs() {
 
             <S.ContainerButton>
               <TotalBtn total={totalTariffs}/>
-              
+
               {state ? <EditableButton /> : ''}
-              <BtnFilter onClick={handleOpenModal} /> 
+              <BtnFilter onClick={handleOpenModal} />
             </S.ContainerButton>
 
             <TableTariffs rows={tariffs} />
