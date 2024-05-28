@@ -26,7 +26,7 @@ export function Sidebar() {
       { icon: <Laptop />, label: 'Equipamentos', path: "/equipmentStock" },
       { icon: <Wallet />, label: 'Financeiro', isSubmenu: true },
       { icon: <Ticket />, label: 'Tickets', path: "/tickets" },
-      // { icon: <DeviceMobile />, label: 'Aquisição de produtos', path: "/e-com"  },
+      { icon: <DeviceMobile />, label: 'Produtos', path: "/e-com"  },
       { icon: <Gear />, label: 'Configurações', isSubmenu: true },
     ] : []),
     { icon: <FileText />, label: 'Documentos', path: "/documents" }
@@ -65,7 +65,7 @@ export function Sidebar() {
   };
 
   const financeiroSubmenuItems = [
-    // { label: 'Gestão da Operação', path: '/operationManagement' },
+    { label: 'Gestão da Operação', path: '/operationManagement' },
     { label: 'Extrato', path: '/extract' },
     { label: 'Tarifas', path: '/tariffs' },
     // { label: 'Solicitação de Cobrança', path: '/billingRequest' },

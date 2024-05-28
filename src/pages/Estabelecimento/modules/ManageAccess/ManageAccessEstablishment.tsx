@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios, { AxiosError } from "axios";
 import { CustomTable } from "./components/Table/table";
-import { ButtonBlack, ContainerManageAccessLicensed } from "./styles";
+import { Button, ButtonBlack, ContainerAcesso, ContainerManageAccessLicensed } from "./styles";
 import { CaretLeft } from "@phosphor-icons/react";
 import { useNavigate } from "react-router-dom";
 import { useLogin } from "@/context/user.login";
@@ -67,11 +67,19 @@ export function ManageAccessEstablishment(){
     navigate('/sellers-ec-detail');
   };
 
+  const handleAdEC = () => {
+    navigate('/sellers-ec-add');
+  };
+
+
   return (
     <>
       {loading && <Loading />}
       <ContainerManageAccessLicensed>
+        <ContainerAcesso>
         <ButtonBlack  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} onClick={handleEstablishmentdetail}><CaretLeft size={18} />Voltar</ButtonBlack>
+        <Button onClick={handleAdEC}>Adicionar EC</Button>
+        </ContainerAcesso>
         <CustomTable data={userData} />
       </ContainerManageAccessLicensed>
     </>
