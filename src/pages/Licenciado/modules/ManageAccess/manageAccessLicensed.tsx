@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios, { AxiosError } from "axios";
 import { CustomTable } from "./components/Table/table";
-import { ButtonBlack, ContainerManageAccessLicensed } from "./styles";
+import { Button, ButtonBlack, ContainerAcesso, ContainerManageAccessLicensed } from "./styles";
 import { CaretLeft } from "@phosphor-icons/react";
 import { useNavigate } from "react-router-dom";
 import { useLogin } from "@/context/user.login";
@@ -66,11 +66,18 @@ export function ManageAccessLicensed(){
     navigate('/sellers-la-detail');
   };
 
+  const handleAddLA = () => {
+    navigate('/sellers-la-add');
+  };
+
   return (
     <>
       {loading && <Loading />}
       <ContainerManageAccessLicensed>
+        <ContainerAcesso>
         <ButtonBlack primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} onClick={handleEstablishmentdetail}><CaretLeft size={18} />Voltar</ButtonBlack>
+        <Button onClick={handleAddLA}>Adicionar LA</Button>
+        </ContainerAcesso>
         <CustomTable data={userData} />
       </ContainerManageAccessLicensed>
     </>
