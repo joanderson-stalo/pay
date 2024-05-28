@@ -251,7 +251,7 @@ export const bancos = {
     {
       "value": "100",
       "label": "100 - Planner Corretora de Valores S.A."
-    },    
+    },
     {
       "value": "101",
       "label": "101 - Renascença Distribuidora de Títulos e Valores Mobiliários Ltda."
@@ -399,7 +399,7 @@ export const bancos = {
     {
       "value": "149",
       "label": "149 - Facta Financeira S.A. - Crédito Financiamento e Investimento"
-    },    
+    },
     {
       "value": "157",
       "label": "157 - ICAP do Brasil Corretora de Títulos e Valores Mobiliários Ltda."
@@ -499,7 +499,7 @@ export const bancos = {
     {
       "value": "222",
       "label": "222 - Banco Credit Agrícole Brasil S.A."
-    },    
+    },
     {
       "value": "224",
       "label": "224 - Banco Fibra S.A."
@@ -599,7 +599,7 @@ export const bancos = {
     {
       "value": "394",
       "label": "394 - Banco Bradesco Financiamentos S.A."
-    },    
+    },
     {
       "value": "399",
       "label": "399 - Kirton Bank S.A. - Banco Múltiplo"
@@ -699,7 +699,7 @@ export const bancos = {
     {
       "value": "633",
       "label": "633 - Banco Rendimento S.A."
-    },    
+    },
     {
       "value": "634",
       "label": "634 - Banco Triângulo S.A."
@@ -799,11 +799,11 @@ export const bancos = {
     {
       "value": "403",
       "label": "403 - Banco Cora SCD"
-    },    
+    },
     {
       "value": "461",
       "label": "461 - Asaas I.P S.A"
-    }    
+    }
   ]
 
 }

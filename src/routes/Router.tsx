@@ -55,6 +55,8 @@ import { CartAddress } from '@/pages/E-com/Modules/CartAddress/cartaddress';
 import { PaymentsCart } from '@/pages/E-com/Modules/Payments/paymentsCart';
 import { PaymentsDetail } from '@/pages/E-com/Modules/PaymentsDetail/paymentsDetail';
 import { ProductsMy } from '@/pages/E-com/Modules/ProductsMy/productsMy';
+import { Payments } from '@/pages/Financial/Modules/Payments/payments';
+import { PaymentsRequest } from '@/pages/Financial/Modules/Payments/Modules/PaymentsRequest/paymentsRequest';
 
 
 export function Router() {
@@ -106,6 +108,8 @@ export function Router() {
             <Route path="/addRate" element={<AddRate />} />
             <Route path="/importSpreadsheet" element={<ImportSpreadsheet />} />
             <Route path="/addRateManual" element={<AddRateManual />} />
+
+
             <Route path="/tickets" element={<Tickets />} />
             <Route path="/tickets-add" element={<AddTickets />} />
             <Route path="/tickets-view" element={< ViewTicket />} />
@@ -127,6 +131,8 @@ export function Router() {
             <Route path='/e-com-payments-detail' element={< PaymentsDetail />} />
             <Route path='/e-com-payments-request' element={< ProductsMy />} />
 
+            <Route path='/payments' element={<Payments />} />
+            <Route path='/payments-request' element={<PaymentsRequest />} />
 
           </Route>
           <Route path="*" element={<NotFound />} />

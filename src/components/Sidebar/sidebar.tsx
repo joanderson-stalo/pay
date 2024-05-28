@@ -69,7 +69,7 @@ export function Sidebar() {
     { label: 'Extrato', path: '/extract' },
     { label: 'Tarifas', path: '/tariffs' },
     { label: 'Solicitação de Cobrança', path: '/billingRequest' },
-    { label: 'Pagamentos', path: '/pagamentos' }
+    { label: 'Pagamentos', path: '/payments' }
   ];
 
   const configSubmenuItems = [
