@@ -214,8 +214,8 @@ export function Step3({ Avançar, Voltar }: IStep3) {
 
 
   useEffect(() => {
-    if (selectedAcquires.length > 0) {
-      const selectedAcquire = selectedAcquires[0];
+
+      const selectedAcquire = selectedAcquires;
       setDados(true);
       axios.get(`${baseURL}plan/commercial/${selectedAcquire}`, {
         headers: {
@@ -235,11 +235,11 @@ export function Step3({ Avançar, Voltar }: IStep3) {
         setDados(false);
       })
       .catch(error => {
-        console.error(`Houve um erro ao buscar os dados para o fornecedor ${selectedAcquire}:`, error);
+        setCommercialPlans([]);
         setDados(false);
       });
     }
-  }, [selectedAcquires]);
+  , [selectedAcquires]);
 
 
 
