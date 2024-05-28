@@ -57,6 +57,7 @@ import { PaymentsDetail } from '@/pages/E-com/Modules/PaymentsDetail/paymentsDet
 import { ProductsMy } from '@/pages/E-com/Modules/ProductsMy/productsMy';
 import { Payments } from '@/pages/Financial/Modules/Payments/payments';
 import { PaymentsRequest } from '@/pages/Financial/Modules/Payments/Modules/PaymentsRequest/paymentsRequest';
+import { LaCreation } from '@/pages/Licenciado/modules/LaCreation/components/LaCreation/laCreation';
 
 
 export function Router() {
@@ -91,6 +92,7 @@ export function Router() {
             <Route path="/sellers-la-edit" element={<EditRegistrationLA />} />
             <Route path="/user-seller-create" element={<CreateUser />} />
             <Route path="/user/edit/:id" element={<EditUser />} />
+            <Route path="/sellers-la-add" element={<LaCreation />} />
 
             <Route path="/commission" element={<RankingCommission />} />
             <Route path="/commission/network" element={<TodayCommission />} />
