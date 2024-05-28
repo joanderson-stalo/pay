@@ -74,16 +74,11 @@ export const LoginProvider = ({ children }: { children: React.ReactNode }) => {
 
   const logout = useCallback(async () => {
     try {
-      await axios.post(`${baseURL}logout`, {}, {
-        headers: { Authorization: `Bearer ${dataUser?.token}` }
-      });
-
       secureLocalStorage.removeItem('@App:isLogin')
       secureLocalStorage.removeItem('@App:user')
       secureLocalStorage.removeItem('selectedItem')
       setDataUser(null);
       setIsLogin(false);
-
     } catch (error) {
       console.error(error);
       throw error;

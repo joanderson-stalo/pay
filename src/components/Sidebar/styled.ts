@@ -40,6 +40,7 @@ export const Menu = styled.div<Props>`
   height: 75%;
   overflow-y: auto;
 
+
   ::-webkit-scrollbar {
     width: 4px;
   }
@@ -71,6 +72,7 @@ font-size: 14px;
 line-height: 12px;
 letter-spacing: 0.5px;
 color: #FDFDFD;
+
 
 
   ${({ selected, colorSec }) =>
