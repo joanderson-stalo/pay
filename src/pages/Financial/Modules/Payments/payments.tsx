@@ -37,7 +37,7 @@ export function Payments() {
   const fetchDatatickets = async (search?: string) => {
     setLoading(true);
     try {
-      let apiUrl = `${baseURL}payments/indexPayment?perpage=${String(itensPorPage)}&page=${currentPage}`;
+      let apiUrl = `${baseURL}payments/indexPayment?per_page=${String(itensPorPage)}&page=${currentPage}`;
 
       const capturedInStart = localStorage.getItem('@startDateTicket');
       if (capturedInStart) {

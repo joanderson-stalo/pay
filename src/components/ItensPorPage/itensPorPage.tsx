@@ -15,14 +15,14 @@ export function ItensPorPage({  itensPorPage, setItensPorPage }: ItensPorPagePro
 
   return (
     <S.Container>
-      <S.Span>Itens por página</S.Span>
+      {/* <S.Span>Itens por página</S.Span>
       <S.InputPage
         type="number"
         value={itensPorPage === '' ? '' : itensPorPage}
         min="1"
         onChange={handleInputChange}
         disabled
-      />
+      /> */}
     </S.Container>
   )
 }

@@ -55,7 +55,7 @@ export const Wrapper = styled.div`
     flex-direction: column;
     align-items: initial;
     gap: 20px;
-    
+
   }
 `
 
@@ -65,7 +65,19 @@ export const ProductDetails = styled.div`
   @media (max-width: 900px) {
     margin-left: 0px;
   }
+
+
 `;
+
+export const TextProduct = styled.p`
+    width: 188px;
+    color:  #5F6367;
+margin-top: 8px;
+font-size: 12px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+`
 
 export const ProductName = styled.p`
   font-size: 16px;
@@ -73,12 +85,23 @@ export const ProductName = styled.p`
 `;
 
 export const ProductStock = styled.p`
-  font-size: 14px;
-  color: green;
+  padding: 5px 29.5px;
+  border-radius: 4px;
+background:  rgba(23, 134, 41, 0.10);
+margin-top: 4px;
+
+
+color: #202124;
+font-size: 12px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+text-align: center;
+max-width: 137px;
 `;
 
 export const ProductPrice = styled.div`
-  font-size: 18px;
+  font-size: 24px;
   color: #000;
   font-weight: bold;
 `;
@@ -129,7 +152,7 @@ export const DeleteButton = styled(ActionButton)`
   background-color: transparent;
   > svg {
    color: #C81B1B;
-   width: 24px;
-height: 24px;
+   width: 18px;
+height: 18px;
   }
 `;

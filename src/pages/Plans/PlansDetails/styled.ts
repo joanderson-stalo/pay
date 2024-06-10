@@ -258,7 +258,7 @@ export const StyledTable = styled.table<Color>`
                     border: 0.593px solid var(--foundation-neutral-light-active, #D7D7D7);
                     background: var(--foundation-white-light, #FDFDFD);
                     color: var(--foundation-neutral-light-active, #5E5E5E);
-                  
+
                     font-size: 9.298px;
                     font-style: normal;
                     font-weight: 400;
@@ -301,9 +301,9 @@ export const ButtonGroup = styled.div`
 
 
   > button {
-    width: 118px; // Set a specific width
-    height: 55px; // Set a specific height
-    padding: 6px 38px; // You can keep this if you want internal spacing, but it might interfere with the width/height settings
+    width: 118px;
+    height: 55px;
+    padding: 6px 38px;
     background: var(--foundation-brand-02-light-hover, #DAF5FC);
     display: flex;
     align-items: center;
@@ -317,7 +317,7 @@ export const ButtonGroup = styled.div`
     img {
       width: 42.131px;
       height: 42.131px;
-      margin: auto; // Centers the image if there's space around it
+      margin: auto;
     }
   }
 
@@ -359,8 +359,11 @@ font-weight: 500;
 line-height: 20px;
 letter-spacing: 0.5px;
 background-color: transparent;
-
+justify-content: flex-start;
+align-items: flex-start;
+width: 100%;
 display: flex;
+margin-top: 50px;
 `
 
 
@@ -375,3 +378,4 @@ line-height: normal;
 font-size: 16px;
 }
 `;
+

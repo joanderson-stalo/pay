@@ -108,12 +108,16 @@ export const ProductTitle = styled.h3`
   letter-spacing: 0.5px;
   max-width: 110px;
 
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 
   @media (max-width: 600px) {
     font-size: 12px;
+    max-width: 100px;
   }
+`;
 
-`
 
 export const ProductPrice = styled.h4`
   color: #000;

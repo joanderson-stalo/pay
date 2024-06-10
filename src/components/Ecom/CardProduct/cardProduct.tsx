@@ -1,52 +1,58 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { formatCurrencyBR } from '@/utils/convertBRDinheiro'
-import * as S from './styled'
-import { Minus, Plus, Spinner } from '@phosphor-icons/react'
-import Cookies from 'js-cookie'
-import { toast } from 'react-toastify'
-import { CartContext, useCart } from '@/context/e-com/cart'
+import React, { useContext, useEffect, useState } from 'react';
+import { formatCurrencyBR } from '@/utils/convertBRDinheiro';
+import * as S from './styled';
+import { Minus, Plus, Spinner } from '@phosphor-icons/react';
+import Cookies from 'js-cookie';
+import { toast } from 'react-toastify';
+import { useCart } from '@/context/e-com/cart';
+import { Tooltip } from 'react-tooltip';
+import 'react-tooltip/dist/react-tooltip.css';
 
 interface ProductData {
-  id: number
-  sales_value: number
-  name: string
-  link_image_cover: string
+  id: number;
+  sales_value: number;
+  name: string;
+  link_image_cover: string;
+  status: string;
 }
 
 interface CardProductListProps {
-  data: ProductData[]
+  data: ProductData[];
 }
 
 export function CardProduct({ data }: CardProductListProps) {
-  const initialQuantities: { [key: number]: number } = {}
-  data.forEach(item => {
-    initialQuantities[item.id] = 1
-  })
+  const activeData = data.filter(item => item.status.toLowerCase() === 'ativo');
+
+  const initialQuantities: { [key: number]: number } = {};
+  activeData.forEach(item => {
+    initialQuantities[item.id] = 1;
+  });
+
   const [quantities, setQuantities] = useState<{ [key: number]: number }>(
     initialQuantities
-  )
+  );
 
   const [loadingItems, setLoadingItems] = useState<{ [key: number]: boolean }>(
     {}
-  )
+  );
 
-  const { updateCart } = useCart()
+  const { updateCart } = useCart();
 
-  const [isSmallScreen, setIsSmallScreen] = useState<boolean>(false)
+  const [isSmallScreen, setIsSmallScreen] = useState<boolean>(false);
 
   const decreaseQuantity = (id: number) => {
     setQuantities(prevQuantities => ({
       ...prevQuantities,
       [id]: Math.max((prevQuantities[id] || 1) - 1, 1)
-    }))
-  }
+    }));
+  };
 
   const increaseQuantity = (id: number) => {
     setQuantities(prevQuantities => ({
       ...prevQuantities,
       [id]: Math.min((prevQuantities[id] || 1) + 1, 999)
-    }))
-  }
+    }));
+  };
 
   const handleAddToCart = async (
     id: number,
@@ -57,24 +63,24 @@ export function CardProduct({ data }: CardProductListProps) {
     setLoadingItems(prevLoadingItems => ({
       ...prevLoadingItems,
       [id]: true
-    }))
+    }));
 
     try {
-      await addToCartAsync(id)
-      await addToCart(id, name, sales_value, link_image_cover)
-      const cartItemsStr = Cookies.get('cart') || '[]'
-      const newCartItems: ProductData[] = JSON.parse(cartItemsStr)
-      updateCart(newCartItems)
-      toast.success('Produto adicionado ao carrinho')
+      await addToCartAsync(id);
+      await addToCart(id, name, sales_value, link_image_cover);
+      const cartItemsStr = Cookies.get('cart') || '[]';
+      const newCartItems: ProductData[] = JSON.parse(cartItemsStr);
+      updateCart(newCartItems);
+      toast.success('Produto adicionado ao carrinho');
     } catch (error) {
-      alert('Erro ao adicionar ao carrinho')
+      alert('Erro ao adicionar ao carrinho');
     } finally {
       setLoadingItems(prevLoadingItems => ({
         ...prevLoadingItems,
         [id]: false
-      }))
+      }));
     }
-  }
+  };
 
   const addToCart = (
     id: number,
@@ -82,13 +88,13 @@ export function CardProduct({ data }: CardProductListProps) {
     sales_value: number,
     link_image_cover: string
   ) => {
-    const cartItemsStr = Cookies.get('cart') || '[]'
-    let cartItems = JSON.parse(cartItemsStr)
+    const cartItemsStr = Cookies.get('cart') || '[]';
+    let cartItems = JSON.parse(cartItemsStr);
 
-    const existingItemIndex = cartItems.findIndex((item: any) => item.id === id)
+    const existingItemIndex = cartItems.findIndex((item: any) => item.id === id);
 
     if (existingItemIndex !== -1) {
-      cartItems[existingItemIndex].quantity += quantities[id] || 0
+      cartItems[existingItemIndex].quantity += quantities[id] || 0;
     } else {
       cartItems.push({
         id: id,
@@ -96,33 +102,33 @@ export function CardProduct({ data }: CardProductListProps) {
         name: name,
         link_image_cover: link_image_cover,
         sales_value: sales_value
-      })
+      });
     }
-    Cookies.set('cart', JSON.stringify(cartItems), { expires: 7 })
-  }
+    Cookies.set('cart', JSON.stringify(cartItems), { expires: 7 });
+  };
 
   const addToCartAsync = (id: number) => {
     return new Promise<void>((resolve, reject) => {
       setTimeout(() => {
-        resolve()
-      }, 1000)
-    })
-  }
+        resolve();
+      }, 1000);
+    });
+  };
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia('(max-width: 900px)')
-    setIsSmallScreen(mediaQuery.matches)
+    const mediaQuery = window.matchMedia('(max-width: 900px)');
+    setIsSmallScreen(mediaQuery.matches);
 
     const handleScreenChange = (e: MediaQueryListEvent) => {
-      setIsSmallScreen(e.matches)
-    }
+      setIsSmallScreen(e.matches);
+    };
 
-    mediaQuery.addListener(handleScreenChange)
+    mediaQuery.addListener(handleScreenChange);
 
     return () => {
-      mediaQuery.removeListener(handleScreenChange)
-    }
-  }, [])
+      mediaQuery.removeListener(handleScreenChange);
+    };
+  }, []);
 
   const handleQuantityChange = (id: number, newQuantity: number) => {
     const limitedQuantity = Math.min(newQuantity, 999);
@@ -134,11 +140,19 @@ export function CardProduct({ data }: CardProductListProps) {
 
   return (
     <>
-      {data.map(item => (
+      {activeData.map(item => (
         <S.ContainerCardProduct key={item.id}>
           <S.StyledImage src={item.link_image_cover} alt={item.name} />
           <S.ContainerPrice>
-            <S.ProductTitle>Modelo: {item.name}</S.ProductTitle>
+          <div>
+              <S.ProductTitle data-tooltip-id={`tooltip-${item.id}`} data-tooltip-content={item.name}>
+                Modelo:
+              </S.ProductTitle>
+              <S.ProductTitle data-tooltip-id={`tooltip-${item.id}`} data-tooltip-content={item.name}>
+                {item.name}
+              </S.ProductTitle>
+              <Tooltip id={`tooltip-${item.id}`} />
+            </div>
             <S.ProductPrice>
               {formatCurrencyBR(item.sales_value)}
             </S.ProductPrice>
@@ -187,7 +201,6 @@ export function CardProduct({ data }: CardProductListProps) {
           </S.ButtonCard>
         </S.ContainerCardProduct>
       ))}
-          
     </>
-  )
+  );
 }

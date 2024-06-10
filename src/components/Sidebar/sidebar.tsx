@@ -68,8 +68,8 @@ export function Sidebar() {
     { label: 'Gestão da Operação', path: '/operationManagement' },
     { label: 'Extrato', path: '/extract' },
     { label: 'Tarifas', path: '/tariffs' },
-    // { label: 'Solicitação de Cobrança', path: '/billingRequest' },
-    // { label: 'Pagamentos', path: '/payments' }
+    { label: 'Solicitação de Cobrança', path: '/billingRequest' },
+    { label: 'Pagamentos', path: '/payments' }
   ];
 
   const configSubmenuItems = [

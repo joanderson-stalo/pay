@@ -20,7 +20,7 @@ margin-bottom: 24px;
 export const TitlePage = styled.h2`
 color: #000;
 
-
+margin-top: 18px;
 font-family: "Public Sans";
 font-size: 24px;
 font-style: normal;
@@ -94,7 +94,6 @@ export const FormRow = styled.div`
   display: flex;
   gap: 20px;
   margin-bottom: 16px;
-  margin-top: 16px;
 `;
 
 export const FormGroup = styled.div`
@@ -183,3 +182,54 @@ export const ButtonContainer = styled.div`
   gap: 24px;
   margin-top: 40px;
 `;
+
+
+export const InvoiceLink = styled.a`
+color: #007EC5;
+font-size: 14px;
+font-style: normal;
+font-weight: 400;
+line-height: 24px;
+letter-spacing: 0.5px;
+width: 100%;
+
+> svg {
+  margin-right: 8px;
+}
+`;
+
+
+export const ContainerLink = styled.div`
+display: flex;
+flex-direction: column;
+gap: 20px;
+margin-top: 20px;
+`
+
+export const SubTitle = styled.h3`
+color:  #202124;
+
+font-size: 12px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+margin-top: 16px;
+`
+
+export const Status = styled.div`
+font-size: 12px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+padding: 5px;
+border-radius: 4px;
+background:  rgba(205, 123, 0, 0.10);
+
+`
+
+export const ContainerStatus = styled.div`
+display: flex;
+gap: 8px;
+
+
+`

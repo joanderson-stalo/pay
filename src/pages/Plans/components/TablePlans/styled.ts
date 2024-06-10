@@ -41,20 +41,15 @@ export const TableData = styled.td`
 `;
 
 export const ButtonEditar = styled.button`
-  color: #08BBE9;
+  color:  #3C0A6D;
   font-size: ${({theme }) => theme.text_xs};
-  font-weight: 500;
-  line-height: 18px;
-  width: 77px;
-  height: 24px;
-  border-radius: 4px;
-  border: 1px solid #F5F4F4;
-  background: #FFF;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto;
-  cursor: pointer;
+color:   #3C0A6D;
+font-style: normal;
+font-weight: 500;
+line-height: 11.303px;
+letter-spacing: 0.353px;
+text-decoration-line: underline;
+background-color: transparent;
 `;
 
 export const ButtonRemover = styled(ButtonEditar)`

@@ -13,6 +13,8 @@ import { TicketsPageProvider } from './pages/ticketsPageContext';
 import { TicketIDProvider } from './id/ticketId';
 import { LogPageProvider } from './pages/logPageContext';
 import { CartProvider } from './e-com/cart';
+import { PlanIDProvider } from './id/planID';
+import { PaymentIDProvider } from './id/paymentsID';
 
 type TenantData = {
   name: string;
@@ -52,6 +54,8 @@ export function AppProvider({ children, tenantData }: AppProviderProps) {
                       <IdPosProvider>
                         <TicketIDProvider>
                           <CartProvider>
+                            <PlanIDProvider>
+                              <PaymentIDProvider>
                           <LogPageProvider initialPage={1}>
                         <TicketsPageProvider initialPage={1} >
                       <SalesPageProvider initialPage={1}>
@@ -59,6 +63,8 @@ export function AppProvider({ children, tenantData }: AppProviderProps) {
                       </SalesPageProvider>
                       </TicketsPageProvider>
                       </LogPageProvider>
+                      </PaymentIDProvider>
+                      </PlanIDProvider>
                       </CartProvider>
                       </TicketIDProvider>
                       </IdPosProvider>

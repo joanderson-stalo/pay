@@ -5,6 +5,7 @@ import Cookies from 'js-cookie';
 import { InputCustom } from "@/components/Ecom/InputCustom/inputCustom";
 import axios from 'axios';
 import { Loading } from '@/components/Loading/loading';
+import { useNavigate } from 'react-router-dom';
 
 interface FormData {
   recipientName: string;
@@ -34,6 +35,8 @@ export function CartAddress() {
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [isFormValid, setIsFormValid] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -83,6 +86,15 @@ export function CartAddress() {
     const isEveryFieldFilled = Object.values(formData).every(value => (value || '').trim() !== '');
     setIsFormValid(isEveryFieldFilled);
   }, [formData]);
+
+  const handleBackClick = () => {
+    navigate(-1);
+  };
+
+  const handleForwardClick = () => {
+    navigate('/e-com-payments');
+  };
+
 
   if(isLoading){
     return <Loading />
@@ -184,9 +196,9 @@ export function CartAddress() {
 
 
         <ButtonContainer>
-        <BackButton>VOLTAR</BackButton>
-        <ForwardButton disabled={!isFormValid} >AVANÇAR</ForwardButton>
-      </ButtonContainer>
+  <BackButton onClick={handleBackClick}>VOLTAR</BackButton>
+  <ForwardButton disabled={!isFormValid} onClick={handleForwardClick}>AVANÇAR</ForwardButton>
+</ButtonContainer>
 
 
       </ContainerListProducts>

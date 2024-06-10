@@ -16,7 +16,6 @@ import { Licenciado } from '@/pages/Licenciado/licenciado';
 import { Home } from '@/pages/Home/home';
 import { RankingCommission } from '@/pages/Commission/RankingCommission/rankingCommission';
 import { Plans } from '@/pages/Plans/plans';
-import { AddPlans } from '@/pages/Plans/Addplans/addplans';
 import { ManageAccessLicensed } from '@/pages/Licenciado/modules/ManageAccess/manageAccessLicensed';
 import { LicensedDetail } from '@/pages/Licenciado/modules/LicensedDetail/licensedDetail';
 import { EditRegistrationLA } from '@/pages/Licenciado/modules/EditRegistrationLA/editRegistrationLA';
@@ -59,6 +58,9 @@ import { Payments } from '@/pages/Financial/Modules/Payments/payments';
 import { PaymentsRequest } from '@/pages/Financial/Modules/Payments/Modules/PaymentsRequest/paymentsRequest';
 import { LaCreation } from '@/pages/Licenciado/modules/LaCreation/components/LaCreation/laCreation';
 import { EcCreation } from '@/pages/Estabelecimento/modules/EcCreation/components/EcCreation/EcCreation';
+import { PlansDetails } from '@/pages/Plans/PlansDetails/plansDetails';
+import { PaymentsDetails } from '@/pages/Financial/Modules/Payments/Modules/PaymentsDetails/paymentsDetails';
+import { PaymentsUpdate } from '@/pages/Financial/Modules/Payments/Modules/PaymentsUpdate/paymentsUpdate';
 
 
 export function Router() {
@@ -99,7 +101,7 @@ export function Router() {
             <Route path="/commission" element={<RankingCommission />} />
             <Route path="/commission/network" element={<TodayCommission />} />
             <Route path="/plans" element={<Plans />} />
-            <Route path="/addplans" element={<AddPlans />} />
+            <Route path="/plans-detail" element={<PlansDetails />} />
             <Route path="/operationManagement" element={<OperationManagement />} />
             <Route path="/billingRequest" element={<BillingRequest />} />
             <Route path="/addRequest" element={<AddRequest />} />
@@ -137,6 +139,8 @@ export function Router() {
 
             <Route path='/payments' element={<Payments />} />
             <Route path='/payments-request' element={<PaymentsRequest />} />
+            <Route path='/payments-details' element={<PaymentsDetails />} />
+            <Route path='/payments-update' element={<PaymentsUpdate />} />
 
           </Route>
           <Route path="*" element={<NotFound />} />

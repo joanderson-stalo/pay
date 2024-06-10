@@ -7,7 +7,7 @@ export const OrderSummaryContainer = styled.div`
   border-radius: 4px;
   padding: 30px;
   overflow: hidden;
-  background-color: #D1D1D1;
+  background-color: #F9F9F9;
 
 
 

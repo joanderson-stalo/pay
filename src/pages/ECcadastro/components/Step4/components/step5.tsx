@@ -21,6 +21,8 @@ import { useFormContext } from 'react-hook-form';
 import { CustomSelect } from "@/components/Select/select";
 import { optionsData } from "../../Step1/option";
 import { useTenantData } from "@/context";
+import { bancos } from "@/json/bancos";
+import { accountType } from "@/json/accountType";
 
 interface InfosProps {
   stepName: string;
@@ -109,7 +111,7 @@ const handleCpfCnpjChange = (event: { target: { value: any; }; }) => {
                       <CustomSelect
                      {...register(`Banco${fieldSuffix}`)}
                     label="Banco"
-                    optionsData={optionsData}
+                    optionsData={bancos}
                     placeholder={'Clique para ver a lista'}
                     onChange={(selectedOption: { value: string }) => {
                       setValue(`Banco${fieldSuffix}`, selectedOption.value);
@@ -121,7 +123,7 @@ const handleCpfCnpjChange = (event: { target: { value: any; }; }) => {
                     {...register(`TipoDeConta${fieldSuffix}`)}
                     label="Tipo de Conta"
                     placeholder={''}
-                    optionsData={optionsData}
+                    optionsData={accountType}
                     onChange={(selectedOption: { value: string }) => {
                       setValue(`TipoDeConta${fieldSuffix}`, selectedOption.value);
                     }}

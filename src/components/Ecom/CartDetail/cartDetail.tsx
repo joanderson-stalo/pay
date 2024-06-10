@@ -70,6 +70,8 @@ export function CartDetail({ products }: CartDetailProps) {
           <S.ProductDetails>
             <S.ProductName>{product.name}</S.ProductName>
             <S.ProductStock>Em estoque</S.ProductStock>
+            <S.TextProduct>*Após a confirmação do pagamento,
+o produto será enviado de imediato</S.TextProduct>
           </S.ProductDetails>
 
           <S.ActionContainer>

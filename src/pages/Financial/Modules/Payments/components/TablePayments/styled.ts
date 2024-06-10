@@ -55,7 +55,6 @@ export const TooltipIcon = styled.span`
   }
 `;
 
-
 export const TableData = styled.td`
   color: #343A40;
   font-size: ${({ theme }) => theme.text_xs};

@@ -3,6 +3,7 @@ import * as S from './styled';
 import { useCart } from '@/context/e-com/cart';
 import { useNavigate } from 'react-router-dom';
 import { Receipt } from '@phosphor-icons/react';
+import { formatCurrencyBR } from '@/utils/convertBRDinheiro';
 
 type CartItem = {
   id: number;
@@ -57,7 +58,7 @@ export function Summary(){
       {typedCartItems.map((item) => (
         <S.ListItem key={item.id}>
           <span className="item-details">{item.quantity} x {item.name}</span>
-          <span className="item-price">{item.sales_value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
+          <span className="item-price">{formatCurrencyBR(item.sales_value) }</span>
         </S.ListItem>
       ))}
     </S.SummaryList>

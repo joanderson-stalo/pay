@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import * as S from './styled';
 import { useCart } from '@/context/e-com/cart';
 import { useNavigate } from 'react-router-dom';
+import { formatCurrencyBR } from '@/utils/convertBRDinheiro';
 
 type CartItem = {
   id: number;
@@ -50,13 +51,13 @@ export function OrderSummary(){
       {typedCartItems.map((item) => (
         <S.ListItem key={item.id}>
           <span className="item-details">{item.quantity} x {item.name}</span>
-          <span className="item-price">{item.sales_value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
+          <span className="item-price">{formatCurrencyBR(item.sales_value)}</span>
         </S.ListItem>
       ))}
     </S.SummaryList>
         </S.StyledDiv>
         <S.ButtonsContainer>
-        <S.CompleteOrderButton>{isSmallScreen ? 'finalizar compra' : 'CONCLUIR PEDIDO'}</S.CompleteOrderButton>
+        <S.CompleteOrderButton type='button' onClick={() => navigate('/e-com-address')} >{isSmallScreen ? 'finalizar compra' : 'CONCLUIR PEDIDO'}</S.CompleteOrderButton>
         <S.AddMoreOrdersButton type='button' onClick={() => navigate('/e-com')} >{isSmallScreen ? 'adicionar produto' : 'ADICIONAR MAIS PEDIDOS'}</S.AddMoreOrdersButton>
         </S.ButtonsContainer>
     </S.OrderSummaryContainer>

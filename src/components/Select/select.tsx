@@ -40,7 +40,7 @@ export const CustomSelect: FunctionComponent<ICustomSelectProps> = ({
         onChange={onChange}
         styles={customStyles(hasError || false)}
         placeholder={placeholder}
-        noOptionsMessage={() => 'operação não encontrada'}
+        noOptionsMessage={() => 'opção não encontrada'}
       />
     </div>
   );
