@@ -25,8 +25,6 @@ import { EditRegistrationEC } from '@/pages/Estabelecimento/modules/EditRegistra
 import { UserListLogged } from '@/pages/User/Modules/UserListLogged/userListLogged';
 import { EditUser } from '@/pages/User/Modules/UserEdit/editUser';
 import { OperationManagement } from '@/pages/Financial/Modules/OperationManagement/operationManagement';
-import { BillingRequest } from '@/pages/Financial/Modules/BillingRequest/billingRequest';
-import { AddRequest } from '@/pages/Financial/Modules/BillingRequest/Modules/AddRequest/addRequest';
 import { EquipmentStock } from '@/pages/EquipmentStock/equipmentStock';
 import { AddStock } from '@/pages/EquipmentStock/Modules/AddStock/addStock';
 import { EditStock } from '@/pages/EquipmentStock/Modules/EditStock/editStock';
@@ -61,6 +59,10 @@ import { EcCreation } from '@/pages/Estabelecimento/modules/EcCreation/component
 import { PlansDetails } from '@/pages/Plans/PlansDetails/plansDetails';
 import { PaymentsDetails } from '@/pages/Financial/Modules/Payments/Modules/PaymentsDetails/paymentsDetails';
 import { PaymentsUpdate } from '@/pages/Financial/Modules/Payments/Modules/PaymentsUpdate/paymentsUpdate';
+import { Billing } from '@/pages/Financial/Modules/Billing/billing';
+import { AddRateBilling } from '@/pages/Financial/Modules/Billing/Modules/AddRateBilling/addRateBilling';
+import { BillingAddRateManual } from '@/pages/Financial/Modules/Billing/Modules/BillingAddRateManual/billingAddRateManual';
+import { ImportSpreadsheetBilling } from '@/pages/Financial/Modules/Billing/Modules/AddRateBilling/Modules/ImportSpreadsheetBilling/importSpreadsheetBilling';
 
 
 export function Router() {
@@ -103,8 +105,7 @@ export function Router() {
             <Route path="/plans" element={<Plans />} />
             <Route path="/plans-detail" element={<PlansDetails />} />
             <Route path="/operationManagement" element={<OperationManagement />} />
-            <Route path="/billingRequest" element={<BillingRequest />} />
-            <Route path="/addRequest" element={<AddRequest />} />
+
             <Route path="/equipmentStock" element={<EquipmentStock />} />
             <Route path="/addStock" element={<AddStock />} />
             <Route path="/editStock" element={<EditStock />} />
@@ -141,6 +142,12 @@ export function Router() {
             <Route path='/payments-request' element={<PaymentsRequest />} />
             <Route path='/payments-details' element={<PaymentsDetails />} />
             <Route path='/payments-update' element={<PaymentsUpdate />} />
+
+            <Route path='/billingRequest' element={<Billing />} />
+            <Route path='/billingAddRate' element={<AddRateBilling />} />
+            <Route path='/billingAddRateManual' element={<BillingAddRateManual />} />
+            <Route path='/billingImport' element={<ImportSpreadsheetBilling />} />
+
 
           </Route>
           <Route path="*" element={<NotFound />} />
