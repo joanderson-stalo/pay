@@ -51,7 +51,7 @@ export const HistoricoTableCell = styled.td`
   border-bottom: 1px solid #E9ECEF;
   text-align: center;
   padding: 8px;
-  color: #6C757D;
+  color: #000;
   font-size: 12px;
   line-height: 18px;
 `;
@@ -79,7 +79,7 @@ export const TotalRow = styled.tr<Color>`
 export const HistoricoTableCellPapelText = styled.span<IHistoricoTableCellPapelText>`
   background: ${props => props.label === 'ADQ' ? '#E6E6E6' : props.primary};
   border-radius: 4px;
-  color: ${props => props.label === 'ADQ' ? '#4B4B4B' : '#FDFDFD'};
+  color: ${props => props.label === 'ADQ' ? '#4B4B4B' : '#000'};
   font-size: 12px;
   font-weight: 500;
   line-height: 18px;
