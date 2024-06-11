@@ -101,3 +101,12 @@ display: none;
     gap: 20px;
   }
 `
+
+
+export const ContenterFilter = styled.div`
+display: flex;
+gap: 8px;
+flex-wrap: wrap;
+
+
+`

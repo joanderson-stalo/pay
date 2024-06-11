@@ -11,6 +11,7 @@ export const ButtonTitle = styled.h3<Color>`
   font-weight: ${({ theme }) => theme.font_medium};
   line-height: 16px;
   letter-spacing: 0.5px;
+
 `
 
 export const ButtonContainer = styled.button<Color>`
@@ -22,6 +23,8 @@ export const ButtonContainer = styled.button<Color>`
   background-color: #FFF;
   border-radius: 5px;
 
+
+
   &:hover {
     background-color:  ${(props) => props.primary};
     border: 0.5px solid #FFF;
@@ -31,6 +34,11 @@ export const ButtonContainer = styled.button<Color>`
     }
   }
 
+
+  @media (max-width: 1380px) {
+    margin-top: 16px;
+    
+  }
   @media (max-width: 900px) {
     padding: 6px 16px;
     font-size: 10px;
