@@ -4,7 +4,6 @@ import * as S from './styled';
 import { CustomInput } from '@/components/Input/input';
 import { useFormContext } from 'react-hook-form';
 import { CustomSelect } from '@/components/Select/select';
-import { optionsData } from '../Step1/option';
 import { Loading } from '@/components/Loading/loading';
 import { useEffect, useState } from 'react';
 import { bancos } from '@/json/bancos';
@@ -90,7 +89,7 @@ const handleCpfCnpjChange = (event: { target: { value: any; }; }) => {
 
       useEffect(() => {
         const fetchSellerData = async () => {
-          setLoading(true); 
+          setLoading(true);
           try {
             const response = await axios.get(
               `${baseURL}seller/show/${licensedId}`,
@@ -101,10 +100,10 @@ const handleCpfCnpjChange = (event: { target: { value: any; }; }) => {
                 },
               }
             );
-      
+
             const sellerData = response.data;
             if (sellerData && sellerData.seller && sellerData.seller.banks && sellerData.seller.banks.length > 0) {
-              const banco = sellerData.seller.banks[0]; 
+              const banco = sellerData.seller.banks[0];
               setValue('Banco', banco.code);
               setValue('Agência', banco.agency);
               setValue('Conta', banco.account);
@@ -112,12 +111,12 @@ const handleCpfCnpjChange = (event: { target: { value: any; }; }) => {
               setValue('TipoDeConta', banco.type_account);
               setValue('CpfCnpj', banco.document);
             }
-            
-          
+
+
           } catch (error) {
             console.error('Erro ao obter dados do vendedor:', error);
           } finally {
-            setLoading(false); 
+            setLoading(false);
           }
         };
         fetchSellerData();
@@ -220,7 +219,7 @@ const handleCpfCnpjChange = (event: { target: { value: any; }; }) => {
           </S.ContextStep>
           <S.ContainerButton>
             <S.ButtonVoltar onClick={Voltar}>Voltar</S.ButtonVoltar>
-            <S.ButtonAvançar 
+            <S.ButtonAvançar
  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} disabled={!areAllFieldsFilled()} onClick={Avançar}>
               Salvar
             </S.ButtonAvançar>

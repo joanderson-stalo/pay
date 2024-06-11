@@ -3,7 +3,6 @@ import * as S from './styled';
 import { CustomInput } from '@/components/Input/input';
 import { useFormContext } from 'react-hook-form';
 import { CustomSelect } from '@/components/Select/select';
-import { optionsData } from '../Step1/option';
 import { LabelCustomInputMask } from '@/components/CustomInputMask';
 import { Infos } from './components/step5';
 import { Loading } from '@/components/Loading/loading';
