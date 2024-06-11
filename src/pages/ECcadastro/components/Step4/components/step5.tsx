@@ -19,7 +19,6 @@ import { InputMask } from "@/components/InputMask/inputMask";
 import { CustomInput } from "@/components/Input/input";
 import { useFormContext } from 'react-hook-form';
 import { CustomSelect } from "@/components/Select/select";
-import { optionsData } from "../../Step1/option";
 import { useTenantData } from "@/context";
 import { bancos } from "@/json/bancos";
 import { accountType } from "@/json/accountType";
