@@ -1,4 +1,4 @@
-export interface Transaction {
+export interface ITransaction {
   id: string;
   acquire_id: string;
   nsu_internal: string;

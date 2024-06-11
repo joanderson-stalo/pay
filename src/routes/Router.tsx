@@ -40,8 +40,7 @@ import { TodayCommission } from '@/pages/Commission/TodayCommission/todayCommiss
 import { PaymentRequests } from '@/pages/PaymentRequests/paymentRequests';
 import { CreateUser } from '@/pages/User/Modules/UserCreation/components/CreateUser/createUser';
 import { ImportSpreadsheet } from '@/pages/Financial/Modules/Tariffs/Modules/AddRate/Modules/ImportSpreadsheet/importSpreadsheet';
-import { Vendas } from '@/pages/Vendas/vendas';
-import { DetalheVenda } from '@/pages/Vendas/Detalhes/detalhe';
+import { DetalheVenda } from '@/pages/Transaction/Detalhes/detalhe';
 import { EditRate } from '@/pages/Financial/Modules/Tariffs/Modules/EditRateManual/editRateManual';
 import { ViewTicket } from '@/pages/Tickets/Modules/ViewTicket/viewTicket';
 import { Log } from '@/pages/Config/modules/Log/log';
@@ -63,6 +62,7 @@ import { Billing } from '@/pages/Financial/Modules/Billing/billing';
 import { AddRateBilling } from '@/pages/Financial/Modules/Billing/Modules/AddRateBilling/addRateBilling';
 import { BillingAddRateManual } from '@/pages/Financial/Modules/Billing/Modules/BillingAddRateManual/billingAddRateManual';
 import { ImportSpreadsheetBilling } from '@/pages/Financial/Modules/Billing/Modules/AddRateBilling/Modules/ImportSpreadsheetBilling/importSpreadsheetBilling';
+import { Transaction } from '@/pages/Transaction/transaction';
 
 
 export function Router() {
@@ -83,7 +83,7 @@ export function Router() {
           <Route path="/" element={<DefaultHome />}>
             <Route path="/home" element={<Home />} />
             <Route path="/user-seller" element={<UserListLogged />} />
-            <Route path="/transaction" element={<Vendas />} />
+            <Route path="/transaction" element={<Transaction />} />
             <Route path="/transaction-description" element={<DetalheVenda />} />
             <Route path="/sellers-ec" element={<Estabelecimento />} />
             <Route path="/sellers-ec-register" element={<ECcadastro />} />

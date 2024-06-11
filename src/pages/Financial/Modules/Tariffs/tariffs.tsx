@@ -3,28 +3,19 @@ import * as S from './styled';
 import { useEffect, useState } from 'react';
 import { ItensPorPage } from '@/components/ItensPorPage/itensPorPage';
 import { Pagination } from '@/components/Pagination/pagination';
-import { FunnelSimple } from '@phosphor-icons/react';
 import { useLogin } from '@/context/user.login';
 import axios from 'axios';
 import { Loading } from '@/components/Loading/loading';
-import { EditableButton } from './components/ButtonEdit/buttonEdit';
-import { mockDataTable } from './mock';
-import { ModalBilling } from './components/ModalBilling/modalBilling';
 import { CardInfo } from '../../../../components/CardInfo/cardInfo';
 import { HeaderTariffs } from './components/HeaderTariffs/headerTariffs';
 import { TableTariffs } from './components/TableStock/tableTariffs';
 import { TariffsCard } from './Mobile/TariffsCard/tariffsCard';
-import { useFilterBilling } from './hooks/useFilterBilling';
 import { TotalBtn } from '@/components/TotalBtn/totalBtn';
-import { BtnFilter } from '@/components/BtnFilter/btnFilter';
 import { baseURL } from '@/config/color';
 
 
 export function Tariffs() {
   const [itensPorPage, setItensPorPage] = useState<number | ''>(10);
-  const [filter, setFilter] = useState(false);
-  const [searchValue, setSearchValue] = useState('');
-  const { state } = useFilterBilling();
   const { dataUser } = useLogin();
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(false);
@@ -86,25 +77,19 @@ export function Tariffs() {
     }
   };
 
-  const handleOpenModal = () => {
-    setFilter(true);
-  };
-
-  const handleCloseModal = () => {
-    setFilter(false);
-  };
 
   const totalPages = Math.ceil(totalTariffs / (itensPorPage || 1));
 
   useEffect(() => {
     fetchData();
-  }, [dataUser, itensPorPage, currentPage, state]);
+  }, [dataUser, itensPorPage, currentPage]);
+
+  if(loading) {
+    return <Loading />
+  }
 
   return (
     <>
-      <ModalBilling onClose={handleCloseModal} visible={filter} />
-      {loading ? <Loading /> :
-        <>
           <S.Container>
             <HeaderTariffs />
 
@@ -117,8 +102,7 @@ export function Tariffs() {
             <S.ContainerButton>
               <TotalBtn total={totalTariffs}/>
 
-              {state ? <EditableButton /> : ''}
-              <BtnFilter onClick={handleOpenModal} />
+
             </S.ContainerButton>
 
             <TableTariffs rows={tariffs} />
@@ -145,7 +129,5 @@ export function Tariffs() {
             </S.Context>
           </S.Container>
         </>
-      }
-    </>
   );
 }

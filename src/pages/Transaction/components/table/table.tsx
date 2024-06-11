@@ -7,7 +7,7 @@ import amex from '@assets/bandeiras/amex.svg'
 import visa from '@assets/bandeiras/visa.svg';
 import masterCard from '@assets/bandeiras/master.svg';
 import hyper from '@assets/Card/hypers.svg'
-import { Transaction } from './interface';
+import { ITransaction } from './interface';
 import { useNavigate } from 'react-router-dom';
 import { useTransactionVendas } from '@/context/useTransaction';
 import { formatCurrencyBR } from '@/utils/convertBRDinheiro';
@@ -17,7 +17,7 @@ import { useTenantData } from '@/context';
 type SortField = 'captured_in' | 'amount';
 
 interface TabelaProps {
-  rows: Transaction[];
+  rows: ITransaction[];
 }
 
 export function TabelaVendas({ rows }: TabelaProps) {
@@ -95,7 +95,7 @@ export function TabelaVendas({ rows }: TabelaProps) {
       </thead>
       <tbody>
         {sortedRows.map((transaction, index) => {
-          
+
           const capturedDate = new Date(transaction.captured_in);
           const formattedDate = capturedDate.toLocaleDateString('pt-BR');
           const formattedTime = capturedDate.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });

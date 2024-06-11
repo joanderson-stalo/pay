@@ -1,11 +1,10 @@
-import { FunnelSimple, MagnifyingGlass } from '@phosphor-icons/react'
+import { MagnifyingGlass } from '@phosphor-icons/react'
 import * as S from './styled'
 import { useEffect, useState, useRef, useCallback, SetStateAction } from 'react'
 import { TabelaVendas } from './components/table/table'
 import { PaginaView } from '@/components/PaginaView/paginaView'
 import { ItensPorPage } from '@/components/ItensPorPage/itensPorPage'
 import { Pagination } from '@/components/Pagination/pagination'
-import { Transaction } from './components/table/interface'
 import { Loading } from '@/components/Loading/loading'
 import axios from 'axios'
 import { baseURL } from '@/config/color'
@@ -15,7 +14,6 @@ import { CardSales } from './Mobile/CardSales/cardSales'
 import { TransactionsToExcel } from '@/utils/Xlsx/transactions'
 import { CardInfo } from '../../components/CardInfo/cardInfo'
 import { ExportData } from '@/components/ExportData/exportData'
-import { BtnFilter } from '@/components/BtnFilter/btnFilter'
 import { TitleH } from '@/components/Title/title'
 import { TotalBtn } from '@/components/TotalBtn/totalBtn'
 import { useSalesPageContext } from '@/context/pages/salesPageContext'
@@ -29,13 +27,13 @@ import {
   statusPaymentOptions
 } from '@/json/statusPaymentOptions'
 import { TagFilter } from '@/components/TagFilter/tagFilter'
+import { ITransaction } from './components/table/interface'
 
-export function Vendas() {
+export function Transaction() {
   const [searchValue, setSearchValue] = useState('')
   const [itensPorPage, setItensPorPage] = useState<number | ''>(10)
-  const [filter, setFilter] = useState(false)
   const [loading, setLoading] = useState<boolean>(false)
-  const [transactions, setTransactions] = useState<Transaction[]>([])
+  const [transactions, setTransactions] = useState<ITransaction[]>([])
   const [totalTransactions, setTotalTransactions] = useState<number>(0)
   const [totalAmount, setTotalAmount] = useState<string>('0.00')
   const [averageTaxApplied, setAverageTaxApplied] = useState<string>('0.000')
@@ -162,7 +160,7 @@ export function Vendas() {
 
   useEffect(() => {
     fetchDataFromAPI()
-  }, [itensPorPage, currentPage, filter])
+  }, [itensPorPage, currentPage])
 
   const handleExportClick = () => {
     if (dataUser) {
@@ -264,7 +262,7 @@ export function Vendas() {
         </S.ContextTitleVendas>
 
         <S.ContainerButton>
-          <div style={{ display: 'flex', gap: '8px' }}>
+        <S.ContentFilter>
             <TotalBtn total={totalTransactions} />
             <BtnFilterModal
               onClick={handleSaveToLocalStorage}
@@ -321,7 +319,7 @@ export function Vendas() {
             {activeFilters.length > 0 && (
               <TagFilter filters={activeFilters} />
             )}
-          </div>
+          </S.ContentFilter>
 
           <ExportData title="Exportar dados" onClick={handleExportClick} />
         </S.ContainerButton>

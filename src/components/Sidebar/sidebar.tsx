@@ -26,7 +26,7 @@ export function Sidebar() {
       { icon: <Laptop />, label: 'Equipamentos', path: "/equipmentStock" },
       { icon: <Wallet />, label: 'Financeiro', isSubmenu: true },
       { icon: <Ticket />, label: 'Tickets', path: "/tickets" },
-      { icon: <DeviceMobile />, label: 'Produtos', path: "/e-com"  },
+      { icon: <DeviceMobile />, label: 'Shopping', path: "/e-com"  },
       { icon: <Gear />, label: 'Configurações', isSubmenu: true },
     ] : []),
     { icon: <FileText />, label: 'Documentos', path: "/documents" }
