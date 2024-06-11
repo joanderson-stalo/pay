@@ -91,7 +91,7 @@ export function PlansDetails() {
       );
       setPlanData(response.data);
     } catch (error) {
-      console.error('Houve um erro ao buscar os dados do plano:', error);
+
     } finally {
       setLoading(false);
     }
@@ -117,8 +117,9 @@ export function PlansDetails() {
         <thead>
           <tr>
             <th>Forma de Pagamento</th>
-            <th>MDR</th>
+            <th>Taxa Base</th>
             <th>Taxa</th>
+            <th>Spread</th>
           </tr>
         </thead>
         <tbody>
@@ -131,8 +132,9 @@ export function PlansDetails() {
                   ? 'Crédito à vista'
                   : `Parcelado ${rate.installments}x`}
               </td>
-              <td>{rate.mdr}%</td>
+              <td>{rate.fee_base}%</td>
               <td>{rate.fee}%</td>
+              <td>{(Number(rate.fee) - Number(rate.fee_base)).toFixed(2)}%</td>
             </tr>
           ))}
         </tbody>

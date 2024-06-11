@@ -1,31 +1,31 @@
 import { PaginaView } from '@/components/PaginaView/paginaView';
 import { Tabela } from './components/table/table';
 import * as S from './styled';
-import { useCallback, useEffect, useState } from 'react';
+import { SetStateAction, useCallback, useEffect, useState } from 'react';
 import { ItensPorPage } from '@/components/ItensPorPage/itensPorPage';
 import { Pagination } from '@/components/Pagination/pagination';
 import { LicenciadoHeader } from './components/licenciadoHeader/licenciadoHeader';
 import { useLogin } from '@/context/user.login';
 import axios from 'axios';
 import { Loading } from '@/components/Loading/loading';
-import { useFilterLicensed } from './hooks/useFilterLicensed';
-import { EditableButton } from './components/ButtonEdit/buttonEdit';
-import { ModalLicensed } from './components/ModalLicensed/modalLicensed';
 import { TotalBtn } from '@/components/TotalBtn/totalBtn';
 import { BtnFilter } from '@/components/BtnFilter/btnFilter';
 import { LicensedCard } from './mobile/LicenciadosCard/licensedCard';
 import { baseURL } from '@/config/color';
+import { BtnFilterModal } from '@/components/BtnFilterModal/btnFilterModal';
+import { CustomSelect } from '@/components/Select/select';
+import { TagFilter } from '@/components/TagFilter/tagFilter';
 
 export function Licenciado() {
   const [itensPorPage, setItensPorPage] = useState<number | ''>(10);
-  const [filter, setFilter] = useState(false);
   const [searchValue, setSearchValue] = useState('');
-  const { state } = useFilterLicensed();
   const { dataUser } = useLogin();
   const [totalSellers, setTotalSellers] = useState(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [sellers, setSellers] = useState([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [fetchedOptions, setFetchedOptions] = useState([]);
+  const [selectedLicenciado, setSelectedLicenciado] = useState<string>(() => localStorage.getItem('@licenciadoAutorizadoLicensed') || '');
 
   const fetchData = useCallback(async (pageNumber: number = currentPage) => {
     setLoading(true);
@@ -67,19 +67,11 @@ export function Licenciado() {
     }
   };
 
-  const handleOpenModal = () => {
-    setFilter(true);
-  };
-
-  const handleCloseModal = () => {
-    setFilter(false);
-  };
-
   const totalPages = Math.ceil(totalSellers / (itensPorPage || 1));
 
   useEffect(() => {
     fetchData()
-  }, [dataUser, itensPorPage, state, currentPage]);
+  }, [dataUser, itensPorPage, currentPage]);
 
   useEffect(() => {
     if (searchValue.trim() === '') {
@@ -99,29 +91,105 @@ export function Licenciado() {
   };
 
 
+  const fetchLA = async () => {
+    try {
+      const response = await axios.get(`${baseURL}seller/indexla`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${dataUser?.token}`
+        }
+      });
+
+      const data = response.data;
+
+      if (data && data.sellers) {
+        const options = data.sellers.map((seller: { trading_name: any; type: any; id: any, cnpj_cpf: any }, index: number) => ({
+          value: seller.id,
+          label: `${seller.trading_name}-${seller.type}-${seller.cnpj_cpf}`
+        }));
+
+        setFetchedOptions(options);
+      }
+    } catch (error) {
+
+    }
+  };
+
+  useEffect(() => {
+    fetchLA();
+  }, []);
+
+
+  const handleSaveToLocalStorage = async () => {
+    await setCurrentPage(1)
+    if (selectedLicenciado) localStorage.setItem('@licenciadoAutorizadoLicensed', selectedLicenciado);
+      fetchData();
+  }
+
+
+  const handleRemoveFilter = (filterKey: string) => {
+    localStorage.removeItem(filterKey);
+    if (filterKey === '@licenciadoAutorizadoLicensed') {
+      setSelectedLicenciado('');
+    }
+    fetchData();
+  };
+
+
+  const activeFilters = [
+    localStorage.getItem('@licenciadoAutorizadoLicensed')&& {
+      title: 'Licenciado Autorizado',
+      onClick: () => handleRemoveFilter('@licenciadoAutorizadoLicensed')
+    },
+  ].filter((filter): filter is { title: string; onClick: () => void } => Boolean(filter));
+
+  if(loading) {
+    return <Loading />
+  }
+
+
   return (
-    <>
-      <ModalLicensed onClose={handleCloseModal} visible={filter} />
-      {loading ? <Loading /> :
+
         <>
         <S.Container>
            <LicenciadoHeader onSearch={handleSearch} searchValue={searchValue} setSearchValue={setSearchValue} />
+
           <S.ContainerButton>
-            <TotalBtn total={totalSellers} />
-            {state ? <EditableButton /> : ''}
-            <BtnFilter  onClick={handleOpenModal} />
+          <div style={{ display: 'flex', gap: '8px' }}>
+                <TotalBtn total={totalSellers} />
+
+
+                <BtnFilterModal onClick={handleSaveToLocalStorage} disabled={!selectedLicenciado}>
+                <CustomSelect
+                    optionsData={{ options: fetchedOptions }}
+                    placeholder="Digite aqui ou clique para ver a lista"
+                    label="Licenciado Autorizado"
+                    onChange={(selectedOption: { value: SetStateAction<string> }) =>
+                      setSelectedLicenciado(selectedOption.value)
+                    }
+                  />
+
+                </BtnFilterModal>
+
+                {activeFilters.length > 0 && (
+              <TagFilter filters={activeFilters} />
+            )}
+              </div>
           </S.ContainerButton>
+
+
+
           <Tabela rows={sellers} />
 
           <S.ContainerCardsMobile>
           <LicensedCard rows={sellers} />
           </S.ContainerCardsMobile>
-        
+
           <S.Context>
             <S.Linha />
             <S.ContainerPagina>
               <PaginaView totalItens={itensPorPage} />
-         
+
               <S.ContainerItens>
                 <ItensPorPage itensPorPage={itensPorPage} setItensPorPage={setItensPorPage} />
                 <Pagination
@@ -136,8 +204,5 @@ export function Licenciado() {
           </S.Context>
           </S.Container>
         </>
-      }
-
-    </>
   );
 }

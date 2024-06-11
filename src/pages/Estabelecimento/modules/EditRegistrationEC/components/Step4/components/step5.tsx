@@ -15,7 +15,6 @@ import {
   TipoConta,
   TitleStep
 } from "./styled";
-import { InputMask } from "@/components/InputMask/inputMask";
 import { CustomInput } from "@/components/Input/input";
 import { useFormContext } from 'react-hook-form';
 import { CustomSelect } from "@/components/Select/select";
