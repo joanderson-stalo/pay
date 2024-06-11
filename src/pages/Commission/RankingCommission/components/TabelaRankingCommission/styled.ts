@@ -12,7 +12,7 @@ export const Table = styled.table`
   @media (max-width: 900px) {
     display: none;
   }
-  
+
 
 `;
 
@@ -79,7 +79,7 @@ export const FornecedorItem = styled.p`
   border-radius: 4px;
   text-align: center;
   color: #fff;
-  background-color: #48F041;
+  background-color: #178629;
 `;
 
 export const SortContainer = styled.div`

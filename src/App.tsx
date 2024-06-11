@@ -29,9 +29,9 @@ export function App() {
       try {
         const currentHost = window.location.hostname
         const segment = currentHost.split('.')[1]
-        const apiURL = `https://api-${segment}-confrapag.stalopay.com.br/api`;
+        // const apiURL = `https://api-${segment}-confrapag.stalopay.com.br/api`;
 
-        // const apiURL = `https://api-pagueassim-confrapag.stalopay.com.br/api`
+        const apiURL = `https://api-pagueassim-confrapag.stalopay.com.br/api`
 
         const response = await axios.get(apiURL)
         const pageTitle = response.data.tenant.page_title

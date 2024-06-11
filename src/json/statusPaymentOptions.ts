@@ -1,7 +1,7 @@
 export const statusPaymentOptions = {
   options: [
     { value: 'succeeded', label: 'Sucesso' },
-    { value: 'failure', label: 'Falha' }
+    { value: 'cancelled', label: 'Falha' }
   ]
 };
 

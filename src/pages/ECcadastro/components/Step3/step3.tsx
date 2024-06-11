@@ -217,7 +217,7 @@ export function Step3({ Avançar, Voltar }: IStep3) {
 
       const selectedAcquire = selectedAcquires;
       setDados(true);
-      axios.get(`${baseURL}plan/commercial/${selectedAcquire}`, {
+      axios.get(`${baseURL}plan/commercial/3`, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${dataUser?.token}`

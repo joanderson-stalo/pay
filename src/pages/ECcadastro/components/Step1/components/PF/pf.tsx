@@ -7,7 +7,6 @@ import { validateDataCriacao } from '@/utils/dataValid'
 import { validateTelefone } from '@/utils/telefoneValid'
 import { validateEmail } from '@/utils/validateEmail'
 import { CustomSelect } from '@/components/Select/select'
-import { optionsData } from './option'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
@@ -65,13 +64,12 @@ export function PF({ Avançar, BPF, BPJ }: IStep1) {
     try {
       setIsLoading(true);
       const response = await axios.get(`https://ws.hubdodesenvolvedor.com.br/v2/cpf/?cpf=${cpf}&token=119905575VQLhxBIJgu216485880`);
-
       const { result } = response.data;
-      const { nome_da_pf, data_nascimento } = result;
-
-      setValue('NomeSocioEstabelecimento', nome_da_pf);
-      setValue('NascimentoSocio', data_nascimento);
-
+      if (result) {
+        const { nome_da_pf, data_nascimento } = result;
+        if (nome_da_pf) setValue('NomeSocioEstabelecimento', nome_da_pf);
+        if (data_nascimento) setValue('NascimentoSocio', data_nascimento);
+      }
     } catch (error) {
       console.error('Error fetching person data by CPF:', error);
     } finally {

@@ -24,7 +24,6 @@ import { validateDataCriacao } from '@/utils/dataValid'
 import { validateTelefone } from '@/utils/telefoneValid'
 import { validateEmail } from '@/utils/validateEmail'
 import { CustomSelect } from '@/components/Select/select'
-import { optionsData } from './option'
 import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
@@ -88,19 +87,19 @@ export function PJ({ Avançar, BPF, BPJ }: IStep1) {
 
   const fetchCompanyDataByCNPJ = async (cnpj: string) => {
     try {
-      setIsLoading(true)
+      setIsLoading(true);
       const response = await axios.get(`https://ws.hubdodesenvolvedor.com.br/v2/cnpj/?cnpj=${cnpj}&token=119905575VQLhxBIJgu216485880`);
       const { result } = response.data;
-      const { abertura, nome, fantasia } = result;
-
-      setValue('DataCriacaoEstabelecimento', abertura);
-      setValue('RazaoSocialEstabelecimento', nome);
-      setValue('NomeFantasiaEstabelecimento', fantasia);
-
+      if (result) {
+        const { abertura, nome, fantasia } = result;
+        if (abertura) setValue('DataCriacaoEstabelecimento', abertura);
+        if (nome) setValue('RazaoSocialEstabelecimento', nome);
+        if (fantasia) setValue('NomeFantasiaEstabelecimento', fantasia);
+      }
     } catch (error) {
-      console.error('Error fetching company data by CNPJ:', error);
+
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
   };
 
@@ -108,20 +107,18 @@ export function PJ({ Avançar, BPF, BPJ }: IStep1) {
     try {
       setIsLoading(true);
       const response = await axios.get(`https://ws.hubdodesenvolvedor.com.br/v2/cpf/?cpf=${cpf}&token=119905575VQLhxBIJgu216485880`);
-
       const { result } = response.data;
-      const { nome_da_pf, data_nascimento } = result;
-
-      setValue('NomeSocioEstabelecimento', nome_da_pf);
-      setValue('NascimentoSocio', data_nascimento);
-
+      if (result) {
+        const { nome_da_pf, data_nascimento } = result;
+        if (nome_da_pf) setValue('NomeSocioEstabelecimento', nome_da_pf);
+        if (data_nascimento) setValue('NascimentoSocio', data_nascimento);
+      }
     } catch (error) {
       console.error('Error fetching person data by CPF:', error);
     } finally {
       setIsLoading(false);
     }
   };
-
 
 
   useEffect(() => {

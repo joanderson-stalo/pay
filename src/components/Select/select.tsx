@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import { FunctionComponent, useRef } from 'react';
 import Select from 'react-select';
 import { customStyles } from './styled';
 import { Label } from '../Input/styled';
@@ -10,7 +10,7 @@ interface Option {
 
 interface ICustomSelectProps {
   hasError?: boolean;
-  value?: any;
+  value?: Option;
   onChange?: any;
   placeholder?: string;
   label: string;
@@ -30,6 +30,8 @@ export const CustomSelect: FunctionComponent<ICustomSelectProps> = ({
     label: option.label,
   }));
 
+  const selectRef = useRef<any>(null);
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
       <Label>{label}</Label>
@@ -38,9 +40,10 @@ export const CustomSelect: FunctionComponent<ICustomSelectProps> = ({
         options={options}
         value={value}
         onChange={onChange}
+        ref={selectRef}
         styles={customStyles(hasError || false)}
         placeholder={placeholder}
-        noOptionsMessage={() => 'opção não encontrada'}
+        noOptionsMessage={() => 'Opção não encontrada'}
       />
     </div>
   );
