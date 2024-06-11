@@ -35,6 +35,7 @@ text-transform: uppercase;
     padding: 6px 16px;
     font-size: 10px;
     z-index: 5;
+   
   }
 `;
 

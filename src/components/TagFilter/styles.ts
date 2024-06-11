@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const ContainerTagFilter = styled.div`
     display: flex;
+    flex-wrap: wrap;
     flex-direction: row;
     align-items: center;
     gap: 16px;
@@ -13,6 +14,11 @@ export const ContainerTagFilter = styled.div`
         font-weight: 400;
         line-height: 24px;
         letter-spacing: 0.5px;
+    }
+
+    @media (max-width: 600px){
+      flex-direction: column;
+     align-items: start;
     }
 `;
 

@@ -181,7 +181,9 @@ export function Estabelecimento() {
           <S.Container>
             <EstabelecimentoHeader onSearch={handleSearch} searchValue={searchValue} setSearchValue={setSearchValue} />
             <S.ContainerButton>
-              <div style={{ display: 'flex', gap: '8px' }}>
+
+              <S.ContenterFilter>
+             
                 <TotalBtn total={totalSellers} />
                 <BtnFilterModal disabled={!selectedLicenciado && !selectedFornecedor} onClick={handleSaveToLocalStorage}>
 
@@ -206,7 +208,9 @@ export function Estabelecimento() {
             {activeFilters.length > 0 && (
               <TagFilter filters={activeFilters} />
             )}
-              </div>
+
+              </S.ContenterFilter>
+
             </S.ContainerButton>
             <Tabela rows={sellers} />
             <S.ContainerMobile>
