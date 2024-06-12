@@ -103,10 +103,16 @@ display: none;
 `
 
 
-export const ContenterFilter = styled.div`
-display: flex;
-gap: 8px;
-flex-wrap: wrap;
+export const ContenteFilter = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+
+  @media(max-width: 600px){
+    flex-direction: column;
+  }
 
 
 `
+
+

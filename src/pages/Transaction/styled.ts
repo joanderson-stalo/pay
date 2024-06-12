@@ -114,9 +114,14 @@ export const ContainerButton = styled.div`
   align-items: center;
   justify-content: space-between;
   margin-bottom: 32px;
+  flex-wrap: wrap;
+  gap: 16px;
 
-  @media (max-width: 1380px) {
-    flex-wrap: wrap;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    align-items: start
+
   }
 `
 
@@ -135,4 +140,8 @@ export const ContentFilter = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+
+  @media(max-width: 600px){
+    flex-direction: column;
+  }
 `
