@@ -16,6 +16,12 @@ export const ContainerButton = styled.div`
   margin-top: 35px;
   align-items: center;
   gap: 16px;
+
+
+  @media (max-width: 600px){
+    flex-direction: column;
+    align-items: start;
+  }
 `
 
 export const Linha = styled.div`
