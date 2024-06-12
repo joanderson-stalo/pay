@@ -36,7 +36,6 @@ import { Tickets } from '@/pages/Tickets/tickets';
 import { Extract } from '@/pages/Extract/extract';
 import { AddTickets } from '@/pages/Tickets/Modules/AddTickets/addTickets';
 import { Documents } from '@/pages/Documents/documents';
-import { TodayCommission } from '@/pages/Commission/TodayCommission/todayCommission';
 import { PaymentRequests } from '@/pages/PaymentRequests/paymentRequests';
 import { CreateUser } from '@/pages/User/Modules/UserCreation/components/CreateUser/createUser';
 import { ImportSpreadsheet } from '@/pages/Financial/Modules/Tariffs/Modules/AddRate/Modules/ImportSpreadsheet/importSpreadsheet';
@@ -63,6 +62,7 @@ import { AddRateBilling } from '@/pages/Financial/Modules/Billing/Modules/AddRat
 import { BillingAddRateManual } from '@/pages/Financial/Modules/Billing/Modules/BillingAddRateManual/billingAddRateManual';
 import { ImportSpreadsheetBilling } from '@/pages/Financial/Modules/Billing/Modules/AddRateBilling/Modules/ImportSpreadsheetBilling/importSpreadsheetBilling';
 import { Transaction } from '@/pages/Transaction/transaction';
+import { NetWorkCommission } from '@/pages/Commission/NetWorkCommission/netWorkCommission';
 
 
 export function Router() {
@@ -101,7 +101,7 @@ export function Router() {
             <Route path="/sellers-ec-add" element={<EcCreation />} />
 
             <Route path="/commission" element={<RankingCommission />} />
-            <Route path="/commission/network" element={<TodayCommission />} />
+            <Route path="/commission/network" element={<NetWorkCommission />} />
             <Route path="/plans" element={<Plans />} />
             <Route path="/plans-detail" element={<PlansDetails />} />
             <Route path="/operationManagement" element={<OperationManagement />} />

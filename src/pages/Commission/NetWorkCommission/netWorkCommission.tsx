@@ -8,10 +8,14 @@ import { useLogin } from '@/context/user.login'
 import { Loading } from '@/components/Loading/loading'
 import { HeaderCommission } from './components/HeaderCommission/headerCommission'
 import { CardInfo } from '@/components/CardInfo/cardInfo'
-import { TabelaToDayCommission } from './components/TabelaToDayCommission/tabelaToDayCommission'
 import { ToDayCommisionCard } from './Mobile/ToDayCommisionCard/toDayCommisionCard'
 import axios from 'axios'
 import { baseURL } from '@/config/color'
+import { TabelaNetWordkCommission } from './components/TabelaNetWordkCommission/tabelaNetWordkCommission'
+import { BtnFilterModal } from '@/components/BtnFilterModal/btnFilterModal'
+import { CustomInput } from '@/components/Input/input'
+import { useTenantData } from '@/context'
+import { TagFilter } from '@/components/TagFilter/tagFilter'
 
 
 interface CommissionData {
@@ -40,7 +44,7 @@ interface APIResponse {
 }
 
 
-export function TodayCommission() {
+export function NetWorkCommission() {
   const [itensPorPage, setItensPorPage] = useState<number | ''>(10)
   const [loading, setLoading] = useState<boolean>(false)
 
@@ -51,7 +55,9 @@ export function TodayCommission() {
   const [totalTransactionAmount, setTotalTransactionAmount] = useState<number>(0);
   const [totalCommissionCount, setTotalCommissionCount] = useState<number>(0);
   const [commissionsByEC, setCommissionsByEC] = useState<ECCommissions>({});
-
+  const [startDate, setStartDate] = useState<string>('')
+  const [endDate, setEndDate] = useState<string>('')
+  const tenantData = useTenantData()
 
   const fetchData = async (pageNumber: number) => {
     setCurrentPage(pageNumber)
@@ -73,6 +79,17 @@ export function TodayCommission() {
     let url = `${baseURL}commisssion/la-network-commission?perpage=${String(itensPorPage)}&page=${currentPage}`;
 
 
+    const capturedInStart = localStorage.getItem('@startDateNetWorkCommission')
+    if (capturedInStart) {
+      url += `&transaction_date_start=${capturedInStart}`
+    }
+
+    const capturedInEnd = localStorage.getItem('@endDateNetWorkCommission')
+    if (capturedInEnd) {
+      url += `&transaction_date_end=${capturedInEnd}`
+    }
+
+
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -91,13 +108,11 @@ export function TodayCommission() {
       setTotalCommissionsByEC(totalCommissions);
 
     } catch (error) {
-      console.error('Erro ao buscar dados:', error);
+
     } finally {
       setLoading(false);
     }
   }, [itensPorPage, currentPage, baseURL, dataUser?.token]);
-
-
 
 
   const totalPages = Math.ceil(totalCommissionsByEC / (itensPorPage || 1))
@@ -107,12 +122,48 @@ export function TodayCommission() {
   }, [itensPorPage, currentPage])
 
 
-  return (
-    <>
 
-      {loading ? (
-        <Loading />
-      ) : (
+  const handleSaveToLocalStorage = async () => {
+    await   setCurrentPage(1)
+    await localStorage.setItem('@startDateNetWorkCommission', startDate)
+    await localStorage.setItem('@endDateNetWorkCommission', endDate)
+    fetchDataFromAPI()
+  }
+
+
+  const handleRemoveFilter = (filterKey: string) => {
+    localStorage.removeItem(filterKey);
+    switch (filterKey) {
+      case '@startDateNetWorkCommission':
+        setStartDate('');
+        break;
+      case '@endDateNetWorkCommission':
+        setEndDate('');
+        break;
+    }
+    fetchDataFromAPI();
+  };
+
+
+  const activeFilters = [
+    localStorage.getItem('@startDateNetWorkCommission') && localStorage.getItem('@endDateNetWorkCommission') && {
+      title: 'Data',
+      onClick: () => {
+        handleRemoveFilter('@startDateNetWorkCommission');
+        handleRemoveFilter('@endDateNetWorkCommission');
+        setStartDate('');
+        setEndDate('');
+      }
+    }
+  ].filter((filter): filter is { title: string; onClick: () => void } => Boolean(filter));
+
+  if(loading){
+    return <Loading />
+  }
+
+
+  return (
+
         <>
         <S.Container>
 
@@ -134,9 +185,41 @@ export function TodayCommission() {
             </S.ContainerCardVendas>
 
           </S.ContextTitleVendas>
+          <S.ContainerButton>
+          <BtnFilterModal
+            onClick={handleSaveToLocalStorage}
+            disabled={!startDate || !endDate || endDate <= startDate}
+          >
+
+<CustomInput
+                colorInputDefault={tenantData.primary_color_identity}
+                colorInputSuccess={tenantData.secondary_color_identity}
+                type="date"
+                label="Data inicial"
+                value={startDate}
+                hasError={!!endDate && startDate > endDate}
+                onChange={event => setStartDate(event.target.value)}
+              />
+              <CustomInput
+                colorInputDefault={tenantData.primary_color_identity}
+                colorInputSuccess={tenantData.secondary_color_identity}
+                type="date"
+                label="Data final"
+                value={endDate}
+                hasError={!!startDate && (endDate <= startDate || !endDate)}
+                onChange={event => setEndDate(event.target.value)}
+              />
 
 
-          <TabelaToDayCommission commissions_by_EC={commissionsByEC} />
+          </BtnFilterModal>
+
+
+          {activeFilters.length > 0 && (
+              <TagFilter filters={activeFilters} />
+            )}
+        </S.ContainerButton>
+
+          <TabelaNetWordkCommission commissions_by_EC={commissionsByEC} />
 
           <S.ContainerCardsMobile>
           <ToDayCommisionCard data={commissionsByEC}  />
@@ -165,7 +248,5 @@ export function TodayCommission() {
           </S.Context>
           </S.Container>
         </>
-      )}
-    </>
   )
 }

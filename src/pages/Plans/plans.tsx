@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as S from './styled';
 import { PaginaView } from '@/components/PaginaView/paginaView';
 import { ItensPorPage } from '@/components/ItensPorPage/itensPorPage';
@@ -107,11 +107,12 @@ export function Plans() {
     fetchPlans();
   };
 
+  if(loading){
+    return <Loading />
+  }
+
   return (
-    <>
-      {loading ? (
-        <Loading />
-      ) : (
+
         <>
           <HeaderPlans
            onSearch={handleSearch} searchValue={searchValue} setSearchValue={setSearchValue}
@@ -149,7 +150,5 @@ export function Plans() {
             </S.Context>
           </S.Container>
         </>
-      )}
-    </>
   );
 }
