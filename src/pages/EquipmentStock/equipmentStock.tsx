@@ -212,7 +212,9 @@ export function EquipmentStock() {
 
             <S.ContainerButton>
 
-              <div style={{ display: 'flex', gap: '8px' }}>
+              <S.ContentFilter>
+
+
 
               <TotalBtn total={totalStocks} />
 
@@ -241,7 +243,9 @@ export function EquipmentStock() {
               <TagFilter filters={activeFilters} />
             )}
 
-              </div>
+             
+              </S.ContentFilter>
+
 
             </S.ContainerButton>
 

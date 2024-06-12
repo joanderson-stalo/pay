@@ -174,3 +174,14 @@ width: 21.429px;
 height: 21.429px;
 }
 `;
+
+export const ContentFilter = styled.div`
+display: flex;
+gap: 8px;
+flex-wrap: wrap;
+
+@media(max-width: 600px){
+  flex-direction: column;
+}
+
+`

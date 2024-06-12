@@ -182,8 +182,8 @@ export function Estabelecimento() {
             <EstabelecimentoHeader onSearch={handleSearch} searchValue={searchValue} setSearchValue={setSearchValue} />
             <S.ContainerButton>
 
-              <S.ContenterFilter>
-             
+              <S.ContenteFilter>
+
                 <TotalBtn total={totalSellers} />
                 <BtnFilterModal disabled={!selectedLicenciado && !selectedFornecedor} onClick={handleSaveToLocalStorage}>
 
@@ -209,7 +209,7 @@ export function Estabelecimento() {
               <TagFilter filters={activeFilters} />
             )}
 
-              </S.ContenterFilter>
+              </S.ContenteFilter>
 
             </S.ContainerButton>
             <Tabela rows={sellers} />

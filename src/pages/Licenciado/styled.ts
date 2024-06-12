@@ -102,3 +102,16 @@ export const ContainerCardsMobile = styled.div`
     display: flex;
   }
 `
+
+export const ContentFilter = styled.div`
+display: flex;
+gap: 8px;
+flex-wrap: wrap;
+
+@media(max-width: 600px){
+  flex-direction: column;
+}
+
+`
+
+

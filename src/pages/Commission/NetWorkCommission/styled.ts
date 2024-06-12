@@ -132,6 +132,11 @@ export const ContainerItens = styled.div`
 export const ContainerButton = styled.div`
   display: flex;
   margin-top: 35px;
+  gap: 8px;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+  }
 `
 export const ButtonTotal = styled.button`
   width: 118px;

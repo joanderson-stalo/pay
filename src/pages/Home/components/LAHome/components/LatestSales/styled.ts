@@ -106,10 +106,18 @@ export const TableContainerImg = styled.div`
     display: flex;
 
     justify-content: center;
+    text-align: center;
     align-items: center;
     border-top: 1px solid #E0E0E0;
-    margin-top: -1px;
-    padding: 4px 16px;
+
+  margin-top: -0.5px;
+
+
+
+    padding: 10px 16px;
+
+
+
     @media (max-width: 600px) {
         gap: 2px;
         padding: 4px 8px;
@@ -137,3 +145,7 @@ cursor: pointer;
 z-index: 5;
 background-color: transparent;
 `
+
+
+
+
