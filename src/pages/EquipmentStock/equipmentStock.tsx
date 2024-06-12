@@ -1,30 +1,26 @@
 import { PaginaView } from '@/components/PaginaView/paginaView';
 import * as S from './styled';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { SetStateAction, useCallback, useEffect, useRef, useState } from 'react';
 import { ItensPorPage } from '@/components/ItensPorPage/itensPorPage';
 import { Pagination } from '@/components/Pagination/pagination';
 import { FunnelSimple, MagnifyingGlass } from '@phosphor-icons/react';
 import { useLogin } from '@/context/user.login';
 import axios from 'axios';
 import { Loading } from '@/components/Loading/loading';
-import { useFilterLicensed } from './hooks/useFilterLicensed';
-import { EditableButton } from './components/ButtonEdit/buttonEdit';
-import { mockDataTable } from './mock';
-import { ModalBilling } from './components/ModalBilling/modalBilling';
 import { CardInfo } from '../../components/CardInfo/cardInfo';
 import { StockCard } from './Mobile/StockCard/stockCard';
 import { TableStock } from './components/TableStock/tableStock';
 import { HeaderStock } from './components/HeaderStock/headerStock';
 import { TotalBtn } from '@/components/TotalBtn/totalBtn';
-import { BtnFilter } from '@/components/BtnFilter/btnFilter';
 import { debounce } from 'lodash';
 import { baseURL } from '@/config/color';
+import { BtnFilterModal } from '@/components/BtnFilterModal/btnFilterModal';
+import { CustomSelect } from '@/components/Select/select';
+import { TagFilter } from '@/components/TagFilter/tagFilter';
 
 export function EquipmentStock() {
   const [itensPorPage, setItensPorPage] = useState<number | ''>(10);
-  const [filter, setFilter] = useState(false);
   const [searchValue, setSearchValue] = useState('');
-  const { state } = useFilterLicensed();
   const { dataUser } = useLogin();
   const [totalStocks, setTotalStocks] = useState(0);
   const [totalWorking, setTotalWorking] = useState<number>(0);
@@ -35,6 +31,11 @@ export function EquipmentStock() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [isFocused, setIsFocused] = useState<boolean>(false);
+
+  const [fetchedOptions, setFetchedOptions] = useState([]);
+  const [fetchedOptionsFN, setFetchedOptionsFN] = useState([]);
+  const [selectedLicenciado, setSelectedLicenciado] = useState<string>('');
+  const [selectedFornecedor, setSelectedFornecedor] = useState<string>('');
 
   const fetchData = useCallback(async (search?: string) => {
     setLoading(true);
@@ -80,22 +81,15 @@ export function EquipmentStock() {
     }
   };
 
-  const handleOpenModal = () => {
-    setFilter(true);
-  };
-
-  const handleCloseModal = () => {
-    setFilter(false);
-  };
 
   const totalPages = Math.ceil(totalStocks / (itensPorPage || 1));
 
   useEffect(() => {
     fetchData();
-  }, [fetchData, state]);
+  }, [fetchData]);
 
   const debouncedFetchDataFromAPI = useRef(debounce(fetchData, 1000)).current;
-  
+
   const handleChange = (event: { target: { value: string } }) => {
     setSearchValue(event.target.value);
     if (event.target.value.trim() !== '') {
@@ -106,10 +100,93 @@ export function EquipmentStock() {
     }
   };
 
+
+  const fetchDataLA = async () => {
+    try {
+      const response = await axios.get(`${baseURL}seller/indexla`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${dataUser?.token}`
+        }
+      });
+
+      const data = response.data;
+
+      if (data && data.sellers) {
+        const options = data.sellers.map((seller: { trading_name: any; type: any; id: any, cnpj_cpf: any }, index: number) => ({
+          value: seller.id,
+          label: `${seller.trading_name}-${seller.type}-${seller.cnpj_cpf}`
+        }));
+
+        setFetchedOptions(options);
+      }
+    } catch (error) {
+      console.error('Houve um erro ao buscar os dados:', error);
+    }
+  };
+
+  const fetchDataFN = useCallback(async () => {
+    try {
+      const response = await axios.get(`${baseURL}acquire/index`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${dataUser?.token}`
+        }
+      });
+      const data = response.data;
+      const options = data.acquires.map((acquire: { acquire_label: any; id: { toString: () => any; }; }) => ({
+        label: acquire.acquire_label,
+        value: acquire.id.toString()
+      }));
+      setFetchedOptionsFN(options);
+    } catch (error) {
+      console.error('Houve um erro ao buscar os dados:', error);
+    }
+  }, [dataUser?.token]);
+
+  useEffect(() => {
+    fetchDataLA();
+    fetchDataFN();
+  }, []);
+
+
+  const handleSaveToLocalStorage = async () => {
+    await setCurrentPage(1)
+    if (selectedLicenciado) localStorage.setItem('@licensedStock', selectedLicenciado);
+    if (selectedFornecedor) localStorage.setItem('@supplierStock', selectedFornecedor);
+      fetchData();
+  }
+
+
+
+  const handleRemoveFilter = (filterKey: string) => {
+    localStorage.removeItem(filterKey);
+    if (filterKey === '@licensedStock') {
+      setSelectedLicenciado('');
+    }
+    if (filterKey === '@supplierStock') {
+      setSelectedFornecedor('');
+    }
+    fetchData();
+  };
+
+
+  const activeFilters = [
+    localStorage.getItem('@licensedStock')&& {
+      title: 'Licenciado Autorizado',
+      onClick: () => handleRemoveFilter('@licensedStock')
+    },
+    localStorage.getItem('@supplierStock') && {
+      title: 'Fornecedor',
+      onClick: () => handleRemoveFilter('@supplierStock')
+    }
+  ].filter((filter): filter is { title: string; onClick: () => void } => Boolean(filter));
+
+  if(loading){
+    return <Loading />
+  }
+
   return (
-    <>
-      <ModalBilling onClose={handleCloseModal} visible={filter} />
-      {loading ? <Loading /> :
         <>
           <S.Container>
             <HeaderStock />
@@ -132,12 +209,43 @@ export function EquipmentStock() {
                 <MagnifyingGlass />
               </S.SearchIcon>
             </S.Input>
-            
+
             <S.ContainerButton>
+
+              <div style={{ display: 'flex', gap: '8px' }}>
+
               <TotalBtn total={totalStocks} />
-              {state ? <EditableButton /> : ''}
-              <BtnFilter onClick={handleOpenModal} />
+
+                <BtnFilterModal onClick={handleSaveToLocalStorage} disabled={!selectedFornecedor && !selectedLicenciado}>
+                <CustomSelect
+                    optionsData={{ options: fetchedOptions }}
+                    placeholder="Digite aqui ou clique para ver a lista"
+                    label="Licenciado Autorizado"
+                    onChange={(selectedOption: { value: SetStateAction<string> }) =>
+                      setSelectedLicenciado(selectedOption.value)
+                    }
+                  />
+
+            <CustomSelect
+                    optionsData={{ options: fetchedOptionsFN }}
+                    placeholder="Digite aqui ou clique para ver a lista"
+                    label="Fornecedor"
+                    onChange={(selectedOption: { value: SetStateAction<string> }) =>
+                      setSelectedFornecedor(selectedOption.value)
+                    }
+                  />
+
+                </BtnFilterModal>
+
+                {activeFilters.length > 0 && (
+              <TagFilter filters={activeFilters} />
+            )}
+
+              </div>
+
             </S.ContainerButton>
+
+
             <TableStock rows={products} />
             <S.ContainerCardsMobile>
               <StockCard data={products} />
@@ -160,7 +268,5 @@ export function EquipmentStock() {
             </S.Context>
           </S.Container>
         </>
-      }
-    </>
   );
 }
