@@ -68,7 +68,7 @@ export function LatestSales({ latest_transactions }: LatestSalesProps) {
                 </S.TableCell>
                 <S.TableContainerImg>
                   <img
-                  style={{width: "41px", height: "28px"}}
+                  style={{width: "29px", height: "18px"}}
                     src={
                       item.brand.toLowerCase() === 'visa' ? visa :
                       item.brand.toLowerCase() === 'elo' ? elo :
