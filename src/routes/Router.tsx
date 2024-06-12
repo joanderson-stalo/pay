@@ -14,7 +14,6 @@ import { Estabelecimento } from '@/pages/Estabelecimento/estabelecimento';
 import { ECcadastro } from '@/pages/ECcadastro/ECcadastro';
 import { Licenciado } from '@/pages/Licenciado/licenciado';
 import { Home } from '@/pages/Home/home';
-import { RankingCommission } from '@/pages/Commission/RankingCommission/rankingCommission';
 import { Plans } from '@/pages/Plans/plans';
 import { ManageAccessLicensed } from '@/pages/Licenciado/modules/ManageAccess/manageAccessLicensed';
 import { LicensedDetail } from '@/pages/Licenciado/modules/LicensedDetail/licensedDetail';
@@ -63,6 +62,7 @@ import { BillingAddRateManual } from '@/pages/Financial/Modules/Billing/Modules/
 import { ImportSpreadsheetBilling } from '@/pages/Financial/Modules/Billing/Modules/AddRateBilling/Modules/ImportSpreadsheetBilling/importSpreadsheetBilling';
 import { Transaction } from '@/pages/Transaction/transaction';
 import { NetWorkCommission } from '@/pages/Commission/NetWorkCommission/netWorkCommission';
+import { MyCommission } from '@/pages/Commission/MyCommission/myCommission';
 
 
 export function Router() {
@@ -100,7 +100,7 @@ export function Router() {
             <Route path="/sellers-la-add" element={<LaCreation />} />
             <Route path="/sellers-ec-add" element={<EcCreation />} />
 
-            <Route path="/commission" element={<RankingCommission />} />
+            <Route path="/commission" element={<MyCommission />} />
             <Route path="/commission/network" element={<NetWorkCommission />} />
             <Route path="/plans" element={<Plans />} />
             <Route path="/plans-detail" element={<PlansDetails />} />
