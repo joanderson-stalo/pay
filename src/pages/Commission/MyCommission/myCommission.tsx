@@ -11,6 +11,10 @@ import { RankingCard } from './Mobile/RankingCard/rankingCard'
 import { baseURL } from '@/config/color'
 import axios from 'axios'
 import { CardInfo } from '@/components/CardInfo/cardInfo'
+import { TagFilter } from '@/components/TagFilter/tagFilter'
+import { CustomInput } from '@/components/Input/input'
+import { BtnFilterModal } from '@/components/BtnFilterModal/btnFilterModal'
+import { useTenantData } from '@/context'
 
 interface CommissionData {
   ec_seller_document: string;
@@ -37,7 +41,7 @@ interface APIResponse {
   commissions_by_EC: ECCommissions;
 }
 
-export function RankingCommission() {
+export function MyCommission() {
   const [searchValue, setSearchValue] = useState('')
   const [itensPorPage, setItensPorPage] = useState<number | ''>(10)
   const [filter, setFilter] = useState(false)
@@ -54,11 +58,24 @@ export function RankingCommission() {
   const [totalCommissionCount, setTotalCommissionCount] = useState<number>(0);
   const [totalCommissionAmount, setTotalCommissionAmount] = useState<number>(0);
   const [commissionsByEC, setCommissionsByEC] = useState<ECCommissions>({});
+  const [startDate, setStartDate] = useState<string>('')
+  const [endDate, setEndDate] = useState<string>('')
+  const tenantData = useTenantData()
 
   const fetchDataFromAPI = useCallback(async (search?: string) => {
     setLoading(true);
 
     let url = `${baseURL}commisssion/mycommission?perpage=${String(itensPorPage)}&page=${currentPage}`;
+
+    const capturedInStart = localStorage.getItem('@startDateMyCommission')
+    if (capturedInStart) {
+      url += `&transaction_date_start=${capturedInStart}`
+    }
+
+    const capturedInEnd = localStorage.getItem('@endDateMyCommission')
+    if (capturedInEnd) {
+      url += `&transaction_date_end=${capturedInEnd}`
+    }
 
 
 
@@ -123,12 +140,47 @@ export function RankingCommission() {
   }, [itensPorPage, currentPage])
 
 
-  return (
-    <>
+  const handleSaveToLocalStorage = async () => {
+    await   setCurrentPage(1)
+    await localStorage.setItem('@startDateMyCommission', startDate)
+    await localStorage.setItem('@endDateMyCommission', endDate)
+    fetchDataFromAPI()
+  }
 
-      {loading ? (
-        <Loading />
-      ) : (
+
+  const handleRemoveFilter = (filterKey: string) => {
+    localStorage.removeItem(filterKey);
+    switch (filterKey) {
+      case '@startDateMyCommission':
+        setStartDate('');
+        break;
+      case '@endDateMyCommission':
+        setEndDate('');
+        break;
+    }
+    fetchDataFromAPI();
+  };
+
+
+  const activeFilters = [
+    localStorage.getItem('@startDateMyCommission') && localStorage.getItem('@endDateMyCommission') && {
+      title: 'Data',
+      onClick: () => {
+        handleRemoveFilter('@startDateMyCommission');
+        handleRemoveFilter('@endDateMyCommission');
+        setStartDate('');
+        setEndDate('');
+      }
+    }
+  ].filter((filter): filter is { title: string; onClick: () => void } => Boolean(filter));
+
+  if(loading){
+    return <Loading />
+  }
+
+
+  return (
+
         <>
         <S.Container>
             <HeaderCommission />
@@ -149,6 +201,40 @@ export function RankingCommission() {
                 value={totalCommissionCount}
               />
             </S.ContainerCardVendas>
+
+            <S.ContainerButton>
+          <BtnFilterModal
+            onClick={handleSaveToLocalStorage}
+            disabled={!startDate || !endDate || endDate <= startDate}
+          >
+
+<CustomInput
+                colorInputDefault={tenantData.primary_color_identity}
+                colorInputSuccess={tenantData.secondary_color_identity}
+                type="date"
+                label="Data inicial"
+                value={startDate}
+                hasError={!!endDate && startDate > endDate}
+                onChange={event => setStartDate(event.target.value)}
+              />
+              <CustomInput
+                colorInputDefault={tenantData.primary_color_identity}
+                colorInputSuccess={tenantData.secondary_color_identity}
+                type="date"
+                label="Data final"
+                value={endDate}
+                hasError={!!startDate && (endDate <= startDate || !endDate)}
+                onChange={event => setEndDate(event.target.value)}
+              />
+
+
+          </BtnFilterModal>
+
+
+          {activeFilters.length > 0 && (
+              <TagFilter filters={activeFilters} />
+            )}
+        </S.ContainerButton>
 
           <TabelaRankingCommission commissions_by_EC={commissionsByEC}  />
 
@@ -179,7 +265,5 @@ export function RankingCommission() {
           </S.Context>
           </S.Container>
         </>
-      )}
-    </>
   )
 }
