@@ -18,7 +18,7 @@ export const ContextStepContainer = styled.div`
  display: flex;
   flex-direction: column;
 align-items: center;
-
+width: 100%;
 `
 
 export const ContextStep = styled.div`
@@ -29,7 +29,7 @@ border-radius: 8px;
 margin-top: 30px;
 margin-bottom: 32px;
 
-width: 900px;
+width: 100%;
 padding: 22px 39px 0px 39px;
 
 

@@ -8,10 +8,10 @@ import { useLogin } from '@/context/user.login'
 import { Loading } from '@/components/Loading/loading'
 import { HeaderCommission } from './components/HeaderCommission/headerCommission'
 import { CardInfo } from '@/components/CardInfo/cardInfo'
-import { TabelaToDayCommission } from './components/TabelaToDayCommission/tabelaToDayCommission'
 import { ToDayCommisionCard } from './Mobile/ToDayCommisionCard/toDayCommisionCard'
 import axios from 'axios'
 import { baseURL } from '@/config/color'
+import { TabelaNetWordkCommission } from './components/TabelaNetWordkCommission/tabelaNetWordkCommission'
 
 
 interface CommissionData {
@@ -40,7 +40,7 @@ interface APIResponse {
 }
 
 
-export function TodayCommission() {
+export function NetWorkCommission() {
   const [itensPorPage, setItensPorPage] = useState<number | ''>(10)
   const [loading, setLoading] = useState<boolean>(false)
 
@@ -91,13 +91,11 @@ export function TodayCommission() {
       setTotalCommissionsByEC(totalCommissions);
 
     } catch (error) {
-      console.error('Erro ao buscar dados:', error);
+
     } finally {
       setLoading(false);
     }
   }, [itensPorPage, currentPage, baseURL, dataUser?.token]);
-
-
 
 
   const totalPages = Math.ceil(totalCommissionsByEC / (itensPorPage || 1))
@@ -106,13 +104,13 @@ export function TodayCommission() {
     fetchDataFromAPI()
   }, [itensPorPage, currentPage])
 
+  if(loading){
+    return <Loading />
+  }
+
 
   return (
-    <>
 
-      {loading ? (
-        <Loading />
-      ) : (
         <>
         <S.Container>
 
@@ -136,7 +134,7 @@ export function TodayCommission() {
           </S.ContextTitleVendas>
 
 
-          <TabelaToDayCommission commissions_by_EC={commissionsByEC} />
+          <TabelaNetWordkCommission commissions_by_EC={commissionsByEC} />
 
           <S.ContainerCardsMobile>
           <ToDayCommisionCard data={commissionsByEC}  />
@@ -165,7 +163,5 @@ export function TodayCommission() {
           </S.Context>
           </S.Container>
         </>
-      )}
-    </>
   )
 }

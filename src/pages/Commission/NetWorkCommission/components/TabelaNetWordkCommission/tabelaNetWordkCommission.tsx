@@ -22,7 +22,7 @@ interface TabelaProps {
   commissions_by_EC: ECCommissions;
 }
 
-export function TabelaToDayCommission({ commissions_by_EC }: TabelaProps) {
+export function TabelaNetWordkCommission({ commissions_by_EC }: TabelaProps) {
   const [sortField, setSortField] = useState<'nome' | 'sellerName' | 'comissao_total' | 'tpv_total'>('nome');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
 
@@ -85,7 +85,7 @@ export function TabelaToDayCommission({ commissions_by_EC }: TabelaProps) {
     <S.Table>
       <thead>
         <tr>
-        
+
           <S.TableHeader onClick={() => handleSort('sellerName')}>Estabelecimento<SortIndicator direction={getDirectionForField('sellerName')} /></S.TableHeader>
           <S.TableHeader>Fornecedor</S.TableHeader>
           <S.TableHeader onClick={() => handleSort('comissao_total')}>Valor da comissões<SortIndicator direction={getDirectionForField('comissao_total')} /></S.TableHeader>
