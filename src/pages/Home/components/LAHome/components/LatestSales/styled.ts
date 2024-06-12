@@ -110,19 +110,11 @@ export const TableContainerImg = styled.div`
     align-items: center;
     border-top: 1px solid #E0E0E0;
 
-
-
-
-
+  margin-top: -0.5px;
 
 
 
     padding: 10px 16px;
-
-
-
-
-
 
 
 
