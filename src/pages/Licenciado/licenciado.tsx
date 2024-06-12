@@ -155,7 +155,9 @@ export function Licenciado() {
            <LicenciadoHeader onSearch={handleSearch} searchValue={searchValue} setSearchValue={setSearchValue} />
 
           <S.ContainerButton>
-          <div style={{ display: 'flex', gap: '8px' }}>
+
+          <S.ContentFilter>
+
                 <TotalBtn total={totalSellers} />
 
 
@@ -174,7 +176,9 @@ export function Licenciado() {
                 {activeFilters.length > 0 && (
               <TagFilter filters={activeFilters} />
             )}
-              </div>
+              
+          </S.ContentFilter>
+
           </S.ContainerButton>
 
 

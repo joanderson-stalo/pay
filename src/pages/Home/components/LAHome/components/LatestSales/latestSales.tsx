@@ -68,6 +68,7 @@ export function LatestSales({ latest_transactions }: LatestSalesProps) {
                 </S.TableCell>
                 <S.TableContainerImg>
                   <img
+                  style={{width: "41px", height: "28px"}}
                     src={
                       item.brand.toLowerCase() === 'visa' ? visa :
                       item.brand.toLowerCase() === 'elo' ? elo :
@@ -83,11 +84,11 @@ export function LatestSales({ latest_transactions }: LatestSalesProps) {
             ))}
           </tbody>
         </S.Table>
-       
+
       </S.Container>
       <S.CustomButtonLink onClick={handleButtonClick}>Ver todas as vendas</S.CustomButtonLink>
       </S.Context>
-    
+
     </>
   );
 }

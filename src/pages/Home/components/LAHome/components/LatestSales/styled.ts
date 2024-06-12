@@ -110,6 +110,7 @@ export const TableContainerImg = styled.div`
     border-top: 1px solid #E0E0E0;
     margin-top: -1px;
     padding: 4px 16px;
+
     @media (max-width: 600px) {
         gap: 2px;
         padding: 4px 8px;

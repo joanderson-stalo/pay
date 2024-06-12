@@ -82,6 +82,7 @@ const TableHeader = styled.th`
 
 const TableCellImg = styled.td`
 
+
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -155,7 +156,7 @@ export function UltimasVendas() {
     }
 
     function handleButtonClick() {
-   
+
     }
 
     return (
