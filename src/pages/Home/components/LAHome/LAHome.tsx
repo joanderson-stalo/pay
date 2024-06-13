@@ -1,19 +1,17 @@
-import * as S from './styled'
-import { TopEstabelecimentos } from "./components/TopEstabelecimento/topEstabelecimentos";
-import { LatestSales } from "./components/LatestSales/latestSales";
+import { useCallback, useEffect, useState } from "react";
 import { useLogin } from "@/context/user.login";
-import { useEffect, useState } from "react";
 import { Loading } from "@/components/Loading/loading";
 import { CardInfo } from "@/components/CardInfo/cardInfo";
 import { GraficoCicle } from '@/components/GraficoCicleNew/graficoCicle';
 import { GraficoBar } from '@/components/GraficoBarNew/graficoBar';
 import { baseURL } from '@/config/color';
-
+import * as S from './styled';
+import { LatestSales } from "./components/LatestSales/latestSales";
+import { TopEstabelecimentos } from "./components/TopEstabelecimento/topEstabelecimentos";
 
 interface HourlyTransactionTotals {
   [hour: string]: string;
 }
-
 
 interface Transaction {
   captured_in: string;
@@ -48,8 +46,7 @@ export function LAHome() {
   const [homeData, setHomeData] = useState<HomeData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-
-  const fetchHomeLA = async () => {
+  const fetchHomeLA = useCallback(async () => {
     setIsLoading(true);
     const url = `${baseURL}homescreenwlela`;
     try {
@@ -63,31 +60,21 @@ export function LAHome() {
       setHomeData(data);
     } catch (error) {
       console.error('Error fetching plans:', error);
-    } finally{
+    } finally {
       setIsLoading(false);
     }
-  };
+  }, [dataUser?.token]);
 
   useEffect(() => {
-    // Immediately Invoked Function Expression (IIFE)
-    (async () => {
-      await fetchHomeLA();
-    })();
-  }, []);
+    fetchHomeLA();
+  }, [fetchHomeLA]);
 
-  // Função para converter a string em um número, removendo as vírgulas
-  const convertToNumber = (value: string) => {
-    return parseFloat(value.replace(/,/g, ''));
-  };
-
-  // Converter o valor da comissão para um número
+  const convertToNumber = (value: string) => parseFloat(value.replace(/,/g, ''));
   const commissionTPV = homeData ? convertToNumber(homeData.commission_TPV) : 0;
-
   const creditValue = homeData?.payment_types.credit || '0';
   const debitValue = homeData?.payment_types.debit || '0';
   const pixValue = homeData?.payment_types.pix || '0';
   const transactionsTPV = homeData?.transactions_TPV || '0';
-
   const latestTransactions = homeData?.latest_transactions || [];
   const topSellers = homeData?.top_Seller || [];
   const hourlyTransactionTotals = homeData?.hourly_transaction_totals || {};
@@ -108,15 +95,15 @@ export function LAHome() {
         </S.ContainerCards>
 
         <S.ContainerGrafico>
-        <GraficoCicle total={sum_payment_types.toString()} pix={pixValue.toString()} credit={creditValue.toString()} debit={debitValue.toString()} />
+          <GraficoCicle total={sum_payment_types.toString()} pix={pixValue.toString()} credit={creditValue.toString()} debit={debitValue.toString()} />
           <GraficoBar hourly_transaction_totals={hourlyTransactionTotals} />
         </S.ContainerGrafico>
 
         <S.ContainerTable>
-        <LatestSales latest_transactions={latestTransactions}/>
+          <LatestSales latest_transactions={latestTransactions} />
           <TopEstabelecimentos topSellers={topSellers} />
         </S.ContainerTable>
       </S.Container>
     </>
-  )
+  );
 }

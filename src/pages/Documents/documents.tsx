@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import  { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import { TitleH } from '@/components/Title/title';
 import { UsefulLinkCard } from './components/UsefulLinkCard';
@@ -9,7 +9,6 @@ import {
   ContextStep,
   ContextStepContainer,
   Line,
-  Title,
   TitleStep
 } from './styled';
 import { Loading } from '@/components/Loading/loading';
@@ -26,35 +25,38 @@ export function Documents() {
   const [usefulLinks, setUsefulLinks] = useState<UsefulLink[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        if (dataUser && dataUser.token) {
-          const response = await axios.get(`${baseURL}configs/getConfigsWL`, {
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${dataUser.token}`
-            }
-          });
-          const data = response.data;
-          if (data && data.configs && data.configs.wl_useful_links) {
-            setUsefulLinks(data.configs.wl_useful_links);
+  const fetchData = useCallback(async () => {
+    setLoading(true);
+    try {
+      if (dataUser && dataUser.token) {
+        const response = await axios.get(`${baseURL}configs/getConfigsWL`, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${dataUser.token}`
           }
+        });
+        const data = response.data;
+        if (data && data.configs && data.configs.wl_useful_links) {
+          setUsefulLinks(data.configs.wl_useful_links);
         }
-      } catch (error) {
-        console.error('Erro ao buscar links úteis:', error);
-      } finally {
-        setLoading(false);
       }
-    };
+    } catch (error) {
 
-    fetchData();
+    } finally {
+      setLoading(false);
+    }
   }, [dataUser]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <>
-      {loading && <Loading />}
       <ContainerStep>
         <TitleH title='Documentos' />
         <ContextStepContainer>

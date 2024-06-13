@@ -1,78 +1,67 @@
-import axios from 'axios'
-import { useLogin } from '@/context/user.login'
-import { Container, ContainerMobile } from './styled'
-import { baseURL } from '@/config/color'
-import { HeaderUserListLogged } from './components/HeaderUserListLogged/headerUserListLogged'
-import { useEffect, useState } from 'react'
-import { toast } from 'react-toastify'
-import { Loading } from '@/components/Loading/loading'
-import { CardUserLogged } from './components/Mobile/CardUserLoggerd/cardUserLoggerd'
-import { CustomTableUserList } from './components/CustomTableUserList/table'
+import  { useEffect, useState, useCallback } from 'react';
+import axios from 'axios';
+import { useLogin } from '@/context/user.login';
+import { Container, ContainerMobile } from './styled';
+import { baseURL } from '@/config/color';
+import { HeaderUserListLogged } from './components/HeaderUserListLogged/headerUserListLogged';
+import { Loading } from '@/components/Loading/loading';
+import { CardUserLogged } from './components/Mobile/CardUserLoggerd/cardUserLoggerd';
+import { CustomTableUserList } from './components/CustomTableUserList/table';
 import Swal from 'sweetalert2';
+import { toast } from 'react-toastify';
 
 type User = {
-  id: number
-  name: string
-  profile_id: string
-  email: string
-  document_id: string
-}
+  id: number;
+  name: string;
+  profile_id: string;
+  email: string;
+  document_id: string;
+};
 
 export function UserListLogged() {
-  const { dataUser } = useLogin()
-  const [userOnline, setUserOnline] = useState<User | null>(null)
-  const [relatedUsers, setRelatedUsers] = useState<User[]>([])
-  const [loading, setLoading] = useState(false)
+  const { dataUser } = useLogin();
+  const [userOnline, setUserOnline] = useState<User | null>(null);
+  const [relatedUsers, setRelatedUsers] = useState<User[]>([]);
+  const [loading, setLoading] = useState(false);
 
-
-
-
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
+    setLoading(true);
     try {
-      setLoading(true)
       const response = await axios.get(`${baseURL}getuserandrelatedusers`, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${dataUser?.token}`
         }
-      })
-
+      });
       if (response.data.success) {
-        setUserOnline(response.data.user_online)
-        setRelatedUsers(response.data.related_users)
+        setUserOnline(response.data.user_online);
+        setRelatedUsers(response.data.related_users);
       }
     } catch (error) {
-      console.error('Error fetching data:', error)
-    } finally {
-      setLoading(false)
-    }
-  }
 
-  const handlePasswordRetrieve = async (email: string) => {
+    } finally {
+      setLoading(false);
+    }
+  }, [dataUser]);
+
+  const handlePasswordRetrieve = useCallback(async (email: string) => {
+    setLoading(true);
     try {
-      setLoading(true)
-      const response = await axios.post(
-         `${baseURL}forgot-password`,
-        {
-          email: email
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${dataUser?.token}`
-          }
+      await axios.post(`${baseURL}forgot-password`, { email }, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${dataUser?.token}`
         }
-      )
-      toast.info('E-mail de recuperação enviado')
+      });
+      toast.info('E-mail de recuperação enviado');
     } catch (error) {
-      toast.error('algo deu errado')
+      toast.error('Algo deu errado');
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  }, [dataUser]);
 
-
-  const handleRemove = async (id: number) => {
+  const handleRemove = useCallback((id: number) => {
     Swal.fire({
       title: "Você tem certeza?",
       text: "Você não poderá reverter isso!",
@@ -90,48 +79,33 @@ export function UserListLogged() {
             Authorization: `Bearer ${dataUser?.token}`
           }
         })
-        .then(response => {
-          Swal.fire(
-            'Deletado!',
-            'Seu usuário foi deletado.',
-            'success'
-          );
+        .then(() => {
+          Swal.fire('Deletado!', 'Seu usuário foi deletado.', 'success');
           fetchData();
         })
-        .catch(error => {
-          Swal.fire(
-            'Erro!',
-            'Algo deu errado.',
-            'error'
-          );
+        .catch(() => {
+          Swal.fire('Erro!', 'Algo deu errado.', 'error');
         })
         .finally(() => {
           setLoading(false);
         });
       } else if (result.dismiss === Swal.DismissReason.cancel) {
-        Swal.fire(
-          'Cancelado',
-          'Seu usuário está seguro :)',
-          'error'
-        );
+        Swal.fire('Cancelado', 'Seu usuário está seguro :)', 'error');
       }
     });
-  }
-
+  }, [dataUser, fetchData]);
 
   useEffect(() => {
-    fetchData()
-  }, [])
+    fetchData();
+  }, [fetchData]);
 
-  const combinedData = userOnline
-    ? [userOnline, ...relatedUsers]
-    : [...relatedUsers]
+  const combinedData = userOnline ? [userOnline, ...relatedUsers] : [...relatedUsers];
+
+  if(loading){
+    return <Loading />
+  }
 
   return (
-    <>
-      {loading ? (
-        <Loading />
-      ) : (
         <>
           <HeaderUserListLogged />
           <Container>
@@ -141,16 +115,13 @@ export function UserListLogged() {
               handleRemove={handleRemove}
             />
           </Container>
-
           <ContainerMobile>
-          <CardUserLogged
+            <CardUserLogged
               data={combinedData}
               handlePasswordRetrieve={handlePasswordRetrieve}
               handleRemove={handleRemove}
             />
           </ContainerMobile>
         </>
-      )}
-    </>
-  )
+  );
 }

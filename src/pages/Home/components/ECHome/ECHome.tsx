@@ -1,14 +1,14 @@
-import { GraficoCicle } from "@/components/GraficoCicleNew/graficoCicle";
-import * as S from './styled';
-import { CustomChart } from "@/components/GraficoDelinha/graficolinha";
-import { MonthYearSelector } from "@/components/MonthYearPicker/MonthYearPicker";
-import { useEffect, useState } from "react";
-import { Indicator } from "./components/Indicator/Indicator";
-import { CardInfo } from "@/components/CardInfo/cardInfo";
+import { useCallback, useEffect, useState } from "react";
 import { useLogin } from "@/context/user.login";
 import { Loading } from "@/components/Loading/loading";
+import { CardInfo } from "@/components/CardInfo/cardInfo";
+import { GraficoCicle } from '@/components/GraficoCicleNew/graficoCicle';
+import { CustomChart } from "@/components/GraficoDelinha/graficolinha";
+import { MonthYearSelector } from "@/components/MonthYearPicker/MonthYearPicker";
+import { Indicator } from "./components/Indicator/Indicator";
 import { LatestSales } from "../LAHome/components/LatestSales/latestSales";
-import { baseURL } from "@/config/color";
+import { baseURL } from '@/config/color';
+import * as S from './styled';
 
 interface Transaction {
   captured_in: string;
@@ -29,16 +29,16 @@ interface HomeData {
   transactions_EC_total: number;
   transactions_TPV: string;
   payment_types: PaymentTypes;
-  hourly_transaction_totals: any[]; 
+  hourly_transaction_totals: any[];
   latest_transactions: Transaction[];
 }
 
-export function ECHome(){
+export function ECHome() {
+  const { dataUser } = useLogin();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [homeData, setHomeData] = useState<HomeData | null>(null);
   const dataMesAtual = [60, 85, 90, 95, 100, 105, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200, 210, 0, 230, 240, 290, 240, 230, 220, 210, 200, 190, 180, 170, 160];
-  const dataMesSelecionado = [ 95, 110, 125, 140, 155, 170, 185, 200, 215, 230, 210, 190, 170, 150, 130, 110, 90, 70, 50, 40, 45, 50, 60, 70, 80, 90, 100, 110, 120];
-
+  const dataMesSelecionado = [95, 110, 125, 140, 155, 170, 185, 200, 215, 230, 210, 190, 170, 150, 130, 110, 90, 70, 50, 40, 45, 50, 60, 70, 80, 90, 100, 110, 120];
   const storedMonthYear = localStorage.getItem('@selectedMonthYear');
   const initialMonthYear = storedMonthYear || getDefaultMonthYear();
 
@@ -52,9 +52,7 @@ export function ECHome(){
     setSelectedYear(newYear);
   };
 
-  const { dataUser } = useLogin();
-
-  const fetchHomeEC = async () => {
+  const fetchHomeEC = useCallback(async () => {
     setIsLoading(true);
     const url = `${baseURL}homescreenec`;
     try {
@@ -67,23 +65,24 @@ export function ECHome(){
       const data: HomeData = await response.json();
       setHomeData(data);
     } catch (error) {
-      console.error('Error fetching plans:', error);
-    } finally{
+ 
+    } finally {
       setIsLoading(false);
     }
-  };
+  }, [dataUser?.token]);
 
   useEffect(() => {
-    (async () => {
-      await fetchHomeEC();
-    })();
-  }, []);
+    fetchHomeEC();
+  }, [fetchHomeEC]);
 
   const latestTransactions = homeData?.latest_transactions || [];
 
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return (
     <>
-    {isLoading &&  <Loading  />} 
       <S.Container>
         <S.ContainerInfo>
           <S.ContainerCard>
