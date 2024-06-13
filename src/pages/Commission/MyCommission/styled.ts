@@ -127,7 +127,7 @@ export const ContainerItens = styled.div`
 export const ContainerButton = styled.div`
   display: flex;
   margin-top: 35px;
-  gap: 8px;
+  gap: 16px;
 
 
   @media(max-width: 600px) {

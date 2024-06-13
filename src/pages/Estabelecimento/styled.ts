@@ -106,7 +106,7 @@ display: none;
 export const ContenteFilter = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 16px;
 
   @media(max-width: 600px){
     flex-direction: column;
