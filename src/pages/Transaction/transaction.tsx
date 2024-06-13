@@ -16,7 +16,6 @@ import { CardInfo } from '../../components/CardInfo/cardInfo'
 import { ExportData } from '@/components/ExportData/exportData'
 import { TitleH } from '@/components/Title/title'
 import { TotalBtn } from '@/components/TotalBtn/totalBtn'
-import { useSalesPageContext } from '@/context/pages/salesPageContext'
 import { BtnFilterModal } from '@/components/BtnFilterModal/btnFilterModal'
 import { CustomSelect } from '@/components/Select/select'
 import { CustomInput } from '@/components/Input/input'
@@ -40,7 +39,7 @@ export function Transaction() {
   const [tpvGlobal, setTpvGlobal] = useState<string>('0')
   const { dataUser } = useLogin()
   const [isFocused, setIsFocused] = useState(false)
-  const { currentPage, setCurrentPage } = useSalesPageContext()
+  const [currentPage, setCurrentPage] = useState(1);
   const [startDate, setStartDate] = useState<string>(
     () => localStorage.getItem('@captured_in_start') || ''
   )
@@ -171,7 +170,10 @@ export function Transaction() {
   }
 
   const handleSaveToLocalStorage = async () => {
-    await setCurrentPage(1)
+    if(currentPage !== 1){
+      setCurrentPage(1);
+    }
+
     if (startDate) localStorage.setItem('@captured_in_start', startDate)
     if (endDate) localStorage.setItem('@captured_in_end', endDate)
     if (selectedPaymentMethod)
@@ -179,7 +181,11 @@ export function Transaction() {
     if (selectedPaymentStatus)
       localStorage.setItem('@statusPagamento', selectedPaymentStatus)
     if (selectedBrand) localStorage.setItem('@bandeira', selectedBrand)
-    fetchDataFromAPI()
+
+     if(currentPage === 1){
+      fetchDataFromAPI()
+     }
+
   }
 
   const handleRemoveFilter = (filterKey: string) => {

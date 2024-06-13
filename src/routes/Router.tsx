@@ -35,7 +35,6 @@ import { Tickets } from '@/pages/Tickets/tickets';
 import { Extract } from '@/pages/Extract/extract';
 import { AddTickets } from '@/pages/Tickets/Modules/AddTickets/addTickets';
 import { Documents } from '@/pages/Documents/documents';
-import { PaymentRequests } from '@/pages/PaymentRequests/paymentRequests';
 import { CreateUser } from '@/pages/User/Modules/UserCreation/components/CreateUser/createUser';
 import { ImportSpreadsheet } from '@/pages/Financial/Modules/Tariffs/Modules/AddRate/Modules/ImportSpreadsheet/importSpreadsheet';
 import { DetalheVenda } from '@/pages/Transaction/Detalhes/detalhe';
@@ -123,7 +122,7 @@ export function Router() {
 
 
             <Route path="/documents" element={<Documents />} />
-            <Route path="/paymentRequests" element={<PaymentRequests />} />
+
 
             <Route path="/extract" element={<Extract />} />
 

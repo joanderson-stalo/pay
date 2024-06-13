@@ -1,6 +1,6 @@
 import { PaginaView } from '@/components/PaginaView/paginaView';
 import * as S from './styled';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ItensPorPage } from '@/components/ItensPorPage/itensPorPage';
 import { Pagination } from '@/components/Pagination/pagination';
 import { useLogin } from '@/context/user.login';
@@ -8,49 +8,39 @@ import axios from 'axios';
 import { Loading } from '@/components/Loading/loading';
 import { TicketsCardMobile } from './Mobile/TicketsCardMobile/ticketsCardMobile';
 import { baseURL } from '@/config/color';
-import { useTicketsPageContext } from '@/context/pages/ticketsPageContext';
 import { BtnFilterModal } from '@/components/BtnFilterModal/btnFilterModal';
 import { CustomInput } from '@/components/Input/input';
 import { useTenantData } from '@/context';
-import { TagFilter } from '@/components/TagFilter/tagFilter';
-import { useFilterTicket } from './hooks/useFilterTicket';
 import { debounce } from 'lodash';
 import { TablePayments } from './components/TablePayments/tablePayments';
 import { HeaderPayments } from './components/HeaderPayments/headerPayments';
+import { TagFilter } from '@/components/TagFilter/tagFilter';
 
 export function Payments() {
   const [itensPorPage, setItensPorPage] = useState<number | ''>(10)
-  const [searchValue, setSearchValue] = useState('');
   const { dataUser } = useLogin();
   const [totalTickets, setTotalTickets] = useState(0);
   const [tickets, setTickets] = useState([]);
   const [loading, setLoading] = useState<boolean>(true);
-
-  const { currentPage, setCurrentPage } = useTicketsPageContext();
-
-  const { setFalse, setTrue, state } = useFilterTicket();
+  const [currentPage, setCurrentPage] = useState(1);
   const [startDate, setStartDate] = useState<string>('');
   const [endDate, setEndDate] = useState<string>('');
 
   const tenantData = useTenantData();
 
-  const fetchDatatickets = async (search?: string) => {
+  const fetchDataPayments = async (search?: string) => {
     setLoading(true);
     try {
       let apiUrl = `${baseURL}payments/indexPayment?per_page=${String(itensPorPage)}&page=${currentPage}`;
 
-      const capturedInStart = localStorage.getItem('@startDateTicket');
+      const capturedInStart = localStorage.getItem('@startDatePayments');
       if (capturedInStart) {
-        apiUrl += `&start_date=${capturedInStart}`;
+        apiUrl += `&payment_date_start=${capturedInStart}`;
       }
 
-      const capturedInEnd = localStorage.getItem('@endDateTicket');
+      const capturedInEnd = localStorage.getItem('@endDatePayments');
       if (capturedInEnd) {
-        apiUrl += `&end_date=${capturedInEnd}`;
-      }
-
-      if (search) {
-        apiUrl += `&number=${search}`;
+        apiUrl += `&payment_date_end=${capturedInEnd}`;
       }
 
       const response = await axios.get(apiUrl, {
@@ -86,42 +76,49 @@ export function Payments() {
   const totalPages = Math.ceil(totalTickets / Number(itensPorPage));
 
   useEffect(() => {
-    fetchDatatickets();
-  }, [dataUser, itensPorPage, currentPage, state]);
+    fetchDataPayments();
+  }, [dataUser, itensPorPage, currentPage]);
 
-  useEffect(() => {
-    if (searchValue.trim() === '') {
-      fetchDatatickets();
-    }
-  }, [searchValue]);
+
 
   const handleSaveToLocalStorage = () => {
-    setCurrentPage(1);
-    localStorage.setItem('@startDateTicket', startDate);
-    localStorage.setItem('@endDateTicket', endDate);
-    setTrue();
-  };
-
-  const handleRemoveDateFilter = () => {
-    localStorage.removeItem('@startDateTicket');
-    localStorage.removeItem('@endDateTicket');
-    setStartDate('');
-    setEndDate('');
-    setFalse();
-  };
-
-  const debouncedFetchDataFromAPI = useRef(debounce(fetchDatatickets, 1000)).current;
-  const handleChange = (event: { target: { value: string } }) => {
-    setSearchValue(event.target.value);
-    if (event.target.value.trim() !== '') {
+    if(currentPage !== 1) {
       setCurrentPage(1);
-      debouncedFetchDataFromAPI(event.target.value.trim());
-    } else {
-      debouncedFetchDataFromAPI.cancel();
-      fetchDatatickets();
     }
+    localStorage.setItem('@startDatePayments', startDate);
+    localStorage.setItem('@endDatePayments', endDate);
+    if(currentPage === 1) {
+      fetchDataPayments();
+    }
+
   };
 
+  const handleRemoveFilter = (filterKey: string) => {
+    localStorage.removeItem(filterKey);
+    switch (filterKey) {
+      case '@startDatePayments':
+        setStartDate('');
+        break;
+      case '@endDatePayments':
+        setEndDate('');
+        break;
+    }
+    fetchDataPayments();
+  };
+
+
+
+  const activeFilters = [
+    localStorage.getItem('@startDatePayments') && localStorage.getItem('@endDatePayments') && {
+      title: 'Data',
+      onClick: () => {
+        handleRemoveFilter('@startDatePayments');
+        handleRemoveFilter('@endDatePayments');
+        setStartDate('');
+        setEndDate('');
+      }
+    }
+  ].filter((filter): filter is { title: string; onClick: () => void } => Boolean(filter));
 
 
   if (loading) {
@@ -158,7 +155,9 @@ export function Payments() {
               />
             </S.BtnFilterModalContainer>
           </BtnFilterModal>
-          {state && <TagFilter filters={[{ title: 'Data', onClick: handleRemoveDateFilter }]} />}
+          {activeFilters.length > 0 && (
+              <TagFilter filters={activeFilters} />
+            )}
         </S.ContainerButton>
         < TablePayments rows={tickets} />
         <S.ContainerCardsMobile>

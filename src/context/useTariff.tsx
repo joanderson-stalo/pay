@@ -14,11 +14,11 @@ type UseTariffProviderProps = {
 
 export function UseTariffProvider({ children }: UseTariffProviderProps) {
   const getInitialTariffId = (): string | null => {
-    const item = secureLocalStorage.getItem('tariffId');
+    const item = secureLocalStorage.getItem('@tariffId');
     if (typeof item === 'string') {
       return item;
     }
-    return null; 
+    return null;
   };
 
   const [tariffId, setTariffId] = useState<string | null>(getInitialTariffId());
