@@ -119,15 +119,23 @@ export function NetWorkCommission() {
 
   useEffect(() => {
     fetchDataFromAPI()
-  }, [itensPorPage, currentPage])
+  }, [fetchDataFromAPI])
 
 
 
   const handleSaveToLocalStorage = async () => {
-    await   setCurrentPage(1)
+
+    if(currentPage !== 1){
+      await   setCurrentPage(1)
+    }
+
     await localStorage.setItem('@startDateNetWorkCommission', startDate)
     await localStorage.setItem('@endDateNetWorkCommission', endDate)
-    fetchDataFromAPI()
+
+    if(currentPage === 1){
+      fetchDataFromAPI()
+    }
+
   }
 
 

@@ -71,7 +71,7 @@ export function Licenciado() {
 
   useEffect(() => {
     fetchData()
-  }, [dataUser, itensPorPage, currentPage]);
+  }, [fetchData]);
 
   useEffect(() => {
     if (searchValue.trim() === '') {
@@ -121,9 +121,16 @@ export function Licenciado() {
 
 
   const handleSaveToLocalStorage = async () => {
-    await setCurrentPage(1)
+      if (currentPage !== 1) {
+        setCurrentPage(1);
+      }
+
     if (selectedLicenciado) localStorage.setItem('@licenciadoAutorizadoLicensed', selectedLicenciado);
+
+    if (currentPage === 1) {
       fetchData();
+    }
+
   }
 
 
@@ -176,7 +183,7 @@ export function Licenciado() {
                 {activeFilters.length > 0 && (
               <TagFilter filters={activeFilters} />
             )}
-              
+
           </S.ContentFilter>
 
           </S.ContainerButton>

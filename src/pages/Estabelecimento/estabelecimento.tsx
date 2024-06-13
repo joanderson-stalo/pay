@@ -127,17 +127,25 @@ export function Estabelecimento() {
 
 
   const handleSaveToLocalStorage = async () => {
-    await setCurrentPage(1)
+    if(currentPage !== 1){
+      await setCurrentPage(1)
+    }
+
+
     if (selectedLicenciado) localStorage.setItem('@licenciadoAutorizadoEstablishment', selectedLicenciado);
     if (selectedFornecedor) localStorage.setItem('@fornecedorEstablishment', selectedFornecedor);
+
+    if(currentPage === 1){
       fetchData();
+    }
+
   }
 
   const totalPages = Math.ceil(totalSellers / (itensPorPage || 1));
 
   useEffect(() => {
     fetchData();
-  }, [dataUser, itensPorPage, currentPage, fetchData]);
+  }, [fetchData]);
 
   useEffect(() => {
     if (searchValue.trim() === '') {

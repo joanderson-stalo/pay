@@ -137,14 +137,22 @@ export function MyCommission() {
 
   useEffect(() => {
     fetchDataFromAPI()
-  }, [itensPorPage, currentPage])
+  }, [fetchDataFromAPI])
 
 
   const handleSaveToLocalStorage = async () => {
-    await   setCurrentPage(1)
+    if(currentPage !== 1){
+      await   setCurrentPage(1)
+    }
+
+
     await localStorage.setItem('@startDateMyCommission', startDate)
     await localStorage.setItem('@endDateMyCommission', endDate)
-    fetchDataFromAPI()
+
+    if(currentPage === 1){
+      fetchDataFromAPI();
+    }
+
   }
 
 

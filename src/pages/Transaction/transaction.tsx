@@ -159,7 +159,7 @@ export function Transaction() {
 
   useEffect(() => {
     fetchDataFromAPI()
-  }, [itensPorPage, currentPage])
+  }, [fetchDataFromAPI])
 
   const handleExportClick = () => {
     if (dataUser) {

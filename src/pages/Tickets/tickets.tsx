@@ -1,6 +1,6 @@
 import { PaginaView } from '@/components/PaginaView/paginaView'
 import * as S from './styled'
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { ItensPorPage } from '@/components/ItensPorPage/itensPorPage'
 import { Pagination } from '@/components/Pagination/pagination'
 import { useLogin } from '@/context/user.login'
@@ -11,12 +11,10 @@ import { TicketsCardMobile } from './Mobile/TicketsCardMobile/ticketsCardMobile'
 import { HeaderTickets } from './components/HeaderTickets/headerTickets'
 import { TableTickets } from './components/TableTickets/tableTickets'
 import { baseURL } from '@/config/color'
-import { useTicketsPageContext } from '@/context/pages/ticketsPageContext'
 import { BtnFilterModal } from '@/components/BtnFilterModal/btnFilterModal'
 import { CustomInput } from '@/components/Input/input'
 import { useTenantData } from '@/context'
 import { TagFilter } from '@/components/TagFilter/tagFilter'
-import { useFilterTicket } from './hooks/useFilterTicket'
 import { TotalBtn } from '@/components/TotalBtn/totalBtn'
 import { MagnifyingGlass } from '@phosphor-icons/react'
 import { debounce } from 'lodash'
@@ -31,60 +29,50 @@ export function Tickets() {
   const [openTickets, setOpenTickets] = useState<number>(0)
   const [closedTickets, setClosedTickets] = useState<number>(0)
   const [processingTickets, setProcessingTickets] = useState<number>(0)
-  const { currentPage, setCurrentPage } = useTicketsPageContext()
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const [isFocused, setIsFocused] = useState(false);
-
-  const { setFalse, setTrue, state}  = useFilterTicket()
   const [startDate, setStartDate] = useState<string>('')
   const [endDate, setEndDate] = useState<string>('')
 
   const tenantData = useTenantData()
 
-  const fetchDatatickets = async (search?: string)  => {
-    setLoading(true)
+  const fetchDatatickets = useCallback(async (search?: string) => {
+    setLoading(true);
     try {
+      let apiUrl = `${baseURL}tickets/index?perpage=${String(itensPorPage)}&page=${currentPage}`;
 
-      let apiUrl = `${baseURL}tickets/index?perpage=${String(
-        itensPorPage
-      )}&page=${currentPage}`
+      const capturedInStart = localStorage.getItem('@startDateTicket');
+      if (capturedInStart) {
+        apiUrl += `&start_date=${capturedInStart}`;
+      }
 
+      const capturedInEnd = localStorage.getItem('@endDateTicket');
+      if (capturedInEnd) {
+        apiUrl += `&end_date=${capturedInEnd}`;
+      }
 
-     const capturedInStart = localStorage.getItem('@startDateTicket');
-    if (capturedInStart) {
-      apiUrl += `&start_date=${capturedInStart}`;
-    }
-
-    const capturedInEnd = localStorage.getItem('@endDateTicket');
-    if (capturedInEnd) {
-      apiUrl += `&end_date=${capturedInEnd}`;
-    }
-
-
-    if (search) {
-
-      apiUrl += `&number=${search}`;
-    }
-
-
+      if (search) {
+        apiUrl += `&number=${search}`;
+      }
 
       const response = await axios.get(apiUrl, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${dataUser?.token}`
         }
-      })
+      });
 
-      setTickets(response.data.tickets)
-      setTotalTickets(response.data.total_tickets)
-      setOpenTickets(response.data.open_tickets)
-      setClosedTickets(response.data.completed_tickets)
-      setProcessingTickets(response.data.processing_tickets)
+      setTickets(response.data.tickets);
+      setTotalTickets(response.data.total_tickets);
+      setOpenTickets(response.data.open_tickets);
+      setClosedTickets(response.data.completed_tickets);
+      setProcessingTickets(response.data.processing_tickets);
     } catch (error) {
-      console.error('Error fetching data:', error)
+      console.error('Error fetching data:', error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  }, [itensPorPage, currentPage, dataUser?.token]);
 
   const handleNextPage = async () => {
  await   setCurrentPage(prevPage => prevPage + 1)
@@ -105,7 +93,7 @@ export function Tickets() {
 
   useEffect(() => {
     fetchDatatickets()
-  }, [dataUser, itensPorPage, currentPage, state])
+  }, [dataUser, itensPorPage, currentPage])
 
   useEffect(() => {
     if (searchValue.trim() === '') {
@@ -114,10 +102,16 @@ export function Tickets() {
   }, [searchValue])
 
   const handleSaveToLocalStorage = async () => {
-    await   setCurrentPage(1)
+    if(currentPage !== 1){
+      await   setCurrentPage(1)
+    }
     await localStorage.setItem('@startDateTicket', startDate)
     await localStorage.setItem('@endDateTicket', endDate)
-    await setTrue()
+
+    if(currentPage === 1){
+      fetchDatatickets();
+    }
+
   }
 
   const handleRemoveDateFilter = () => {
@@ -125,7 +119,7 @@ export function Tickets() {
     localStorage.removeItem('@endDateTicket')
     setStartDate('')
     setEndDate('')
-    setFalse();
+    fetchDatatickets();
   }
 
   const debouncedFetchDataFromAPI = useRef(debounce(fetchDatatickets, 1000)).current;
@@ -147,6 +141,17 @@ export function Tickets() {
       fetchDatatickets();
     }
   };
+
+  const activeFilters = [
+    localStorage.getItem('@startDateTicket') && localStorage.getItem('@endDateTicket') && {
+      title: 'Data',
+      onClick: () => {
+        handleRemoveDateFilter();
+        setStartDate('');
+        setEndDate('');
+      }
+    }
+  ].filter((filter): filter is { title: string; onClick: () => void } => Boolean(filter));
 
 
 
@@ -223,9 +228,9 @@ export function Tickets() {
             </S.BtnFilterModalContainer>
           </BtnFilterModal>
 
-        {state &&    <TagFilter
-            filters={[{ title: 'Data', onClick: handleRemoveDateFilter }]}
-          />}
+          {activeFilters.length > 0 && (
+              <TagFilter filters={activeFilters} />
+            )}
         </S.ContainerButton>
 
         <TableTickets rows={tickets} />

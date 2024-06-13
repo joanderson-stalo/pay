@@ -1,6 +1,6 @@
 import { PaginaView } from '@/components/PaginaView/paginaView';
 import * as S from './styled';
-import { SetStateAction, useEffect, useState } from 'react';
+import { SetStateAction, useCallback, useEffect, useState } from 'react';
 import { ItensPorPage } from '@/components/ItensPorPage/itensPorPage';
 import { Pagination } from '@/components/Pagination/pagination';
 import { useLogin } from '@/context/user.login';
@@ -36,7 +36,7 @@ export function Billing() {
   const [selectedEstablishment, setSelectedEstablishment] = useState<string>('');
   const tenantData = useTenantData()
 
-  const fetchData = async (pageNumber: number = currentPage) => {
+  const fetchData = useCallback(async (pageNumber: number = currentPage) => {
     setLoading(true);
     let apiUrl = `${baseURL}tariffs/index?perpage=${String(itensPorPage)}&page=${pageNumber}&payable_by=EC`;
 
@@ -50,19 +50,15 @@ export function Billing() {
       apiUrl += `&billing_end_date=${billingEndDate}`;
     }
 
-
     const billingLicensed = localStorage.getItem('@billingLicensed');
     if (billingLicensed && billingLicensed !== 'undefined') {
       apiUrl += `&responsible_seller_id=${billingLicensed}`;
     }
 
-
     const seller_id = localStorage.getItem('@billingEstablishment');
     if (seller_id && seller_id !== 'undefined') {
       apiUrl += `&seller_id=${seller_id}`;
     }
-
-
 
     const response = await axios.get(apiUrl, {
       headers: {
@@ -70,6 +66,7 @@ export function Billing() {
         'Authorization': `Bearer ${dataUser?.token}`
       }
     });
+
     const { total_tariffs: total, tariffs: data, current_page: page, amount_debit, amount_credit } = response.data;
     setTotalTariffs(total);
     setTariffs(data);
@@ -77,7 +74,7 @@ export function Billing() {
     setAmountDebit(amount_debit);
     setAmountCredit(amount_credit);
     setLoading(false);
-  };
+  }, [currentPage, itensPorPage, baseURL, dataUser?.token]);
 
   const handleNextPage = () => {
     setCurrentPage(prevPage => prevPage + 1);
@@ -93,8 +90,8 @@ export function Billing() {
   const totalPages = Math.ceil(totalTariffs / (itensPorPage || 1));
 
   useEffect(() => {
-    fetchData();
-  }, [dataUser, itensPorPage, currentPage]);
+    fetchData(currentPage);
+  }, [fetchData]);
 
 
 
@@ -153,12 +150,20 @@ export function Billing() {
   }, []);
 
   const handleSaveToLocalStorage = async () => {
-    await   setCurrentPage(1)
+    if(currentPage !== 1) {
+      await   setCurrentPage(1)
+    }
+
+
     await localStorage.setItem('@billingStartDate', startDate)
     await localStorage.setItem('@billingEndDate', endDate)
     await localStorage.setItem('@billingLicensed', selectedLicenciado)
     await localStorage.setItem('@billingEstablishment', selectedEstablishment)
-    fetchData();
+
+    if(currentPage === 1) {
+      fetchData();
+    }
+
   }
 
 

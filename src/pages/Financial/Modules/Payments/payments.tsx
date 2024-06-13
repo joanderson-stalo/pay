@@ -1,6 +1,6 @@
 import { PaginaView } from '@/components/PaginaView/paginaView';
 import * as S from './styled';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { ItensPorPage } from '@/components/ItensPorPage/itensPorPage';
 import { Pagination } from '@/components/Pagination/pagination';
 import { useLogin } from '@/context/user.login';
@@ -28,7 +28,7 @@ export function Payments() {
 
   const tenantData = useTenantData();
 
-  const fetchDataPayments = async (search?: string) => {
+  const fetchDataPayments = useCallback(async () => {
     setLoading(true);
     try {
       let apiUrl = `${baseURL}payments/indexPayment?per_page=${String(itensPorPage)}&page=${currentPage}`;
@@ -53,11 +53,11 @@ export function Payments() {
       setTickets(response.data.payments);
       setTotalTickets(response.data.total_payments);
     } catch (error) {
-      console.error('Error fetching tickets:', error);
+     
     } finally {
       setLoading(false);
     }
-  };
+  }, [itensPorPage, currentPage, dataUser?.token]);
 
   const handleNextPage = () => {
     setCurrentPage((prevPage) => prevPage + 1);
@@ -77,7 +77,7 @@ export function Payments() {
 
   useEffect(() => {
     fetchDataPayments();
-  }, [dataUser, itensPorPage, currentPage]);
+  }, [fetchDataPayments]);
 
 
 

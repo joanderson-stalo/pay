@@ -8,9 +8,7 @@ import { UseEstablishmentProvider } from './useEstablishment';
 import { TransactionVendasProvider } from './useTransaction';
 import { UseTariffProvider } from './useTariff';
 import { IdPosProvider } from './useIdPos';
-import { TicketsPageProvider } from './pages/ticketsPageContext';
 import { TicketIDProvider } from './id/ticketId';
-import { LogPageProvider } from './pages/logPageContext';
 import { CartProvider } from './e-com/cart';
 import { PlanIDProvider } from './id/planID';
 import { PaymentIDProvider } from './id/paymentsID';
@@ -55,11 +53,10 @@ export function AppProvider({ children, tenantData }: AppProviderProps) {
                           <CartProvider>
                             <PlanIDProvider>
                               <PaymentIDProvider>
-                          <LogPageProvider initialPage={1}>
-                        <TicketsPageProvider initialPage={1} >
+
                       {children}
-                      </TicketsPageProvider>
-                      </LogPageProvider>
+
+
                       </PaymentIDProvider>
                       </PlanIDProvider>
                       </CartProvider>

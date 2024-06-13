@@ -151,10 +151,17 @@ export function EquipmentStock() {
 
 
   const handleSaveToLocalStorage = async () => {
-    await setCurrentPage(1)
+    if(currentPage !== 1){
+      await setCurrentPage(1)
+    }
+
     if (selectedLicenciado) localStorage.setItem('@licensedStock', selectedLicenciado);
     if (selectedFornecedor) localStorage.setItem('@supplierStock', selectedFornecedor);
+
+    if(currentPage === 1){
       fetchData();
+    }
+
   }
 
 
@@ -243,7 +250,7 @@ export function EquipmentStock() {
               <TagFilter filters={activeFilters} />
             )}
 
-             
+
               </S.ContentFilter>
 
 

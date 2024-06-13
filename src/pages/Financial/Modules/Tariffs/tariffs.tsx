@@ -1,6 +1,6 @@
 import { PaginaView } from '@/components/PaginaView/paginaView';
 import * as S from './styled';
-import { SetStateAction, useEffect, useState } from 'react';
+import { SetStateAction, useCallback, useEffect, useState } from 'react';
 import { ItensPorPage } from '@/components/ItensPorPage/itensPorPage';
 import { Pagination } from '@/components/Pagination/pagination';
 import { useLogin } from '@/context/user.login';
@@ -36,48 +36,50 @@ export function Tariffs() {
   const [selectedEstablishment, setSelectedEstablishment] = useState<string>('');
   const tenantData = useTenantData()
 
-  const fetchData = async (pageNumber: number = currentPage) => {
+  const fetchData = useCallback(async (pageNumber: number = currentPage) => {
     setLoading(true);
     let apiUrl = `${baseURL}tariffs/index?perpage=${String(itensPorPage)}&page=${pageNumber}&payable_by=LA`;
 
     const billingStartDate = localStorage.getItem('@tariffsStartDate');
+    const billingEndDate = localStorage.getItem('@tariffsEndDate');
+    const billingLicensed = localStorage.getItem('@tariffsLicensed');
+    const seller_id = localStorage.getItem('@tariffsEstablishment');
+
     if (billingStartDate && billingStartDate !== 'undefined') {
       apiUrl += `&billing_start_date=${billingStartDate}`;
     }
 
-    const billingEndDate = localStorage.getItem('@tariffsEndDate');
     if (billingEndDate && billingEndDate !== 'undefined') {
       apiUrl += `&billing_end_date=${billingEndDate}`;
     }
 
-
-    const billingLicensed = localStorage.getItem('@tariffsLicensed');
     if (billingLicensed && billingLicensed !== 'undefined') {
       apiUrl += `&responsible_seller_id=${billingLicensed}`;
     }
 
-
-    const seller_id = localStorage.getItem('@tariffsEstablishment');
     if (seller_id && seller_id !== 'undefined') {
       apiUrl += `&seller_id=${seller_id}`;
     }
 
+    try {
+      const response = await axios.get(apiUrl, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${dataUser?.token}`
+        }
+      });
+      const { total_tariffs: total, tariffs: data, current_page: page, amount_debit, amount_credit } = response.data;
+      setTotalTariffs(total);
+      setTariffs(data);
+      setCurrentPage(page);
+      setAmountDebit(amount_debit);
+      setAmountCredit(amount_credit);
+    } catch (error) {
+    } finally {
+      setLoading(false);
+    }
+  }, [currentPage, itensPorPage, baseURL, dataUser?.token]);
 
-
-    const response = await axios.get(apiUrl, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${dataUser?.token}`
-      }
-    });
-    const { total_tariffs: total, tariffs: data, current_page: page, amount_debit, amount_credit } = response.data;
-    setTotalTariffs(total);
-    setTariffs(data);
-    setCurrentPage(page);
-    setAmountDebit(amount_debit);
-    setAmountCredit(amount_credit);
-    setLoading(false);
-  };
 
   const handleNextPage = () => {
     setCurrentPage(prevPage => prevPage + 1);
@@ -94,7 +96,7 @@ export function Tariffs() {
 
   useEffect(() => {
     fetchData();
-  }, [dataUser, itensPorPage, currentPage]);
+  }, [fetchData]);
 
 
 
@@ -153,12 +155,20 @@ export function Tariffs() {
   }, []);
 
   const handleSaveToLocalStorage = async () => {
-    await   setCurrentPage(1)
+    if(currentPage !== 1) {
+      await   setCurrentPage(1)
+    }
+
+
     await localStorage.setItem('@tariffsStartDate', startDate)
     await localStorage.setItem('@tariffsEndDate', endDate)
     await localStorage.setItem('@tariffsLicensed', selectedLicenciado)
     await localStorage.setItem('@tariffsEstablishment', selectedEstablishment)
-    fetchData();
+
+    if(currentPage === 1) {
+      fetchData();
+    }
+
   }
 
 

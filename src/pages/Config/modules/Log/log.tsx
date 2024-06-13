@@ -1,11 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { TitleH } from "@/components/Title/title";
 import { TabelaLog } from "./components/TabelaLog/tabelaLog";
 import axios from "axios";
 import { useLogin } from "@/context/user.login";
 import { baseURL } from "@/config/color";
 import { Loading } from "@/components/Loading/loading";
-import { useLogPageContext } from '@/context/pages/logPageContext';
 import { ItensPorPage } from '@/components/ItensPorPage/itensPorPage';
 import { Pagination } from '@/components/Pagination/pagination';
 import * as S from './styled'
@@ -15,14 +14,14 @@ import { CardLog } from './mobile/CardLog/cardLog';
 export function Log(){
   const { dataUser } = useLogin();
   const [logs, setLogs] = useState([]);
-  const [totalLog, seTotalLog] = useState(0)
+  const [totalLog, setTotalLog] = useState(0);
   const [itensPorPage, setItensPorPage] = useState<number | ''>(10);
-  const { currentLogPage, setCurrentLogPage } = useLogPageContext();
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const [loading, setLoading] = useState(true);
 
-  const fetchLog = async () => {
+  const fetchLog = useCallback(async () => {
     setLoading(true);
-    let apiUrl = `${baseURL}activitylog?perpage=${String(itensPorPage)}&page=${currentLogPage}`;
+    const apiUrl = `${baseURL}activitylog?perpage=${String(itensPorPage)}&page=${currentPage}`;
 
     try {
       const response = await axios.get(apiUrl, {
@@ -33,79 +32,68 @@ export function Log(){
       });
 
       setLogs(response.data.logs);
-      seTotalLog(response.data.total_logs)
-
-
+      setTotalLog(response.data.total_logs);
     } catch (error) {
-      console.error('Erro ao buscar os dados do extrato:', error);
+    
     } finally {
       setLoading(false);
     }
-  };
+  }, [currentPage, itensPorPage, dataUser?.token]);
 
-
-
-
-  const fetchData = async (pageNumber: number) => {
-    setCurrentLogPage(pageNumber);
+  const fetchData = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
   };
 
   const handleNextPage = () => {
-    setCurrentLogPage((prevPage) => prevPage + 1);
+    setCurrentPage((prevPage) => prevPage + 1);
   };
 
   const handlePrevPage = () => {
-    if (currentLogPage > 1) {
-      setCurrentLogPage((prevPage) => prevPage - 1);
+    if (currentPage > 1) {
+      setCurrentPage((prevPage) => prevPage - 1);
     }
   };
-  const totalPages = Math.ceil(totalLog / (itensPorPage || 1));
 
+  const totalPages = Math.ceil(totalLog / (itensPorPage || 1));
 
   useEffect(() => {
     fetchLog();
-  }, [currentLogPage]);
-
+  }, [fetchLog]);
 
   if(loading){
     return <Loading />
   }
 
-  return(
+  return (
     <>
-    <S.Container>
-      <S.ContainerTitle>
-      <TitleH title="Log" />
-      </S.ContainerTitle>
+      <S.Container>
+        <S.ContainerTitle>
+          <TitleH title="Log" />
+        </S.ContainerTitle>
 
-      <TabelaLog rows={logs} />
+        <TabelaLog rows={logs} />
 
-      <S.ContainerMobile>
-      <CardLog data={logs} />
-      </S.ContainerMobile>
+        <S.ContainerMobile>
+          <CardLog data={logs} />
+        </S.ContainerMobile>
 
-
-      <S.Context>
-            <S.Linha />
-            <S.ContainerPagina>
-
-              <PaginaView totalItens={itensPorPage} />
-              <S.ContainerItens>
+        <S.Context>
+          <S.Linha />
+          <S.ContainerPagina>
+            <PaginaView totalItens={itensPorPage} />
+            <S.ContainerItens>
               <ItensPorPage itensPorPage={itensPorPage} setItensPorPage={setItensPorPage} />
-                <Pagination
-                  currentPage={currentLogPage}
-                  onPageClick={fetchData}
-                  totalPages={totalPages}
-                  onNextPage={handleNextPage}
-                  onPrevPage={handlePrevPage}
-                />
-              </S.ContainerItens>
-            </S.ContainerPagina>
-          </S.Context>
-
-          </S.Container>
-
-
+              <Pagination
+                currentPage={currentPage}
+                onPageClick={fetchData}
+                totalPages={totalPages}
+                onNextPage={handleNextPage}
+                onPrevPage={handlePrevPage}
+              />
+            </S.ContainerItens>
+          </S.ContainerPagina>
+        </S.Context>
+      </S.Container>
     </>
-  )
+  );
 }
