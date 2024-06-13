@@ -1,6 +1,6 @@
 import { PaginaView } from '@/components/PaginaView/paginaView';
 import * as S from './styled';
-import { useEffect, useState } from 'react';
+import { SetStateAction, useEffect, useState } from 'react';
 import { ItensPorPage } from '@/components/ItensPorPage/itensPorPage';
 import { Pagination } from '@/components/Pagination/pagination';
 import { useLogin } from '@/context/user.login';
@@ -12,6 +12,11 @@ import { TableTariffs } from './components/TableStock/tableTariffs';
 import { TariffsCard } from './Mobile/TariffsCard/tariffsCard';
 import { TotalBtn } from '@/components/TotalBtn/totalBtn';
 import { baseURL } from '@/config/color';
+import { TagFilter } from '@/components/TagFilter/tagFilter';
+import { CustomSelect } from '@/components/Select/select';
+import { CustomInput } from '@/components/Input/input';
+import { BtnFilterModal } from '@/components/BtnFilterModal/btnFilterModal';
+import { useTenantData } from '@/context';
 
 
 export function Tariffs() {
@@ -23,29 +28,36 @@ export function Tariffs() {
   const [tariffs, setTariffs] = useState<any[]>([]);
   const [amountDebit, setAmountDebit] = useState<number>(0);
   const [amountCredit, setAmountCredit] = useState<number>(0);
+  const [startDate, setStartDate] = useState<string>('')
+  const [endDate, setEndDate] = useState<string>('')
+  const [fetchedOptions, setFetchedOptions] = useState([]);
+  const [fetchedOptionsEC, setFetchedOptionsEC] = useState([]);
+  const [selectedLicenciado, setSelectedLicenciado] = useState<string>( '');
+  const [selectedEstablishment, setSelectedEstablishment] = useState<string>('');
+  const tenantData = useTenantData()
 
   const fetchData = async (pageNumber: number = currentPage) => {
     setLoading(true);
     let apiUrl = `${baseURL}tariffs/index?perpage=${String(itensPorPage)}&page=${pageNumber}&payable_by=LA`;
 
-    const billingStartDate = localStorage.getItem('@billingStartDate');
+    const billingStartDate = localStorage.getItem('@tariffsStartDate');
     if (billingStartDate && billingStartDate !== 'undefined') {
       apiUrl += `&billing_start_date=${billingStartDate}`;
     }
 
-    const billingEndDate = localStorage.getItem('@billingEndDate');
+    const billingEndDate = localStorage.getItem('@tariffsEndDate');
     if (billingEndDate && billingEndDate !== 'undefined') {
       apiUrl += `&billing_end_date=${billingEndDate}`;
     }
 
 
-    const billingLicensed = localStorage.getItem('@billingLicensed');
+    const billingLicensed = localStorage.getItem('@tariffsLicensed');
     if (billingLicensed && billingLicensed !== 'undefined') {
       apiUrl += `&responsible_seller_id=${billingLicensed}`;
     }
 
 
-    const seller_id = localStorage.getItem('@billingEstablishment');
+    const seller_id = localStorage.getItem('@tariffsEstablishment');
     if (seller_id && seller_id !== 'undefined') {
       apiUrl += `&seller_id=${seller_id}`;
     }
@@ -84,6 +96,120 @@ export function Tariffs() {
     fetchData();
   }, [dataUser, itensPorPage, currentPage]);
 
+
+
+  const fetchLA = async () => {
+    try {
+      const response = await axios.get(`${baseURL}seller/indexla`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${dataUser?.token}`
+        }
+      });
+
+      const data = response.data;
+
+      if (data && data.sellers) {
+        const options = data.sellers.map((seller: { trading_name: any; type: any; id: any, cnpj_cpf: any }, index: number) => ({
+          value: seller.id,
+          label: `${seller.trading_name}-${seller.type}-${seller.cnpj_cpf}`
+        }));
+
+        setFetchedOptions(options);
+      }
+    } catch (error) {
+
+    }
+  };
+
+
+  const fetchDataEC = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(`${baseURL}seller/indexec`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${dataUser?.token}`
+        }
+      });
+      const data = response.data.sellers;
+      if (data) {
+        const options = data.map((seller: { id: any; company_name: any; }) => ({
+          value: seller.id,
+          label: seller.company_name
+        }));
+        setFetchedOptionsEC(options);
+      }
+    } catch (error: any) {
+
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchLA();
+    fetchDataEC();
+  }, []);
+
+  const handleSaveToLocalStorage = async () => {
+    await   setCurrentPage(1)
+    await localStorage.setItem('@tariffsStartDate', startDate)
+    await localStorage.setItem('@tariffsEndDate', endDate)
+    await localStorage.setItem('@tariffsLicensed', selectedLicenciado)
+    await localStorage.setItem('@tariffsEstablishment', selectedEstablishment)
+    fetchData();
+  }
+
+
+
+  const handleRemoveFilter = (filterKey: string) => {
+    localStorage.removeItem(filterKey);
+    switch (filterKey) {
+      case '@tariffsStartDate':
+        setStartDate('');
+        break;
+      case '@tariffsEndDate':
+        setEndDate('');
+        break;
+      case '@tariffsLicensed':
+        setSelectedLicenciado('');
+        break;
+      case '@tariffsEstablishment':
+        setSelectedEstablishment('');
+        break;
+    }
+    fetchData();
+  };
+
+
+  const activeFilters = [
+    localStorage.getItem('@tariffsStartDate') && localStorage.getItem('@tariffsEndDate') && {
+      title: 'Data',
+      onClick: () => {
+        handleRemoveFilter('@tariffsStartDate');
+        handleRemoveFilter('@tariffsEndDate');
+        setStartDate('');
+        setEndDate('');
+      }
+    },
+    localStorage.getItem('@tariffsLicensed') && {
+      title: 'Licenciado',
+      onClick: () => {
+        handleRemoveFilter('@tariffsLicensed');
+        setSelectedLicenciado('');
+      }
+    },
+    localStorage.getItem('@tariffsEstablishment') && {
+      title: 'Estabelecimento',
+      onClick: () => {
+        handleRemoveFilter('@tariffsEstablishment');
+        setSelectedEstablishment('');
+      }
+    }
+
+  ].filter((filter): filter is { title: string; onClick: () => void } => Boolean(filter));
+
   if(loading) {
     return <Loading />
   }
@@ -102,6 +228,55 @@ export function Tariffs() {
             <S.ContainerButton>
               <TotalBtn total={totalTariffs}/>
 
+
+              <BtnFilterModal
+            onClick={handleSaveToLocalStorage}
+            disabled={(!startDate || !endDate || endDate <= startDate) && !selectedLicenciado && !selectedEstablishment}
+          >
+
+<CustomInput
+                colorInputDefault={tenantData.primary_color_identity}
+                colorInputSuccess={tenantData.secondary_color_identity}
+                type="date"
+                label="Data inicial"
+                value={startDate}
+                hasError={!!endDate && startDate > endDate}
+                onChange={event => setStartDate(event.target.value)}
+              />
+              <CustomInput
+                colorInputDefault={tenantData.primary_color_identity}
+                colorInputSuccess={tenantData.secondary_color_identity}
+                type="date"
+                label="Data final"
+                value={endDate}
+                hasError={!!startDate && (endDate <= startDate || !endDate)}
+                onChange={event => setEndDate(event.target.value)}
+              />
+
+<CustomSelect
+                    optionsData={{ options: fetchedOptions }}
+                    placeholder="Digite aqui ou clique para ver a lista"
+                    label="Licenciado Autorizado"
+                    onChange={(selectedOption: { value: SetStateAction<string> }) =>
+                      setSelectedLicenciado(selectedOption.value)
+                    }
+                  />
+
+
+<CustomSelect
+                    optionsData={{ options: fetchedOptionsEC }}
+                    placeholder="Digite aqui ou clique para ver a lista"
+                    label="Estabelecimento"
+                    onChange={(selectedOption: { value: SetStateAction<string> }) =>
+                      setSelectedEstablishment(selectedOption.value)
+                    }
+                  />
+
+
+          </BtnFilterModal>
+          {activeFilters.length > 0 && (
+              <TagFilter filters={activeFilters} />
+            )}
 
             </S.ContainerButton>
 

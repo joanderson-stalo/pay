@@ -8,7 +8,6 @@ import { UseEstablishmentProvider } from './useEstablishment';
 import { TransactionVendasProvider } from './useTransaction';
 import { UseTariffProvider } from './useTariff';
 import { IdPosProvider } from './useIdPos';
-import { SalesPageProvider } from './pages/salesPageContext';
 import { TicketsPageProvider } from './pages/ticketsPageContext';
 import { TicketIDProvider } from './id/ticketId';
 import { LogPageProvider } from './pages/logPageContext';
@@ -58,9 +57,7 @@ export function AppProvider({ children, tenantData }: AppProviderProps) {
                               <PaymentIDProvider>
                           <LogPageProvider initialPage={1}>
                         <TicketsPageProvider initialPage={1} >
-                      <SalesPageProvider initialPage={1}>
                       {children}
-                      </SalesPageProvider>
                       </TicketsPageProvider>
                       </LogPageProvider>
                       </PaymentIDProvider>
