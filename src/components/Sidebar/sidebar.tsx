@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { BiChevronDown, BiChevronUp } from 'react-icons/bi';
-import { Storefront, Tag, ChartBar, Basket, Money, Stack, Wallet, FileText, Laptop, Ticket, Gear, DeviceMobile } from '@phosphor-icons/react';
-import { ButtonSider, ButtonSiderArrow, ContainerSidebar, Logo, Menu, SubMenu, SubMenuItem } from './styled';
-import { ThemeImg } from '@/config/img';
+import { Storefront, Tag, ChartBar, Basket, Money, Stack, Wallet, FileText, Laptop, Ticket, Gear, ShoppingCart } from '@phosphor-icons/react';
+import { ButtonSider, ContainerSidebar, Logo, Menu, SubMenu, SubMenuItem } from './styled';
 import { useSidebarVisibility } from '@/context/sidebarVisibilityContext';
 import { useLogin } from '@/context/user.login';
 import { useTenantData } from '@/context';
@@ -26,7 +25,7 @@ export function Sidebar() {
       { icon: <Laptop />, label: 'Equipamentos', path: "/equipmentStock" },
       { icon: <Wallet />, label: 'Financeiro', isSubmenu: true },
       { icon: <Ticket />, label: 'Tickets', path: "/tickets" },
-      { icon: <DeviceMobile />, label: 'Shopping', path: "/e-com"  },
+      { icon: <ShoppingCart />, label: 'Shopping', path: "/e-com"  },
       { icon: <Gear />, label: 'Configurações', isSubmenu: true },
     ] : []),
     { icon: <FileText />, label: 'Documentos', path: "/documents" }
