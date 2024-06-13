@@ -8,7 +8,6 @@ import {
   Image,
   Overlay
 } from './styled'
-import { ThemeImg } from '@/config/img'
 import { useTenantData } from '@/context'
 
 interface IModalSucesso {

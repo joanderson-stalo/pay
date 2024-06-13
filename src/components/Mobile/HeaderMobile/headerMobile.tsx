@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import {ThemeImg} from '@config/img';
 import * as S from './styled';
 import { SidebarMobile } from '../SidebarMobile/sidebarMobile';
 import { useTenantData } from '@/context';
