@@ -105,7 +105,7 @@ export const ContainerCardsMobile = styled.div`
 
 export const ContentFilter = styled.div`
 display: flex;
-gap: 8px;
+gap: 16px;
 flex-wrap: wrap;
 
 @media(max-width: 600px){

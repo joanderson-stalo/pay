@@ -10,6 +10,13 @@ export const Container = styled.div`
 export const ContainerButton = styled.div`
   display: flex;
   margin-top: 35px;
+  gap: 16px;
+  flex-wrap: wrap;
+
+  @media(max-width: 600px){
+    flex-direction: column;
+    align-items: start;
+  }
 `
 
 export const Linha = styled.div`
