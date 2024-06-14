@@ -6,6 +6,7 @@ import elo from '@assets/bandeiras/elo.svg';
 import maestro from '@assets/bandeiras/maestro.svg';
 import visa from '@assets/bandeiras/visa.svg';
 import masterCard from '@assets/bandeiras/master.svg';
+import hipercard from '@assets/bandeiras/hipercard.svg';
 import { useTenantData } from '@/context';
 
 interface Sale {
@@ -74,6 +75,8 @@ export function LatestSales({ latest_transactions }: LatestSalesProps) {
                       item.brand.toLowerCase() === 'elo' ? elo :
                       item.brand.toLowerCase() === 'mastercard' ? masterCard :
                       item.brand.toLowerCase() === 'maestro' ? maestro :
+                      item.brand.toLowerCase() === 'hipercard' ? hipercard :
+                      item.brand.toLowerCase() === 'hiper' ? hipercard :
                       item.brand.toLowerCase() === 'pix' ? pix : undefined
                     }
                     alt={item.brand}

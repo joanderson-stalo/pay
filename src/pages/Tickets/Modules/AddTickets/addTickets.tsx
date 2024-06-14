@@ -173,6 +173,7 @@ export function AddTickets() {
       });
       reset();
       toast.success('Ticket criado com sucesso');
+      navigate(-1)
     } catch (error: any) {
       const err = error as AxiosError<ApiResponse>;
       const errorMessage = err.response?.data?.message || 'Ocorreu um error';

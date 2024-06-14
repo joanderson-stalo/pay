@@ -11,6 +11,7 @@ export interface RowDataTickets {
   title: string;
   seller_name: string;
   final_evaluation: string;
+  status: string;
 }
 
 type SortField = keyof RowDataTickets;
@@ -18,8 +19,6 @@ type SortField = keyof RowDataTickets;
 interface TabelaProps {
   rows: RowDataTickets[];
 }
-
-
 
 export function TableTickets({ rows }: TabelaProps) {
   const [sortField, setSortField] = useState<SortField>('created_at');
@@ -30,6 +29,19 @@ export function TableTickets({ rows }: TabelaProps) {
   function formatDateBR(dateString: string) {
     const date = new Date(dateString);
     return date.toLocaleDateString('pt-BR');
+  }
+
+  function translateStatus(status: string) {
+    switch (status) {
+      case 'created':
+        return 'Criado';
+      case 'in processing':
+        return 'Em Processamento';
+      case 'finish':
+        return 'Finalizado';
+      default:
+        return status; // retorna o status original se não for um dos casos acima
+    }
   }
 
   const handleSort = (field: SortField) => {
@@ -43,7 +55,6 @@ export function TableTickets({ rows }: TabelaProps) {
 
   const sortedRows = [...rows].sort((a, b) => {
     let comparison = 0;
-
     switch (sortField) {
       case 'created_at':
         comparison = new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
@@ -55,30 +66,19 @@ export function TableTickets({ rows }: TabelaProps) {
         comparison = a.title.localeCompare(b.title);
         break;
       case 'seller_name':
-        if (a.seller_name && b.seller_name) {
-          comparison = a.seller_name.localeCompare(b.seller_name);
-        } else if (!a.seller_name && !b.seller_name) {
-          comparison = 0;
-        } else if (!a.seller_name) {
-          comparison = 1;
-        } else {
-          comparison = -1;
-        }
+        comparison = (a.seller_name || "").localeCompare(b.seller_name || "");
         break;
       default:
         comparison = 0;
     }
-
     return sortDirection === 'asc' ? comparison : -comparison;
   });
 
   const handleViewMoreClick = async (id: string) => {
-    setSelectedTicketID(id)
+    setSelectedTicketID(id);
     await new Promise(resolve => setTimeout(resolve, 20));
     navigate(`/tickets-view`);
-};
-
-
+  };
 
   return (
     <S.Table>
@@ -113,6 +113,15 @@ export function TableTickets({ rows }: TabelaProps) {
             </S.SortContainer>
           </S.TableHeader>
 
+          <S.TableHeader >
+              Status
+
+          </S.TableHeader>
+          <S.TableHeader >
+
+
+          </S.TableHeader>
+
 
           <S.TableHeader></S.TableHeader>
         </tr>
@@ -124,6 +133,7 @@ export function TableTickets({ rows }: TabelaProps) {
             <S.TableData>{checkEmpty(row.number)}</S.TableData>
             <S.TableData>{checkEmpty(row.title)}</S.TableData>
             <S.TableData>{checkEmpty(row.seller_name)}</S.TableData>
+            <S.TableData>{checkEmpty(translateStatus(row.status))}</S.TableData>
             <S.TableData>
               <S.Button onClick={() => handleViewMoreClick(String(row.id))}>Visualizar</S.Button>
             </S.TableData>
