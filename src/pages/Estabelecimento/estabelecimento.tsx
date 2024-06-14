@@ -12,7 +12,7 @@ import { CardEstablishment } from './Mobile/CardEstablishment/cardEstablishment'
 import { baseURL } from '@/config/color';
 import { BtnFilterModal } from '@/components/BtnFilterModal/btnFilterModal';
 import { CustomSelect } from '@/components/Select/select';
-import { TotalBtn } from '@/components/TotalBtn/totalBtn';
+
 import { TagFilter } from '@/components/TagFilter/tagFilter';
 
 export function Estabelecimento() {
@@ -192,7 +192,7 @@ export function Estabelecimento() {
 
               <S.ContenteFilter>
 
-                <TotalBtn total={totalSellers} />
+               
                 <BtnFilterModal disabled={!selectedLicenciado && !selectedFornecedor} onClick={handleSaveToLocalStorage}>
 
                   <CustomSelect

@@ -23,13 +23,18 @@ export const ContainerTagFilter = styled.div`
 `;
 
 export const BalloonContainer = styled.div`
-    padding: 3px 16px;
+    padding: 5.8px 16px;
     border-radius: 4px;
+  
     gap: 8px;
     background: rgba(60, 10, 109, 0.15);
-
+   
     display: flex;
     align-items: center;
+
+    >p{
+      font-size: 12px;
+    }
 
     > h4 {
         color: #3D4449;
@@ -43,9 +48,11 @@ export const BalloonContainer = styled.div`
     > button {
         background-color: transparent;
         padding-top: 6px;
+        font-size: 12px;
+       
         svg {
-            width: 16px;
-            height: 16px;
+            width: 12px;
+            height: 12px;
 
         }
     }

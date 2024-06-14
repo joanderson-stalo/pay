@@ -10,7 +10,8 @@ export const Container = styled.div`
 
 export const ContainerButton = styled.div`
   display: flex;
-  margin-top: 35px;
+  margin-top: 36px;
+  margin-bottom: 32px;
 
   gap: 8px;
   flex-wrap: wrap;

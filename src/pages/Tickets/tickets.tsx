@@ -15,7 +15,7 @@ import { BtnFilterModal } from '@/components/BtnFilterModal/btnFilterModal'
 import { CustomInput } from '@/components/Input/input'
 import { useTenantData } from '@/context'
 import { TagFilter } from '@/components/TagFilter/tagFilter'
-import { TotalBtn } from '@/components/TotalBtn/totalBtn'
+
 import { MagnifyingGlass } from '@phosphor-icons/react'
 import { debounce } from 'lodash'
 
@@ -200,8 +200,7 @@ export function Tickets() {
 
 
         <S.ContainerButton>
-          <TotalBtn total={totalTickets} />
-
+         
           <BtnFilterModal
             disabled={!startDate || !endDate || endDate <= startDate}
             onClick={handleSaveToLocalStorage}

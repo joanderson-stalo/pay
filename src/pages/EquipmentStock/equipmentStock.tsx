@@ -11,7 +11,7 @@ import { CardInfo } from '../../components/CardInfo/cardInfo';
 import { StockCard } from './Mobile/StockCard/stockCard';
 import { TableStock } from './components/TableStock/tableStock';
 import { HeaderStock } from './components/HeaderStock/headerStock';
-import { TotalBtn } from '@/components/TotalBtn/totalBtn';
+
 import { debounce } from 'lodash';
 import { baseURL } from '@/config/color';
 import { BtnFilterModal } from '@/components/BtnFilterModal/btnFilterModal';
@@ -223,7 +223,7 @@ export function EquipmentStock() {
 
 
 
-              <TotalBtn total={totalStocks} />
+           
 
                 <BtnFilterModal onClick={handleSaveToLocalStorage} disabled={!selectedFornecedor && !selectedLicenciado}>
                 <CustomSelect

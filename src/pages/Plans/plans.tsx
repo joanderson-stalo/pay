@@ -8,7 +8,7 @@ import { Loading } from '@/components/Loading/loading';
 import { TablePlans } from './components/TablePlans/tablePlans';
 import { HeaderPlans } from './components/HeaderPlans/headerPlans';
 import { PlansCard } from './Mobile/PlansCard';
-import { TotalBtn } from '@/components/TotalBtn/totalBtn';
+
 import { baseURL } from '@/config/color';
 
 interface Plan {
@@ -120,7 +120,7 @@ export function Plans() {
 
           <S.Container>
             <div style={{ display: 'flex', gap: '8px' }}>
-              <TotalBtn total={totalPlans} />
+             
             </div>
 
             <TablePlans rows={plans} />

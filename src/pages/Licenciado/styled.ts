@@ -5,7 +5,7 @@ export const ContainerButton = styled.div`
   display: flex;
   margin-top: 36px;
   gap: 8px;
-  margin-bottom: 8px;
+  margin-bottom: 32px;
 `
 
 export const Container = styled.div`

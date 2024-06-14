@@ -10,7 +10,7 @@ import { CardInfo } from '../../../../components/CardInfo/cardInfo';
 import { HeaderTariffs } from './components/HeaderTariffs/headerTariffs';
 import { TableTariffs } from './components/TableStock/tableTariffs';
 import { TariffsCard } from './Mobile/TariffsCard/tariffsCard';
-import { TotalBtn } from '@/components/TotalBtn/totalBtn';
+
 import { baseURL } from '@/config/color';
 import { BtnFilterModal } from '@/components/BtnFilterModal/btnFilterModal';
 import { CustomInput } from '@/components/Input/input';
@@ -231,7 +231,7 @@ export function Billing() {
             </S.ContainerCard>
 
             <S.ContainerButton>
-              <TotalBtn total={totalTariffs}/>
+             
 
               <BtnFilterModal
             onClick={handleSaveToLocalStorage}

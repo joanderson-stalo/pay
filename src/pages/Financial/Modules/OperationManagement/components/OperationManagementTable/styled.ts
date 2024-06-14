@@ -12,7 +12,7 @@ export const Table = styled.table`
   border-spacing: 0;
   border-radius: 8px;
   background: var(--Sys---Neutro-04, #FFF);
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   margin-bottom: 36px;
   @media (max-width: 900px) {
     display: none;
