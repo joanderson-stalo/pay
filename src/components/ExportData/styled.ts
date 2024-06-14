@@ -16,7 +16,7 @@ export const ButtonTitle = styled.h3<Color>`
 
 export const ButtonContainer = styled.button<Color>`
   display: inline-flex;
-  padding: 9.5px 16px;
+  padding: 7.2px 16px;
   justify-content: center;
   align-items: center;
   border: 0.5px solid ${(props) => props.primary};

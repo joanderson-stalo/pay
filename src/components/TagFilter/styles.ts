@@ -23,7 +23,7 @@ export const ContainerTagFilter = styled.div`
 `;
 
 export const BalloonContainer = styled.div`
-    padding: 4px 16px;
+    padding: 3px 16px;
     border-radius: 4px;
     gap: 8px;
     background: rgba(60, 10, 109, 0.15);
