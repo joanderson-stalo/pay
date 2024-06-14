@@ -43,7 +43,7 @@ export const FilterModalContainer = styled.div`
   border-radius: 4px;
   border: 1px solid #eaeaea;
   background: #fff;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.07);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   position: absolute;
   z-index: 999;
   margin-top: 8px;

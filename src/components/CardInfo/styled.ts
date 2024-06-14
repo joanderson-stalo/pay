@@ -23,7 +23,9 @@ gap: 4px;
 border-radius: 6px;
 border: 1px solid #E6E6E6;
 background: #FFF;
-box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.05);
+border: 1px solid rgba(0, 0, 0, 0.05);
+
+
 
 display: flex;
 flex-direction: column;

@@ -13,7 +13,7 @@ export const ContainerGrafico = styled.div<ContainerGraficoProps>`
 
   border-radius: 12px;
   background: #FFF;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   padding: 16px;
   padding-bottom: 24px;
   display: flex;
