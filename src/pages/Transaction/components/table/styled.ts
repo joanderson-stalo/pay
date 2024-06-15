@@ -117,7 +117,7 @@ export const StatusText = styled.span<StatusTextProps>`
   font-size: ${({theme }) => theme.text_xss};
   font-weight: ${({theme }) => theme.font_normal};
   line-height: 15.566px;
-  background-color: ${props => props.status === 'succeeded' ? '#178629' : '#EC5252'};
+  background-color: ${props => props.status === 'succeeded' ? '#178629' : '#C81B1B'};
   border-radius: 4px;
   padding: 4px 16.5px;
 `;
