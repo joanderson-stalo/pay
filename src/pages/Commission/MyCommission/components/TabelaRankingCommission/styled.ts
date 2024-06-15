@@ -19,30 +19,34 @@ export const Table = styled.table`
 export const TableHeader = styled.th`
   color: #343A40;
   font-size: 12px;
-  font-weight: 500;
+  font-weight: ${({theme }) => theme.font_medium};
   line-height: 15.566px;
-  text-align: center;
-  padding: 8px;
+  text-align: start;
+  padding: 8px 16px;
   border-bottom: 1px solid #E9ECEF;
   cursor: pointer;
   vertical-align: middle;
+  font-size: ${({ theme }) => theme.text_sm};
 `;
 
 export const TableData = styled.td`
   color: #343A40;
   font-size: 12px;
   line-height: 15.566px;
-  padding: 8px;
+  padding: 8px 16px;
   border-bottom: 1px solid #E9ECEF;
-  text-align: center;
+  text-align: start;
   vertical-align: middle;
+  font-size: ${({ theme }) => theme.text_xs};
+  font-weight: ${({theme }) => theme.font_normal};
+
 `;
 
 export const Button = styled.button`
   color: #5A6ACF;
   font-size: 12px;
   font-style: normal;
-  font-weight: 500;
+  font-weight: ${({theme }) => theme.font_normal};
   line-height: 14.128px;
   letter-spacing: 0.353px;
   width: 77px;
@@ -65,7 +69,7 @@ export const TableRow = styled.tr`
 
 export const FornecedorWrapper = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
 `;
 
@@ -73,7 +77,7 @@ export const FornecedorItem = styled.p`
   width: 23px;
   height: 26px;
   font-size: 12px;
-  font-weight: 700;
+  font-weight: ${({theme }) => theme.font_normal};
   line-height: 24px;
   margin-right: 5px;
   border-radius: 4px;

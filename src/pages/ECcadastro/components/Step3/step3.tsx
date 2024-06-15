@@ -88,7 +88,7 @@ export function Step3({ Avançar, Voltar }: IStep3) {
       const removedFields = [`Fornecedor${indexToRemove}`, `PlanoComercial${indexToRemove}`];
       removedFields.forEach(field => {
         unregister(field);
-      });;
+      });
 
       return newInputs;
     });

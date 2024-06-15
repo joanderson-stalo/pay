@@ -26,11 +26,11 @@ export const Table = styled.table`
 
 export const TableHeader = styled.th`
   color: #343A40;
-  font-size: ${({theme }) => theme.text_xs};
+  font-size: ${({theme }) => theme.text_sm};
   font-weight: ${({theme }) => theme.font_medium};
   line-height: 15.566px;
-  text-align: center;
-  padding: 8px;
+  text-align: start;
+  padding: 8px 16px;
   border-bottom: 1px solid #E9ECEF;
   vertical-align: middle;
 `;
@@ -38,7 +38,7 @@ export const TableHeader = styled.th`
 export const CustomTableHeader = styled.th<Color>`
 ${(props) => props.secundary};
   font-size: ${({theme }) => theme.text_xs};
-  font-weight: ${({theme }) => theme.font_medium};
+  font-weight: ${({theme }) => theme.font_normal};
   line-height: 15.566px;
   text-align: center;
   padding: 8px;
@@ -51,20 +51,20 @@ ${(props) => props.secundary};
 export const TableData = styled.td`
   color: #343A40;
   font-size: ${({theme }) => theme.text_xs};
-  font-weight: ${({theme }) => theme.font_medium};
+  font-weight: ${({theme }) => theme.font_normal};
   line-height: 15.566px;
-  padding: 8px;
+  padding: 8px 16px;
   border-bottom: 1px solid #E9ECEF;
-  text-align: center;
+  text-align: start;
   vertical-align: middle;
 `;
 
 export const Button = styled.button<Color>`
  color: ${(props) => props.primary};
   font-size: ${({theme }) => theme.text_xs};
-color:   ${(props) => props.primary};;
+
 font-style: normal;
-font-weight: 500;
+font-weight: ${({theme }) => theme.font_normal};
 line-height: 11.303px;
 letter-spacing: 0.353px;
 text-decoration-line: underline;

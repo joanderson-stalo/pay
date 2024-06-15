@@ -12,7 +12,7 @@ export const Table = styled.table`
   border-spacing: 0;
   border-radius: 8px;
   background: var(--Sys---Neutro-04, #FFF);
-  border: 1px solid rgba(0, 0, 0, 0.1);
+
   margin-bottom: 36px;
   @media (max-width: 900px) {
     display: none;
@@ -21,11 +21,11 @@ export const Table = styled.table`
 
 export const TableHeader = styled.th`
   color: #343A40;
-  font-size: ${({ theme }) => theme.text_xs};
-  font-weight: 700;
+  font-size: ${({ theme }) => theme.text_sm};
+  font-weight: ${({theme }) => theme.font_medium};
   line-height: 15.566px;
-  text-align: center;
-  padding: 8px;
+  text-align: start;
+  padding: 8px 16px;
   border-bottom: 1px solid #E9ECEF;
   background: var(--Sys---Neutro-04, #FFF);
 `;
@@ -33,10 +33,10 @@ export const TableHeader = styled.th`
 export const TableData = styled.td`
   color: #343A40;
   font-size: ${({ theme }) => theme.text_xs};
-  font-weight: 500;
+  font-weight: ${({theme }) => theme.font_normal};
   line-height: 15.566px;
-  text-align: center;
-  padding: 8px;
+  text-align: start;
+  padding: 8px 16px;
   border-bottom: 1px solid #E9ECEF;
 `;
 

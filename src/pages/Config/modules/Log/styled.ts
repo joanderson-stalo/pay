@@ -5,7 +5,7 @@ export const Container = styled.div`
 `
 
 export const ContainerTitle = styled.div`
-  margin-bottom: 56px;
+margin-bottom: 32px;
 
 
   @media (max-width: 900px) {
