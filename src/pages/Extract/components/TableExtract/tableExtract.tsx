@@ -1,3 +1,4 @@
+import { useTenantData } from '@/context';
 import * as S from './styled';
 
 interface StatementRecord {
@@ -22,7 +23,7 @@ export function TableExtract({ statement }: TabelaProps) {
   };
 
   const dates = Object.keys(statement).sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
-
+  const tenantData = useTenantData();
   return (
     <S.Table>
       <thead>
@@ -32,6 +33,7 @@ export function TableExtract({ statement }: TabelaProps) {
           <S.TableHeader>Valor</S.TableHeader>
           <S.TableHeader>TPV</S.TableHeader>
           <S.TableHeader>Tipo</S.TableHeader>
+          <S.TableHeader></S.TableHeader>
         </tr>
       </thead>
       <tbody>
@@ -52,7 +54,7 @@ export function TableExtract({ statement }: TabelaProps) {
                 </S.TipoContainer>
               </S.TableData>
               <S.TableData>
-        <S.Button onClick={() => false}>Visualizar</S.Button>
+        <S.Button primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} onClick={() => false}>Visualizar</S.Button>
       </S.TableData>
             </tr>
           ))

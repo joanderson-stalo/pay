@@ -19,40 +19,41 @@ export const Table = styled.table`
 export const TableHeader = styled.th`
 color:#3D4449;
 
-padding: 8px;
-
+padding: 8px 16px;
+text-align: start;
 border-bottom: 1px solid #E9ECEF;
-font-size: 14px;
+font-size: ${({ theme }) => theme.text_sm};
 font-style: normal;
-font-weight: 400;
+font-weight: ${({theme }) => theme.font_medium};
 line-height: 24px;
 letter-spacing: 0.5px;
 `;
 
 export const TableData = styled.td`
 color: #3D4449;
-text-align: center;
-font-size: 12px;
+text-align: start;
+padding: 8px 16px;
+font-size: ${({ theme }) => theme.text_xs};
 font-style: normal;
-font-weight: 400;
+font-weight: ${({theme }) => theme.font_normal};
 line-height: normal;
 max-width: 200px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 
-  padding: 24px;
+ 
   border-bottom: 1px solid #E9ECEF;
-  text-align: center;
+ 
   vertical-align: middle;
 `;
 
 export const Button = styled.button<Color>`
 color:  #3C0A6D;
 
-font-size: 14px;
+font-size: 12px;
 font-style: normal;
-font-weight: 400;
+font-weight: ${({theme }) => theme.font_normal};
 line-height: 15.566px;
 text-decoration-line: underline;
 text-transform: uppercase;

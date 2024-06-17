@@ -21,13 +21,14 @@ export const Table = styled.table`
 
 export const TableHeader = styled.th`
   color: #343A40;
-  font-size: ${({theme }) => theme.text_xs};
-  font-weight: 600;
+  font-size: ${({theme }) => theme.text_sm};
+  font-weight: ${({theme }) => theme.font_medium};
   line-height: 18px;
-  text-align: center;
-  padding: 8px 8px 8px 20px;
+  text-align: start;
+  padding: 8px  16px;
   border-bottom: 1px solid #E9ECEF;
   vertical-align: middle;
+  
 `;
 
 export const TableData = styled.td`
@@ -36,8 +37,9 @@ export const TableData = styled.td`
   line-height: 18px;
   padding: 8px 8px 8px 20px;
   border-bottom: 1px solid #E9ECEF;
-  text-align: center;
+  text-align: start;
   vertical-align: middle;
+  
 `;
 
 export const ButtonEditar = styled.button`
@@ -45,7 +47,7 @@ export const ButtonEditar = styled.button`
   font-size: ${({theme }) => theme.text_xs};
 color:   #3C0A6D;
 font-style: normal;
-font-weight: 500;
+font-weight: ${({theme }) => theme.font_normal};
 line-height: 11.303px;
 letter-spacing: 0.353px;
 text-decoration-line: underline;
@@ -57,8 +59,8 @@ export const ButtonRemover = styled(ButtonEditar)`
 `;
 
 export const PapelData = styled.td`
-  text-align: center;
-  padding: 8px;
+  text-align: start;
+  padding: 8px 16px;
   border-bottom: 1px solid #E9ECEF;
 `;
 
@@ -67,11 +69,11 @@ export const PapelText = styled.span<PapelTextProps>`
   font-size: ${({theme }) => theme.text_xs};
   line-height: 18px;
   border-radius: 4px;
-  padding: 4px 24px;
+  padding: 8px 0px;
 
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: start;
+  align-items: start;
 `;
 
 export const TableRow = styled.tr`
@@ -88,7 +90,7 @@ export const Status = styled.span<StatusProps>`
   color: #fff;
   font-size: 12px;
   font-style: normal;
-  font-weight: 700;
+  font-weight: ${({theme }) => theme.font_normal};
   line-height: 14px;
 
   background-color: ${({ status }) =>
@@ -104,7 +106,7 @@ export const FornecedorStatus = styled.span`
 
 color:  #FFF;
 font-size: ${({theme }) => theme.text_xs};
-font-weight: 500;
+font-weight: ${({theme }) => theme.font_normal};
 line-height: 14px;
 
   border-radius: 4px;

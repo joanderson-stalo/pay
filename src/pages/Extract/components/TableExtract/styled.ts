@@ -1,7 +1,10 @@
 import styled from "styled-components";
 
 
-
+interface Color {
+  primary: string;
+  secundary: string;
+}
 
 export const Table = styled.table`
   width: 100%;
@@ -18,11 +21,11 @@ export const Table = styled.table`
 
 export const TableHeader = styled.th`
   color: #343A40;
-  font-size: ${({theme }) => theme.text_xs};
+  font-size: ${({theme }) => theme.text_sm};
   font-weight: ${({theme }) => theme.font_medium};
   line-height: 15.566px;
-  text-align: center;
-  padding: 8px;
+  text-align: start;
+  padding: 8px 16px;
   border-bottom: 1px solid #E9ECEF;
   vertical-align: middle;
 `;
@@ -34,30 +37,24 @@ export const TableHeader = styled.th`
 export const TableData = styled.td`
   color: #343A40;
   font-size: ${({theme }) => theme.text_xs};
-  font-weight: ${({theme }) => theme.font_medium};
+  font-weight: ${({theme }) => theme.font_normal};
   line-height: 15.566px;
-  padding: 8px;
+  padding: 8px 16px;
   border-bottom: 1px solid #E9ECEF;
-  text-align: center;
+  text-align: start;
   vertical-align: middle;
 `;
 
-export const Button = styled.button`
-  color: #5A6ACF;
+export const Button = styled.button<Color>`
+   color:  ${(props) => props.primary};
   font-size: ${({theme }) => theme.text_xs};
-  font-style: normal;
-  font-weight: 500;
-  line-height: 14.128px;
-  letter-spacing: 0.353px;
-  width: 77px;
-  height: 24.725px;
-  border-radius: 3.532px;
-  border: 0.353px solid #F5F4F4;
-  background: #FFF;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto;
+color:   ${(props) => props.primary};
+font-style: normal;
+font-weight: ${({theme }) => theme.font_normal};
+line-height: 11.303px;
+letter-spacing: 0.353px;
+text-decoration-line: underline;
+background-color: transparent;
 `;
 
 export const TableRow = styled.tr`
@@ -102,7 +99,7 @@ export const TipoContainer = styled.div`
 `;
 
 export const TipoTableData = styled(TableData)<{ tipo: string }>`
-  background-color: ${({ tipo }) => (tipo === 'credit' ? '#55B938' : '#E91414')};
+  background-color: ${({ tipo }) => (tipo === 'credit' ? '#178629' : '#E91414')};
   color: white;
   border-radius: 4px;
 `;

@@ -16,11 +16,11 @@ export const Table = styled.table`
 export const TableHeader = styled.th`
   position: relative;
   color: #343A40;
-  font-size: ${({ theme }) => theme.text_xs};
+  font-size: ${({ theme }) => theme.text_sm};
   font-weight: ${({ theme }) => theme.font_medium};
   line-height: 15.566px;
-  text-align: center;
-  padding: 8px;
+  text-align: start;
+  padding: 8px 16px;
   border-bottom: 1px solid #E9ECEF;
   vertical-align: middle;
 `;
@@ -58,11 +58,11 @@ export const TooltipIcon = styled.span`
 export const TableData = styled.td`
   color: #343A40;
   font-size: ${({ theme }) => theme.text_xs};
-  font-weight: ${({ theme }) => theme.font_medium};
+  font-weight: ${({theme }) => theme.font_normal};
   line-height: 15.566px;
-  padding: 8px;
+  padding: 8px 16px;
   border-bottom: 1px solid #E9ECEF;
-  text-align: center;
+  text-align: start;
   vertical-align: middle;
 `;
 
@@ -90,7 +90,7 @@ export const Button = styled.button<ButtonProps>`
   font-family: "Public Sans";
   font-size: 12px;
   font-style: normal;
-  font-weight: 500;
+  font-weight: ${({theme }) => theme.font_normal};
   line-height: 11.303px;
   letter-spacing: 0.353px;
   text-decoration-line: underline;

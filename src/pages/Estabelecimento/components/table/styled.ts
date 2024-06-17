@@ -19,30 +19,34 @@ export const Table = styled.table`
 
 export const TableHeader = styled.th`
   color: #343A40;
-  font-size: ${({theme }) => theme.text_xs};
+  font-size: ${({theme }) => theme.text_sm};
   font-weight: ${({theme }) => theme.font_medium};
   line-height: 15.566px;
   text-align: center;
-  padding: 8px;
+  padding: 8px 16px;
   border-bottom: 1px solid #E9ECEF;
   vertical-align: middle;
+  font-size: 14px;
+  text-align: start;
+  
 `;
 
 export const TableData = styled.td`
   color: #343A40;
   font-size: ${({theme }) => theme.text_xs};
-  font-weight: ${({theme }) => theme.font_medium};
+  font-weight: ${({theme }) => theme.font_normal};
   line-height: 15.566px;
-  padding: 8px;
+  padding: 8px 16px;
   border-bottom: 1px solid #E9ECEF;
   vertical-align: middle;
+  text-align: start;
 `;
 
 export const Button = styled.button<Color>`
 color:  ${(props) => props.primary};
   font-size: ${({theme }) => theme.text_xs};
 color:   ${(props) => props.primary};
-font-weight: 500;
+font-weight: ${({theme }) => theme.font_normal};
 line-height: 11.303px;
 letter-spacing: 0.353px;
 text-decoration-line: underline;
@@ -60,7 +64,7 @@ export const TableRow = styled.tr`
 
 export const FornecedorWrapper = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
 `;
 
@@ -68,8 +72,8 @@ export const FornecedorItem = styled.p<{ status: string }>`
   width: 23px;
   height: 26px;
   font-size: 10px;
-  font-weight: 700;
-  line-height: 24px;
+  font-weight: ${({theme }) => theme.font_normal};
+  line-height: 26px;
   margin-right: 5px;
   border-radius: 4px;
   text-align: center;

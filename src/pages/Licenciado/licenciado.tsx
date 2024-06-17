@@ -8,7 +8,7 @@ import { LicenciadoHeader } from './components/licenciadoHeader/licenciadoHeader
 import { useLogin } from '@/context/user.login';
 import axios from 'axios';
 import { Loading } from '@/components/Loading/loading';
-import { TotalBtn } from '@/components/TotalBtn/totalBtn';
+
 import { BtnFilter } from '@/components/BtnFilter/btnFilter';
 import { LicensedCard } from './mobile/LicenciadosCard/licensedCard';
 import { baseURL } from '@/config/color';
@@ -165,7 +165,7 @@ export function Licenciado() {
 
           <S.ContentFilter>
 
-                <TotalBtn total={totalSellers} />
+                
 
 
                 <BtnFilterModal onClick={handleSaveToLocalStorage} disabled={!selectedLicenciado}>

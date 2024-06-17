@@ -10,7 +10,7 @@ import { CardInfo } from '../../../../components/CardInfo/cardInfo';
 import { HeaderTariffs } from './components/HeaderTariffs/headerTariffs';
 import { TableTariffs } from './components/TableStock/tableTariffs';
 import { TariffsCard } from './Mobile/TariffsCard/tariffsCard';
-import { TotalBtn } from '@/components/TotalBtn/totalBtn';
+
 import { baseURL } from '@/config/color';
 import { TagFilter } from '@/components/TagFilter/tagFilter';
 import { CustomSelect } from '@/components/Select/select';
@@ -236,7 +236,7 @@ export function Tariffs() {
             </S.ContainerCard>
 
             <S.ContainerButton>
-              <TotalBtn total={totalTariffs}/>
+             
 
 
               <BtnFilterModal

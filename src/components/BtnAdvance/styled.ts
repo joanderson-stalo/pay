@@ -8,7 +8,7 @@ interface Color {
 
 export const BtnAdvanceContainer = styled.button<Color>`
   padding: 8px 24px;
-  background: ${(props) => props.secundary};;
+  background: ${(props) => props.secundary};
   border-radius: 4px;
 background: ${(props) => props.primary};
   font-weight: 500;

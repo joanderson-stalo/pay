@@ -15,7 +15,7 @@ import { TransactionsToExcel } from '@/utils/Xlsx/transactions'
 import { CardInfo } from '../../components/CardInfo/cardInfo'
 import { ExportData } from '@/components/ExportData/exportData'
 import { TitleH } from '@/components/Title/title'
-import { TotalBtn } from '@/components/TotalBtn/totalBtn'
+
 import { BtnFilterModal } from '@/components/BtnFilterModal/btnFilterModal'
 import { CustomSelect } from '@/components/Select/select'
 import { CustomInput } from '@/components/Input/input'
@@ -269,7 +269,7 @@ export function Transaction() {
 
         <S.ContainerButton>
         <S.ContentFilter>
-            <TotalBtn total={totalTransactions} />
+         
             <BtnFilterModal
               onClick={handleSaveToLocalStorage}
               disabled={

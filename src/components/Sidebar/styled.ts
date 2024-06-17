@@ -139,7 +139,7 @@ export const SubMenuItem = styled.button`
   text-align: left; // Alinhamento do texto
   margin-left: 20px;
 
-  background-color: transparent;;
+  background-color: transparent;
   cursor: pointer; // Cursor do tipo ponteiro
   font-weight: 00;
 font-size: 12px;

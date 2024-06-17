@@ -19,7 +19,7 @@ export const ContainerInfo = styled.div`
   justify-content: center;
   align-items: center;
   gap: 20px;
-  margin-bottom: 56px;;
+  margin-bottom: 32px;
 `
 
 export const ContainerCard = styled.aside`

@@ -5,7 +5,7 @@ export const Container = styled.div`
 `
 
 export const ContainerTitle = styled.div`
-  margin-bottom: 56px;
+margin-bottom: 32px;
 
 
   @media (max-width: 900px) {
@@ -51,7 +51,7 @@ export const ContainerButton = styled.div`
   margin-bottom: 32px;
 `
 export const Linha = styled.div`
-  border: 1px solid #DFDFDF;
+  border: 1px solid rgb(0, 0, 0, 0.1);
   margin-top: 15px;
   width: 100%;
 `

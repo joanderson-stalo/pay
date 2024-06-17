@@ -10,23 +10,22 @@ interface Color {
 
 
 export const ButtonFilter = styled.button<Color>`
-width: 158px;
-height: 44px;
-padding: 8px 16px;
+
+  padding: 3.2px 8.5px;
   border-radius: 4px;
   border: 1px solid ${(props) => props.primary};
   background: ${(props) => (props.isActive ? props.primary : 'transparent')};
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 16px;
+  gap: 8px;
   color: ${(props) => (props.isActive ? '#fff' : props.primary)};
 
   font-size: 14px;
 font-style: normal;
 font-weight: 400;
 line-height: 15.566px;
-text-transform: uppercase;
+
 > svg {
   font-size: 24px;
 }
@@ -35,7 +34,7 @@ text-transform: uppercase;
     padding: 6px 16px;
     font-size: 10px;
     z-index: 5;
-   
+
   }
 `;
 
@@ -44,7 +43,7 @@ export const FilterModalContainer = styled.div`
   border-radius: 4px;
   border: 1px solid #eaeaea;
   background: #fff;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.07);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   position: absolute;
   z-index: 999;
   margin-top: 8px;

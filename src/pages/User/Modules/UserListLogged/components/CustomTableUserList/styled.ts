@@ -12,7 +12,7 @@ export const Table = styled.table`
   border-spacing: 0 10px;
   border-radius: 8px;
   background: var(--Sys---Neutral-04, #FFF);
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(0, 0, 0, 0.25);
   thead {
     position: relative;
     &::before {
@@ -44,7 +44,9 @@ export const TableHeader = styled.th`
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
+  text-align: start;
   line-height: 20.824px;
+  padding: 8px 16px;
   @media (max-width: 1200px) {
     font-size: 12px;
   }
@@ -61,10 +63,11 @@ export const TableHeader = styled.th`
 
 export const TableData = styled.td`
   color: var(--light-secondary, #6C757D);
-  font-size: 14px;
+  font-size: 12px;
+  font-weight: 400;
   line-height: 20.824px;
-  padding: 8px;
-  text-align: center;
+  padding: 8px 16px;
+  text-align: start;
   vertical-align: middle;
 
 

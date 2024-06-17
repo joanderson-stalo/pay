@@ -65,7 +65,7 @@ background-color: ${({ active, primary }) => active ? primary : '#E6E6E6'};
   color: ${({ active }) => (active ? 'white' : 'black')};
 
 
-  border-radius: ${({ active }) => (active ? '8px' : '8px 1px 1px 8px')} ;
+  border-radius: ${({ active }) => (active ? '4px' : '4px 1px 1px 4px')} ;
 
   position: ${({ active }) => (active ? 'relative' : '')};
   margin-right: -5px;
@@ -81,7 +81,7 @@ background-color: ${({ active, primary }) => active ? primary : '#E6E6E6'};
   color: ${({ active }) => (active ? 'white' : 'black')};
 
 
-  border-radius: ${({ active }) => (active ? '8px' : '1px 8px 8px 1px')} ;
+  border-radius: ${({ active }) => (active ? '4px' : '1px 4px 4px 1px')} ;
 
 
 font-size: 12px;
@@ -97,7 +97,7 @@ background-color: ${({ active, primary }) => active ? primary : '#E6E6E6'};
   color: ${({ active }) => (active ? 'white' : 'black')};
 
 
-  border-radius: ${({ active }) => (active ? '8px 0px 0px 8px' : '8px 1px 1px 8px')} ;
+  border-radius: ${({ active }) => (active ? '4px 0px 0px 4px' : '4px 1px 1px 4px')} ;
 
   position: ${({ active }) => (active ? 'relative' : '')};
   margin-right: -5px;

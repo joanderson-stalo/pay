@@ -19,7 +19,7 @@ const Container = styled.input<Color>`
   border-radius: 3.598px;
   border: 0.9px solid var(--foundation-brand-02-light-active, #B2EAF8);
   background: var(--foundation-white-light, #FDFDFD);
-  color: ${(props) => props.secundary};;
+  color: ${(props) => props.secundary};
 `;
 
 interface MonthYearSelectorProps {

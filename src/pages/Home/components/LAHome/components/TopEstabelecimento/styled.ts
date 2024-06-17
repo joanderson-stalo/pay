@@ -9,7 +9,7 @@ export const Container = styled.div`
     display: flex;
     flex-direction: column;
     width: 100%;
-    box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 12px 12px 0 0px;
 
 
@@ -27,7 +27,7 @@ export const Header = styled.div<Color>`
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    padding: 12px 11px;
+    padding: 12px 24px;
     background: ${(props) => props.primary};
     border-radius: 12px 12px 0 0px;
 
@@ -69,7 +69,7 @@ export const Table = styled.table`
 export const TableCell = styled.td`
     border-top: 1px solid #E0E0E0;
     border-bottom: 1px solid #E0E0E0;
-    padding: 8px 16px;
+    padding: 8px 41px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -77,7 +77,7 @@ export const TableCell = styled.td`
     color: var(--light-secondary, #6C757D);
     font-size: 12px;
     line-height: 22px;
-    text-align: center;
+    text-align: start;
 
     @media (max-width: 1200px) {
         max-width: 140px;
@@ -97,11 +97,11 @@ export const TableCell = styled.td`
 `;
 
 export const TableHeader = styled.th`
-    padding: 8px 16px;
+    padding: 8px 41px;
     color: var(--light-secondary, #6C757D);
     font-size: 12px;
     line-height: 22px;
-    text-align: center;
+    text-align: start;
 
     @media (max-width: 600px) {
         font-size: 12px;

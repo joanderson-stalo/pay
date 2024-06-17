@@ -87,7 +87,7 @@ export const SearchIcon = styled.span<InputContainerProps>`
 `
 
 export const Linha = styled.div`
-  border: 1px solid #dfdfdf;
+  border: 1px solid rgb(0, 0, 0, 0.1);
   margin-top: 15px;
   width: 100%;
 `

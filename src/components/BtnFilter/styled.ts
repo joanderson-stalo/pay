@@ -13,6 +13,7 @@ border-radius: 4px;
 border: 1px solid  ${(props) => props.primary};
 background: #fff;
 
+
   display: flex;
   justify-content: center;
   align-items: center;

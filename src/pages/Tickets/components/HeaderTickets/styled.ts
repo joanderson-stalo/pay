@@ -21,11 +21,11 @@ interface Color {
   export const Button = styled.button<Color>`
     border-radius: 4px;
     background: #3C0A6D;
-    padding: 8px 24px;
+    padding: 14px 54px;
   color: #FFF;
 font-size: 14px;
 font-style: normal;
-font-weight: 400;
+font-weight: 500;
 line-height: 15.566px;
   `;
 
