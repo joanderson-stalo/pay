@@ -3,7 +3,7 @@ const currentYear = new Date().getFullYear();
 export const Text = {
   title: 'Portal de Gestão',
   esqueceuSenha: 'Esqueceu a senha?',
-  direitosReservados: `© ${currentYear}. Todos os direitos reservados`
+  direitosReservados: `© ${currentYear}.`
 };
 
 export const Placeholder = {

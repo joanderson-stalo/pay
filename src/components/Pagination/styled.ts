@@ -25,7 +25,7 @@ display: flex;
 export const CurrentPage = styled(Page)`
   font-weight: bold;
   border-radius: 1.538px;
-  background: #0086ED;
+  background: #3C0A6D;
 
   font-weight: 400;
 color: #FFF;

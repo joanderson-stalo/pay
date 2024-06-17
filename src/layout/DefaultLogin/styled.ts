@@ -90,6 +90,18 @@ export const DefaultContext = styled.div`
 font-size: 14px;
 line-height: 24px;
 color: ${({ theme }) => theme.black_sys};
+display: flex;
+gap: 8px;
+
+a {
+  img{
+    width: 18px;
+    height: 18px;
+    margin-top: 2px;
+  }
+}
+
+
 
   }
 
