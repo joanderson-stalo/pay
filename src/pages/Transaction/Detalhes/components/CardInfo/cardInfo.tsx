@@ -10,6 +10,7 @@ export function CardInfo({net_amount} : CardInfoProps) {
 
   return(
     <S.ContainerCardInfo  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>
+
       <section>
       <p>Valor Líquido</p>
       <span>{net_amount}</span>

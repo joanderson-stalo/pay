@@ -8,9 +8,25 @@ interface ButtonProps {
 
 export const ContainerDetalhe = styled.div`
   display: flex;
+  flex-direction: column;
   margin: 36px 20px 20px 20px;
 
   justify-content: center;
+`
+
+export const ContainerTitleDetails = styled.div`
+display: flex;
+align-items: center;
+justify-content: space-between;
+margin-bottom: 34px;
+
+`
+
+export const WrapperTitle = styled.div`
+display: flex;
+align-items: center;
+gap: 16px;
+
 `
 
 export const ContextContainer = styled.div`

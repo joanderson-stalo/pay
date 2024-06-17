@@ -241,6 +241,7 @@ export function Transaction() {
   return (
     <>
       <S.Container>
+        
         <S.ContextTitleVendas>
           <TitleH title="Vendas" />
           <S.ContainerCardVendas>
@@ -269,7 +270,7 @@ export function Transaction() {
 
         <S.ContainerButton>
         <S.ContentFilter>
-         
+
             <BtnFilterModal
               onClick={handleSaveToLocalStorage}
               disabled={

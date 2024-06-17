@@ -16,6 +16,9 @@ import { CaretLeft } from '@phosphor-icons/react'
 import { useNavigate } from 'react-router-dom'
 import { useTransactionVendas } from '@/context/useTransaction'
 import { useSidebarVisibility } from '@/context/sidebarVisibilityContext'
+import { TitleH } from '@/components/Title/title'
+import { ExportData } from '@/components/ExportData/exportData'
+import { ArrowBack } from '@/components/BtnArrowBack/btnArrowBack'
 
 type DateFormatOptions = {
   year: 'numeric' | '2-digit'
@@ -63,7 +66,7 @@ export function DetalheVenda() {
           if (data) {
             setTransactionDetails(data.transaction)
             setCommissions(data.transaction.commissions)
-            setLiquidations(data.transaction.liquidations); 
+            setLiquidations(data.transaction.liquidations);
           }
         } catch (error) {
           toast.error('Erro ao buscar os detalhes da transação')
@@ -82,13 +85,51 @@ export function DetalheVenda() {
     navigate('/transaction')
   }
 
+  if (loading) {
+    return <Loading />
+  }
+
   return (
+
+
+
     <>
-      {loading ? <Loading />
-      :
-    <>
-            <S.ButtonBlack isActive={isVisible} onClick={handleVendas}><CaretLeft size={18} />Voltar</S.ButtonBlack>
+            {/* <S.ButtonBlack isActive={isVisible} onClick={handleVendas}><CaretLeft size={18} />Voltar</S.ButtonBlack> */}
+
       <S.ContainerDetalhe>
+
+      <S.ContainerTitleDetails>
+
+        <S.WrapperTitle>
+
+            <ArrowBack onClick={handleVendas} />
+            <TitleH title="Visão seral" />
+        </S.WrapperTitle>
+
+
+      <ExportData title="Exportar comprovante" onClick={() => false}  />
+
+      </S.ContainerTitleDetails>
+
+      <S.SectionCard>
+            <CardInfo
+              net_amount={formatCurrencyBR(
+                transactionDetails?.spread
+                  ? parseFloat(transactionDetails?.net_amount)
+                  : undefined
+              )}
+            />
+            <CardInfo2
+              spread={formatCurrencyBR(
+                transactionDetails?.spread
+                  ? parseFloat(transactionDetails.spread)
+                  : undefined
+              )}
+            />
+
+          </S.SectionCard>
+
+
         <S.ContextDetalhes>
           <CardDetalhes
             captured_in_date={
@@ -152,8 +193,8 @@ export function DetalheVenda() {
     </>
 
 
-      }
 
-    </>
+
+
   )
 }

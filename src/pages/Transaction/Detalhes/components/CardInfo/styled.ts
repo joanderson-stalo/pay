@@ -8,28 +8,33 @@ interface Color {
 }
 
 export const ContainerCardInfo = styled.div<Color>`
-  width: 100%;
-  max-width: 212px;
-height: 75px;
-border-radius: 8px;
+width: 100%;
+padding: 20px 40px;
+max-width: 200px;
+border-radius: 6px;
 background:   ${(props) => props.primary};
 
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
+
 
 > section{
+
+  gap: 4px;
   > p {
-  color:  #FFF;
+color:  #FFF;
 font-size: 16px;
-font-weight: 700;
+font-weight: 400;
+line-height: 26.723px;
+
+
 }
 
 > span {
-  color:  #08BBE9;
-font-size: 16px;
-font-weight: 500;
+
+color:  #FFF;
+font-size: 24px;
+font-style: normal;
+font-weight: 700;
+line-height: 26.723px;
 }
 }
 `
