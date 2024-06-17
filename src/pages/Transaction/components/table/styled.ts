@@ -72,7 +72,7 @@ export const FlagContainer = styled.div`
  display: flex;
   align-items: center;
   justify-content: start;
-  
+
 
   > p {
     color: #343A40;
@@ -102,7 +102,7 @@ export const FormaPagamentoText = styled.span`
   border-radius: 4px;
   padding: 4px 16.5px;
   font-weight: ${({theme }) => theme.font_normal};
-  
+
 `;
 
 
@@ -119,7 +119,14 @@ export const StatusText = styled.span<StatusTextProps>`
   line-height: 15.566px;
   background-color: ${props => props.status === 'succeeded' ? '#178629' : '#C81B1B'};
   border-radius: 4px;
-  padding: 4px 16.5px;
+  padding: 4px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 70px;
+
+
+
 `;
 
 export const SortContainer = styled.div`
