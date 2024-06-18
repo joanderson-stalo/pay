@@ -42,7 +42,7 @@ export const HistoricoTable = styled.table`
 
 export const HistoricoTableCell = styled.td`
   border-bottom: 1px solid #E9ECEF;
-  text-align: center;
+  text-align: start;
   padding: 8px;
   color: #202124;
   font-size: 12px;
@@ -54,5 +54,5 @@ export const HistoricoTableHeaderCell = styled(HistoricoTableCell).attrs({ as: '
   color: #343A40;
   font-size: 14px;
   font-weight: 600;
-  text-align: center;
+  text-align: start;
 `;

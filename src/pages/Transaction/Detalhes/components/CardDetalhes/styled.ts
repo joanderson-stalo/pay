@@ -13,19 +13,22 @@ export const ContainerCardDetalhes = styled.div`
   width: 100%;
   border-radius: 8px;
   background: #fff;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-  padding: 30px 0 44px 0;
+  padding: 38px 0 44px 50px;
+  border-radius: 8px;
+  border: 1px solid #D1D1D1;
+  margin-top: 16px;
 `;
+
+
 
 export const ContextCard = styled.div`
   display: flex;
-  text-align: center;
+  text-align: start;
   align-items: center;
-  margin-left: 27px;
-  gap: 15px;
-  justify-content: center;
+  gap: 24px;
 
-  
+
+
   @media (max-width: 600px) {
    flex-direction: column;
    justify-content: start;
@@ -39,21 +42,58 @@ export const ContextCard = styled.div`
   }
 
   > h3 {
-    color: #08bbe9;
-    font-size: 36px;
-    font-weight: 700;
+    color:#202124;
+
+font-size: 40px;
+
+font-weight: 700;
+line-height: 24px;
+letter-spacing: 0.5px;
   }
 
-  > span {
-    color: #a0a0a0;
-    font-size: 18px;
-    font-weight: 700;
-  }
+
 `;
+
+
+export const ContextCardHeader = styled.div`
+
+display: flex;
+flex-direction: column;
+gap: 10px;
+
+>p{
+  color:  #202124;
+  font-size: 14px;
+
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+}
+
+`
+
+export const ContainerTags = styled.div<Color>`
+display: flex;
+align-items: center;
+gap: 9px;
+
+
+> span {
+    color: #FFFFFF;
+    font-size: 12px;
+    font-weight: 400;
+    display: inline-flex;
+    padding: 4px 8px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    background:  ${(props) => props.primary};
+  }
+`
 
 export const TagDetalhes = styled.p<ITagDetalhes>`
   border-radius: 4px;
-  background: ${(props) => (props.label === 'succeeded' ? '#55B938' : 'red')};
+  background: ${(props) => (props.label === 'succeeded' ? '#178629' : 'red')};
   padding: 4px 8px;
   color: #e6f8fd;
   font-size: 12px;
@@ -64,10 +104,14 @@ export const DetalheInfo = styled.div`
   margin-top: 23px;
   width: 100%;
   display: flex;
-  flex-direction: row;
+
   gap: 36px;
-  justify-content: center;
-  padding: 0 20px;
+  justify-content: start;
+
+  @media (max-width: 900px) {
+   flex-wrap: wrap;
+  }
+
 
   @media (max-width: 600px) {
    flex-direction: column;
@@ -77,39 +121,48 @@ export const DetalheInfo = styled.div`
 export const InfoOne = styled.div<Color>`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
 
   > div {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
     h2 {
-      color:  ${(props) => props.primary};
+      color:  #202124;
       font-size: 16px;
       font-weight: 700;
     }
 
     span {
-      color: #a0a0a0;
+      color: #202124;
       font-size: 16px;
-      font-weight: 500;
+      font-weight: 400;
+      line-height: 24px;
+      letter-spacing: 0.5px
     }
   }
 `;
 
 export const InfoTw = styled.div<Color>`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+
 
   > div {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
     h2 {
-      color:  ${(props) => props.primary};
+      color:  #202124;
       font-size: 16px;
       font-weight: 700;
     }
 
     span {
-      color: #a0a0a0;
+      color: #202124;
       font-size: 16px;
-      font-weight: 500;
+      font-weight: 400;
+      line-height: 24px;
+      letter-spacing: 0.5px
     }
   }
 `;
@@ -120,16 +173,21 @@ export const InfoTre = styled.div<Color>`
   gap: 10px;
 
   > div {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
     h2 {
-      color: ${(props) => props.primary};
+      color:  #202124;
       font-size: 16px;
       font-weight: 700;
     }
 
     span {
-      color: #a0a0a0;
+      color: #202124;
       font-size: 16px;
-      font-weight: 500;
+      font-weight: 400;
+      line-height: 24px;
+      letter-spacing: 0.5px
     }
   }
 `;

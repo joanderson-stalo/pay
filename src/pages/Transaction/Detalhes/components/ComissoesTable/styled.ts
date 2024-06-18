@@ -26,7 +26,7 @@ export const HistoricoHeader = styled.h1<Color>`
   height: 35px;
   color: #FDFDFD;
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 400;
   line-height: 18px;
   display: flex;
   align-items: center;

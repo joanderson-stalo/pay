@@ -166,10 +166,9 @@ export function DetalheVenda() {
           <S.SectionTable>
 
             <HistoricoTableDetalhes  liquidations={liquidations}  />
-
             <ComissoesTable  commissions={commissions}/>
-
           </S.SectionTable>
+          
         </S.ContextDetalhes>
       </S.ContainerDetalhe>
     </>
