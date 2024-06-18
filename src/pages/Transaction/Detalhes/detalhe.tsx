@@ -87,7 +87,7 @@ export function DetalheVenda() {
     fetchData()
   }, [selectedTransactionId])
 
- 
+
 
 
 
@@ -175,7 +175,7 @@ export function DetalheVenda() {
         <S.WrapperTitle>
 
             <ArrowBack  />
-            <TitleH title="Visão seral" />
+            <TitleH title="Visão geral" />
         </S.WrapperTitle>
 
 
