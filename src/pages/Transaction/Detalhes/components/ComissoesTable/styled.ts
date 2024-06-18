@@ -24,6 +24,8 @@ export const HistoricoHeader = styled.h1<Color>`
   background:  ${(props) => props.primary};
   width: 595px;
   height: 35px;
+  border-radius: 12px 12px 0 0px;
+
   color: #FDFDFD;
   font-size: 12px;
   font-weight: 400;
@@ -31,7 +33,7 @@ export const HistoricoHeader = styled.h1<Color>`
   display: flex;
   align-items: center;
   padding-left: 20px;
-  
+
   width: 100%;
 
 `;
@@ -39,7 +41,7 @@ export const HistoricoHeader = styled.h1<Color>`
 export const HistoricoTable = styled.table`
   width: 595px;
   border-collapse: collapse;
-
+  border: 1px solid rgba(0, 0, 0, 0.1);
   width: 100%;
 
 `;
@@ -66,10 +68,12 @@ export const HistoricoTableHeaderCellTotal = styled(HistoricoTableCell).attrs({ 
   font-size: 12px;
   font-weight: 600;
   text-align: start;
+
 `;
 
 export const TotalRow = styled.tr<Color>`
   background:  ${(props) => props.primary};
+
 `;
 
 export const HistoricoTableCellPapelText = styled.span<IHistoricoTableCellPapelText>`

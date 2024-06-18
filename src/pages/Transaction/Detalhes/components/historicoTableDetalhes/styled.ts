@@ -9,6 +9,7 @@ interface Color {
 export const HistoricoContainer = styled.div`
   display: flex;
   flex-direction: column;
+
   @media (max-width: 900px) {
     width: 100%;
   }
@@ -21,6 +22,7 @@ export const HistoricoHeader = styled.h1<Color>`
   color: #FDFDFD;
   font-size: 12px;
   font-weight: 400;
+  border-radius: 12px 12px 0 0px;
 
   display: flex;
   align-items: center;
@@ -34,7 +36,8 @@ export const HistoricoHeader = styled.h1<Color>`
 export const HistoricoTable = styled.table`
   width: 444px;
   border-collapse: collapse;
- 
+  border: 1px solid rgba(0, 0, 0, 0.1);
+
   @media (max-width: 900px) {
     width: 100%;
   }

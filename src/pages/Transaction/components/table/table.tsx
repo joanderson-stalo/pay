@@ -71,7 +71,7 @@ export function TabelaVendas({ rows }: TabelaProps) {
     <S.Table>
       <thead>
         <tr>
-          <S.TableHeader style={{cursor: 'pointer'}}  onClick={() => handleSort('captured_in')}>
+          <S.TableHeader style={{cursor: 'pointer', width: "12%"}}  onClick={() => handleSort('captured_in')}>
             Data
             <S.SortContainer>
               <S.SortArrow isActive={sortField === 'captured_in' && sortDirection === 'asc'}>▲</S.SortArrow>
@@ -79,7 +79,7 @@ export function TabelaVendas({ rows }: TabelaProps) {
             </S.SortContainer>
           </S.TableHeader>
           <S.TableHeader>NSU</S.TableHeader>
-          <S.TableHeader>Estabelecimento</S.TableHeader>
+          <S.TableHeader >Estabelecimento</S.TableHeader>
           <S.TableHeader>Forma de Pagamento</S.TableHeader>
           <S.TableHeader>Bandeira</S.TableHeader>
           <S.TableHeader style={{cursor: 'pointer'}}  onClick={() => handleSort('amount')}>
@@ -106,8 +106,8 @@ export function TabelaVendas({ rows }: TabelaProps) {
                 {formattedDate} <br />
                 {formattedTime}
               </S.TableData>
-              <S.TableData>{transaction.nsu_internal}</S.TableData>
-              <S.TableData>{transaction.company_name}</S.TableData>
+              <S.TableData style={{maxWidth: "130px"}}>{transaction.nsu_internal}</S.TableData>
+              <S.TableData style={{maxWidth: "150px"}} >{transaction.company_name}</S.TableData>
               <S.FormaPagamentoData>
   <S.FormaPagamentoText>
   {transaction.payment_type.toLocaleLowerCase() === 'credit' ? 'crédito' : (transaction.payment_type.toLocaleLowerCase() === 'debit' ? 'débito' : 'pix')}

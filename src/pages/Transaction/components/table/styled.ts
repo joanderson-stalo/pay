@@ -39,9 +39,15 @@ export const TableData = styled.td`
   font-weight: ${({theme }) => theme.font_normal};
   line-height: 15.566px;
   text-align: start;
- padding: 8px 16px;
+  padding: 8px 16px;
   border-bottom: 1px solid #E9ECEF;
   font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+
+
 `;
 
 export const Button = styled.button<Color>`

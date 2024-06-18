@@ -150,6 +150,11 @@ export function CardDetalhes({
             <span>{card_number}</span>
           </div>
 
+          <div>
+            <h2>ID</h2>
+            <span>{id}</span>
+          </div>
+
         </S.InfoTre>
 
         <S.InfoTre
