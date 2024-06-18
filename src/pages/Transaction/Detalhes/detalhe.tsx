@@ -94,7 +94,6 @@ export function DetalheVenda() {
 
 
     <>
-            {/* <S.ButtonBlack isActive={isVisible} onClick={handleVendas}><CaretLeft size={18} />Voltar</S.ButtonBlack> */}
 
       <S.ContainerDetalhe>
 
@@ -110,6 +109,7 @@ export function DetalheVenda() {
       <ExportData title="Exportar comprovante" onClick={() => false}  />
 
       </S.ContainerTitleDetails>
+
 
       <S.SectionCard>
             <CardInfo
@@ -163,28 +163,10 @@ export function DetalheVenda() {
           />
 
 
-
           <S.SectionTable>
-            <S.ContextContainer>
-            <S.SectionCard>
-            <CardInfo
-              net_amount={formatCurrencyBR(
-                transactionDetails?.spread
-                  ? parseFloat(transactionDetails?.net_amount)
-                  : undefined
-              )}
-            />
-            <CardInfo2
-              spread={formatCurrencyBR(
-                transactionDetails?.spread
-                  ? parseFloat(transactionDetails.spread)
-                  : undefined
-              )}
-            />
 
-          </S.SectionCard>
-          <HistoricoTableDetalhes  liquidations={liquidations}  />
-            </S.ContextContainer>
+            <HistoricoTableDetalhes  liquidations={liquidations}  />
+
             <ComissoesTable  commissions={commissions}/>
 
           </S.SectionTable>
