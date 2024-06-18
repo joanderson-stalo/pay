@@ -8,20 +8,40 @@ interface ButtonProps {
 
 export const ContainerDetalhe = styled.div`
   display: flex;
+  flex-direction: column;
   margin: 36px 20px 20px 20px;
 
   justify-content: center;
 `
 
-export const ContextContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+export const ContainerTitleDetails = styled.div`
+display: flex;
+align-items: center;
+justify-content: space-between;
+margin-bottom: 34px;
 
-  @media (max-width: 900px) {
-    width: 100%;
-  }
 `
+
+export const WrapperTitle = styled.div`
+display: flex;
+align-items: center;
+gap: 16px;
+
+@media(max-width: 600px){
+  gap: 8px;
+}
+
+`
+
+// export const ContextContainer = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   gap: 24px;
+
+//   @media (max-width: 900px) {
+//     width: 100%;
+//   }
+// `
 
 export const ContextDetalhes = styled.div`
   display: flex;
@@ -30,6 +50,7 @@ export const ContextDetalhes = styled.div`
   gap: 36px;
 `
 export const SectionCard = styled.section`
+
   display: flex;
   gap: 21px;
 
@@ -40,7 +61,8 @@ export const SectionCard = styled.section`
 
 export const SectionTable = styled.section`
   display: flex;
-  gap: 23px;
+  width: 100%;
+  gap: 20px;
 
   @media (max-width: 1100px) {
     flex-direction: column;

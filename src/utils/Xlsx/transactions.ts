@@ -75,3 +75,8 @@ export const TransactionsToExcel = async (token: string) => {
     toast.error('Ocorreu um erro ao exportar as transações. Por favor, tente novamente mais tarde.');
   }
 };
+
+
+
+
+

@@ -25,8 +25,8 @@ export function ComissoesTable({ commissions }: ComissoesTableProps) {
       <S.HistoricoTable>
         <thead>
           <tr>
-            <S.HistoricoTableHeaderCell>Vendedor</S.HistoricoTableHeaderCell>
-            <S.HistoricoTableHeaderCell>Tipo</S.HistoricoTableHeaderCell>
+            <S.HistoricoTableHeaderCell ></S.HistoricoTableHeaderCell>
+            <S.HistoricoTableHeaderCell>Papel</S.HistoricoTableHeaderCell>
             <S.HistoricoTableHeaderCell>Taxa</S.HistoricoTableHeaderCell>
             <S.HistoricoTableHeaderCell>Markup</S.HistoricoTableHeaderCell>
             <S.HistoricoTableHeaderCell>Valor</S.HistoricoTableHeaderCell>

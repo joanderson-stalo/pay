@@ -16,6 +16,11 @@ import { CaretLeft } from '@phosphor-icons/react'
 import { useNavigate } from 'react-router-dom'
 import { useTransactionVendas } from '@/context/useTransaction'
 import { useSidebarVisibility } from '@/context/sidebarVisibilityContext'
+import { TitleH } from '@/components/Title/title'
+import { ExportData } from '@/components/ExportData/exportData'
+import { ArrowBack } from '@/components/BtnArrowBack/btnArrowBack'
+import { useTenantData } from '@/context'
+import jsPDF from 'jspdf'
 
 type DateFormatOptions = {
   year: 'numeric' | '2-digit'
@@ -32,6 +37,12 @@ export function DetalheVenda() {
   const { isVisible } = useSidebarVisibility();
   const [transactionDetails, setTransactionDetails] =
     useState<TransactionDetails | null>(null)
+
+    const tenantData = useTenantData();
+
+
+
+
 
   function formatDateBR(dateString: string | number | Date): string {
     const options: DateFormatOptions = {
@@ -63,7 +74,7 @@ export function DetalheVenda() {
           if (data) {
             setTransactionDetails(data.transaction)
             setCommissions(data.transaction.commissions)
-            setLiquidations(data.transaction.liquidations); 
+            setLiquidations(data.transaction.liquidations);
           }
         } catch (error) {
           toast.error('Erro ao buscar os detalhes da transação')
@@ -76,19 +87,122 @@ export function DetalheVenda() {
     fetchData()
   }, [selectedTransactionId])
 
-  const navigate = useNavigate()
+ 
 
-  const handleVendas = () => {
-    navigate('/transaction')
+
+
+  const exportPDF = () => {
+    if (!transactionDetails) {
+      toast.error('Não há detalhes de transação para exportar.');
+      return;
+    }
+
+    const toastId = toast.loading('Aguardando exportação do comprovante...');
+
+    const doc = new jsPDF({
+      orientation: 'portrait',
+      unit: 'mm',
+      format: 'a4'
+    });
+
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(14);
+
+    doc.text('Comprovante de Transação', 105, 20, { align: 'center' });
+
+    doc.setDrawColor(0);
+    doc.setLineWidth(0.5);
+    doc.line(20, 25, 190, 25);
+
+    const imageUrl = tenantData.attachment_logo_colorful;
+    if (imageUrl) {
+      const imgX = 20;
+      const imgY = 14;
+      const imgWidth = 48;
+      const imgHeight = 10;
+      doc.addImage(imageUrl, 'JPEG', imgX, imgY, imgWidth, imgHeight);
+    }
+
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'normal');
+    let y = 40;
+
+    const details = [
+      ['Data:', formatDateBR(transactionDetails.captured_in)],
+      ['Hora:', formatTime(transactionDetails.captured_in)],
+      ['Taxa Aplicada:', `${formatTaxa(parseFloat(transactionDetails.tax_applied))}%`],
+      ['Equipamento SN:', transactionDetails.equipment_sn],
+      ['Adquirente:', transactionDetails.acquire],
+      ['Valor:', formatCurrencyBR(parseFloat(transactionDetails.amount))],
+      ['Status:', transactionDetails.status === 'succeeded' ? 'Sucesso' : 'Falha'],
+      ['NSU:', transactionDetails.nsu_internal],
+      ['Parcelas:', transactionDetails.number_installments],
+      ['Número do Cartão:', transactionDetails.card_number],
+      ['Bandeira:', transactionDetails.brand],
+      ['Tipo de Pagamento:', transactionDetails.payment_type === 'debit' ? 'Débito' : transactionDetails.payment_type === 'credit' ? 'Crédito' : transactionDetails.payment_type],
+      ['Empresa Vendedora:', transactionDetails.seller_company_name],
+      ['ID da Transação:', transactionDetails.id]
+    ];
+
+    details.forEach(detail => {
+      doc.text(`${detail[0]} ${detail[1]}`, 20, y);
+      y += 7;
+    });
+
+    const filename = `Comprovante_Transacao_${transactionDetails.id}.pdf`;
+    doc.save(filename);
+    toast.update(toastId, { render: 'Comprovante exportado com sucesso!', type: 'success', isLoading: false, autoClose: 5000 });
+  };
+
+
+
+  if (loading) {
+    return <Loading />
   }
 
+
+
   return (
+
+
+
     <>
-      {loading ? <Loading />
-      :
-    <>
-            <S.ButtonBlack isActive={isVisible} onClick={handleVendas}><CaretLeft size={18} />Voltar</S.ButtonBlack>
+
       <S.ContainerDetalhe>
+
+      <S.ContainerTitleDetails>
+
+        <S.WrapperTitle>
+
+            <ArrowBack  />
+            <TitleH title="Visão seral" />
+        </S.WrapperTitle>
+
+
+      <ExportData title="Exportar comprovante" onClick={exportPDF}  />
+
+      </S.ContainerTitleDetails>
+
+
+      <S.SectionCard>
+            <CardInfo
+              net_amount={formatCurrencyBR(
+                transactionDetails?.spread
+                  ? parseFloat(transactionDetails?.net_amount)
+                  : undefined
+              )}
+            />
+            <CardInfo2
+              spread={formatCurrencyBR(
+                transactionDetails?.spread
+                  ? parseFloat(transactionDetails.spread)
+                  : undefined
+              )}
+            />
+
+          </S.SectionCard>
+
+
         <S.ContextDetalhes>
           <CardDetalhes
             captured_in_date={
@@ -122,38 +236,19 @@ export function DetalheVenda() {
           />
 
 
-
           <S.SectionTable>
-            <S.ContextContainer>
-            <S.SectionCard>
-            <CardInfo
-              net_amount={formatCurrencyBR(
-                transactionDetails?.spread
-                  ? parseFloat(transactionDetails?.net_amount)
-                  : undefined
-              )}
-            />
-            <CardInfo2
-              spread={formatCurrencyBR(
-                transactionDetails?.spread
-                  ? parseFloat(transactionDetails.spread)
-                  : undefined
-              )}
-            />
 
-          </S.SectionCard>
-          <HistoricoTableDetalhes  liquidations={liquidations}  />
-            </S.ContextContainer>
+            <HistoricoTableDetalhes  liquidations={liquidations}  />
             <ComissoesTable  commissions={commissions}/>
-
           </S.SectionTable>
+
         </S.ContextDetalhes>
       </S.ContainerDetalhe>
     </>
 
 
-      }
 
-    </>
+
+
   )
 }
