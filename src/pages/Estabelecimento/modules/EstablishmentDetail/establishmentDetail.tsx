@@ -12,6 +12,9 @@ import Swal from 'sweetalert2';
 import { LatestSales } from '@/pages/Home/components/LAHome/components/LatestSales/latestSales';
 import { baseURL } from '@/config/color';
 import { useTenantData } from '@/context';
+import { ArrowBack } from '@/components/BtnArrowBack/btnArrowBack';
+import { DetalhesTable } from './components/detalhesTable/detalhesTable';
+import { SituationTable } from './components/situationTable/situationTable';
 
 type PaymentTypes = {
   credit: string;
@@ -31,12 +34,22 @@ type TransactionDetail = {
   amount: string;
 };
 
+type SituationDetail = {
+  label: string;
+  name: string;
+  statusDescription: string;
+};
+
+
+
 type EstablishmentDetailType = {
   seller_name: string;
   transactions_TPV: string;
   payment_types: PaymentTypes;
   hourly_transaction_totals: HourlyTransactionTotals;
   latest_transactions: TransactionDetail[];
+  status_acquire: { [key: string]: SituationDetail };
+
 };
 
 export function EstablishmentDetail() {
@@ -45,6 +58,11 @@ export function EstablishmentDetail() {
   const { dataUser } = useLogin();
   const [loading, setLoading] = useState(false);
   const [establishmentDetails, setEstablishmentDetails] = useState<EstablishmentDetailType | null>(null);
+  const [situationEstablishmentDetails, setSituationEstablishmentDetails] = useState<EstablishmentDetailType | null>(null);
+
+
+  console.log('aqui', situationEstablishmentDetails);
+
 
   const fetchEstablishmentDetail = useCallback(async () => {
     setLoading(true);
@@ -56,6 +74,7 @@ export function EstablishmentDetail() {
         }
       });
       setEstablishmentDetails(response.data);
+      setSituationEstablishmentDetails(response.data)
     } catch (error) {
       console.error(error);
     } finally {
@@ -108,9 +127,7 @@ export function EstablishmentDetail() {
     });
   };
 
-  const handEstabelecimentos = () => {
-    navigate('/sellers-ec');
-  };
+
 
   const handEditRegistrationEC = () => {
     navigate('/sellers-ec-edit');
@@ -126,9 +143,20 @@ export function EstablishmentDetail() {
     <>
       {loading && <Loading />}
       <S.Container>
-      <S.ButtonBlack  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} onClick={handEstabelecimentos}><CaretLeft size={18} />Voltar</S.ButtonBlack>
+
       <S.ContainerInfo>
-        <S.Title  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>{establishmentDetails?.seller_name || 'Nome do Estabelecimento'}</S.Title>
+
+        <S.WrapperInfo>
+          <ArrowBack/>
+          <S.Title  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>{establishmentDetails?.seller_name || 'Nome do Estabelecimento'}</S.Title>
+        </S.WrapperInfo>
+        
+        < S.ContainerBnt>
+          <S.ButtonEditRegistration  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} type='button' onClick={handEditRegistrationEC}>Editar cadastro</S.ButtonEditRegistration>
+          <S.ButtonManageAccess  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}  type='button' onClick={handManage}>Gerenciar acessos</S.ButtonManageAccess>
+          <S.ButtonDelete type='button' onClick={handleDeleteConfirmation}>Deletar</S.ButtonDelete>
+        </S.ContainerBnt>
+
       </S.ContainerInfo>
 
       <S.ContainerGrafico>
@@ -140,14 +168,17 @@ export function EstablishmentDetail() {
         />
         <GraficoBar hourly_transaction_totals={establishmentDetails?.hourly_transaction_totals || {}} />
       </S.ContainerGrafico>
-    
-      <LatestSales latest_transactions={establishmentDetails?.latest_transactions || []} />
 
-      < S.ContainerBnt>
-        <S.ButtonEditRegistration  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} type='button' onClick={handEditRegistrationEC}>Editar cadastro</S.ButtonEditRegistration>
-        <S.ButtonManageAccess  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}  type='button' onClick={handManage}>Gerenciar acessos</S.ButtonManageAccess>
-        <S.ButtonDelete type='button' onClick={handleDeleteConfirmation}>Excluir EC</S.ButtonDelete>
-        </S.ContainerBnt>
+      <S.ContainerTable>
+        <LatestSales latest_transactions={establishmentDetails?.latest_transactions || []} />
+
+        <SituationTable status_acquire={Object.values(situationEstablishmentDetails?.status_acquire || {})} />
+
+      </S.ContainerTable>
+
+
+
+
       </S.Container>
 
 
