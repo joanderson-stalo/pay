@@ -31,7 +31,7 @@ export const HistoricoHeader = styled.h1<Color>`
   display: flex;
   align-items: center;
   padding-left: 20px;
-  box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.25);
+  
   width: 100%;
 
 `;
@@ -39,7 +39,7 @@ export const HistoricoHeader = styled.h1<Color>`
 export const HistoricoTable = styled.table`
   width: 595px;
   border-collapse: collapse;
-  box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.25);
+
   width: 100%;
 
 `;

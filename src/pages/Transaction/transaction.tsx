@@ -27,6 +27,7 @@ import {
 } from '@/json/statusPaymentOptions'
 import { TagFilter } from '@/components/TagFilter/tagFilter'
 import { ITransaction } from './components/table/interface'
+import { toast } from 'react-toastify'
 
 export function Transaction() {
   const [searchValue, setSearchValue] = useState('')
@@ -161,13 +162,24 @@ export function Transaction() {
     fetchDataFromAPI()
   }, [fetchDataFromAPI])
 
+
+
   const handleExportClick = () => {
     if (dataUser) {
+      const toastId = toast.loading('Aguarde... Exportação em andamento.');
       TransactionsToExcel(dataUser.token)
+        .then(() => {
+          toast.update(toastId, { render: 'Exportação realizada com sucesso!', type: toast.TYPE.SUCCESS, isLoading: false, autoClose: 5000 });
+        })
+        .catch((error) => {
+          toast.update(toastId, { render: 'Erro ao exportar: ' + error.message, type: toast.TYPE.ERROR, isLoading: false, autoClose: 5000 });
+        });
     } else {
-      console.error('Usuário não está autenticado.')
-    }
-  }
+
+      toast.error('Usuário não está autenticado.');
+    }
+  };
+
 
   const handleSaveToLocalStorage = async () => {
     if(currentPage !== 1){
@@ -241,7 +253,7 @@ export function Transaction() {
   return (
     <>
       <S.Container>
-        
+
         <S.ContextTitleVendas>
           <TitleH title="Vendas" />
           <S.ContainerCardVendas>

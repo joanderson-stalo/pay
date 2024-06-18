@@ -27,6 +27,10 @@ display: flex;
 align-items: center;
 gap: 16px;
 
+@media(max-width: 600px){
+  gap: 8px;
+}
+
 `
 
 // export const ContextContainer = styled.div`

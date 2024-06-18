@@ -13,7 +13,7 @@ export const ContainerCardDetalhes = styled.div`
   width: 100%;
   border-radius: 8px;
   background: #fff;
-  padding: 38px 0 44px 50px;
+  padding: 20px 0 20px 30px;
   border-radius: 8px;
   border: 1px solid #D1D1D1;
   margin-top: 16px;
@@ -70,6 +70,10 @@ gap: 10px;
   letter-spacing: 0.5px;
 }
 
+@media (max-width: 600px){
+
+}
+
 `
 
 export const ContainerTags = styled.div<Color>`
@@ -110,11 +114,13 @@ export const DetalheInfo = styled.div`
 
   @media (max-width: 900px) {
    flex-wrap: wrap;
+   gap: 20px;
   }
 
 
   @media (max-width: 600px) {
    flex-direction: column;
+   gap: 8px;
   }
 `;
 
@@ -142,10 +148,19 @@ export const InfoOne = styled.div<Color>`
       letter-spacing: 0.5px
     }
   }
+
+  @media (max-width: 600px){
+    gap: 8px;
+    div{
+      gap: 3px;
+    }
+}
 `;
 
 export const InfoTw = styled.div<Color>`
-
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 
   > div {
     display: flex;
@@ -165,12 +180,19 @@ export const InfoTw = styled.div<Color>`
       letter-spacing: 0.5px
     }
   }
+  @media (max-width: 600px){
+    gap: 8px;
+    div{
+      gap: 3px;
+    }
+  }
+
 `;
 
 export const InfoTre = styled.div<Color>`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
 
   > div {
     display: flex;
@@ -188,6 +210,13 @@ export const InfoTre = styled.div<Color>`
       font-weight: 400;
       line-height: 24px;
       letter-spacing: 0.5px
+    }
+  }
+
+  @media (max-width: 600px){
+    gap: 8px;
+    div{
+      gap: 3px;
     }
   }
 `;
