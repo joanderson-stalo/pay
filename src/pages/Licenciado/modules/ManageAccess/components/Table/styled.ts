@@ -12,7 +12,8 @@ export const Table = styled.table`
   border-spacing: 0 10px;
   border-radius: 8px;
   background: var(--Sys---Neutral-04, #FFF);
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+
 
   thead {
     position: relative;

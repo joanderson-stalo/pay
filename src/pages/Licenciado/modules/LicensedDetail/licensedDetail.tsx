@@ -13,6 +13,7 @@ import { TopEstabelecimentos } from '@/pages/Home/components/LAHome/components/T
 import { DetalhesTable } from '@/components/DetalhesTableNew/detalhesTable';
 import { baseURL } from '@/config/color';
 import { useTenantData } from '@/context';
+import { ArrowBack } from '@/components/BtnArrowBack/btnArrowBack';
 
 interface TransactionsGroupedByAcquireIdType {
   total_amount: number;
@@ -82,7 +83,7 @@ export function LicensedDetail() {
   const handleEdit = () => {
     navigate('/sellers-la-edit');
   };
-  
+
   const handleDeleteLicensed = async () => {
     setLoading(true);
     try {
@@ -126,12 +127,24 @@ export function LicensedDetail() {
     <>
     {loading && <Loading />}
       <S.Container>
-        <S.ButtonBlack  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}
- onClick={handleLicenciados}><CaretLeft size={18} />Voltar</S.ButtonBlack>
+
         <S.ContainerInfo>
-          <S.Title  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}
+          <S.WrapperInfo>
+            <ArrowBack/>
+            <S.Title  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}
 >{licensedDetail?.seller_name || 'Nome do Vendedor'}</S.Title>
+          </S.WrapperInfo>
+
+          < S.ContainerBnt>
+        <S.ButtonEditRegistration  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}
+ onClick={handleEdit} type='button'>Editar cadastro</S.ButtonEditRegistration>
+        <S.ButtonManageAccess   primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}
+ type='button' onClick={navigateToManageAccessLicensed}>Gerenciar acessos</S.ButtonManageAccess>
+        <S.ButtonDelete type='button' onClick={handleDeleteConfirmation}>Deletar</S.ButtonDelete>
+        </S.ContainerBnt>
         </S.ContainerInfo>
+
+
 
         <S.ContainerGrafico>
           <GraficoCicle
@@ -148,13 +161,7 @@ export function LicensedDetail() {
           <TopEstabelecimentos topSellers={licensedDetail?.top_Seller || []} />
         </S.ContainerTable>
 
-        < S.ContainerBnt>
-        <S.ButtonEditRegistration  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}
- onClick={handleEdit} type='button'>Editar cadastro</S.ButtonEditRegistration>
-        <S.ButtonManageAccess   primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}
- type='button' onClick={navigateToManageAccessLicensed}>Gerenciar acessos</S.ButtonManageAccess>
-        <S.ButtonDelete type='button' onClick={handleDeleteConfirmation}>Excluir LA</S.ButtonDelete>
-        </S.ContainerBnt>
+
 
       </S.Container>
     </>
