@@ -275,6 +275,7 @@ const validateStep4 = () => {
             steps={steps}
             canAdvance={currentStepIsValid()}
             canGoBack={currentStep > 1}
+            
           />
         </ContainerProgressSteps>
 

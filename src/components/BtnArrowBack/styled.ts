@@ -8,6 +8,8 @@ display: flex;
 >svg{
   width: 32px;
   height: 32px;
+
+  color: #202124;
 }
 
 @media (max-width: 600px){
