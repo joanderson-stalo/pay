@@ -121,16 +121,6 @@ export function MyCommission() {
     }
   }
 
-
-
-  useEffect(() => {
-    if (searchValue.trim() === '') {
-      fetchDataFromAPI()
-    }
-  }, [searchValue])
-
-
-
   const totalPages = Math.ceil(totalCommissionsByEC / (itensPorPage || 1))
 
 

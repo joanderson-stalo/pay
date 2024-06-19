@@ -37,11 +37,6 @@ export function ExtractCardMobile({ data }: { data: StatementData }) {
                     <S.SectionDescription>{formatCurrencyBR(statement.tpv)}</S.SectionDescription>
                   </S.DetailRow>
                 </S.DetailColumn>
-
-                <S.DetailColumnBtn>
-                  <S.EditButton  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}
->Visualizar</S.EditButton>
-                </S.DetailColumnBtn>
               </S.CardContent>
             </div>
           ))}

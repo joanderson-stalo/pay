@@ -2,7 +2,6 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MagnifyingGlass } from '@phosphor-icons/react';
 import * as S from './styled';
-import debounce from 'lodash/debounce';
 import { TitleH } from '@/components/Title/title';
 import { useTenantData } from '@/context';
 
@@ -37,23 +36,7 @@ export function LicenciadoHeader({ onSearch, searchValue, setSearchValue }: Prop
     navigate('/sellers-la-register');
   };
 
-  useEffect(() => {
-    let searchDebounce: ReturnType<typeof debounce> | null = null;
 
-    if (isTyping) {
-      searchDebounce = debounce((valorTrimmed: string) => {
-        onSearch(valorTrimmed);
-      }, 1000);
-
-      searchDebounce(searchValue.trim());
-    }
-
-    return () => {
-      if (searchDebounce) {
-        searchDebounce.cancel();
-      }
-    };
-  }, [onSearch, searchValue, isTyping]);
 
   return (
     <S.Container>

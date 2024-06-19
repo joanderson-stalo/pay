@@ -15,9 +15,8 @@ import { BtnFilterModal } from '@/components/BtnFilterModal/btnFilterModal'
 import { CustomInput } from '@/components/Input/input'
 import { useTenantData } from '@/context'
 import { TagFilter } from '@/components/TagFilter/tagFilter'
-
 import { MagnifyingGlass } from '@phosphor-icons/react'
-import { debounce } from 'lodash'
+
 
 export function Tickets() {
   const [itensPorPage, setItensPorPage] = useState<number | ''>(10)
@@ -74,6 +73,8 @@ export function Tickets() {
     }
   }, [itensPorPage, currentPage, dataUser?.token]);
 
+
+
   const handleNextPage = async () => {
  await   setCurrentPage(prevPage => prevPage + 1)
   }
@@ -90,16 +91,6 @@ export function Tickets() {
   }
 
   const totalPages = Math.ceil(totalTickets / (itensPorPage || 1))
-
-  useEffect(() => {
-    fetchDatatickets()
-  }, [dataUser, itensPorPage, currentPage])
-
-  useEffect(() => {
-    if (searchValue.trim() === '') {
-      fetchDatatickets()
-    }
-  }, [searchValue])
 
   const handleSaveToLocalStorage = async () => {
     if(currentPage !== 1){
@@ -122,14 +113,12 @@ export function Tickets() {
     fetchDatatickets();
   }
 
-  const debouncedFetchDataFromAPI = useRef(debounce(fetchDatatickets, 1000)).current;
+
   const handleChange = async (event: { target: { value: string } }) => {
     setSearchValue(event.target.value);
     if (event.target.value.trim() !== '') {
-      await   setCurrentPage(1)
-      debouncedFetchDataFromAPI(event.target.value.trim());
+      await  setCurrentPage(1)
     } else {
-      debouncedFetchDataFromAPI.cancel();
       fetchDatatickets();
     }
   };
@@ -153,7 +142,11 @@ export function Tickets() {
     }
   ].filter((filter): filter is { title: string; onClick: () => void } => Boolean(filter));
 
-
+  useEffect(() => {
+    if (searchValue.trim() === '') {
+      fetchDatatickets()
+    }
+  }, [searchValue])
 
 
   if (loading) {
@@ -200,7 +193,7 @@ export function Tickets() {
 
 
         <S.ContainerButton>
-         
+
           <BtnFilterModal
             disabled={!startDate || !endDate || endDate <= startDate}
             onClick={handleSaveToLocalStorage}

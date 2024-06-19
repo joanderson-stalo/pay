@@ -86,12 +86,12 @@ export function OperationManagement() {
 
   return (
     <Container>
-      <TitleH title='Resumo da Operação' />
+      <TitleH title='Resumo de rendimentos ' />
       <ContainerCards>
         <CardInfo label='TPV' value={parseFloat(operationSummary?.transactions_TPV || '0')} />
-        <CardInfo label='A receber' value={parseFloat(operationSummary?.receivable || '0')} />
+        <CardInfo label='Total recebido' value={parseFloat(operationSummary?.receivable || '0')} />
         <CardInfo label='A pagar' value={parseFloat(operationSummary?.payable || '0')} />
-        <CardInfo label='Lucro' value={parseFloat(operationSummary?.profit || '0')} />
+        <CardInfo label='Lucro final' value={parseFloat(operationSummary?.profit || '0')} />
       </ContainerCards>
 
       <OperationManagementTable

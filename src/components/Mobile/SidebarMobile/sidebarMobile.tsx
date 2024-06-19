@@ -35,7 +35,7 @@ export function SidebarMobile({ isOpen, toggleSidebar }: SidebarMobileProps) {
         { icon: <Stack />, label: 'Planos', path: "/plans" },
         { icon: <Laptop />, label: 'Equipamentos', path: "/equipmentStock" },
         { icon: <Wallet />, label: 'Financeiro', isSubmenu: true, submenuItems: [
-            { label: 'Gestão da Operação', path: '/operationManagement' },
+            { label: 'Resumo de rendimentos ', path: '/operationManagement' },
             { label: 'Extrato', path: '/extract' },
             { label: 'Tarifas', path: '/tariffs' },
             { label: 'Solicitação de Cobrança', path: '/billingRequest' },

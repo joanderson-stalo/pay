@@ -8,7 +8,6 @@ import { Pagination } from '@/components/Pagination/pagination'
 import { Loading } from '@/components/Loading/loading'
 import axios from 'axios'
 import { baseURL } from '@/config/color'
-import debounce from 'lodash/debounce'
 import { useLogin } from '@/context/user.login'
 import { CardSales } from './Mobile/CardSales/cardSales'
 import { TransactionsToExcel } from '@/utils/Xlsx/transactions'
@@ -120,16 +119,12 @@ export function Transaction() {
     [itensPorPage, currentPage, baseURL, dataUser?.token]
   )
 
-  const debouncedFetchDataFromAPI = useRef(
-    debounce(fetchDataFromAPI, 1000)
-  ).current
+
 
   const handleChange = (event: { target: { value: string } }) => {
     setSearchValue(event.target.value)
     if (event.target.value.trim() !== '') {
-      debouncedFetchDataFromAPI(event.target.value.trim())
     } else {
-      debouncedFetchDataFromAPI.cancel()
       fetchDataFromAPI()
     }
   }

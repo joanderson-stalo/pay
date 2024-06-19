@@ -64,9 +64,7 @@ export function Estabelecimento() {
     if (value.trim() === '') {
       setSearchValue('');
     }
-
-    fetchData();
-  }, [fetchData]);
+  }, []);
 
   const handleNextPage = useCallback(() => {
     setCurrentPage(prevPage => prevPage + 1);
@@ -192,7 +190,7 @@ export function Estabelecimento() {
 
               <S.ContenteFilter>
 
-               
+
                 <BtnFilterModal disabled={!selectedLicenciado && !selectedFornecedor} onClick={handleSaveToLocalStorage}>
 
                   <CustomSelect

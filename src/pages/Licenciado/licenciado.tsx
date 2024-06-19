@@ -8,8 +8,6 @@ import { LicenciadoHeader } from './components/licenciadoHeader/licenciadoHeader
 import { useLogin } from '@/context/user.login';
 import axios from 'axios';
 import { Loading } from '@/components/Loading/loading';
-
-import { BtnFilter } from '@/components/BtnFilter/btnFilter';
 import { LicensedCard } from './mobile/LicenciadosCard/licensedCard';
 import { baseURL } from '@/config/color';
 import { BtnFilterModal } from '@/components/BtnFilterModal/btnFilterModal';
@@ -70,14 +68,8 @@ export function Licenciado() {
   const totalPages = Math.ceil(totalSellers / (itensPorPage || 1));
 
   useEffect(() => {
-    fetchData()
-  }, [fetchData]);
-
-  useEffect(() => {
-    if (searchValue.trim() === '') {
-      fetchData();
-    }
-  }, [searchValue])
+    fetchData();
+  }, [fetchData])
 
 
   const handleSearch = (value: string) => {
@@ -165,7 +157,7 @@ export function Licenciado() {
 
           <S.ContentFilter>
 
-                
+
 
 
                 <BtnFilterModal onClick={handleSaveToLocalStorage} disabled={!selectedLicenciado}>
