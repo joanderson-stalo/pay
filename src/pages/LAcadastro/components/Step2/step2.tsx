@@ -86,9 +86,8 @@ export function Step2({ Avançar, Voltar }: IStep2) {
                 colorInputSuccess={tenantData.secondary_color_identity}
                 hasError={!!errors.Endereco}
               />
-            </ContainerInput>
-            <ContainerInput>
-              <CustomInput
+
+<CustomInput
                 {...register('Numero')}
                 label='Número'
                 colorInputDefault={tenantData.primary_color_identity}
@@ -96,7 +95,12 @@ export function Step2({ Avançar, Voltar }: IStep2) {
 
                 hasError={!!errors.Numero}
               />
-              <CustomInput
+
+
+            </ContainerInput>
+
+            <ContainerInput>
+            <CustomInput
                 {...register('Complemento')}
                 label='Complemento'
                 colorInputDefault={tenantData.primary_color_identity}
@@ -104,8 +108,6 @@ export function Step2({ Avançar, Voltar }: IStep2) {
 
                 hasError={!!errors.Complemento}
               />
-            </ContainerInput>
-            <ContainerInput>
               <CustomInput
                 {...register('Bairro')}
                 label='Bairro'
@@ -136,7 +138,7 @@ export function Step2({ Avançar, Voltar }: IStep2) {
           </ContainerForm>
         </ContextStep>
         <ContainerButton>
-          <ButtonVoltar onClick={Voltar}>Voltar</ButtonVoltar>
+          <ButtonVoltar primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} onClick={Voltar}>Voltar</ButtonVoltar>
           <ButtonAvançar  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} disabled={!allFieldsFilled} onClick={Avançar}>Avançar</ButtonAvançar>
         </ContainerButton>
       </ContextStepContainer>

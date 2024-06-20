@@ -59,9 +59,9 @@ export const ContainerInput = styled.section`
   display: flex;
   gap: 20px;
 
-  @media (max-width: 768px) {
+  @media (max-width: 680px) {
     flex-direction: column;
-    gap: 20px;
+    gap: 10px;
   }
 `;
 
@@ -81,8 +81,8 @@ export const ContainerInput2 = styled.section`
     color: #665B6D;
   }
 
-  @media (max-width: 768px) {
-    width: 100%;
+  @media (max-width: 680px) {
+    max-width: 100%;
   }
 `;
 
@@ -135,7 +135,7 @@ export const ContainerButton = styled.div`
   gap: 20px;
   align-self: flex-end;
   margin-bottom: 100px;
-  @media (max-width: 600px) {
+  @media (max-width: 480px) {
     justify-content: center;
     align-self: center;
   }
@@ -143,10 +143,11 @@ export const ContainerButton = styled.div`
 
 
 export const TipoConta = styled.div`
-  width: 255px;
+  width: 100%;
+  max-width: 255px;
 
-  @media (max-width: 768px) {
-    width: 100%;
+  @media (max-width: 680px) {
+    max-width: 100%;
   }
 `;
 
@@ -154,23 +155,25 @@ export const Banco = styled.div`
 width: 100%;
 max-width:  560px;
 
-  @media (max-width: 768px) {
-    width: 100%;
+@media (max-width: 680px) {
+    max-width: 100%;
   }
 `;
 
 export const Agencia = styled.div`
-  width: 215px;
+  width: 100%;
+  max-width: 215px;
 
-  @media (max-width: 768px) {
-    width: 100%;
+  @media (max-width: 680px) {
+    max-width: 100%;
   }
 `;
 
 export const Conta = styled.div`
-  width: 215px;
+  width: 100%;
+  max-width: 215px;
 
-  @media (max-width: 768px) {
-    width: 100%;
+  @media (max-width: 680px) {
+    max-width: 100%;
   }
 `;

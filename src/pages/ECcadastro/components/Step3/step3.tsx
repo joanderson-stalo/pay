@@ -127,6 +127,7 @@ export function Step3({ Avançar, Voltar }: IStep3) {
             onChange={(selectedOption: { value: string }) => handleAcquireChange(selectedOption, index)}
           />
         </WInput>
+        
         <WInput>
           <CustomSelect
             {...register(`PlanoComercial${index}`)}

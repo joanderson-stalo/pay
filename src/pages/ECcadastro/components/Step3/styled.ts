@@ -154,7 +154,7 @@ export const ButtonAvançar = styled.button<Color>`
   height: 40px;
   background: ${(props) => props.primary};
   border: 0.5px solid ${(props) => props.primary};
-  border-radius: 5px;
+  border-radius: 4px;
   font-weight: 400;
   font-size: 14px;
   line-height: 15.566px;
