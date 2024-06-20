@@ -95,7 +95,7 @@ export function Step2({ Avançar, Voltar }: IStep2) {
                 hasError={!!errors.Numero}
               />
             </ContainerInput>
-            
+
             <ContainerInput>
             <CustomInput
                 {...register('Complemento')}

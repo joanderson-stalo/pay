@@ -26,14 +26,6 @@ export const ContextStep = styled.div`
   padding: 22px 39px 0px 39px;
 
 
-
-  @media (max-width: 900px) {
-
-
-    margin-top: 10px;
-    margin-bottom: 20px;
-  }
-
   @media (max-width: 600px) {
     padding: 22px 20px 0px 20px;
   }
@@ -75,7 +67,7 @@ export const ContainerInput = styled.section`
     display: flex;
     justify-content: space-between;
     flex-direction: column;
-    gap: 20px;
+
   }
 `;
 

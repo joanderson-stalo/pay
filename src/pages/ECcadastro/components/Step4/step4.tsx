@@ -128,6 +128,7 @@ const handleCpfCnpjChange = (event: { target: { value: any; }; }) => {
             <S.TitleStep>Dados Bancários - F1</S.TitleStep>
             <S.Line />
             <S.ContainerForm>
+              
               <S.ContainerInput>
                 <S.Banco>
                   <CustomSelect
@@ -158,6 +159,7 @@ const handleCpfCnpjChange = (event: { target: { value: any; }; }) => {
                 </S.TipoConta>
 
               </S.ContainerInput>
+
               <S.ContainerInput>
 
                 <S.Agencia>
