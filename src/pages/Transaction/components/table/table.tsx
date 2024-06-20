@@ -134,7 +134,7 @@ export function TabelaVendas({ rows }: TabelaProps) {
               <S.TableData> {formatCurrencyBR(Number(transaction.amount))}</S.TableData>
               <S.StatusData>
                 <S.StatusText status={transaction.status}>
-                  {transaction.status === 'succeeded' ? 'SUCESSO' : 'FALHA'}
+                  {transaction.status === 'succeeded' ? 'Sucesso' : 'Falha'}
                 </S.StatusText>
               </S.StatusData>
               <S.TableData>

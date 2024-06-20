@@ -11,7 +11,8 @@ interface Color {
 
 export const ButtonFilter = styled.button<Color>`
 
-  padding: 3.2px 8.5px;
+  padding: 3.2px 0;
+  width: 106px;
   border-radius: 4px;
   border: 1px solid ${(props) => props.primary};
   background: ${(props) => (props.isActive ? props.primary : 'transparent')};

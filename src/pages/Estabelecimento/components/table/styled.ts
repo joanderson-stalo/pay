@@ -28,7 +28,7 @@ export const TableHeader = styled.th`
   vertical-align: middle;
   font-size: 14px;
   text-align: start;
-  
+
 `;
 
 export const TableData = styled.td`
@@ -69,16 +69,29 @@ export const FornecedorWrapper = styled.div`
 `;
 
 export const FornecedorItem = styled.p<{ status: string }>`
-  width: 23px;
-  height: 26px;
-  font-size: 10px;
-  font-weight: ${({theme }) => theme.font_normal};
+
+  font-size: 12px;
+  width: 30px;
+  height: 22px;
   line-height: 26px;
   margin-right: 5px;
   border-radius: 4px;
   text-align: center;
-  color: #fff;
-  background-color: ${({ status }) => (status === 'enable' ? '#55B938' : '#7D7D7D')}; 
+  color: #202124;
+  
+    font-weight: ${({theme }) => theme.font_bold};
+
+  background-color: ${({ status }) => (status === 'enable' ? '#55B938' : '#1786291A')};
+
+
+
+
+
+
+
+
+
+
 `;
 
 export const SortContainer = styled.div`

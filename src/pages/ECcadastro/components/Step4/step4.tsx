@@ -128,6 +128,7 @@ const handleCpfCnpjChange = (event: { target: { value: any; }; }) => {
             <S.TitleStep>Dados Bancários - F1</S.TitleStep>
             <S.Line />
             <S.ContainerForm>
+              
               <S.ContainerInput>
                 <S.Banco>
                   <CustomSelect
@@ -142,6 +143,7 @@ const handleCpfCnpjChange = (event: { target: { value: any; }; }) => {
                     }}
                   />
                 </S.Banco>
+
                 <S.TipoConta>
                   <CustomSelect
                     {...register('TipoDeConta', { required: true })}
@@ -155,8 +157,11 @@ const handleCpfCnpjChange = (event: { target: { value: any; }; }) => {
                     }}
                   />
                 </S.TipoConta>
+
               </S.ContainerInput>
+
               <S.ContainerInput>
+
                 <S.Agencia>
                   <CustomInput
                     {...register('Agência', { required: true })}
@@ -167,6 +172,7 @@ const handleCpfCnpjChange = (event: { target: { value: any; }; }) => {
                     hasSuccess={false}
                   />
                 </S.Agencia>
+
                 <S.Conta>
                   <CustomInput
                     {...register('Conta', { required: true })}
@@ -177,8 +183,8 @@ const handleCpfCnpjChange = (event: { target: { value: any; }; }) => {
                     hasSuccess={false}
                   />
                 </S.Conta>
-              </S.ContainerInput>
-              <S.ContainerInput2>
+
+                <S.ContainerInput2>
               <CustomInput
                   key={mask}
                   colorInputDefault={tenantData.primary_color_identity}
@@ -190,11 +196,14 @@ const handleCpfCnpjChange = (event: { target: { value: any; }; }) => {
                   onChange={handleCpfCnpjChange}
                 />
               </S.ContainerInput2>
+
+              </S.ContainerInput>
+
             </S.ContainerForm>
           </S.ContextStep>
           {renderInfosForFornecedores()}
           <S.ContainerButton>
-            <S.ButtonVoltar onClick={Voltar}>Voltar</S.ButtonVoltar>
+            <S.ButtonVoltar primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} onClick={Voltar}>Voltar</S.ButtonVoltar>
             <S.ButtonAvançar  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}  disabled={!areAllFieldsFilled()} onClick={Avançar}>
               Finalizar
             </S.ButtonAvançar>

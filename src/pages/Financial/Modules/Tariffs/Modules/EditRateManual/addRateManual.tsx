@@ -93,7 +93,7 @@ export function AddRateManual() {
   const setInitialDates = () => {
     const lastDayOfLastMonth = new Date(new Date().setDate(0)).toISOString().split('T')[0];
     const fifteenthOfNextMonth = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 15).toISOString().split('T')[0];
-    
+
     setValue('dataReferência', lastDayOfLastMonth);
     setValue('dataCobrança', fifteenthOfNextMonth);
   };
@@ -103,10 +103,10 @@ export function AddRateManual() {
     fetchDataEC();
     setInitialDates();
   }, []);
-  
+
   const onSubmit: SubmitHandler<FieldValues> = async (data: FieldValues) => {
     const formData: FormData = data as FormData;
-  
+
     const operationType = ["Crédito", "credito", "Credito"].includes(formData.tipo) ? "credit" : formData.tipo;
     const payload = {
       tariffs: [
@@ -127,7 +127,7 @@ export function AddRateManual() {
         }
       ]
     };
-  
+
     try {
       setLoading(true);
       const response = await axios.post(`${baseURL}tariffs/create`, payload, {
@@ -141,7 +141,7 @@ export function AddRateManual() {
         title: 'Sucesso!',
         text: 'A tarifa foi adicionada com sucesso.',
       }).then(() => {
-        navigate('/tariffs'); 
+        navigate('/tariffs');
       });
     } catch (error: any) {
       const err = error as AxiosError<ApiResponse>;
@@ -156,7 +156,7 @@ export function AddRateManual() {
   const handleCancel = () => {
     navigate('/tariffs');
   };
-  
+
   const tenantData = useTenantData();
   return (
     <>
@@ -190,13 +190,13 @@ export function AddRateManual() {
               </ContainerInput>
 
               <ContainerInput>
-                <CustomInput 
+                <CustomInput
                   label='Serial Terminal'
                   {...register('serialTerminal')}
                   colorInputDefault={tenantData.primary_color_identity}
                   colorInputSuccess={tenantData.secondary_color_identity}
                 />
-                <CustomInput 
+                <CustomInput
                   label='Tipo'
                   {...register('tipo')}
                   colorInputDefault={tenantData.primary_color_identity}
@@ -205,7 +205,7 @@ export function AddRateManual() {
               </ContainerInput>
 
               <ContainerInput>
-                <CustomInput 
+                <CustomInput
                   label='Valor'
                   placeholder="R$"
                   type="number"
@@ -213,7 +213,7 @@ export function AddRateManual() {
                   colorInputDefault={tenantData.primary_color_identity}
                   colorInputSuccess={tenantData.secondary_color_identity}
                 />
-                <CustomInput 
+                <CustomInput
                   label='Observação'
                   {...register('observação')}
                   colorInputDefault={tenantData.primary_color_identity}
@@ -222,14 +222,14 @@ export function AddRateManual() {
               </ContainerInput>
 
               <ContainerInput>
-                <CustomInput 
+                <CustomInput
                   label='Data Referência'
                   {...register('dataReferência')}
                   type="date"
                   colorInputDefault={tenantData.primary_color_identity}
                   colorInputSuccess={tenantData.secondary_color_identity}
                 />
-                <CustomInput 
+                <CustomInput
                   label='Data Cobrança'
                   {...register('dataCobrança')}
                   type="date"

@@ -170,16 +170,8 @@ export function PJ({ Avançar, BPF, BPJ }: IStep1) {
                 colorInputSuccess={tenantData.secondary_color_identity}
                 hasError={!!errors.RazaoSocialEstabelecimento}
               />
-            </S.ContainerInput>
-            <S.ContainerInput>
-              <CustomInput
-                {...register('NomeFantasiaEstabelecimento')}
-                label="Nome Fantasia"
-                colorInputDefault={tenantData.primary_color_identity}
-                colorInputSuccess={tenantData.secondary_color_identity}
-                hasError={!!errors.NomeFantasiaEstabelecimento}
-              />
-              <LabelCustomInputMask
+
+<LabelCustomInputMask
                 {...register('DataCriacaoEstabelecimento', {
                   validate: validateDataCriacao
                 })}
@@ -189,24 +181,26 @@ export function PJ({ Avançar, BPF, BPJ }: IStep1) {
                 hasError={!!errors.DataCriacaoEstabelecimento}
               />
             </S.ContainerInput>
+
+
             <S.ContainerInput>
-              <LabelCustomInputMask
+              <CustomInput
+                {...register('NomeFantasiaEstabelecimento')}
+                label="Nome Fantasia"
+                colorInputDefault={tenantData.primary_color_identity}
+                colorInputSuccess={tenantData.secondary_color_identity}
+                hasError={!!errors.NomeFantasiaEstabelecimento}
+              />
+
+<LabelCustomInputMask
                 {...register('CPFEstabelecimento', { validate: validateCPF })}
                 label="CPF do Sócio"
                 mask="999.999.999-99"
                 placeholder="---.---.---.--"
                 hasError={!!errors.CPFEstabelecimento}
               />
-              <CustomInput
-                {...register('NomeSocioEstabelecimento')}
-                label="Nome Completo do Sócio"
-                colorInputDefault={tenantData.primary_color_identity}
-                colorInputSuccess={tenantData.secondary_color_identity}
-                hasError={!!errors.NomeSocioEstabelecimento}
-              />
-            </S.ContainerInput>
-            <S.ContainerInput>
-              <LabelCustomInputMask
+
+<LabelCustomInputMask
                 {...register('NascimentoSocio', {
                   validate: validateDataCriacao
                 })}
@@ -215,7 +209,23 @@ export function PJ({ Avançar, BPF, BPJ }: IStep1) {
                 placeholder="dd/mm/aaaa"
                 hasError={!!errors.NascimentoSocio}
               />
-              <LabelCustomInputMask
+
+            </S.ContainerInput>
+
+            <S.ContainerInput>
+
+
+
+
+              <CustomInput
+                {...register('NomeSocioEstabelecimento')}
+                label="Nome completo do Sócio"
+                colorInputDefault={tenantData.primary_color_identity}
+                colorInputSuccess={tenantData.secondary_color_identity}
+                hasError={!!errors.NomeSocioEstabelecimento}
+              />
+
+<LabelCustomInputMask
                 {...register('TelefoneEstabelecimento', {
                   validate: validateTelefone
                 })}
@@ -235,6 +245,7 @@ export function PJ({ Avançar, BPF, BPJ }: IStep1) {
               />
 
             </S.ContainerInput>
+           
             <S.ContainerInput2>
             <CustomSelect
   optionsData={optionsCnae}
@@ -252,7 +263,7 @@ export function PJ({ Avançar, BPF, BPJ }: IStep1) {
           </S.ContainerForm>
         </S.ContextStep>
         <S.ContainerButton>
-          <S.ButtonVoltar onClick={handleLicenciado}>Cancelar</S.ButtonVoltar>
+          <S.ButtonVoltar primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} onClick={handleLicenciado}>Cancelar</S.ButtonVoltar>
           <S.ButtonAvançar  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} disabled={!allFieldsFilled} onClick={handleAvancar}>Avançar</S.ButtonAvançar>
         </S.ContainerButton>
       </S.ContextStepContainer>

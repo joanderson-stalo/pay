@@ -68,16 +68,20 @@ export const TableData = styled.td`
 
 export const StatusTableData = styled(TableData)<{ status: string }>`
   display: inline-block;
-  padding: 2px 4px;
+  padding: 5px 5.5px;
   border-radius: 4px;
+  color: #343A40;
+  display: inline-flex;
+
+
   background-color: ${props => {
     switch (props.status) {
       case 'Pagamento recusado':
-        return '#F8D7DA';
+        return '#C81B1B1A';
       case 'Pagamento efetuado':
-        return '#D4EDDA';
+        return '#1786291A';
       case 'Pagamento em análise':
-        return '#FFF3CD';
+        return '#CD7B001A';
       default:
         return 'transparent';
     }

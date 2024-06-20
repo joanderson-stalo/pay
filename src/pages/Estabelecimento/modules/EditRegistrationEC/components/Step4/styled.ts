@@ -6,12 +6,14 @@ export const ContainerStep = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  width: 100%;
 `;
 
 export const ContextStepContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
 `;
 
 export const ContextStep = styled.div`
@@ -20,24 +22,20 @@ export const ContextStep = styled.div`
     border-radius: 8px;
     margin-top: 30px;
     margin-bottom: 32px;
-    width: 900px;
+    width: 100%;
     padding: 22px 39px 0px 39px;
 
-    @media (max-width: 1024px) {
-      width: 80%;
-      padding: 20px;
-    }
 
-    @media (max-width: 768px) {
-      width: 90%;
-    }
+@media (max-width: 600px) {
+    padding: 22px 20px 0px 20px;
+  }
 `;
 
 export const TitleStep = styled.h2`
   font-weight: 700;
-  font-size: 18px;
-  line-height: 23px;
-  color: #7D7D7D;
+  font-size: 24px;
+  color: #3D4449;
+
 `;
 
 export const Line = styled.div`
@@ -51,32 +49,25 @@ export const ContainerForm = styled.div`
   gap: 35px;
   margin-top: 40px;
   margin-bottom: 53px;
-  margin-left: 140px;
-  margin-right: 50px;
 
-  @media (max-width: 1024px) {
-    margin-left: 100px;
-    margin-right: 30px;
-  }
 
-  @media (max-width: 768px) {
-    margin-left: 50px;
-    margin-right: 20px;
-  }
+
+
 `;
 
 export const ContainerInput = styled.section`
   display: flex;
-  gap: 40px;
+  gap: 20px;
 
-  @media (max-width: 768px) {
+  @media (max-width: 680px) {
     flex-direction: column;
-    gap: 20px;
+    gap: 10px;
   }
 `;
 
 export const ContainerInput2 = styled.section`
-  width: 365px;
+  width: 100%;
+  max-width: 365px;
 
   > button {
     background: transparent;
@@ -90,10 +81,11 @@ export const ContainerInput2 = styled.section`
     color: #665B6D;
   }
 
-  @media (max-width: 768px) {
-    width: 100%;
+  @media (max-width: 680px) {
+    max-width: 100%;
   }
 `;
+
 
 interface Color {
   primary: string;
@@ -101,14 +93,15 @@ interface Color {
 }
 
 export const ButtonAvançar = styled.button<Color>`
-  width: 109px;
-  height: 35px;
-  background: ${(props) => props.secundary};
-  border: 0.5px solid #0086ed;
+  width: 110px;
+  height: 40px;
+  background: ${(props) => props.primary};
+  border: 0.5px solid ${(props) => props.primary};
   border-radius: 5px;
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 20px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 15.566px;
+  text-transform: uppercase;
   letter-spacing: 0.5px;
   color: #ffffff;
   align-self: flex-end;
@@ -119,19 +112,22 @@ export const ButtonAvançar = styled.button<Color>`
     color: rgba(255, 255, 255, 0.5);
     border: none;
   }
+
 `;
 
-export const ButtonVoltar = styled.button`
-  width: 109px;
-  height: 35px;
+export const ButtonVoltar = styled.button<Color>`
+  width: 110px;
+  height: 40px;
   background: #FFFFFF;
-  border: 0.5px solid #F5F4F4;
-  border-radius: 5px;
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 20px;
+  border: 0.5px solid ${(props) => props.primary};
+  text-transform: uppercase;
+  border-radius: 4px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 15.566px;
   letter-spacing: 0.5px;
-  color: #5A6ACF;
+  color: ${(props) => props.primary};
+
 `;
 
 export const ContainerButton = styled.div`
@@ -139,7 +135,7 @@ export const ContainerButton = styled.div`
   gap: 20px;
   align-self: flex-end;
   margin-bottom: 100px;
-  @media (max-width: 1000px) {
+  @media (max-width: 480px) {
     justify-content: center;
     align-self: center;
   }
@@ -147,33 +143,37 @@ export const ContainerButton = styled.div`
 
 
 export const TipoConta = styled.div`
-  width: 215px;
+  width: 100%;
+  max-width: 255px;
 
-  @media (max-width: 768px) {
-    width: 100%;
+  @media (max-width: 680px) {
+    max-width: 100%;
   }
 `;
 
 export const Banco = styled.div`
-  width: 365px;
+width: 100%;
+max-width:  560px;
 
-  @media (max-width: 768px) {
-    width: 100%;
+@media (max-width: 680px) {
+    max-width: 100%;
   }
 `;
 
 export const Agencia = styled.div`
-  width: 215px;
+  width: 100%;
+  max-width: 215px;
 
-  @media (max-width: 768px) {
-    width: 100%;
+  @media (max-width: 680px) {
+    max-width: 100%;
   }
 `;
 
 export const Conta = styled.div`
-  width: 215px;
+  width: 100%;
+  max-width: 215px;
 
-  @media (max-width: 768px) {
-    width: 100%;
+  @media (max-width: 680px) {
+    max-width: 100%;
   }
 `;

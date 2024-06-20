@@ -105,14 +105,16 @@ export const FuncionamentoTableData = styled(TableData)<FuncionamentoTableDataPr
 
 export const FornecedorStatus = styled.span`
   padding: 4px 8px;
-  color: #FFFFFF;
+  height: 30px;
+  width: 22px;
 
-color:  #FFF;
+color:  #202124;
 font-size: ${({theme }) => theme.text_xs};
-font-weight: 500;
+font-weight: 700;
+
 line-height: 14px;
 
   border-radius: 4px;
-  background-color: #7D7D7D;
+  background-color: #1786291A;
 `;
 

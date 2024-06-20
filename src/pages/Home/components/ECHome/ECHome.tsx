@@ -9,6 +9,7 @@ import { Indicator } from "./components/Indicator/Indicator";
 import { LatestSales } from "../LAHome/components/LatestSales/latestSales";
 import { baseURL } from '@/config/color';
 import * as S from './styled';
+import { TitleH } from "@/components/Title/title";
 
 interface Transaction {
   captured_in: string;
@@ -65,7 +66,7 @@ export function ECHome() {
       const data: HomeData = await response.json();
       setHomeData(data);
     } catch (error) {
- 
+
     } finally {
       setIsLoading(false);
     }
@@ -84,6 +85,7 @@ export function ECHome() {
   return (
     <>
       <S.Container>
+      <TitleH title="Resumo" />
         <S.ContainerInfo>
           <S.ContainerCard>
             <CardInfo label="Saldo" value={616.50} />

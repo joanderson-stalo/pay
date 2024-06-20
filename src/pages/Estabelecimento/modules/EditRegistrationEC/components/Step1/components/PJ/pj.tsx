@@ -208,7 +208,22 @@ export function PJ({ Avançar }: IStep1) {
 }
                 hasError={!!errors.RazaoSocialEstabelecimento}
               />
+
+<LabelCustomInputMask
+                {...register('DataCriacaoEstabelecimento', {
+                  validate: validateDataCriacao
+                })}
+                label="Data de Criação"
+                mask="99/99/9999"
+                placeholder="dd/mm/aaaa"
+                hasError={!!errors.DataCriacaoEstabelecimento}
+              />
+
+
             </ContainerInput>
+
+
+
             <ContainerInput>
               <CustomInput
                 {...register('NomeFantasiaEstabelecimento')}
@@ -218,19 +233,8 @@ export function PJ({ Avançar }: IStep1) {
 }
                 hasError={!!errors.NomeFantasiaEstabelecimento}
               />
-              <LabelCustomInputMask
-                {...register('DataCriacaoEstabelecimento', {
-                  validate: validateDataCriacao
-                })}
-                label="Data de Criação"
-                mask="99/99/9999"
-                placeholder="dd/mm/aaaa"
-                hasError={!!errors.DataCriacaoEstabelecimento}
-              />
-            </ContainerInput>
-            <ContainerInput>
 
-              <LabelCustomInputMask
+<LabelCustomInputMask
                 {...register('CPFEstabelecimento', { validate: validateCPF })}
                 label="CPF"
                 mask="999.999.999-99"
@@ -239,13 +243,20 @@ export function PJ({ Avançar }: IStep1) {
               />
               <CustomInput
                 {...register('NomeSocioEstabelecimento')}
-                label="Nome Completo do Sócio"
+                label="Nome do Sócio"
                 colorInputDefault={tenantData.primary_color_identity}
                 colorInputSuccess={tenantData.secondary_color_identity
 }
                 hasError={!!errors.NomeSocioEstabelecimento}
               />
+
+
+
+
             </ContainerInput>
+
+
+
             <ContainerInput>
             <LabelCustomInputMask
                 {...register('NascimentoSocio', {
@@ -276,6 +287,8 @@ export function PJ({ Avançar }: IStep1) {
                 hasError={!!errors.EmailEstabelecimento}
               />
             </ContainerInput>
+
+
             <ContainerInput2>
               <CustomSelect
   optionsData={optionsCnae}
@@ -290,10 +303,12 @@ export function PJ({ Avançar }: IStep1) {
               />
               <button>Pesquise pelo CNAE ou Nome</button>
             </ContainerInput2>
+
+
           </ContainerForm>
         </ContextStep>
         <ContainerButton>
-        <ButtonVoltar type='button' onClick={handleEC} >Cancelar</ButtonVoltar>
+        <ButtonVoltar primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} type='button'   disabled={!allFieldsFilled} onClick={handleEC} >Cancelar</ButtonVoltar>
           <ButtonAvançar  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} type='button'  disabled={!allFieldsFilled} onClick={handleSalvar}>Salvar</ButtonAvançar>
         <ButtonAvançar  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}  type='button' disabled={!allFieldsFilled} onClick={handleAvancar}>
           Avançar

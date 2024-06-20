@@ -12,17 +12,20 @@ export const ContainerStep = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  width: 100%;
 `;
 
 export const ContextStepContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
 `;
 
 export const ContainerDados = styled.div`
   display: flex;
   justify-content: space-between;
+  width: 100%;
 `;
 
 export const ContextStep = styled.div`
@@ -31,32 +34,22 @@ export const ContextStep = styled.div`
   border-radius: 8px;
   margin-top: 30px;
   margin-bottom: 32px;
-  width: 900px;
+  width: 100%;
   padding: 22px 39px 0px 39px;
 
-  @media (max-width: 1200px) {
-    width: 800px;
-  }
-
-  @media (max-width: 1100px) {
-    width: 750px;
-  }
-
-  @media (max-width: 900px) {
-    width: 600px;
-  }
 
   @media (max-width: 600px) {
-    width: 90%;
-    padding: 20px;
+    padding: 22px 20px 0px 20px;
   }
+
+
+
 `;
 
 export const TitleStep = styled.h2`
   font-weight: 700;
-  font-size: 18px;
-  line-height: 23px;
-  color: #7d7d7d;
+  font-size: 24px;
+  color: #3D4449;
 `;
 
 export const Line = styled.div`
@@ -70,27 +63,24 @@ export const ContainerForm = styled.div`
   gap: 35px;
   margin-top: 40px;
   margin-bottom: 53px;
-  margin-left: 50px;
-  margin-right: 50px;
 
-  @media (max-width: 600px) {
-    margin-left: 20px;
-    margin-right: 20px;
-  }
 `;
 
 export const ContainerInput = styled.section`
-  display: flex;
-  justify-content: space-between;
-  gap: 50px;
+   display: grid;
+  grid-template-columns: 1fr 1fr 0.5fr;
+  gap: 20px;
 
   @media (max-width: 900px) {
-    gap: 30px;
+    grid-template-columns: 1fr 1fr 0.7fr;
+    gap: 10px;
   }
 
   @media (max-width: 600px) {
     flex-direction: column;
-    gap: 20px;
+    display: flex;
+    justify-content: space-between;
+
   }
 `;
 
@@ -116,24 +106,7 @@ export const ContainerInput2 = styled.section`
   }
 `;
 
-export const ButtonAvançar = styled.button<Color>`
-  width: 109px;
-  height: 35px;
-  background: ${(props) => props.secundary};
-  border: 0.5px solid #0086ed;
-  border-radius: 5px;
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 20px;
-  letter-spacing: 0.5px;
-  color: #ffffff;
 
-  :disabled {
-    background-color: gray;
-    color: rgba(255, 255, 255, 0.5);
-    border: none;
-  }
-`;
 
 export const ContainerPJPF = styled.div`
   display: flex;
@@ -145,11 +118,12 @@ export const ContainerPJPF = styled.div`
 export const ButtonPJ = styled.button<{ active: boolean }>`
   width: 50px;
   height: 34px;
-  background-color: ${({ active }) => (active ? '#08BBE9' : '#E6E6E6')};
-  color: ${({ active }) => (active ? 'white' : 'black')};
-  border-radius: ${({ active }) => (active ? '8px' : '8px 1px 1px 8px')};
+  background-color: #E6E6E6;
+  color: #5F6367;
+  border-radius: 4px;
   margin-right: -5px;
-  font-size: 12px;
+  font-size: ${props => (props.active ? '14px' : '12px')};
+  font-weight: ${props => (props.active ? '700' : '400')};
   line-height: 20px;
   letter-spacing: 0.5px;
 `;
@@ -157,26 +131,16 @@ export const ButtonPJ = styled.button<{ active: boolean }>`
 export const ButtonPF = styled.button<{ active: boolean }>`
   width: 50px;
   height: 34px;
-  background-color: ${({ active }) => (active ? '#08BBE9' : '#E6E6E6')};
-  color: ${({ active }) => (active ? 'white' : 'black')};
-  border-radius: ${({ active }) => (active ? '8px' : '1px 8px 8px 1px')};
-  font-size: 12px;
+  background-color: #E6E6E6;
+  color: ${props => (props.active ? '#5F6367' : '#5F6367')};
+  border-radius: 4px;
+  font-size: ${props => (props.active ? '14px' : '12px')};
+  font-weight: ${props => (props.active ? '700' : '400')};
   line-height: 20px;
   letter-spacing: 0.5px;
 `;
 
-export const ButtonVoltar = styled.button`
-  width: 109px;
-  height: 35px;
-  background: #FFFFFF;
-  border: 0.5px solid #F5F4F4;
-  border-radius: 5px;
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 20px;
-  letter-spacing: 0.5px;
-  color: #5A6ACF;
-`;
+
 
 export const ContainerButton = styled.div`
   display: flex;
@@ -184,8 +148,44 @@ export const ContainerButton = styled.div`
   align-self: flex-end;
   margin-bottom: 100px;
 
-  @media (max-width: 600px) {
+  @media (max-width: 480px) {
     justify-content: center;
     align-self: center;
   }
+`;
+
+export const ButtonAvançar = styled.button<Color>`
+  width: 110px;
+  height: 40px;
+  background: ${(props) => props.primary};
+  border: 0.5px solid ${(props) => props.primary};
+  border-radius: 5px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 15.566px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #ffffff;
+  align-self: flex-end;
+  margin-bottom: 100px;
+
+  :disabled {
+    background-color: gray;
+    color: rgba(255, 255, 255, 0.5);
+    border: none;
+  }
+`;
+
+export const ButtonVoltar = styled.button<Color>`
+  width: 110px;
+  height: 40px;
+  background: #FFFFFF;
+  border: 0.5px solid ${(props) => props.primary};
+  text-transform: uppercase;
+  border-radius: 4px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 15.566px;
+  letter-spacing: 0.5px;
+  color: ${(props) => props.primary};
 `;

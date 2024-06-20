@@ -111,7 +111,7 @@ export function Step3({ Avançar, Voltar }: IStep3) {
 
     const isLastInput = index === inputs.length - 1;
     const addButton = isLastInput && inputs.length !== acquires.length && (
-      <ButtonAdd onClick={addInput}>Adicionar outro</ButtonAdd>
+      <ButtonAdd primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} onClick={addInput}>Adicionar outro</ButtonAdd>
     );
 
     return (
@@ -127,6 +127,7 @@ export function Step3({ Avançar, Voltar }: IStep3) {
             onChange={(selectedOption: { value: string }) => handleAcquireChange(selectedOption, index)}
           />
         </WInput>
+
         <WInput>
           <CustomSelect
             {...register(`PlanoComercial${index}`)}
@@ -278,7 +279,7 @@ export function Step3({ Avançar, Voltar }: IStep3) {
             </ContainerForm>
           </ContextStep>
           <ContainerButton>
-            <ButtonVoltar onClick={Voltar}>Voltar</ButtonVoltar>
+            <ButtonVoltar primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} onClick={Voltar}>Voltar</ButtonVoltar>
             <ButtonAvançar  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} disabled={!allFieldsFilled} onClick={Avançar}>
               Avançar
             </ButtonAvançar>

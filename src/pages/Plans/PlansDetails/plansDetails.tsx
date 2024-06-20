@@ -27,6 +27,9 @@ import { baseURL } from '@/config/color';
 import { Loading } from '@/components/Loading/loading';
 import { CaretLeft } from '@phosphor-icons/react';
 import { useNavigate } from 'react-router-dom';
+import { ArrowBack } from '@/components/BtnArrowBack/btnArrowBack';
+import { Title } from './styled';
+
 
 interface Rate {
   id: number;
@@ -149,13 +152,24 @@ export function PlansDetails() {
   return (
     <ContainerStep>
       <ContextStepContainer>
+
+
+
+
         <ButtonBlack
           primary={tenantData.primary_color_identity}
           secundary={tenantData.secondary_color_identity}
-          onClick={() => navigate(-1)}
+
         >
-          <CaretLeft size={18} /> Voltar
+          <ArrowBack/>
+          <Title>Voltar</Title>
+
+
+
+
+
         </ButtonBlack>
+        
         <ContextStep>
           <TitleStep>Taxas do Plano</TitleStep>
           <Line />

@@ -265,6 +265,7 @@ export function Step3({ Avançar, Voltar }: IStep3) {
             <TitleStep>Comercial</TitleStep>
             <Line />
             <ContainerForm>
+
               <ContainerInput2>
                 <CustomSelect
                   placeholder='-'
@@ -278,6 +279,7 @@ export function Step3({ Avançar, Voltar }: IStep3) {
                   }} />
                 <button>Pesquise pelo nome do Licenciado</button>
               </ContainerInput2>
+
               <ContainerInput>
                 <WInput>
                   <CustomSelect
@@ -304,10 +306,12 @@ export function Step3({ Avançar, Voltar }: IStep3) {
                   />
                 </WInput>
               </ContainerInput>
+
+
             </ContainerForm>
           </ContextStep>
           <ContainerButton>
-            <ButtonVoltar onClick={Voltar}>Voltar</ButtonVoltar>
+            <ButtonVoltar  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} onClick={Voltar}>Voltar</ButtonVoltar>
             <ButtonAvançar
               primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} disabled={!allFieldsFilled} onClick={handleUpdatePlan}>
               Salvar

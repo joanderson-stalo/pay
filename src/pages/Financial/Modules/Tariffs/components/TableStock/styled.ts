@@ -36,7 +36,7 @@ export const TableHeader = styled.th`
 `;
 
 export const CustomTableHeader = styled.th<Color>`
-  color:${(props) => props.secundary};
+  color: #343A40;
   font-size: ${({theme }) => theme.text_sm};
   font-weight: ${({theme }) => theme.font_normal};
   line-height: 15.566px;
@@ -44,7 +44,7 @@ export const CustomTableHeader = styled.th<Color>`
   padding: 8px 16px;
   border-bottom: 1px solid #E9ECEF;
   vertical-align: middle;
-  
+
 `;
 
 

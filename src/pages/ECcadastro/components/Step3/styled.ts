@@ -6,16 +6,22 @@ export const ContainerStep = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  width: 100%;
 `;
 
 export const ContextStepContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
 `;
 
 export const WInput = styled.div`
   width: 215px;
+
+  @media (max-width: 600px){
+    width: 100%;
+  }
 `;
 
 export const ContextStep = styled.div`
@@ -24,31 +30,20 @@ export const ContextStep = styled.div`
   border-radius: 8px;
   margin-top: 30px;
   margin-bottom: 32px;
-  width: 900px;
+  width: 100%;
   padding: 22px 39px 0px 39px;
 
-  @media (max-width: 1200px) {
-    width: 800px;
-  }
-
-  @media (max-width: 1100px) {
-    width: 750px;
-  }
-
-  @media (max-width: 900px) {
-    width: 600px;
-  }
-
   @media (max-width: 600px) {
-    width: 90%;
+    padding: 22px 20px 0px 20px;
   }
+
+
 `;
 
 export const TitleStep = styled.h2`
-  font-weight: 700;
-  font-size: 18px;
-  line-height: 23px;
-  color: #7D7D7D;
+ font-weight: 700;
+  font-size: 24px;
+  color: #3D4449;
 `;
 
 export const Line = styled.div`
@@ -62,40 +57,47 @@ export const ContainerForm = styled.div`
   gap: 35px;
   margin-top: 40px;
   margin-bottom: 53px;
-  margin-right: 50px;
+  width: 100%;
+
 `;
 
 export const ContainerInput = styled.section`
-  display: flex;
-  gap: 50px;
-
-  @media (max-width: 1200px) {
-    gap: 45px;
-  }
-
-  @media (max-width: 1100px) {
-    gap: 40px;
-  }
+ display: flex;
+  gap: 20px;
 
   @media (max-width: 900px) {
-    gap: 35px;
-  }
+
+
+  gap: 10px;
+}
+
 
   @media (max-width: 600px) {
+
     flex-direction: column;
+
   }
 `;
 
-export const ButtonAdd = styled.button`
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 20px;
+export const ButtonAdd = styled.button<Color>`
+
+font-size: 14px;
+
+font-weight: 400;
+line-height: 15.566px;
+text-transform: uppercase;
   white-space: nowrap;
   background: transparent;
   letter-spacing: 0.5px;
-  width: 50px;
+  padding: 12px 24px;
+ border-radius: 4px;
   margin-top: 30px;
-  color: #5A6ACF;
+  color: ${(props) => props.primary};
+  border: 1px solid ${(props) => props.primary};
+
+  @media(max-width: 600px){
+     width: 215px;
+  }
 `;
 
 export const ButtonRemover = styled.button`
@@ -105,12 +107,24 @@ export const ButtonRemover = styled.button`
   background: transparent;
   letter-spacing: 0.5px;
   width: 50px;
-  margin-top: 30px;
-  color: #E91414;
+  margin-top: 37px;
+
+
+  color:  #C81B1B;
+  height: 24px;
+  border-bottom: 1px solid #C81B1B;
+
+
+@media (max-width: 600px){
+  margin-top: 15px;
+}
+
+
 `;
 
 export const ContainerInput2 = styled.section`
-  width: 365px;
+  width: 100%;
+  max-width: 365px;
 
   > button {
     background: transparent;
@@ -123,6 +137,11 @@ export const ContainerInput2 = styled.section`
     letter-spacing: 0.5px;
     color: #665B6D;
   }
+
+   @media (max-width: 600px){
+    max-width: 100%;
+  }
+
 `;
 interface Color {
   primary: string;
@@ -131,14 +150,15 @@ interface Color {
 
 
 export const ButtonAvançar = styled.button<Color>`
-  width: 109px;
-  height: 35px;
-  background: ${(props) => props.secundary};
-  border: 0.5px solid #0086ed;
-  border-radius: 5px;
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 20px;
+ width: 110px;
+  height: 40px;
+  background: ${(props) => props.primary};
+  border: 0.5px solid ${(props) => props.primary};
+  border-radius: 4px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 15.566px;
+  text-transform: uppercase;
   letter-spacing: 0.5px;
   color: #ffffff;
   align-self: flex-end;
@@ -151,17 +171,18 @@ export const ButtonAvançar = styled.button<Color>`
   }
 `;
 
-export const ButtonVoltar = styled.button`
-  width: 109px;
-  height: 35px;
+export const ButtonVoltar = styled.button<Color>`
+  width: 110px;
+  height: 40px;
   background: #FFFFFF;
-  border: 0.5px solid #F5F4F4;
-  border-radius: 5px;
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 20px;
+  border: 0.5px solid ${(props) => props.primary};
+  text-transform: uppercase;
+  border-radius: 4px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 15.566px;
   letter-spacing: 0.5px;
-  color: #5A6ACF;
+  color: ${(props) => props.primary};
 `;
 
 export const ContainerButton = styled.div`
@@ -169,7 +190,7 @@ export const ContainerButton = styled.div`
   gap: 20px;
   align-self: flex-end;
   margin-bottom: 100px;
-  @media (max-width: 1000px) {
+  @media (max-width: 600px) {
     justify-content: center;
     align-self: center;
   }

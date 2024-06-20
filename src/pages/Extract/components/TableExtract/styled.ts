@@ -99,7 +99,9 @@ export const TipoContainer = styled.div`
 `;
 
 export const TipoTableData = styled(TableData)<{ tipo: string }>`
-  background-color: ${({ tipo }) => (tipo === 'credit' ? '#178629' : '#E91414')};
-  color: white;
+  background-color: ${({ tipo }) => (tipo === 'credit' ? '#1786291A' : '#C81B1B1A')};
+  color: #343A40;
   border-radius: 4px;
+  font-size: 12px;
+  
 `;

@@ -20,7 +20,7 @@ interface SituationSalesProps {
 
 export function SituationTable({ status_acquire }: SituationSalesProps) {
 
-  console.log('teeeeeeest',status_acquire)
+
   const navigate = useNavigate();
 
   const formatDateAndTime = (dateTimeStr: string) => {
@@ -61,8 +61,10 @@ export function SituationTable({ status_acquire }: SituationSalesProps) {
             {status_acquire.map((item, index) => (
               <tr key={index}>
                 <S.TableCell>
-
+                  <S.FornecedorItem>
                   {item.label}
+                  </S.FornecedorItem>
+
                 </S.TableCell>
 
                 <S.TableCell>

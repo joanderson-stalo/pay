@@ -30,7 +30,7 @@ export function Step2({ Avançar, Voltar }: IStep2) {
 
   useEffect(() => {
     const fetchSellerData = async () => {
-      setLoading(true); 
+      setLoading(true);
       try {
         const response = await axios.get(
           `${baseURL}seller/show/${licensedId}`,
@@ -41,7 +41,7 @@ export function Step2({ Avançar, Voltar }: IStep2) {
             },
           }
         );
-  
+
         const sellerData = response.data;
         setValue('CEP', sellerData.seller.address_cep);
         setValue('Endereco', sellerData.seller.address_street);
@@ -54,7 +54,7 @@ export function Step2({ Avançar, Voltar }: IStep2) {
       } catch (error) {
         console.error('Erro ao obter dados do vendedor:', error);
       } finally {
-        setLoading(false); 
+        setLoading(false);
       }
     };
     fetchSellerData();
@@ -65,7 +65,7 @@ export function Step2({ Avançar, Voltar }: IStep2) {
       setLoading(true);
 
       const number =  watch('Numero')
-  
+
       const updatedData = {
         address_cep: watch('CEP'),
         address_street: watch('Endereco'),
@@ -78,19 +78,19 @@ export function Step2({ Avançar, Voltar }: IStep2) {
         email: watch('EmailEstabelecimento'),
         phone: watch('TelefoneEstabelecimento'),
         trading_name: watch('NomeFantasiaEstabelecimento'),
-        
+
         document: sellerData?.document,
       };
-  
+
       await axios.put(`${baseURL}seller/update/${licensedId}`, updatedData, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${dataUser?.token}`
         }
       });
-  
+
       setLoading(false);
-  
+
       Swal.fire({
         icon: 'success',
         title: 'Licenciado atualizado com sucesso!',
@@ -100,7 +100,7 @@ export function Step2({ Avançar, Voltar }: IStep2) {
         cancelButtonText: 'OK',
         showCloseButton: true,
         closeButtonAriaLabel: 'Fechar modal'
-        
+
       }).then((result) => {
         if (result.isConfirmed) {
           Avançar();
@@ -151,15 +151,17 @@ export function Step2({ Avançar, Voltar }: IStep2) {
                   colorInputSuccess={tenantData.secondary_color_identity}
                   hasError={!!errors.Endereco}
                 />
-              </ContainerInput>
-              <ContainerInput>
-                <CustomInput
+
+<CustomInput
                   {...register('Numero')}
                   label='Número'
                   colorInputDefault={tenantData.primary_color_identity}
                   colorInputSuccess={tenantData.secondary_color_identity}
                   hasError={!!errors.Numero}
                 />
+              </ContainerInput>
+              <ContainerInput>
+
                 <CustomInput
                   {...register('Complemento')}
                   label='Complemento'
@@ -167,9 +169,8 @@ export function Step2({ Avançar, Voltar }: IStep2) {
                   colorInputSuccess={tenantData.secondary_color_identity}
                   hasError={!!errors.Complemento}
                 />
-              </ContainerInput>
-              <ContainerInput>
-                <CustomInput
+
+<CustomInput
                   {...register('Bairro')}
                   label='Bairro'
                   colorInputDefault={tenantData.primary_color_identity}
@@ -184,6 +185,8 @@ export function Step2({ Avançar, Voltar }: IStep2) {
                   hasError={!!errors.Cidade}
                 />
               </ContainerInput>
+
+
               <ContainerInput2>
                 <CustomInput
                   {...register('Estado')}
@@ -196,7 +199,7 @@ export function Step2({ Avançar, Voltar }: IStep2) {
             </ContainerForm>
           </ContextStep>
           <ContainerButton>
-            <ButtonVoltar onClick={Voltar}>Voltar</ButtonVoltar>
+            <ButtonVoltar primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} onClick={Voltar}>Voltar</ButtonVoltar>
             <ButtonAvançar  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}  disabled={!allFieldsFilled} onClick={handleSalvar}>Salvar</ButtonAvançar>
             <ButtonAvançar  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} disabled={!allFieldsFilled} onClick={Avançar}>Avançar</ButtonAvançar>
           </ContainerButton>

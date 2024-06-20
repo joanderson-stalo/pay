@@ -55,7 +55,7 @@ export function LicenciadoHeader({ onSearch, searchValue, setSearchValue }: Prop
             <MagnifyingGlass />
           </S.SearchIcon>
         </S.Input>
-        <S.Button primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} onClick={handleAddEstablishment}>Adicionar Licenciado</S.Button>
+        <S.Button primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} onClick={handleAddEstablishment}>Adicionar licenciado</S.Button>
       </S.Context>
     </S.Container>
   );

@@ -16,7 +16,7 @@ export const Table = styled.table`
 
 export const TableHeader = styled.th`
   color: #343A40;
-  
+
   font-weight: ${({theme }) => theme.font_medium};
   line-height: 18px;
   text-align: start;
@@ -43,7 +43,7 @@ export const Button = styled.button`
   font-size: 12px;
   font-style: normal;
   font-weight: 500;
-  
+
   line-height: 18px;
   letter-spacing: 0.353px;
  padding: 12px;
@@ -71,16 +71,17 @@ export const FornecedorWrapper = styled.div`
 `;
 
 export const FornecedorItem = styled.p`
-  width: 23px;
-  height: 26px;
+  width: 30px;
+  height: 22px;
+
   font-size: 12px;
-  font-weight: ${({theme }) => theme.font_normal};
+  font-weight: ${({theme }) => theme.font_bold};
   line-height: 24px;
   margin-right: 5px;
   border-radius: 4px;
   text-align: center;
-  color: #fff;
-  background-color: #178629;
+  color: #202124;
+  background-color: #1786291A;
 `;
 
 export const SortContainer = styled.div`

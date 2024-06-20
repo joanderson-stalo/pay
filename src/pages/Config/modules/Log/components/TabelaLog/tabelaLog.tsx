@@ -117,7 +117,7 @@ export function TabelaLog({ rows }: TabelaProps) {
             <S.TableData>{checkEmpty(row.event)}</S.TableData>
             <S.TableData>{checkEmpty(row.properties)}</S.TableData>
             <S.TableData>
-              <S.Button primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} onClick={() => handleViewMoreClick(row.id)}>detalhes</S.Button>
+              <S.Button primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} onClick={() => handleViewMoreClick(row.id)}>Detalhes</S.Button>
             </S.TableData>
           </tr>
         ))}
