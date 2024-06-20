@@ -8,6 +8,7 @@ import { baseURL } from '@/config/color';
 import * as S from './styled';
 import { LatestSales } from "./components/LatestSales/latestSales";
 import { TopEstabelecimentos } from "./components/TopEstabelecimento/topEstabelecimentos";
+import { TitleH } from "@/components/Title/title";
 
 interface HourlyTransactionTotals {
   [hour: string]: string;
@@ -87,6 +88,8 @@ export function LAHome() {
   return (
     <>
       <S.Container>
+      <TitleH title="Resumo" />
+      
         <S.ContainerCards>
           <CardInfo label="Comissão Mensal" value={commissionTPV} />
           <CardInfo label="Quantidade de EC" shouldFormat={false} value={homeData?.total_sellers_EC || 0} />

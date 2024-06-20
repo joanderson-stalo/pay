@@ -15,7 +15,7 @@ export function HeaderTariffs() {
   return (
     <S.Container>
       <TitleH title='Solicitações de Cobrança' />
-      <S.Button  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} onClick={handleAddRequest}>Adicionar Solicitações de Cobrança</S.Button>
+      <S.Button  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} onClick={handleAddRequest}>Adicionar solicitações de cobrança</S.Button>
     </S.Container>
   );
 }

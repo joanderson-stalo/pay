@@ -74,16 +74,17 @@ export const FornecedorWrapper = styled.div`
 `;
 
 export const FornecedorItem = styled.p`
-  width: 23px;
-  height: 26px;
+  width: 30px;
+  height: 22px;
   font-size: 12px;
-  font-weight: ${({theme }) => theme.font_normal};
+
+  font-weight: ${({theme }) => theme.font_bold};
   line-height: 24px;
   margin-right: 5px;
   border-radius: 4px;
   text-align: center;
-  color: #fff;
-  background-color: #178629;
+color: #202124;
+  background-color: #1786291A;
 `;
 
 export const SortContainer = styled.div`

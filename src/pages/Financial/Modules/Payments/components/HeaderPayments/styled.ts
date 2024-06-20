@@ -27,7 +27,7 @@ font-size: 14px;
 font-style: normal;
 font-weight: 400;
 line-height: 15.566px;
-text-transform: uppercase;
+
   `;
 
   export const Title = styled.h2<Color>`

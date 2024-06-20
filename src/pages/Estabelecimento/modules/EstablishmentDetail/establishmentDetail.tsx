@@ -61,7 +61,7 @@ export function EstablishmentDetail() {
   const [situationEstablishmentDetails, setSituationEstablishmentDetails] = useState<EstablishmentDetailType | null>(null);
 
 
-  console.log('aqui', situationEstablishmentDetails);
+ 
 
 
   const fetchEstablishmentDetail = useCallback(async () => {
@@ -150,7 +150,7 @@ export function EstablishmentDetail() {
           <ArrowBack/>
           <S.Title  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>{establishmentDetails?.seller_name || 'Nome do Estabelecimento'}</S.Title>
         </S.WrapperInfo>
-        
+
         < S.ContainerBnt>
           <S.ButtonEditRegistration  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} type='button' onClick={handEditRegistrationEC}>Editar cadastro</S.ButtonEditRegistration>
           <S.ButtonManageAccess  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}  type='button' onClick={handManage}>Gerenciar acessos</S.ButtonManageAccess>

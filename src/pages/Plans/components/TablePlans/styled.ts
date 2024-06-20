@@ -28,7 +28,7 @@ export const TableHeader = styled.th`
   padding: 8px  16px;
   border-bottom: 1px solid #E9ECEF;
   vertical-align: middle;
-  
+
 `;
 
 export const TableData = styled.td`
@@ -39,7 +39,7 @@ export const TableData = styled.td`
   border-bottom: 1px solid #E9ECEF;
   text-align: start;
   vertical-align: middle;
-  
+
 `;
 
 export const ButtonEditar = styled.button`
@@ -87,7 +87,7 @@ export const TableRow = styled.tr`
 export const Status = styled.span<StatusProps>`
   border-radius: 4px;
   padding: 4px 13px;
-  color: #fff;
+  color: #202124;
   font-size: 12px;
   font-style: normal;
   font-weight: ${({theme }) => theme.font_normal};
@@ -95,8 +95,8 @@ export const Status = styled.span<StatusProps>`
 
   background-color: ${({ status }) =>
     status === 'ativo'
-      ? '#178629'
-      : '#7D7D7D'
+      ? '#1786291A'
+      : '#C81B1B1A'
   };
 `;
 

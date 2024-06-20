@@ -6,4 +6,6 @@ export const Container = styled.div`
 
 export const ContainerTitle = styled.div`
   margin-bottom: 32px;
+  display: flex;
+  align-items: center;
 `

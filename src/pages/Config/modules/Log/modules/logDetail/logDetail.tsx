@@ -7,6 +7,7 @@ import axios from 'axios';
 import { useLogin } from '@/context/user.login';
 import { Loading } from '@/components/Loading/loading';
 import { DataTable } from './components/dataTable';
+import { ArrowBack } from '@/components/BtnArrowBack/btnArrowBack';
 
 export function LogDetail() {
     const { selectedTicketID } = useTicketID();
@@ -46,7 +47,11 @@ export function LogDetail() {
     return (
         <>
             <S.Container>
+              <S.ContainerTitle>
+                <ArrowBack/>
                 <TitleH title="Log - Detalhes" />
+              </S.ContainerTitle>
+
                 {logDetail && <DataTable item={logDetail[0]} />}
             </S.Container>
         </>

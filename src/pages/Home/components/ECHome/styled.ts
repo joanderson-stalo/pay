@@ -25,7 +25,8 @@ export const ContainerInfo = styled.div`
 export const ContainerCard = styled.aside`
   display: flex;
   flex-direction: column;
-  gap: 28px;  
+  margin-top: 38px;
+  gap: 28px;
   width: 60%;
 `
 
@@ -59,7 +60,7 @@ line-height: 28px;
 
 export const ContainerTooltip = styled.div`
   position: relative;
-  display: inline-block; 
+  display: inline-block;
 `;
 
 
@@ -78,7 +79,7 @@ export const TooltipText = styled.span`
   position: absolute;
   top: 0;
   left: 50%;
-  transform: translate(-50%, -100%); 
+  transform: translate(-50%, -100%);
   background: #333;
   color: #fff;
   padding: 5px 20px;

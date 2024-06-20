@@ -119,17 +119,19 @@ export const StatusData = styled.td`
 `;
 
 export const StatusText = styled.span<StatusTextProps>`
-  color: #E6F8FD;
+  color: #202124;
   font-size: ${({theme }) => theme.text_xss};
   font-weight: ${({theme }) => theme.font_normal};
   line-height: 15.566px;
-  background-color: ${props => props.status === 'succeeded' ? '#178629' : '#C81B1B'};
+  background-color: ${props => props.status === 'succeeded' ? '#1786291A' : '#C81B1B1A'};
+
   border-radius: 4px;
   padding: 4px 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 70px;
+  font-weight: 600;
 
 
 

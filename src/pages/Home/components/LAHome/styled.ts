@@ -6,7 +6,10 @@ export const Container = styled.div`
   justify-content: center;
   flex-direction: column;
   margin: 36px 20px 20px 20px;
+
 `
+
+export const ContextTitleVendas = styled.div``
 
 
 export const ContainerGrafico = styled.div`
@@ -37,6 +40,7 @@ export const ContainerTable = styled.div`
 export const ContainerCards = styled.div`
   display: flex;
   gap: 20px;
+  margin-top: 38px;
 
   @media (max-width: 1200px) {
     flex-wrap: wrap;

@@ -45,9 +45,9 @@ padding: 22px 39px 0px 39px;
 
 export const TitleStep = styled.h2`
   font-weight: 700;
-font-size: 18px;
+font-size: 24px;
 line-height: 23px;
-color: #7D7D7D;
+color: #3D4449;
 `
 
 export const Line = styled.div`
@@ -228,7 +228,7 @@ export const StyledTable = styled.table<Color>`
                 border-bottom: 2px solid #fff;
                 font-feature-settings: 'clig' off, 'liga' off;
 
-                font-size: 10.99px;
+                font-size: 14px;
                 font-style: normal;
                 font-weight: 700;
                 line-height: 17.27px;
@@ -245,7 +245,7 @@ export const StyledTable = styled.table<Color>`
                 text-align: center;
                 vertical-align: middle;
                 font-feature-settings: 'clig' off, 'liga' off;
-                font-size: 12.204px;
+                font-size: 12px;
                 font-style: normal;
                 font-weight: 400;
                 line-height: 24.408px;
@@ -360,22 +360,42 @@ line-height: 20px;
 letter-spacing: 0.5px;
 background-color: transparent;
 justify-content: flex-start;
-align-items: flex-start;
+align-items: center;
 width: 100%;
 display: flex;
 margin-top: 50px;
 `
 
 
-export const Title = styled.h2<Color>`
-color: ${(props) => props.secundary};
+// export const Title = styled.h2<Color>`
+// color: ${(props) => props.secundary};
 
-font-size: 24px;
-font-weight: 700;
-line-height: normal;
+// font-size: 24px;
+// font-weight: 700;
+// line-height: normal;
 
-@media (max-width: 600px) {
-font-size: 16px;
-}
-`;
+// @media (max-width: 600px) {
+// font-size: 16px;
+// }
+// `;
+
+export const Title = styled.p`
+  color: #3D4449;
+  font-size: 32px;
+  font-weight: 600;
+
+  @media(max-width: 780px){
+    font-size: 24px;
+  }
+
+   @media(max-width: 600px){
+    font-size: 16px;
+  }
+
+  > span {
+    color: #b5b5c8;
+  }
+`
+
+
 

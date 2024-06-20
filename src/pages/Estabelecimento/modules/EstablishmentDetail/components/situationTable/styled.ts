@@ -79,6 +79,19 @@ export const TableCell = styled.td`
         padding: 5px 8px;
     }
 `;
+export const FornecedorItem = styled.p`
+  width: 30px;
+  height: 22px;
+  font-size: 12px;
+
+  font-weight: ${({theme }) => theme.font_bold};
+  line-height: 24px;
+  margin-right: 5px;
+  border-radius: 4px;
+  text-align: center;
+color: #202124;
+  background-color: #1786291A;
+`;
 
 export const TableHeader = styled.th`
     padding: 8px 41px;

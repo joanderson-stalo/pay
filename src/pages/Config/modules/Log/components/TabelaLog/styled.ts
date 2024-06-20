@@ -42,9 +42,9 @@ max-width: 200px;
   white-space: nowrap;
   text-overflow: ellipsis;
 
- 
+
   border-bottom: 1px solid #E9ECEF;
- 
+
   vertical-align: middle;
 `;
 
@@ -56,7 +56,6 @@ font-style: normal;
 font-weight: ${({theme }) => theme.font_normal};
 line-height: 15.566px;
 text-decoration-line: underline;
-text-transform: uppercase;
 background-color: transparent;
 `;
 

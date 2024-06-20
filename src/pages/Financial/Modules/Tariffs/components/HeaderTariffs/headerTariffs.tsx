@@ -15,7 +15,7 @@ export function HeaderTariffs() {
   return (
     <S.Container>
       <TitleH title='Tarifas' />
-      <S.Button  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} onClick={handleAddRequest}>Adicionar Tarifa</S.Button>
+      <S.Button  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} onClick={handleAddRequest}>Adicionar tarifa</S.Button>
     </S.Container>
   );
 }

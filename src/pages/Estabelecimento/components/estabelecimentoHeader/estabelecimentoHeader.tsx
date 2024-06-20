@@ -46,7 +46,7 @@ export function EstabelecimentoHeader({ onSearch, searchValue, setSearchValue }:
             <MagnifyingGlass />
           </S.SearchIcon>
         </S.Input>
-        <S.Button  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} onClick={handleAddEstablishment}>Adicionar Estabelecimento</S.Button>
+        <S.Button  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} onClick={handleAddEstablishment}>Adicionar estabelecimento</S.Button>
       </S.Context>
     </S.Container>
   );
