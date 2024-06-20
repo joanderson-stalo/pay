@@ -164,6 +164,7 @@ export function PF({ Avançar, BPF, BPJ }: IStep1) {
                   hasError={!!errors.EmailEstabelecimento}
                 />
               </S.ContainerInput>
+
               <S.ContainerInput2>
                 <CustomSelect
                   optionsData={optionsCnae}
@@ -180,6 +181,7 @@ export function PF({ Avançar, BPF, BPJ }: IStep1) {
                 />
                 <button>Pesquise pelo CNAE ou Nome</button>
               </S.ContainerInput2>
+              
             </S.ContainerForm>
           </S.ContextStep>
           <S.ContainerButton>
