@@ -22,7 +22,7 @@ export function HeaderPlans({ onSearch, searchValue, setSearchValue }: Props) {
     setIsTyping(true);
   };
 
-  
+
   const handleBlur = () => {
     setIsTyping(false);
     handleInputBlur()
@@ -34,9 +34,6 @@ export function HeaderPlans({ onSearch, searchValue, setSearchValue }: Props) {
     }
   };
 
-  const handleAddEstablishment = () => {
-    navigate('/addplans');
-  };
 
   const handleInputFocus = () => {
     setInputFocused(true);
@@ -76,7 +73,7 @@ export function HeaderPlans({ onSearch, searchValue, setSearchValue }: Props) {
             onChange={handleChange}
             onBlur={handleBlur}
             onFocus={handleInputFocus}
-       
+
           />
           <S.SearchIcon isFocused className='search-icon' onClick={handleSearch}>
             <MagnifyingGlass />

@@ -116,7 +116,7 @@ export function Transaction() {
         setLoading(false)
       }
     },
-    [itensPorPage, currentPage, baseURL, dataUser?.token]
+    [itensPorPage, currentPage, baseURL, dataUser?.token, searchValue]
   )
 
 
@@ -145,17 +145,25 @@ export function Transaction() {
 
   const handleSearch = () => {
     if (searchValue.trim() !== '') {
-      fetchDataFromAPI(searchValue)
+      if (currentPage !== 1) {
+        setCurrentPage(1);
+      } else {
+        fetchDataFromAPI(searchValue);
+      }
     } else {
-      fetchDataFromAPI()
+      fetchDataFromAPI();
     }
   }
+
 
   const totalPages = Math.ceil(totalTransactions / (itensPorPage || 1))
 
   useEffect(() => {
-    fetchDataFromAPI()
-  }, [fetchDataFromAPI])
+    if (currentPage === 1 || searchValue.trim() === '') {
+      fetchDataFromAPI(searchValue.trim() ? searchValue : undefined);
+    }
+  }, [currentPage]);
+
 
 
 
