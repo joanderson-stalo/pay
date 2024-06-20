@@ -140,57 +140,43 @@ const handleCpfCnpjChange = (event: { target: { value: any; }; }) => {
             <S.ContainerForm>
               <S.ContainerInput>
 
+                <S.Banco>
                   <CustomSelect
-                    {...register('Banco', { required: true })}
-                    label="Banco"
-                    optionsData={bancos}
-                    value={bancoSelecionado}
-                    placeholder={'Clique para ver a lista'}
-                    hasError={!!errors.Banco}
-                    onChange={(selectedOption: { value: string }) => {
-                      setValue('Banco', selectedOption.value);
-                    }}
-                  />
+                      {...register('Banco', { required: true })}
+                      label="Banco"
+                      optionsData={bancos}
+                      value={bancoSelecionado}
+                      placeholder={'Clique para ver a lista'}
+                      hasError={!!errors.Banco}
+                      onChange={(selectedOption: { value: string }) => {
+                        setValue('Banco', selectedOption.value);
+                      }}
+                    />
+
+                </S.Banco>
+
+                <S.TipoConta>
+                  <CustomSelect
+                      {...register('TipoDeConta', { required: true })}
+                      label="Tipo de Conta"
+                      value={tipoDeContaSelecionado}
+                      placeholder={''}
+                      optionsData={accountType}
+                      hasError={!!errors['Tipo de Conta']}
+                      onChange={(selectedOption: { value: string }) => {
+                        setValue('TipoDeConta', selectedOption.value);
+                      }}
+                    />
+                </S.TipoConta>
 
 
-                  <CustomSelect
-                    {...register('TipoDeConta', { required: true })}
-                    label="Tipo de Conta"
-                    value={tipoDeContaSelecionado}
-                    placeholder={''}
-                    optionsData={accountType}
-                    hasError={!!errors['Tipo de Conta']}
-                    onChange={(selectedOption: { value: string }) => {
-                      setValue('TipoDeConta', selectedOption.value);
-                    }}
-                  />
+
 
               </S.ContainerInput>
 
               <S.ContainerInput>
-              <CustomInput
-                  key={mask}
-                  colorInputDefault={tenantData.primary_color_identity}
-                  colorInputSuccess={tenantData.secondary_color_identity}
-                  {...register('CpfCnpj', { required: true })}
-                  label="CPF ou CNPJ"
-                  placeholder="--.---.---/---.--"
-                  hasError={!!errors.CpfCnpj}
-                  onChange={handleCpfCnpjChange}
-                />
 
-<CustomInput
-                    {...register('pix', { required: true })}
-                    label="Chave PIX"
-                    colorInputDefault={tenantData.primary_color_identity}
-                    colorInputSuccess={tenantData.secondary_color_identity}
-                    hasError={!!errors.Agência}
-                    hasSuccess={false}
-                  />
-              </S.ContainerInput>
-
-              <S.ContainerInput>
-                <S.Agencia>
+              <S.Agencia>
                   <CustomInput
                     {...register('Agência', { required: true })}
                     label="Agência"
@@ -200,6 +186,7 @@ const handleCpfCnpjChange = (event: { target: { value: any; }; }) => {
                     hasSuccess={false}
                   />
                 </S.Agencia>
+
                 <S.Conta>
                   <CustomInput
                     {...register('Conta', { required: true })}
@@ -210,7 +197,47 @@ const handleCpfCnpjChange = (event: { target: { value: any; }; }) => {
                     hasSuccess={false}
                   />
                 </S.Conta>
+
+                <S.ContainerInput2>
+
+                  <CustomInput
+                    key={mask}
+                    colorInputDefault={tenantData.primary_color_identity}
+                    colorInputSuccess={tenantData.secondary_color_identity}
+                    {...register('CpfCnpj', { required: true })}
+                    label="CPF/CNPJ"
+                    placeholder="--.---.---/---.--"
+                    hasError={!!errors.CpfCnpj}
+                    onChange={handleCpfCnpjChange}
+                  />
+                </S.ContainerInput2>
+
+
+
+
+
+
+
               </S.ContainerInput>
+
+              <S.ContainerInput>
+
+                <S.Pix>
+                  <CustomInput
+                      {...register('pix', { required: true })}
+                      label="Chave PIX"
+                      colorInputDefault={tenantData.primary_color_identity}
+                      colorInputSuccess={tenantData.secondary_color_identity}
+                      hasError={!!errors.Agência}
+                      hasSuccess={false}
+                    />
+                </S.Pix>
+
+              </S.ContainerInput>
+
+
+
+
 
 
 
@@ -218,7 +245,7 @@ const handleCpfCnpjChange = (event: { target: { value: any; }; }) => {
             </S.ContainerForm>
           </S.ContextStep>
           <S.ContainerButton>
-            <S.ButtonVoltar onClick={Voltar}>Voltar</S.ButtonVoltar>
+            <S.ButtonVoltar primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}onClick={Voltar}>Voltar</S.ButtonVoltar>
             <S.ButtonAvançar
  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} disabled={!areAllFieldsFilled()} onClick={Avançar}>
               Salvar

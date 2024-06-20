@@ -70,19 +70,19 @@ export function PJ({ Avançar}: IStep1) {
     !!watch('TelefoneEstabelecimento')
 
   const handleAvancar = async () => {
-    
+
       Avançar()
-    
+
   }
 
   const handleLicenseddetail = () => {
     navigate('/sellers-la')
   }
 
- 
+
   useEffect(() => {
     const fetchSellerData = async () => {
-      setLoading(true); 
+      setLoading(true);
       try {
         const response = await axios.get(
           `${baseURL}seller/show/${licensedId}`,
@@ -106,12 +106,12 @@ export function PJ({ Avançar}: IStep1) {
         setValue('TelefoneEstabelecimento', response.data.seller.phone);
         setValue('NomeSocioEstabelecimento', response.data.seller.owner_name);
         setValue('AreaAtuacaoEstabelecimento', response.data.seller.mcc);
-       
+
       } catch (error) {
         console.error('Erro ao buscar dados da API:', error);
         setSellerData(null);
       } finally {
-        setLoading(false); 
+        setLoading(false);
       }
     };
     fetchSellerData();
@@ -123,12 +123,12 @@ export function PJ({ Avançar}: IStep1) {
   const handleSalvar = async () => {
     try {
       setLoading(true);
-  
+
       const formatDate = (dateString: { split: (arg0: string) => [any, any, any] }) => {
         const [day, month, year] = dateString.split('/');
         return `${year}-${month}-${day}`;
       };
-  
+
       const updatedData = {
         mcc: areaAtuacaoValue,
         company_name: watch('RazaoSocialEstabelecimento'),
@@ -142,16 +142,16 @@ export function PJ({ Avançar}: IStep1) {
         document: watch('CNPJEstabelecimento'),
         type_document: sellerData?.type_document
       };
-  
+
       await axios.put(`${baseURL}seller/update/${licensedId}`, updatedData, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${dataUser?.token}`
         }
       });
-  
+
       setLoading(false);
-  
+
       Swal.fire({
         icon: 'success',
         title: 'Licenciado atualizado com sucesso!',
@@ -179,18 +179,18 @@ export function PJ({ Avançar}: IStep1) {
       });
     }
   };
-  
-  
+
+
 
   return (
       <>
-  {loading && <Loading />}    
+  {loading && <Loading />}
       <ContainerStep>
       <ContextStepContainer>
         <ContextStep>
           <ContainerDados>
             <TitleStep>Dados do Licenciado</TitleStep>
-         
+
           </ContainerDados>
           <Line />
           <ContainerForm>
@@ -209,16 +209,8 @@ export function PJ({ Avançar}: IStep1) {
                 colorInputSuccess={tenantData.secondary_color_identity}
                 hasError={!!errors.RazaoSocialEstabelecimento}
               />
-            </ContainerInput>
-            <ContainerInput>
-              <CustomInput
-                {...register('NomeFantasiaEstabelecimento')}
-                label="Nome Fantasia"
-                colorInputDefault={tenantData.primary_color_identity}
-                colorInputSuccess={tenantData.secondary_color_identity}
-                hasError={!!errors.NomeFantasiaEstabelecimento}
-              />
-              <LabelCustomInputMask
+
+<LabelCustomInputMask
                 {...register('DataCriacaoEstabelecimento', {
                   validate: validateDataCriacao
                 })}
@@ -228,7 +220,20 @@ export function PJ({ Avançar}: IStep1) {
                 hasError={!!errors.DataCriacaoEstabelecimento}
               />
             </ContainerInput>
+
+
             <ContainerInput>
+
+
+
+
+            <CustomInput
+                {...register('NomeFantasiaEstabelecimento')}
+                label="Nome Fantasia"
+                colorInputDefault={tenantData.primary_color_identity}
+                colorInputSuccess={tenantData.secondary_color_identity}
+                hasError={!!errors.NomeFantasiaEstabelecimento}
+              />
 
               <LabelCustomInputMask
                 {...register('CPFEstabelecimento', { validate: validateCPF })}
@@ -237,16 +242,8 @@ export function PJ({ Avançar}: IStep1) {
                 placeholder="---.---.---.--"
                 hasError={!!errors.CPFEstabelecimento}
               />
-              <CustomInput
-                {...register('NomeSocioEstabelecimento')}
-                label="Nome Completo do Sócio"
-                colorInputDefault={tenantData.primary_color_identity}
-                colorInputSuccess={tenantData.secondary_color_identity}
-                hasError={!!errors.NomeSocioEstabelecimento}
-              />
-            </ContainerInput>
-            <ContainerInput>
-            <LabelCustomInputMask
+
+<LabelCustomInputMask
                 {...register('NascimentoSocio', {
                   validate: validateDataCriacao
                 })}
@@ -255,6 +252,19 @@ export function PJ({ Avançar}: IStep1) {
                 placeholder="dd/mm/aaaa"
                 hasError={!!errors.NascimentoSocio}
               />
+
+            </ContainerInput>
+            <ContainerInput>
+
+            <CustomInput
+                {...register('NomeSocioEstabelecimento')}
+                label="Nome Completo do Sócio"
+                colorInputDefault={tenantData.primary_color_identity}
+                colorInputSuccess={tenantData.secondary_color_identity}
+                hasError={!!errors.NomeSocioEstabelecimento}
+              />
+
+
               <LabelCustomInputMask
                 {...register('TelefoneEstabelecimento', {
                   validate: validateTelefone
@@ -291,7 +301,7 @@ export function PJ({ Avançar}: IStep1) {
           </ContainerForm>
         </ContextStep>
         <ContainerButton>
-        <ButtonVoltar onClick={handleLicenseddetail}>Cancelar</ButtonVoltar>
+        <ButtonVoltar primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} onClick={handleLicenseddetail}>Cancelar</ButtonVoltar>
           <ButtonAvançar  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} disabled={!allFieldsFilled} onClick={handleSalvar}>Salvar</ButtonAvançar>
         <ButtonAvançar  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} disabled={!allFieldsFilled} onClick={handleAvancar}>
           Avançar
