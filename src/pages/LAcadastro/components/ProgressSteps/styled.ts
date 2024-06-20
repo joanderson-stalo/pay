@@ -12,13 +12,14 @@ interface IProgressBarProps {
 export const MainContainer = styled.div`
   width: 100%;
   margin: 0 auto;
-  padding: 0 15px;
+
 `;
 
 export const StepContainer = styled.div`
   display: flex;
   justify-content: space-between;
   position: relative;
+  
 `;
 
 export const StepWrapper = styled.div`

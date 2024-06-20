@@ -144,22 +144,25 @@ export const ContainerPJPF = styled.div`
 export const ButtonPJ = styled.button<{ active: boolean }>`
   width: 50px;
   height: 34px;
-  background-color: ${({ active }) => (active ? '#08BBE9' : '#E6E6E6')};
-  color: ${({ active }) => (active ? 'white' : 'black')};
-  border-radius: ${({ active }) => (active ? '8px' : '8px 1px 1px 8px')};
+  background-color: #E6E6E6;
+  color: #5F6367;
+  border-radius: 4px;
   margin-right: -5px;
-  font-size: 12px;
+  font-size: ${({ active }) => (active ? '14px' : '12px')};
+  font-weight: ${({ active }) => (active ? '700' : '400')};
   line-height: 20px;
   letter-spacing: 0.5px;
 `;
 
 export const ButtonPF = styled.button<{ active: boolean }>`
-  width: 50px;
+    width: 50px;
   height: 34px;
-  background-color: ${({ active }) => (active ? '#08BBE9' : '#E6E6E6')};
-  color: ${({ active }) => (active ? 'white' : 'black')};
-  border-radius: ${({ active }) => (active ? '8px' : '1px 8px 8px 1px')};
-  font-size: 12px;
+  background-color: #E6E6E6;
+  color: #5F6367;
+  border-radius: 4px;
+  /* margin-right: -5px; */
+  font-size: ${({ active }) => (active ? '14px' : '12px')};
+  font-weight: ${({ active }) => (active ? '700' : '400')};
   line-height: 20px;
   letter-spacing: 0.5px;
 `;
