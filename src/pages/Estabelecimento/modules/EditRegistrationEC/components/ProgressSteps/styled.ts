@@ -12,7 +12,7 @@ interface IProgressBarProps {
 export const MainContainer = styled.div`
   width: 100%;
   margin: 0 auto;
-  padding: 0 15px;
+  
 `;
 
 export const StepContainer = styled.div`
