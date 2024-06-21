@@ -10,6 +10,13 @@ interface Color {
     justify-content: space-between;
     align-items: center;
     text-align: center;
+
+    @media (max-width: 680px){
+      flex-direction: column;
+      align-items: start;
+      text-align: start;
+      gap: 20px;
+    }
   `;
 
   export const Context = styled.div`

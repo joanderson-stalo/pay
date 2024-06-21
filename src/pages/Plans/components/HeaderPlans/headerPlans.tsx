@@ -10,7 +10,7 @@ export function HeaderPlans() {
 
   return (
     <S.Container>
- <TitleH title='Planos' />
+        <TitleH title='Planos' />
     </S.Container>
   );
 }

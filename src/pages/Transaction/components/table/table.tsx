@@ -71,26 +71,26 @@ export function TabelaVendas({ rows }: TabelaProps) {
     <S.Table>
       <thead>
         <tr>
-          <S.TableHeader style={{cursor: 'pointer', width: "12%"}}  onClick={() => handleSort('captured_in')}>
+          <S.TableHeader style={{cursor: 'pointer', width: "9%"}}  onClick={() => handleSort('captured_in')}>
             Data
             <S.SortContainer>
               <S.SortArrow isActive={sortField === 'captured_in' && sortDirection === 'asc'}>▲</S.SortArrow>
               <S.SortArrow isActive={sortField === 'captured_in' && sortDirection === 'desc'}>▼</S.SortArrow>
             </S.SortContainer>
           </S.TableHeader>
-          <S.TableHeader>NSU</S.TableHeader>
-          <S.TableHeader >Estabelecimento</S.TableHeader>
-          <S.TableHeader>Forma de Pagamento</S.TableHeader>
-          <S.TableHeader>Bandeira</S.TableHeader>
-          <S.TableHeader style={{cursor: 'pointer'}}  onClick={() => handleSort('amount')}>
+          <S.TableHeader style={{ width: "13%"}}>NSU</S.TableHeader>
+          <S.TableHeader style={{ width: "20%"}} >Estabelecimento</S.TableHeader>
+          <S.TableHeader style={{ width: "20%"}}>Forma de Pagamento</S.TableHeader>
+          <S.TableHeader style={{ width: "9%"}}>Bandeira</S.TableHeader>
+          <S.TableHeader style={{cursor: 'pointer', width: "9%"}}  onClick={() => handleSort('amount')}>
             Valor
             <S.SortContainer>
               <S.SortArrow isActive={sortField === 'amount' && sortDirection === 'asc'}>▲</S.SortArrow>
               <S.SortArrow isActive={sortField === 'amount' && sortDirection === 'desc'}>▼</S.SortArrow>
             </S.SortContainer>
           </S.TableHeader>
-          <S.TableHeader>Status</S.TableHeader>
-          <S.TableHeader></S.TableHeader>
+          <S.TableHeader style={{ width: "9%"}} >Status</S.TableHeader>
+          <S.TableHeader style={{ width: "5%"}}></S.TableHeader>
         </tr>
       </thead>
       <tbody>
@@ -106,11 +106,11 @@ export function TabelaVendas({ rows }: TabelaProps) {
                 {formattedDate} <br />
                 {formattedTime}
               </S.TableData>
-              <S.TableData style={{maxWidth: "130px"}}>{transaction.nsu_internal}</S.TableData>
+              <S.TableData style={{maxWidth: "110px"}}>{transaction.nsu_internal}</S.TableData>
               <S.TableData style={{maxWidth: "150px"}} >{transaction.company_name}</S.TableData>
               <S.FormaPagamentoData>
   <S.FormaPagamentoText>
-  {transaction.payment_type.toLocaleLowerCase() === 'credit' ? 'crédito' : (transaction.payment_type.toLocaleLowerCase() === 'debit' ? 'débito' : 'pix')}
+  {transaction.payment_type.toLocaleLowerCase() === 'credit' ? 'Crédito' : (transaction.payment_type.toLocaleLowerCase() === 'debit' ? 'Débito' : 'Pix')}
   </S.FormaPagamentoText>
 </S.FormaPagamentoData>
 

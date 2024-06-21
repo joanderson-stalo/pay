@@ -72,6 +72,12 @@ margin: 36px 0;
   flex-wrap: wrap;
   justify-content: center;
 }
+
+
+
+@media (max-width: 600px) {
+     gap: 12px;
+  }
 `
 
 export const ContainerCardsMobile = styled.div`

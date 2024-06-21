@@ -5,11 +5,21 @@ interface Color {
   secundary: string;
 }
 
-  export const Container = styled.div`
-      display: flex;
-      flex-direction: space-between;
-      width: 100%;
-  `;
+export const Container = styled.div`
+display: flex;
+justify-content: space-between;
+margin-bottom: 38px;
+
+@media (max-width: 600px){
+  flex-direction: column;
+  display: inline-flex;
+  gap: 20px;
+}
+
+
+
+
+`;
 
   export const Context = styled.div`
     display: flex;

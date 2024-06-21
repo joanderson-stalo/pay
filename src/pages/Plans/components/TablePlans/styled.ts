@@ -34,11 +34,13 @@ export const TableHeader = styled.th`
 export const TableData = styled.td`
   color: #343A40;
   font-size: ${({theme }) => theme.text_xs};
+  font-weight: ${({theme }) => theme.font_normal};
   line-height: 18px;
-  padding: 8px 8px 8px 20px;
+  padding: 8px 16px;
   border-bottom: 1px solid #E9ECEF;
   text-align: start;
   vertical-align: middle;
+  height: 53px;
 
 `;
 
@@ -102,14 +104,20 @@ export const Status = styled.span<StatusProps>`
 
 export const FornecedorStatus = styled.span`
   padding: 4px 8px;
-  color: #FFFFFF;
-
-color:  #FFF;
-font-size: ${({theme }) => theme.text_xs};
-font-weight: ${({theme }) => theme.font_normal};
-line-height: 14px;
-
+  width: 30px;
+  height: 22px;
+  line-height: 26px;
   border-radius: 4px;
-  background-color: #7D7D7D;
+  font-size: ${({theme }) => theme.text_xs};
+  font-weight: ${({theme }) => theme.font_bold};
+  background-color: #1786291A;
+  color: #202124;
+
+
+
+
+
+
+
 `;
 

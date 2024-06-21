@@ -37,7 +37,7 @@ export const TableHeader = styled.th`
 
 export const CustomTableHeader = styled.th<Color>`
   color: #343A40;
-  font-size: ${({theme }) => theme.text_sm};
+  font-size: ${({theme }) => theme.text_xs};
   font-weight: ${({theme }) => theme.font_normal};
   line-height: 15.566px;
   text-align: start;
@@ -57,6 +57,7 @@ export const TableData = styled.td`
   border-bottom: 1px solid #E9ECEF;
   text-align: start;
   vertical-align: middle;
+  height: 53px;
 `;
 
 export const Button = styled.button<Color>`

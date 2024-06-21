@@ -59,19 +59,25 @@ export const TableData = styled.td`
   color: #343A40;
   font-size: ${({ theme }) => theme.text_xs};
   font-weight: ${({theme }) => theme.font_normal};
-  line-height: 15.566px;
+  line-height: 18px;
   padding: 8px 16px;
   border-bottom: 1px solid #E9ECEF;
   text-align: start;
   vertical-align: middle;
+  height: 36px;
+
+
+
+
 `;
 
 export const StatusTableData = styled(TableData)<{ status: string }>`
-  display: inline-block;
-  padding: 5px 5.5px;
+
+
+  padding: 3px 5.5px;
   border-radius: 4px;
   color: #343A40;
-  display: inline-flex;
+
 
 
   background-color: ${props => {
@@ -95,7 +101,7 @@ export const Button = styled.button<ButtonProps>`
   font-size: 12px;
   font-style: normal;
   font-weight: ${({theme }) => theme.font_normal};
-  line-height: 11.303px;
+
   letter-spacing: 0.353px;
   text-decoration-line: underline;
   background-color: transparent;

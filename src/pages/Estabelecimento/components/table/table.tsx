@@ -101,17 +101,17 @@ export function Tabela({ rows }: TabelaProps) {
             Id
             <SortIndicator direction={getDirectionForField('id')} />
           </S.TableHeader>
-          <S.TableHeader>Documento</S.TableHeader>
+          <S.TableHeader >Documento</S.TableHeader>
           <S.TableHeader style={{cursor: 'pointer'}}  onClick={() => handleSort('trading_name')}>
             Estabelecimento
             <SortIndicator direction={getDirectionForField('trading_name')} />
           </S.TableHeader>
-          <S.TableHeader>Data de Registro</S.TableHeader>
-          <S.TableHeader style={{cursor: 'pointer'}}  onClick={() => handleSort('tpv')}>
+          <S.TableHeader >Data de Registro</S.TableHeader>
+          <S.TableHeader style={{cursor: 'pointer' }}  onClick={() => handleSort('tpv')}>
             TPV
             <SortIndicator  direction={getDirectionForField('tpv')} />
           </S.TableHeader>
-          <S.TableHeader>Fornecedor</S.TableHeader>
+          <S.TableHeader >Fornecedor</S.TableHeader>
           <S.TableHeader ></S.TableHeader>
         </tr>
       </thead>
@@ -120,17 +120,17 @@ export function Tabela({ rows }: TabelaProps) {
           <tr key={index}>
             <S.TableData>{row.id}</S.TableData>
             <S.TableData>{maskCpfCnpj(row.cnpj_cpf)}</S.TableData>
-            <S.TableData>{row.trading_name}</S.TableData>
+            <S.TableData style={{maxWidth: "150px"}}>{row.trading_name}</S.TableData>
             <S.TableData>{formatDate(row.registration_date)}</S.TableData>
             <S.TableData>R$ {row.tpv.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</S.TableData>
             <S.TableData>
               <S.FornecedorWrapper>
               {Object.keys(row.acquire).map((fornecedorKey) => (
-    <S.FornecedorItem 
-        status={row.acquire[fornecedorKey as keyof typeof row.acquire].status_acquire} 
+    <S.FornecedorItem
+        status={row.acquire[fornecedorKey as keyof typeof row.acquire].status_acquire}
         key={fornecedorKey}
     >
-        {fornecedorKey} 
+        {fornecedorKey}
     </S.FornecedorItem>
 ))}
 
