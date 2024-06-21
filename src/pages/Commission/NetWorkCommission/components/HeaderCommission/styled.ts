@@ -50,8 +50,8 @@ export const ContainerPJPF = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
-  justify-content: center;
-  margin-top: 10px;
+  justify-content: start;
+  margin-top: 20px;
 }
 
 `;

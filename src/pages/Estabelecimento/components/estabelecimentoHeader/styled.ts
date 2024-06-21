@@ -9,6 +9,15 @@ interface Color {
 export const Container = styled.div`
 display: flex;
 justify-content: space-between;
+margin-bottom: 38px;
+
+@media (max-width: 600px){
+  flex-direction: column;
+  display: inline-flex;
+  gap: 20px;
+}
+
+
 
 
 `;

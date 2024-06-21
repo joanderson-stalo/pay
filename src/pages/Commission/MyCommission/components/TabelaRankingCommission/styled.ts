@@ -20,13 +20,14 @@ export const TableHeader = styled.th`
   color: #343A40;
   font-size: 12px;
   font-weight: ${({theme }) => theme.font_medium};
-  line-height: 15.566px;
+  font-size: ${({ theme }) => theme.text_sm};
+  line-height: 18px;
   text-align: start;
   padding: 8px 16px;
   border-bottom: 1px solid #E9ECEF;
   cursor: pointer;
   vertical-align: middle;
-  font-size: ${({ theme }) => theme.text_sm};
+
 `;
 
 export const TableData = styled.td`
@@ -39,6 +40,7 @@ export const TableData = styled.td`
   vertical-align: middle;
   font-size: ${({ theme }) => theme.text_xs};
   font-weight: ${({theme }) => theme.font_normal};
+  height: 53px;
 
 `;
 

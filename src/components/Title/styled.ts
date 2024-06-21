@@ -7,10 +7,10 @@ font-size: 32px;
 font-weight: 600;
 
 @media (max-width: 900px) {
-font-size: 24px;
+font-size: 28px;
 }
 
 @media (max-width: 600px) {
-font-size: 16px;
+font-size: 24px;
 }
 `;

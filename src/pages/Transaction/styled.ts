@@ -23,6 +23,10 @@ export const ContainerCardVendas = styled.div`
     flex-wrap: wrap;
     justify-content: center;
   }
+
+  @media (max-width: 600px) {
+     gap: 12px;
+  }
 `
 
 export const Title = styled.h2<Color>`

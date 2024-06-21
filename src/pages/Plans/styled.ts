@@ -22,6 +22,8 @@ export const ContainerCardVendas = styled.div`
   gap: 20px;
   margin: 45px 0 45px 0;
 
+  
+
 `
 
 
@@ -130,6 +132,7 @@ export const Input = styled.div<InputContainerProps>`
   letter-spacing: 0.5px;
   color: #9b959f;
   padding-right: 15px;
+  margin-bottom: 36px;
 
   > input {
     width: 100%;

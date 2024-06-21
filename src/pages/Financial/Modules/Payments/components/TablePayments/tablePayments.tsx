@@ -121,6 +121,7 @@ export function TablePayments({ rows }: TabelaProps) {
                 {statusMap[row.status]}
               </S.StatusTableData>
             </S.TableData>
+            
             <S.TableData>
               <S.Button status={row.status} onClick={() => handleViewMoreClick(row.id, row.status)}>
                 {row.status === 'returned' ? 'Atualizar pagamento' : 'Detalhes'}

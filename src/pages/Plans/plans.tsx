@@ -139,6 +139,7 @@ export function Plans() {
   return (
 
         <>
+        <S.Container>
           <HeaderPlans
           />
 
@@ -156,7 +157,7 @@ export function Plans() {
             </S.SearchIcon>
           </S.Input>
 
-          <S.Container>
+
             <TablePlans rows={plans} />
 
             <S.ContainerCardsMobile>

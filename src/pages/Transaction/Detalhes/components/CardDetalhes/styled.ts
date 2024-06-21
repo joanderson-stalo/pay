@@ -83,7 +83,7 @@ gap: 9px;
 
 
 > span {
-    color: #FFFFFF;
+    color: #202124;
     font-size: 12px;
     font-weight: 400;
     display: inline-flex;
@@ -91,15 +91,15 @@ gap: 9px;
     justify-content: center;
     align-items: center;
     border-radius: 4px;
-    background:  ${(props) => props.primary};
+    background:  #3C0A6D26;
   }
 `
 
 export const TagDetalhes = styled.p<ITagDetalhes>`
   border-radius: 4px;
-  background: ${(props) => (props.label === 'succeeded' ? '#178629' : 'red')};
+  background: ${(props) => (props.label === 'succeeded' ? '#1786291A' : '#C81B1B1A')};
   padding: 4px 8px;
-  color: #e6f8fd;
+  color: #202124;
   font-size: 12px;
   font-weight: 600;
 `;

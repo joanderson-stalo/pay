@@ -40,6 +40,7 @@ export const TableData = styled.td`
   border-bottom: 1px solid #E9ECEF;
   text-align: start;
   vertical-align: middle;
+  height: 53px;
 `;
 
 interface Color {

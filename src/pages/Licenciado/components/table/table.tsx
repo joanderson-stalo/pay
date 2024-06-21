@@ -114,32 +114,33 @@ export function Tabela({ rows }: TabelaProps) {
     <S.Table>
       <thead>
         <tr>
-          <S.TableHeader style={{cursor: 'pointer'}} onClick={() => handleSort('id')}>
+          <S.TableHeader style={{cursor: 'pointer', width: "7%"}} onClick={() => handleSort('id')}>
             Id
             <SortIndicator direction={getDirectionForField('id')} />
           </S.TableHeader>
-          <S.TableHeader>CPF/CNPJ</S.TableHeader>
-          <S.TableHeader style={{cursor: 'pointer'}} onClick={() => handleSort('trading_name')}>
+
+          <S.TableHeader style={{ width: "13%"}}>CPF/CNPJ</S.TableHeader>
+          <S.TableHeader style={{cursor: 'pointer', width: "20%"}} onClick={() => handleSort('trading_name')}>
             Nome
             <SortIndicator direction={getDirectionForField('trading_name')} />
           </S.TableHeader>
-          <S.TableHeader style={{cursor: 'pointer'}} onClick={() => handleSort('type')}>
+          <S.TableHeader style={{cursor: 'pointer', width: "9%"}} onClick={() => handleSort('type')}>
             Nível
             <SortIndicator direction={getDirectionForField('type')} />
           </S.TableHeader>
-          <S.TableHeader style={{cursor: 'pointer'}} onClick={() => handleSort('ec_count')}>
+          <S.TableHeader style={{cursor: 'pointer', width: "15%"}} onClick={() => handleSort('ec_count')}>
             Estabelecimentos
             <SortIndicator direction={getDirectionForField('ec_count')} />
           </S.TableHeader>
-          <S.TableHeader style={{cursor: 'pointer'}} onClick={() => handleSort('commission')}>
+          <S.TableHeader style={{cursor: 'pointer', width: "9%"}} onClick={() => handleSort('commission')}>
             Comissão
             <SortIndicator direction={getDirectionForField('commission')} />
           </S.TableHeader>
-          <S.TableHeader style={{cursor: 'pointer'}} onClick={() => handleSort('tpv')}>
+          <S.TableHeader style={{cursor: 'pointer', width: "9%"}} onClick={() => handleSort('tpv')}>
             TPV
             <SortIndicator direction={getDirectionForField('tpv')} />
           </S.TableHeader>
-          <S.TableHeader>Ver mais</S.TableHeader>
+          <S.TableHeader style={{ width: "5%"}}></S.TableHeader>
         </tr>
       </thead>
       <tbody>
@@ -147,7 +148,7 @@ export function Tabela({ rows }: TabelaProps) {
           <tr key={index}>
             <S.TableData>{seller.id}</S.TableData>
             <S.TableData>{maskCpfCnpj(seller.cnpj_cpf)}</S.TableData>
-            <S.TableData>{seller.trading_name ? seller.trading_name  : seller.owner_name}</S.TableData>
+            <S.TableData style={{maxWidth: "150px"}}>{seller.trading_name ? seller.trading_name  : seller.owner_name}</S.TableData>
             <S.TableData>{seller.type} {seller.network_index}</S.TableData>
             <S.TableData>{seller.ec_count}</S.TableData>
             <S.TableData>{formatToBRL(parseFloat(seller.commission.replace(',', '.')))}</S.TableData>

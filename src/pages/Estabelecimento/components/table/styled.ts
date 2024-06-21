@@ -21,12 +21,10 @@ export const TableHeader = styled.th`
   color: #343A40;
   font-size: ${({theme }) => theme.text_sm};
   font-weight: ${({theme }) => theme.font_medium};
-  line-height: 15.566px;
-  text-align: center;
+  line-height: 18px;
   padding: 8px 16px;
   border-bottom: 1px solid #E9ECEF;
   vertical-align: middle;
-  font-size: 14px;
   text-align: start;
 
 `;
@@ -35,11 +33,15 @@ export const TableData = styled.td`
   color: #343A40;
   font-size: ${({theme }) => theme.text_xs};
   font-weight: ${({theme }) => theme.font_normal};
-  line-height: 15.566px;
+  line-height: 18px;
   padding: 8px 16px;
+  height: 53px;
   border-bottom: 1px solid #E9ECEF;
   vertical-align: middle;
   text-align: start;
+   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 export const Button = styled.button<Color>`
@@ -78,10 +80,10 @@ export const FornecedorItem = styled.p<{ status: string }>`
   border-radius: 4px;
   text-align: center;
   color: #202124;
-  
+
     font-weight: ${({theme }) => theme.font_bold};
 
-  background-color: ${({ status }) => (status === 'enable' ? '#55B938' : '#1786291A')};
+  background-color: ${({ status }) => (status === 'enable' ? '#7D7D7D' : '#1786291A')};
 
 
 

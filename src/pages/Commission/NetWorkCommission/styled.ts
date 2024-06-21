@@ -39,6 +39,10 @@ width: 100%;
   justify-content: center;
 }
 
+@media (max-width: 600px) {
+     gap: 12px;
+  }
+
 `
 
 interface Color {

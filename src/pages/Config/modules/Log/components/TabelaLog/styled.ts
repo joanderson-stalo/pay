@@ -41,6 +41,7 @@ max-width: 200px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  height: 53px;
 
 
   border-bottom: 1px solid #E9ECEF;

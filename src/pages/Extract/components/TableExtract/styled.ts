@@ -38,11 +38,13 @@ export const TableData = styled.td`
   color: #343A40;
   font-size: ${({theme }) => theme.text_xs};
   font-weight: ${({theme }) => theme.font_normal};
-  line-height: 15.566px;
+  line-height: 15px;
   padding: 8px 16px;
   border-bottom: 1px solid #E9ECEF;
   text-align: start;
   vertical-align: middle;
+
+
 `;
 
 export const Button = styled.button<Color>`
@@ -103,5 +105,5 @@ export const TipoTableData = styled(TableData)<{ tipo: string }>`
   color: #343A40;
   border-radius: 4px;
   font-size: 12px;
-  
+
 `;

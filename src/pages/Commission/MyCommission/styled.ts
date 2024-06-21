@@ -32,6 +32,10 @@ export const ContainerCardVendas = styled.div`
     flex-wrap: wrap;
   }
 
+  @media (max-width: 600px) {
+     gap: 12px;
+  }
+
 
 
 `

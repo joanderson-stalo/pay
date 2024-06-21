@@ -64,8 +64,8 @@ export function CardDetalhes({
 
           <S.TagDetalhes label={status}>
             {status?.toLocaleLowerCase() === 'cancelled'
-              ? 'cancelado'
-              : 'sucesso'}
+              ? 'Cancelado'
+              : 'Sucesso'}
           </S.TagDetalhes>
           </S.ContainerTags>
         </S.ContextCard>

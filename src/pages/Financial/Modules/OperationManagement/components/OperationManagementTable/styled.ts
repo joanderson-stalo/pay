@@ -38,6 +38,7 @@ export const TableData = styled.td`
   text-align: start;
   padding: 8px 16px;
   border-bottom: 1px solid #E9ECEF;
+  height: 53px;
 `;
 
 export const TableRow = styled.tr`

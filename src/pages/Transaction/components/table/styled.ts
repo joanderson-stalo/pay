@@ -16,6 +16,7 @@ export const Table = styled.table`
   border-collapse: separate;
   border-spacing: 0;
 
+
   @media (max-width: 900px) {
     display: none;
   }
@@ -25,11 +26,12 @@ export const TableHeader = styled.th`
   color: #343A40;
   font-size: ${({theme }) => theme.text_sm};
   font-weight: ${({theme }) => theme.font_medium};
-  line-height: 15.566px;
+  line-height: 18px;
   text-align: start;
   padding: 8px 16px;
   border-bottom: 1px solid #E9ECEF;
   font-size: 14px;
+  vertical-align: middle;
 `;
 
 
@@ -37,7 +39,7 @@ export const TableData = styled.td`
   color: #343A40;
   font-size: ${({theme }) => theme.text_xs};
   font-weight: ${({theme }) => theme.font_normal};
-  line-height: 15.566px;
+  line-height: 18px;
   text-align: start;
   padding: 8px 16px;
   border-bottom: 1px solid #E9ECEF;
@@ -103,10 +105,10 @@ export const FormaPagamentoData = styled.td`
 export const FormaPagamentoText = styled.span`
   color: #343A40;
   font-size: ${({theme }) => theme.text_xs};
-  line-height: 15.566px;
+  line-height: 18px;
   background-color: #E6E6E6;
   border-radius: 4px;
-  padding: 4px 16.5px;
+  padding: 4px 11.5px;
   font-weight: ${({theme }) => theme.font_normal};
 
 `;
