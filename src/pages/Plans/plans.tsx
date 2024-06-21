@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import * as S from './styled';
 import { PaginaView } from '@/components/PaginaView/paginaView';
 import { ItensPorPage } from '@/components/ItensPorPage/itensPorPage';
@@ -10,6 +10,8 @@ import { HeaderPlans } from './components/HeaderPlans/headerPlans';
 import { PlansCard } from './Mobile/PlansCard';
 
 import { baseURL } from '@/config/color';
+import { MagnifyingGlass } from '@phosphor-icons/react';
+import axios from 'axios';
 
 interface Plan {
   id: number;
@@ -39,47 +41,56 @@ export function Plans() {
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
   const [plans, setPlans] = useState<RowData[]>([]);
-  const [totalPlans, setTotalPlans] = useState(0);
+  const [isFocused, setIsFocused] = useState(false)
   const { dataUser } = useLogin();
+  const [triggerSearch, setTriggerSearch] = useState(false);
 
-  const fetchPlans = async () => {
-    setLoading(true);
-    let url = `${baseURL}plan/index?perpage=${itensPorPage}&page=${currentPage}`;
+  const fetchPlans = useCallback(
+    async (search?: string) => {
+      setLoading(true);
 
-    if (searchValue) {
-      url += `&name=${searchValue}`;
-    }
+      let url = `${baseURL}plan/index?perpage=${itensPorPage}&page=${currentPage}`;
 
-    try {
-      const response = await fetch(url, {
+      if (search) {
+        url += `&name=${searchValue}`;
+      }
+
+      const config = {
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${dataUser?.token}`,
-        },
-      });
-      const data = await response.json();
-      const transformedPlans = data.plans.map((plan: Plan) => ({
-        id: plan.id,
-        status: plan.status,
-        name: plan.name,
-        antecipacao: plan.anticipation,
-        tipo: plan.level_seller,
-        fornecedor: plan.acquires,
-        planoBase: plan.plan_id_base,
-      }));
-      setPlans(transformedPlans);
-      setTotalPlans(data.total_plans);
-      setTotalPages(data.last_page);
-    } catch (error) {
-      console.error('Error fetching plans:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+          Authorization: `Bearer ${dataUser?.token}`
+        }
+      };
+
+      try {
+        const response = await axios.get(url, config);
+        const transformedPlans = response.data.plans.map((plan: Plan) => ({
+          id: plan.id,
+          status: plan.status,
+          name: plan.name,
+          antecipacao: plan.anticipation,
+          tipo: plan.level_seller,
+          fornecedor: plan.acquires,
+          planoBase: plan.plan_id_base,
+        }));
+        setPlans(transformedPlans);
+        setTotalPages(response.data.last_page);
+      } catch (error) {
+
+      } finally {
+        setLoading(false);
+      }
+    },
+    [itensPorPage, currentPage, baseURL, dataUser?.token, searchValue]
+  );
+
+
 
   useEffect(() => {
-    fetchPlans();
-  }, [itensPorPage, currentPage]);
+    if (searchValue.trim() === '') {
+      fetchPlans(searchValue);
+    }
+    }, [fetchPlans, searchValue]);
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
@@ -97,15 +108,29 @@ export function Plans() {
     setCurrentPage(pageNumber);
   };
 
-  const handleSearch = (value: string) => {
-    setSearchValue(value);
 
-    if (value.trim() === '') {
-      setSearchValue('');
+
+  const handleChange = (event: { target: { value: string } }) => {
+    setSearchValue(event.target.value)
+  }
+
+  const handleSearch = () => {
+    if (searchValue.trim() !== '') {
+      setTriggerSearch(current => !current);
+      if (currentPage !== 1) {
+        setCurrentPage(1);
+      }
     }
-
-    fetchPlans();
   };
+
+
+  useEffect(() => {
+    if (searchValue.trim() !== '' && triggerSearch) {
+      fetchPlans(searchValue);
+      setTriggerSearch(false);
+    }
+  }, [searchValue, currentPage, triggerSearch, fetchPlans]);
+
 
   if(loading){
     return <Loading />
@@ -115,14 +140,23 @@ export function Plans() {
 
         <>
           <HeaderPlans
-           onSearch={handleSearch} searchValue={searchValue} setSearchValue={setSearchValue}
           />
 
-          <S.Container>
-            <div style={{ display: 'flex', gap: '8px' }}>
-             
-            </div>
+<S.Input isFocused={isFocused}>
+            <input
+              type="text"
+              placeholder="Pesquise por nome do estabelecimento"
+              value={searchValue}
+              onChange={handleChange}
+              onFocus={() => setIsFocused(true)}
+              onBlur={() => setIsFocused(false)}
+            />
+            <S.SearchIcon isFocused onClick={handleSearch}>
+              <MagnifyingGlass />
+            </S.SearchIcon>
+          </S.Input>
 
+          <S.Container>
             <TablePlans rows={plans} />
 
             <S.ContainerCardsMobile>

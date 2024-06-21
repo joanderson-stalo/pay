@@ -13,6 +13,7 @@ import { baseURL } from '@/config/color';
 import { BtnFilterModal } from '@/components/BtnFilterModal/btnFilterModal';
 import { CustomSelect } from '@/components/Select/select';
 import { TagFilter } from '@/components/TagFilter/tagFilter';
+import { MagnifyingGlass } from '@phosphor-icons/react';
 
 export function Licenciado() {
   const [itensPorPage, setItensPorPage] = useState<number | ''>(10);
@@ -23,36 +24,52 @@ export function Licenciado() {
   const [sellers, setSellers] = useState([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [fetchedOptions, setFetchedOptions] = useState([]);
+  const [isFocused, setIsFocused] = useState(false)
+  const [triggerSearch, setTriggerSearch] = useState(false);
   const [selectedLicenciado, setSelectedLicenciado] = useState<string>(() => localStorage.getItem('@licenciadoAutorizadoLicensed') || '');
 
-  const fetchData = useCallback(async (pageNumber: number = currentPage) => {
-    setLoading(true);
-    let apiUrl = `${baseURL}seller/indexla?perpage=${String(itensPorPage)}&page=${pageNumber}`;
-    if (searchValue) {
-      apiUrl += `&company_name=${searchValue}`;
-    }
+  const fetchlA  = useCallback(
+    async (search?: string) => {
+      setLoading(true)
 
-    const licenciadoAutorizadoLicensed = localStorage.getItem('@licenciadoAutorizadoLicensed');
-    if (licenciadoAutorizadoLicensed) {
-      apiUrl += `&seller_id=${licenciadoAutorizadoLicensed}`;
-    }
+      let url = `${baseURL}seller/indexla?perpage=${String(itensPorPage)}&page=${currentPage}`;
 
-    try {
-      const response = await axios.get(apiUrl, {
+      const licenciadoAutorizadoLicensed = localStorage.getItem('@licenciadoAutorizadoLicensed');
+      if (licenciadoAutorizadoLicensed) {
+        url += `&seller_id=${licenciadoAutorizadoLicensed}`;
+      }
+
+
+
+      if (searchValue) {
+        url += `&company_name=${searchValue}`;
+      }
+
+      const config = {
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${dataUser?.token}`
+          Authorization: `Bearer ${dataUser?.token}`
         }
-      });
-      setSellers(response.data.sellers);
-      setTotalSellers(response.data.total_sellers);
-      setCurrentPage(response.data.current_page);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  }, [dataUser, itensPorPage, searchValue, currentPage]);
+      }
+
+      try {
+        const response = await axios.get(url, config)
+        const { data } = response
+        setSellers(response.data.sellers);
+        setTotalSellers(response.data.total_sellers);
+        setCurrentPage(response.data.current_page);
+      } catch (error) {
+
+      } finally {
+        setLoading(false)
+      }
+    },
+    [itensPorPage, currentPage, baseURL, dataUser?.token, searchValue]);
+
+
+  const fetchData = async (pageNumber: number) => {
+    setCurrentPage(pageNumber)
+  }
 
 
   const handleNextPage = () => {
@@ -68,19 +85,11 @@ export function Licenciado() {
   const totalPages = Math.ceil(totalSellers / (itensPorPage || 1));
 
   useEffect(() => {
-    fetchData();
-  }, [fetchData])
-
-
-  const handleSearch = (value: string) => {
-    setSearchValue(value);
-
-    if (value.trim() === '') {
-      setSearchValue('');
+    if (searchValue.trim() === '') {
+      fetchlA(searchValue);
     }
+    }, [fetchlA, searchValue]);
 
-    fetchData();
-  };
 
 
   const fetchLA = async () => {
@@ -120,7 +129,7 @@ export function Licenciado() {
     if (selectedLicenciado) localStorage.setItem('@licenciadoAutorizadoLicensed', selectedLicenciado);
 
     if (currentPage === 1) {
-      fetchData();
+      fetchlA();
     }
 
   }
@@ -131,7 +140,7 @@ export function Licenciado() {
     if (filterKey === '@licenciadoAutorizadoLicensed') {
       setSelectedLicenciado('');
     }
-    fetchData();
+    fetchlA();
   };
 
 
@@ -142,6 +151,29 @@ export function Licenciado() {
     },
   ].filter((filter): filter is { title: string; onClick: () => void } => Boolean(filter));
 
+
+  const handleSearch = () => {
+    if (searchValue.trim() !== '') {
+      setTriggerSearch(current => !current);
+      if (currentPage !== 1) {
+        setCurrentPage(1);
+      }
+    }
+  };
+
+  const handleChange = (event: { target: { value: string } }) => {
+    setSearchValue(event.target.value)
+  }
+
+
+
+  useEffect(() => {
+    if (searchValue.trim() !== '' && triggerSearch) {
+      fetchlA(searchValue);
+      setTriggerSearch(false);
+    }
+  }, [searchValue, currentPage, triggerSearch, fetchlA]);
+
   if(loading) {
     return <Loading />
   }
@@ -151,7 +183,21 @@ export function Licenciado() {
 
         <>
         <S.Container>
-           <LicenciadoHeader onSearch={handleSearch} searchValue={searchValue} setSearchValue={setSearchValue} />
+           <LicenciadoHeader  />
+
+           <S.Input isFocused={isFocused}>
+            <input
+              type="text"
+              placeholder="Pesquise por nome do licenciado"
+              value={searchValue}
+              onChange={handleChange}
+              onFocus={() => setIsFocused(true)}
+              onBlur={() => setIsFocused(false)}
+            />
+            <S.SearchIcon isFocused onClick={handleSearch}>
+              <MagnifyingGlass />
+            </S.SearchIcon>
+          </S.Input>
 
           <S.ContainerButton>
 

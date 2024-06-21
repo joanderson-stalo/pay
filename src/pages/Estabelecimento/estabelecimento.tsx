@@ -14,6 +14,7 @@ import { BtnFilterModal } from '@/components/BtnFilterModal/btnFilterModal';
 import { CustomSelect } from '@/components/Select/select';
 
 import { TagFilter } from '@/components/TagFilter/tagFilter';
+import { MagnifyingGlass } from '@phosphor-icons/react';
 
 export function Estabelecimento() {
   const [itensPorPage, setItensPorPage] = useState<number | ''>(10);
@@ -23,48 +24,56 @@ export function Estabelecimento() {
   const [sellers, setSellers] = useState([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [searchValue, setSearchValue] = useState('');
+  const [isFocused, setIsFocused] = useState(false)
   const [acquires, setAcquires] = useState<any[]>([]);
   const [dataLA, setDataLA] = useState<any[]>([]);
+  const [triggerSearch, setTriggerSearch] = useState(false);
   const [selectedLicenciado, setSelectedLicenciado] = useState<string>(() => localStorage.getItem('@licenciadoAutorizadoEstablishment') || '');
   const [selectedFornecedor, setSelectedFornecedor] = useState<string>(() => localStorage.getItem('@fornecedorEstablishment') || '');
 
-  const fetchData = useCallback(async (pageNumber: number = currentPage) => {
-    setLoading(true);
-    let apiUrl = `${baseURL}seller/indexec?perpage=${String(itensPorPage)}&page=${pageNumber}`;
-    if (searchValue) {
-      apiUrl += `&trading_name=${searchValue}`;
-    }
+  const fetchEC  = useCallback(
+    async (search?: string) => {
+      setLoading(true)
 
+      let url = `${baseURL}seller/indexec?perpage=${String(itensPorPage)}&page=${currentPage}`;
 
-    const licenciadoAutorizadoEstablishment = localStorage.getItem('@licenciadoAutorizadoEstablishment');
-    if (licenciadoAutorizadoEstablishment) {
-      apiUrl += `&seller_id=${licenciadoAutorizadoEstablishment}`;
-    }
-
-    const fornecedorEstablishment = localStorage.getItem('@fornecedorEstablishment');
-    if (fornecedorEstablishment) {
-      apiUrl += `&acquire_id=${fornecedorEstablishment}`;
-    }
-
-    const response = await axios.get(apiUrl, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${dataUser?.token}`
+      const licenciadoAutorizadoEstablishment = localStorage.getItem('@licenciadoAutorizadoEstablishment');
+      if (licenciadoAutorizadoEstablishment) {
+        url += `&seller_id=${licenciadoAutorizadoEstablishment}`;
       }
-    });
-    setSellers(response.data.sellers);
-    setTotalSellers(response.data.total_sellers);
-    setCurrentPage(response.data.current_page);
-    setLoading(false);
-  }, [currentPage, itensPorPage, searchValue, dataUser?.token]);
 
-  const handleSearch = useCallback((value: string) => {
-    setSearchValue(value);
+      const fornecedorEstablishment = localStorage.getItem('@fornecedorEstablishment');
+      if (fornecedorEstablishment) {
+        url += `&acquire_id=${fornecedorEstablishment}`;
+      }
 
-    if (value.trim() === '') {
-      setSearchValue('');
-    }
-  }, []);
+      if (search) {
+        url += `&trading_name=${searchValue}`;
+      }
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${dataUser?.token}`
+        }
+      }
+
+      try {
+        const response = await axios.get(url, config)
+        const { data } = response
+        setSellers(response.data.sellers);
+        setTotalSellers(response.data.total_sellers);
+        setCurrentPage(response.data.current_page);
+      } catch (error) {
+        console.error('Erro ao buscar dados:', error)
+      } finally {
+        setLoading(false)
+      }
+    },
+    [itensPorPage, currentPage, baseURL, dataUser?.token, searchValue]);
+
+
+
 
   const handleNextPage = useCallback(() => {
     setCurrentPage(prevPage => prevPage + 1);
@@ -93,7 +102,7 @@ export function Estabelecimento() {
         setAcquires(options);
       }
     } catch (error) {
-      console.error('Erro ao buscar dados:', error);
+
     }
   }, [dataUser?.token]);
 
@@ -114,7 +123,7 @@ export function Estabelecimento() {
         setDataLA(options);
       }
     } catch (error) {
-      console.error('Erro ao buscar dados:', error);
+
     }
   }, [dataUser?.token]);
 
@@ -134,7 +143,7 @@ export function Estabelecimento() {
     if (selectedFornecedor) localStorage.setItem('@fornecedorEstablishment', selectedFornecedor);
 
     if(currentPage === 1){
-      fetchData();
+      fetchEC();
     }
 
   }
@@ -142,15 +151,10 @@ export function Estabelecimento() {
   const totalPages = Math.ceil(totalSellers / (itensPorPage || 1));
 
   useEffect(() => {
-    fetchData();
-  }, [fetchData]);
-
-  useEffect(() => {
-    if (searchValue.trim() === '') {
-
-    }
-  }, [searchValue, fetchData]);
-
+  if (searchValue.trim() === '') {
+    fetchEC(searchValue);
+  }
+  }, [fetchEC, searchValue]);
 
 
   const handleRemoveFilter = (filterKey: string) => {
@@ -161,7 +165,7 @@ export function Estabelecimento() {
     if (filterKey === '@fornecedorEstablishment') {
       setSelectedFornecedor('');
     }
-    fetchData();
+    fetchEC();
   };
 
 
@@ -176,6 +180,32 @@ export function Estabelecimento() {
     }
   ].filter((filter): filter is { title: string; onClick: () => void } => Boolean(filter));
 
+  const fetchData = async (pageNumber: number) => {
+    setCurrentPage(pageNumber)
+  }
+
+
+  const handleChange = (event: { target: { value: string } }) => {
+    setSearchValue(event.target.value)
+  }
+
+  const handleSearch = () => {
+    if (searchValue.trim() !== '') {
+      setTriggerSearch(current => !current);
+      if (currentPage !== 1) {
+        setCurrentPage(1);
+      }
+    }
+  };
+
+
+  useEffect(() => {
+    if (searchValue.trim() !== '' && triggerSearch) {
+      fetchEC(searchValue);
+      setTriggerSearch(false);
+    }
+  }, [searchValue, currentPage, triggerSearch, fetchEC]);
+
 
   if (loading) {
     return <Loading />
@@ -185,7 +215,22 @@ export function Estabelecimento() {
 
         <>
           <S.Container>
-            <EstabelecimentoHeader onSearch={handleSearch} searchValue={searchValue} setSearchValue={setSearchValue} />
+            <EstabelecimentoHeader />
+
+            <S.Input isFocused={isFocused}>
+            <input
+              type="text"
+              placeholder="Pesquise por nome do estabelecimento"
+              value={searchValue}
+              onChange={handleChange}
+              onFocus={() => setIsFocused(true)}
+              onBlur={() => setIsFocused(false)}
+            />
+            <S.SearchIcon isFocused onClick={handleSearch}>
+              <MagnifyingGlass />
+            </S.SearchIcon>
+          </S.Input>
+
             <S.ContainerButton>
 
               <S.ContenteFilter>
