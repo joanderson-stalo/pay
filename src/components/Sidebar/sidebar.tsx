@@ -28,7 +28,8 @@ export function Sidebar() {
       { icon: <ShoppingCart />, label: 'Shopping', path: "/e-com"  },
       { icon: <Gear />, label: 'Configurações', isSubmenu: true },
     ] : []),
-    { icon: <FileText />, label: 'Documentos', path: "/documents" }
+    { icon: <FileText />, label: 'Documentos', path: "/documents" },
+    { icon: <Ticket />, label: 'Confrapix', path: "/confrapix" }
   ];
 
   const [selectedItem, setSelectedItem] = useState<number | null>(() => {
@@ -129,6 +130,8 @@ export function Sidebar() {
                 ))}
               </SubMenu>
             )}
+
+
           </React.Fragment>
         ))}
       </Menu>

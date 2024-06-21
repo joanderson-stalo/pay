@@ -154,6 +154,7 @@ export function PJ({ Avançar, BPF, BPJ }: IStep1) {
             </S.ContainerPJPF>
           </S.ContainerDados>
           <S.Line />
+
           <S.ContainerForm>
             <S.ContainerInput>
               <LabelCustomInputMask
@@ -245,7 +246,7 @@ export function PJ({ Avançar, BPF, BPJ }: IStep1) {
               />
 
             </S.ContainerInput>
-           
+
             <S.ContainerInput2>
             <CustomSelect
   optionsData={optionsCnae}
@@ -261,6 +262,7 @@ export function PJ({ Avançar, BPF, BPJ }: IStep1) {
               <button>Pesquise pelo CNAE ou Nome</button>
             </S.ContainerInput2>
           </S.ContainerForm>
+          
         </S.ContextStep>
         <S.ContainerButton>
           <S.ButtonVoltar primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} onClick={handleLicenciado}>Cancelar</S.ButtonVoltar>
