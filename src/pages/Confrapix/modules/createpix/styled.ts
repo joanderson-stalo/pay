@@ -8,7 +8,15 @@ import styled from "styled-components";
 
 
 export const Container = styled.div`
-  margin: 36px 20px 20px 20px;
+  margin: 36px 148px 20px 20px;
+
+  @media (max-width: 900px){
+    margin: 36px 58px 20px 20px;
+  }
+
+  @media (max-width: 600px){
+    margin: 36px 20px 20px 20px;
+  }
 
 
 `
@@ -50,14 +58,11 @@ width: 100%;
 `
 
 export const ContainerInput = styled.div`
-display: grid;
-  grid-template-columns: 1fr 1fr 0.5fr;
+display: flex;
+align-items: center;
   gap: 20px;
 
-  @media (max-width: 900px){
-    grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  }
+
 
   @media (max-width: 600px){
     display: flex;
