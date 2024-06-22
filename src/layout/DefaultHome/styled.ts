@@ -8,6 +8,10 @@ export const ContainerSidebarDefault = styled.div<{ isVisible: boolean }>`
   width: 100%;
   max-width: ${props => props.isVisible ? '240px' : '100px'} ;
   height: 100vh;
+
+  @media (max-width: 1100px) {
+    z-index: -1;
+  }
 `
 export const ContainerContext = styled.div<{ isCondensed: boolean }>`
   width: 100%;

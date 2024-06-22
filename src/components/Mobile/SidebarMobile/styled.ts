@@ -7,7 +7,7 @@ export const Overlay = styled.div<{ isOpen: boolean }>`
   width: 100vw;
   height: calc(100vh - 60px);
   background-color: rgba(0, 0, 0, 0.4);
-  z-index: 9;
+  z-index: ${({ isOpen }) => (isOpen ? '10' : '-1')};
   display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
   transition: opacity 0.3s ease-in-out;
   opacity: ${({ isOpen }) => (isOpen ? 1 : 0)};
@@ -27,6 +27,7 @@ export const ContainerSidebarMobile = styled.div<{ isOpen: boolean; color: strin
   z-index: ${({ isOpen }) => (isOpen ? '10' : '-1')};
   box-shadow: 4px 0 15px rgba(0, 0, 0, 0.2);
   overflow-y: auto;
+
 `;
 
 export const Logo = styled.img`

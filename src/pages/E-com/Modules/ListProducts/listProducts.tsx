@@ -19,9 +19,6 @@ export function ListProducts() {
   const tenantData = useTenantData();
 
 
-
-
-
   const fetchData = useCallback(async () => {
     let apiUrl = `${baseURL}sales/modelSale?pos=${pos}`;
 
@@ -82,6 +79,7 @@ export function ListProducts() {
 
 
       <ContainerListProducts>
+
         <CardProduct data={modelos} />
       </ContainerListProducts>
     </>

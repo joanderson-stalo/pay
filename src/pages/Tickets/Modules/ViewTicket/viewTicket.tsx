@@ -9,6 +9,11 @@ import { useTicketID } from '@/context/id/ticketId'
 import { Loading } from '@/components/Loading/loading'
 import { useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
+import anexoIcon from '@assets/icons/anexo.svg'
+import './styles.css'
+import { useTenantData } from '@/context'
+import s3Client from '@/s3Config'
+import { PutObjectCommand } from '@aws-sdk/client-s3'
 
 interface IMessage {
   From: string
@@ -22,13 +27,28 @@ interface IAttachment {
   Filename: string
   Content: string
 }
-
 function formatMessageBody(body: string): JSX.Element {
-  const newBody = body
-    .replace(/\n/g, '<br/>')
-    .replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank">$1</a>')
-  return <div dangerouslySetInnerHTML={{ __html: newBody }} />
+
+  let newBody = body.replace(/-- Anexo \d+: \[\d+\]/g, '');
+
+
+  newBody = newBody.replace(/<br\/><br\/>/g, '');
+  newBody = newBody.replace(
+    /(https?:\/\/[\S]+contabostorage.com[\S]*)/g,
+    `<div class="attachment-container"><img src=${anexoIcon} class="attachment-icon" alt="anexo" /><a href="$1" target="_blank" class="attachment-link">anexo</a></div>`
+  );
+
+
+
+  newBody = newBody.replace(/<br\/>/g, '');
+
+  console.log('Processed HTML:', newBody);
+  return <div dangerouslySetInnerHTML={{ __html: newBody }} />;
 }
+
+
+
+
 
 export function ViewTicket() {
   const { dataUser } = useLogin()
@@ -38,6 +58,30 @@ export function ViewTicket() {
   const [isClosed, setIsClosed] = useState<boolean>(false)
   const navigate = useNavigate()
   const { selectedTicketID } = useTicketID()
+  const tenantData = useTenantData();
+  const [files, setFiles] = useState<FileList | null>(null);
+
+  const uploadFilesToS3 = async (files: FileList): Promise<string[]> => {
+    const uploadedUrls: string[] = [];
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const currentDate = await new Date();
+      const formattedDate = await currentDate.toISOString().replace(/[-:.]/g, '');
+      const fileNameWithTimestamp = await `${formattedDate}${file.name.replace(/\s/g, '-')}`;
+      const params = {
+        Bucket: 'stalopay',
+        Key: `${tenantData.name}/ticket/${fileNameWithTimestamp}`,
+        Body: file,
+      };
+      await s3Client.send(new PutObjectCommand(params));
+      const imageUrl = `https://usc1.contabostorage.com/d6d39f0192924488b37d9be5d805e5e8:stalopay/${params.Key}`;
+      uploadedUrls.push(imageUrl);
+    }
+    return uploadedUrls;
+  };
+
+
+
 
   const fetchTicketDetails = useCallback(async () => {
     setLoading(true)
@@ -66,10 +110,7 @@ export function ViewTicket() {
       const trimmedMessages = cleanedMessages.map(
         (message: { Body: string }) => ({
           ...message,
-          Body: message.Body.split('--')[0].replace(
-            /- WEB: \[1\]https:\/\/stalo\.digital[\s\S]*/,
-            ''
-          )
+          Body: message.Body
         })
       )
 
@@ -84,7 +125,7 @@ export function ViewTicket() {
     } finally {
       setLoading(false)
     }
-  }, [dataUser?.token])
+  }, [selectedTicketID])
 
   useEffect(() => {
     fetchTicketDetails()
@@ -104,9 +145,23 @@ export function ViewTicket() {
   const handleSendMessage = async () => {
     try {
       setLoading(true)
+
+ let imageUrls: string[] = [];
+ if (files) {
+   imageUrls = await uploadFilesToS3(files);
+ }
+
+
+ const formattedMessage = newMessage + "\n\n" + imageUrls.map(url => `${url}`).join("\n");
+
+ const messageData = {
+  message: formattedMessage,
+};
+
+
       await axios.put(
         `${baseURL}tickets/message?id=${selectedTicketID}`,
-        { message: newMessage },
+        messageData,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -116,6 +171,7 @@ export function ViewTicket() {
       )
       fetchTicketDetails()
       setNewMessage('')
+      setFiles(null);
     } catch (error) {
     } finally {
       setLoading(false)
@@ -161,6 +217,14 @@ export function ViewTicket() {
     });
   };
 
+  const onFileInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (files) {
+      const imageUrls = Array.from(files).map(file => URL.createObjectURL(file));
+      setFiles(files);
+    }
+  };
+
 
   if (loading) {
     return <Loading />
@@ -168,6 +232,7 @@ export function ViewTicket() {
 
   return (
     <S.Container>
+
       <S.Title>Histórico do Ticket</S.Title>
       {ticketMessages.length > 0 ? (
         ticketMessages.map((message, index) => (
@@ -184,19 +249,20 @@ export function ViewTicket() {
                 <S.Label>Hora:</S.Label>{' '}
                 {formatDate(message.CreateTime).timePart}
               </S.Text>
+
               <S.Label>Mensagem:</S.Label>
-              <div>{formatMessageBody(message.Body)}</div>
+              <S.ContainerMessage>{formatMessageBody(message.Body)}</S.ContainerMessage>
               {message.Attachments.map((att, idx) => (
                 <S.AttachmentContainer key={idx}>
                   <S.AttachmentIcon
-                    src="/path/to/attachment_icon.svg"
+                    src={anexoIcon}
                     alt="Attachment Icon"
                   />
                   <S.AttachmentLink
                     href={`data:text/plain;base64,${btoa(att.Content)}`}
                     download={att.Filename}
                   >
-                    {att.Filename}
+                    anexo
                   </S.AttachmentLink>
                 </S.AttachmentContainer>
               ))}
@@ -226,16 +292,32 @@ export function ViewTicket() {
           />
 
           <S.ButtonContainer>
+         
             <S.BackButton onClick={() => navigate(-1)}>Voltar</S.BackButton>
             <S.CloseTicketButton onClick={handleCloseTicket}>
               Encerrar Ticket
             </S.CloseTicketButton>
+
+
+
             <S.SendButton
               onClick={handleSendMessage}
               disabled={!newMessage.trim()}
             >
               Enviar
             </S.SendButton>
+
+            <S.ContainerPhoto>
+                  <S.HiddenFileInput
+                    id="fileInput"
+                    type="file"
+                    multiple
+                    onChange={onFileInputChange}
+                  />
+                  <S.FileInputLabel primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} htmlFor="fileInput">
+                    <S.StyledUploadIcon primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} /> {files ? "Arquivo Anexado" : "Enviar Arquivos"}
+                  </S.FileInputLabel>
+                </S.ContainerPhoto>
           </S.ButtonContainer>
         </S.MessageInputContainer>
       )}

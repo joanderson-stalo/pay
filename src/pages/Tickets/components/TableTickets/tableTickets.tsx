@@ -40,7 +40,7 @@ export function TableTickets({ rows }: TabelaProps) {
       case 'finish':
         return 'Finalizado';
       default:
-        return status; // retorna o status original se não for um dos casos acima
+        return status;
     }
   }
 
@@ -117,12 +117,6 @@ export function TableTickets({ rows }: TabelaProps) {
               Status
 
           </S.TableHeader>
-          <S.TableHeader >
-
-
-          </S.TableHeader>
-
-
           <S.TableHeader></S.TableHeader>
         </tr>
       </thead>

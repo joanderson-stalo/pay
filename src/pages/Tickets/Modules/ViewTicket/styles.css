@@ -1,0 +1,17 @@
+.attachment-container{
+  display: flex;
+}
+
+.attachment-container:first-child{
+  margin-top: 10px;
+}
+
+.attachment-icon{
+  width: 20px;
+  height: 20px;
+}
+
+.attachment-link{
+  color: black;
+  font-weight: bold;
+}

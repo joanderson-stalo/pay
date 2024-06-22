@@ -1,8 +1,15 @@
+import { UploadSimple } from "@phosphor-icons/react";
 import styled from "styled-components";
 
 interface IMessageBlockProps {
   fromUser: boolean;
 }
+
+interface Color {
+  primary: string;
+  secundary: string;
+}
+
 
 export const Container = styled.div`
   margin: 20px;
@@ -60,8 +67,8 @@ export const SendButton = styled.button`
   font-weight: 400;
   line-height: 24px;
   letter-spacing: 0.5px;
-
-  padding: 8px 24px;
+height: 42px;
+  padding: 0px 24px;
   border-radius: 4px;
   background: ${props => props.disabled ? '#ccc' : 'var(--color-primria, #3C0A6D)'};
   color: ${props => props.disabled ? '#999' : '#fff'};
@@ -115,9 +122,8 @@ export const AttachmentIcon = styled.img`
 `;
 
 export const AttachmentLink = styled.a`
-  text-decoration: none;
-  color: #4a90e2;
-  cursor: pointer;
+  color: black;
+  font-weight: bold;
 `;
 
 
@@ -127,8 +133,38 @@ export const ButtonContainer = styled.div`
   align-items: center;
   width: 100%;
   margin-top: 10px;
+  flex-wrap: wrap;
   > * {
     margin-left: 16px;
+  }
+
+  @media (max-width: 600px){
+   display: flex;
+   flex-direction: column;
+   gap: 5px;
+   justify-content: start !important;
+   align-items: start !important;
+
+  }
+`;
+
+export const ButtonContainer2 = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  margin-top: 10px;
+  > * {
+    margin-left: 16px;
+  }
+
+  @media (max-width: 600px){
+   display: flex;
+   flex-direction: column;
+   gap: 5px;
+   justify-content: right;
+   align-items: start !important;
+
   }
 `;
 
@@ -147,3 +183,65 @@ color: var(--color-primria, #3C0A6D);
 background-color: transparent;
 `;
 
+export const ContainerMessage = styled.div`
+  margin: 10px 0 10px 0;
+`
+
+
+
+export const HiddenFileInput = styled.input.attrs({ type: "file" })`
+  display: none;
+`;
+
+export const FileInputLabel = styled.label<Color>`
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  height: 42px;
+  padding: 0px 23px;
+  border-radius: 4px;
+  background: transparent;
+  cursor: pointer;
+  color:  ${(props) => props.primary};
+  border: 1px solid   ${(props) => props.primary};
+
+
+
+  font-size: 14px;
+font-weight: 500;
+line-height: 24px;
+letter-spacing: 0.5px;
+
+@media (max-width: 600px) {
+  padding: 12px;
+}
+
+`;
+
+export const StyledUploadIcon = styled(UploadSimple)<Color>`
+  color:   ${(props) => props.primary};
+  width: 30px;
+  height: 30px;
+`;
+
+export const ContainerPhoto = styled.div`
+  display: flex;
+  align-items: end;
+  gap: 50px;
+
+  >img {
+    width: 161px;
+height: 154px;
+object-fit: contain;
+  }
+
+  @media (max-width: 900px) {
+    gap: 30px;
+
+  }
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    align-items: center;
+  }
+`;
