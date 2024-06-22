@@ -142,11 +142,12 @@ export function CardProduct({ data }: CardProductListProps) {
     <>
       {activeData.map(item => (
         <S.ContainerCardProduct key={item.id}>
+
           <S.StyledImage src={item.link_image_cover} alt={item.name} />
           <S.ContainerPrice>
           <div>
               <S.ProductTitle data-tooltip-id={`tooltip-${item.id}`} data-tooltip-content={item.name}>
-                Modelo:
+
               </S.ProductTitle>
               <S.ProductTitle data-tooltip-id={`tooltip-${item.id}`} data-tooltip-content={item.name}>
                 {item.name}
