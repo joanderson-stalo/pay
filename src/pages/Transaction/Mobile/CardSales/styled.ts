@@ -115,7 +115,11 @@ font-weight: 600;
 border-radius: 4px;
 text-align: center;
 align-items: center;
-background : ${props => props.status === 'succeeded' ? '#48F041' : '#F44336'};
+font-size: 12px;
+font-weight: 700;
+color: #202124;
+
+background : ${props => props.status === 'succeeded' ? '#1786291A' : '#C81B1B1A'};
 `;
 
 

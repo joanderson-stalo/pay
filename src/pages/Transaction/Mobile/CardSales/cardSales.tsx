@@ -61,7 +61,7 @@ export const CardSales: React.FC<CardSalesProps> = ({ transactions }) => {
 
                 <S.BrandImage src={getBrandImageSrc(transaction.brand)} alt={transaction.brand || 'Pix'} />
 
-              
+
               <S.CardValue>{transaction.nsu_internal}</S.CardValue>
               <S.CardAmount>{formatCurrencyBR(Number(transaction.amount))}</S.CardAmount>
             </S.CardHeader>
@@ -71,10 +71,12 @@ export const CardSales: React.FC<CardSalesProps> = ({ transactions }) => {
              <div>
              <S.CardTitle>Estabelecimento: <h4>{transaction.company_name}</h4> </S.CardTitle>
               <S.CardDate><h4>Data:</h4>{formattedDate}</S.CardDate>
-              <S.Tag>{transaction.payment_type}</S.Tag>
+              <S.Tag>
+                {transaction.payment_type === 'debit' &&  'Débito'  || 'credit' && 'Crédito' || 'pix' && 'Pix'
+                }</S.Tag>
              </div>
                 <S.CardStatus status={transaction.status}>
-                  {transaction.status === 'succeeded' ? 'SUCESSO' : 'FALHA'}
+                  {transaction.status === 'succeeded' ? 'Sucesso' : 'Falha'}
                 </S.CardStatus>
             </S.ContainerInfo>
 
