@@ -51,7 +51,7 @@ margin-top: 32px;
 margin-bottom: 16px;
 `
 
-export const ContainerForm = styled.div`
+export const ContainerForm = styled.form`
 width: 100%;
 
 
