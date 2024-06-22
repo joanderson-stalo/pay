@@ -32,6 +32,7 @@ export function Tickets() {
   const [isFocused, setIsFocused] = useState(false);
   const [startDate, setStartDate] = useState<string>('')
   const [endDate, setEndDate] = useState<string>('')
+  const [triggerSearch, setTriggerSearch] = useState(false);
 
   const tenantData = useTenantData()
 
@@ -67,11 +68,11 @@ export function Tickets() {
       setClosedTickets(response.data.completed_tickets);
       setProcessingTickets(response.data.processing_tickets);
     } catch (error) {
-      console.error('Error fetching data:', error);
+
     } finally {
       setLoading(false);
     }
-  }, [itensPorPage, currentPage, dataUser?.token]);
+  }, [itensPorPage, currentPage, baseURL, dataUser?.token, searchValue]);
 
 
 
@@ -114,20 +115,16 @@ export function Tickets() {
   }
 
 
-  const handleChange = async (event: { target: { value: string } }) => {
-    setSearchValue(event.target.value);
-    if (event.target.value.trim() !== '') {
-      await  setCurrentPage(1)
-    } else {
-      fetchDatatickets();
-    }
-  };
+  const handleChange = (event: { target: { value: string } }) => {
+    setSearchValue(event.target.value)
+  }
 
   const handleSearch = () => {
     if (searchValue.trim() !== '') {
-      fetchDatatickets(searchValue);
-    } else {
-      fetchDatatickets();
+      setTriggerSearch(current => !current);
+      if (currentPage !== 1) {
+        setCurrentPage(1);
+      }
     }
   };
 
@@ -143,10 +140,18 @@ export function Tickets() {
   ].filter((filter): filter is { title: string; onClick: () => void } => Boolean(filter));
 
   useEffect(() => {
-    if (searchValue.trim() === '') {
-      fetchDatatickets()
+    if (searchValue.trim() !== '' && triggerSearch) {
+      fetchDatatickets(searchValue);
+      setTriggerSearch(false);
     }
-  }, [searchValue])
+  }, [searchValue, currentPage, triggerSearch, fetchDatatickets]);
+
+
+  useEffect(() => {
+    if (searchValue.trim() === '') {
+      fetchDatatickets(searchValue);
+    }
+    }, [fetchDatatickets, searchValue]);
 
 
   if (loading) {
