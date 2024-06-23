@@ -5,8 +5,7 @@ import {
   MainContent,
   SupplierWrapper,
   LicenseWrapper,
-  SupplierOne,
-  SupplierTwo,
+
   CardHeader,
   EstablishmentId,
   ContentLeft,
@@ -22,6 +21,8 @@ import {
 } from './styled';
 import { useEstablishment } from '@/context/useEstablishment';
 import { useNavigate } from 'react-router-dom';
+import { useTenantData } from '@/context';
+
 
 export interface AcquireData {
   [key: string]: {
@@ -54,6 +55,7 @@ export function formatDateToBR(dateString: string): string {
 export function CardEstablishment({ rows }: TabelaProps) {
   const { setEstablishmentId } = useEstablishment();
   const navigate = useNavigate();
+  const tenantData = useTenantData();
 
   const handleViewMoreClick = async (id: string) => {
     setEstablishmentId(id);
@@ -65,10 +67,10 @@ export function CardEstablishment({ rows }: TabelaProps) {
     <>
       {rows.map((row, index) => (
         <CardWrapper key={index}>
-          <CardHeader>
+          <CardHeader primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>
             <EstablishmentId>{`${row.id}`}</EstablishmentId>
             <EstablishmentName>{row.trading_name}</EstablishmentName>
-         
+
           </CardHeader>
 
           <MainContent>
@@ -87,11 +89,12 @@ export function CardEstablishment({ rows }: TabelaProps) {
 
             <ContentRight>
               <TPVWrapper>
-                <TPVLabel>TPV:</TPVLabel>
-                <ValueLabel>{formatCurrencyBR(row.tpv)}</ValueLabel>
+                <TPVLabel primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>TPV:</TPVLabel>
+                <ValueLabel primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>{formatCurrencyBR(row.tpv)}</ValueLabel>
               </TPVWrapper>
 
-              <OverviewButton onClick={() => handleViewMoreClick(row.id.toString())}>Visão Geral</OverviewButton>
+              <OverviewButton primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}
+ onClick={() => handleViewMoreClick(row.id.toString())}>Visão geral</OverviewButton>
             </ContentRight>
           </MainContent>
         </CardWrapper>

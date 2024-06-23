@@ -24,7 +24,7 @@ export function TicketsCardMobile({ data }: { data: RowDataTickets[] }) {
     <>
       {data.map((ticket) => (
         <S.CardContainer key={ticket.id}>
-          <S.CardHeader>
+          <S.CardHeader primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>
             <S.TicketNumber>{ticket.number}</S.TicketNumber>
             <S.RequestLabel>{ticket.title}</S.RequestLabel>
           </S.CardHeader>
@@ -42,16 +42,18 @@ export function TicketsCardMobile({ data }: { data: RowDataTickets[] }) {
                 <S.SectionDescription>{checkEmpty(ticket.seller_name)}</S.SectionDescription>
               </S.DetailRow>
 
-              <S.DetailRow>
+              <S.DetailRow style={{alignItems: 'center'}}>
                 <S.SectionTitle>Comentários</S.SectionTitle>
                 <S.SectionDescription>{checkEmpty(ticket.final_evaluation)}</S.SectionDescription>
+
+                <S.DetailColumnBtn>
+                    <S.EditButton  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>Visualizar</S.EditButton>
+                </S.DetailColumnBtn>
               </S.DetailRow>
             </S.DetailColumn>
           </S.CardContent>
 
-          <S.DetailColumnBtn>
-            <S.EditButton  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>Visualizar</S.EditButton>
-          </S.DetailColumnBtn>
+
         </S.CardContainer>
       ))}
     </>

@@ -6,7 +6,7 @@ export interface CardData {
   status: string;
   name: string;
   fornecedor: string;
-  antecipacao: number; 
+  antecipacao: number;
   tipo: 'Base' | 'Comercial';
 }
 
@@ -22,10 +22,10 @@ export function PlansCard({ cards }: PlansCardProps) {
     <>
       {cards.map(card => (
         <S.CardWrapper key={card.id}>
-          <S.CardHeader>
+          <S.CardHeader primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>
             <S.HeaderLabel>{renderContent(card.fornecedor)}</S.HeaderLabel>
             <S.ActiveStatusButton isActive={card.status === 'Ativo'}>
-  {card.status}
+  {card.status === 'ativo' ?  'Ativo' : 'Inativo'}
 </S.ActiveStatusButton>
 
             <S.HeaderLabel>{renderContent(card.tipo)}</S.HeaderLabel>
@@ -43,7 +43,7 @@ export function PlansCard({ cards }: PlansCardProps) {
               </S.InfoBlock>
             </S.RightInfoSection>
 
-       
+
           </S.CardContent>
         </S.CardWrapper>
       ))}

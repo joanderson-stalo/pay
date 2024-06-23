@@ -122,8 +122,8 @@ export const StatusData = styled.td`
 
 export const StatusText = styled.span<StatusTextProps>`
   color: #202124;
-  font-size: ${({theme }) => theme.text_xss};
-  font-weight: ${({theme }) => theme.font_normal};
+  font-size: ${({theme }) => theme.text_xs};
+  font-weight: ${({theme }) => theme.font_bold};
   line-height: 15.566px;
   background-color: ${props => props.status === 'succeeded' ? '#1786291A' : '#C81B1B1A'};
 
@@ -133,7 +133,7 @@ export const StatusText = styled.span<StatusTextProps>`
   align-items: center;
   justify-content: center;
   width: 70px;
-  font-weight: 600;
+ 
 
 
 

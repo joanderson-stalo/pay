@@ -14,7 +14,7 @@ export const CardContainer = styled.div`
 export const CardHeader = styled.div<{ status: 'Entrada' | 'Saída' }>`
   width: 100%;
   padding: 10px 28px;
-  background-color: ${({ status }) => (status === 'Entrada' ? '#55B938' : '#E91414')};
+  background-color: ${({ status }) => (status === 'Entrada' ? '#1786291A' : '#C81B1B1A')};
   display: flex;
   justify-content: space-between;
   align-items: center;

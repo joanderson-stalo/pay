@@ -10,16 +10,16 @@ interface Color {
 export const CardContainer = styled.div`
   width: 100%;
   background: #FDFDFD;
-  height: 191px;
+
+  border: 1px solid rgba(0, 0, 0, 0.1);
 `;
 
-export const CardHeader = styled.div`
+export const CardHeader = styled.div<Color>`
   width: 100%;
   padding: 10px 28px;
-  background-color: #2BC6F6;
+  background: ${(props) => props.primary};
   display: flex;
   justify-content: space-between;
-  flex-direction: column;
   align-items: center;
 `;
 
@@ -75,18 +75,19 @@ export const DetailRow = styled.div`
 `;
 
 export const EditButton = styled.button<Color>`
-  display: flex;
-  padding: 12px 21px;
-  justify-content: center;
-  align-items: center;
-  border-radius: 4px;
-  border: 1px solid #F5F4F4;
+  border-radius: 4.286px;
+  border: 0.429px solid #F5F4F4;
   background: #FFF;
   color: ${(props) => props.primary};
-  font-size: 12px;
+  font-size: 12.002px;
+  font-style: normal;
   font-weight: 500;
-  line-height: 14px;
-  letter-spacing: 0.429px;
+  height: 30.005px;
+  padding: 0 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid ${(props) => props.primary};
 `;
 
 export const SectionTitle = styled.span`

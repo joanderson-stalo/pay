@@ -16,9 +16,14 @@ export const ContainerDetalhe = styled.div`
 
 export const ContainerTitleDetails = styled.div`
 display: flex;
+flex-wrap: wrap;
 align-items: center;
 justify-content: space-between;
 margin-bottom: 34px;
+
+@media (max-width: 480px){
+  gap: 20px;
+}
 
 `
 
