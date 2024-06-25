@@ -6,7 +6,7 @@ interface TabelaProps {
   rows: Transaction[];
 }
 
-export function OperationManagementTable({ rows }: TabelaProps) {
+export function YieldSummaryTable({ rows }: TabelaProps) {
   return (
     <S.Table>
       <thead>

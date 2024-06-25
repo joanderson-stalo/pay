@@ -16,7 +16,7 @@ interface CardOperationSummaryProps {
   transactions: Transaction[];
 }
 
-export function CardOperationSummary({ transactions }: CardOperationSummaryProps) {
+export function CardYieldSummary({ transactions }: CardOperationSummaryProps) {
   const tenantData = useTenantData();
 
 

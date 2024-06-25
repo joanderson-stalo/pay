@@ -65,7 +65,7 @@ export function Sidebar() {
   };
 
   const financeiroSubmenuItems = [
-    { label: 'Resumo de rendimentos ', path: '/operationManagement' },
+    { label: 'Resumo de rendimentos ', path: '/yield-summary' },
     { label: 'Extrato', path: '/extract' },
     { label: 'Tarifas', path: '/tariffs' },
     { label: 'Solicitação de Cobrança', path: '/billingRequest' },

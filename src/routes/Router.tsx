@@ -23,7 +23,6 @@ import { ManageAccessEstablishment } from '@/pages/Estabelecimento/modules/Manag
 import { EditRegistrationEC } from '@/pages/Estabelecimento/modules/EditRegistrationEC/editRegistrationEC';
 import { UserListLogged } from '@/pages/User/Modules/UserListLogged/userListLogged';
 import { EditUser } from '@/pages/User/Modules/UserEdit/editUser';
-import { OperationManagement } from '@/pages/Financial/Modules/OperationManagement/operationManagement';
 import { EquipmentStock } from '@/pages/EquipmentStock/equipmentStock';
 import { AddStock } from '@/pages/EquipmentStock/Modules/AddStock/addStock';
 import { EditStock } from '@/pages/EquipmentStock/Modules/EditStock/editStock';
@@ -63,6 +62,7 @@ import { Transaction } from '@/pages/Transaction/transaction';
 import { NetWorkCommission } from '@/pages/Commission/NetWorkCommission/netWorkCommission';
 import { MyCommission } from '@/pages/Commission/MyCommission/myCommission';
 import { ConfraPix } from '@/pages/Confrapix/modules/createpix/createpix';
+import { YieldSummary } from '@/pages/Financial/Modules/YieldSummary/yieldSummary';
 
 
 export function Router() {
@@ -104,7 +104,7 @@ export function Router() {
             <Route path="/commission/network" element={<NetWorkCommission />} />
             <Route path="/plans" element={<Plans />} />
             <Route path="/plans-detail" element={<PlansDetails />} />
-            <Route path="/operationManagement" element={<OperationManagement />} />
+            <Route path="/yield-summary" element={<YieldSummary />} />
 
             <Route path="/equipmentStock" element={<EquipmentStock />} />
             <Route path="/addStock" element={<AddStock />} />
