@@ -23,10 +23,11 @@ export const TariffCardWrapper = styled.div`
 export const TariffCardHeader = styled.div<CustomTableHeaderProps>`
   width: 100%;
   padding: 10px 28px;
-  background:${({ tipo, primary }) => tipo === 'Crédito' ? primary : '#E91414'};
+  background:${({ tipo, primary }) => tipo === 'Crédito' ? primary : '#C81B1B1A'};
   display: flex;
   justify-content: space-between;
   align-items: center;
+
 `;
 
 export const IssueDate = styled.span`
@@ -37,18 +38,19 @@ export const IssueDate = styled.span`
   line-height: 14px;
 `;
 
-export const RequestNumber = styled.span`
-  color: #FDFDFD;
+export const RequestNumber = styled.span<CustomTableHeaderProps>`
+  color: ${({ tipo}) => tipo === 'Crédito' ? '#FDFDFD' : '#202124'};
   font-feature-settings: 'clig' off, 'liga' off;
   font-size: 12px;
   line-height: 14px;
+  font-weight: 600;
 `;
 
-export const Amount = styled.span`
-  color: #FDFDFD;
+export const Amount = styled.span<CustomTableHeaderProps>`
+  color: ${({ tipo}) => tipo === 'Crédito' ? '#FDFDFD' : '#202124'};
   font-feature-settings: 'clig' off, 'liga' off;
   font-size: 12px;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 14px;
 `;
 
@@ -82,18 +84,20 @@ export const DetailBlock = styled.div`
 `;
 
 export const EditButton = styled.button<Color>`
+border-radius: 4.286px;
+
   background: #FFF;
-  border: 0.429px solid #F5F4F4;
-  border-radius: 4.286px;
-  color:  ${(props) => props.primary};
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  color: ${(props) => props.primary};
   font-size: 12.002px;
   font-style: normal;
   font-weight: 500;
-  line-height: 13.717px;
-  padding: 12.002px 20.575px;
+  height: 30.005px;
+  padding: 0 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid ${(props) => props.primary};
+
 `;
 
 export const TariffCardTitle = styled.span`

@@ -20,7 +20,7 @@ export function ExtractCardMobile({ data }: { data: StatementData }) {
         <S.CardContainer key={date}>
           {statements.map((statement, index) => (
             <div key={index}>
-              <S.CardHeader status={statement.type === 'credit' ? 'Entrada' : 'Saída'}>
+              <S.CardHeader primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}   status={statement.type === 'credit' ? 'Entrada' : 'Saída'}>
                 <S.TicketNumber>{formatCurrencyBR(statement.amount)}</S.TicketNumber>
                 <S.RequestLabel>{date}</S.RequestLabel>
                 <S.RequestStatus>{statement.type === 'credit' ? 'Crédito' : 'Saída'}</S.RequestStatus>

@@ -8,13 +8,13 @@ interface Color {
 export const CardContainer = styled.div`
   width: 100%;
   background: #FDFDFD;
-  height: 100px;
+  height: 110px;
 `;
 
-export const CardHeader = styled.div<{ status: 'Entrada' | 'Saída' }>`
+export const CardHeader = styled.div<{ status: 'Entrada' | 'Saída'; primary: string; secundary: string }>`
   width: 100%;
   padding: 10px 28px;
-  background-color: ${({ status }) => (status === 'Entrada' ? '#1786291A' : '#C81B1B1A')};
+  background-color: ${({ status, primary }) => (status === 'Entrada' ? primary : '#C81B1B1A')};
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -44,11 +44,13 @@ export const RequestStatus = styled.p`
 `;
 
 export const CardContent = styled.div`
+  background-color: #FDFDFD;
   width: 100%;
   padding: 20px 28px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border: 1px solid rgba(0, 0, 0, 0.1);
 `;
 
 export const DetailColumn = styled.div`
