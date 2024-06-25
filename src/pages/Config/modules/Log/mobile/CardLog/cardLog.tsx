@@ -1,6 +1,7 @@
 import { useTicketID } from '@/context/id/ticketId';
 import * as S from './styled';
 import { useNavigate } from 'react-router-dom';
+import { useTenantData } from '@/context';
 
 export interface RowData {
   created_at: string;
@@ -18,6 +19,7 @@ export function CardLog({ data }: CardLogProps) {
 
   const { setSelectedTicketID } = useTicketID();
   const navigate = useNavigate();
+  const tenantData = useTenantData();
 
   const handleViewMoreClick = async (id: string) => {
     await new Promise(resolve => setTimeout(resolve, 20));
@@ -37,7 +39,7 @@ export function CardLog({ data }: CardLogProps) {
             <S.CardHeading>Description: {item.description}</S.CardHeading>
             <S.CardHeading>Properties: {item.properties}</S.CardHeading>
           </S.ContainerCardLog>
-          <S.ButtonLogCard onClick={() => handleViewMoreClick(item.id)}>detalhes</S.ButtonLogCard>
+          <S.ButtonLogCard primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} onClick={() => handleViewMoreClick(item.id)}>Detalhes</S.ButtonLogCard>
         </S.Wrapper>
       ))}
     </>

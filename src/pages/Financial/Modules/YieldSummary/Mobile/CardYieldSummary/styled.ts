@@ -8,15 +8,15 @@ interface Color {
 export const Card = styled.div`
   width: 100%;
   background: #FDFDFD;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   height: 127px;
 
 `;
 
-export const CardHeader = styled.div`
+export const CardHeader = styled.div<Color>`
   width: 100%;
   padding: 10px 30px;
-  background: #08BBE9;
+  background: ${(props) => props.primary};
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -79,7 +79,7 @@ export const CardValue = styled.span`
 
 export const CardHighlightValue = styled.span<Color>`
   font-size: 12px;
-  color:  ${(props) => props.primary};
+  color: #202124;
   font-weight: 600;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -96,7 +96,7 @@ export const CardLabel = styled.span`
 export const CardHighlightLabel = styled.span<Color>`
   font-size: 12px;
   font-weight: 600;
-  color: ${(props) => props.secundary};
+  color: ${(props) => props.primary};
   overflow: hidden;
   text-overflow: ellipsis;
 `;

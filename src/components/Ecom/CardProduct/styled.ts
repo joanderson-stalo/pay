@@ -49,7 +49,7 @@ export const ButtonCard = styled.button`
   height: 44px;
   margin-top: 8px;
 
-  padding: 8px 24px;
+  padding: 0px 24px;
   border-radius: 4px;
   background: #3c0a6d;
   color: #fff;
@@ -58,6 +58,9 @@ export const ButtonCard = styled.button`
   font-weight: 400;
   line-height: 15.566px;
   text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   @media (max-width: 900px) {
     width: 208px;

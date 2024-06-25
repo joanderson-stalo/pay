@@ -1,15 +1,20 @@
 import styled from 'styled-components';
 
+interface Color {
+  primary: string | undefined
+  secundary:string | undefined
+}
+
 export const CardWrapper = styled.div`
   width: 100%;
   background: #FDFDFD;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(0, 0, 0, 0.1);
 `;
 
-export const CardHeader = styled.div`
+export const CardHeader = styled.div<Color>`
   width: 100%;
   padding: 10px 28px;
-  background: #08BBE9;
+  background: ${(props) => props.primary};
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -53,6 +58,7 @@ export const TransactionInfo = styled.div`
 export const Info = styled.div`
   display: flex;
   width: 100%;
+  align-items: center;
   gap: 10px;
   justify-content: space-between;
 `;
@@ -62,21 +68,22 @@ export const DivText = styled.div`
   gap: 7px;
 `;
 
-export const Title = styled.span`
+export const Title = styled.span<Color>`
   font-size: 12px;
   font-weight: 600;
-  color: #8A8A8A;
+  color: ${(props) => props.primary};
 `;
 
 export const Subvalue = styled.p`
   font-size: 12px;
-  color: #6C757D;
+  color: #202124;
+
 `;
 
 export const WrapperTag = styled.div`
   padding: 4px 8px 4px 8px;
   border-radius: 4px;
-  background: #7D7D7D;
+  background: #1786291A;
 `;
 
 export const Tag = styled.p`
@@ -84,5 +91,5 @@ export const Tag = styled.p`
   font-weight: 700;
   line-height: 14px;
   text-align: left;
-  color: #FFFFFF;
+  color: #202124;
 `;

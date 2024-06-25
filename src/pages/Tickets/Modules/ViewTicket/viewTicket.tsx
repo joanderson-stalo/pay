@@ -292,10 +292,14 @@ export function ViewTicket() {
           />
 
           <S.ButtonContainer>
+         
             <S.BackButton onClick={() => navigate(-1)}>Voltar</S.BackButton>
             <S.CloseTicketButton onClick={handleCloseTicket}>
               Encerrar Ticket
             </S.CloseTicketButton>
+
+
+
             <S.SendButton
               onClick={handleSendMessage}
               disabled={!newMessage.trim()}

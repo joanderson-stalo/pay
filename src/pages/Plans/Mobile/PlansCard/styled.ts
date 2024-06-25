@@ -10,13 +10,13 @@ interface Color {
 export const CardWrapper = styled.div`
   width: 100%;
   background: #FDFDFD;
-  height: 191px;
+
 `;
 
-export const CardHeader = styled.div`
+export const CardHeader = styled.div<Color>`
   width: 100%;
   padding: 10px 28px;
-  background: #08BBE9;
+  background: ${(props) => props.primary};
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -41,7 +41,7 @@ export const ActiveStatusButton = styled.button<{ isActive: boolean }>`
   justify-content: center;
   align-items: center;
   border-radius: 4px;
-  background: ${props => props.isActive ? '#55B938' : '#7D7D7D'};
+  background: ${props => props.isActive ? '#1786291A' : '#7D7D7D'};
 `;
 
 export const CardContent = styled.div`
@@ -49,6 +49,7 @@ export const CardContent = styled.div`
   padding: 20px 28px;
   display: flex;
   justify-content: space-between;
+  border: 1px solid rgba(0, 0, 0, 0.1);
 `;
 
 export const RightInfoSection = styled.div`

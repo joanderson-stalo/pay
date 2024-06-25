@@ -1,15 +1,22 @@
 import styled from 'styled-components';
 
+
+interface Color {
+  primary: string | undefined
+  secundary:string | undefined
+}
+
+
 export const CardWrapper = styled.div`
   width: 100%;
   background: #FDFDFD;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgb(0, 0, 0, 0.1);
 `;
 
-export const CardHeader = styled.div`
+export const CardHeader = styled.div<Color>`
   width: 100%;
   padding: 10px 24px;
-  background: #08BBE9;
+  background: ${(props) => props.primary};
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -53,16 +60,16 @@ export const TPVWrapper = styled.div`
   margin-bottom: 20px;
 `;
 
-export const TPVLabel = styled.span`
+export const TPVLabel = styled.span<Color>`
   font-size: 11px;
   font-weight: 600;
-  color: #08BBE9;
+  color: ${(props) => props.primary};
 `;
 
-export const ValueLabel = styled.span`
+export const ValueLabel = styled.span<Color>`
   font-size: 11px;
   font-weight: 600;
-  color: #10104F;
+  color: ${(props) => props.primary};
 `;
 
 export const LicenseWrapper = styled.div`
@@ -82,41 +89,9 @@ export const TitleLabel = styled.span`
  color: #8A8A8A;
 `;
 
-export const SupplierOne = styled.div`
-  display: flex;
-  padding: 4px 8px;
-  justify-content: center;
-  align-items: center;
-  border-radius: 4px;
-  background:  #7D7D7D;
 
-  p {
-    color:  #FFF;
-    font-feature-settings: 'clig' off, 'liga' off;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 14px;
-  }
-`;
 
-export const SupplierTwo = styled.div`
-  display: flex;
-  padding: 4px 8px;
-  justify-content: center;
-  align-items: center;
-  border-radius: 4px;
-  background: #F9C716;
 
-  p {
-    color:  #FFF;
-    font-feature-settings: 'clig' off, 'liga' off;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 14px;
-  }
-`;
 
 export const SupplierThree = styled.div`
   display: flex;
@@ -124,7 +99,10 @@ export const SupplierThree = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 4px;
-  background:#55B938;
+  font-size: 12px;
+  font-weight: 700;
+  background: #1786291A;
+  color: red;
 
   p {
     color: #FFF;
@@ -133,6 +111,7 @@ export const SupplierThree = styled.div`
     font-style: normal;
     font-weight: 700;
     line-height: 14px;
+    color: #202124;
   }
 `;
 
@@ -142,11 +121,11 @@ export const LicenseName = styled.p`
  color: #8A8A8A;
 `;
 
-export const OverviewButton = styled.button`
+export const OverviewButton = styled.button<Color>`
   border-radius: 4.286px;
   border: 0.429px solid #F5F4F4;
   background: #FFF;
-  color: #3C0A6D;
+  color: ${(props) => props.primary};
   font-size: 12.002px;
   font-style: normal;
   font-weight: 500;
@@ -155,4 +134,5 @@ export const OverviewButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
+  border: 1px solid ${(props) => props.primary};
 `;

@@ -61,6 +61,7 @@ import { ImportSpreadsheetBilling } from '@/pages/Financial/Modules/Billing/Modu
 import { Transaction } from '@/pages/Transaction/transaction';
 import { NetWorkCommission } from '@/pages/Commission/NetWorkCommission/netWorkCommission';
 import { MyCommission } from '@/pages/Commission/MyCommission/myCommission';
+import { ConfraPix } from '@/pages/Confrapix/modules/createpix/createpix';
 import { YieldSummary } from '@/pages/Financial/Modules/YieldSummary/yieldSummary';
 
 
@@ -146,6 +147,12 @@ export function Router() {
             <Route path='/billingAddRate' element={<AddRateBilling />} />
             <Route path='/billingAddRateManual' element={<BillingAddRateManual />} />
             <Route path='/billingImport' element={<ImportSpreadsheetBilling />} />
+
+
+            <Route path='/confrapix' element={<ConfraPix />} />
+
+
+
 
 
           </Route>

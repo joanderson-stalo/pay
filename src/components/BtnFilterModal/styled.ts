@@ -23,9 +23,9 @@ export const ButtonFilter = styled.button<Color>`
   color: ${(props) => (props.isActive ? '#fff' : props.primary)};
 
   font-size: 14px;
-font-style: normal;
-font-weight: 400;
-line-height: 15.566px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 15.566px;
 
 > svg {
   font-size: 24px;
@@ -33,7 +33,7 @@ line-height: 15.566px;
 
   @media (max-width: 900px) {
     padding: 6px 16px;
-    font-size: 10px;
+    font-size: 14px;
     z-index: 5;
 
   }

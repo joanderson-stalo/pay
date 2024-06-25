@@ -24,7 +24,7 @@ export function CardYieldSummary({ transactions }: CardOperationSummaryProps) {
         <>
       {transactions.map((transaction) => (
         <S.Card key={transaction.id}>
-          <S.CardHeader>
+          <S.CardHeader primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>
             <S.CardIdentifier>{transaction.fornecedor}</S.CardIdentifier>
             <S.CardStats>
               <S.CardStatsDescription>Quantidade Transações:</S.CardStatsDescription>

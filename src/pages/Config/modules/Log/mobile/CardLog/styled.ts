@@ -1,5 +1,9 @@
 import styled from "styled-components";
 
+interface Color {
+  primary: string | undefined
+  secundary:string | undefined
+}
 export const Wrapper = styled.div`
   width: 100%;
   max-width: 320px;
@@ -19,7 +23,7 @@ export const ContainerCardLog = styled.div`
   gap: 8px;
   border-radius: 4px;
   background: #FFF;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.10);
+  border: 1px solid rgba(0, 0, 0, 0.1);
 
   @media (max-width: 600px) {
       max-width: 252px;
@@ -49,17 +53,21 @@ export const CardHeading = styled.h3`
 
 `;
 
-export const ButtonLogCard = styled.button`
+export const ButtonLogCard = styled.button<Color>`
 width: 100%;
 padding: 8px 24px;
 border-radius: 4px;
-border: 1px solid  #3D4449;
+border: 1px solid ${(props) => props.primary};
 background-color: transparent;
 
-color: #3D4449;
-font-size: 14px;
-font-style: normal;
-font-weight: 400;
+display: flex;
+align-items: center;
+justify-content: center;
+
+color: ${(props) => props.primary};
+font-size: 12px;
+
+
 line-height: 15.566px;
-text-transform: uppercase;
+
 `

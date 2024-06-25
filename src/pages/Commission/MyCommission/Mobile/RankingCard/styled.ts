@@ -9,7 +9,7 @@ interface Color {
 export const CustomCard = styled.div`
   width: 100%;
   background: #FDFDFD;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(0, 0, 0, 0.1);
 `;
 
 export const Container = styled.div`
@@ -18,10 +18,10 @@ export const Container = styled.div`
 
 `
 
-export const CustomHeader = styled.div`
+export const CustomHeader = styled.div<Color>`
   width: 100%;
   padding: 10px 16px;
-  background: #08BBE9;
+  background: ${(props) => props.primary};
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -75,7 +75,7 @@ export const CustomSaleInfo = styled.div`
 `;
 
 export const CustomSaleValue = styled.span`
-  color: #8A8A8A;
+  color: #202124;
   font-feature-settings: 'clig' off, 'liga' off;
   font-size: 12px;
   font-style: normal;
@@ -90,8 +90,8 @@ export const CustomDateInfo = styled.div`
   gap: 13px;
 `;
 
-export const CustomTitle = styled.span`
-  color: #8A8A8A;
+export const CustomTitle = styled.span<Color>`
+  color: ${(props) => props.primary};
   font-feature-settings: 'clig' off, 'liga' off;
   font-size: 12px;
   font-style: normal;
@@ -102,6 +102,8 @@ export const CustomTitle = styled.span`
     font-size: 12px;
     font-weight: 400;
     line-height: 14px;
+    color: #202124;
+
   }
 `;
 
@@ -116,12 +118,14 @@ export const CustomTagOne = styled.div`
   align-items: center;
   justify-content: center;
   padding: 8px;
-  background: #E6E6E6;
-  color: #4B4B4B;
+  background: #1786291A;
+
   width: 32px;
 
   p {
+    color: #202124;
     font-size: 12px;
+    font-weight: 700;
   }
 `;
 

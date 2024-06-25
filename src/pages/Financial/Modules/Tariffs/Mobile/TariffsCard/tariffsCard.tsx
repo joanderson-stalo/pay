@@ -32,7 +32,7 @@ export function TariffsCard({ data }: TariffsCardsProps) {
   const handleViewMoreClick = async (id: string) => {
     setTariffId(id);
     await new Promise(resolve => setTimeout(resolve, 20));
-    
+
     navigate(`/editRate`);
 };
 
@@ -42,7 +42,7 @@ const tenantData = useTenantData();
     <>
       {data.map((rowData) => (
         <S.TariffCardWrapper key={rowData.id}>
-          <S.TariffCardHeader tipo={rowData.type}>
+          <S.TariffCardHeader primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} tipo={rowData.type}>
             <S.RequestNumber>{rowData.serial_terminal}</S.RequestNumber>
             {/* <S.IssueDate>{rowData.responsible_seller_name}</S.IssueDate> */}
             <S.Amount>{formatCurrencyBR(Number(rowData.amount))}</S.Amount>

@@ -67,8 +67,8 @@ export const SendButton = styled.button`
   font-weight: 400;
   line-height: 24px;
   letter-spacing: 0.5px;
-
-  padding: 8px 24px;
+height: 42px;
+  padding: 0px 24px;
   border-radius: 4px;
   background: ${props => props.disabled ? '#ccc' : 'var(--color-primria, #3C0A6D)'};
   color: ${props => props.disabled ? '#999' : '#fff'};
@@ -133,8 +133,38 @@ export const ButtonContainer = styled.div`
   align-items: center;
   width: 100%;
   margin-top: 10px;
+  flex-wrap: wrap;
   > * {
     margin-left: 16px;
+  }
+
+  @media (max-width: 600px){
+   display: flex;
+   flex-direction: column;
+   gap: 5px;
+   justify-content: start !important;
+   align-items: start !important;
+
+  }
+`;
+
+export const ButtonContainer2 = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  margin-top: 10px;
+  > * {
+    margin-left: 16px;
+  }
+
+  @media (max-width: 600px){
+   display: flex;
+   flex-direction: column;
+   gap: 5px;
+   justify-content: right;
+   align-items: start !important;
+
   }
 `;
 
@@ -167,7 +197,8 @@ export const FileInputLabel = styled.label<Color>`
   display: flex;
   align-items: center;
   gap: 18px;
-  padding: 12px 23px;
+  height: 42px;
+  padding: 0px 23px;
   border-radius: 4px;
   background: transparent;
   cursor: pointer;

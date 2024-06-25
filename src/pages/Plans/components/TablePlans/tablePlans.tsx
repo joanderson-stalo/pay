@@ -62,7 +62,7 @@ export function TablePlans({ rows }: TabelaProps) {
         {rows.map(row => (
           <tr key={row.id}>
             <S.TableData>
-              <S.Status status={formatStatus(row.status)}>{row.status}</S.Status>
+              <S.Status status={formatStatus(row.status)}>{row.status === 'ativo' && 'Ativo' || 'inativo' && 'Inativo'}</S.Status>
             </S.TableData>
             <S.TableData>{row.name}</S.TableData>
             <S.TableData>{row.antecipacao === 1 ? '✔️' : '❌'}</S.TableData>

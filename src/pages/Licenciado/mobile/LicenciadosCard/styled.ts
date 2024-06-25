@@ -1,14 +1,22 @@
 import styled from 'styled-components';
 
+
+interface Color {
+  primary: string | undefined
+  secundary:string | undefined
+}
+
+
 export const StyledWrapper = styled.div`
   width: 100%;
   background: #FDFDFD;
+  border: 1px solid rgb(0, 0, 0, 0.1);
 `;
 
-export const StyledHeader = styled.div`
+export const StyledHeader = styled.div<Color>`
   width: 100%;
   padding: 13px 24px;
-  background: #08BBE9;
+  background: ${(props) => props.primary};
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -49,8 +57,8 @@ export const StyledTPVContainer = styled.div`
   margin-bottom: 20px;
 `;
 
-export const StyledTPVLabel = styled.span`
-  color: #08BBE9;
+export const StyledTPVLabel = styled.span<Color>`
+  color: ${(props) => props.primary};
   font-size: 11px;
   font-style: normal;
   font-weight: 600;
@@ -58,7 +66,7 @@ export const StyledTPVLabel = styled.span`
 `;
 
 export const StyledTPVValue = styled.span`
-  color: #10104F;
+  color: #202124;
   font-size: 11px;
   font-style: normal;
   font-weight: 600;
@@ -77,20 +85,20 @@ export const StyledTitle = styled.h3`
   }
 `;
 
-export const StyledGeneralButton = styled.button`
-  display: flex;
-  padding: 12.002px 20.575px;
-  justify-content: center;
-  align-items: center;
-  gap: 6.858px;
-  border-radius: 4.286px;
+export const StyledGeneralButton = styled.button<Color>`
+ border-radius: 4.286px;
   border: 0.429px solid #F5F4F4;
   background: #FFF;
-  color: #3C0A6D;
+  color: ${(props) => props.primary};
   font-size: 12.002px;
+  font-style: normal;
   font-weight: 500;
-  line-height: 13.717px;
-  letter-spacing: 0.429px;
+  height: 30.005px;
+  padding: 0 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid ${(props) => props.primary};
 `;
 
 export const StyledEstablishmentName = styled.h2`
