@@ -25,8 +25,9 @@ margin: 0px 20px 20px 20px;
 
 export const ContainerButton = styled.div`
 display: flex;
-flex-direction: column;
-gap: 36px;
+align-items: center;
+
+gap: 5px;
 margin: 36px 20px 0px 20px;
 
 @media (max-width: 900px) {

@@ -20,17 +20,17 @@ padding: 60px;
 margin-top: 50px;
 border-radius: 13.495px;
 background: #FFF;
-box-shadow: 0px 4.498px 4.498px 0px rgba(0, 0, 0, 0.25);
+box-shadow: 0px 4.498px 4.498px 0px rgba(0, 0, 0, 0.1);
 
 
 
 > svg {
   font-size: 80px;
-  color: ${(props) => props.secundary};
+  color: ${(props) => props.primary};
 }
 
 >h2{
-  color:${(props) => props.secundary};
+  color:${(props) => props.primary};
 text-align: center;
 font-size: 28px;
 font-weight: 700;

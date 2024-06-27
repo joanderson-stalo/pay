@@ -40,7 +40,7 @@ export const ContainerTable = styled.div`
 export const ContainerCards = styled.div`
   display: flex;
   gap: 20px;
-  margin-top: 38px;
+  margin-top: 36px;
 
   @media (max-width: 1200px) {
     flex-wrap: wrap;

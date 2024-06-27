@@ -9,7 +9,7 @@ interface Color {
 
   export const Container = styled.div`
     margin-top: 30px;
-    margin-bottom: 30px;
+    margin-bottom: 36px;
 
     display: flex;
     justify-content: space-between;

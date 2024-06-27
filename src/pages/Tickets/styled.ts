@@ -105,7 +105,7 @@ export const Button = styled.button`
 
 export const ContainerCard = styled.div`
 display: flex;
-margin: 36px 0 ;
+margin: 27px 0px 36px 0px ;
 gap: 20px;
 
 @media (max-width: 900px) {

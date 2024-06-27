@@ -4,6 +4,7 @@ import { ButtonBlack, Container, ContainerButton, Title } from "./styled";
 import { useNavigate } from "react-router-dom";
 import { TitleH } from "@/components/Title/title";
 import { useTenantData } from "@/context";
+import { ArrowBack } from "@/components/BtnArrowBack/btnArrowBack";
 
 export function AddRateBilling(){
  const navigate = useNavigate()
@@ -18,16 +19,14 @@ export function AddRateBilling(){
   };
 
 
-  const handleBack = () => {
-    navigate('/billingRequest');
-  };
-  const tenantData = useTenantData();
+
 
 
   return(
     <>
     <ContainerButton>
-    <ButtonBlack  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} onClick={handleBack}><CaretLeft size={18} />Voltar</ButtonBlack>
+      <ArrowBack/>
+
     <TitleH title='Adicionar Solicitações de Cobrança' />
     </ContainerButton>
     <Container>

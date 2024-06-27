@@ -7,7 +7,7 @@ interface Color {
 
 
 export const Container = styled.div`
-  margin: 36px 0px 30px 0px;
+  margin: 36px 0px 36px 0px;
 `;
 
 export const Context = styled.div`

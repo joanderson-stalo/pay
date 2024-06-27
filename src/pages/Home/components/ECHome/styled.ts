@@ -25,7 +25,7 @@ export const ContainerInfo = styled.div`
 export const ContainerCard = styled.aside`
   display: flex;
   flex-direction: column;
-  margin-top: 38px;
+  margin-top: 36px;
   gap: 28px;
   width: 60%;
 `

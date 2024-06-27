@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import { useLogin } from '@/context/user.login';
 import { TitleH } from '@/components/Title/title';
-import { Container, ContainerCards, ContainerCardsMobile } from './styled';
+import { Container, ContainerCards, ContainerCardsMobile, ContainerTitle } from './styled';
 import { CardInfo } from '../../../../components/CardInfo/cardInfo';
 import { baseURL } from '@/config/color';
 import { Loading } from '@/components/Loading/loading';
@@ -57,9 +57,14 @@ export function YieldSummary() {
 
   return (
     <Container>
-      <TitleH title='Resumo de rendimentos ' />
 
+      <ContainerTitle>
+      <TitleH title='Resumo de rendimentos ' />
       <ExportData title="Exportar dados" onClick={() => false} />
+      </ContainerTitle>
+
+
+
 
       <ContainerCards>
         <CardInfo label='TPV' value={parseFloat(operationSummary?.transactions_TPV || '0')} />
