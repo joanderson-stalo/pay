@@ -22,6 +22,11 @@ export const ContainerGrafico = styled.div`
     flex-wrap: wrap;
     gap: 40px;
   }
+
+  @media (max-width: 480px) {
+
+    gap: 20px;
+  }
 `
 
 export const ContainerTable = styled.div`
@@ -45,6 +50,12 @@ export const ContainerCards = styled.div`
   @media (max-width: 1200px) {
     flex-wrap: wrap;
   }
+
+  @media (max-width: 480px) {
+    margin-top: 26px;
+    gap: 12px;
+
+}
 
 
 `

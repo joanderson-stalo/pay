@@ -181,7 +181,7 @@ export function MyCommission() {
 
         <>
         <S.Container>
-            <HeaderCommission />
+            <HeaderCommission/>
 
 
             <S.ContainerCardVendas>

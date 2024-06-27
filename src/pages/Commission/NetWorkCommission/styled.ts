@@ -27,12 +27,15 @@ export const ContainerCardsMobile = styled.div`
 export const ContainerCardVendas = styled.div`
   display: flex;
   gap: 20px;
-  margin: 45px 0 45px 0;
+  
 
-  display: flex;
-margin: 36px 0 ;
-gap: 20px;
-width: 100%;
+  margin: 36px 0 ;
+  gap: 20px;
+  width: 100%;
+
+  @media (max-width: 600px){
+    margin: 26px 0 ;
+  }
 
 @media (max-width: 900px) {
   flex-wrap: wrap;
@@ -141,6 +144,7 @@ export const ContainerButton = styled.div`
 
   @media (max-width: 600px) {
     flex-direction: column;
+    margin-top: 26px;
   }
 `
 export const ButtonTotal = styled.button`

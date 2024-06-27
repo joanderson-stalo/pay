@@ -8,6 +8,8 @@ export const ContextTitleVendas = styled.div`
 export const Container = styled.div`
   margin: 36px 20px 20px 20px;
 
+
+
 `
 
 export const ContainerCardsMobile = styled.div`
@@ -138,6 +140,7 @@ export const ContainerButton = styled.div`
   @media(max-width: 600px) {
     flex-direction: column;
     margin-bottom: 8px;
+    margin-top: 26px;
   }
 `
 export const ButtonTotal = styled.button`

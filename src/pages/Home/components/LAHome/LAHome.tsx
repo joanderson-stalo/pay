@@ -89,7 +89,7 @@ export function LAHome() {
     <>
       <S.Container>
       <TitleH title="Resumo" />
-      
+
         <S.ContainerCards>
           <CardInfo label="Comissão Mensal" value={commissionTPV} />
           <CardInfo label="Quantidade de EC" shouldFormat={false} value={homeData?.total_sellers_EC || 0} />

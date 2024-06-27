@@ -8,6 +8,10 @@ interface Color {
 
 export const Container = styled.div`
   margin: 36px 0px 36px 0px;
+
+ @media (max-width: 600px){
+  margin: 30px 0px 26px 0px;
+ }
 `;
 
 export const Context = styled.div`

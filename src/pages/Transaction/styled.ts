@@ -24,7 +24,10 @@ export const ContainerCardVendas = styled.div`
     justify-content: center;
   }
 
+
+
   @media (max-width: 600px) {
+    margin: 26px 0 38px 0;
      gap: 12px;
   }
 `
