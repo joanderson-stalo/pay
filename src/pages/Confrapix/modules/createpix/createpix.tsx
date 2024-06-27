@@ -71,19 +71,21 @@ export function ConfraPix() {
               }}
             />
 
-            <CustomInputPix
-              label="Data de vencimento"
-              placeholder="Digite a data que o pix irá expirar"
-              type="date"
-              required
-              min={formatDate(today)}
-              value={formatDate(tomorrow)}
-              {...register('dateExpiration')}
-              onChange={(e) => {
-                const data = e.target.value === "" ? undefined : e.target.value;
-                setValue('dateExpiration', data, { shouldValidate: true });
-              }}
-            />
+<CustomInputPix
+  label="Data de vencimento"
+  placeholder="Digite a data que o pix irá expirar"
+  type="date"
+  required
+  min={formatDate(today)}
+  {...register('dateExpiration', {
+    onChange: (e) => {
+      const data = e.target.value;
+      setValue('dateExpiration', data, { shouldValidate: true });
+    }
+  })}
+/>
+
+
           </S.ContainerInput>
 
           <S.DescriptionInfo>
