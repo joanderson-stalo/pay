@@ -7,7 +7,7 @@ interface Color {
 
 
 export const BtnAdvanceContainer = styled.button<Color>`
- width: 110px;
+  padding: 0 24px;
   height: 40px;
   background: ${(props) => props.primary};
   border: 0.5px solid ${(props) => props.primary};
@@ -19,7 +19,7 @@ export const BtnAdvanceContainer = styled.button<Color>`
   letter-spacing: 0.5px;
   color: #ffffff;
   align-self: flex-end;
-  margin-bottom: 100px;
+
 
   :disabled {
     background-color: #E3E3E3;

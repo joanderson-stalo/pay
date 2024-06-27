@@ -7,7 +7,7 @@ interface Color {
 
 
 export const BtnReturnContainer = styled.button<Color>`
- width: 110px;
+  padding: 0 24px;
   height: 40px;
   background: #FFFFFF;
   border: 0.5px solid ${(props) => props.primary};
