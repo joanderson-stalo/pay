@@ -9,6 +9,13 @@ interface Color {
     justify-content: space-between;
     align-items: center;
     text-align: center;
+    flex-wrap: wrap;
+
+    @media (max-width: 600px){
+      gap: 20px;
+    }
+
+
   `;
 
   export const Context = styled.div`

@@ -10,5 +10,9 @@ font-weight: 600;
 font-size: 28px;
 }
 
+@media (max-width: 600px) {
+font-size: 24px;
+}
+
 
 `;
