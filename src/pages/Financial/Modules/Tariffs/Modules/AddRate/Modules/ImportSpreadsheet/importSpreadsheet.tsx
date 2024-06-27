@@ -11,6 +11,7 @@ import { baseURL } from '@/config/color';
 import { useNavigate } from 'react-router-dom';
 import { Loading } from '@/components/Loading/loading';
 import { useTenantData } from '@/context';
+import { BtnAdvance } from '@/components/BtnAdvance/btnAdvance';
 
 type SpreadsheetData = {
   ID_EC: string | number;
@@ -198,7 +199,7 @@ export function ImportSpreadsheet() {
           title: 'Dados salvos com sucesso!',
           text: 'Os dados foram salvos com sucesso.',
         }).then(() => {
-          navigate('/tariffs'); 
+          navigate('/tariffs');
         });
       } else {
         Swal.fire({
@@ -206,7 +207,7 @@ export function ImportSpreadsheet() {
           title: 'Erro ao salvar',
           text: 'Ocorreu um erro ao salvar os dados.',
         }).then(() => {
-          navigate('/tariffs'); 
+          navigate('/tariffs');
         });
       }
     } catch (error) {
@@ -216,7 +217,7 @@ export function ImportSpreadsheet() {
         title: 'Erro ao salvar',
         text: 'Ocorreu um erro ao salvar os dados.',
       }).then(() => {
-        navigate('/tariffs'); 
+        navigate('/tariffs');
       });
     } finally {
       setLoading(false);
@@ -228,7 +229,7 @@ export function ImportSpreadsheet() {
   };
 
   const tenantData = useTenantData();
-  
+
   return (
     <>
       {loading && <Loading />}
@@ -242,14 +243,17 @@ export function ImportSpreadsheet() {
             </S.BoxTitle>
             <S.ContainerInput>
               <S.HiddenFileInput id="fileInput" type="file" onChange={handleFileChange} />
-              <S.FileInputLabel htmlFor="fileInput">
-                <S.StyledUploadIcon /> {fileSelected ? 'Alterar arquivo' : 'Anexar arquivo'}
+              <S.FileInputLabel
+              primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}
+              htmlFor="fileInput">
+                <S.StyledUploadIcon
+                 /> {fileSelected ? 'Alterar arquivo' : 'Anexar arquivo'}
               </S.FileInputLabel>
             </S.ContainerInput>
           </S.Box>
 
-          <div style={{display: 'flex', gap: '50px', justifyContent: 'flex-start', alignItems: 'start', width: '60%', marginBottom: '20px'}}>
-            <CustomInput 
+          <div style={{display: 'flex', gap: '20px', justifyContent: 'flex-start', alignItems: 'start', width: '60%', marginBottom: '20px'}}>
+            <CustomInput
               label='Data Referência'
               colorInputDefault={tenantData.primary_color_identity}
               colorInputSuccess={tenantData.secondary_color_identity}
@@ -258,7 +262,7 @@ export function ImportSpreadsheet() {
               onChange={(e) => setReferenceDate(e.target.value)}
             />
 
-            <CustomInput 
+            <CustomInput
               label='Data Cobrança'
               colorInputDefault={tenantData.primary_color_identity}
               colorInputSuccess={tenantData.secondary_color_identity}
@@ -267,7 +271,7 @@ export function ImportSpreadsheet() {
               onChange={(e) => setBillingDate(e.target.value)}
             />
           </div>
-          
+
           {jsonData && jsonData.length > 0 && (
             <TableSpreadSheet dataSpreadSheet={jsonData} />
           )}
@@ -277,7 +281,10 @@ export function ImportSpreadsheet() {
           </S.ContainerCardsMobile>
 
           <S.ButtonArea>
-            <S.BackButton type='button' onClick={handleCancel}>Cancelar</S.BackButton>
+
+
+
+            <S.BackButton primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} type='button' onClick={handleCancel}>Cancelar</S.BackButton>
             <S.NextButton  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} disabled={jsonData.length === 0} onClick={handleSave}>Salvar</S.NextButton>
           </S.ButtonArea>
         </S.ContentWrapper>

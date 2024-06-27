@@ -240,7 +240,7 @@ export function AddRateManual() {
             </ContainerForm>
           </ContextStep>
           <ContainerButton>
-            <ButtonVoltar type="button" onClick={handleCancel }>Cancelar</ButtonVoltar>
+            <ButtonVoltar primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} type="button" onClick={handleCancel }>Cancelar</ButtonVoltar>
             <ButtonAvançar  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} type="submit" disabled={!allFieldsFilled} >Salvar</ButtonAvançar>
           </ContainerButton>
         </ContextStepContainer>

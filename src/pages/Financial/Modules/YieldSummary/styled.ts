@@ -12,6 +12,13 @@ export const Container = styled.div`
 
 `
 
+export const ContainerTitle = styled.div`
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+`
+
 export const Title = styled.h1<Color>`
 color: ${(props) => props.secundary};
 font-size: 24px;

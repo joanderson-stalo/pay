@@ -242,7 +242,7 @@ export function ImportSpreadsheetBilling() {
             </S.BoxTitle>
             <S.ContainerInput>
               <S.HiddenFileInput id="fileInput" type="file" onChange={handleFileChange} />
-              <S.FileInputLabel htmlFor="fileInput">
+              <S.FileInputLabel primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} htmlFor="fileInput">
                 <S.StyledUploadIcon /> {fileSelected ? 'Alterar arquivo' : 'Anexar arquivo'}
               </S.FileInputLabel>
             </S.ContainerInput>
@@ -277,7 +277,7 @@ export function ImportSpreadsheetBilling() {
           </S.ContainerCardsMobile>
 
           <S.ButtonArea>
-            <S.BackButton type='button' onClick={handleCancel}>Cancelar</S.BackButton>
+            <S.BackButton primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} type='button' onClick={handleCancel}>Cancelar</S.BackButton>
             <S.NextButton  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} disabled={jsonData.length === 0} onClick={handleSave}>Salvar</S.NextButton>
           </S.ButtonArea>
         </S.ContentWrapper>
