@@ -48,7 +48,8 @@ export function QRcodeCPF() {
         </S.ContainerTitleHeader>
 
         <S.ContainerMain>
-          <div>
+          <S.Wrapper>
+            <div>
             <S.ContainerTableInfo>
               <S.TableRow>
                 <S.ContentCell>
@@ -87,18 +88,17 @@ export function QRcodeCPF() {
                 <S.Description>{transaction.description}</S.Description>
               </S.ContentCell>
             </S.ContainerDescri>
-
+            </div>
             <S.ContainerDescri>
               <S.TitleCell>Código copia e cola</S.TitleCell>
               <S.CopiaECola>
                 <p ref={copyTextRef}>{transaction.pix.code}</p>
-
                 <S.ButtonCopy onClick={handleCopy}>
                   <img src={iconCop} alt="icone copia e cola" />
                 </S.ButtonCopy>
               </S.CopiaECola>
             </S.ContainerDescri>
-          </div>
+          </S.Wrapper>
 
           <S.ContainerQrcode id="qrCodeContainer">
             <S.QRCode src={transaction.pix.url} alt="QR Code" />

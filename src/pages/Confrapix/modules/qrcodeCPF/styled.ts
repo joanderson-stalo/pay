@@ -15,9 +15,31 @@ gap: 8px;
 margin-bottom: 24px;
 `
 
+export const ContainerMain = styled.div`
+width: 100%;
+display: flex;
+border-radius: 4px;
+background:  #F9F9F9;
+padding: 24px 32px;
+justify-content: space-between;
+
+@media (max-width: 900px){
+  flex-direction: column-reverse;
+}
+
+
+`
+
 export const ContainerTableInfo = styled.div`
   display: flex;
   gap: 150px;
+
+@media (max-width: 900px){
+  flex-direction: column;
+  gap: 16px;
+}
+
+
 
 
 
@@ -29,6 +51,18 @@ export const ContainerQrcode = styled.div`
   align-items: center;
   width: 304px;
   height: 308px;
+
+@media (max-width: 900px){
+  margin: 0 auto;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 480px){
+  width: 160px;
+  height: 160px;
+}
+
+
 
 
 
@@ -42,11 +76,16 @@ export const QRCode = styled.img`
 
 `
 
+
+
 export const CopiaECola = styled.div`
+
 border-radius: 4px;
 background:  #FFF;
 display: flex;
 justify-content: space-between;
+width: 100%;
+
 
 
 padding: 13px 24px;
@@ -55,16 +94,18 @@ gap: 10px;
 
 >p{
   color: #202124;
-
-  width: 353px;
+  width: 100%;
+  max-width: 353px;
 
 font-size: 12px;
 font-style: normal;
 font-weight: 400;
 line-height: normal;
+
 }
 
 `
+
 
 export const ContentCell = styled.div`
   display: flex;
@@ -117,18 +158,21 @@ font-weight: 600;
 line-height: normal;
 `
 
+export const Wrapper = styled.div`
 
+@media (max-width: 900px){
+  display: flex;
+flex-direction: column-reverse;
+gap: 16px;
 
-export const ContainerMain = styled.div`
-width: 100%;
-display: flex;
-border-radius: 4px;
-background:  #F9F9F9;
-padding: 24px 32px;
-justify-content: space-between;
+}
 
 
 `
+
+
+
+
 
 
 
@@ -156,6 +200,10 @@ font-style: normal;
 font-weight: 400;
 line-height: 35px;
 letter-spacing: 0.5px;
+
+@media (max-width: 600px) {
+  display: none;
+}
 `
 
 export const ButtonCopy = styled.button`
