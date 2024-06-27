@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { BiChevronDown, BiChevronUp } from 'react-icons/bi';
-import { Storefront, Tag, ChartBar, Basket, Money, Stack, Wallet, FileText, Laptop, Ticket, Gear, ShoppingCart } from '@phosphor-icons/react';
+import { Storefront, Tag, ChartBar, Basket, Money, Stack, Wallet, FileText, Laptop, Ticket, Gear, ShoppingCart, CurrencyCircleDollar } from '@phosphor-icons/react';
 import { ButtonSider, ContainerSidebar, Logo, Menu, SubMenu, SubMenuItem } from './styled';
 import { useSidebarVisibility } from '@/context/sidebarVisibilityContext';
 import { useLogin } from '@/context/user.login';
@@ -17,6 +17,7 @@ export function Sidebar() {
   const menuItems = [
     { icon: <ChartBar />, label: 'Resumo', path: "/home" },
     { icon: <Basket />, label: 'Vendas', path: "/transaction" },
+    { icon: <CurrencyCircleDollar />, label: 'Confrapix', path: "/confrapix" },
     ...(dataUser?.seller_type !== 'EC' ? [
       { icon: <Storefront />, label: 'Estabelecimentos', path: "/sellers-ec" },
       { icon: <Tag />, label: 'Licenciados', path: "/sellers-la" },
@@ -29,7 +30,7 @@ export function Sidebar() {
       { icon: <Gear />, label: 'Configurações', isSubmenu: true },
     ] : []),
     { icon: <FileText />, label: 'Documentos', path: "/documents" },
-    { icon: <Ticket />, label: 'Confrapix', path: "/confrapix" }
+
   ];
 
   const [selectedItem, setSelectedItem] = useState<number | null>(() => {
@@ -74,7 +75,6 @@ export function Sidebar() {
 
   const configSubmenuItems = [
     { label: 'Log', path: '/log' },
-    { label: 'Gestão de Permissões', path: '/permissionManagement' }
   ];
 
   const financeiroIndex = menuItems.findIndex(item => item.label === 'Financeiro');

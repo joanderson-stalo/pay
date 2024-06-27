@@ -16,10 +16,12 @@ export const Container = styled.div`
 
 export const ContainerInfo = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: center;
   gap: 20px;
   margin-bottom: 32px;
+
+  @media (max-width: 900px) {
+    flex-direction: column;
+  }
 `
 
 export const ContainerCard = styled.aside`
@@ -27,7 +29,7 @@ export const ContainerCard = styled.aside`
   flex-direction: column;
   margin-top: 36px;
   gap: 28px;
-  width: 60%;
+  width: 100% ;
 `
 
 export const ContainerGrafico = styled.div`

@@ -98,24 +98,13 @@ export function ECHome() {
             debit={homeData?.payment_types.debit || '0'}
             total={homeData?.transactions_TPV || '0'}
           />
-          <LatestSales latest_transactions={latestTransactions}/>
+
         </S.ContainerInfo>
+        <LatestSales latest_transactions={latestTransactions}/>
         <S.ContainerGrafico>
-          <S.ContainerInfoGrafico>
-            <S.ContainerTitle>
-              <h4>Comparativo Mensal</h4>
-              <S.ContainerTooltip>
-                <S.TooltipIcon />
-                <S.TooltipText>Mensagem de informação.</S.TooltipText>
-              </S.ContainerTooltip>
-            </S.ContainerTitle>
-            <S.ContainerCalendar>
-              <Indicator />
-              <Indicator label="Mês selecionado" />
-              <MonthYearSelector selectedYear={selectedYear} onYearChange={handleYearChange} />
-            </S.ContainerCalendar>
-          </S.ContainerInfoGrafico>
-          <CustomChart dataMesAtual={dataMesAtual} dataMesSelecionado={dataMesSelecionado} />
+
+
+
         </S.ContainerGrafico>
       </S.Container>
     </>
