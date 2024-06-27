@@ -4,6 +4,7 @@ import * as S from './styled';
 import { BtnAdvance } from '@/components/BtnAdvance/btnAdvance';
 import { BtnReturn } from '@/components/BtnReturn/btnReturn';
 import { TitleH } from '@/components/Title/title';
+import { useNavigate } from 'react-router-dom';
 
 interface FormData {
   amount: string | undefined;
@@ -15,6 +16,12 @@ interface FormData {
 
 export function ConfraPix() {
   const { register, handleSubmit, formState: { errors }, watch, setValue } = useForm<FormData>();
+  const navigate = useNavigate();
+  const today = new Date();
+  const tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+
+  const formatDate = (date: Date) => date.toISOString().split('T')[0];
 
   const amount = watch('amount');
   const dateExpiration = watch('dateExpiration');
@@ -26,16 +33,11 @@ export function ConfraPix() {
       amount: parseFloat(data.amount || "0"),
       dateExpiration: data.dateExpiration ? `${data.dateExpiration} 23:59:59` : undefined,
       customer_document: data.customer_document.replace(/\D/g, ''),
-      acquires: [
-        {
-          id: 1
-        }
-      ]
+      acquires: [{ id: 1 }]
     };
 
     console.log(formattedData);
   };
-
 
   const isDisabled = !amount || !dateExpiration;
 
@@ -74,6 +76,8 @@ export function ConfraPix() {
               placeholder="Digite a data que o pix irá expirar"
               type="date"
               required
+              min={formatDate(today)}
+              value={formatDate(tomorrow)}
               {...register('dateExpiration')}
               onChange={(e) => {
                 const data = e.target.value === "" ? undefined : e.target.value;
@@ -111,7 +115,7 @@ export function ConfraPix() {
           </S.ContainerInput2>
 
           <S.ContainerButton>
-            <BtnReturn title="Cancelar" onClick={() => false} />
+            <BtnReturn title="Cancelar" onClick={() => navigate(-1)} />
             <BtnAdvance title="Gerar Pix" onClick={handleSubmit(onSubmit)} disabled={isDisabled} />
           </S.ContainerButton>
         </S.ContainerForm>
