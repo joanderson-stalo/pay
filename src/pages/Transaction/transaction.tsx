@@ -27,6 +27,7 @@ import {
 import { TagFilter } from '@/components/TagFilter/tagFilter'
 import { ITransaction } from './components/table/interface'
 import { toast } from 'react-toastify'
+import { NoteData } from '@/components/NoteData/noteData'
 
 export function Transaction() {
   const [searchValue, setSearchValue] = useState('')
@@ -253,6 +254,9 @@ export function Transaction() {
     return <Loading />
   }
 
+
+  if(transactions )
+
   return (
     <>
       <S.Container>
@@ -345,6 +349,8 @@ export function Transaction() {
 
           <ExportData title="Exportar dados" onClick={handleExportClick} />
         </S.ContainerButton>
+
+
 
         <TabelaVendas rows={transactions} />
 
