@@ -5,15 +5,14 @@ import { TitleH } from '@/components/Title/title'
 import iconCop from '@/assets/icons/iconCopy.svg'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
-import React, { useRef } from 'react'
-import { jsPDF } from 'jspdf'
-import pixTransaction from './json'  // Importa os dados PIX
+import  { useRef } from 'react'
+import pixTransaction from './json'
 
 export function QRcodeCPF() {
   const navigate = useNavigate()
   const copyTextRef = useRef<HTMLParagraphElement>(null)
 
-  const transaction = pixTransaction.response[0]  // Acessa a primeira transação
+  const transaction = pixTransaction.response[0]
 
 
 

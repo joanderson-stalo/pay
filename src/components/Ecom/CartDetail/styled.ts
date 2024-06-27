@@ -16,12 +16,11 @@ export const CartDetailContainer = styled.div`
   @media (max-width: 900px) {
     display: flex;
     gap: 24px;
-    width: 408px;
+    width: 100%;
 height: 238px;
   }
 
   @media (max-width: 600px) {
-    width: 290px;
     height: auto;
 
   }
