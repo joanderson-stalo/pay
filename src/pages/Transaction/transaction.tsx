@@ -253,6 +253,8 @@ export function Transaction() {
     return <Loading />
   }
 
+
+
   return (
     <>
       <S.Container>
@@ -345,6 +347,8 @@ export function Transaction() {
 
           <ExportData title="Exportar dados" onClick={handleExportClick} />
         </S.ContainerButton>
+
+
 
         <TabelaVendas rows={transactions} />
 
