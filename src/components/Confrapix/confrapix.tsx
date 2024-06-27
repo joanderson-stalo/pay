@@ -1,4 +1,4 @@
-import { InputHTMLAttributes, TextareaHTMLAttributes } from 'react';
+import React, { forwardRef, InputHTMLAttributes, TextareaHTMLAttributes } from 'react';
 import * as S from './styled';
 
 interface InputPixProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -7,14 +7,13 @@ interface InputPixProps extends InputHTMLAttributes<HTMLInputElement> {
   required?: boolean;
 }
 
-
 interface InputTextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   label: string;
   placeholder?: string;
 }
 
-export function CustomInputPix ({ label, placeholder, required, ...rest }: InputPixProps) {
-  return (
+export const CustomInputPix = forwardRef<HTMLInputElement, InputPixProps>(
+  ({ label, placeholder, required, ...rest }, ref) => (
     <S.Container>
       {label && (
         <S.Label>
@@ -25,39 +24,27 @@ export function CustomInputPix ({ label, placeholder, required, ...rest }: Input
         <S.Input
           placeholder={placeholder}
           required={required}
+          ref={ref}
           {...rest}
         />
       </S.ContainerInput>
     </S.Container>
-  );
-}
+  )
+);
 
-
-export function CustomTextareaPix ({label, placeholder, ...rest}: InputTextAreaProps ) {
-  return (
-    <>
-
-<S.ContainerTextArea >
-
-{label && (
+export const CustomTextareaPix = forwardRef<HTMLTextAreaElement, InputTextAreaProps>(
+  ({ label, placeholder, ...rest }, ref) => (
+    <S.ContainerTextArea>
+      {label && (
         <S.Label>
           {label}
         </S.Label>
       )}
-
-  <S.TextAreaPix
-    placeholder={placeholder}
-    {...rest}
-  >
-
-  </S.TextAreaPix>
-
-</S.ContainerTextArea>
-
-
-
-    </>
+      <S.TextAreaPix
+        placeholder={placeholder}
+        ref={ref}
+        {...rest}
+      />
+    </S.ContainerTextArea>
   )
-}
-
-
+);

@@ -22,8 +22,8 @@ export const BtnAdvanceContainer = styled.button<Color>`
   margin-bottom: 100px;
 
   :disabled {
-    background-color: gray;
-    color: rgba(255, 255, 255, 0.5);
+    background-color: #E3E3E3;
+    color: #5F6367;
     border: none;
   }
 `;

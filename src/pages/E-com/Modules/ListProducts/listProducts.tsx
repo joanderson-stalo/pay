@@ -42,7 +42,7 @@ export function ListProducts() {
 
   useEffect(() => {
     fetchData();
-  }, [fetchData, pos]);
+  }, [fetchData]);
 
   if (loading) {
     return <Loading />;
@@ -63,9 +63,7 @@ export function ListProducts() {
         <ContentFilter>
           {updateModel.map((model) => (
               <BtnFilterModel
-
               primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}
-
               key={model} onClick={() => handleFilterClick(model)}
               statusModel={model === statusFilter ? 'active' : 'inactive'}
 

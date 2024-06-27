@@ -1,46 +1,52 @@
-import {
-  CustomInputPix,
-  CustomTextareaPix
-} from '@/components/Confrapix/confrapix'
-import * as S from './styled'
-import { useTenantData } from '@/context'
-import { BtnAdvance } from '@/components/BtnAdvance/btnAdvance'
-import { BtnReturn } from '@/components/BtnReturn/btnReturn'
-import { TitleH } from '@/components/Title/title'
-import { useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
-import * as Yup from 'yup';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { CustomInputPix, CustomTextareaPix } from '@/components/Confrapix/confrapix';
+import * as S from './styled';
+import { BtnAdvance } from '@/components/BtnAdvance/btnAdvance';
+import { BtnReturn } from '@/components/BtnReturn/btnReturn';
+import { TitleH } from '@/components/Title/title';
 
 interface FormData {
-  valor: string | number
-  dataNascimento: string
-  name: string
-  cpf: string
-  description: string
+  amount: string | undefined;
+  dateExpiration: string | undefined;
+  customer_name: string;
+  customer_document: string;
+  description: string;
 }
 
-
 export function ConfraPix() {
+  const { register, handleSubmit, formState: { errors }, watch, setValue } = useForm<FormData>();
 
-  const schema = Yup.object().shape({
-    valor: Yup.number().required('Valor é obrigatório').positive('Valor deve ser positivo'),
-    dataNascimento: Yup.string().required('Data de vencimento é obrigatória'),
-    name: Yup.string().required('Nome é obrigatório'),
-    cpf: Yup.string().required('CPF é obrigatório').matches(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, 'CPF inválido'),
-    description: Yup.string()
-  });
+  const amount = watch('amount');
+  const dateExpiration = watch('dateExpiration');
+  const customer_document = watch('customer_document');
+
+  const onSubmit: SubmitHandler<FormData> = data => {
+    const formattedData = {
+      ...data,
+      amount: parseFloat(data.amount || "0"),
+      dateExpiration: data.dateExpiration ? `${data.dateExpiration} 23:59:59` : undefined,
+      customer_document: data.customer_document.replace(/\D/g, ''),
+      acquires: [
+        {
+          id: 1
+        }
+      ]
+    };
+
+    console.log(formattedData);
+  };
 
 
-  // const { register, handleSubmit, formState: { errors, isValid } } = useForm<FormData>({
-  //   resolver: yupResolver(schema),
-  //   defaultValues: {
-  //     valor: '',
-  //     dataNascimento: '',
-  //     name: '',
-  //     cpf: '',
-  //     description: ''
-  //   }
-  // });
+  const isDisabled = !amount || !dateExpiration;
+
+  const handleCpfChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let value = e.target.value.replace(/\D/g, '');
+    if (value.length > 11) value = value.slice(0, 11);
+    value = value.replace(/(\d{3})(\d)/, '$1.$2');
+    value = value.replace(/(\d{3})(\d)/, '$1.$2');
+    value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+    setValue('customer_document', value, { shouldValidate: true });
+  };
 
   return (
     <>
@@ -50,18 +56,29 @@ export function ConfraPix() {
           <S.Description>Crie o QR Code e o copia e cola PIX</S.Description>
         </S.ContainerTitleHeader>
 
-        <S.ContainerForm>
+        <S.ContainerForm onSubmit={handleSubmit(onSubmit)}>
           <S.ContainerInput>
             <CustomInputPix
               label="Valor (R$)"
               placeholder="Digite o valor do pix que será gerado"
               required
+              {...register('amount')}
+              onChange={(e) => {
+                const valorStr = e.target.value === "" ? undefined : e.target.value;
+                setValue('amount', valorStr, { shouldValidate: true });
+              }}
             />
 
             <CustomInputPix
               label="Data de vencimento"
               placeholder="Digite a data que o pix irá expirar"
+              type="date"
               required
+              {...register('dateExpiration')}
+              onChange={(e) => {
+                const data = e.target.value === "" ? undefined : e.target.value;
+                setValue('dateExpiration', data, { shouldValidate: true });
+              }}
             />
           </S.ContainerInput>
 
@@ -71,26 +88,34 @@ export function ConfraPix() {
           </S.DescriptionInfo>
 
           <S.ContainerInput>
-            <CustomInputPix label="Nome" placeholder="Digite o nome completo" />
-
-            <CustomInputPix label="CPF" placeholder="000.000.000-0" />
+            <CustomInputPix
+              label="Nome"
+              placeholder="Digite o nome completo"
+              {...register('customer_name')}
+            />
+            <CustomInputPix
+              label="CPF"
+              placeholder="000.000.000-00"
+              value={customer_document}
+              {...register('customer_document')}
+              onChange={handleCpfChange}
+            />
           </S.ContainerInput>
 
           <S.ContainerInput2>
             <CustomTextareaPix
               label="Descrição"
               placeholder="Digite uma breve descrição"
+              {...register('description')}
             />
           </S.ContainerInput2>
+
+          <S.ContainerButton>
+            <BtnReturn title="Cancelar" onClick={() => false} />
+            <BtnAdvance title="Gerar Pix" onClick={handleSubmit(onSubmit)} disabled={isDisabled} />
+          </S.ContainerButton>
         </S.ContainerForm>
-
-        <S.ContainerButton>
-          <BtnReturn title="Cancelar" onClick={() => false} />
-          <BtnAdvance onClick={() => false} title="Gerar Pix" />
-        </S.ContainerButton>
       </S.Container>
-
-      {/* primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} */}
     </>
-  )
+  );
 }

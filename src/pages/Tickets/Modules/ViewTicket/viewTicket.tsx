@@ -292,21 +292,11 @@ export function ViewTicket() {
           />
 
           <S.ButtonContainer>
-         
-            <S.BackButton onClick={() => navigate(-1)}>Voltar</S.BackButton>
+
+
             <S.CloseTicketButton onClick={handleCloseTicket}>
               Encerrar Ticket
             </S.CloseTicketButton>
-
-
-
-            <S.SendButton
-              onClick={handleSendMessage}
-              disabled={!newMessage.trim()}
-            >
-              Enviar
-            </S.SendButton>
-
             <S.ContainerPhoto>
                   <S.HiddenFileInput
                     id="fileInput"
@@ -318,6 +308,16 @@ export function ViewTicket() {
                     <S.StyledUploadIcon primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} /> {files ? "Arquivo Anexado" : "Enviar Arquivos"}
                   </S.FileInputLabel>
                 </S.ContainerPhoto>
+                <S.BackButton onClick={() => navigate(-1)}>Voltar</S.BackButton>
+
+            <S.SendButton
+              onClick={handleSendMessage}
+              disabled={!newMessage.trim()}
+            >
+              Enviar
+            </S.SendButton>
+
+
           </S.ButtonContainer>
         </S.MessageInputContainer>
       )}
