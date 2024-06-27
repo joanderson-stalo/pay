@@ -151,7 +151,7 @@ export function Router() {
 
 
             <Route path='/confrapix' element={<ConfraPix />} />
-            <Route path='/qrcodeCPF' element={<QRcodeCPF/>} />
+            <Route path='/confrapix-qrcode' element={<QRcodeCPF/>} />
 
 
 

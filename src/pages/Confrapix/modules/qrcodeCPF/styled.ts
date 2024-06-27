@@ -147,7 +147,7 @@ export const ContainerButton = styled.div`
   }
 `;
 
-export const ButtonDownloadInfo = styled.div`
+export const ButtonDownloadInfo = styled.button`
 
 text-decoration: underline;
 color: #3C0A6D;
