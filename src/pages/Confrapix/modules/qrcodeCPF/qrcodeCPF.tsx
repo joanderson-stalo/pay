@@ -52,7 +52,8 @@ export function QRcodeCPF() {
             <S.ContainerTableInfo>
               <S.TableRow>
                 <S.ContentCell>
-                  <S.TitleCell>ID da transação:</S.TitleCell>
+                  <S.TitleCell>ID da transação: <S.StatusPayment>{transaction.status === 'AGUARDANDO' && 'Aguardando pagamento' || 'CONCLUIDA' && 'Pagamento confirmado'}</S.StatusPayment> </S.TitleCell>
+
                   <S.InfoCell>{transaction.id}</S.InfoCell>
                 </S.ContentCell>
 
@@ -90,12 +91,15 @@ export function QRcodeCPF() {
             </div>
             <S.ContainerDescri>
               <S.TitleCell>Código copia e cola</S.TitleCell>
+
               <S.CopiaECola>
-                <p ref={copyTextRef}>{transaction.pix.code}</p>
+                <S.Codigo ref={copyTextRef}>{transaction.pix.code}</S.Codigo>
+
                 <S.ButtonCopy onClick={handleCopy}>
                   <img src={iconCop} alt="icone copia e cola" />
                 </S.ButtonCopy>
               </S.CopiaECola>
+
             </S.ContainerDescri>
           </S.Wrapper>
 

@@ -1,3 +1,5 @@
+import { Transaction } from './../../../Transaction/Mobile/CardSales/cardSales';
+
 
 
 
@@ -16,7 +18,7 @@ margin-bottom: 24px;
 `
 
 export const ContainerMain = styled.div`
-width: 100%;
+
 display: flex;
 border-radius: 4px;
 background:  #F9F9F9;
@@ -71,6 +73,8 @@ export const ContainerQrcode = styled.div`
 
 `
 
+
+
 export const QRCode = styled.img`
 
 
@@ -84,26 +88,34 @@ border-radius: 4px;
 background:  #FFF;
 display: flex;
 justify-content: space-between;
-width: 100%;
-
+max-width: 460px;
 
 
 padding: 13px 24px;
 
 gap: 10px;
 
->p{
-  color: #202124;
-  width: 100%;
-  max-width: 353px;
 
+
+
+`
+
+export const Codigo = styled.p`
+
+width: 100%;
+max-width: 353px;
+
+color: #202124;
 font-size: 12px;
 font-style: normal;
 font-weight: 400;
 line-height: normal;
-
-}
-
+line-height: 1.5;
+overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
 `
 
 
@@ -119,6 +131,36 @@ font-style: normal;
 font-weight: 400;
 line-height: 24px;
 letter-spacing: 0.5px;
+display: flex;
+gap: 25px;
+
+@media (max-width: 900px) {
+  gap: 20px;
+}
+
+@media (max-width: 600px) {
+  gap: 15px;
+}
+
+`
+
+export const StatusPayment = styled.div`
+  padding: 5px 3.5px;
+  color:  #202124;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  border-radius: 4px;
+  background-color: #1786291A;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+
+`
+
+export const StatusPayment2 = styled.div`
 
 `
 
@@ -143,7 +185,7 @@ gap: 16px;
 `
 export const ContainerDescri = styled.div`
   margin-top: 16px;
-  width: 100%;
+
 
 
 `
@@ -183,7 +225,7 @@ export const ContainerButton = styled.div`
   justify-content: end;
   gap: 20px;
 
-  margin-top: 40px;
+  margin-top: 16px;
 
   @media (max-width: 600px) {
     justify-content: center;
@@ -200,10 +242,9 @@ font-style: normal;
 font-weight: 400;
 line-height: 35px;
 letter-spacing: 0.5px;
+background: transparent;
 
-@media (max-width: 600px) {
-  display: none;
-}
+
 `
 
 export const ButtonCopy = styled.button`
