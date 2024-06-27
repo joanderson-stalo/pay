@@ -33,7 +33,8 @@ export function QRcodeCPF() {
         </S.ContainerTitleHeader>
 
         <S.ContainerMain>
-          <div>
+          <S.Wrapper>
+            <div>
             <S.ContainerTableInfo>
               <S.TableRow>
                 <S.ContentCell>
@@ -76,14 +77,12 @@ export function QRcodeCPF() {
                 </S.Description>
               </S.ContentCell>
             </S.ContainerDescri>
-
+            </div>
             <S.ContainerDescri>
               <S.TitleCell>Código copia e cola</S.TitleCell>
               <S.CopiaECola>
                 <p>
-                  00020101021126580014br.gov.bcb.pix01366616d678-01a4-44c4-8e6d-04197c1132b9520400005303986540520.005802BR5923TATYANA
-                  CARNEIRO MENDES6009SAO
-                  PAULO622905251J0VCW5D3F4DY1MHBGBVVKYPB6304185A
+                  00020101021126580014br.gov.bcb.pix01366616d678-01a4-44c4-8e6d-04197c1132b9520400005303986540520.005802BR5923TATYANA CARNEIRO MENDES6009SAOPAULO622905251J0VCW5D3F4DY1MHBGBVVKYPB6304185A
                 </p>
 
                 <S.ButtonCopy>
@@ -93,7 +92,7 @@ export function QRcodeCPF() {
 
               </S.CopiaECola>
             </S.ContainerDescri>
-          </div>
+          </S.Wrapper>
 
           <S.ContainerQrcode>
             <S.QRCode
@@ -101,6 +100,7 @@ export function QRcodeCPF() {
               alt=""
             />
           </S.ContainerQrcode>
+
         </S.ContainerMain>
 
         <S.ContainerButton>
