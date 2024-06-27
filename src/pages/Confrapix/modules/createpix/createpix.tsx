@@ -4,40 +4,66 @@ import * as S from './styled';
 import { BtnAdvance } from '@/components/BtnAdvance/btnAdvance';
 import { BtnReturn } from '@/components/BtnReturn/btnReturn';
 import { TitleH } from '@/components/Title/title';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 interface FormData {
-  amount: string | undefined;
+  amount: number | undefined;
   dateExpiration: string | undefined;
-  customer_name: string;
-  customer_document: string;
+  customerName: string;
+  customerDocument: string;
   description: string;
 }
 
 export function ConfraPix() {
   const { register, handleSubmit, formState: { errors }, watch, setValue } = useForm<FormData>();
+  const navigate = useNavigate();
+  const today = new Date();
+  const tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+
+  const formatDate = (date: Date) => date.toISOString().split('T')[0];
 
   const amount = watch('amount');
-  const dateExpiration = watch('dateExpiration');
-  const customer_document = watch('customer_document');
+  const customer_document = watch('customerDocument');
 
   const onSubmit: SubmitHandler<FormData> = data => {
+
+    if (data.customerDocument && !data.customerName) {
+      toast.error('Nome é obrigatório quando o CPF é informado');
+      return;
+    }
+
+
+    if (!data.customerDocument && data.customerName) {
+      toast.error('CPF é obrigatório quando o nome é informado');
+      return;
+    }
+
+    if (data.amount === undefined || data.amount <= 0) {
+      toast.error('O valor deve ser maior que zero.');
+      return;
+    }
+
+    if (data.dateExpiration && new Date(data.dateExpiration) < today) {
+      toast.error('A data de vencimento não pode ser anterior ao dia atual.');
+      return;
+    }
+
+    const validAmount = data.amount !== undefined ? data.amount : 0;
+
     const formattedData = {
       ...data,
-      amount: parseFloat(data.amount || "0"),
+      amount: validAmount,
       dateExpiration: data.dateExpiration ? `${data.dateExpiration} 23:59:59` : undefined,
-      customer_document: data.customer_document.replace(/\D/g, ''),
-      acquires: [
-        {
-          id: 1
-        }
-      ]
+      customer_document: data.customerDocument.replace(/\D/g, ''),
+      acquires: [{ id: 1 }]
     };
 
     console.log(formattedData);
   };
 
 
-  const isDisabled = !amount || !dateExpiration;
 
   const handleCpfChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value.replace(/\D/g, '');
@@ -45,8 +71,10 @@ export function ConfraPix() {
     value = value.replace(/(\d{3})(\d)/, '$1.$2');
     value = value.replace(/(\d{3})(\d)/, '$1.$2');
     value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
-    setValue('customer_document', value, { shouldValidate: true });
+    setValue('customerDocument', value, { shouldValidate: true });
   };
+
+  const isDisabled = !amount
 
   return (
     <>
@@ -58,28 +86,36 @@ export function ConfraPix() {
 
         <S.ContainerForm onSubmit={handleSubmit(onSubmit)}>
           <S.ContainerInput>
-            <CustomInputPix
-              label="Valor (R$)"
-              placeholder="Digite o valor do pix que será gerado"
-              required
-              {...register('amount')}
-              onChange={(e) => {
-                const valorStr = e.target.value === "" ? undefined : e.target.value;
-                setValue('amount', valorStr, { shouldValidate: true });
-              }}
-            />
+          <CustomInputPix
+  label="Valor (R$)"
+  type='number'
+  placeholder="Digite o valor do pix que será gerado"
+  required
+  {...register('amount', {
+    setValueAs: v => v === "" ? undefined : Number(v),
+  })}
+  onChange={(e) => {
+    const valorNum = e.target.value === "" ? undefined : Number(e.target.value);
+    setValue('amount', valorNum, { shouldValidate: true });
+  }}
+/>
 
-            <CustomInputPix
-              label="Data de vencimento"
-              placeholder="Digite a data que o pix irá expirar"
-              type="date"
-              required
-              {...register('dateExpiration')}
-              onChange={(e) => {
-                const data = e.target.value === "" ? undefined : e.target.value;
-                setValue('dateExpiration', data, { shouldValidate: true });
-              }}
-            />
+
+<CustomInputPix
+  label="Data de vencimento"
+  placeholder="Digite a data que o pix irá expirar"
+  type="date"
+  required
+  min={formatDate(today)}
+  {...register('dateExpiration', {
+    onChange: (e) => {
+      const data = e.target.value;
+      setValue('dateExpiration', data, { shouldValidate: true });
+    }
+  })}
+/>
+
+
           </S.ContainerInput>
 
           <S.DescriptionInfo>
@@ -91,13 +127,13 @@ export function ConfraPix() {
             <CustomInputPix
               label="Nome"
               placeholder="Digite o nome completo"
-              {...register('customer_name')}
+              {...register('customerName')}
             />
             <CustomInputPix
               label="CPF"
               placeholder="000.000.000-00"
               value={customer_document}
-              {...register('customer_document')}
+              {...register('customerDocument')}
               onChange={handleCpfChange}
             />
           </S.ContainerInput>
@@ -111,7 +147,7 @@ export function ConfraPix() {
           </S.ContainerInput2>
 
           <S.ContainerButton>
-            <BtnReturn title="Cancelar" onClick={() => false} />
+            <BtnReturn title="Cancelar" onClick={() => navigate(-1)} />
             <BtnAdvance title="Gerar Pix" onClick={handleSubmit(onSubmit)} disabled={isDisabled} />
           </S.ContainerButton>
         </S.ContainerForm>
