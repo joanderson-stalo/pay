@@ -14,6 +14,10 @@ interface Color {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
+
+    @media (max-width: 600px){
+      margin-bottom: 26px;
+    }
   `;
 
 

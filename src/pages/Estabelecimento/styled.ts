@@ -16,6 +16,10 @@ export const ContainerButton = styled.div`
   margin-bottom: 32px;
   gap: 8px;
 
+  @media (max-width: 600px){
+    margin-top: 26px;
+  }
+
 `
 
 export const Linha = styled.div`

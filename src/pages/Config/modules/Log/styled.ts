@@ -49,6 +49,12 @@ export const ContainerButton = styled.div`
   align-items: center;
   justify-content: space-between;
   margin-bottom: 32px;
+
+  @media (max-width: 600px){
+    margin-top: 26px;
+  }
+
+
 `
 export const Linha = styled.div`
   border: 1px solid rgb(0, 0, 0, 0.1);

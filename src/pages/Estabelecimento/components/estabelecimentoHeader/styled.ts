@@ -15,7 +15,10 @@ margin-bottom: 38px;
   flex-direction: column;
   display: inline-flex;
   gap: 20px;
+  margin-bottom: 26px;
 }
+
+
 
 
 
