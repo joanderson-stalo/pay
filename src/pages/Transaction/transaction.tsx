@@ -27,7 +27,6 @@ import {
 import { TagFilter } from '@/components/TagFilter/tagFilter'
 import { ITransaction } from './components/table/interface'
 import { toast } from 'react-toastify'
-import { NoteData } from '@/components/NoteData/noteData'
 
 export function Transaction() {
   const [searchValue, setSearchValue] = useState('')
@@ -255,7 +254,6 @@ export function Transaction() {
   }
 
 
-  if(transactions )
 
   return (
     <>
