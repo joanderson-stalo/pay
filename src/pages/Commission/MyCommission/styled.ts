@@ -26,7 +26,7 @@ export const ContainerCardsMobile = styled.div`
 export const ContainerCardVendas = styled.div`
  display: flex;
   gap: 20px;
-  margin-bottom: 30px;
+  margin-bottom: 38px;
 
   @media (max-width: 1200px) {
     flex-wrap: wrap;

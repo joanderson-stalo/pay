@@ -8,7 +8,7 @@ interface Color {
 export const Container = styled.div`
 display: flex;
 justify-content: space-between;
-margin-bottom: 38px;
+margin-bottom: 27px;
 
 @media (max-width: 600px){
   flex-direction: column;

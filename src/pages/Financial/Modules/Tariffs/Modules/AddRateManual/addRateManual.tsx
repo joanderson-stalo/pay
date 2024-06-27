@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useForm, SubmitHandler, FieldValues } from 'react-hook-form';
 import { baseURL } from "@/config/color";
-import { ButtonAvançar, ButtonVoltar, ContainerButton, ContainerForm, ContainerInput, ContainerStep, ContextStep, ContextStepContainer, Line, TitleStep } from "./styled";
+import { ButtonAvançar, ButtonVoltar, ContainerButton, ContainerForm, ContainerInput, ContainerInput2, ContainerStep, ContextStep, ContextStepContainer, Form, Line, TitleStep } from "./styled";
 import { CustomInput } from "@/components/Input/input";
 import { Loading } from "@/components/Loading/loading";
 import { CustomSelect } from "@/components/Select/select";
@@ -163,13 +163,14 @@ export function AddRateManual() {
     <>
       {loading && <Loading />}
       <ContainerStep>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <Form onSubmit={handleSubmit(onSubmit)}>
         <ContextStepContainer>
           <ContextStep>
             <TitleStep>Adicionar Tarifa</TitleStep>
             <Line />
             <ContainerForm >
               <ContainerInput>
+
                 <CustomSelect
                   {...register("estabelecimento")}
                   optionsData={{ options: fetchedOptionsEC }}
@@ -179,7 +180,8 @@ export function AddRateManual() {
                     setValue('estabelecimento', selectedOption.value);
                   }}
                 />
-                <CustomSelect
+
+<CustomSelect
                   {...register("licenciadoAutorizado")}
                   optionsData={{ options: fetchedOptionsLA }}
                   placeholder="Clique para ver a lista"
@@ -188,10 +190,22 @@ export function AddRateManual() {
                     setValue('licenciadoAutorizado', selectedOption.value);
                   }}
                 />
+
+
+
+<CustomInput
+                  label='Data Referência'
+                  {...register('dataReferência')}
+                  type="date"
+                  colorInputDefault={tenantData.primary_color_identity}
+                  colorInputSuccess={tenantData.secondary_color_identity}
+                />
+
               </ContainerInput>
 
               <ContainerInput>
-                <CustomInput
+
+              <CustomInput
                   label='Serial Terminal'
                   {...register('serialTerminal')}
                   colorInputDefault={tenantData.primary_color_identity}
@@ -203,9 +217,17 @@ export function AddRateManual() {
                   colorInputDefault={tenantData.primary_color_identity}
                   colorInputSuccess={tenantData.secondary_color_identity}
                 />
+
+<CustomInput
+                  label='Data Cobrança'
+                  {...register('dataCobrança')}
+                  type="date"
+                  colorInputDefault={tenantData.primary_color_identity}
+                  colorInputSuccess={tenantData.secondary_color_identity}
+                />
               </ContainerInput>
 
-              <ContainerInput>
+              <ContainerInput2>
                 <CustomInput
                   label='Valor'
                   placeholder="R$"
@@ -214,38 +236,23 @@ export function AddRateManual() {
                   colorInputDefault={tenantData.primary_color_identity}
                   colorInputSuccess={tenantData.secondary_color_identity}
                 />
-                <CustomInput
+
+              </ContainerInput2>
+
+              <CustomInput
                   label='Observação'
                   {...register('observação')}
                   colorInputDefault={tenantData.primary_color_identity}
                   colorInputSuccess={tenantData.secondary_color_identity}
                 />
-              </ContainerInput>
-
-              <ContainerInput>
-                <CustomInput
-                  label='Data Referência'
-                  {...register('dataReferência')}
-                  type="date"
-                  colorInputDefault={tenantData.primary_color_identity}
-                  colorInputSuccess={tenantData.secondary_color_identity}
-                />
-                <CustomInput
-                  label='Data Cobrança'
-                  {...register('dataCobrança')}
-                  type="date"
-                  colorInputDefault={tenantData.primary_color_identity}
-                  colorInputSuccess={tenantData.secondary_color_identity}
-                />
-              </ContainerInput>
             </ContainerForm>
           </ContextStep>
           <ContainerButton>
-            <ButtonVoltar type="button" onClick={handleCancel }>Cancelar</ButtonVoltar>
+            <ButtonVoltar primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} type="button" onClick={handleCancel }>Cancelar</ButtonVoltar>
             <ButtonAvançar  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}  type="submit" disabled={!allFieldsFilled} >Salvar</ButtonAvançar>
           </ContainerButton>
         </ContextStepContainer>
-        </form>
+        </Form>
       </ContainerStep>
     </>
   );
