@@ -161,6 +161,14 @@ export function PF({ Avançar }: IStep1) {
                   hasError={!!errors.CPFEstabelecimento}
                 />
 
+<CustomInput
+                  {...register('NomeSocioEstabelecimento')}
+                  label="Nome Completo"
+                  colorInputDefault={tenantData.primary_color_identity}
+                  colorInputSuccess={tenantData.secondary_color_identity}
+                  hasError={!!errors.NomeSocioEstabelecimento}
+                />
+
                 <LabelCustomInputMask
                   {...register('NascimentoSocio', {
                     validate: validateDataCriacao
@@ -171,14 +179,10 @@ export function PF({ Avançar }: IStep1) {
                   hasError={!!errors.NascimentoSocio}
                 />
               </S.ContainerInput>
-              <S.ContainerInput>
-                <CustomInput
-                  {...register('NomeSocioEstabelecimento')}
-                  label="Nome Completo"
-                  colorInputDefault={tenantData.primary_color_identity}
-                  colorInputSuccess={tenantData.secondary_color_identity}
-                  hasError={!!errors.NomeSocioEstabelecimento}
-                />
+
+
+              <S.ContainerInput2>
+
 
                 <LabelCustomInputMask
                   {...register('TelefoneEstabelecimento', {
@@ -189,9 +193,7 @@ export function PF({ Avançar }: IStep1) {
                   placeholder="(--) ----.----"
                   hasError={!!errors.TelefoneEstabelecimento}
                 />
-              </S.ContainerInput>
-              <S.ContainerInput>
-                <CustomInput
+                 <CustomInput
                   {...register('EmailEstabelecimento', {
                     validate: validateEmail
                   })}
@@ -200,11 +202,12 @@ export function PF({ Avançar }: IStep1) {
                   colorInputSuccess={tenantData.secondary_color_identity}
                   hasError={!!errors.EmailEstabelecimento}
                 />
-              </S.ContainerInput>
+              </S.ContainerInput2>
+              
             </S.ContainerForm>
           </S.ContextStep>
           <S.ContainerButton>
-            <S.ButtonVoltar type='button' onClick={handleLicenseddetail} >Cancelar</S.ButtonVoltar>
+            <S.ButtonVoltar primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} type='button' onClick={handleLicenseddetail} >Cancelar</S.ButtonVoltar>
             <S.ButtonAvançar primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} type='button' disabled={!allFieldsFilled} onClick={handleSalvar}>Salvar</S.ButtonAvançar>
             <S.ButtonAvançar primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} type='button' disabled={!allFieldsFilled} onClick={handleAvancar}>
               Avançar
