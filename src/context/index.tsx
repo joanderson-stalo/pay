@@ -12,6 +12,7 @@ import { TicketIDProvider } from './id/ticketId';
 import { CartProvider } from './e-com/cart';
 import { PlanIDProvider } from './id/planID';
 import { PaymentIDProvider } from './id/paymentsID';
+import { OrderPixProvider } from './id/orderPixID';
 
 type TenantData = {
   name: string;
@@ -53,9 +54,9 @@ export function AppProvider({ children, tenantData }: AppProviderProps) {
                           <CartProvider>
                             <PlanIDProvider>
                               <PaymentIDProvider>
-
+<OrderPixProvider>
                       {children}
-
+                      </OrderPixProvider>
 
                       </PaymentIDProvider>
                       </PlanIDProvider>
