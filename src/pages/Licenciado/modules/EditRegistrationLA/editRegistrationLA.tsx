@@ -99,17 +99,8 @@ export const EditRegistrationLA = () => {
     const isDataCriacaoValid = (documentTypeLA !== "CPF") ? step1Values.DataCriacaoEstabelecimento : true;
     const isTelefoneValid = step1Values.TelefoneEstabelecimento;
 
-    const isStep1Valid =
-      ((step1Values.CNPJEstabelecimento) || documentTypeLA === "CPF") &&
-      (step1Values.RazaoSocialEstabelecimento || documentTypeLA === "CPF") &&
-      step1Values.NomeFantasiaEstabelecimento &&
-      step1Values.NascimentoSocio &&
-      (step1Values.CPFEstabelecimento) &&
-      step1Values.NomeSocioEstabelecimento &&
-      isEmailValid &&
-      isTelefoneValid &&
-      step1Values.AreaAtuacaoEstabelecimento &&
-      isDataCriacaoValid;
+    const isStep1Valid = true
+
 
     return isStep1Valid;
   };

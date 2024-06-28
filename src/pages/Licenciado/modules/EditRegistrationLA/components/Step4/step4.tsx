@@ -5,7 +5,7 @@ import { CustomInput } from '@/components/Input/input';
 import { useFormContext } from 'react-hook-form';
 import { CustomSelect } from '@/components/Select/select';
 import { Loading } from '@/components/Loading/loading';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { bancos } from '@/json/bancos';
 import { accountType } from '@/json/accountType';
 import axios from 'axios';
@@ -87,40 +87,38 @@ const handleCpfCnpjChange = (event: { target: { value: any; }; }) => {
 
 
 
-      useEffect(() => {
-        const fetchSellerData = async () => {
-          setLoading(true);
-          try {
-            const response = await axios.get(
-              `${baseURL}seller/show/${licensedId}`,
-              {
-                headers: {
-                  'Content-Type': 'application/json',
-                  Authorization: `Bearer ${dataUser?.token}`,
-                },
-              }
-            );
+      const fetchSellerData = useCallback(async () => {
+        if (!licensedId) return;
 
-            const sellerData = response.data;
-            if (sellerData && sellerData.seller && sellerData.seller.banks && sellerData.seller.banks.length > 0) {
-              const banco = sellerData.seller.banks[0];
-              setValue('Banco', banco.code);
-              setValue('Agência', banco.agency);
-              setValue('Conta', banco.account);
-              setValue('pix', banco.pix);
-              setValue('TipoDeConta', banco.type_account);
-              setValue('CpfCnpj', banco.document);
-            }
+        setLoading(true);
+        try {
+          const response = await axios.get(`${baseURL}seller/show/${licensedId}`, {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${dataUser?.token}`,
+            },
+          });
 
-
-          } catch (error) {
-           
-          } finally {
-            setLoading(false);
+          const sellerData = response.data;
+          if (sellerData && sellerData.seller && sellerData.seller.banks && sellerData.seller.banks.length > 0) {
+            const banco = sellerData.seller.banks[0];
+            setValue('Banco', banco.code);
+            setValue('Agência', banco.agency);
+            setValue('Conta', banco.account);
+            setValue('pix', banco.pix);
+            setValue('TipoDeConta', banco.type_account);
+            setValue('CpfCnpj', banco.document);
           }
-        };
-        fetchSellerData();
+        } catch (error) {
+
+        } finally {
+          setLoading(false);
+        }
       }, [licensedId, dataUser?.token, setValue]);
+
+      useEffect(() => {
+        fetchSellerData();
+      }, [fetchSellerData]);
 
       const Banco = watch('Banco');
       const bancoSelecionado = bancos.options.find((option: { value: string; label: string }) => option.value === Banco);

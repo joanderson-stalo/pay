@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { useFormContext } from 'react-hook-form';
 import {  baseURL } from "@/config/color";
@@ -28,37 +28,39 @@ export function Step2({ Avançar, Voltar }: IStep2) {
 
   const allFieldsFilled = !!watch('CEP') && !!watch('Endereco') && !!watch('Numero') && !!watch('Bairro') && !!watch('Cidade') && !!watch('Estado');
 
-  useEffect(() => {
-    const fetchSellerData = async () => {
-      setLoading(true);
-      try {
-        const response = await axios.get(
-          `${baseURL}seller/show/${licensedId}`,
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${dataUser?.token}`,
-            },
-          }
-        );
+  const fetchSellerData = useCallback(async () => {
+    if (!licensedId) return;
 
-        const sellerData = response.data;
-        setValue('CEP', sellerData.seller.address_cep);
-        setValue('Endereco', sellerData.seller.address_street);
-        setValue('Numero', sellerData.seller.address_number);
-        setValue('Complemento', sellerData.seller.address_complement);
-        setValue('Bairro', sellerData.seller.address_neighborhood);
-        setValue('Cidade', sellerData.seller.address_city);
-        setValue('Estado', sellerData.seller.address_state);
-        setSellerData(response.data.seller);
-      } catch (error) {
-     
-      } finally {
-        setLoading(false);
+    setLoading(true);
+    try {
+      const response = await axios.get(`${baseURL}seller/show/${licensedId}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${dataUser?.token}`,
+        },
+      });
+
+      const sellerData = response.data.seller;
+      if (sellerData) {
+        setValue('CEP', sellerData.address_cep);
+        setValue('Endereco', sellerData.address_street);
+        setValue('Numero', sellerData.address_number);
+        setValue('Complemento', sellerData.address_complement);
+        setValue('Bairro', sellerData.address_neighborhood);
+        setValue('Cidade', sellerData.address_city);
+        setValue('Estado', sellerData.address_state);
+        setSellerData(sellerData);
       }
-    };
-    fetchSellerData();
+    } catch (error) {
+
+    } finally {
+      setLoading(false);
+    }
   }, [licensedId, dataUser?.token, setValue]);
+
+  useEffect(() => {
+    fetchSellerData();
+  }, [fetchSellerData]);
 
   const handleSalvar = async () => {
     try {
