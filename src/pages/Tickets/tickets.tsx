@@ -187,7 +187,7 @@ export function Tickets() {
           />
         </S.ContainerCard>
 
-        {tickets.length > 0 && (<>
+
           <S.Input isFocused={isFocused}>
               <input
                 type="text"
@@ -201,8 +201,6 @@ export function Tickets() {
                 <MagnifyingGlass />
               </S.SearchIcon>
             </S.Input>
-
-        </>) }
 
         <S.ContainerButton>
 
