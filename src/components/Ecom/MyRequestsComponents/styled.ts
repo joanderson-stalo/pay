@@ -1,5 +1,14 @@
 import styled from 'styled-components'
 
+
+type StatusType = "Pedido em separação" | "Pedido entregue" | "Pedido em atraso";
+
+const statusColors: Record<StatusType, string> = {
+  "Pedido em separação": "#CD7B001A",
+  "Pedido entregue": "#1786291A",
+  "Pedido em atraso": "#FF00001A"
+};
+
 export const ContainerRequests = styled.div`
   display: flex;
   justify-content: space-between;
@@ -8,7 +17,7 @@ export const ContainerRequests = styled.div`
   width: 100%;
   border-radius: 4px;
   background: #fff;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.05);
+  border: 1px solid #D1D1D1;
   padding: 16px 24px;
 `
 export const ButtonRequest = styled.button`
@@ -53,20 +62,29 @@ export const ButtonRequest = styled.button`
 export const NumberRequests = styled.span`
 
 
-color:  #FFF;
+color:  #202124;
 font-size: 12px;
 font-style: normal;
-font-weight: 600;
+font-weight: 400;
+line-height: normal;
+
+padding: 5px 8px;
+border-radius: 70px;
+border: 1px solid #F9F9F9;
+background: #F9F9F9;
+`
+
+export const NumberStatus = styled.span<{ status: StatusType }>`
+color:  #202124;
+font-size: 12px;
+font-style: normal;
+font-weight: 400;
 line-height: normal;
 
 padding: 5px 8px;
 border-radius: 4px;
-border: 1px solid #3C0A6D;
-background: #3C0A6D;
-`
-export const NumberStatus = styled(NumberRequests)`
-background:#CD7B00;
-border : 1px solid #CD7B00;
+
+background: ${props => statusColors[props.status]};
 `;
 
 export const Wrapper = styled.div`
@@ -75,3 +93,52 @@ export const Wrapper = styled.div`
   gap: 16px;
   margin-bottom: 8px;
 `
+
+export const ContentInfo = styled.div`
+
+
+`
+
+export const WrapperInfo = styled.div`
+
+  display: flex;
+  gap: 120px;
+
+  @media (max-width: 600px) {
+    gap: 30px;
+
+  }
+
+  @media (max-width: 420px) {
+
+    flex-direction: column;
+  }
+
+
+`
+
+export const TitleInfo = styled.h3`
+
+color: #202124;
+font-size: 16px;
+font-weight: 400;
+line-height: 24px;
+letter-spacing: 0.5px;
+
+
+
+`
+
+export const Info = styled.p`
+color: #202124;
+
+
+font-size: 12px;
+font-weight: 400;
+line-height: 14.1px;
+
+
+
+`
+
+
