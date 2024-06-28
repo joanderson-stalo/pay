@@ -20,6 +20,13 @@ export const ContainerCartDetail = styled.div`
   flex-direction: column;
 `
 
+export const ContentTitle = styled.div`
+
+display: flex;
+align-items: center;
+
+`
+
 export const ContainerTag = styled.div`
 border-radius: 4px;
 background:  rgba(205, 123, 0, 0.10);
@@ -28,18 +35,7 @@ display: flex;
 align-items: center;
 justify-content: space-between;
 
-> div{
-  display: flex;
-  align-items: center;
-   p {
-  color:  #202124;
-font-size: 12px;
-font-style: normal;
-font-weight: 400;
-line-height: 24px;
-letter-spacing: 0.5px;
-}
-}
+
 
 > button {
   color:  #007EC5;
@@ -52,10 +48,43 @@ letter-spacing: 0.5px;
 text-decoration-line: underline;
 background-color: transparent;
 }
+
+@media (max-width: 680px) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 `
 
+export const ContentWarning = styled.div`
 
-export const ButtonBack = styled.button`
+ >p {
+  color:  #202124;
+font-size: 12px;
+font-style: normal;
+font-weight: 400;
+line-height: 24px;
+letter-spacing: 0.5px;
+}
+
+@media (max-width: 680px) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  >p{
+    text-align: center;
+    line-height: 20px;
+  }
+}
+
+`;
+
+
+export const SubTitle= styled.p`
 color: #202124;
 
 font-size: 24px;
@@ -66,10 +95,7 @@ letter-spacing: 0.5px;
 text-align: start;
 align-items: center;
 
-background-color: transparent;
 
-> svg {
-  width: 20px;
-  height: 20px;
-}
+
+
 `

@@ -17,6 +17,10 @@ export const ContainerTitle = styled.div`
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 8px;
+
+  @media (max-width: 480px) {
+  gap: 12px;
+  }
 `
 
 export const Title = styled.h1<Color>`

@@ -1,6 +1,6 @@
-import React, { useState, ChangeEvent, useEffect } from 'react';
+import { useState, ChangeEvent, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { BackButton, ButtonContainer, ContainerInput, ContainerListProducts, ForwardButton, PaymentsTitle, Wrapper } from "./styled";
+import { BackButton, ButtonContainer, ButtonCopy, Codigo, ContainerInput, ContainerListProducts, ContentInfo, ContentPix, ContentQRcode, CopiaECola, DescriptionInfo, ForwardButton, PaymentsTitle, TitleInfo, Wrapper } from "./styled";
 import { HeaderListProducts } from "./components/HeaderListProducts/headerListProducts";
 import Cookies from 'js-cookie';
 import { InputCustom } from "@/components/Ecom/InputCustom/inputCustom";
@@ -8,11 +8,12 @@ import { Loading } from '@/components/Loading/loading';
 import { ToggleableRadioButton } from '@/components/Ecom/RadioButton/radioButton';
 import { Summary } from '@/components/Ecom/Summary/summary';
 import { PaymentsSuccess } from './Modules/PaymentsSucess/paymentsCart';
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import { baseURL } from '@/config/color';
 import { useLogin } from '@/context/user.login';
-import { TranslateErrorMessage } from '@/utils/translateErrorMessage';
+import iconCop from '@/assets/icons/iconCopy.svg'
 import { toast } from 'react-toastify';
+
 
 interface FormData {
   cpftitular: string;
@@ -137,10 +138,7 @@ export function PaymentsCart() {
       setIsPaymentSuccessful(true)
 
     } catch (error) {
-      const err = error as AxiosError<{ message: string }>;
-      const errorMessage = err.response?.data?.message || 'Ocorreu um error';
-      const translatedMessage = await TranslateErrorMessage(errorMessage);
-      toast.error(translatedMessage);
+
     } finally {
       setIsLoading(false);
     }
@@ -151,11 +149,25 @@ export function PaymentsCart() {
   };
 
   if (isPaymentSuccessful) {
-    return <PaymentsSuccess orderNumber={`#${orderNumber}`} />;
+    return <PaymentsSuccess orderNumber={orderNumber} />;
   }
 
   if (isLoading) {
     return <Loading />;
+  }
+
+  const copyTextRef = useRef<HTMLParagraphElement>(null)
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText('9324892837482372093012829423').then(() => {
+      toast.success('Pix copiado!', {
+        position: toast.POSITION.TOP_CENTER
+      })
+    }).catch(err => {
+      toast.error('Falha ao copiar!', {
+        position: toast.POSITION.TOP_CENTER
+      })
+    })
   }
 
   return (
@@ -191,8 +203,33 @@ export function PaymentsCart() {
           onChange={handleRadioChange}
         />
 
-{selectedPaymentMethod === 'PIX' &&      <img src="https://qr.appless.dev/pix/ffadd23cf144d7bad36ac98f8177e6" alt="" /> }
-   
+{selectedPaymentMethod === 'PIX' && (<>
+
+<ContentPix>
+  <ContentQRcode src="https://qr.appless.dev/pix/ffadd23cf144d7bad36ac98f8177e6" alt=""/>
+
+  <ContentInfo>
+    <TitleInfo>Pague por PIX</TitleInfo>
+    <DescriptionInfo>Abra a câmera do seu celular e aponte para o QR Code ou copie e cole o código abaixo</DescriptionInfo>
+
+
+    <CopiaECola>
+      <Codigo ref={copyTextRef}>00020101021126580014br.gov.bcb.pix01366616d678-01a4-44c4-8e6d-04197c1132b9520400005303986540520.005802BR5923TATYANA CARNEIRO MENDES6009SAO PAULO622905251J0VCW5D3F4DY1MHBGBVVKYPB6304185A</Codigo>
+      <ButtonCopy onClick={handleCopy}><img src={iconCop} alt="icone copia e cola" /> </ButtonCopy>
+    </CopiaECola>
+
+  </ContentInfo>
+
+</ContentPix>
+
+
+</>)
+
+
+
+
+
+  }
         <ToggleableRadioButton
           label="Débito por comissão"
           inputId="paymentMethod"

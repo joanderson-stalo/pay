@@ -90,11 +90,13 @@ export function QRcodeCPF() {
               <S.TitleCell>Código copia e cola</S.TitleCell>
 
               <S.CopiaECola>
+                
                 <S.Codigo ref={copyTextRef}>{transaction.pix.code}</S.Codigo>
 
                 <S.ButtonCopy onClick={handleCopy}>
                   <img src={iconCop} alt="icone copia e cola" />
                 </S.ButtonCopy>
+
               </S.CopiaECola>
 
             </S.ContainerDescri>
