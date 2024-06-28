@@ -138,8 +138,16 @@ gap: 25px;
   gap: 20px;
 }
 
+
+
 @media (max-width: 600px) {
   gap: 15px;
+}
+
+@media (max-width: 480px) {
+  flex-wrap: wrap;
+  gap: 5px;
+
 }
 
 `

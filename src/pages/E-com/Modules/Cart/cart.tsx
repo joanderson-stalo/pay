@@ -1,4 +1,4 @@
-import { ButtonBack, ContainerCartDetail, ContainerListProducts, ContainerTag } from "./styled";
+import { ContainerCartDetail, ContainerListProducts, ContainerTag, ContentTitle, ContentWarning, SubTitle } from "./styled";
 import { HeaderListProducts } from "./components/HeaderListProducts/headerListProducts";
 import { CartDetail } from "@/components/Ecom/CartDetail/cartDetail";
 import { useCart } from "@/context/e-com/cart";
@@ -6,6 +6,7 @@ import { OrderSummary } from "@/components/Ecom/OrderSummary/orderSummary";
 import { NotCart } from "@/components/Ecom/Not-Cart/notCart";
 import { CaretLeft, WarningCircle } from "@phosphor-icons/react";
 import { useNavigate } from "react-router-dom";
+import { ArrowBack } from "@/components/BtnArrowBack/btnArrowBack";
 
 interface Product {
   id: number;
@@ -35,13 +36,19 @@ export function Cart() {
           <HeaderListProducts />
           <ContainerListProducts>
             <ContainerCartDetail>
-            <ButtonBack type="button" onClick={handleBack}><CaretLeft /> Carrinho de compras</ButtonBack>
+
+              <ContentTitle>
+                <ArrowBack/>
+                <SubTitle>Carrinho de compras</SubTitle>
+              </ContentTitle>
+
               <ContainerTag>
-              <div>
-              <WarningCircle  style={{ marginRight: 8 }} />
-              <p>Não esqueça de adicionar os produtos periféricos como carregadores e chips</p>
-              </div>
-              <button type="button" >comprar periféricos</button>
+                <ContentWarning>
+                <WarningCircle  style={{ marginRight: 8 }} />
+                <p>Não esqueça de adicionar os produtos periféricos como carregadores e chips</p>
+                </ContentWarning>
+
+              <button onClick={handleBack} type="button" >comprar periféricos</button>
               </ContainerTag>
 
               <CartDetail products={products} />
