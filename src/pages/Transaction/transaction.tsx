@@ -6,7 +6,7 @@ import { PaginaView } from '@/components/PaginaView/paginaView'
 import { ItensPorPage } from '@/components/ItensPorPage/itensPorPage'
 import { Pagination } from '@/components/Pagination/pagination'
 import { Loading } from '@/components/Loading/loading'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import { baseURL } from '@/config/color'
 import { useLogin } from '@/context/user.login'
 import { CardSales } from './Mobile/CardSales/cardSales'
@@ -28,6 +28,7 @@ import { TagFilter } from '@/components/TagFilter/tagFilter'
 import { ITransaction } from './components/table/interface'
 import { toast } from 'react-toastify'
 import { NoteData } from '@/components/NoteData/noteData'
+import { TranslateErrorMessage } from '@/utils/translateErrorMessage'
 
 export function Transaction() {
   const [searchValue, setSearchValue] = useState('')
@@ -112,7 +113,10 @@ export function Transaction() {
         setTotalAmount(data.net_value)
         setAverageTaxApplied(data.average_taxApplied)
       } catch (error) {
-       
+        const err = error as AxiosError<{ message: string }>;
+        const errorMessage = err.response?.data?.message || 'Ocorreu um error';
+        const translatedMessage = await TranslateErrorMessage(errorMessage);
+        toast.error(translatedMessage);
       } finally {
         setLoading(false)
       }

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useLogin } from '@/context/user.login';
 import {
   ButtonBlack,
@@ -29,6 +29,8 @@ import { CaretLeft } from '@phosphor-icons/react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowBack } from '@/components/BtnArrowBack/btnArrowBack';
 import { Title } from './styled';
+import { toast } from 'react-toastify';
+import { TranslateErrorMessage } from '@/utils/translateErrorMessage';
 
 
 interface Rate {
@@ -94,7 +96,10 @@ export function PlansDetails() {
       );
       setPlanData(response.data);
     } catch (error) {
-
+      const err = error as AxiosError<{ message: string }>;
+      const errorMessage = err.response?.data?.message || 'Ocorreu um error';
+      const translatedMessage = await TranslateErrorMessage(errorMessage);
+      toast.error(translatedMessage);
     } finally {
       setLoading(false);
     }

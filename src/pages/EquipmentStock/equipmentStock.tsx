@@ -5,7 +5,7 @@ import { ItensPorPage } from '@/components/ItensPorPage/itensPorPage';
 import { Pagination } from '@/components/Pagination/pagination';
 import { FunnelSimple, MagnifyingGlass } from '@phosphor-icons/react';
 import { useLogin } from '@/context/user.login';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { Loading } from '@/components/Loading/loading';
 import { CardInfo } from '../../components/CardInfo/cardInfo';
 import { StockCard } from './Mobile/StockCard/stockCard';
@@ -18,6 +18,8 @@ import { BtnFilterModal } from '@/components/BtnFilterModal/btnFilterModal';
 import { CustomSelect } from '@/components/Select/select';
 import { TagFilter } from '@/components/TagFilter/tagFilter';
 import { NoteData } from '@/components/NoteData/noteData';
+import { TranslateErrorMessage } from '@/utils/translateErrorMessage';
+import { toast } from 'react-toastify';
 
 export function EquipmentStock() {
   const [itensPorPage, setItensPorPage] = useState<number | ''>(10);
@@ -141,7 +143,10 @@ export function EquipmentStock() {
       }));
       setFetchedOptionsFN(options);
     } catch (error) {
-
+      const err = error as AxiosError<{ message: string }>;
+      const errorMessage = err.response?.data?.message || 'Ocorreu um error';
+      const translatedMessage = await TranslateErrorMessage(errorMessage);
+      toast.error(translatedMessage);
     }
   }, [dataUser?.token]);
 

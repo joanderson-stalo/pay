@@ -13,6 +13,7 @@ import { CartProvider } from './e-com/cart';
 import { PlanIDProvider } from './id/planID';
 import { PaymentIDProvider } from './id/paymentsID';
 import { OrderPixProvider } from './id/orderPixID';
+import { OrderPixEcomProvider } from './e-com/orderPix';
 
 type TenantData = {
   name: string;
@@ -54,10 +55,11 @@ export function AppProvider({ children, tenantData }: AppProviderProps) {
                           <CartProvider>
                             <PlanIDProvider>
                               <PaymentIDProvider>
+                                <OrderPixEcomProvider>
 <OrderPixProvider>
                       {children}
                       </OrderPixProvider>
-
+                      </OrderPixEcomProvider>
                       </PaymentIDProvider>
                       </PlanIDProvider>
                       </CartProvider>

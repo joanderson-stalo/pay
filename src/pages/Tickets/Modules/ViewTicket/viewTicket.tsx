@@ -1,6 +1,6 @@
 import { baseURL } from '@/config/color'
 import { useLogin } from '@/context/user.login'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import { useCallback, useEffect, useState } from 'react'
 import defaultPhoto from '@assets/icons/perfil.svg'
 import { decode as base64Decode } from 'base-64'
@@ -14,6 +14,8 @@ import './styles.css'
 import { useTenantData } from '@/context'
 import s3Client from '@/s3Config'
 import { PutObjectCommand } from '@aws-sdk/client-s3'
+import { TranslateErrorMessage } from '@/utils/translateErrorMessage'
+import { toast } from 'react-toastify'
 
 interface IMessage {
   From: string
@@ -120,7 +122,10 @@ export function ViewTicket() {
         setIsClosed(true)
       }
     } catch (error) {
-   
+      const err = error as AxiosError<{ message: string }>;
+      const errorMessage = err.response?.data?.message || 'Ocorreu um error';
+      const translatedMessage = await TranslateErrorMessage(errorMessage);
+      toast.error(translatedMessage);
     } finally {
       setLoading(false)
     }
@@ -172,6 +177,10 @@ export function ViewTicket() {
       setNewMessage('')
       setFiles(null);
     } catch (error) {
+      const err = error as AxiosError<{ message: string }>;
+      const errorMessage = err.response?.data?.message || 'Ocorreu um error';
+      const translatedMessage = await TranslateErrorMessage(errorMessage);
+      toast.error(translatedMessage);
     } finally {
       setLoading(false)
     }
@@ -208,7 +217,10 @@ export function ViewTicket() {
             navigate('/tickets');
           });
         } catch (error) {
-
+          const err = error as AxiosError<{ message: string }>;
+          const errorMessage = err.response?.data?.message || 'Ocorreu um error';
+          const translatedMessage = await TranslateErrorMessage(errorMessage);
+          toast.error(translatedMessage);
         } finally {
           setLoading(false);
         }

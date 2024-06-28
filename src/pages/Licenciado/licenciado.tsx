@@ -6,7 +6,7 @@ import { ItensPorPage } from '@/components/ItensPorPage/itensPorPage'
 import { Pagination } from '@/components/Pagination/pagination'
 import { LicenciadoHeader } from './components/licenciadoHeader/licenciadoHeader'
 import { useLogin } from '@/context/user.login'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import { Loading } from '@/components/Loading/loading'
 import { LicensedCard } from './mobile/LicenciadosCard/licensedCard'
 import { baseURL } from '@/config/color'
@@ -15,6 +15,8 @@ import { CustomSelect } from '@/components/Select/select'
 import { TagFilter } from '@/components/TagFilter/tagFilter'
 import { MagnifyingGlass } from '@phosphor-icons/react'
 import { NoteData } from '@/components/NoteData/noteData'
+import { TranslateErrorMessage } from '@/utils/translateErrorMessage'
+import { toast } from 'react-toastify'
 
 export function Licenciado() {
   const [itensPorPage, setItensPorPage] = useState<number | ''>(10)
@@ -64,6 +66,10 @@ export function Licenciado() {
         setTotalSellers(response.data.total_sellers)
         setCurrentPage(response.data.current_page)
       } catch (error) {
+        const err = error as AxiosError<{ message: string }>;
+        const errorMessage = err.response?.data?.message || 'Ocorreu um error';
+        const translatedMessage = await TranslateErrorMessage(errorMessage);
+        toast.error(translatedMessage);
       } finally {
         setLoading(false)
       }

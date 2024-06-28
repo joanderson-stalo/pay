@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { TitleH } from "@/components/Title/title";
 import { TabelaLog } from "./components/TabelaLog/tabelaLog";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useLogin } from "@/context/user.login";
 import { baseURL } from "@/config/color";
 import { Loading } from "@/components/Loading/loading";
@@ -10,6 +10,8 @@ import { Pagination } from '@/components/Pagination/pagination';
 import * as S from './styled'
 import { PaginaView } from '@/components/PaginaView/paginaView';
 import { CardLog } from './mobile/CardLog/cardLog';
+import { TranslateErrorMessage } from '@/utils/translateErrorMessage';
+import { toast } from 'react-toastify';
 
 export function Log(){
   const { dataUser } = useLogin();
@@ -34,7 +36,10 @@ export function Log(){
       setLogs(response.data.logs);
       setTotalLog(response.data.total_logs);
     } catch (error) {
-    
+      const err = error as AxiosError<{ message: string }>;
+      const errorMessage = err.response?.data?.message || 'Ocorreu um error';
+      const translatedMessage = await TranslateErrorMessage(errorMessage);
+      toast.error(translatedMessage);
     } finally {
       setLoading(false);
     }

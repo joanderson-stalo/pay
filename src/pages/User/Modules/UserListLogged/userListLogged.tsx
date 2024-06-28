@@ -1,5 +1,5 @@
 import  { useEffect, useState, useCallback } from 'react';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useLogin } from '@/context/user.login';
 import { Container, ContainerMobile } from './styled';
 import { baseURL } from '@/config/color';
@@ -9,6 +9,7 @@ import { CardUserLogged } from './components/Mobile/CardUserLoggerd/cardUserLogg
 import { CustomTableUserList } from './components/CustomTableUserList/table';
 import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';
+import { TranslateErrorMessage } from '@/utils/translateErrorMessage';
 
 type User = {
   id: number;
@@ -38,7 +39,10 @@ export function UserListLogged() {
         setRelatedUsers(response.data.related_users);
       }
     } catch (error) {
-
+      const err = error as AxiosError<{ message: string }>;
+      const errorMessage = err.response?.data?.message || 'Ocorreu um error';
+      const translatedMessage = await TranslateErrorMessage(errorMessage);
+      toast.error(translatedMessage);
     } finally {
       setLoading(false);
     }
@@ -55,7 +59,10 @@ export function UserListLogged() {
       });
       toast.info('E-mail de recuperação enviado');
     } catch (error) {
-      toast.error('Algo deu errado');
+      const err = error as AxiosError<{ message: string }>;
+      const errorMessage = err.response?.data?.message || 'Ocorreu um error';
+      const translatedMessage = await TranslateErrorMessage(errorMessage);
+      toast.error(translatedMessage);
     } finally {
       setLoading(false);
     }

@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { TitleH } from '@/components/Title/title';
 import { UsefulLinkCard } from './components/UsefulLinkCard';
 import { useLogin } from '@/context/user.login';
@@ -14,6 +14,8 @@ import {
 import { Loading } from '@/components/Loading/loading';
 import { baseURL } from '@/config/color';
 import { NoteData } from '@/components/NoteData/noteData';
+import { TranslateErrorMessage } from '@/utils/translateErrorMessage';
+import { toast } from 'react-toastify';
 
 interface UsefulLink {
   title: string;
@@ -42,7 +44,10 @@ export function Documents() {
         }
       }
     } catch (error) {
-     
+      const err = error as AxiosError<{ message: string }>;
+      const errorMessage = err.response?.data?.message || 'Ocorreu um error';
+      const translatedMessage = await TranslateErrorMessage(errorMessage);
+      toast.error(translatedMessage);
     } finally {
       setLoading(false);
     }

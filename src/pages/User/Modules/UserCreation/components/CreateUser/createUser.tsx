@@ -108,7 +108,10 @@ export function CreateUser() {
       setProfiles({ options: transformedProfiles });
      
     } catch (error) {
-
+      const err = error as AxiosError<{ message: string }>;
+      const errorMessage = err.response?.data?.message || 'Ocorreu um error';
+      const translatedMessage = await TranslateErrorMessage(errorMessage);
+      toast.error(translatedMessage);
     }
   };
 

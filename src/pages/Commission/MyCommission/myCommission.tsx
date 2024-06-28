@@ -9,13 +9,15 @@ import { HeaderCommission } from './components/HeaderCommission/headerCommission
 import { TabelaRankingCommission } from './components/TabelaRankingCommission/tabelaRankingCommission'
 import { RankingCard } from './Mobile/RankingCard/rankingCard'
 import { baseURL } from '@/config/color'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import { CardInfo } from '@/components/CardInfo/cardInfo'
 import { TagFilter } from '@/components/TagFilter/tagFilter'
 import { CustomInput } from '@/components/Input/input'
 import { BtnFilterModal } from '@/components/BtnFilterModal/btnFilterModal'
 import { useTenantData } from '@/context'
 import { NoteData } from '@/components/NoteData/noteData'
+import { TranslateErrorMessage } from '@/utils/translateErrorMessage'
+import { toast } from 'react-toastify'
 
 interface CommissionData {
   ec_seller_document: string;
@@ -98,7 +100,10 @@ export function MyCommission() {
       setTotalCommissionsByEC(totalCommissions);
 
     } catch (error) {
-
+      const err = error as AxiosError<{ message: string }>;
+      const errorMessage = err.response?.data?.message || 'Ocorreu um error';
+      const translatedMessage = await TranslateErrorMessage(errorMessage);
+      toast.error(translatedMessage);
     } finally {
       setLoading(false);
     }

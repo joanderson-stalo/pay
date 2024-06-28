@@ -9,6 +9,9 @@ import * as S from './styled';
 import { LatestSales } from "./components/LatestSales/latestSales";
 import { TopEstabelecimentos } from "./components/TopEstabelecimento/topEstabelecimentos";
 import { TitleH } from "@/components/Title/title";
+import { AxiosError } from "axios";
+import { TranslateErrorMessage } from "@/utils/translateErrorMessage";
+import { toast } from "react-toastify";
 
 interface HourlyTransactionTotals {
   [hour: string]: string;
@@ -60,7 +63,10 @@ export function LAHome() {
       const data: HomeData = await response.json();
       setHomeData(data);
     } catch (error) {
-
+      const err = error as AxiosError<{ message: string }>;
+      const errorMessage = err.response?.data?.message || 'Ocorreu um error';
+      const translatedMessage = await TranslateErrorMessage(errorMessage);
+      toast.error(translatedMessage);
     } finally {
       setIsLoading(false);
     }

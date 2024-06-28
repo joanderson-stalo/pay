@@ -8,9 +8,11 @@ import { Loading } from '@/components/Loading/loading';
 import { ToggleableRadioButton } from '@/components/Ecom/RadioButton/radioButton';
 import { Summary } from '@/components/Ecom/Summary/summary';
 import { PaymentsSuccess } from './Modules/PaymentsSucess/paymentsCart';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { baseURL } from '@/config/color';
 import { useLogin } from '@/context/user.login';
+import { TranslateErrorMessage } from '@/utils/translateErrorMessage';
+import { toast } from 'react-toastify';
 
 interface FormData {
   cpftitular: string;
@@ -135,7 +137,10 @@ export function PaymentsCart() {
       setIsPaymentSuccessful(true)
 
     } catch (error) {
-
+      const err = error as AxiosError<{ message: string }>;
+      const errorMessage = err.response?.data?.message || 'Ocorreu um error';
+      const translatedMessage = await TranslateErrorMessage(errorMessage);
+      toast.error(translatedMessage);
     } finally {
       setIsLoading(false);
     }
@@ -146,7 +151,7 @@ export function PaymentsCart() {
   };
 
   if (isPaymentSuccessful) {
-    return <PaymentsSuccess orderNumber={orderNumber} />;
+    return <PaymentsSuccess orderNumber={`#${orderNumber}`} />;
   }
 
   if (isLoading) {

@@ -2,7 +2,7 @@
 import * as S from './styled';
 import { useEffect, useState } from 'react';
 import { useLogin } from '@/context/user.login';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { Loading } from '@/components/Loading/loading';
 import { CardInfo } from '../../components/CardInfo/cardInfo';
 import { HeaderExtract } from './components/HeaderExtract/headerExtract';
@@ -14,6 +14,8 @@ import { CustomInput } from '@/components/Input/input';
 import { useTenantData } from '@/context';
 import { TagFilter } from '@/components/TagFilter/tagFilter';
 import { NoteData } from '@/components/NoteData/noteData';
+import { TranslateErrorMessage } from '@/utils/translateErrorMessage';
+import { toast } from 'react-toastify';
 
 export function Extract() {
   const [filter, setFilter] = useState(false);
@@ -60,7 +62,10 @@ export function Extract() {
       setOutflowsToday(outflows_today);
       setStatement(statement);
     } catch (error) {
-
+      const err = error as AxiosError<{ message: string }>;
+      const errorMessage = err.response?.data?.message || 'Ocorreu um error';
+      const translatedMessage = await TranslateErrorMessage(errorMessage);
+      toast.error(translatedMessage);
     } finally {
       setLoading(false);
     }

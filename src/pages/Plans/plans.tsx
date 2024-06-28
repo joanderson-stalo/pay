@@ -11,8 +11,10 @@ import { PlansCard } from './Mobile/PlansCard';
 
 import { baseURL } from '@/config/color';
 import { MagnifyingGlass } from '@phosphor-icons/react';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { NoteData } from '@/components/NoteData/noteData';
+import { toast } from 'react-toastify';
+import { TranslateErrorMessage } from '@/utils/translateErrorMessage';
 
 interface Plan {
   id: number;
@@ -77,7 +79,10 @@ export function Plans() {
         setPlans(transformedPlans);
         setTotalPages(response.data.last_page);
       } catch (error) {
-
+        const err = error as AxiosError<{ message: string }>;
+        const errorMessage = err.response?.data?.message || 'Ocorreu um error';
+        const translatedMessage = await TranslateErrorMessage(errorMessage);
+        toast.error(translatedMessage);
       } finally {
         setLoading(false);
       }

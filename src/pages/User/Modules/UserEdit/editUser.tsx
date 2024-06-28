@@ -67,7 +67,7 @@ export function EditUser() {
   };
 
   const onSubmit = handleSubmit(async (data) => {
-    if (isValid && isDirty) { // Verificar se os dados são válidos e se houve alterações
+    if (isValid && isDirty) { 
       Swal.fire({
         title: "Você deseja salvar as alterações?",
         showDenyButton: true,

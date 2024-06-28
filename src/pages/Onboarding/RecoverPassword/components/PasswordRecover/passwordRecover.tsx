@@ -3,7 +3,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import { IoIosArrowBack } from 'react-icons/io';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useState } from 'react';
 
 import {
@@ -30,6 +30,7 @@ import { BeatLoader } from 'react-spinners';
 import { toast } from 'react-toastify';
 import { Loading } from '@/components/Loading/loading';
 import { useTenantData } from '@/context';
+import { TranslateErrorMessage } from '@/utils/translateErrorMessage';
 
 type FormData = {
   email: string;
@@ -65,7 +66,10 @@ export function PasswordRecover() {
         type: 'manual',
         message: 'E-mail não localizado no nosso banco de dados.',
       });
-      toast.error('E-mail não encontrado')
+      const err = error as AxiosError<{ message: string }>;
+      const errorMessage = err.response?.data?.message || 'Ocorreu um error';
+      const translatedMessage = await TranslateErrorMessage(errorMessage);
+      toast.error(translatedMessage);
     }
     finally{
       setIsSubmitting(false);

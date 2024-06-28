@@ -9,7 +9,7 @@ import { Loading } from '@/components/Loading/loading'
 import { HeaderCommission } from './components/HeaderCommission/headerCommission'
 import { CardInfo } from '@/components/CardInfo/cardInfo'
 import { ToDayCommisionCard } from './Mobile/ToDayCommisionCard/toDayCommisionCard'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import { baseURL } from '@/config/color'
 import { TabelaNetWordkCommission } from './components/TabelaNetWordkCommission/tabelaNetWordkCommission'
 import { BtnFilterModal } from '@/components/BtnFilterModal/btnFilterModal'
@@ -17,6 +17,8 @@ import { CustomInput } from '@/components/Input/input'
 import { useTenantData } from '@/context'
 import { TagFilter } from '@/components/TagFilter/tagFilter'
 import { NoteData } from '@/components/NoteData/noteData'
+import { toast } from 'react-toastify'
+import { TranslateErrorMessage } from '@/utils/translateErrorMessage'
 
 
 interface CommissionData {
@@ -109,7 +111,10 @@ export function NetWorkCommission() {
       setTotalCommissionsByEC(totalCommissions);
 
     } catch (error) {
-
+      const err = error as AxiosError<{ message: string }>;
+      const errorMessage = err.response?.data?.message || 'Ocorreu um error';
+      const translatedMessage = await TranslateErrorMessage(errorMessage);
+      toast.error(translatedMessage);
     } finally {
       setLoading(false);
     }

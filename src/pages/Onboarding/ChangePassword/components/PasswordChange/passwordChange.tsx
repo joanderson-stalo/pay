@@ -28,10 +28,11 @@ import { ContainerSubmit, ContextTitle } from '@/styles/default';
 import { MessageError } from '@/components/MessageError/messageError';
 import { MessageErrorList } from '@/components/MessageErrorList/messageErrorList';
 import { StyledP } from '@/components/MessageErrorList/styled';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { toast } from 'react-toastify';
 import { Loading } from '@/components/Loading/loading';
 import { useTenantData } from '@/context';
+import { TranslateErrorMessage } from '@/utils/translateErrorMessage';
 
 type FormData = {
   password: string;
@@ -83,7 +84,10 @@ export function PasswordChange({ email, token }: Props) {
         setSuccess(true);
       }
     } catch (error) {
-      toast.error('Token invalido')
+      const err = error as AxiosError<{ message: string }>;
+      const errorMessage = err.response?.data?.message || 'Ocorreu um error';
+      const translatedMessage = await TranslateErrorMessage(errorMessage);
+      toast.error(translatedMessage);
     }
     finally{
       setIsSubmitting(false);

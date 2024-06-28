@@ -44,7 +44,10 @@ export function AddTickets() {
       }));
       setFetchedOptionsFN(options);
     } catch (error) {
-      toast.error('Houve um erro ao buscar os dados do fornecedor');
+      const err = error as AxiosError<{ message: string }>;
+      const errorMessage = err.response?.data?.message || 'Ocorreu um error';
+      const translatedMessage = await TranslateErrorMessage(errorMessage);
+      toast.error(translatedMessage);
     } finally{
       setLoading(false);
     }
@@ -65,7 +68,10 @@ export function AddTickets() {
       }));
       setTicketTypes(options);
     } catch (error) {
-      toast.error('Houve um erro ao buscar os dados do tickets');
+      const err = error as AxiosError<{ message: string }>;
+      const errorMessage = err.response?.data?.message || 'Ocorreu um error';
+      const translatedMessage = await TranslateErrorMessage(errorMessage);
+      toast.error(translatedMessage);
     }finally{
       setLoading(false);
     }
@@ -87,7 +93,10 @@ export function AddTickets() {
       }));
       setSellerEC(options)
     } catch (error) {
-      toast.error('Houve um erro ao buscar os dados do estabelecimento');
+      const err = error as AxiosError<{ message: string }>;
+      const errorMessage = err.response?.data?.message || 'Ocorreu um error';
+      const translatedMessage = await TranslateErrorMessage(errorMessage);
+      toast.error(translatedMessage);
     }finally{
       setLoading(false);
     }
@@ -109,7 +118,10 @@ export function AddTickets() {
       }));
       setSellerLA(options)
     } catch (error) {
-      toast.error('Houve um erro ao buscar os dados do licenciado');
+      const err = error as AxiosError<{ message: string }>;
+      const errorMessage = err.response?.data?.message || 'Ocorreu um error';
+      const translatedMessage = await TranslateErrorMessage(errorMessage);
+      toast.error(translatedMessage);
     } finally {
       setLoading(false);
     }

@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { ItensPorPage } from '@/components/ItensPorPage/itensPorPage'
 import { Pagination } from '@/components/Pagination/pagination'
 import { useLogin } from '@/context/user.login'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import { Loading } from '@/components/Loading/loading'
 import { CardInfo } from '../../components/CardInfo/cardInfo'
 import { TicketsCardMobile } from './Mobile/TicketsCardMobile/ticketsCardMobile'
@@ -17,6 +17,8 @@ import { useTenantData } from '@/context'
 import { TagFilter } from '@/components/TagFilter/tagFilter'
 import { MagnifyingGlass } from '@phosphor-icons/react'
 import { NoteData } from '@/components/NoteData/noteData'
+import { TranslateErrorMessage } from '@/utils/translateErrorMessage'
+import { toast } from 'react-toastify'
 
 
 export function Tickets() {
@@ -69,7 +71,10 @@ export function Tickets() {
       setClosedTickets(response.data.completed_tickets);
       setProcessingTickets(response.data.processing_tickets);
     } catch (error) {
-
+      const err = error as AxiosError<{ message: string }>;
+      const errorMessage = err.response?.data?.message || 'Ocorreu um error';
+      const translatedMessage = await TranslateErrorMessage(errorMessage);
+      toast.error(translatedMessage);
     } finally {
       setLoading(false);
     }
