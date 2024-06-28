@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 import {
   ButtonAvançar,
@@ -53,70 +53,76 @@ export function Step3({ Avançar, Voltar }: IStep3) {
 
   const allFieldsFilled = !!watch('licenciado');
 
-  useEffect(() => {
-    if (licensedId) {
-      setLoading(true);
-      axios.get(`${baseURL}seller/indexla`, {
+  const fetchSellers = useCallback(async () => {
+    if (!licensedId) return;
+
+    setLoading(true);
+    try {
+      const response = await axios.get(`${baseURL}seller/indexla`, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${dataUser?.token}`
         }
-      })
-        .then(response => {
-          const data = response.data;
+      });
 
-          if (data && data.sellers) {
-            const options = data.sellers
-              .filter((seller: { id: string }) => seller.id === licensedId)
-              .map((seller: { trading_name: any; type: any; id: any, document: any }, index: number) => ({
-                value: seller.id,
-                label: `${seller.trading_name}-${seller.type}-${seller.document}`
-              }));
+      const data = response.data;
+      if (data && data.sellers) {
+        const numericLicensedId = Number(licensedId);
+        const options = data.sellers
+          .filter((seller: { id: string }) => Number(seller.id) !== numericLicensedId)
+          .map((seller: { id: any; trading_name: any; type: any; document: any }) => ({
+            value: seller.id,
+            label: `${seller.trading_name}-${seller.type}-${seller.document}`
+          }));
 
-            setFetchedOptions(options);
-          }
-          setLoading(false);
-        })
-        .catch(error => {
-          setLoading(false);
-          console.error('Erro ao buscar vendedores', error);
-        });
+        setFetchedOptions(options);
+      } else {
+        setFetchedOptions([]);
+      }
+    } catch (error) {
+
+    } finally {
+      setLoading(false);
     }
   }, [dataUser?.token, licensedId]);
 
   useEffect(() => {
-    const fetchSellerData = async () => {
-      if (licensedId) {
-        setLoading(true);
-        try {
-          const response = await axios.get(
-            `${baseURL}seller/show/${licensedId}`,
-            {
-              headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${dataUser?.token}`,
-              },
-            }
-          );
+    fetchSellers();
+  }, [fetchSellers]);
 
-          const sellerData = response.data.seller;
 
-          const markup = parseFloat(sellerData.markup.replace(',', '.'));
-          const formattedMarkup = markup.toFixed(2).replace('.', ',');
 
-          setValue('licenciado', sellerData.seller_la.id_la);
-          setValue('RegraMarkup', formattedMarkup);
 
-          setSellerData(sellerData);
-        } catch (error) {
-          console.error('Erro ao buscar dados do vendedor', error);
-        } finally {
-          setLoading(false);
-        }
-      }
-    };
-    fetchSellerData();
+  const fetchSellerData = useCallback(async () => {
+    if (!licensedId) return;
+
+    setLoading(true);
+    try {
+      const response = await axios.get(`${baseURL}seller/show/${licensedId}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${dataUser?.token}`,
+        },
+      });
+
+      const sellerData = response.data.seller;
+      const markup = parseFloat(sellerData.markup.replace(',', '.'));
+      const formattedMarkup = markup.toFixed(2).replace('.', ',');
+
+      setValue('licenciado', sellerData.seller_la.id_la);
+      setValue('RegraMarkup', formattedMarkup);
+      setSellerData(sellerData);
+    } catch (error) {
+
+    } finally {
+      setLoading(false);
+    }
   }, [licensedId, dataUser?.token, setValue]);
+
+
+  useEffect(() => {
+    fetchSellerData();
+  }, [fetchSellerData]);
 
   const handleSalvar = async () => {
     try {
