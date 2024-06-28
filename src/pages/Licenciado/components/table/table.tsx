@@ -144,12 +144,12 @@ export function Tabela({ rows }: TabelaProps) {
             <S.TableData>{seller.id}</S.TableData>
             <S.TableData>{seller.document ? maskCpfCnpj(seller.document) : '-'}</S.TableData>
             <S.TableData style={{maxWidth: "150px"}}>{seller.trading_name ? seller.trading_name : seller.owner_name}</S.TableData>
-            <S.TableData>{seller.type} {seller.network_index}</S.TableData>
+            <S.TableData>{seller.type} {seller.type !== 'WL' && seller.network_index  } </S.TableData>
             <S.TableData>{seller.ec_count}</S.TableData>
             <S.TableData>{formatToBRL(parseFloat(seller.commission.replace(',', '.')))}</S.TableData>
             <S.TableData>{formatToBRL(seller.tpv)}</S.TableData>
             <S.TableData>
-              <S.Button  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} onClick={() => handleViewMoreClick(seller.id.toString())}>Dados</S.Button>
+            {seller.type !== 'WL' && <S.Button  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} onClick={() => handleViewMoreClick(seller.id.toString())}>Dados</S.Button> }
             </S.TableData>
           </tr>
         ))}

@@ -7,6 +7,8 @@ export const Container = styled.div`
   flex-direction: column;
   margin: 36px 20px 20px 20px;
 
+ 
+
 `
 
 export const ContextTitleVendas = styled.div``
