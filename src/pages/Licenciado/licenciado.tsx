@@ -207,9 +207,7 @@ export function Licenciado() {
           </>
         )}
 
-        {sellers.length > 0 && (
-          <>
-            <S.ContainerButton>
+<S.ContainerButton>
               <S.ContentFilter>
                 <BtnFilterModal
                   onClick={handleSaveToLocalStorage}
@@ -230,8 +228,6 @@ export function Licenciado() {
                 )}
               </S.ContentFilter>
             </S.ContainerButton>
-          </>
-        )}
 
         {sellers.length > 0 && (
           <>

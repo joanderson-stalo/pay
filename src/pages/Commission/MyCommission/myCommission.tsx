@@ -204,11 +204,7 @@ export function MyCommission() {
               />
             </S.ContainerCardVendas>
 
-            {Object.keys(commissionsByEC).length > 0 && (
-
-<>
-
-<S.ContainerButton>
+            <S.ContainerButton>
 
 
 
@@ -244,9 +240,6 @@ export function MyCommission() {
     <TagFilter filters={activeFilters} />
   )}
 </S.ContainerButton>
-</>
-
-) }
 
 
 {Object.keys(commissionsByEC).length > 0 && (<>

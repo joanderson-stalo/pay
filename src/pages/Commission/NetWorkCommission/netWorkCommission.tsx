@@ -200,9 +200,7 @@ export function NetWorkCommission() {
 
           </S.ContextTitleVendas>
 
-          {Object.keys(commissionsByEC).length > 0 && (<>
-
-            <S.ContainerButton>
+          <S.ContainerButton>
           <BtnFilterModal
             onClick={handleSaveToLocalStorage}
             disabled={!startDate || !endDate || endDate <= startDate}
@@ -235,7 +233,6 @@ export function NetWorkCommission() {
               <TagFilter filters={activeFilters} />
             )}
         </S.ContainerButton>
-          </>) }
 
           {Object.keys(commissionsByEC).length > 0 && (<>
             <TabelaNetWordkCommission commissions_by_EC={commissionsByEC} />

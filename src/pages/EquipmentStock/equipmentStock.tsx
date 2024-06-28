@@ -229,9 +229,8 @@ export function EquipmentStock() {
               </>
             ) }
 
-{products.length > 0 && (<>
 
-  <S.ContainerButton>
+<S.ContainerButton>
 
 <S.ContentFilter>
 
@@ -269,6 +268,10 @@ export function EquipmentStock() {
 
 
 </S.ContainerButton>
+
+{products.length > 0 && (<>
+
+
 
 
 <TableStock rows={products} />

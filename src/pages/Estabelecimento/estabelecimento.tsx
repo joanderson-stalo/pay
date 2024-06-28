@@ -227,8 +227,8 @@ export function Estabelecimento() {
       <S.Container>
         <EstabelecimentoHeader />
 
-        {sellers.length > 0 && (
-          <>
+
+          
             <S.Input isFocused={isFocused}>
               <input
                 type="text"
@@ -242,11 +242,9 @@ export function Estabelecimento() {
                 <MagnifyingGlass />
               </S.SearchIcon>
             </S.Input>
-          </>
-        )}
+      
 
-        {sellers.length > 0 && (
-          <>
+
             <S.ContainerButton>
               <S.ContenteFilter>
                 <BtnFilterModal
@@ -276,8 +274,8 @@ export function Estabelecimento() {
                 )}
               </S.ContenteFilter>
             </S.ContainerButton>
-          </>
-        )}
+
+
 
         {sellers.length > 0 && (
           <>

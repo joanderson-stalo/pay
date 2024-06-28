@@ -296,9 +296,7 @@ export function Transaction() {
           )}
         </S.ContextTitleVendas>
 
-        {transactions.length > 0 && (
-          <>
-            <S.ContainerButton>
+        <S.ContainerButton>
               <S.ContentFilter>
                 <BtnFilterModal
                   onClick={handleSaveToLocalStorage}
@@ -359,6 +357,10 @@ export function Transaction() {
 
               <ExportData title="Exportar dados" onClick={handleExportClick} />
             </S.ContainerButton>
+
+        {transactions.length > 0 && (
+          <>
+       
 
             <TabelaVendas rows={transactions} />
 

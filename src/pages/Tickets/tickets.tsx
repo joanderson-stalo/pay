@@ -204,8 +204,7 @@ export function Tickets() {
 
         </>) }
 
-        {tickets.length > 0 && (<>
-          <S.ContainerButton>
+        <S.ContainerButton>
 
 <BtnFilterModal
   disabled={!startDate || !endDate || endDate <= startDate}
@@ -237,6 +236,9 @@ export function Tickets() {
     <TagFilter filters={activeFilters} />
   )}
 </S.ContainerButton>
+
+        {tickets.length > 0 && (<>
+
 
 <TableTickets rows={tickets} />
 

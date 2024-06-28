@@ -206,21 +206,6 @@ export function Step3({ Avançar, Voltar }: IStep3) {
           }
         }
 
-        setDados(false);
-      } catch (error) {
-        console.error('Houve um erro ao buscar os dados:', error);
-        setDados(false);
-      }
-    };
-
-    fetchData();
-  }, [dataUser, watch]);
-
-  useEffect(() => {
-    const fetchPlans = async () => {
-      try {
-        setDados(true);
-
         const planData = JSON.parse(sessionStorage.getItem('planData') || 'null');
         if (planData) {
           setCommercialPlans(planData);
@@ -245,14 +230,37 @@ export function Step3({ Avançar, Voltar }: IStep3) {
 
         setDados(false);
       } catch (error) {
-        console.error('Erro ao buscar planos comerciais:', error);
-        setCommercialPlans([]);
+
         setDados(false);
       }
     };
 
-    fetchPlans();
+    fetchData();
   }, [dataUser]);
+
+  useEffect(() => {
+    const inputsFromSession = JSON.parse(sessionStorage.getItem('inputs') || '[{}]');
+    setInputs(inputsFromSession);
+
+    const selectedAcquiresFromSession = JSON.parse(sessionStorage.getItem('selectedAcquires') || '[]');
+    setSelectedAcquires(selectedAcquiresFromSession);
+
+    const selectedPlansFromSession = JSON.parse(sessionStorage.getItem('selectedPlans') || '[]');
+    setSelectedPlans(selectedPlansFromSession);
+  }, []);
+
+  useEffect(() => {
+    inputs.forEach((_, index) => {
+      const fornecedor = selectedAcquires[index];
+      const planoComercial = selectedPlans[index];
+      if (fornecedor) {
+        setValue(`Fornecedor${index}`, fornecedor);
+      }
+      if (planoComercial) {
+        setValue(`PlanoComercial${index}`, planoComercial);
+      }
+    });
+  }, [inputs, selectedAcquires, selectedPlans, setValue]);
 
   const licenciadoValue = watch('licenciado');
   const selectedOption = fetchedOptions.find(option => option.value === licenciadoValue);
