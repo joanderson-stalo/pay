@@ -129,6 +129,7 @@ export function Infos({ stepName }: InfosProps) {
                     />
                   </TipoConta>
                 </ContainerInput>
+
                 <ContainerInput>
                   <Agencia>
                     <CustomInput
@@ -139,6 +140,7 @@ export function Infos({ stepName }: InfosProps) {
                       hasSuccess={false}
                     />
                   </Agencia>
+
                   <Conta>
                     <CustomInput
                       {...register(`Conta${fieldSuffix}`)}
@@ -148,8 +150,8 @@ export function Infos({ stepName }: InfosProps) {
                       hasSuccess={false}
                     />
                   </Conta>
-                </ContainerInput>
-                <ContainerInput2>
+
+                  <ContainerInput2>
                   <CustomInput
                     colorInputDefault={tenantData.primary_color_identity}
                     colorInputSuccess={tenantData.secondary_color_identity}
@@ -159,6 +161,10 @@ export function Infos({ stepName }: InfosProps) {
                     onChange={handleCpfCnpjChange}
                   />
                 </ContainerInput2>
+
+                </ContainerInput>
+
+
               </ContainerForm>
             )}
           </ContextStep>
