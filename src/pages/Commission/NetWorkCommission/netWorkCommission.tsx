@@ -77,7 +77,7 @@ export function NetWorkCommission() {
   const fetchDataFromAPI = useCallback(async (search?: string) => {
     setLoading(true);
 
-    let url = `${baseURL}commisssion/la-network-commission?perpage=${String(itensPorPage)}&page=${currentPage}`;
+    let url = `${baseURL}commisssion/la-network-commission?per_page=${String(itensPorPage)}&page=${currentPage}`;
 
 
     const capturedInStart = localStorage.getItem('@startDateNetWorkCommission')

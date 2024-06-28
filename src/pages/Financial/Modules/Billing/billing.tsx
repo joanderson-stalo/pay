@@ -39,7 +39,7 @@ export function Billing() {
 
   const fetchData = useCallback(async (pageNumber: number = currentPage) => {
     setLoading(true);
-    let apiUrl = `${baseURL}tariffs/index?perpage=${String(itensPorPage)}&page=${pageNumber}&payable_by=EC`;
+    let apiUrl = `${baseURL}tariffs/index?per_page=${String(itensPorPage)}&page=${pageNumber}&payable_by=EC`;
 
     const billingStartDate = localStorage.getItem('@billingStartDate');
     if (billingStartDate && billingStartDate !== 'undefined') {

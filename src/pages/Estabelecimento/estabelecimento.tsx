@@ -40,7 +40,7 @@ export function Estabelecimento() {
     async (search?: string) => {
       setLoading(true)
 
-      let url = `${baseURL}seller/indexec?perpage=${String(
+      let url = `${baseURL}seller/indexec?per_page=${String(
         itensPorPage
       )}&page=${currentPage}`
 

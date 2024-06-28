@@ -35,7 +35,7 @@ export function Licenciado() {
     async (search?: string) => {
       setLoading(true)
 
-      let url = `${baseURL}seller/indexla?perpage=${String(
+      let url = `${baseURL}seller/indexla?per_page=${String(
         itensPorPage
       )}&page=${currentPage}`
 

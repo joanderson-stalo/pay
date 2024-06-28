@@ -40,7 +40,7 @@ export function EquipmentStock() {
 
   const fetchData = useCallback(async (search?: string) => {
     setLoading(true);
-    let apiUrl = `${baseURL}products/index?perpage=${String(itensPorPage)}&page=${currentPage}`;
+    let apiUrl = `${baseURL}products/index?per_page=${String(itensPorPage)}&page=${currentPage}`;
     if (search) {
       apiUrl += `&serial_number=${search}`;
     }

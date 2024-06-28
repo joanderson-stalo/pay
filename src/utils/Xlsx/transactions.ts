@@ -35,7 +35,7 @@ export const TransactionsToExcel = async (token: string) => {
     let totalPages = 1;
 
     do {
-      const response = await axios.get( `${baseURL}transactions?perpage=1000000000000000000000000`, { headers });
+      const response = await axios.get( `${baseURL}transactions?per_page=1000000000000000000000000`, { headers });
       const { data } = response;
       totalPages = data.last_page;
       allTransactions = allTransactions.concat(data.transactions);

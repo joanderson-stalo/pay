@@ -40,7 +40,7 @@ export function Tickets() {
   const fetchDatatickets = useCallback(async (search?: string) => {
     setLoading(true);
     try {
-      let apiUrl = `${baseURL}tickets/index?perpage=${String(itensPorPage)}&page=${currentPage}`;
+      let apiUrl = `${baseURL}tickets/index?per_page=${String(itensPorPage)}&page=${currentPage}`;
 
       const capturedInStart = localStorage.getItem('@startDateTicket');
       if (capturedInStart) {

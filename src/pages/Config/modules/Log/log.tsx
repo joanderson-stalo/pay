@@ -21,7 +21,7 @@ export function Log(){
 
   const fetchLog = useCallback(async () => {
     setLoading(true);
-    const apiUrl = `${baseURL}activitylog?perpage=${String(itensPorPage)}&page=${currentPage}`;
+    const apiUrl = `${baseURL}activitylog?per_page=${String(itensPorPage)}&page=${currentPage}`;
 
     try {
       const response = await axios.get(apiUrl, {
