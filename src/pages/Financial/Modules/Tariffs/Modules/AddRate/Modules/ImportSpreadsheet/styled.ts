@@ -12,7 +12,13 @@ export const Container = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  margin: 36px 20px 20px;
+  margin: 36px 100px 36px 100px;
+
+  @media (max-width: 900px){
+    margin: 36px 20px 36px 20px;
+  }
+
+
 
 
 `;

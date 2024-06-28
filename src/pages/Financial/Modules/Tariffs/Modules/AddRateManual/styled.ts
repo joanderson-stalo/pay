@@ -15,8 +15,14 @@ export const ContainerStep = styled.div`
 `;
 
 export const Form = styled.form`
-  padding: 0 20px;
+  padding: 0 100px;
   width: 100%;
+
+
+
+  @media (max-width: 900px){
+    padding: 0 20px;
+  }
 `;
 
 export const ContextStepContainer = styled.div`
