@@ -15,18 +15,30 @@ display: flex;
 flex-direction: column;
 gap: 40px;
 margin-bottom: 24px;
+
+@media (max-width: 900px){
+  gap: 32px;
+}
+
+@media (max-width: 600px){
+    width: 90%;
+}
+
 `
 
 export const TitlePage = styled.h2`
-color: #000;
+color: #202124;
 
 
-font-family: "Public Sans";
 font-size: 24px;
 font-style: normal;
 font-weight: 400;
 line-height: 24px;
 letter-spacing: 0.5px;
+
+@media (max-width: 900px){
+  font-size: 16px;
+}
 
 `
 
@@ -38,11 +50,29 @@ export const ContainerCard = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
+
+  @media (max-width: 600px){
+    width: 90%;
+}
 `
 export const ContainerCardInfo = styled.div`
   width: 100%;
   display: flex;
   gap: 32px;
+
+
+  @media (max-width: 900px){
+  gap: 20px;
+}
+
+@media (max-width: 680px){
+ flex-wrap: wrap;
+ gap: 12px;
+
+}
+
+
+
 `
 
 export const InfoContainer = styled.div`
@@ -67,12 +97,22 @@ font-size: 12px;
 font-style: normal;
 font-weight: 400;
 line-height: normal;
+
+@media (max-width: 600px){
+    font-size: 10px;
+}
+
+
 }
 `
 
 export const ContainerDados = styled.div`
   width: 80%;
   margin-top: 40px;
+
+  @media (max-width: 600px){
+    width: 90%;
+}
 
 `
 
@@ -95,6 +135,10 @@ export const FormRow = styled.div`
   gap: 20px;
   margin-bottom: 16px;
   margin-top: 16px;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+  }
 `;
 
 export const FormGroup = styled.div`
@@ -129,6 +173,10 @@ font-style: normal;
 font-weight: 400;
 line-height: normal;
   }
+
+  @media (max-width: 600px) {
+    margin-top: 16px;
+  }
 `;
 
 export const InputLabel = styled.span`
@@ -152,8 +200,8 @@ export const Button = styled.button`
   cursor: pointer;
 
   border-radius: 4px;
-background:  #3C0A6D;
-text-transform: uppercase;
+  background:  #3C0A6D;
+  text-transform: uppercase;
 
 &:disabled {
     background: #888;
@@ -182,4 +230,11 @@ export const ButtonContainer = styled.div`
   width: 80%;
   gap: 24px;
   margin-top: 40px;
+
+  @media (max-width: 600px){
+    width: 90%;
+    margin-top: 24px;
+    gap: 17px;
+    justify-content: center;
+}
 `;

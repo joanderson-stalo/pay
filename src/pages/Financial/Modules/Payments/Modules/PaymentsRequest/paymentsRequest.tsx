@@ -347,7 +347,7 @@ export function PaymentsRequest() {
         </S.ContainerDados>
         <S.ButtonContainer>
           <S.CancelButton type="button" onClick={() => navigate(-1)}>Cancelar</S.CancelButton>
-          <S.Button disabled={!isValid || !fileUploaded || !paymentType} type="submit">Concluir Solicitação</S.Button>
+          <S.Button disabled={!isValid || !fileUploaded || !paymentType} type="submit">Solicitar</S.Button>
         </S.ButtonContainer>
       </S.Container>
     </form>
