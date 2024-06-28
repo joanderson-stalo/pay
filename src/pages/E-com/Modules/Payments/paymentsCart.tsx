@@ -109,7 +109,7 @@ export function PaymentsCart() {
       url_update: "http://urlparadarupdatenostatusdacompra",
       link_payment_object: "http://payment.com/1",
       payment_external_id: "abc123",
-      buy_modelo: cartItems.map(item => ({
+      buy_modelo: cartItems.map((item: { id: any; quantity: any; }) => ({
         modelo_id: item.id,
         quantity: item.quantity
       }))
