@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios, { AxiosError } from "axios";
 import { CustomTable } from "./components/Table/table";
-import { Button, ButtonBlack, ContainerAcesso, ContainerManageAccessLicensed } from "./styles";
+import { Button, ButtonBlack, ContainerAcesso, ContainerManageAccessLicensed, ContainerTitle } from "./styles";
 import { CaretLeft } from "@phosphor-icons/react";
 import { useNavigate } from "react-router-dom";
 import { useLogin } from "@/context/user.login";
@@ -12,6 +12,8 @@ import { TranslateErrorMessage } from "@/utils/translateErrorMessage";
 import { toast } from "react-toastify";
 import { baseURL } from "@/config/color";
 import { useTenantData } from "@/context";
+import { ArrowBack } from "@/components/BtnArrowBack/btnArrowBack";
+import { TitleH } from "@/components/Title/title";
 
 interface UserData {
   id: number;
@@ -75,7 +77,13 @@ export function ManageAccessLicensed(){
       {loading && <Loading />}
       <ContainerManageAccessLicensed>
         <ContainerAcesso>
-        <ButtonBlack primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} onClick={handleEstablishmentdetail}><CaretLeft size={18} />Voltar</ButtonBlack>
+
+          <ContainerTitle>
+            <ArrowBack/>
+            <TitleH title="Voltar"/>
+          </ContainerTitle>
+
+        
         <Button onClick={handleAddLA}>Adicionar LA</Button>
         </ContainerAcesso>
         <CustomTable data={userData} />

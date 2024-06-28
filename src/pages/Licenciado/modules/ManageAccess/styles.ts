@@ -30,6 +30,13 @@ justify-content: space-between;
 margin-bottom: 40px;
 `
 
+export const ContainerTitle = styled.div`
+display: flex;
+align-items: center;
+justify-content: space-between;
+
+`
+
 export const Button = styled.button`
 border-radius: 4px;
 background: #3C0A6D;
@@ -40,4 +47,8 @@ font-style: normal;
 font-weight: 400;
 line-height: 15.566px;
 text-transform: uppercase;
+
+@media (max-width: 480px){
+  padding: 8px 18px;
+}
 `;
