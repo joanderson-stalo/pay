@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
 import * as S from "./styled";
 import checkCircle from '@assets/checkCircle.svg';
+import { useNavigate } from "react-router-dom";
 
 interface OrderReceiptProps {
   orderNumber: string;
-  onTrackOrder: () => void;
   primaryColor: string;
 }
 
-export function OrderReceipt({ orderNumber, onTrackOrder, primaryColor }: OrderReceiptProps) {
+export function OrderReceipt({ orderNumber, primaryColor }: OrderReceiptProps) {
   const [isSmallScreen, setIsSmallScreen] = useState<boolean>(false)
+  const navigate = useNavigate();
   useEffect(() => {
     const mediaQuery = window.matchMedia('(max-width: 900px)')
     setIsSmallScreen(mediaQuery.matches)
@@ -24,6 +25,11 @@ export function OrderReceipt({ orderNumber, onTrackOrder, primaryColor }: OrderR
       mediaQuery.removeListener(handleScreenChange)
     }
   }, [])
+
+
+  const handleMyProduct = () => {
+    navigate('/e-com-payments-request');
+  };
 
   return(
     <>
@@ -42,7 +48,7 @@ export function OrderReceipt({ orderNumber, onTrackOrder, primaryColor }: OrderR
               </aside>
             </div>
 
-            <button type="button" onClick={onTrackOrder}> {isSmallScreen ?'Acompanhar' : 'Acompanhar meu pedido'}</button>
+            <button type="button" onClick={handleMyProduct}> {isSmallScreen ?'Acompanhar' : 'Acompanhar meu pedido'}</button>
           </S.ContainerButton>
 
       </S.Container>

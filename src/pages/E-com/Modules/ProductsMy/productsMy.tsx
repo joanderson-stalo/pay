@@ -6,6 +6,7 @@ import { ContainerListProducts } from './styled';
 import { Loading } from '@/components/Loading/loading';
 import { baseURL } from '@/config/color';
 import { useLogin } from '@/context/user.login';
+import { NoteData } from '@/components/NoteData/noteData';
 
 interface Sale {
   id: number;
@@ -46,11 +47,14 @@ export function ProductsMy() {
     return <Loading />;
   }
 
+  
+
   return (
     <>
       <HeaderListProducts />
       <ContainerListProducts>
-        <MyRequestsComponents sales={sales} />
+        {sales.length === 0 && <NoteData /> }
+        {sales.length > 0 &&  <MyRequestsComponents sales={sales} />}
       </ContainerListProducts>
     </>
   );
