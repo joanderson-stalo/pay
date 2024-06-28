@@ -25,7 +25,7 @@ interface TabelaProps {
 
 export function Tabela({ rows }: TabelaProps) {
   const [sortField, setSortField] = useState<SortField>('id');
-  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+  const [sortDirection, setSortDirection] = useState<'desc' | 'asc'>('desc');
   const { setLicensedId } = useLicensed();
   const navigate = useNavigate();
 

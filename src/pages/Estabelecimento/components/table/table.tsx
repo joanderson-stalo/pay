@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as S from './styled';
 import { useNavigate } from 'react-router-dom';
 import { maskCpfCnpj } from '@/utils/maskCpfCnpj';
@@ -29,7 +29,7 @@ interface TabelaProps {
 
 export function Tabela({ rows }: TabelaProps) {
   const [sortField, setSortField] = useState<SortField>('id');
-  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+  const [sortDirection, setSortDirection] = useState<'desc' | 'asc'>('desc');
   const { setEstablishmentId } = useEstablishment();
   const navigate = useNavigate();
 
@@ -64,8 +64,8 @@ export function Tabela({ rows }: TabelaProps) {
   }) {
     return (
       <S.SortContainer>
-        <S.SortArrow isActive={direction !== 'asc'}>▲</S.SortArrow>
-        <S.SortArrow isActive={direction !== 'desc'}>▼</S.SortArrow>
+        <S.SortArrow isActive={direction !== 'desc'}>▲</S.SortArrow>
+        <S.SortArrow isActive={direction !== 'asc'}>▼</S.SortArrow>
       </S.SortContainer>
     )
   }
@@ -89,6 +89,10 @@ export function Tabela({ rows }: TabelaProps) {
 
     return `${day}/${month}/${year}`;
   }
+
+  useEffect(() => {
+    handleSort('id');
+  }, []);
 
   const tenantData = useTenantData();
 
