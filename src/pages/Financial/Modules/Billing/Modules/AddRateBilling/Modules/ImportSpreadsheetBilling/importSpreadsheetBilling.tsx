@@ -198,7 +198,7 @@ export function ImportSpreadsheetBilling() {
           title: 'Dados salvos com sucesso!',
           text: 'Os dados foram salvos com sucesso.',
         }).then(() => {
-          navigate('/billingRequest');
+          navigate('/charging-request');
         });
       } else {
         Swal.fire({
@@ -224,7 +224,7 @@ export function ImportSpreadsheetBilling() {
   };
 
   const handleCancel = () => {
-    navigate('/billingRequest');
+    navigate('/charging-request');
   };
 
   const tenantData = useTenantData();

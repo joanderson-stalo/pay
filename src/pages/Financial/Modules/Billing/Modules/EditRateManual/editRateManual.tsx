@@ -186,7 +186,7 @@ export function EditRate() {
         title: 'Sucesso!',
         text: 'A tarifa foi atualizada com sucesso.',
       }).then(() => {
-        navigate('/billingRequest');
+        navigate('/charging-request');
       });
     } catch (error: any) {
       const err = error as AxiosError<ApiResponse>;

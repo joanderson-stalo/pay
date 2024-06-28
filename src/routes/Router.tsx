@@ -144,7 +144,7 @@ export function Router() {
             <Route path='/payments-details' element={<PaymentsDetails />} />
             <Route path='/payments-update' element={<PaymentsUpdate />} />
 
-            <Route path='/billingRequest' element={<Billing />} />
+            <Route path='/charging-request' element={<Billing />} />
             <Route path='/billingAddRate' element={<AddRateBilling />} />
             <Route path='/billingAddRateManual' element={<BillingAddRateManual />} />
             <Route path='/billingImport' element={<ImportSpreadsheetBilling />} />

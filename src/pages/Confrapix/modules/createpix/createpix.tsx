@@ -46,6 +46,13 @@ export function ConfraPix() {
       return;
     }
 
+    if(data.amount){
+      if (!/^\d+(\.\d{1,2})?$/.test(data.amount.toString())) {
+        toast.error('O valor deve ter no máximo duas casas decimais.');
+        return;
+      }
+    }
+
     if (data.amount === undefined || data.amount <= 0) {
       toast.error('O valor deve ser maior que zero.');
       return;

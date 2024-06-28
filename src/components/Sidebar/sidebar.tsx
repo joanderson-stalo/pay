@@ -73,7 +73,7 @@ export function Sidebar() {
     { label: 'Resumo de rendimentos ', path: '/yield-summary' },
     { label: 'Extrato', path: '/extract' },
     { label: 'Tarifas', path: '/tariffs' },
-    { label: 'Solicitação de Cobrança', path: '/billingRequest' },
+    { label: 'Solicitação de Cobrança', path: '/charging-request' },
     { label: 'Pagamentos', path: '/payments' }
   ];
 
