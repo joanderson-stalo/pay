@@ -64,7 +64,7 @@ export function MyCommission() {
   const fetchDataFromAPI = useCallback(async (search?: string) => {
     setLoading(true);
 
-    let url = `${baseURL}commisssion/mycommission?perpage=${String(itensPorPage)}&page=${currentPage}`;
+    let url = `${baseURL}commisssion/mycommission?per_page=${String(itensPorPage)}&page=${currentPage}`;
 
     const capturedInStart = localStorage.getItem('@startDateMyCommission')
     if (capturedInStart) {

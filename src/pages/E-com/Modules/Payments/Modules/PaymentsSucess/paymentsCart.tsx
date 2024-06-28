@@ -27,8 +27,12 @@ type OrderData = {
   items?: OrderItem[];
 };
 
+type PaymentsSuccessProps = {
+  orderNumber: string;
+};
 
-export function PaymentsSuccess() {
+
+export function PaymentsSuccess({ orderNumber }: PaymentsSuccessProps) {
   const { primary_color_identity } = useTenantData();
   const [userAddress, setUserAddress] = useState<OrderData | null>(null);
   const { cartItems } = useCart();
@@ -71,7 +75,7 @@ export function PaymentsSuccess() {
     <>
       <HeaderListProducts />
       <ContainerListProducts>
-        <OrderReceipt primaryColor={primary_color_identity} onTrackOrder={() => false} orderNumber='#fasfafa' />
+        <OrderReceipt primaryColor={primary_color_identity} orderNumber={orderNumber} />
         <OrderDetailsFooter orderData={userAddress} />
       </ContainerListProducts>
     </>

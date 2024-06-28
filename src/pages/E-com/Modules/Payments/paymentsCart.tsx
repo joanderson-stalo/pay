@@ -8,6 +8,9 @@ import { Loading } from '@/components/Loading/loading';
 import { ToggleableRadioButton } from '@/components/Ecom/RadioButton/radioButton';
 import { Summary } from '@/components/Ecom/Summary/summary';
 import { PaymentsSuccess } from './Modules/PaymentsSucess/paymentsCart';
+import axios from 'axios';
+import { baseURL } from '@/config/color';
+import { useLogin } from '@/context/user.login';
 
 interface FormData {
   cpftitular: string;
@@ -48,6 +51,8 @@ export function PaymentsCart() {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(initialFormData.paymentMethod);
   const [isPaymentSuccessful, setIsPaymentSuccessful] = useState(false);
+  const [orderNumber, setOrderNumber] = useState('0');
+  const { dataUser } = useLogin()
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -92,10 +97,10 @@ export function PaymentsCart() {
     const cleanCpf = formData.cpftitular.replace(/[^\d]/g, '');
 
     const payload = {
-      comment: "Terceira compra",
+      comment: "",
       multiple_address: false,
       shipping_id: 1,
-      owner_id: 1,
+      owner_id: dataUser?.seller_id,
       payment_type: formData.paymentMethod.toLowerCase(),
       address_cep: formData.cep,
       address_street: formData.endereco,
@@ -107,7 +112,7 @@ export function PaymentsCart() {
       address_recipient: formData.recipientName,
       address_recipient_document: `${cleanCpf}`,
       url_update: "http://urlparadarupdatenostatusdacompra",
-      link_payment_object: "http://payment.com/1",
+      link_payment_object: "https://qr.appless.dev/pix/ffadd23cf144d7bad36ac98f8177e6",
       payment_external_id: "abc123",
       buy_modelo: cartItems.map((item: { id: any; quantity: any; }) => ({
         modelo_id: item.id,
@@ -118,6 +123,16 @@ export function PaymentsCart() {
 
 
     try {
+
+      const response = await axios.post(`${baseURL}sales/create`, payload, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${dataUser?.token}`
+        }
+      });
+      const orderNumber = response.data.id
+      setOrderNumber(orderNumber)
+      setIsPaymentSuccessful(true)
 
     } catch (error) {
 
@@ -131,7 +146,7 @@ export function PaymentsCart() {
   };
 
   if (isPaymentSuccessful) {
-    return <PaymentsSuccess />;
+    return <PaymentsSuccess orderNumber={orderNumber} />;
   }
 
   if (isLoading) {
@@ -170,6 +185,9 @@ export function PaymentsCart() {
           checked={selectedPaymentMethod === 'PIX'}
           onChange={handleRadioChange}
         />
+
+{selectedPaymentMethod === 'PIX' &&      <img src="https://qr.appless.dev/pix/ffadd23cf144d7bad36ac98f8177e6" alt="" /> }
+   
         <ToggleableRadioButton
           label="Débito por comissão"
           inputId="paymentMethod"

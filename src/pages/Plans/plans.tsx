@@ -50,7 +50,7 @@ export function Plans() {
     async (search?: string) => {
       setLoading(true);
 
-      let url = `${baseURL}plan/index?perpage=${itensPorPage}&page=${currentPage}`;
+      let url = `${baseURL}plan/index?per_page=${itensPorPage}&page=${currentPage}`;
 
       if (search) {
         url += `&name=${searchValue}`;

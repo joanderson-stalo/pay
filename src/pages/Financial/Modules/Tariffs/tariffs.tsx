@@ -39,7 +39,7 @@ export function Tariffs() {
 
   const fetchData = useCallback(async (pageNumber: number = currentPage) => {
     setLoading(true);
-    let apiUrl = `${baseURL}tariffs/index?perpage=${String(itensPorPage)}&page=${pageNumber}&payable_by=LA`;
+    let apiUrl = `${baseURL}tariffs/index?per_page=${String(itensPorPage)}&page=${pageNumber}&payable_by=LA`;
 
     const billingStartDate = localStorage.getItem('@tariffsStartDate');
     const billingEndDate = localStorage.getItem('@tariffsEndDate');

@@ -1,13 +1,6 @@
 import styled from 'styled-components'
 
 
-type StatusType = "Pedido em separação" | "Pedido entregue" | "Pedido em atraso";
-
-const statusColors: Record<StatusType, string> = {
-  "Pedido em separação": "#CD7B001A",
-  "Pedido entregue": "#1786291A",
-  "Pedido em atraso": "#FF00001A"
-};
 
 export const ContainerRequests = styled.div`
   display: flex;
@@ -74,7 +67,7 @@ border: 1px solid #F9F9F9;
 background: #F9F9F9;
 `
 
-export const NumberStatus = styled.span<{ status: StatusType }>`
+export const NumberStatus = styled.span`
 color:  #202124;
 font-size: 12px;
 font-style: normal;
@@ -84,7 +77,7 @@ line-height: normal;
 padding: 5px 8px;
 border-radius: 4px;
 
-background: ${props => statusColors[props.status]};
+background:#CD7B001A;
 `;
 
 export const Wrapper = styled.div`

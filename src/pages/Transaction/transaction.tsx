@@ -62,7 +62,7 @@ export function Transaction() {
     async (search?: string) => {
       setLoading(true)
 
-      let url = `${baseURL}transactions?perpage=${String(
+      let url = `${baseURL}transactions?per_page=${String(
         itensPorPage
       )}&page=${currentPage}`
 
