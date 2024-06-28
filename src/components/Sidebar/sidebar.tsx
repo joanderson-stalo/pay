@@ -26,7 +26,7 @@ export function Sidebar() {
       { icon: <Laptop />, label: 'Equipamentos', path: "/equipmentStock" },
       { icon: <Wallet />, label: 'Financeiro', isSubmenu: true },
       { icon: <Ticket />, label: 'Tickets', path: "/tickets" },
-      { icon: <ShoppingCart />, label: 'Shopping', path: "/e-com"  },
+      { icon: <ShoppingCart />, label: 'Shopping', isSubmenu: true },
       { icon: <Gear />, label: 'Configurações', isSubmenu: true },
     ] : []),
     { icon: <FileText />, label: 'Documentos', path: "/documents" },
@@ -41,6 +41,7 @@ export function Sidebar() {
 
   const [financeiroSubmenuOpen, setFinanceiroSubmenuOpen] = useState<boolean>(false);
   const [configSubmenuOpen, setConfigSubmenuOpen] = useState<boolean>(false);
+  const [shoppingSubmenuOpen, setShoppingSubmenuOpen] = useState<boolean>(false);
 
   useEffect(() => {
     const paths = menuItems.map(item => item.path);
@@ -50,9 +51,11 @@ export function Sidebar() {
     if (!isVisible) {
       setFinanceiroSubmenuOpen(false);
       setConfigSubmenuOpen(false);
+      setShoppingSubmenuOpen(false);
     } else {
       setFinanceiroSubmenuOpen(menuItems[matchedIndex]?.isSubmenu ?? false);
       setConfigSubmenuOpen(menuItems[matchedIndex]?.isSubmenu ?? false);
+      setShoppingSubmenuOpen(menuItems[matchedIndex]?.isSubmenu ?? false);
     }
   }, [location.pathname, isVisible]);
 
@@ -62,6 +65,7 @@ export function Sidebar() {
       setSelectedItem(index);
       setFinanceiroSubmenuOpen(menuItems[index]?.isSubmenu ?? false);
       setConfigSubmenuOpen(menuItems[index]?.isSubmenu ?? false);
+      setShoppingSubmenuOpen(menuItems[index]?.isSubmenu ?? false);
     }
   };
 
@@ -77,8 +81,14 @@ export function Sidebar() {
     { label: 'Log', path: '/log' },
   ];
 
+  const shoppingSubmenuItems = [
+    { label: 'Meus Pedidos', path: '/e-com-payments-request' },
+    { label: 'Produtos', path: '/e-com' },
+  ];
+
   const financeiroIndex = menuItems.findIndex(item => item.label === 'Financeiro');
   const configIndex = menuItems.findIndex(item => item.label === 'Configurações');
+  const shoppingIndex = menuItems.findIndex(item => item.label === 'Shopping');
 
   const toggleFinanceiroSubmenu = () => {
     setFinanceiroSubmenuOpen(!financeiroSubmenuOpen);
@@ -88,6 +98,11 @@ export function Sidebar() {
   const toggleConfigSubmenu = () => {
     setConfigSubmenuOpen(!configSubmenuOpen);
     setSelectedItem(configIndex);
+  };
+
+  const toggleShoppingSubmenu = () => {
+    setShoppingSubmenuOpen(!shoppingSubmenuOpen);
+    setSelectedItem(shoppingIndex);
   };
 
   return (
@@ -100,11 +115,17 @@ export function Sidebar() {
             <ButtonSider
               colorSec={tenantData.secondary_color_identity}
               selected={selectedItem === index}
-              onClick={() => item.isSubmenu ? (item.label === 'Financeiro' ? toggleFinanceiroSubmenu() : toggleConfigSubmenu()) : handleNavigation(index, item.path)}
+              onClick={() => item.isSubmenu ? 
+                (item.label === 'Financeiro' ? toggleFinanceiroSubmenu() : 
+                 item.label === 'Configurações' ? toggleConfigSubmenu() : 
+                 toggleShoppingSubmenu()) : 
+                handleNavigation(index, item.path)}
             >
               {item.icon}
               {isVisible && item.label}
-              {item.isSubmenu && isVisible && (item.label === 'Financeiro' ? (financeiroSubmenuOpen ? <BiChevronUp /> : <BiChevronDown />) : (configSubmenuOpen ? <BiChevronUp /> : <BiChevronDown />))}
+              {item.isSubmenu && isVisible && (item.label === 'Financeiro' ? (financeiroSubmenuOpen ? <BiChevronUp /> : <BiChevronDown />) : 
+                item.label === 'Configurações' ? (configSubmenuOpen ? <BiChevronUp /> : <BiChevronDown />) : 
+                (shoppingSubmenuOpen ? <BiChevronUp /> : <BiChevronDown />))}
             </ButtonSider>
             {item.isSubmenu && item.label === 'Financeiro' && financeiroSubmenuOpen && (
               <SubMenu>
@@ -130,8 +151,18 @@ export function Sidebar() {
                 ))}
               </SubMenu>
             )}
-
-
+            {item.isSubmenu && item.label === 'Shopping' && shoppingSubmenuOpen && (
+              <SubMenu>
+                {shoppingSubmenuItems.map((subItem, subIndex) => (
+                  <SubMenuItem
+                    key={subIndex}
+                    onClick={() => handleNavigation(shoppingIndex, subItem.path)}
+                  >
+                    {subItem.label}
+                  </SubMenuItem>
+                ))}
+              </SubMenu>
+            )}
           </React.Fragment>
         ))}
       </Menu>
