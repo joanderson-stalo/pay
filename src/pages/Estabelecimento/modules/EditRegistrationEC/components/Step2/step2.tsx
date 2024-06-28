@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { useFormContext } from 'react-hook-form';
 import { baseURL } from "@/config/color";
@@ -26,44 +26,46 @@ export function Step2({ Avançar, Voltar }: IStep2) {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate()
   const allFieldsFilled = !!watch('CEP') && !!watch('Endereco') && !!watch('Numero') && !!watch('Bairro') && !!watch('Cidade') && !!watch('Estado');
+  const tenantData = useTenantData();
+
+  const fetchSellerData = useCallback(async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        `${baseURL}seller/show/${establishmentId}`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${dataUser?.token}`,
+          },
+        }
+      );
+
+      const sellerData = response.data;
+      setValue('CEP', sellerData.seller.address_cep);
+      setValue('Endereco', sellerData.seller.address_street);
+      setValue('Numero', sellerData.seller.address_number);
+      setValue('Complemento', sellerData.seller.address_complement);
+      setValue('Bairro', sellerData.seller.address_neighborhood);
+      setValue('Cidade', sellerData.seller.address_city);
+      setValue('Estado', sellerData.seller.address_state);
+      setSellerData(sellerData.seller);
+    } catch (error) {
+      console.error('Erro ao buscar dados do vendedor', error);
+    } finally {
+      setLoading(false);
+    }
+  }, [establishmentId, dataUser?.token, setValue]);
 
   useEffect(() => {
-    const fetchSellerData = async () => {
-      setLoading(true);
-      try {
-        const response = await axios.get(
-          `${baseURL}seller/show/${establishmentId}`,
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${dataUser?.token}`,
-            },
-          }
-        );
-
-        const sellerData = response.data;
-        setValue('CEP', sellerData.seller.address_cep);
-        setValue('Endereco', sellerData.seller.address_street);
-        setValue('Numero', sellerData.seller.address_number);
-        setValue('Complemento', sellerData.seller.address_complement);
-        setValue('Bairro', sellerData.seller.address_neighborhood);
-        setValue('Cidade', sellerData.seller.address_city);
-        setValue('Estado', sellerData.seller.address_state);
-        setSellerData(response.data.seller);
-      } catch (error) {
-
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchSellerData();
-  }, [establishmentId, dataUser?.token, setValue]);
+  }, [fetchSellerData]);
 
   const handleSalvar = async () => {
     try {
       setLoading(true);
 
-      const number =  watch('Numero')
+      const number = watch('Numero')
 
       const updatedData = {
         address_cep: watch('CEP'),
@@ -117,13 +119,9 @@ export function Step2({ Avançar, Voltar }: IStep2) {
     }
   };
 
-
-
   const handleEC = () => {
     navigate('/sellers-ec')
   }
-
-  const tenantData = useTenantData();
 
   return (
     <>
@@ -161,7 +159,6 @@ export function Step2({ Avançar, Voltar }: IStep2) {
               </ContainerInput>
 
               <ContainerInput>
-
                 <CustomInput
                   {...register('Complemento')}
                   label='Complemento'
@@ -169,8 +166,7 @@ export function Step2({ Avançar, Voltar }: IStep2) {
                   colorInputSuccess={tenantData.secondary_color_identity}
                   hasError={!!errors.Complemento}
                 />
-
-<CustomInput
+                <CustomInput
                   {...register('Bairro')}
                   label='Bairro'
                   colorInputDefault={tenantData.primary_color_identity}
@@ -184,11 +180,7 @@ export function Step2({ Avançar, Voltar }: IStep2) {
                   colorInputSuccess={tenantData.secondary_color_identity}
                   hasError={!!errors.Cidade}
                 />
-
-
               </ContainerInput>
-
-
 
               <ContainerInput2>
                 <CustomInput
@@ -204,11 +196,11 @@ export function Step2({ Avançar, Voltar }: IStep2) {
           </ContextStep>
           <ContainerButton>
             <ButtonVoltar primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} onClick={Voltar}>Voltar</ButtonVoltar>
-            <ButtonAvançar  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} disabled={!allFieldsFilled} onClick={handleSalvar}>Salvar</ButtonAvançar>
-            <ButtonAvançar  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} disabled={!allFieldsFilled} onClick={Avançar}>Avançar</ButtonAvançar>
+            <ButtonAvançar primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} disabled={!allFieldsFilled} onClick={handleSalvar}>Salvar</ButtonAvançar>
+            <ButtonAvançar primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} disabled={!allFieldsFilled} onClick={Avançar}>Avançar</ButtonAvançar>
           </ContainerButton>
         </ContextStepContainer>
       </ContainerStep>
     </>
-  )
+  );
 }
