@@ -14,15 +14,12 @@ export function QRcodeCPF() {
 
   const transaction = pixTransaction.response[0]
 
-
-
   const handleCopy = () => {
     navigator.clipboard.writeText(transaction.pix.code).then(() => {
       toast.success('Pix copiado!', {
         position: toast.POSITION.TOP_CENTER
       })
     }).catch(err => {
-      console.error('Failed to copy: ', err)
       toast.error('Falha ao copiar!', {
         position: toast.POSITION.TOP_CENTER
       })

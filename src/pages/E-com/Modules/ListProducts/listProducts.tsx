@@ -20,6 +20,7 @@ export function ListProducts() {
 
 
   const fetchData = useCallback(async () => {
+    setLoading(true);
     let apiUrl = `${baseURL}sales/modelSale?pos=${pos}`;
 
     try {

@@ -52,7 +52,7 @@ export const RequestStatus = styled.p`
 export const CardContent = styled.div`
   width: 100%;
   padding: 16px 8px;
-  width: 340px;
+  width: 100%;
 
 
   border-radius: 4px;
@@ -60,7 +60,7 @@ export const CardContent = styled.div`
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.1);
 
   @media (max-width: 480px){
-    width: 260px;
+    width: 100%;
     margin: 0 auto;
   }
 `;
