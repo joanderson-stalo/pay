@@ -12,6 +12,9 @@ export const ContainerRequests = styled.div`
   background: #fff;
   border: 1px solid #D1D1D1;
   padding: 16px 24px;
+
+
+
 `
 export const ButtonRequest = styled.button`
   display: flex;
@@ -85,6 +88,17 @@ export const Wrapper = styled.div`
   justify-content: flex-start;
   gap: 16px;
   margin-bottom: 8px;
+
+`
+
+export const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 40px;
+
+
+
+
 `
 
 export const ContentInfo = styled.div`
