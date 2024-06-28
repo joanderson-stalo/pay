@@ -5,7 +5,11 @@ export const ContainerHome = styled.div`
     flex-direction: column;
     align-items: center;
     width: 100%;
-    padding: 0 20px;
+    padding: 0 100px;
+
+    @media (max-width: 900px){
+      padding: 0 20px;
+    }
 
 `
 
