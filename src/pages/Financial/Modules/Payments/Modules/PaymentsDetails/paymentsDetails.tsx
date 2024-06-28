@@ -175,7 +175,7 @@ export function PaymentsDetails() {
       <S.Container>
         <S.ContainerTitle>
           <TitleH title="Detalhes do pagamento" />
-          <S.ContainerStatus>  status: <S.Status>{getStatusDescription(paymentData?.status)}</S.Status></S.ContainerStatus>
+          <S.ContainerStatus>  Status: <S.Status>{getStatusDescription(paymentData?.status)}</S.Status></S.ContainerStatus>
           <S.TitlePage>Detalhes do pagamento</S.TitlePage>
         </S.ContainerTitle>
 
@@ -186,10 +186,9 @@ export function PaymentsDetails() {
           </S.InfoContainer>
 
           <S.ContainerCardInfo>
-          <CardInfo label="Valor nota fiscal" value={paymentData?.amount_nf || 0} />
-          <CardInfo label="Valor de tarifa" value={(paymentData?.amount ?? 0) - (paymentData?.amount_nf ?? 0)} />
-
-              <CardInfo label="Valor a receber" value={paymentData?.amount || 0} />
+            <CardInfo label="Valor da NF" value={paymentData?.amount_nf || 0} />
+            <CardInfo label="Valor de tarifa" value={(paymentData?.amount ?? 0) - (paymentData?.amount_nf ?? 0)} />
+            <CardInfo label="Valor a receber" value={paymentData?.amount || 0} />
           </S.ContainerCardInfo>
         </S.ContainerCard>
 

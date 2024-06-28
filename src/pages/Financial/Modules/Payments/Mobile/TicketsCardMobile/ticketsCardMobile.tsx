@@ -3,7 +3,7 @@ import * as S from './styled';
 import { checkEmpty } from '@/utils/checkEmpty';
 
 export interface RowDataTickets {
-  id: number;
+  id: string;
   created_at: string;
   number: string;
   title: string;
@@ -24,10 +24,7 @@ export function TicketsCardMobile({ data }: { data: RowDataTickets[] }) {
     <>
       {data.map((ticket) => (
         <S.CardContainer key={ticket.id}>
-          <S.CardHeader>
-            <S.TicketNumber>{ticket.number}</S.TicketNumber>
-            <S.RequestLabel>{ticket.title}</S.RequestLabel>
-          </S.CardHeader>
+
 
           <S.CardContent>
             <S.DetailColumn>
@@ -38,20 +35,39 @@ export function TicketsCardMobile({ data }: { data: RowDataTickets[] }) {
               </S.DetailRow>
 
               <S.DetailRow>
-                <S.SectionTitle>Estabelecimento:</S.SectionTitle>
+                <S.SectionTitle>ID:</S.SectionTitle>
+                <S.SectionDescription>{checkEmpty(ticket.id)}</S.SectionDescription>
+              </S.DetailRow>
+
+              <S.DetailRow>
+                <S.SectionTitle>Licenciado</S.SectionTitle>
                 <S.SectionDescription>{checkEmpty(ticket.seller_name)}</S.SectionDescription>
               </S.DetailRow>
 
               <S.DetailRow>
-                <S.SectionTitle>Comentários</S.SectionTitle>
+                <S.SectionTitle>Status:</S.SectionTitle>
+                <S.SectionDescription>{checkEmpty(ticket.seller_name)}</S.SectionDescription>
+              </S.DetailRow>
+
+              <S.DetailRow>
+                <S.SectionTitle>Valor</S.SectionTitle>
                 <S.SectionDescription>{checkEmpty(ticket.final_evaluation)}</S.SectionDescription>
               </S.DetailRow>
-            </S.DetailColumn>
-          </S.CardContent>
 
-          <S.DetailColumnBtn>
+              <S.DetailRow>
+                <S.SectionTitle>Valor da NF</S.SectionTitle>
+                <S.SectionDescription>{checkEmpty(ticket.seller_name)}</S.SectionDescription>
+              </S.DetailRow>
+            </S.DetailColumn>
+
+
+            <S.DetailColumnBtn>
             <S.EditButton  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>Visualizar</S.EditButton>
           </S.DetailColumnBtn>
+
+          </S.CardContent>
+
+
         </S.CardContainer>
       ))}
     </>

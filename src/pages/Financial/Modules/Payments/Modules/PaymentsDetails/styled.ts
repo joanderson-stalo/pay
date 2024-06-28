@@ -15,10 +15,23 @@ display: flex;
 flex-direction: column;
 gap: 40px;
 margin-bottom: 24px;
+
+
+@media (max-width: 600px){
+  margin-bottom: 8px;
+  width: 90%;
+  gap: 20px;
+  }
 `
 
 export const TitlePage = styled.h2`
-color: #000;
+color: #202124;
+font-weight: 700;
+
+@media (max-width: 600px){
+  font-size: 14px;
+  font-weight: 700;
+}
 
 
 font-family: "Public Sans";
@@ -38,11 +51,22 @@ export const ContainerCard = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
+
+  @media (max-width: 600px){
+    width: 90%;
+  }
+
+
 `
 export const ContainerCardInfo = styled.div`
   width: 100%;
   display: flex;
   gap: 32px;
+
+  @media(max-width: 700px){
+    flex-wrap: wrap;
+    gap: 12px;
+  }
 `
 
 export const InfoContainer = styled.div`
@@ -67,12 +91,22 @@ font-size: 12px;
 font-style: normal;
 font-weight: 400;
 line-height: normal;
+
+@media (max-width: 600px){
+  font-size: 10px;
+}
 }
 `
 
 export const ContainerDados = styled.div`
   width: 80%;
   margin-top: 40px;
+
+  @media (max-width: 600px){
+    width: 90%;
+  }
+
+
 
 `
 
@@ -94,6 +128,12 @@ export const FormRow = styled.div`
   display: flex;
   gap: 20px;
   margin-bottom: 16px;
+
+  @media (max-width: 600px){
+    flex-direction: column;
+    margin-top: 16px;
+
+  }
 `;
 
 export const FormGroup = styled.div`
@@ -128,6 +168,9 @@ font-style: normal;
 font-weight: 400;
 line-height: normal;
   }
+
+
+
 `;
 
 export const InputLabel = styled.span`
@@ -181,6 +224,10 @@ export const ButtonContainer = styled.div`
   width: 80%;
   gap: 24px;
   margin-top: 40px;
+
+  @media (max-width: 600px){
+    width: 90%;
+  }
 `;
 
 
@@ -229,6 +276,9 @@ background:  rgba(205, 123, 0, 0.10);
 
 export const ContainerStatus = styled.div`
 display: flex;
+align-items: center;
+
+
 gap: 8px;
 
 

@@ -9,8 +9,11 @@ interface Color {
 
 export const CardContainer = styled.div`
   width: 100%;
-  background: #FDFDFD;
-  height: 191px;
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+
+
 `;
 
 export const CardHeader = styled.div`
@@ -48,10 +51,18 @@ export const RequestStatus = styled.p`
 
 export const CardContent = styled.div`
   width: 100%;
-  padding: 20px 28px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  padding: 16px 8px;
+  width: 340px;
+
+
+  border-radius: 4px;
+  background:  #FFF;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.1);
+
+  @media (max-width: 480px){
+    width: 260px;
+    margin: 0 auto;
+  }
 `;
 
 export const DetailColumn = styled.div`
@@ -67,22 +78,28 @@ export const DetailColumnBtn = styled.div`
   gap: 10px;
   justify-content: center;
   align-items: center;
+  margin-top: 16px;
 `;
 
 export const DetailRow = styled.div`
-  gap: 7px;
+  gap: 5px;
   display: flex;
+  align-items: center;
+  height: 30px;
+  border-bottom: 0.5px solid #D1D1D1;
+
 `;
 
 export const EditButton = styled.button<Color>`
   display: flex;
-  padding: 12px 21px;
+  padding: 8px 21px;
   justify-content: center;
   align-items: center;
   border-radius: 4px;
-  border: 1px solid #F5F4F4;
+  border: 1px solid ${(props) => props.primary};
   background: #FFF;
   color: ${(props) => props.primary};
+
   font-size: 12px;
   font-weight: 500;
   line-height: 14px;
@@ -101,5 +118,5 @@ export const SectionDescription = styled.p`
   font-size: 11px;
   line-height: 16px;
   width: 100%;
-  max-width: 210px;
+  max-width: 160px;
 `;

@@ -53,7 +53,7 @@ background: ${(props) => props.primary};
 white-space: nowrap;
 
 @media (max-width: 900px) {
-  width: 100%;
+ 
 }
   `;
 
