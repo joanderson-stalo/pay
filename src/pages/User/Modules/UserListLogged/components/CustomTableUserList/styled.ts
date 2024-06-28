@@ -12,7 +12,7 @@ export const Table = styled.table`
   border-spacing: 0 10px;
   border-radius: 8px;
   background: var(--Sys---Neutral-04, #FFF);
-  border: 1px solid rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   thead {
     position: relative;
     &::before {
@@ -109,7 +109,7 @@ export const StyledImage = styled.img`
 `;
 
 export const ButtonRetrieve = styled.button`
- color: var(--color-neutra-ttulos, #3D4449);
+ color: var(--color-neutra-ttulos, #202124);
 background-color: transparent;
 font-size: 14px;
 font-style: normal;
@@ -139,19 +139,18 @@ export const TableRow = styled.tr`
 
 export const TagYou = styled.span<Color>`
   border-radius: 4px;
-  background: ${(props) => props.secundary};
-  padding: 1px 8px;
+  background: ${(props) => props.primary};
+  padding: 4px 8px;
   color: var(--foundation-brand-02-light, #E6F8FD);
   text-align: center;
   font-size: 12px;
   font-weight: 600;
+
   @media (max-width: 1200px) {
-    font-size: 11px;
-    padding: 1px 7px;
+    
   }
   @media (max-width: 1100px) {
-    font-size: 10px;
-    padding: 1px 6px;
+    
   }
   @media (max-width: 900px) {
     font-size: 9px;

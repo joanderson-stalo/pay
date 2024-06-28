@@ -42,7 +42,7 @@ export function CustomTableUserList({ data, handlePasswordRetrieve, handleRemove
                         <S.TableData><S.StyledImage src={item.document_id && item.document_id.includes('contabostorage') ? item.document_id : profile} alt="Profile" /></S.TableData>
                         <S.TableData >
     {item.name}
-    {index === 0 && <> <S.TagYou  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>você</S.TagYou></>}
+    {index === 0 && <> <S.TagYou  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>VOCÊ</S.TagYou></>}
 </S.TableData>
                         <S.TableData>{item.profile_id}</S.TableData>
                         <S.TableData>{item.email}</S.TableData>

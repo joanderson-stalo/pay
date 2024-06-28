@@ -24,7 +24,7 @@ padding: 18px 30px ;
 
 >h4 {
   border-radius: 4px;
-background: ${(props) => props.secundary};
+background: ${(props) => props.primary};
 padding: 4px;
 
 color: var(--foundation-brand-02-light, #E6F8FD);
@@ -97,11 +97,11 @@ export const UserBtn = styled.div`
   gap: 20px;
 `
 
-export const ButtonRemove = styled.button`
+export const ButtonRemove = styled.button<Color>`
 padding: 4px 12px;
 
 border-radius: 3.532px;
-border: 0.353px solid var(--foundation-white-normal-hover, #CFCFCF);
+border: 0.353px solid   ${(props) => props.primary};
 background: var(--foundation-white-light, #FDFDFD);
 
 
@@ -113,15 +113,15 @@ letter-spacing: 0.353px;
 `
 
 
-export const ButtonRecover = styled.button`
+export const ButtonRecover = styled.button<Color>`
 padding: 4px 12px;
 
 border-radius: 3.532px;
-border: 0.353px solid var(--foundation-white-normal-hover, #CFCFCF);
+border: 0.353px solid  ${(props) => props.primary};
 background: var(--foundation-white-light, #FDFDFD);
 
 
-color: #5A6ACF;
+color:  ${(props) => props.primary};
 font-size: 11px;
 font-weight: 500;
 line-height: 14.128px;

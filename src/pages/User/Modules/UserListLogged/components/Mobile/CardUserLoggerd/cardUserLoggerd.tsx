@@ -28,9 +28,9 @@ export function CardUserLogged({ data, handlePasswordRetrieve, handleRemove }: C
         <S.ContainerCardUserLogged key={user.id}>
 
           <S.HeaderUserLogged  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}>
-          
+
             <h2>{user.name}</h2>
-            {index === 0 ? <h4>Você</h4> : <h5></h5>} 
+            {index === 0 ? <h4>Você</h4> : <h5></h5>}
           </S.HeaderUserLogged>
 
           <S.ContainerInfo>
@@ -40,14 +40,14 @@ export function CardUserLogged({ data, handlePasswordRetrieve, handleRemove }: C
             </S.UserInfo>
 
             <S.UserBtn>
-            <S.ButtonRecover onClick={() => handleEditClick(user.id)}>
+            <S.ButtonRecover primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} onClick={() => handleEditClick(user.id)}>
                 Editar
               </S.ButtonRecover>
-              <S.ButtonRecover onClick={() => handlePasswordRetrieve(user.email)}>
+              <S.ButtonRecover primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} onClick={() => handlePasswordRetrieve(user.email)}>
                 Recuperar senha
               </S.ButtonRecover>
               {index !== 0 && (
-                <S.ButtonRemove onClick={() => handleRemove(user.id)}>
+                <S.ButtonRemove primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} onClick={() => handleRemove(user.id)}>
                   Remover
                 </S.ButtonRemove>
               )}

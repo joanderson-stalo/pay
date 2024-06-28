@@ -9,7 +9,11 @@ export const Container = styled.div`
  margin: 36px 20px 20px 20px;
   display: flex;
   justify-content: space-between;
-  align-items: center; 
+  align-items: center;
+  flex-wrap: wrap;
+  @media (max-width: 480px) {
+    gap: 12px;
+  }
 
 
 
@@ -25,7 +29,7 @@ export const Button = styled.button<Color>`
   line-height: 15.566px;
 
   @media screen and (max-width: 600px) {
-    padding: 10px 20px; 
+    padding: 10px 20px;
     font-size: 12px;
   }
 `;

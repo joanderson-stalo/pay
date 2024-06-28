@@ -78,3 +78,116 @@ export const ForwardButton = styled(StyledButton)`
   }
 
 `;
+
+export const ContentPix = styled.div`
+
+
+  background: #FAFAFA;
+  padding: 21px 45px;
+  max-width: 728px;
+  display: flex;
+  gap: 21px;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+
+    padding: 20px;
+}
+
+`
+
+export const ContentQRcode = styled.img`
+  height: 160px;
+  width: 160px;
+
+  @media (max-width: 600px) {
+   margin: 0 auto;
+}
+
+  `
+
+export const ContentInfo = styled.div`
+
+  width: 302px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+
+
+
+`
+
+export const TitleInfo = styled.h3`
+
+color:  #202124;
+
+
+font-size: 14px;
+font-style: normal;
+font-weight: 400;
+line-height: 24px;
+letter-spacing: 0.5px;
+
+`
+
+export const DescriptionInfo = styled.p`
+
+color:  #202124;
+
+font-family: "Public Sans";
+font-size: 12px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+max-width: 300px;
+
+`
+
+export const ButtonCopy = styled.button`
+  background-color: transparent;
+
+`
+
+export const CopiaECola = styled.div`
+
+border-radius: 4px;
+background:  #FFF;
+display: flex;
+justify-content: space-between;
+
+
+padding: 13px 24px;
+
+gap: 10px;
+
+@media (max-width: 480px){
+  width: 280px;
+
+}
+
+
+
+
+`
+
+export const Codigo = styled.p`
+
+width: 100%;
+max-width: 353px;
+
+color: #202124;
+font-size: 12px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+line-height: 1.5;
+overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+`
+
+
+
