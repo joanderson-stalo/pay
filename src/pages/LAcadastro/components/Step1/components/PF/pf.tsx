@@ -55,7 +55,7 @@ export function PF({ Avançar, BPF, BPJ }: IStep1) {
       setValue('NascimentoSocio', data_nascimento);
 
     } catch (error) {
-      console.error('Error fetching person data by CPF:', error);
+   
     } finally {
       setIsLoading(false);
     }

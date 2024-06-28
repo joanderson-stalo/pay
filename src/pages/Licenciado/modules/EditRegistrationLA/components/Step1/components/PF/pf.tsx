@@ -27,7 +27,7 @@ export function PF({ Avançar }: IStep1) {
   const navigate = useNavigate()
   const { dataUser } = useLogin();
   const { licensedId } = useLicensed();
-  const [loading, setLoading] = useState(true); 
+  const [loading, setLoading] = useState(true);
   const [sellerData, setSellerData] = useState<SellerData | null>(null);
   const {
     register,
@@ -52,7 +52,7 @@ export function PF({ Avançar }: IStep1) {
 
   useEffect(() => {
     const fetchSellerData = async () => {
-      setLoading(true); 
+      setLoading(true);
       try {
         const response = await axios.get(
           `${baseURL}seller/show/${licensedId}`,
@@ -69,30 +69,30 @@ export function PF({ Avançar }: IStep1) {
         setValue('CPFEstabelecimento', response.data.seller.owner_cpf);
         setValue('TelefoneEstabelecimento', response.data.seller.phone);
         setValue('NomeSocioEstabelecimento', response.data.seller.owner_name);
-       
+
       } catch (error) {
-        console.error('Erro ao buscar dados da API:', error);
+
       } finally {
-        setLoading(false); 
+        setLoading(false);
       }
     };
     fetchSellerData();
   }, []);
 
   if (loading) {
-    return <Loading />; 
+    return <Loading />;
   }
 
 
   const handleSalvar = async () => {
     try {
       setLoading(true);
-  
+
       const formatDate = (dateString: { split: (arg0: string) => [any, any, any] }) => {
         const [day, month, year] = dateString.split('/');
         return `${year}-${month}-${day}`;
       };
-  
+
       const updatedData = {
         owner_birthday: formatDate(watch('NascimentoSocio')),
         owner_cpf: watch('CPFEstabelecimento'),
@@ -102,16 +102,16 @@ export function PF({ Avançar }: IStep1) {
         document: watch('CPFEstabelecimento'),
         type_document: sellerData?.type_document
       };
-  
+
       await axios.put(`${baseURL}seller/update/${licensedId}`, updatedData, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${dataUser?.token}`
         }
       });
-  
+
       setLoading(false);
-  
+
       Swal.fire({
         icon: 'success',
         title: 'Licenciado atualizado com sucesso!',
@@ -129,7 +129,7 @@ export function PF({ Avançar }: IStep1) {
         }
       });
     } catch (error) {
-      console.error('Erro ao atualizar dados:', error);
+
       setLoading(false);
       Swal.fire({
         icon: 'error',
@@ -139,7 +139,7 @@ export function PF({ Avançar }: IStep1) {
       });
     }
   };
-  
+
   const handleLicenseddetail = () => {
     navigate('/sellers-la')
   }
@@ -152,7 +152,7 @@ export function PF({ Avançar }: IStep1) {
         <S.ContextStep>
           <S.ContainerDados>
             <S.TitleStep>Dados do Licenciado</S.TitleStep>
-        
+
           </S.ContainerDados>
           <S.Line />
           <S.ContainerForm>

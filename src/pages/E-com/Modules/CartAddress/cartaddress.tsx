@@ -74,7 +74,7 @@ export function CartAddress() {
         estado: uf
       }));
     } catch (error) {
-      console.error('Erro ao buscar endereço:', error);
+
     } finally{
       setIsLoading(false);
     }

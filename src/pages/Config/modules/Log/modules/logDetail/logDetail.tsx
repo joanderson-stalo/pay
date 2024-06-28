@@ -30,7 +30,7 @@ export function LogDetail() {
             setLogDetail(response.data.logs);
 
         } catch (error) {
-            console.error('Error fetching log details:', error);
+
         } finally {
             setLoading(false);
         }

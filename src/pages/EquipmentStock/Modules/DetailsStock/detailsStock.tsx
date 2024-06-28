@@ -42,9 +42,9 @@ export function DetailsStock() {
       });
       setProductData(response.data.product);
       setSellerName(response.data.product.seller_name)
-      console.log(response.data.product.seller_name)
+
     } catch (error) {
-      console.error(error);
+     
     }
     finally {
       setLoading(false);
@@ -181,7 +181,6 @@ export function DetailsStock() {
     return  <Loading />
   }
 
-  console.log(selectedIdPos)
 
   return (
     <>

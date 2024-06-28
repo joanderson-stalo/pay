@@ -112,7 +112,7 @@ export function Transaction() {
         setTotalAmount(data.net_value)
         setAverageTaxApplied(data.average_taxApplied)
       } catch (error) {
-        console.error('Erro ao buscar dados:', error)
+       
       } finally {
         setLoading(false)
       }

@@ -110,7 +110,7 @@ export function EcCreation() {
 
 
       setProfiles({ options: transformedProfiles });
-      console.log('Olá ,\n\nObrigado pelo seu pedido!\n \nSeu chamado (2024041610000024) já está no nosso setor de TI para analise e\ndesenvolvimento.\n\nEm breve retornaremos com a pronta solução do seu problema!\n\nDesde já agradecemos a paciência!\n\nEduardo Alvarenga\n\n--\nStalo / Software Studio\nEscritório: 83 99940-5192\nEmail: suporte.confrapag@stalodigital.com.br - WEB: [1]https://stalo.digital\n--\n\n16/04/2024 10:32 (America/Sao_Paulo) - ti@stalo.digital escreveu:\n> otarioAnexo 1: [1]url_de_screenshot_1\n> --Anexo 2: [2]url_de_screenshot_2\n> --Anexo 3: [3]url_de_screenshot_n\n> --\n\n\n\n[1] https://stalo.digital\n')
+    
     } catch (error) {
 
     }

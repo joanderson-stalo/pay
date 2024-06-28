@@ -98,7 +98,7 @@ export function MyCommission() {
       setTotalCommissionsByEC(totalCommissions);
 
     } catch (error) {
-      console.error('Erro ao buscar dados:', error);
+
     } finally {
       setLoading(false);
     }

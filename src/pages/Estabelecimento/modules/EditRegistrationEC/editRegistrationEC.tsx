@@ -73,7 +73,6 @@ export const EditRegistrationEC = () => {
           });
           setCurrentStep(5);
         } catch (error) {
-          console.error("Erro ao atualizar os detalhes bancários:", error);
           toast.error("Erro ao atualizar os detalhes bancários. Por favor, tente novamente mais tarde.");
         } finally {
           setIsLoading(false);

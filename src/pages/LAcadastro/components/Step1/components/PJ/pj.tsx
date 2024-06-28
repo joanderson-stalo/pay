@@ -76,14 +76,14 @@ export function PJ({ Avançar, BPF, BPJ }: IStep1) {
       setIsLoading(true)
       const response = await axios.get(`https://ws.hubdodesenvolvedor.com.br/v2/cnpj/?cnpj=${cnpj}&token=YOUR_TOKEN`);
       const { result } = response.data;
-      const { abertura, nome, fantasia } = result; // Destruturando o valor fantasia também
+      const { abertura, nome, fantasia } = result;
 
       setValue('DataCriacaoEstabelecimento', abertura);
       setValue('RazaoSocialEstabelecimento', nome);
-      setValue('NomeFantasiaEstabelecimento', fantasia); // Adicionando essa linha
+      setValue('NomeFantasiaEstabelecimento', fantasia);
 
     } catch (error) {
-      console.error('Error fetching company data by CNPJ:', error);
+
     } finally {
       setIsLoading(false)
     }
@@ -101,7 +101,7 @@ export function PJ({ Avançar, BPF, BPJ }: IStep1) {
       setValue('NascimentoSocio', data_nascimento);
 
     } catch (error) {
-      console.error('Error fetching person data by CPF:', error);
+
     } finally {
       setIsLoading(false);
     }
@@ -262,7 +262,7 @@ export function PJ({ Avançar, BPF, BPJ }: IStep1) {
               <button>Pesquise pelo CNAE ou Nome</button>
             </S.ContainerInput2>
           </S.ContainerForm>
-          
+
         </S.ContextStep>
         <S.ContainerButton>
           <S.ButtonVoltar primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} onClick={handleLicenciado}>Cancelar</S.ButtonVoltar>

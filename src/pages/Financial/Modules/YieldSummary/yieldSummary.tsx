@@ -29,7 +29,7 @@ export function YieldSummary() {
         setOperationSummary(response.data);
       }
     } catch (error) {
-      console.error('Erro ao buscar os dados:', error);
+
     } finally {
       setLoading(false);
     }

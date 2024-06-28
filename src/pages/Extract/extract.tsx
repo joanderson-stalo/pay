@@ -60,7 +60,7 @@ export function Extract() {
       setOutflowsToday(outflows_today);
       setStatement(statement);
     } catch (error) {
-      console.error('Erro ao buscar os dados do extrato:', error);
+
     } finally {
       setLoading(false);
     }

@@ -102,7 +102,7 @@ export function EditUser() {
               handleUserlist();
             });
           } catch (error) {
-            console.error("Erro ao salvar:", error);
+
             Swal.fire("Erro ao salvar as alterações", "", "error");
           }
         } else if (result.isDenied) {

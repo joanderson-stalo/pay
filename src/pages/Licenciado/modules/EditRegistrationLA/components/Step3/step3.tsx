@@ -76,7 +76,7 @@ export function Step3({ Avançar, Voltar }: IStep3) {
         setLoading(false);
       })
       .catch(error => {
-        console.error('Houve um erro ao buscar os dados:', error);
+      
       });
   }, []);
 
@@ -100,7 +100,7 @@ export function Step3({ Avançar, Voltar }: IStep3) {
 
         setSellerData(response.data.seller);
       } catch (error) {
-        console.error('Erro ao obter dados do vendedor:', error);
+
       } finally {
         setLoading(false);
       }
@@ -150,7 +150,7 @@ export function Step3({ Avançar, Voltar }: IStep3) {
         }
       });
     } catch (error) {
-      console.error('Erro ao atualizar dados:', error);
+
       setLoading(false);
       Swal.fire({
         icon: 'error',

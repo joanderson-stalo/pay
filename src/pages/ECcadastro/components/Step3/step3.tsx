@@ -181,7 +181,7 @@ export function Step3({ Avançar, Voltar }: IStep3) {
         setDados(false);
       })
       .catch((error) => {
-        console.error('Houve um erro ao buscar os dados:', error);
+
         setDados(false);
       });
   }, []);
@@ -209,7 +209,7 @@ export function Step3({ Avançar, Voltar }: IStep3) {
         setDados(false);
       })
       .catch(error => {
-        console.error('Houve um erro ao buscar os dados:', error);
+      
       });
   }, []);
 

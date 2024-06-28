@@ -42,7 +42,6 @@ function formatMessageBody(body: string): JSX.Element {
 
   newBody = newBody.replace(/<br\/>/g, '');
 
-  console.log('Processed HTML:', newBody);
   return <div dangerouslySetInnerHTML={{ __html: newBody }} />;
 }
 
@@ -121,7 +120,7 @@ export function ViewTicket() {
         setIsClosed(true)
       }
     } catch (error) {
-      console.error('Failed to fetch ticket details:', error)
+   
     } finally {
       setLoading(false)
     }

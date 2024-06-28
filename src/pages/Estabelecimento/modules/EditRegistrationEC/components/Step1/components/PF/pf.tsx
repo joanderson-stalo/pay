@@ -83,7 +83,7 @@ export function PF({ Avançar}: IStep1) {
         !!watch('AreaAtuacaoEstabelecimento') &&
         !!watch('TelefoneEstabelecimento')
       } catch (error) {
-        console.error('Erro ao buscar dados da API:', error);
+
 
       } finally {
         setLoading(false);
@@ -104,7 +104,7 @@ export function PF({ Avançar}: IStep1) {
 
       const updatedData = {
         mcc: areaAtuacaoValue,
-      
+
         trading_name: watch('NomeFantasiaEstabelecimento'),
       company_name: watch('RazaoSocialEstabelecimento'),
         owner_birthday: formatDate(watch('NascimentoSocio')),
@@ -142,7 +142,7 @@ export function PF({ Avançar}: IStep1) {
         }
       });
     } catch (error) {
-      console.error('Erro ao atualizar dados:', error);
+    
       setLoading(false);
       Swal.fire({
         icon: 'error',

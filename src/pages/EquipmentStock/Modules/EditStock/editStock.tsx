@@ -30,11 +30,11 @@ export function EditStock() {
       const data = response.data;
       const options = data.acquires.map((acquire: { acquire_label: any; id: { toString: () => any; }; }) => ({
         label: acquire.acquire_label,
-        value: acquire.id.toString() 
+        value: acquire.id.toString()
       }));
       setFetchedOptionsFN(options);
     } catch (error) {
-      console.error('Houve um erro ao buscar os dados:', error);
+     
     }
   };
 

@@ -122,7 +122,7 @@ export function EquipmentStock() {
         setFetchedOptions(options);
       }
     } catch (error) {
-      console.error('Houve um erro ao buscar os dados:', error);
+
     }
   };
 
@@ -141,7 +141,7 @@ export function EquipmentStock() {
       }));
       setFetchedOptionsFN(options);
     } catch (error) {
-      console.error('Houve um erro ao buscar os dados:', error);
+
     }
   }, [dataUser?.token]);
 

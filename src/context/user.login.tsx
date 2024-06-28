@@ -80,7 +80,7 @@ export const LoginProvider = ({ children }: { children: React.ReactNode }) => {
       setDataUser(null);
       setIsLogin(false);
     } catch (error) {
-      console.error(error);
+
       throw error;
     }
   }, [dataUser]);

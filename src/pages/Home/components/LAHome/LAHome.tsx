@@ -60,7 +60,7 @@ export function LAHome() {
       const data: HomeData = await response.json();
       setHomeData(data);
     } catch (error) {
-      console.error('Error fetching plans:', error);
+
     } finally {
       setIsLoading(false);
     }

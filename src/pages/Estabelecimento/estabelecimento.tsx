@@ -76,7 +76,7 @@ export function Estabelecimento() {
         setTotalSellers(response.data.total_sellers)
         setCurrentPage(response.data.current_page)
       } catch (error) {
-        console.error('Erro ao buscar dados:', error)
+
       } finally {
         setLoading(false)
       }

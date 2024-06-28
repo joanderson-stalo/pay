@@ -19,6 +19,8 @@ import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { Loading } from '@/components/Loading/loading';
 import { useTenantData } from '@/context';
+import { TranslateErrorMessage } from '@/utils/translateErrorMessage';
+import { AxiosError } from 'axios';
 
 
 type FormData = {
@@ -45,7 +47,7 @@ export function Login() {
     defaultValues: {
       email: '',
       password: '',
-      device_name: 'API'
+      device_name: 'WEB'
     }
   });
 
@@ -57,7 +59,7 @@ export function Login() {
     setIsSubmitting(true);
     try {
       await login(data);
-    } catch (error) {
+    } catch (error: any) {
       setIsSubmitting(false)
       setError('email', {
         type: 'manual',
@@ -66,7 +68,10 @@ export function Login() {
       setError('password', {
         type: 'manual'
       });
-      toast.error('Usuário ou senha inválidas')
+      const err = error as AxiosError<{ message: string }>;
+      const errorMessage = err.response?.data?.message || 'Ocorreu um error';
+      const translatedMessage = await TranslateErrorMessage(errorMessage);
+      toast.error(translatedMessage);
     }
     finally{
       setIsSubmitting(false)

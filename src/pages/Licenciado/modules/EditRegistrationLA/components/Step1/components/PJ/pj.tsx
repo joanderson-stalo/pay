@@ -108,7 +108,7 @@ export function PJ({ Avançar}: IStep1) {
         setValue('AreaAtuacaoEstabelecimento', response.data.seller.mcc);
 
       } catch (error) {
-        console.error('Erro ao buscar dados da API:', error);
+       
         setSellerData(null);
       } finally {
         setLoading(false);
@@ -169,7 +169,7 @@ export function PJ({ Avançar}: IStep1) {
         }
       });
     } catch (error) {
-      console.error('Erro ao atualizar dados:', error);
+
       setLoading(false);
       Swal.fire({
         icon: 'error',

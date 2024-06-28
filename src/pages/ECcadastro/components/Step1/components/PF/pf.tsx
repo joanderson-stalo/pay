@@ -73,7 +73,7 @@ export function PF({ Avançar, BPF, BPJ }: IStep1) {
         if (data_nascimento) setValue('NascimentoSocio', data_nascimento)
       }
     } catch (error) {
-      console.error('Error fetching person data by CPF:', error)
+    
     } finally {
       setIsLoading(false)
     }
@@ -181,7 +181,7 @@ export function PF({ Avançar, BPF, BPJ }: IStep1) {
                 />
                 <button>Pesquise pelo CNAE ou Nome</button>
               </S.ContainerInput2>
-              
+
             </S.ContainerForm>
           </S.ContextStep>
           <S.ContainerButton>

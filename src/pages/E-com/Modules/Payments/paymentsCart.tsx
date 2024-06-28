@@ -115,10 +115,10 @@ export function PaymentsCart() {
       }))
     };
 
-    console.log(payload);
+
 
     try {
- 
+
     } catch (error) {
 
     } finally {

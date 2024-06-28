@@ -72,7 +72,7 @@ export function Step3({ Avançar, Voltar }: IStep3) {
           })));
         }
       } catch (error) {
-        console.error('Houve um erro ao buscar os dados dos adquirentes:', error);
+
       }
     };
 
@@ -96,7 +96,7 @@ export function Step3({ Avançar, Voltar }: IStep3) {
           })));
         }
       } catch (error) {
-        console.error('Houve um erro ao buscar os dados dos vendedores:', error);
+
       }
     };
 
@@ -123,7 +123,7 @@ export function Step3({ Avançar, Voltar }: IStep3) {
         setValue('licenciado', sellerData.seller.seller_la.id_la);
 
       } catch (error) {
-        console.error('Erro ao obter dados do vendedor:', error);
+
       } finally {
         setLoading(false);
       }
@@ -147,7 +147,7 @@ export function Step3({ Avançar, Voltar }: IStep3) {
         }));
         setPlanOptions(plansData);
       } catch (error) {
-        console.error('Erro ao buscar os dados dos planos comerciais:', error);
+
       } finally {
         setLoading(false);
       }
@@ -193,7 +193,7 @@ export function Step3({ Avançar, Voltar }: IStep3) {
         }
       });
     } catch (error) {
-      console.error('Erro ao atualizar dados:', error);
+
       setLoading(false);
       Swal.fire({
         icon: 'error',
@@ -231,7 +231,7 @@ export function Step3({ Avançar, Voltar }: IStep3) {
         throw new Error('Falha ao atualizar plano');
       }
     } catch (error) {
-      console.error('Erro ao atualizar o plano:', error);
+
       Swal.fire({
         icon: 'error',
         title: 'Erro ao atualizar plano',

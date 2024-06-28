@@ -73,7 +73,6 @@ export const EditRegistrationLA = () => {
           });
           setCurrentStep(5);
         } catch (error) {
-          console.error("Error updating bank details:", error);
           toast.error("Error updating bank details. Please try again later.");
         } finally {
           setIsLoading(false);

@@ -114,7 +114,7 @@ const handleCpfCnpjChange = (event: { target: { value: any; }; }) => {
 
 
           } catch (error) {
-            console.error('Erro ao obter dados do vendedor:', error);
+           
           } finally {
             setLoading(false);
           }

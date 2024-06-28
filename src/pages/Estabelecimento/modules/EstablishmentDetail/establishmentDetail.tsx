@@ -61,7 +61,7 @@ export function EstablishmentDetail() {
   const [situationEstablishmentDetails, setSituationEstablishmentDetails] = useState<EstablishmentDetailType | null>(null);
 
 
- 
+
 
 
   const fetchEstablishmentDetail = useCallback(async () => {
@@ -76,7 +76,7 @@ export function EstablishmentDetail() {
       setEstablishmentDetails(response.data);
       setSituationEstablishmentDetails(response.data)
     } catch (error) {
-      console.error(error);
+
     } finally {
       setLoading(false);
     }
@@ -103,7 +103,7 @@ export function EstablishmentDetail() {
         navigate('/sellers-ec');
 
     } catch (error) {
-      console.error(error);
+
     }
     finally {
       setLoading(false);

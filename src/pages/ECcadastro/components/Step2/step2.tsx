@@ -33,7 +33,7 @@ export function Step2({ Avançar, Voltar }: IStep2) {
         setValue('Estado', uf || '');
       }
     } catch (error) {
-      console.error('Erro ao buscar endereço:', error);
+
     } finally {
       setDados(false);
     }

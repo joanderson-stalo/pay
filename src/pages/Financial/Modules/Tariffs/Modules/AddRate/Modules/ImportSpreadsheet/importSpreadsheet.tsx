@@ -145,7 +145,7 @@ export function ImportSpreadsheet() {
       };
 
       reader.onerror = (error: ProgressEvent<FileReader>) => {
-        console.error('Erro na leitura do arquivo:', error);
+       
         setFileSelected(false);
 
         Swal.fire({
@@ -211,7 +211,7 @@ export function ImportSpreadsheet() {
         });
       }
     } catch (error) {
-      console.error('Erro ao salvar os dados:', error);
+
       Swal.fire({
         icon: 'error',
         title: 'Erro ao salvar',

@@ -59,7 +59,7 @@ export function LicensedDetail() {
 
       setLicensedDetail(response.data);
     } catch (error) {
-      console.error(error);
+    
     }
     finally {
       setLoading(false);
@@ -98,7 +98,7 @@ export function LicensedDetail() {
         navigate('/sellers-la');
 
     } catch (error) {
-      console.error(error);
+
     }
     finally {
       setLoading(false);

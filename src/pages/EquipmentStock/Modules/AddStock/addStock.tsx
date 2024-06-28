@@ -34,7 +34,7 @@ export function AddStock() {
       }));
       setFetchedOptionsFN(options);
     } catch (error) {
-      console.error('Houve um erro ao buscar os dados:', error);
+    
     }
   };
 

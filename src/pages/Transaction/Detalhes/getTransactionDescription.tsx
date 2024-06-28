@@ -20,7 +20,7 @@ export async function fetchTransactionDetails(selectedTransactionId: string, dat
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error('Erro:', error);
+
     return null;
   }
 }

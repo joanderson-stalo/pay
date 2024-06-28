@@ -41,7 +41,7 @@ export function Step1({ Avançar }: IStep1) {
           updateToCPFEC();
         }
       } catch (error) {
-        console.error('Erro ao buscar dados da API:', error);
+     
       } finally {
         setLoading(false);
       }

@@ -51,7 +51,7 @@ export function Step2({ Avançar, Voltar }: IStep2) {
         setValue('Estado', sellerData.seller.address_state);
         setSellerData(response.data.seller);
       } catch (error) {
-        console.error('Erro ao obter dados do vendedor:', error);
+
       } finally {
         setLoading(false);
       }
@@ -107,7 +107,6 @@ export function Step2({ Avançar, Voltar }: IStep2) {
         }
       });
     } catch (error) {
-      console.error('Erro ao atualizar dados:', error);
       setLoading(false);
       Swal.fire({
         icon: 'error',

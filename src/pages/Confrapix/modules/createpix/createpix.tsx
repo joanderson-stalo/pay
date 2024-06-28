@@ -66,7 +66,6 @@ export function ConfraPix() {
       acquires: [{ id: 1 }]
     };
 
-    console.log(formattedData);
   };
 
   const handleCpfChange = (e: React.ChangeEvent<HTMLInputElement>) => {
