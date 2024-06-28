@@ -8,6 +8,9 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useOrderPix } from '@/context/id/orderPixID';
 import axios from 'axios';
+import { useLogin } from '@/context/user.login';
+import { useState } from 'react';
+import { Loading } from '@/components/Loading/loading';
 
 interface FormData {
   amount: number | undefined;
@@ -24,6 +27,8 @@ export function ConfraPix() {
   const tomorrow = new Date(today);
   tomorrow.setDate(tomorrow.getDate() + 1);
   const { setSelectedOrderPixID } = useOrderPix();
+  const [loading, setLoading] = useState(false)
+  const { dataUser } = useLogin()
 
   const formatDate = (date: Date) => {
     const day = String(date.getDate()).padStart(2, '0');
@@ -71,27 +76,29 @@ export function ConfraPix() {
       amount: validAmount,
       dateExpiration: data.dateExpiration ? `${data.dateExpiration} 23:59:59` : undefined,
       customer_document: data.customerDocument.replace(/\D/g, ''),
-      acquires: [{ id: 1 }]
+      acquires: [{ id: 1 }],
+      sellerId: dataUser?.seller_id
     };
 
     try {
+      setLoading(true)
       const response = await axios.post('https://api.confrapix.com.br/api/transaction/store', formattedData, {
         headers: {
-          Authorization: `Bearer 7|hFcbFhT4SR3nZuWC6V0tX7BFLX8QOgDQsYCYaysu4d53c713`
+          Authorization: `Bearer 2|we03xUflx4rWWktVqzAElAmv1vtlu7lGzZtyqTVre24cea11`
         }
       });
       toast.success('Transação criada com sucesso!');
 
-      const id = response.data.response.id
+      const id = response.data.response[0].id
      await setSelectedOrderPixID(id)
-     
+
      navigate('/confrapix-qrcode')
 
     } catch (error) {
       toast.error('Erro ao criar a transação. Tente novamente.');
 
     } finally {
-    
+      setLoading(false)
     }
 
   };
@@ -106,6 +113,10 @@ export function ConfraPix() {
   };
 
   const isDisabled = !amount;
+
+  if(loading){
+   return <Loading />
+  }
 
   return (
     <>

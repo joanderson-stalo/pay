@@ -1,79 +1,87 @@
-import * as S from './styled';
-import { BtnAdvance } from '@/components/BtnAdvance/btnAdvance';
-import { BtnReturn } from '@/components/BtnReturn/btnReturn';
-import { TitleH } from '@/components/Title/title';
-import iconCop from '@/assets/icons/iconCopy.svg';
-import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
-import { useEffect, useRef, useState, useCallback } from 'react';
-import axios from 'axios';
-import { useOrderPix } from '@/context/id/orderPixID';
-import { Loading } from '@/components/Loading/loading';
-import { NoteData } from '@/components/NoteData/noteData';
+import * as S from './styled'
+import { BtnAdvance } from '@/components/BtnAdvance/btnAdvance'
+import { BtnReturn } from '@/components/BtnReturn/btnReturn'
+import { TitleH } from '@/components/Title/title'
+import iconCop from '@/assets/icons/iconCopy.svg'
+import { toast } from 'react-toastify'
+import { useNavigate } from 'react-router-dom'
+import { useEffect, useRef, useState, useCallback } from 'react'
+import axios from 'axios'
+import { useOrderPix } from '@/context/id/orderPixID'
+import { Loading } from '@/components/Loading/loading'
+import { NoteData } from '@/components/NoteData/noteData'
 
 interface Pix {
-  url: string;
-  code: string;
-  dateExpiration: string;
+  url: string
+  code: string
+  dateExpiration: string
 }
 
 interface Transaction {
-  id: number;
-  status: string;
-  amount: string;
-  customer_name: string;
-  customer_document: string;
-  description: string;
-  pix: Pix;
+  id: number
+  status: string
+  amount: string
+  customer_name: string
+  customer_document: string
+  description: string
+  pix: Pix
 }
 
 export function QRcodeCPF() {
-  const navigate = useNavigate();
-  const copyTextRef = useRef<HTMLParagraphElement>(null);
-  const [transaction, setTransaction] = useState<Transaction | null>(null);
-  const [loading, setLoading] = useState(true);
-  const { selectedOrderPixID } = useOrderPix();
+  const navigate = useNavigate()
+  const copyTextRef = useRef<HTMLParagraphElement>(null)
+  const [transaction, setTransaction] = useState<Transaction | null>(null)
+  const [loading, setLoading] = useState(true)
+  const { selectedOrderPixID } = useOrderPix()
 
   const fetchTransaction = useCallback(async () => {
     try {
-      setLoading(true);
-      const response = await axios.get( `transaction/show/${selectedOrderPixID}`);
-      setTransaction(response.data.transaction);
+      setLoading(true)
+      const response = await axios.get(
+        `https://api.confrapix.com.br/api/transaction/show/${selectedOrderPixID}`,
+        {
+          headers: {
+            Authorization: `Bearer 2|we03xUflx4rWWktVqzAElAmv1vtlu7lGzZtyqTVre24cea11`
+          }
+        }
+      )
+      setTransaction(response.data.transaction)
     } catch (error) {
-      console.error('Erro ao buscar transação', error);
+
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  }, []);
+  }, [])
 
   useEffect(() => {
-    fetchTransaction();
-  }, [fetchTransaction]);
+    fetchTransaction()
+  }, [fetchTransaction])
 
   const handleCopy = () => {
     if (transaction?.pix?.code) {
-      navigator.clipboard.writeText(transaction.pix.code).then(() => {
-        toast.success('Pix copiado!', {
-          position: toast.POSITION.TOP_CENTER
-        });
-      }).catch(err => {
-        toast.error('Falha ao copiar!', {
-          position: toast.POSITION.TOP_CENTER
-        });
-      });
+      navigator.clipboard
+        .writeText(transaction.pix.code)
+        .then(() => {
+          toast.success('Pix copiado!', {
+            position: toast.POSITION.TOP_CENTER
+          })
+        })
+        .catch(err => {
+          toast.error('Falha ao copiar!', {
+            position: toast.POSITION.TOP_CENTER
+          })
+        })
     }
-  };
+  }
 
-  const handleDownload = () => {
- 
-  };
+  const handleDownload = () => {}
 
   const formatCPF = (cpf: string) => {
-    return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
-  };
+    return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4')
+  }
 
   if (loading) {
-   return <Loading />
+    return <Loading />
   }
 
   if (!transaction) {
@@ -93,38 +101,62 @@ export function QRcodeCPF() {
               <S.ContainerTableInfo>
                 <S.TableRow>
                   <S.ContentCell>
-                    <S.TitleCell>ID da transação: <S.StatusPayment>{transaction.status === 'AGUARDANDO' ? 'Aguardando pagamento' : 'Pagamento confirmado'}</S.StatusPayment></S.TitleCell>
+                    <S.TitleCell>
+                      ID da transação:{' '}
+                      <S.StatusPayment>
+                        {transaction.status === 'AGUARDANDO'
+                          ? 'Aguardando pagamento'
+                          : 'Pagamento confirmado'}
+                      </S.StatusPayment>
+                    </S.TitleCell>
                     <S.InfoCell>{transaction.id}</S.InfoCell>
                   </S.ContentCell>
 
                   <S.ContentCell>
                     <S.TitleCell>Valor:</S.TitleCell>
-                    <S.InfoCell>{parseFloat(transaction.amount).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</S.InfoCell>
+                    <S.InfoCell>
+                      {parseFloat(transaction.amount).toLocaleString('pt-BR', {
+                        style: 'currency',
+                        currency: 'BRL'
+                      })}
+                    </S.InfoCell>
                   </S.ContentCell>
 
-                  <S.ContentCell>
-                    <S.TitleCell>Nome completo:</S.TitleCell>
-                    <S.InfoCell>{transaction.customer_name}</S.InfoCell>
-                  </S.ContentCell>
+                  {transaction.customer_name && (
+                    <S.ContentCell>
+                      <S.TitleCell>Nome completo:</S.TitleCell>
+                      <S.InfoCell>{transaction.customer_name}</S.InfoCell>
+                    </S.ContentCell>
+                  )}
                 </S.TableRow>
 
                 <S.TableRow>
                   <S.ContentCell>
                     <S.TitleCell>Vencimento</S.TitleCell>
-                    <S.InfoCell>{new Date(transaction.pix.dateExpiration).toLocaleDateString()}</S.InfoCell>
+                    <S.InfoCell>
+                      {new Date(
+                        transaction.pix.dateExpiration
+                      ).toLocaleDateString()}
+                    </S.InfoCell>
                   </S.ContentCell>
-                  <S.ContentCell>
-                    <S.TitleCell>CPF:</S.TitleCell>
-                    <S.InfoCell>{formatCPF(transaction.customer_document)}</S.InfoCell>
-                  </S.ContentCell>
+                  {transaction.customer_document && (
+                    <S.ContentCell>
+                      <S.TitleCell>CPF:</S.TitleCell>
+                      <S.InfoCell>
+                        {formatCPF(transaction.customer_document)}
+                      </S.InfoCell>
+                    </S.ContentCell>
+                  )}
                 </S.TableRow>
               </S.ContainerTableInfo>
 
               <S.ContainerDescri>
-                <S.ContentCell>
-                  <S.TitleCell>Descrição</S.TitleCell>
-                  <S.Description>{transaction.description}</S.Description>
-                </S.ContentCell>
+                {transaction.description && (
+                  <S.ContentCell>
+                    <S.TitleCell>Descrição</S.TitleCell>
+                    <S.Description>{transaction.description}</S.Description>
+                  </S.ContentCell>
+                )}
               </S.ContainerDescri>
             </div>
             <S.ContainerDescri>
@@ -146,9 +178,11 @@ export function QRcodeCPF() {
 
         <S.ContainerButton>
           <BtnAdvance title="Criar novo Pix" onClick={() => navigate(-1)} />
-          <S.ButtonDownloadInfo onClick={handleDownload}>Baixar informações</S.ButtonDownloadInfo>
+          <S.ButtonDownloadInfo onClick={handleDownload}>
+            Baixar informações
+          </S.ButtonDownloadInfo>
         </S.ContainerButton>
       </S.Container>
     </>
-  );
+  )
 }
