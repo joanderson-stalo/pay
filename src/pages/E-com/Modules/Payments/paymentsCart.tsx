@@ -56,6 +56,7 @@ export function PaymentsCart() {
   const [isPaymentSuccessful, setIsPaymentSuccessful] = useState(false);
   const [orderNumber, setOrderNumber] = useState('0');
   const { dataUser } = useLogin()
+  const copyTextRef = useRef<HTMLParagraphElement>(null)
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -149,14 +150,14 @@ export function PaymentsCart() {
   };
 
   if (isPaymentSuccessful) {
-    return <PaymentsSuccess orderNumber={orderNumber} />;
+    return <PaymentsSuccess orderNumber={`#${orderNumber}`} />;
   }
 
   if (isLoading) {
     return <Loading />;
   }
 
-  const copyTextRef = useRef<HTMLParagraphElement>(null)
+
 
   const handleCopy = () => {
     navigator.clipboard.writeText('9324892837482372093012829423').then(() => {
