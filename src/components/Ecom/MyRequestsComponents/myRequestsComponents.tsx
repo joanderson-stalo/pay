@@ -5,13 +5,26 @@ export function MyRequestsComponents(){
     <>
      <S.Wrapper>
      <S.NumberRequests>Número do pedido: #50</S.NumberRequests>
-      <S.NumberStatus>Pedido em separação</S.NumberStatus>
+      <S.NumberStatus status='Pedido em separação'>Pedido em separação</S.NumberStatus>
      </S.Wrapper>
       <S.ContainerRequests>
-          <div>
-            <h3>Data do pedido</h3>
-            <p>14/04/2023</p>
-          </div>
+
+        <S.WrapperInfo>
+            <S.ContentInfo>
+              <S.TitleInfo>Data do pedido</S.TitleInfo>
+              <S.Info>14/04/2023</S.Info>
+            </S.ContentInfo>
+            <S.ContentInfo>
+              <S.TitleInfo>Total</S.TitleInfo>
+              <S.Info>R$ 234,67</S.Info>
+            </S.ContentInfo>
+
+        </S.WrapperInfo>
+
+
+
+
+
           <S.ButtonRequest><DotsNine /> Detalhes</S.ButtonRequest>
       </S.ContainerRequests>
     </>
