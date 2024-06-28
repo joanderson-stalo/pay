@@ -145,7 +145,8 @@ export const ContainerButton = styled.div`
   @media (max-width: 480px) {
     justify-content: center;
     align-self: center;
+    gap: 5px;
   }
 
-  
+
 `;

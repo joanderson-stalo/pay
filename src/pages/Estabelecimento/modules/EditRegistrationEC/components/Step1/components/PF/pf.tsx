@@ -142,7 +142,7 @@ export function PF({ Avançar}: IStep1) {
         }
       });
     } catch (error) {
-    
+
       setLoading(false);
       Swal.fire({
         icon: 'error',
@@ -180,6 +180,14 @@ export function PF({ Avançar}: IStep1) {
                 colorInputSuccess={tenantData.secondary_color_identity}
                 hasError={!!errors.NomeFantasiaEstabelecimento}
               />
+               <LabelCustomInputMask
+                {...register('CPFEstabelecimento', { validate: validateCPF })}
+                label="CPF"
+                mask="999.999.999-99"
+                placeholder="---.---.---.--"
+                hasError={!!errors.CPFEstabelecimento}
+              />
+
               <LabelCustomInputMask
                 {...register('NascimentoSocio', {
                   validate: validateDataCriacao
@@ -190,14 +198,10 @@ export function PF({ Avançar}: IStep1) {
                 hasError={!!errors.NascimentoSocio}
               />
             </S.ContainerInput>
+
+
             <S.ContainerInput>
-              <LabelCustomInputMask
-                {...register('CPFEstabelecimento', { validate: validateCPF })}
-                label="CPF"
-                mask="999.999.999-99"
-                placeholder="---.---.---.--"
-                hasError={!!errors.CPFEstabelecimento}
-              />
+
               <CustomInput
                 {...register('NomeSocioEstabelecimento')}
                 label="Nome Completo"
@@ -205,18 +209,8 @@ export function PF({ Avançar}: IStep1) {
                 colorInputSuccess={tenantData.secondary_color_identity}
                 hasError={!!errors.NomeSocioEstabelecimento}
               />
-            </S.ContainerInput>
-            <S.ContainerInput>
-              <CustomInput
-                {...register('EmailEstabelecimento', {
-                  validate: validateEmail
-                })}
-                label="E-mail"
-                colorInputDefault={tenantData.primary_color_identity}
-                colorInputSuccess={tenantData.secondary_color_identity}
-                hasError={!!errors.EmailEstabelecimento}
-              />
-              <LabelCustomInputMask
+
+<LabelCustomInputMask
                 {...register('TelefoneEstabelecimento', {
                   validate: validateTelefone
                 })}
@@ -225,7 +219,20 @@ export function PF({ Avançar}: IStep1) {
                 placeholder="(--) ----.----"
                 hasError={!!errors.TelefoneEstabelecimento}
               />
+
+<CustomInput
+                {...register('EmailEstabelecimento', {
+                  validate: validateEmail
+                })}
+                label="E-mail"
+                colorInputDefault={tenantData.primary_color_identity}
+                colorInputSuccess={tenantData.secondary_color_identity}
+                hasError={!!errors.EmailEstabelecimento}
+              />
             </S.ContainerInput>
+
+
+
             <S.ContainerInput2>
               <CustomSelect
                 optionsData={optionsCnae}
@@ -243,7 +250,7 @@ export function PF({ Avançar}: IStep1) {
           </S.ContainerForm>
         </S.ContextStep>
         <S.ContainerButton>
-        <S.ButtonVoltar type='button' onClick={handleEC} >Cancelar</S.ButtonVoltar>
+        <S.ButtonVoltar  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} type='button' onClick={handleEC} >Cancelar</S.ButtonVoltar>
           <S.ButtonAvançar  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}
   type='button' disabled={!allFieldsFilled} onClick={handleSalvar}>Salvar</S.ButtonAvançar>
         <S.ButtonAvançar  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity}

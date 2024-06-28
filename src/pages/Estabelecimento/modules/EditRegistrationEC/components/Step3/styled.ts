@@ -193,5 +193,6 @@ export const ContainerButton = styled.div`
   @media (max-width: 600px) {
     justify-content: center;
     align-self: center;
+    gap: 5px; 
   }
 `;
