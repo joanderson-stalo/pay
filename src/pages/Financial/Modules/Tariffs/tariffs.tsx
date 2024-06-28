@@ -17,6 +17,7 @@ import { CustomSelect } from '@/components/Select/select';
 import { CustomInput } from '@/components/Input/input';
 import { BtnFilterModal } from '@/components/BtnFilterModal/btnFilterModal';
 import { useTenantData } from '@/context';
+import { NoteData } from '@/components/NoteData/noteData';
 
 
 export function Tariffs() {
@@ -235,83 +236,101 @@ export function Tariffs() {
               <CardInfo  label='Total Débito' value={amountDebit} />
             </S.ContainerCard>
 
-            <S.ContainerButton>
-             
+
+            {tariffs.length > 0 && (<>
+
+              <S.ContainerButton>
 
 
-              <BtnFilterModal
-            onClick={handleSaveToLocalStorage}
-            disabled={(!startDate || !endDate || endDate <= startDate) && !selectedLicenciado && !selectedEstablishment}
-          >
+
+<BtnFilterModal
+onClick={handleSaveToLocalStorage}
+disabled={(!startDate || !endDate || endDate <= startDate) && !selectedLicenciado && !selectedEstablishment}
+>
 
 <CustomInput
-                colorInputDefault={tenantData.primary_color_identity}
-                colorInputSuccess={tenantData.secondary_color_identity}
-                type="date"
-                label="Data inicial"
-                value={startDate}
-                hasError={!!endDate && startDate > endDate}
-                onChange={event => setStartDate(event.target.value)}
-              />
-              <CustomInput
-                colorInputDefault={tenantData.primary_color_identity}
-                colorInputSuccess={tenantData.secondary_color_identity}
-                type="date"
-                label="Data final"
-                value={endDate}
-                hasError={!!startDate && (endDate <= startDate || !endDate)}
-                onChange={event => setEndDate(event.target.value)}
-              />
+  colorInputDefault={tenantData.primary_color_identity}
+  colorInputSuccess={tenantData.secondary_color_identity}
+  type="date"
+  label="Data inicial"
+  value={startDate}
+  hasError={!!endDate && startDate > endDate}
+  onChange={event => setStartDate(event.target.value)}
+/>
+<CustomInput
+  colorInputDefault={tenantData.primary_color_identity}
+  colorInputSuccess={tenantData.secondary_color_identity}
+  type="date"
+  label="Data final"
+  value={endDate}
+  hasError={!!startDate && (endDate <= startDate || !endDate)}
+  onChange={event => setEndDate(event.target.value)}
+/>
 
 <CustomSelect
-                    optionsData={{ options: fetchedOptions }}
-                    placeholder="Digite aqui ou clique para ver a lista"
-                    label="Licenciado Autorizado"
-                    onChange={(selectedOption: { value: SetStateAction<string> }) =>
-                      setSelectedLicenciado(selectedOption.value)
-                    }
-                  />
+      optionsData={{ options: fetchedOptions }}
+      placeholder="Digite aqui ou clique para ver a lista"
+      label="Licenciado Autorizado"
+      onChange={(selectedOption: { value: SetStateAction<string> }) =>
+        setSelectedLicenciado(selectedOption.value)
+      }
+    />
 
 
 <CustomSelect
-                    optionsData={{ options: fetchedOptionsEC }}
-                    placeholder="Digite aqui ou clique para ver a lista"
-                    label="Estabelecimento"
-                    onChange={(selectedOption: { value: SetStateAction<string> }) =>
-                      setSelectedEstablishment(selectedOption.value)
-                    }
-                  />
+      optionsData={{ options: fetchedOptionsEC }}
+      placeholder="Digite aqui ou clique para ver a lista"
+      label="Estabelecimento"
+      onChange={(selectedOption: { value: SetStateAction<string> }) =>
+        setSelectedEstablishment(selectedOption.value)
+      }
+    />
 
 
-          </BtnFilterModal>
-          {activeFilters.length > 0 && (
-              <TagFilter filters={activeFilters} />
-            )}
+</BtnFilterModal>
+{activeFilters.length > 0 && (
+<TagFilter filters={activeFilters} />
+)}
 
-            </S.ContainerButton>
+</S.ContainerButton>
 
-            <TableTariffs rows={tariffs} />
 
-            <S.ContainerCardsMobile>
-              <TariffsCard data={tariffs} />
-            </S.ContainerCardsMobile>
+            </>) }
 
-            <S.Context>
-              <S.Linha />
-              <S.ContainerPagina>
-                <PaginaView totalItens={itensPorPage} />
-                <S.ContainerItens>
-                  <ItensPorPage itensPorPage={itensPorPage} setItensPorPage={setItensPorPage} />
-                  <Pagination
-                    currentPage={currentPage}
-                    onPageClick={fetchData}
-                    totalPages={totalPages}
-                    onNextPage={handleNextPage}
-                    onPrevPage={handlePrevPage}
-                  />
-                </S.ContainerItens>
-              </S.ContainerPagina>
-            </S.Context>
+
+
+            {tariffs.length > 0 && (<>
+
+              <TableTariffs rows={tariffs} />
+
+<S.ContainerCardsMobile>
+  <TariffsCard data={tariffs} />
+</S.ContainerCardsMobile>
+
+<S.Context>
+  <S.Linha />
+  <S.ContainerPagina>
+    <PaginaView totalItens={itensPorPage} />
+    <S.ContainerItens>
+      <ItensPorPage itensPorPage={itensPorPage} setItensPorPage={setItensPorPage} />
+      <Pagination
+        currentPage={currentPage}
+        onPageClick={fetchData}
+        totalPages={totalPages}
+        onNextPage={handleNextPage}
+        onPrevPage={handlePrevPage}
+      />
+    </S.ContainerItens>
+  </S.ContainerPagina>
+</S.Context>
+
+            </>)}
+
+            {tariffs.length === 0 && (<>
+              <NoteData />
+
+            </>)}
+
           </S.Container>
         </>
   );

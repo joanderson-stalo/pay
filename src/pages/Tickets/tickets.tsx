@@ -16,6 +16,7 @@ import { CustomInput } from '@/components/Input/input'
 import { useTenantData } from '@/context'
 import { TagFilter } from '@/components/TagFilter/tagFilter'
 import { MagnifyingGlass } from '@phosphor-icons/react'
+import { NoteData } from '@/components/NoteData/noteData'
 
 
 export function Tickets() {
@@ -181,8 +182,8 @@ export function Tickets() {
           />
         </S.ContainerCard>
 
-
-        <S.Input isFocused={isFocused}>
+        {tickets.length > 0 && (<>
+          <S.Input isFocused={isFocused}>
               <input
                 type="text"
                 placeholder="Digite o número do ticket..."
@@ -196,65 +197,77 @@ export function Tickets() {
               </S.SearchIcon>
             </S.Input>
 
+        </>) }
 
-        <S.ContainerButton>
+        {tickets.length > 0 && (<>
+          <S.ContainerButton>
 
-          <BtnFilterModal
-            disabled={!startDate || !endDate || endDate <= startDate}
-            onClick={handleSaveToLocalStorage}
-          >
-            <S.BtnFilterModalContainer>
-              <CustomInput
-                colorInputDefault={tenantData.primary_color_identity}
-                colorInputSuccess={tenantData.secondary_color_identity}
-                type="date"
-                label="Data inicial"
-                value={startDate}
-                hasError={!!endDate && startDate > endDate}
-                onChange={event => setStartDate(event.target.value)}
-              />
-              <CustomInput
-                colorInputDefault={tenantData.primary_color_identity}
-                colorInputSuccess={tenantData.secondary_color_identity}
-                type="date"
-                label="Data final"
-                value={endDate}
-                hasError={!!startDate && (endDate <= startDate || !endDate)}
-                onChange={event => setEndDate(event.target.value)}
-              />
-            </S.BtnFilterModalContainer>
-          </BtnFilterModal>
+<BtnFilterModal
+  disabled={!startDate || !endDate || endDate <= startDate}
+  onClick={handleSaveToLocalStorage}
+>
+  <S.BtnFilterModalContainer>
+    <CustomInput
+      colorInputDefault={tenantData.primary_color_identity}
+      colorInputSuccess={tenantData.secondary_color_identity}
+      type="date"
+      label="Data inicial"
+      value={startDate}
+      hasError={!!endDate && startDate > endDate}
+      onChange={event => setStartDate(event.target.value)}
+    />
+    <CustomInput
+      colorInputDefault={tenantData.primary_color_identity}
+      colorInputSuccess={tenantData.secondary_color_identity}
+      type="date"
+      label="Data final"
+      value={endDate}
+      hasError={!!startDate && (endDate <= startDate || !endDate)}
+      onChange={event => setEndDate(event.target.value)}
+    />
+  </S.BtnFilterModalContainer>
+</BtnFilterModal>
 
-          {activeFilters.length > 0 && (
-              <TagFilter filters={activeFilters} />
-            )}
-        </S.ContainerButton>
+{activeFilters.length > 0 && (
+    <TagFilter filters={activeFilters} />
+  )}
+</S.ContainerButton>
 
-        <TableTickets rows={tickets} />
+<TableTickets rows={tickets} />
 
-        <S.ContainerCardsMobile>
-          <TicketsCardMobile data={tickets} />
-        </S.ContainerCardsMobile>
+<S.ContainerCardsMobile>
+<TicketsCardMobile data={tickets} />
+</S.ContainerCardsMobile>
 
-        <S.Context>
-          <S.Linha />
-          <S.ContainerPagina>
-            <PaginaView totalItens={itensPorPage} />
-            <S.ContainerItens>
-              <ItensPorPage
-                itensPorPage={itensPorPage}
-                setItensPorPage={setItensPorPage}
-              />
-              <Pagination
-                currentPage={currentPage}
-                onPageClick={fetchData}
-                totalPages={totalPages}
-                onNextPage={handleNextPage}
-                onPrevPage={handlePrevPage}
-              />
-            </S.ContainerItens>
-          </S.ContainerPagina>
-        </S.Context>
+<S.Context>
+<S.Linha />
+<S.ContainerPagina>
+  <PaginaView totalItens={itensPorPage} />
+  <S.ContainerItens>
+    <ItensPorPage
+      itensPorPage={itensPorPage}
+      setItensPorPage={setItensPorPage}
+    />
+    <Pagination
+      currentPage={currentPage}
+      onPageClick={fetchData}
+      totalPages={totalPages}
+      onNextPage={handleNextPage}
+      onPrevPage={handlePrevPage}
+    />
+  </S.ContainerItens>
+</S.ContainerPagina>
+</S.Context>
+
+        </>) }
+
+
+        {tickets.length === 0 && (<>
+          <NoteData />
+
+        </>) }
+
+
       </S.Container>
     </>
   )

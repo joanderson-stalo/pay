@@ -23,9 +23,16 @@ gap: 30px;
 
 `
 
-export  const Title = styled.h3`
+export const Title = styled.h3`
   color: #3C0A6D;
   font-weight: 600;
   font-size: 32px;
 
-`
+  @media (max-width: 900px) {
+    font-size: 28px;
+  }
+
+  @media (max-width: 600px) {
+    font-size: 24px;
+  }
+`;

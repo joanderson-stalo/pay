@@ -15,12 +15,13 @@ import { debounce } from 'lodash';
 import { TablePayments } from './components/TablePayments/tablePayments';
 import { HeaderPayments } from './components/HeaderPayments/headerPayments';
 import { TagFilter } from '@/components/TagFilter/tagFilter';
+import { NoteData } from '@/components/NoteData/noteData';
 
 export function Payments() {
-  const [itensPorPage, setItensPorPage] = useState<number | ''>(10)
+  const [itensPorPage, setItensPorPage] = useState<number | ''>(10);
   const { dataUser } = useLogin();
-  const [totalTickets, setTotalTickets] = useState(0);
-  const [tickets, setTickets] = useState([]);
+  const [totalPayments, setTotalPayments] = useState(0);
+  const [payments, setPayments] = useState([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [startDate, setStartDate] = useState<string>('');
@@ -50,10 +51,10 @@ export function Payments() {
         },
       });
 
-      setTickets(response.data.payments);
-      setTotalTickets(response.data.total_payments);
+      setPayments(response.data.payments);
+      setTotalPayments(response.data.total_payments);
     } catch (error) {
-     
+
     } finally {
       setLoading(false);
     }
@@ -73,24 +74,21 @@ export function Payments() {
     setCurrentPage(pageNumber);
   };
 
-  const totalPages = Math.ceil(totalTickets / Number(itensPorPage));
+  const totalPages = Math.ceil(totalPayments / Number(itensPorPage));
 
   useEffect(() => {
     fetchDataPayments();
   }, [fetchDataPayments]);
 
-
-
   const handleSaveToLocalStorage = () => {
-    if(currentPage !== 1) {
+    if (currentPage !== 1) {
       setCurrentPage(1);
     }
     localStorage.setItem('@startDatePayments', startDate);
     localStorage.setItem('@endDatePayments', endDate);
-    if(currentPage === 1) {
+    if (currentPage === 1) {
       fetchDataPayments();
     }
-
   };
 
   const handleRemoveFilter = (filterKey: string) => {
@@ -106,8 +104,6 @@ export function Payments() {
     fetchDataPayments();
   };
 
-
-
   const activeFilters = [
     localStorage.getItem('@startDatePayments') && localStorage.getItem('@endDatePayments') && {
       title: 'Data',
@@ -120,7 +116,6 @@ export function Payments() {
     }
   ].filter((filter): filter is { title: string; onClick: () => void } => Boolean(filter));
 
-
   if (loading) {
     return <Loading />;
   }
@@ -129,7 +124,10 @@ export function Payments() {
     <>
       <S.Container>
         <HeaderPayments />
-        <S.ContainerButton>
+
+        {payments.length > 0 && (<>
+
+          <S.ContainerButton>
           <BtnFilterModal
             disabled={!startDate || !endDate || endDate <= startDate}
             onClick={handleSaveToLocalStorage}
@@ -156,29 +154,39 @@ export function Payments() {
             </S.BtnFilterModalContainer>
           </BtnFilterModal>
           {activeFilters.length > 0 && (
-              <TagFilter filters={activeFilters} />
-            )}
+            <TagFilter filters={activeFilters} />
+          )}
         </S.ContainerButton>
-        < TablePayments rows={tickets} />
-        <S.ContainerCardsMobile>
-          <TicketsCardMobile data={tickets} />
-        </S.ContainerCardsMobile>
-        <S.Context>
-          <S.Linha />
-          <S.ContainerPagina>
-            <PaginaView totalItens={totalTickets} />
-            <S.ContainerItens>
-              <ItensPorPage itensPorPage={itensPorPage} setItensPorPage={setItensPorPage} />
-              <Pagination
-                currentPage={currentPage}
-                onPageClick={fetchData}
-                totalPages={totalPages}
-                onNextPage={handleNextPage}
-                onPrevPage={handlePrevPage}
-              />
-            </S.ContainerItens>
-          </S.ContainerPagina>
-        </S.Context>
+
+
+        </>)}
+
+        {payments.length > 0 ? (
+          <>
+            <TablePayments rows={payments} />
+            <S.ContainerCardsMobile>
+              <TicketsCardMobile data={payments} />
+            </S.ContainerCardsMobile>
+            <S.Context>
+              <S.Linha />
+              <S.ContainerPagina>
+                <PaginaView totalItens={totalPayments} />
+                <S.ContainerItens>
+                  <ItensPorPage itensPorPage={itensPorPage} setItensPorPage={setItensPorPage} />
+                  <Pagination
+                    currentPage={currentPage}
+                    onPageClick={fetchData}
+                    totalPages={totalPages}
+                    onNextPage={handleNextPage}
+                    onPrevPage={handlePrevPage}
+                  />
+                </S.ContainerItens>
+              </S.ContainerPagina>
+            </S.Context>
+          </>
+        ) : (
+         <NoteData />
+        )}
       </S.Container>
     </>
   );

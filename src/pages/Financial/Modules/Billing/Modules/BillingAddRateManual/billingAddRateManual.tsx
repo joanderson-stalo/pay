@@ -142,7 +142,7 @@ export function BillingAddRateManual() {
         title: 'Sucesso!',
         text: 'A tarifa foi adicionada com sucesso.',
       }).then(() => {
-        navigate('/tariffs');
+        navigate('/billingRequest');
       });
     } catch (error: any) {
       const err = error as AxiosError<ApiResponse>;

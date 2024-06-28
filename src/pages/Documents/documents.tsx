@@ -1,4 +1,4 @@
-import  { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import { TitleH } from '@/components/Title/title';
 import { UsefulLinkCard } from './components/UsefulLinkCard';
@@ -13,6 +13,7 @@ import {
 } from './styled';
 import { Loading } from '@/components/Loading/loading';
 import { baseURL } from '@/config/color';
+import { NoteData } from '@/components/NoteData/noteData';
 
 interface UsefulLink {
   title: string;
@@ -41,7 +42,7 @@ export function Documents() {
         }
       }
     } catch (error) {
-
+      console.error('Erro ao buscar dados:', error);
     } finally {
       setLoading(false);
     }
@@ -64,14 +65,18 @@ export function Documents() {
             <TitleStep>Links úteis</TitleStep>
             <Line />
             <ContainerForm>
-              {usefulLinks.map((link, index) => (
-                <UsefulLinkCard
-                  key={index}
-                  title={link.title}
-                  description={link.description}
-                  url={link.url}
-                />
-              ))}
+              {usefulLinks.length > 0 ? (
+                usefulLinks.map((link, index) => (
+                  <UsefulLinkCard
+                    key={index}
+                    title={link.title}
+                    description={link.description}
+                    url={link.url}
+                  />
+                ))
+              ) : (
+                <NoteData />
+              )}
             </ContainerForm>
           </ContextStep>
         </ContextStepContainer>

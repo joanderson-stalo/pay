@@ -17,6 +17,7 @@ import { baseURL } from '@/config/color';
 import { BtnFilterModal } from '@/components/BtnFilterModal/btnFilterModal';
 import { CustomSelect } from '@/components/Select/select';
 import { TagFilter } from '@/components/TagFilter/tagFilter';
+import { NoteData } from '@/components/NoteData/noteData';
 
 export function EquipmentStock() {
   const [itensPorPage, setItensPorPage] = useState<number | ''>(10);
@@ -203,7 +204,10 @@ export function EquipmentStock() {
               <CardInfo shouldFormat={false} label='POS Transacionando' value={totalTransactions} />
               <CardInfo label='Média TPV por POS' value={avgTpv} />
             </S.ContainerCard>
-            <S.Input isFocused={isFocused}>
+
+            {products.length > 0 && (
+              <>
+ <S.Input isFocused={isFocused}>
               <input
                 type="text"
                 placeholder="Pesquise por Serial"
@@ -217,66 +221,82 @@ export function EquipmentStock() {
               </S.SearchIcon>
             </S.Input>
 
-            <S.ContainerButton>
+              </>
+            ) }
 
-              <S.ContentFilter>
+{products.length > 0 && (<>
 
+  <S.ContainerButton>
 
-
-           
-
-                <BtnFilterModal onClick={handleSaveToLocalStorage} disabled={!selectedFornecedor && !selectedLicenciado}>
-                <CustomSelect
-                    optionsData={{ options: fetchedOptions }}
-                    placeholder="Digite aqui ou clique para ver a lista"
-                    label="Licenciado Autorizado"
-                    onChange={(selectedOption: { value: SetStateAction<string> }) =>
-                      setSelectedLicenciado(selectedOption.value)
-                    }
-                  />
-
-            <CustomSelect
-                    optionsData={{ options: fetchedOptionsFN }}
-                    placeholder="Digite aqui ou clique para ver a lista"
-                    label="Fornecedor"
-                    onChange={(selectedOption: { value: SetStateAction<string> }) =>
-                      setSelectedFornecedor(selectedOption.value)
-                    }
-                  />
-
-                </BtnFilterModal>
-
-                {activeFilters.length > 0 && (
-              <TagFilter filters={activeFilters} />
-            )}
+<S.ContentFilter>
 
 
-              </S.ContentFilter>
 
 
-            </S.ContainerButton>
+
+  <BtnFilterModal onClick={handleSaveToLocalStorage} disabled={!selectedFornecedor && !selectedLicenciado}>
+  <CustomSelect
+      optionsData={{ options: fetchedOptions }}
+      placeholder="Digite aqui ou clique para ver a lista"
+      label="Licenciado Autorizado"
+      onChange={(selectedOption: { value: SetStateAction<string> }) =>
+        setSelectedLicenciado(selectedOption.value)
+      }
+    />
+
+<CustomSelect
+      optionsData={{ options: fetchedOptionsFN }}
+      placeholder="Digite aqui ou clique para ver a lista"
+      label="Fornecedor"
+      onChange={(selectedOption: { value: SetStateAction<string> }) =>
+        setSelectedFornecedor(selectedOption.value)
+      }
+    />
+
+  </BtnFilterModal>
+
+  {activeFilters.length > 0 && (
+<TagFilter filters={activeFilters} />
+)}
 
 
-            <TableStock rows={products} />
-            <S.ContainerCardsMobile>
-              <StockCard data={products} />
-            </S.ContainerCardsMobile>
-            <S.Context>
-              <S.Linha />
-              <S.ContainerPagina>
-                <PaginaView totalItens={itensPorPage} />
-                <S.ContainerItens>
-                  <ItensPorPage itensPorPage={itensPorPage} setItensPorPage={setItensPorPage} />
-                  <Pagination
-                    currentPage={currentPage}
-                    onPageClick={() => false}
-                    totalPages={totalPages}
-                    onNextPage={handleNextPage}
-                    onPrevPage={handlePrevPage}
-                  />
-                </S.ContainerItens>
-              </S.ContainerPagina>
-            </S.Context>
+</S.ContentFilter>
+
+
+</S.ContainerButton>
+
+
+<TableStock rows={products} />
+<S.ContainerCardsMobile>
+<StockCard data={products} />
+</S.ContainerCardsMobile>
+<S.Context>
+<S.Linha />
+<S.ContainerPagina>
+  <PaginaView totalItens={itensPorPage} />
+  <S.ContainerItens>
+    <ItensPorPage itensPorPage={itensPorPage} setItensPorPage={setItensPorPage} />
+    <Pagination
+      currentPage={currentPage}
+      onPageClick={() => false}
+      totalPages={totalPages}
+      onNextPage={handleNextPage}
+      onPrevPage={handlePrevPage}
+    />
+  </S.ContainerItens>
+</S.ContainerPagina>
+</S.Context>
+
+
+</>)}
+
+{products.length === 0 && (<>
+
+<NoteData />
+
+</>)}
+
+
           </S.Container>
         </>
   );

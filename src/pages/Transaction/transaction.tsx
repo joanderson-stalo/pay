@@ -27,6 +27,7 @@ import {
 import { TagFilter } from '@/components/TagFilter/tagFilter'
 import { ITransaction } from './components/table/interface'
 import { toast } from 'react-toastify'
+import { NoteData } from '@/components/NoteData/noteData'
 
 export function Transaction() {
   const [searchValue, setSearchValue] = useState('')
@@ -39,7 +40,7 @@ export function Transaction() {
   const [tpvGlobal, setTpvGlobal] = useState<string>('0')
   const { dataUser } = useLogin()
   const [isFocused, setIsFocused] = useState(false)
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1)
   const [startDate, setStartDate] = useState<string>(
     () => localStorage.getItem('@captured_in_start') || ''
   )
@@ -119,8 +120,6 @@ export function Transaction() {
     [itensPorPage, currentPage, baseURL, dataUser?.token, searchValue]
   )
 
-
-
   const handleChange = (event: { target: { value: string } }) => {
     setSearchValue(event.target.value)
     if (event.target.value.trim() !== '') {
@@ -146,47 +145,51 @@ export function Transaction() {
   const handleSearch = () => {
     if (searchValue.trim() !== '') {
       if (currentPage !== 1) {
-        setCurrentPage(1);
+        setCurrentPage(1)
       } else {
-        fetchDataFromAPI(searchValue);
+        fetchDataFromAPI(searchValue)
       }
     } else {
-      fetchDataFromAPI();
+      fetchDataFromAPI()
     }
   }
-
 
   const totalPages = Math.ceil(totalTransactions / (itensPorPage || 1))
 
   useEffect(() => {
     if (currentPage === 1 || searchValue.trim() === '') {
-      fetchDataFromAPI(searchValue.trim() ? searchValue : undefined);
+      fetchDataFromAPI(searchValue.trim() ? searchValue : undefined)
     }
-  }, [currentPage]);
-
-
-
+  }, [currentPage])
 
   const handleExportClick = () => {
     if (dataUser) {
-      const toastId = toast.loading('Aguarde... Exportação em andamento.');
+      const toastId = toast.loading('Aguarde... Exportação em andamento.')
       TransactionsToExcel(dataUser.token)
         .then(() => {
-          toast.update(toastId, { render: 'Exportação realizada com sucesso!', type: toast.TYPE.SUCCESS, isLoading: false, autoClose: 5000 });
+          toast.update(toastId, {
+            render: 'Exportação realizada com sucesso!',
+            type: toast.TYPE.SUCCESS,
+            isLoading: false,
+            autoClose: 5000
+          })
         })
-        .catch((error) => {
-          toast.update(toastId, { render: 'Erro ao exportar: ' + error.message, type: toast.TYPE.ERROR, isLoading: false, autoClose: 5000 });
-        });
+        .catch(error => {
+          toast.update(toastId, {
+            render: 'Erro ao exportar: ' + error.message,
+            type: toast.TYPE.ERROR,
+            isLoading: false,
+            autoClose: 5000
+          })
+        })
     } else {
-
-      toast.error('Usuário não está autenticado.');
-    }
-  };
-
+      toast.error('Usuário não está autenticado.')
+    }
+  }
 
   const handleSaveToLocalStorage = async () => {
-    if(currentPage !== 1){
-      setCurrentPage(1);
+    if (currentPage !== 1) {
+      setCurrentPage(1)
     }
 
     if (startDate) localStorage.setItem('@captured_in_start', startDate)
@@ -197,33 +200,32 @@ export function Transaction() {
       localStorage.setItem('@statusPagamento', selectedPaymentStatus)
     if (selectedBrand) localStorage.setItem('@bandeira', selectedBrand)
 
-     if(currentPage === 1){
+    if (currentPage === 1) {
       fetchDataFromAPI()
-     }
-
+    }
   }
 
   const handleRemoveFilter = (filterKey: string) => {
-    localStorage.removeItem(filterKey);
+    localStorage.removeItem(filterKey)
     switch (filterKey) {
       case '@bandeira':
-        setSelectedBrand('');
-        break;
+        setSelectedBrand('')
+        break
       case '@formaDePagamento':
-        setSelectedPaymentMethod('');
-        break;
+        setSelectedPaymentMethod('')
+        break
       case '@statusPagamento':
-        setSelectedPaymentStatus('');
-        break;
+        setSelectedPaymentStatus('')
+        break
       case '@captured_in_start':
-        setStartDate('');
-        break;
+        setStartDate('')
+        break
       case '@captured_in_end':
-        setEndDate('');
-        break;
+        setEndDate('')
+        break
     }
-    fetchDataFromAPI();
-  };
+    fetchDataFromAPI()
+  }
 
   const activeFilters = [
     localStorage.getItem('@bandeira') && {
@@ -238,27 +240,27 @@ export function Transaction() {
       title: 'Status de Pagamento',
       onClick: () => handleRemoveFilter('@statusPagamento')
     },
-    localStorage.getItem('@captured_in_start') && localStorage.getItem('@captured_in_end') && {
-      title: 'Data',
-      onClick: () => {
-        handleRemoveFilter('@captured_in_start');
-        handleRemoveFilter('@captured_in_end');
-        setStartDate('');
-        setEndDate('');
+    localStorage.getItem('@captured_in_start') &&
+      localStorage.getItem('@captured_in_end') && {
+        title: 'Data',
+        onClick: () => {
+          handleRemoveFilter('@captured_in_start')
+          handleRemoveFilter('@captured_in_end')
+          setStartDate('')
+          setEndDate('')
+        }
       }
-    }
-  ].filter((filter): filter is { title: string; onClick: () => void } => Boolean(filter));
+  ].filter((filter): filter is { title: string; onClick: () => void } =>
+    Boolean(filter)
+  )
 
   if (loading) {
     return <Loading />
   }
 
-
-
   return (
     <>
       <S.Container>
-
         <S.ContextTitleVendas>
           <TitleH title="Vendas" />
           <S.ContainerCardVendas>
@@ -270,111 +272,123 @@ export function Transaction() {
             <CardInfo label="TPV" value={Number(tpvGlobal)} />
             <CardInfo label="Valor Líquido" value={Number(totalAmount)} />
           </S.ContainerCardVendas>
-          <S.Input isFocused={isFocused}>
-            <input
-              type="text"
-              placeholder="Pesquise por NSU"
-              value={searchValue}
-              onChange={handleChange}
-              onFocus={() => setIsFocused(true)}
-              onBlur={() => setIsFocused(false)}
-            />
-            <S.SearchIcon isFocused onClick={handleSearch}>
-              <MagnifyingGlass />
-            </S.SearchIcon>
-          </S.Input>
+
+          {transactions.length > 0 && (
+            <>
+              <S.Input isFocused={isFocused}>
+                <input
+                  type="text"
+                  placeholder="Pesquise por NSU"
+                  value={searchValue}
+                  onChange={handleChange}
+                  onFocus={() => setIsFocused(true)}
+                  onBlur={() => setIsFocused(false)}
+                />
+                <S.SearchIcon isFocused onClick={handleSearch}>
+                  <MagnifyingGlass />
+                </S.SearchIcon>
+              </S.Input>
+            </>
+          )}
         </S.ContextTitleVendas>
 
-        <S.ContainerButton>
-        <S.ContentFilter>
+        {transactions.length > 0 && (
+          <>
+            <S.ContainerButton>
+              <S.ContentFilter>
+                <BtnFilterModal
+                  onClick={handleSaveToLocalStorage}
+                  disabled={
+                    (!startDate || !endDate || endDate <= startDate) &&
+                    !selectedBrand &&
+                    !selectedPaymentMethod &&
+                    !selectedPaymentStatus
+                  }
+                >
+                  <CustomSelect
+                    optionsData={brandOptions}
+                    placeholder="Clique para ver a lista"
+                    label="Bandeira"
+                    onChange={(selectedOption: {
+                      value: SetStateAction<string>
+                    }) => setSelectedBrand(selectedOption.value)}
+                  />
+                  <CustomSelect
+                    optionsData={paymentMethodOptions}
+                    placeholder="Clique para ver a lista"
+                    label="Forma de Pagamento"
+                    onChange={(selectedOption: {
+                      value: SetStateAction<string>
+                    }) => setSelectedPaymentMethod(selectedOption.value)}
+                  />
+                  <CustomSelect
+                    optionsData={statusPaymentOptions}
+                    placeholder="Clique para ver a lista"
+                    label="Status do pagamento"
+                    onChange={(selectedOption: {
+                      value: SetStateAction<string>
+                    }) => setSelectedPaymentStatus(selectedOption.value)}
+                  />
+                  <CustomInput
+                    colorInputDefault={tenantData.primary_color_identity}
+                    colorInputSuccess={tenantData.secondary_color_identity}
+                    type="date"
+                    label="Data inicial"
+                    value={startDate}
+                    hasError={!!endDate && startDate > endDate}
+                    onChange={event => setStartDate(event.target.value)}
+                  />
+                  <CustomInput
+                    colorInputDefault={tenantData.primary_color_identity}
+                    colorInputSuccess={tenantData.secondary_color_identity}
+                    type="date"
+                    label="Data final"
+                    value={endDate}
+                    hasError={!!startDate && (endDate <= startDate || !endDate)}
+                    onChange={event => setEndDate(event.target.value)}
+                  />
+                </BtnFilterModal>
+                {activeFilters.length > 0 && (
+                  <TagFilter filters={activeFilters} />
+                )}
+              </S.ContentFilter>
 
-            <BtnFilterModal
-              onClick={handleSaveToLocalStorage}
-              disabled={
-                (!startDate || !endDate || endDate <= startDate) &&
-                !selectedBrand &&
-                !selectedPaymentMethod &&
-                !selectedPaymentStatus
-              }
-            >
-              <CustomSelect
-                optionsData={brandOptions}
-                placeholder="Clique para ver a lista"
-                label="Bandeira"
-                onChange={(selectedOption: { value: SetStateAction<string> }) =>
-                  setSelectedBrand(selectedOption.value)
-                }
-              />
-              <CustomSelect
-                optionsData={paymentMethodOptions}
-                placeholder="Clique para ver a lista"
-                label="Forma de Pagamento"
-                onChange={(selectedOption: { value: SetStateAction<string> }) =>
-                  setSelectedPaymentMethod(selectedOption.value)
-                }
-              />
-              <CustomSelect
-                optionsData={statusPaymentOptions}
-                placeholder="Clique para ver a lista"
-                label="Status do pagamento"
-                onChange={(selectedOption: { value: SetStateAction<string> }) =>
-                  setSelectedPaymentStatus(selectedOption.value)
-                }
-              />
-              <CustomInput
-                colorInputDefault={tenantData.primary_color_identity}
-                colorInputSuccess={tenantData.secondary_color_identity}
-                type="date"
-                label="Data inicial"
-                value={startDate}
-                hasError={!!endDate && startDate > endDate}
-                onChange={event => setStartDate(event.target.value)}
-              />
-              <CustomInput
-                colorInputDefault={tenantData.primary_color_identity}
-                colorInputSuccess={tenantData.secondary_color_identity}
-                type="date"
-                label="Data final"
-                value={endDate}
-                hasError={!!startDate && (endDate <= startDate || !endDate)}
-                onChange={event => setEndDate(event.target.value)}
-              />
-            </BtnFilterModal>
-            {activeFilters.length > 0 && (
-              <TagFilter filters={activeFilters} />
-            )}
-          </S.ContentFilter>
+              <ExportData title="Exportar dados" onClick={handleExportClick} />
+            </S.ContainerButton>
 
-          <ExportData title="Exportar dados" onClick={handleExportClick} />
-        </S.ContainerButton>
+            <TabelaVendas rows={transactions} />
 
+            <S.ContainerMobile>
+              <CardSales transactions={transactions} />
+            </S.ContainerMobile>
 
+            <S.Context>
+              <S.Linha />
+              <S.ContainerPagina>
+                <PaginaView totalItens={itensPorPage} />
+                <S.ContainerItens>
+                  <ItensPorPage
+                    itensPorPage={itensPorPage}
+                    setItensPorPage={setItensPorPage}
+                  />
+                  <Pagination
+                    currentPage={currentPage}
+                    onPageClick={fetchData}
+                    totalPages={totalPages}
+                    onNextPage={handleNextPage}
+                    onPrevPage={handlePrevPage}
+                  />
+                </S.ContainerItens>
+              </S.ContainerPagina>
+            </S.Context>
+          </>
+        )}
 
-        <TabelaVendas rows={transactions} />
-
-        <S.ContainerMobile>
-          <CardSales transactions={transactions} />
-        </S.ContainerMobile>
-
-        <S.Context>
-          <S.Linha />
-          <S.ContainerPagina>
-            <PaginaView totalItens={itensPorPage} />
-            <S.ContainerItens>
-              <ItensPorPage
-                itensPorPage={itensPorPage}
-                setItensPorPage={setItensPorPage}
-              />
-              <Pagination
-                currentPage={currentPage}
-                onPageClick={fetchData}
-                totalPages={totalPages}
-                onNextPage={handleNextPage}
-                onPrevPage={handlePrevPage}
-              />
-            </S.ContainerItens>
-          </S.ContainerPagina>
-        </S.Context>
+{transactions.length === 0 && (
+  <>
+    <NoteData />
+  </>
+)}
       </S.Container>
     </>
   )

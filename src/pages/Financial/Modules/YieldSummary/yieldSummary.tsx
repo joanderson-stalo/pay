@@ -10,8 +10,7 @@ import { YieldSummaryTable } from './components/YieldSummaryTable/yieldSummaryTa
 import { CardYieldSummary } from './Mobile/CardYieldSummary/cardYieldSummary';
 import { OperationSummaryResponse } from './interface';
 import { ExportData } from '@/components/ExportData/exportData';
-
-
+import { NoteData } from '@/components/NoteData/noteData';
 
 export function YieldSummary() {
   const { dataUser } = useLogin();
@@ -30,7 +29,7 @@ export function YieldSummary() {
         setOperationSummary(response.data);
       }
     } catch (error) {
-
+      console.error('Erro ao buscar os dados:', error);
     } finally {
       setLoading(false);
     }
@@ -57,14 +56,10 @@ export function YieldSummary() {
 
   return (
     <Container>
-
       <ContainerTitle>
-      <TitleH title='Resumo de rendimentos ' />
-      <ExportData title="Exportar dados" onClick={() => false} />
+        <TitleH title='Resumo de rendimentos ' />
+        <ExportData title="Exportar dados" onClick={() => false} />
       </ContainerTitle>
-
-
-
 
       <ContainerCards>
         <CardInfo label='TPV' value={parseFloat(operationSummary?.transactions_TPV || '0')} />
@@ -73,16 +68,23 @@ export function YieldSummary() {
         <CardInfo label='Lucro final' value={parseFloat(operationSummary?.profit || '0')} />
       </ContainerCards>
 
-      <YieldSummaryTable
-        rows={transactionsFromCommissionsByAcquire.map((transaction, index) => ({ ...transaction, id: index }))}
-      />
+      {transactionsFromCommissionsByAcquire.length > 0 && (
+        <>
+          <YieldSummaryTable
+            rows={transactionsFromCommissionsByAcquire.map((transaction, index) => ({ ...transaction, id: index }))}
+          />
 
-      <ContainerCardsMobile>
-        <CardYieldSummary
-          transactions={transactionsFromCommissionsByAcquire.map((transaction, index) => ({ ...transaction, id: index }))}
-        />
-      </ContainerCardsMobile>
+          <ContainerCardsMobile>
+            <CardYieldSummary
+              transactions={transactionsFromCommissionsByAcquire.map((transaction, index) => ({ ...transaction, id: index }))}
+            />
+          </ContainerCardsMobile>
+        </>
+      )}
+
+      {transactionsFromCommissionsByAcquire.length === 0 && (
+        <NoteData />
+      )}
     </Container>
   );
 }
-

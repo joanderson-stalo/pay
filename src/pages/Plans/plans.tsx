@@ -12,6 +12,7 @@ import { PlansCard } from './Mobile/PlansCard';
 import { baseURL } from '@/config/color';
 import { MagnifyingGlass } from '@phosphor-icons/react';
 import axios from 'axios';
+import { NoteData } from '@/components/NoteData/noteData';
 
 interface Plan {
   id: number;
@@ -84,13 +85,11 @@ export function Plans() {
     [itensPorPage, currentPage, baseURL, dataUser?.token, searchValue]
   );
 
-
-
   useEffect(() => {
     if (searchValue.trim() === '') {
       fetchPlans(searchValue);
     }
-    }, [fetchPlans, searchValue]);
+  }, [fetchPlans, searchValue]);
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
@@ -108,8 +107,6 @@ export function Plans() {
     setCurrentPage(pageNumber);
   };
 
-
-
   const handleChange = (event: { target: { value: string } }) => {
     setSearchValue(event.target.value)
   }
@@ -123,7 +120,6 @@ export function Plans() {
     }
   };
 
-
   useEffect(() => {
     if (searchValue.trim() !== '' && triggerSearch) {
       fetchPlans(searchValue);
@@ -131,32 +127,30 @@ export function Plans() {
     }
   }, [searchValue, currentPage, triggerSearch, fetchPlans]);
 
-
-  if(loading){
+  if (loading) {
     return <Loading />
   }
 
   return (
+    <>
+      <S.Container>
+        <HeaderPlans />
 
-        <>
-        <S.Container>
-          <HeaderPlans
-          />
-
-<S.Input isFocused={isFocused}>
-            <input
-              type="text"
-              placeholder="Pesquise por nome do estabelecimento"
-              value={searchValue}
-              onChange={handleChange}
-              onFocus={() => setIsFocused(true)}
-              onBlur={() => setIsFocused(false)}
-            />
-            <S.SearchIcon isFocused onClick={handleSearch}>
-              <MagnifyingGlass />
-            </S.SearchIcon>
-          </S.Input>
-
+        {plans.length > 0 && (
+          <>
+            <S.Input isFocused={isFocused}>
+              <input
+                type="text"
+                placeholder="Pesquise por nome do estabelecimento"
+                value={searchValue}
+                onChange={handleChange}
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setIsFocused(false)}
+              />
+              <S.SearchIcon isFocused onClick={handleSearch}>
+                <MagnifyingGlass />
+              </S.SearchIcon>
+            </S.Input>
 
             <TablePlans rows={plans} />
 
@@ -183,7 +177,13 @@ export function Plans() {
                 </S.ContainerItens>
               </S.ContainerPagina>
             </S.Context>
-          </S.Container>
-        </>
+          </>
+        )}
+
+        {plans.length === 0 && (
+            <NoteData />
+        )}
+      </S.Container>
+    </>
   );
 }

@@ -16,6 +16,7 @@ import { BtnFilterModal } from '@/components/BtnFilterModal/btnFilterModal'
 import { CustomInput } from '@/components/Input/input'
 import { useTenantData } from '@/context'
 import { TagFilter } from '@/components/TagFilter/tagFilter'
+import { NoteData } from '@/components/NoteData/noteData'
 
 
 interface CommissionData {
@@ -193,7 +194,10 @@ export function NetWorkCommission() {
             </S.ContainerCardVendas>
 
           </S.ContextTitleVendas>
-          <S.ContainerButton>
+
+          {Object.keys(commissionsByEC).length > 0 && (<>
+
+            <S.ContainerButton>
           <BtnFilterModal
             onClick={handleSaveToLocalStorage}
             disabled={!startDate || !endDate || endDate <= startDate}
@@ -226,34 +230,47 @@ export function NetWorkCommission() {
               <TagFilter filters={activeFilters} />
             )}
         </S.ContainerButton>
+          </>) }
 
-          <TabelaNetWordkCommission commissions_by_EC={commissionsByEC} />
+          {Object.keys(commissionsByEC).length > 0 && (<>
+            <TabelaNetWordkCommission commissions_by_EC={commissionsByEC} />
 
-          <S.ContainerCardsMobile>
-          <ToDayCommisionCard data={commissionsByEC}  />
-          </S.ContainerCardsMobile>
+<S.ContainerCardsMobile>
+<ToDayCommisionCard data={commissionsByEC}  />
+</S.ContainerCardsMobile>
 
 
 
-          <S.Context>
-            <S.Linha />
-            <S.ContainerPagina>
-              <PaginaView totalItens={itensPorPage} />
-              <S.ContainerItens>
-                <ItensPorPage
-                  itensPorPage={itensPorPage}
-                  setItensPorPage={setItensPorPage}
-                />
-                <Pagination
-                  currentPage={currentPage}
-                  onPageClick={fetchData}
-                  totalPages={totalPages}
-                  onNextPage={handleNextPage}
-                  onPrevPage={handlePrevPage}
-                />
-              </S.ContainerItens>
-            </S.ContainerPagina>
-          </S.Context>
+<S.Context>
+  <S.Linha />
+  <S.ContainerPagina>
+    <PaginaView totalItens={itensPorPage} />
+    <S.ContainerItens>
+      <ItensPorPage
+        itensPorPage={itensPorPage}
+        setItensPorPage={setItensPorPage}
+      />
+      <Pagination
+        currentPage={currentPage}
+        onPageClick={fetchData}
+        totalPages={totalPages}
+        onNextPage={handleNextPage}
+        onPrevPage={handlePrevPage}
+      />
+    </S.ContainerItens>
+  </S.ContainerPagina>
+</S.Context>
+
+
+          </>)}
+
+
+          {Object.keys(commissionsByEC).length === 0 && (<>
+            <NoteData />
+
+          </>)}
+
+
           </S.Container>
         </>
   )

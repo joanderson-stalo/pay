@@ -198,7 +198,7 @@ export function ImportSpreadsheetBilling() {
           title: 'Dados salvos com sucesso!',
           text: 'Os dados foram salvos com sucesso.',
         }).then(() => {
-          navigate('/tariffs');
+          navigate('/billingRequest');
         });
       } else {
         Swal.fire({

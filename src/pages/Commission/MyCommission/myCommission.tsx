@@ -15,6 +15,7 @@ import { TagFilter } from '@/components/TagFilter/tagFilter'
 import { CustomInput } from '@/components/Input/input'
 import { BtnFilterModal } from '@/components/BtnFilterModal/btnFilterModal'
 import { useTenantData } from '@/context'
+import { NoteData } from '@/components/NoteData/noteData'
 
 interface CommissionData {
   ec_seller_document: string;
@@ -42,9 +43,7 @@ interface APIResponse {
 }
 
 export function MyCommission() {
-  const [searchValue, setSearchValue] = useState('')
   const [itensPorPage, setItensPorPage] = useState<number | ''>(10)
-  const [filter, setFilter] = useState(false)
   const [loading, setLoading] = useState<boolean>(false)
 
 
@@ -200,67 +199,92 @@ export function MyCommission() {
               />
             </S.ContainerCardVendas>
 
-            <S.ContainerButton>
-          <BtnFilterModal
-            onClick={handleSaveToLocalStorage}
-            disabled={!startDate || !endDate || endDate <= startDate}
-          >
+            {Object.keys(commissionsByEC).length > 0 && (
+
+<>
+
+<S.ContainerButton>
+
+
+
+<BtnFilterModal
+  onClick={handleSaveToLocalStorage}
+  disabled={!startDate || !endDate || endDate <= startDate}
+>
 
 <CustomInput
-                colorInputDefault={tenantData.primary_color_identity}
-                colorInputSuccess={tenantData.secondary_color_identity}
-                type="date"
-                label="Data inicial"
-                value={startDate}
-                hasError={!!endDate && startDate > endDate}
-                onChange={event => setStartDate(event.target.value)}
-              />
-              <CustomInput
-                colorInputDefault={tenantData.primary_color_identity}
-                colorInputSuccess={tenantData.secondary_color_identity}
-                type="date"
-                label="Data final"
-                value={endDate}
-                hasError={!!startDate && (endDate <= startDate || !endDate)}
-                onChange={event => setEndDate(event.target.value)}
-              />
+      colorInputDefault={tenantData.primary_color_identity}
+      colorInputSuccess={tenantData.secondary_color_identity}
+      type="date"
+      label="Data inicial"
+      value={startDate}
+      hasError={!!endDate && startDate > endDate}
+      onChange={event => setStartDate(event.target.value)}
+    />
+    <CustomInput
+      colorInputDefault={tenantData.primary_color_identity}
+      colorInputSuccess={tenantData.secondary_color_identity}
+      type="date"
+      label="Data final"
+      value={endDate}
+      hasError={!!startDate && (endDate <= startDate || !endDate)}
+      onChange={event => setEndDate(event.target.value)}
+    />
 
 
-          </BtnFilterModal>
+</BtnFilterModal>
 
 
-          {activeFilters.length > 0 && (
-              <TagFilter filters={activeFilters} />
-            )}
-        </S.ContainerButton>
+{activeFilters.length > 0 && (
+    <TagFilter filters={activeFilters} />
+  )}
+</S.ContainerButton>
+</>
 
-          <TabelaRankingCommission commissions_by_EC={commissionsByEC}  />
-
-
-          <S.ContainerCardsMobile>
-          <RankingCard data={commissionsByEC} />
-          </S.ContainerCardsMobile>
+) }
 
 
-          <S.Context>
-            <S.Linha />
-            <S.ContainerPagina>
-              <PaginaView totalItens={itensPorPage} />
-              <S.ContainerItens>
-                <ItensPorPage
-                  itensPorPage={itensPorPage}
-                  setItensPorPage={setItensPorPage}
-                />
-                <Pagination
-                  currentPage={currentPage}
-                  onPageClick={fetchData}
-                  totalPages={totalPages}
-                  onNextPage={handleNextPage}
-                  onPrevPage={handlePrevPage}
-                />
-              </S.ContainerItens>
-            </S.ContainerPagina>
-          </S.Context>
+{Object.keys(commissionsByEC).length > 0 && (<>
+
+  <TabelaRankingCommission commissions_by_EC={commissionsByEC}  />
+
+
+<S.ContainerCardsMobile>
+<RankingCard data={commissionsByEC} />
+</S.ContainerCardsMobile>
+
+
+<S.Context>
+  <S.Linha />
+  <S.ContainerPagina>
+    <PaginaView totalItens={itensPorPage} />
+    <S.ContainerItens>
+      <ItensPorPage
+        itensPorPage={itensPorPage}
+        setItensPorPage={setItensPorPage}
+      />
+      <Pagination
+        currentPage={currentPage}
+        onPageClick={fetchData}
+        totalPages={totalPages}
+        onNextPage={handleNextPage}
+        onPrevPage={handlePrevPage}
+      />
+    </S.ContainerItens>
+  </S.ContainerPagina>
+</S.Context>
+
+</>)}
+
+
+{Object.keys(commissionsByEC).length === 0 && (<>
+
+<NoteData />
+
+</>) }
+
+
+
           </S.Container>
         </>
   )

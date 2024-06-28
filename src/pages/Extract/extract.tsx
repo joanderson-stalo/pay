@@ -13,6 +13,7 @@ import { BtnFilterModal } from '@/components/BtnFilterModal/btnFilterModal';
 import { CustomInput } from '@/components/Input/input';
 import { useTenantData } from '@/context';
 import { TagFilter } from '@/components/TagFilter/tagFilter';
+import { NoteData } from '@/components/NoteData/noteData';
 
 export function Extract() {
   const [filter, setFilter] = useState(false);
@@ -123,7 +124,10 @@ export function Extract() {
               <CardInfo  label='Saídas hoje' value={outflowsToday}/>
             </S.ContainerCard>
 
-            <S.ContainerButton>
+
+            {Object.keys(statement).length > 0 && (<>
+
+              <S.ContainerButton>
             <BtnFilterModal
   onClick={handleSaveToLocalStorage}
   disabled={
@@ -164,6 +168,20 @@ export function Extract() {
             <S.ContainerCardsMobile>
               <ExtractCardMobile  data={statement}/>
             </S.ContainerCardsMobile>
+
+            </>)}
+
+
+
+            {Object.keys(statement).length === 0 && (<>
+
+            <>
+            <NoteData />
+
+            </>
+
+            </>)}
+
           </S.Container>
         </>
   );
