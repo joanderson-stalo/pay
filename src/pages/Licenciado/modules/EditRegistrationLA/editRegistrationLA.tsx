@@ -95,16 +95,16 @@ export const EditRegistrationLA = () => {
 
   const validateStep1 = () => {
     const step1Values = getValues();
-    const isEmailValid = validateEmail(step1Values.EmailEstabelecimento);
-    const isDataCriacaoValid = (documentTypeLA !== "CPF") ? validateDataCriacao(step1Values.DataCriacaoEstabelecimento) : true;
-    const isTelefoneValid = validateTelefone(step1Values.TelefoneEstabelecimento);
+    const isEmailValid = step1Values.EmailEstabelecimento;
+    const isDataCriacaoValid = (documentTypeLA !== "CPF") ? step1Values.DataCriacaoEstabelecimento : true;
+    const isTelefoneValid = step1Values.TelefoneEstabelecimento;
 
     const isStep1Valid =
-      (validateCNPJ(step1Values.CNPJEstabelecimento) || documentTypeLA === "CPF") &&
+      ((step1Values.CNPJEstabelecimento) || documentTypeLA === "CPF") &&
       (step1Values.RazaoSocialEstabelecimento || documentTypeLA === "CPF") &&
       step1Values.NomeFantasiaEstabelecimento &&
       step1Values.NascimentoSocio &&
-      validateCPF(step1Values.CPFEstabelecimento) &&
+      (step1Values.CPFEstabelecimento) &&
       step1Values.NomeSocioEstabelecimento &&
       isEmailValid &&
       isTelefoneValid &&
@@ -147,9 +147,9 @@ const validateStep4 = () => {
   let isCpfCnpjValid = false;
 
   if (cpfCnpjValue.length <= 11) {
-    isCpfCnpjValid = validateCPF(cpfCnpjValue);
+    isCpfCnpjValid = cpfCnpjValue;
   } else {
-    isCpfCnpjValid = validateCNPJ(cpfCnpjValue);
+    isCpfCnpjValid = cpfCnpjValue;
   }
 
   const isStep4Valid =

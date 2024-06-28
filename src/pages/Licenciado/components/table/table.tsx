@@ -147,7 +147,7 @@ export function Tabela({ rows }: TabelaProps) {
         {sortedRows.map((seller, index) => (
           <tr key={index}>
             <S.TableData>{seller.id}</S.TableData>
-            <S.TableData>{maskCpfCnpj(seller.cnpj_cpf)}</S.TableData>
+            <S.TableData>{maskCpfCnpj(seller.document)}</S.TableData>
             <S.TableData style={{maxWidth: "150px"}}>{seller.trading_name ? seller.trading_name  : seller.owner_name}</S.TableData>
             <S.TableData>{seller.type} {seller.network_index}</S.TableData>
             <S.TableData>{seller.ec_count}</S.TableData>

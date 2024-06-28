@@ -197,9 +197,9 @@ export function Step3({ Avançar, Voltar }: IStep3) {
 
           const data = sellerResponse.data;
           if (data && data.sellers) {
-            const options = data.sellers.map((seller: { trading_name: any; type: any; id: any, cnpj_cpf: any }) => ({
+            const options = data.sellers.map((seller: { trading_name: any; type: any; id: any, document: any }) => ({
               value: seller.id,
-              label: `${seller.trading_name}-${seller.type}-${seller.cnpj_cpf}`
+              label: `${seller.trading_name}-${seller.type}-${seller.document}`
             }));
             setFetchedOptions(options);
             sessionStorage.setItem('sellerData', JSON.stringify(options));

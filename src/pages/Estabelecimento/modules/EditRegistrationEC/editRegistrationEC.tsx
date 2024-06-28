@@ -99,11 +99,11 @@ export const EditRegistrationEC = () => {
     const isDataCriacaoValid = (documentTypeEC !== "CPF") ? validateDataCriacao(step1Values.DataCriacaoEstabelecimento) : true;
     const isTelefoneValid = validateTelefone(step1Values.TelefoneEstabelecimento);
 
-    return (validateCNPJ(step1Values.CNPJEstabelecimento) || documentTypeEC === "CPF") &&
+    return ((step1Values.CNPJEstabelecimento) || documentTypeEC === "CPF") &&
       (step1Values.RazaoSocialEstabelecimento || documentTypeEC === "CPF") &&
       step1Values.NomeFantasiaEstabelecimento &&
       step1Values.NascimentoSocio &&
-      validateCPF(step1Values.CPFEstabelecimento) &&
+      (step1Values.CPFEstabelecimento) &&
       step1Values.NomeSocioEstabelecimento &&
       isEmailValid &&
       isTelefoneValid &&
@@ -135,9 +135,9 @@ export const EditRegistrationEC = () => {
     let isCpfCnpjValid = false;
 
     if (cpfCnpjValue.length <= 11) {
-      isCpfCnpjValid = validateCPF(cpfCnpjValue);
+      isCpfCnpjValid = cpfCnpjValue;
     } else {
-      isCpfCnpjValid = validateCNPJ(cpfCnpjValue);
+      isCpfCnpjValid = cpfCnpjValue;
     }
 
     return step4Values.Banco &&

@@ -66,19 +66,22 @@ export function Step3({ Avançar, Voltar }: IStep3) {
         const data = response.data;
 
         if (data && data.sellers) {
-          const options = data.sellers.map((seller: { trading_name: any; type: any; id: any, cnpj_cpf: any }, index: number) => ({
-            value: seller.id,
-            label: `${seller.trading_name}-${seller.type}-${seller.cnpj_cpf}`
-          }));
+          const options = data.sellers
+            .filter((seller: { id: string }) => seller.id !== licensedId)
+            .map((seller: { trading_name: any; type: any; id: any, document: any }, index: number) => ({
+              value: seller.id,
+              label: `${seller.trading_name}-${seller.type}-${seller.document}`
+            }));
 
           setFetchedOptions(options);
         }
         setLoading(false);
       })
       .catch(error => {
-      
+        setLoading(false);
+        console.error('Erro ao buscar vendedores', error);
       });
-  }, []);
+  }, [dataUser?.token, licensedId]);
 
   useEffect(() => {
     const fetchSellerData = async () => {

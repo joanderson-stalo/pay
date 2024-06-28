@@ -7,6 +7,7 @@ import { TitleH } from '@/components/Title/title';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useOrderPix } from '@/context/id/orderPixID';
+import axios from 'axios';
 
 interface FormData {
   amount: number | undefined;
@@ -22,7 +23,7 @@ export function ConfraPix() {
   const today = new Date();
   const tomorrow = new Date(today);
   tomorrow.setDate(tomorrow.getDate() + 1);
-  const { selectedOrderPixID, setSelectedOrderPixID } = useOrderPix();
+  const { setSelectedOrderPixID } = useOrderPix();
 
   const formatDate = (date: Date) => {
     const day = String(date.getDate()).padStart(2, '0');
@@ -34,7 +35,7 @@ export function ConfraPix() {
   const amount = watch('amount');
   const customer_document = watch('customerDocument');
 
-  const onSubmit: SubmitHandler<FormData> = data => {
+  const onSubmit: SubmitHandler<FormData> = async data => {
 
     if (data.customerDocument && !data.customerName) {
       toast.error('Nome é obrigatório quando o CPF é informado');
@@ -72,6 +73,26 @@ export function ConfraPix() {
       customer_document: data.customerDocument.replace(/\D/g, ''),
       acquires: [{ id: 1 }]
     };
+
+    try {
+      const response = await axios.post('https://api.confrapix.com.br/api/transaction/store', formattedData, {
+        headers: {
+          Authorization: `Bearer 7|hFcbFhT4SR3nZuWC6V0tX7BFLX8QOgDQsYCYaysu4d53c713`
+        }
+      });
+      toast.success('Transação criada com sucesso!');
+
+      const id = response.data.response.id
+     await setSelectedOrderPixID(id)
+     
+     navigate('/confrapix-qrcode')
+
+    } catch (error) {
+      toast.error('Erro ao criar a transação. Tente novamente.');
+
+    } finally {
+    
+    }
 
   };
 

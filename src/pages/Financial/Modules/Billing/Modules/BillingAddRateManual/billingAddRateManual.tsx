@@ -46,9 +46,9 @@ export function BillingAddRateManual() {
       });
       const data = response.data;
       if (data && data.sellers) {
-        const options = data.sellers.map((seller: { id: any; trading_name: any; type: any; cnpj_cpf: any; }) => ({
+        const options = data.sellers.map((seller: { id: any; trading_name: any; type: any; document: any; }) => ({
           value: seller.id,
-          label: `${seller.trading_name}-${seller.type}-${seller.cnpj_cpf}`
+          label: `${seller.trading_name}-${seller.type}-${seller.document}`
         }));
         setFetchedOptionsLA(options);
       }

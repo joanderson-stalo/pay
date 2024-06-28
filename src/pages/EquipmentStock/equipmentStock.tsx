@@ -116,9 +116,9 @@ export function EquipmentStock() {
       const data = response.data;
 
       if (data && data.sellers) {
-        const options = data.sellers.map((seller: { trading_name: any; type: any; id: any, cnpj_cpf: any }, index: number) => ({
+        const options = data.sellers.map((seller: { trading_name: any; type: any; id: any, document: any }, index: number) => ({
           value: seller.id,
-          label: `${seller.trading_name}-${seller.type}-${seller.cnpj_cpf}`
+          label: `${seller.trading_name}-${seller.type}-${seller.document}`
         }));
 
         setFetchedOptions(options);
