@@ -7,7 +7,7 @@ import { useTenantData } from '@/context';
 
 export interface RowData {
   id: number;
-  cnpj_cpf: string;
+  document: string;
   trading_name: string;
   type: string;
   owner_name: string;
@@ -28,8 +28,6 @@ export function Tabela({ rows }: TabelaProps) {
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
   const { setLicensedId } = useLicensed();
   const navigate = useNavigate();
-
-
 
   const handleSort = (field: SortField) => {
     if (field === sortField) {
@@ -68,7 +66,7 @@ export function Tabela({ rows }: TabelaProps) {
         return 0;
     }
 
-    return sortDirection === 'asc' ? -comparison : comparison;
+    return sortDirection === 'asc' ? comparison : -comparison;
   });
 
   function SortIndicator({
@@ -101,14 +99,11 @@ export function Tabela({ rows }: TabelaProps) {
     }).format(value);
   }
 
-
-
   useEffect(() => {
     handleSort('id');
   }, []);
 
   const tenantData = useTenantData();
-
 
   return (
     <S.Table>
@@ -147,8 +142,8 @@ export function Tabela({ rows }: TabelaProps) {
         {sortedRows.map((seller, index) => (
           <tr key={index}>
             <S.TableData>{seller.id}</S.TableData>
-            <S.TableData>{maskCpfCnpj(seller.document)}</S.TableData>
-            <S.TableData style={{maxWidth: "150px"}}>{seller.trading_name ? seller.trading_name  : seller.owner_name}</S.TableData>
+            <S.TableData>{seller.document ? maskCpfCnpj(seller.document) : '-'}</S.TableData>
+            <S.TableData style={{maxWidth: "150px"}}>{seller.trading_name ? seller.trading_name : seller.owner_name}</S.TableData>
             <S.TableData>{seller.type} {seller.network_index}</S.TableData>
             <S.TableData>{seller.ec_count}</S.TableData>
             <S.TableData>{formatToBRL(parseFloat(seller.commission.replace(',', '.')))}</S.TableData>

@@ -2,15 +2,12 @@ import { baseURL } from '@/config/color'
 import { useFormContext } from 'react-hook-form'
 import {
   ButtonAvançar,
-  ButtonPF,
-  ButtonPJ,
   ButtonVoltar,
   ContainerButton,
   ContainerDados,
   ContainerForm,
   ContainerInput,
   ContainerInput2,
-  ContainerPJPF,
   ContainerStep,
   ContextStep,
   ContextStepContainer,
@@ -26,7 +23,7 @@ import { validateEmail } from '@/utils/validateEmail'
 import { CustomSelect } from '@/components/Select/select'
 import { optionsData } from './option'
 import { useNavigate } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import axios from 'axios'
 import { useLogin } from '@/context/user.login'
 import { useLicensed } from '@/context/useLicensed'
@@ -40,8 +37,7 @@ interface IStep1 {
   Avançar: () => void
 }
 
-
-export function PJ({ Avançar}: IStep1) {
+export function PJ({ Avançar }: IStep1) {
   const {
     register,
     setValue,
@@ -70,61 +66,57 @@ export function PJ({ Avançar}: IStep1) {
     !!watch('TelefoneEstabelecimento')
 
   const handleAvancar = async () => {
-
-      Avançar()
-
+    Avançar()
   }
 
   const handleLicenseddetail = () => {
     navigate('/sellers-la')
   }
 
+  const fetchSellerData = useCallback(async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        `${baseURL}seller/show/${licensedId}`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${dataUser?.token}`,
+          },
+        }
+      );
+      setSellerData(response.data.seller);
+      setValue('EmailEstabelecimento', response.data.seller.email);
+      setValue('CNPJEstabelecimento', response.data.seller.document);
+      setValue('RazaoSocialEstabelecimento', response.data.seller.company_name);
+      setValue('NomeFantasiaEstabelecimento', response.data.seller.trading_name);
+      const dataCriacao = new Date(response.data.seller.opening_date).toLocaleDateString('pt-BR');
+      setValue('DataCriacaoEstabelecimento', dataCriacao);
+      const nascimentoSocio = new Date(response.data.seller.owner_birthday).toLocaleDateString('pt-BR');
+      setValue('NascimentoSocio', nascimentoSocio);
+      setValue('CPFEstabelecimento', response.data.seller.owner_cpf);
+      setValue('TelefoneEstabelecimento', response.data.seller.phone);
+      setValue('NomeSocioEstabelecimento', response.data.seller.owner_name);
+      setValue('AreaAtuacaoEstabelecimento', response.data.seller.mcc);
+    } catch (error) {
+      console.error('Erro ao buscar dados do vendedor', error);
+      setSellerData(null);
+    } finally {
+      setLoading(false);
+    }
+  }, [licensedId, dataUser?.token, setValue]);
 
   useEffect(() => {
-    const fetchSellerData = async () => {
-      setLoading(true);
-      try {
-        const response = await axios.get(
-          `${baseURL}seller/show/${licensedId}`,
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${dataUser?.token}`,
-            },
-          }
-        );
-        setSellerData(response.data.seller);
-        setValue('EmailEstabelecimento', response.data.seller.email);
-        setValue('CNPJEstabelecimento', response.data.seller.document);
-        setValue('RazaoSocialEstabelecimento', response.data.seller.company_name);
-        setValue('NomeFantasiaEstabelecimento', response.data.seller.trading_name);
-        const dataCriacao = new Date(response.data.seller.opening_date).toLocaleDateString('pt-BR');
-        setValue('DataCriacaoEstabelecimento', dataCriacao);
-        const nascimentoSocio = new Date(response.data.seller.owner_birthday).toLocaleDateString('pt-BR');
-        setValue('NascimentoSocio', nascimentoSocio);
-        setValue('CPFEstabelecimento', response.data.seller.owner_cpf);
-        setValue('TelefoneEstabelecimento', response.data.seller.phone);
-        setValue('NomeSocioEstabelecimento', response.data.seller.owner_name);
-        setValue('AreaAtuacaoEstabelecimento', response.data.seller.mcc);
-
-      } catch (error) {
-       
-        setSellerData(null);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchSellerData();
-  }, []);
+  }, [fetchSellerData]);
 
   const areaAtuacaoValue = watch('AreaAtuacaoEstabelecimento');
-
 
   const handleSalvar = async () => {
     try {
       setLoading(true);
 
-      const formatDate = (dateString: { split: (arg0: string) => [any, any, any] }) => {
+      const formatDate = (dateString: string) => {
         const [day, month, year] = dateString.split('/');
         return `${year}-${month}-${day}`;
       };
@@ -169,7 +161,7 @@ export function PJ({ Avançar}: IStep1) {
         }
       });
     } catch (error) {
-
+      console.error('Erro ao atualizar dados do licenciado', error);
       setLoading(false);
       Swal.fire({
         icon: 'error',
@@ -180,135 +172,120 @@ export function PJ({ Avançar}: IStep1) {
     }
   };
 
-
-
   return (
-      <>
-  {loading && <Loading />}
+    <>
+      {loading && <Loading />}
       <ContainerStep>
-      <ContextStepContainer>
-        <ContextStep>
-          <ContainerDados>
-            <TitleStep>Dados do Licenciado</TitleStep>
+        <ContextStepContainer>
+          <ContextStep>
+            <ContainerDados>
+              <TitleStep>Dados do Licenciado</TitleStep>
+            </ContainerDados>
+            <Line />
+            <ContainerForm>
+              <ContainerInput>
+                <LabelCustomInputMask
+                  {...register('CNPJEstabelecimento', { validate: validateCNPJ })}
+                  mask="99.999.999/9999-99"
+                  placeholder="--.---.---/---.--"
+                  hasError={!!errors.CNPJEstabelecimento}
+                  label="CNPJ"
+                />
+                <CustomInput
+                  {...register('RazaoSocialEstabelecimento')}
+                  label="Razão Social"
+                  colorInputDefault={tenantData.primary_color_identity}
+                  colorInputSuccess={tenantData.secondary_color_identity}
+                  hasError={!!errors.RazaoSocialEstabelecimento}
+                />
+                <LabelCustomInputMask
+                  {...register('DataCriacaoEstabelecimento', {
+                    validate: validateDataCriacao
+                  })}
+                  label="Data de Criação"
+                  mask="99/99/9999"
+                  placeholder="dd/mm/aaaa"
+                  hasError={!!errors.DataCriacaoEstabelecimento}
+                />
+              </ContainerInput>
 
-          </ContainerDados>
-          <Line />
-          <ContainerForm>
-            <ContainerInput>
-              <LabelCustomInputMask
-                {...register('CNPJEstabelecimento', { validate: validateCNPJ })}
-                mask="99.999.999/9999-99"
-                placeholder="--.---.---/---.--"
-                hasError={!!errors.CNPJEstabelecimento}
-                label="CNPJ"
-              />
-              <CustomInput
-                {...register('RazaoSocialEstabelecimento')}
-                label="Razão Social"
-                colorInputDefault={tenantData.primary_color_identity}
-                colorInputSuccess={tenantData.secondary_color_identity}
-                hasError={!!errors.RazaoSocialEstabelecimento}
-              />
-
-<LabelCustomInputMask
-                {...register('DataCriacaoEstabelecimento', {
-                  validate: validateDataCriacao
-                })}
-                label="Data de Criação"
-                mask="99/99/9999"
-                placeholder="dd/mm/aaaa"
-                hasError={!!errors.DataCriacaoEstabelecimento}
-              />
-            </ContainerInput>
-
-
-            <ContainerInput>
-
-
-
-
-            <CustomInput
-                {...register('NomeFantasiaEstabelecimento')}
-                label="Nome Fantasia"
-                colorInputDefault={tenantData.primary_color_identity}
-                colorInputSuccess={tenantData.secondary_color_identity}
-                hasError={!!errors.NomeFantasiaEstabelecimento}
-              />
-
-              <LabelCustomInputMask
-                {...register('CPFEstabelecimento', { validate: validateCPF })}
-                label="CPF do Sócio"
-                mask="999.999.999-99"
-                placeholder="---.---.---.--"
-                hasError={!!errors.CPFEstabelecimento}
-              />
-
-<LabelCustomInputMask
-                {...register('NascimentoSocio', {
-                  validate: validateDataCriacao
-                })}
-                label="Nascimento Sócio"
-                mask="99/99/9999"
-                placeholder="dd/mm/aaaa"
-                hasError={!!errors.NascimentoSocio}
-              />
-
-            </ContainerInput>
-            <ContainerInput>
-
-            <CustomInput
-                {...register('NomeSocioEstabelecimento')}
-                label="Nome Completo do Sócio"
-                colorInputDefault={tenantData.primary_color_identity}
-                colorInputSuccess={tenantData.secondary_color_identity}
-                hasError={!!errors.NomeSocioEstabelecimento}
-              />
-
-
-              <LabelCustomInputMask
-                {...register('TelefoneEstabelecimento', {
-                  validate: validateTelefone
-                })}
-                label="Telefone/Celular"
-                mask="(99) 99999-9999"
-                placeholder="(--) ----.----"
-                hasError={!!errors.TelefoneEstabelecimento}
-              />
-              <CustomInput
-                {...register('EmailEstabelecimento', {
-                  validate: validateEmail
-                })}
-                label="E-mail"
-                colorInputDefault={tenantData.primary_color_identity}
-                colorInputSuccess={tenantData.secondary_color_identity}
-                hasError={!!errors.EmailEstabelecimento}
-              />
-            </ContainerInput>
-            <ContainerInput2>
-              <CustomSelect
-                optionsData={optionsCnae}
-                value={optionsCnae.options.find(option => option.value === areaAtuacaoValue)}
-                {...register('AreaAtuacaoEstabelecimento')}
-                placeholder="Digite aqui ou clique para ver a lista"
-                label="Área de Atuação"
-                onChange={(selectedOption: { value: string }) => {
-                  setValue('AreaAtuacaoEstabelecimento', selectedOption.value)
-                }}
-                hasError={!!errors.AreaAtuacaoEstabelecimento}
-              />
-              <button>Pesquise pelo CNAE ou Nome</button>
-            </ContainerInput2>
-          </ContainerForm>
-        </ContextStep>
-        <ContainerButton>
-        <ButtonVoltar primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} onClick={handleLicenseddetail}>Cancelar</ButtonVoltar>
-          <ButtonAvançar  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} disabled={!allFieldsFilled} onClick={handleSalvar}>Salvar</ButtonAvançar>
-        <ButtonAvançar  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} disabled={!allFieldsFilled} onClick={handleAvancar}>
-          Avançar
-        </ButtonAvançar>
-        </ContainerButton>
-      </ContextStepContainer>
-    </ContainerStep>
-      </>
+              <ContainerInput>
+                <CustomInput
+                  {...register('NomeFantasiaEstabelecimento')}
+                  label="Nome Fantasia"
+                  colorInputDefault={tenantData.primary_color_identity}
+                  colorInputSuccess={tenantData.secondary_color_identity}
+                  hasError={!!errors.NomeFantasiaEstabelecimento}
+                />
+                <LabelCustomInputMask
+                  {...register('CPFEstabelecimento', { validate: validateCPF })}
+                  label="CPF do Sócio"
+                  mask="999.999.999-99"
+                  placeholder="---.---.---.--"
+                  hasError={!!errors.CPFEstabelecimento}
+                />
+                <LabelCustomInputMask
+                  {...register('NascimentoSocio', {
+                    validate: validateDataCriacao
+                  })}
+                  label="Nascimento Sócio"
+                  mask="99/99/9999"
+                  placeholder="dd/mm/aaaa"
+                  hasError={!!errors.NascimentoSocio}
+                />
+              </ContainerInput>
+              <ContainerInput>
+                <CustomInput
+                  {...register('NomeSocioEstabelecimento')}
+                  label="Nome Completo do Sócio"
+                  colorInputDefault={tenantData.primary_color_identity}
+                  colorInputSuccess={tenantData.secondary_color_identity}
+                  hasError={!!errors.NomeSocioEstabelecimento}
+                />
+                <LabelCustomInputMask
+                  {...register('TelefoneEstabelecimento', {
+                    validate: validateTelefone
+                  })}
+                  label="Telefone/Celular"
+                  mask="(99) 99999-9999"
+                  placeholder="(--) ----.----"
+                  hasError={!!errors.TelefoneEstabelecimento}
+                />
+                <CustomInput
+                  {...register('EmailEstabelecimento', {
+                    validate: validateEmail
+                  })}
+                  label="E-mail"
+                  colorInputDefault={tenantData.primary_color_identity}
+                  colorInputSuccess={tenantData.secondary_color_identity}
+                  hasError={!!errors.EmailEstabelecimento}
+                />
+              </ContainerInput>
+              <ContainerInput2>
+                <CustomSelect
+                  optionsData={optionsCnae}
+                  value={optionsCnae.options.find(option => option.value === areaAtuacaoValue)}
+                  {...register('AreaAtuacaoEstabelecimento')}
+                  placeholder="Digite aqui ou clique para ver a lista"
+                  label="Área de Atuação"
+                  onChange={(selectedOption: { value: string }) => {
+                    setValue('AreaAtuacaoEstabelecimento', selectedOption.value)
+                  }}
+                  hasError={!!errors.AreaAtuacaoEstabelecimento}
+                />
+                <button>Pesquise pelo CNAE ou Nome</button>
+              </ContainerInput2>
+            </ContainerForm>
+          </ContextStep>
+          <ContainerButton>
+            <ButtonVoltar primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} onClick={handleLicenseddetail}>Cancelar</ButtonVoltar>
+            <ButtonAvançar primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} disabled={!allFieldsFilled} onClick={handleSalvar}>Salvar</ButtonAvançar>
+            <ButtonAvançar primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} disabled={!allFieldsFilled} onClick={handleAvancar}>
+              Avançar
+            </ButtonAvançar>
+          </ContainerButton>
+        </ContextStepContainer>
+      </ContainerStep>
+    </>
   )
 }

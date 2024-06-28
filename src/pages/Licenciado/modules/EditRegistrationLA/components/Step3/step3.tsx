@@ -41,7 +41,7 @@ export function Step3({ Avançar, Voltar }: IStep3) {
   const [loading, setLoading] = useState(true);
   const [sellerData, setSellerData] = useState<SellerData | null>(null);
   const { licensedId } = useLicensed();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { dataUser } = useLogin();
 
   const {
@@ -54,71 +54,77 @@ export function Step3({ Avançar, Voltar }: IStep3) {
   const allFieldsFilled = !!watch('licenciado');
 
   useEffect(() => {
-    setLoading(true);
-    axios.get(`${baseURL}seller/indexla`, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${dataUser?.token}`
-      }
-    })
-      .then(response => {
-
-        const data = response.data;
-
-        if (data && data.sellers) {
-          const options = data.sellers
-            .filter((seller: { id: string }) => seller.id !== licensedId)
-            .map((seller: { trading_name: any; type: any; id: any, document: any }, index: number) => ({
-              value: seller.id,
-              label: `${seller.trading_name}-${seller.type}-${seller.document}`
-            }));
-
-          setFetchedOptions(options);
+    if (licensedId) {
+      setLoading(true);
+      axios.get(`${baseURL}seller/indexla`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${dataUser?.token}`
         }
-        setLoading(false);
       })
-      .catch(error => {
-        setLoading(false);
-        console.error('Erro ao buscar vendedores', error);
-      });
+        .then(response => {
+          const data = response.data;
+
+          if (data && data.sellers) {
+            const options = data.sellers
+              .filter((seller: { id: string }) => seller.id === licensedId)
+              .map((seller: { trading_name: any; type: any; id: any, document: any }, index: number) => ({
+                value: seller.id,
+                label: `${seller.trading_name}-${seller.type}-${seller.document}`
+              }));
+
+            setFetchedOptions(options);
+          }
+          setLoading(false);
+        })
+        .catch(error => {
+          setLoading(false);
+          console.error('Erro ao buscar vendedores', error);
+        });
+    }
   }, [dataUser?.token, licensedId]);
 
   useEffect(() => {
     const fetchSellerData = async () => {
-      setLoading(true);
-      try {
-        const response = await axios.get(
-          `${baseURL}seller/show/${licensedId}`,
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${dataUser?.token}`,
-            },
-          }
-        );
+      if (licensedId) {
+        setLoading(true);
+        try {
+          const response = await axios.get(
+            `${baseURL}seller/show/${licensedId}`,
+            {
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${dataUser?.token}`,
+              },
+            }
+          );
 
-        const sellerData = response.data;
-        setValue('licenciado', sellerData.seller.seller_la.id_la);
-        setValue('RegraMarkup', sellerData.seller.markup);
+          const sellerData = response.data.seller;
 
-        setSellerData(response.data.seller);
-      } catch (error) {
+          const markup = parseFloat(sellerData.markup.replace(',', '.'));
+          const formattedMarkup = markup.toFixed(2).replace('.', ',');
 
-      } finally {
-        setLoading(false);
+          setValue('licenciado', sellerData.seller_la.id_la);
+          setValue('RegraMarkup', formattedMarkup);
+
+          setSellerData(sellerData);
+        } catch (error) {
+          console.error('Erro ao buscar dados do vendedor', error);
+        } finally {
+          setLoading(false);
+        }
       }
     };
     fetchSellerData();
   }, [licensedId, dataUser?.token, setValue]);
-
 
   const handleSalvar = async () => {
     try {
       setLoading(true);
 
       const markupValue = watch('RegraMarkup')
-      .replace(',', '.')
-      .replace(/ %/, '');
+        .replace(',', '.')
+        .replace(/ %/, '');
 
       const updatedData = {
         markup_seller_destiny: markupValue,
@@ -144,7 +150,6 @@ export function Step3({ Avançar, Voltar }: IStep3) {
         cancelButtonText: 'OK',
         showCloseButton: true,
         closeButtonAriaLabel: 'Fechar modal'
-
       }).then((result) => {
         if (result.isConfirmed) {
           Avançar();
@@ -153,7 +158,6 @@ export function Step3({ Avançar, Voltar }: IStep3) {
         }
       });
     } catch (error) {
-
       setLoading(false);
       Swal.fire({
         icon: 'error',
@@ -168,8 +172,8 @@ export function Step3({ Avançar, Voltar }: IStep3) {
   const selectedOption = fetchedOptions.find(option => option.value === licenciadoValue);
 
   const handleLicenseddetail = () => {
-    navigate('/sellers-la')
-  }
+    navigate('/sellers-la');
+  };
   const tenantData = useTenantData();
 
   return (
@@ -186,12 +190,12 @@ export function Step3({ Avançar, Voltar }: IStep3) {
                 <CustomSelect
                   placeholder='-'
                   {...register('licenciado')}
-                  value={selectedOption || {value: '', label: ''}}
+                  value={selectedOption || { value: '', label: '' }}
                   label="Licenciado Autorizado"
                   optionsData={{ options: fetchedOptions }}
                   hasError={!!errors.licenciado}
                   onChange={(selectedOption: { value: string }) => {
-                    setValue('licenciado', selectedOption.value)
+                    setValue('licenciado', selectedOption.value);
                   }}
                 />
                 <button>Pesquise pelo nome do Licenciado</button>
@@ -207,15 +211,14 @@ export function Step3({ Avançar, Voltar }: IStep3) {
                     hasError={!!errors.TaxaAntecipacao}
                   />
                 </WInput>
-
               </ContainerInput>
 
             </ContainerForm>
           </ContextStep>
           <ContainerButton>
             <ButtonVoltar primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} onClick={Voltar}>Voltar</ButtonVoltar>
-            <ButtonAvançar  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} disabled={!allFieldsFilled} onClick={handleSalvar}>Salvar</ButtonAvançar>
-            <ButtonAvançar  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} disabled={!allFieldsFilled} onClick={Avançar}>Avançar</ButtonAvançar>
+            <ButtonAvançar primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} disabled={!allFieldsFilled} onClick={handleSalvar}>Salvar</ButtonAvançar>
+            <ButtonAvançar primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} disabled={!allFieldsFilled} onClick={Avançar}>Avançar</ButtonAvançar>
           </ContainerButton>
         </ContextStepContainer>
       </ContainerStep>
