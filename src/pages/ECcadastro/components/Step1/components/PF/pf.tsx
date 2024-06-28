@@ -73,7 +73,7 @@ export function PF({ Avançar, BPF, BPJ }: IStep1) {
         if (data_nascimento) setValue('NascimentoSocio', data_nascimento)
       }
     } catch (error) {
-    
+
     } finally {
       setIsLoading(false)
     }
