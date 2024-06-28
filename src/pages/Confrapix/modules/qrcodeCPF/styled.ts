@@ -6,7 +6,11 @@ import { Transaction } from './../../../Transaction/Mobile/CardSales/cardSales';
 import styled from "styled-components";
 
 export const Container = styled.div`
-  margin: 36px 20px 20px 20px;
+  margin: 36px 100px 20px 100px;
+
+  @media (max-width: 900px){
+    margin: 36px 20px 20px 20px;
+  }
 
 `
 
