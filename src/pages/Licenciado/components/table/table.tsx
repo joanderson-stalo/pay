@@ -7,7 +7,7 @@ import { useTenantData } from '@/context';
 
 export interface RowData {
   id: number;
-  document: string;
+  cnpj_cpf: string;
   trading_name: string;
   type: string;
   owner_name: string;
@@ -142,7 +142,7 @@ export function Tabela({ rows }: TabelaProps) {
         {sortedRows.map((seller, index) => (
           <tr key={index}>
             <S.TableData>{seller.id}</S.TableData>
-            <S.TableData>{seller.document ? maskCpfCnpj(seller.document) : '-'}</S.TableData>
+            <S.TableData>{seller.cnpj_cpf ? maskCpfCnpj(seller.cnpj_cpf) : '-'}</S.TableData>
             <S.TableData style={{maxWidth: "150px"}}>{seller.trading_name ? seller.trading_name : seller.owner_name}</S.TableData>
             <S.TableData>{seller.type} {seller.type !== 'WL' && seller.network_index  } </S.TableData>
             <S.TableData>{seller.ec_count}</S.TableData>

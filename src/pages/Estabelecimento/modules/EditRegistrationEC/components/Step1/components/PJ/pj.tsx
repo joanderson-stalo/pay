@@ -24,7 +24,7 @@ import { validateDataCriacao } from '@/utils/dataValid'
 import { validateTelefone } from '@/utils/telefoneValid'
 import { validateEmail } from '@/utils/validateEmail'
 import { CustomSelect } from '@/components/Select/select'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import axios from 'axios'
 import { useLogin } from '@/context/user.login'
 import { useEstablishment } from '@/context/useEstablishment'
@@ -74,41 +74,42 @@ export function PJ({ Avançar }: IStep1) {
       Avançar()
   }
 
+  const fetchSellerData = useCallback(async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        `${baseURL}seller/show/${establishmentId}`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${dataUser?.token}`,
+          },
+        }
+      );
+      setSellerData(response.data.seller);
+      setValue('EmailEstabelecimento', response.data.seller.email);
+      setValue('CNPJEstabelecimento', response.data.seller.document);
+      setValue('RazaoSocialEstabelecimento', response.data.seller.company_name);
+      setValue('NomeFantasiaEstabelecimento', response.data.seller.trading_name);
+      const dataCriacao = new Date(response.data.seller.opening_date).toLocaleDateString('pt-BR');
+      setValue('DataCriacaoEstabelecimento', dataCriacao);
+      const nascimentoSocio = new Date(response.data.seller.owner_birthday).toLocaleDateString('pt-BR');
+      setValue('NascimentoSocio', nascimentoSocio);
+      setValue('CPFEstabelecimento', response.data.seller.owner_cpf);
+      setValue('TelefoneEstabelecimento', response.data.seller.phone);
+      setValue('NomeSocioEstabelecimento', response.data.seller.owner_name);
+      setValue('AreaAtuacaoEstabelecimento', response.data.seller.mcc);
+      setTypeDocument(response.data.seller.type_document);
+    } catch (error) {
+      setSellerData(null);
+    } finally {
+      setLoading(false);
+    }
+  }, [dataUser?.token, establishmentId, setValue, setTypeDocument]);  // Inclua todas as dependências necessárias aqui
+
   useEffect(() => {
-    const fetchSellerData = async () => {
-      setLoading(true);
-      try {
-        const response = await axios.get(
-          `${baseURL}seller/show/${establishmentId}`,
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${dataUser?.token}`,
-            },
-          }
-        );
-        setSellerData(response.data.seller);
-        setValue('EmailEstabelecimento', response.data.seller.email);
-        setValue('CNPJEstabelecimento', response.data.seller.document);
-        setValue('RazaoSocialEstabelecimento', response.data.seller.company_name);
-        setValue('NomeFantasiaEstabelecimento', response.data.seller.trading_name);
-        const dataCriacao = new Date(response.data.seller.opening_date).toLocaleDateString('pt-BR');
-        setValue('DataCriacaoEstabelecimento', dataCriacao);
-        const nascimentoSocio = new Date(response.data.seller.owner_birthday).toLocaleDateString('pt-BR');
-        setValue('NascimentoSocio', nascimentoSocio);
-        setValue('CPFEstabelecimento', response.data.seller.owner_cpf);
-        setValue('TelefoneEstabelecimento', response.data.seller.phone);
-        setValue('NomeSocioEstabelecimento', response.data.seller.owner_name);
-        setValue('AreaAtuacaoEstabelecimento', response.data.seller.mcc);
-        setTypeDocument(response.data.seller.type_document);
-      } catch (error) {
-        setSellerData(null);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchSellerData();
-  }, []);
+  }, [fetchSellerData]);
 
   const areaAtuacaoValue = watch('AreaAtuacaoEstabelecimento');
 

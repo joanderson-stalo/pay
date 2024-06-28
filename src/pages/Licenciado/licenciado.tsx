@@ -189,8 +189,7 @@ export function Licenciado() {
       <S.Container>
         <LicenciadoHeader />
 
-        {sellers.length > 0 && (
-          <>
+
             <S.Input isFocused={isFocused}>
               <input
                 type="text"
@@ -204,8 +203,8 @@ export function Licenciado() {
                 <MagnifyingGlass />
               </S.SearchIcon>
             </S.Input>
-          </>
-        )}
+ 
+
 
 <S.ContainerButton>
               <S.ContentFilter>
