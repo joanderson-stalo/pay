@@ -95,9 +95,9 @@ export const EditRegistrationEC = () => {
 
   const validateStep1 = () => {
     const step1Values = getValues();
-    const isEmailValid = validateEmail(step1Values.EmailEstabelecimento);
+    const isEmailValid = step1Values.EmailEstabelecimento;
     const isDataCriacaoValid = (documentTypeEC !== "CPF") ? validateDataCriacao(step1Values.DataCriacaoEstabelecimento) : true;
-    const isTelefoneValid = validateTelefone(step1Values.TelefoneEstabelecimento);
+    const isTelefoneValid = step1Values.TelefoneEstabelecimento;
 
     return ((step1Values.CNPJEstabelecimento) || documentTypeEC === "CPF") &&
       (step1Values.RazaoSocialEstabelecimento || documentTypeEC === "CPF") &&

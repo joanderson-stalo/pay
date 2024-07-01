@@ -1,14 +1,10 @@
 import * as S from './styled'
 import { BtnAdvance } from '@/components/BtnAdvance/btnAdvance'
-import { BtnReturn } from '@/components/BtnReturn/btnReturn'
+
 import { TitleH } from '@/components/Title/title'
 import iconCop from '@/assets/icons/iconCopy.svg'
 import { toast } from 'react-toastify'
-import { useNavigate } from 'react-router-dom'
-import { useEffect, useRef, useState, useCallback } from 'react'
-import axios from 'axios'
-import { useOrderPix } from '@/context/id/orderPixID'
-import { Loading } from '@/components/Loading/loading'
+import { useRef} from 'react'
 import { NoteData } from '@/components/NoteData/noteData'
 
 interface Pix {
@@ -21,41 +17,19 @@ interface Transaction {
   id: number
   status: string
   amount: string
-  customer_name: string
-  customer_document: string
-  description: string
+  customer_name?: string
+  customer_document?: string
+  description?: string
   pix: Pix
 }
 
-export function QRcodeCPF() {
-  const navigate = useNavigate()
+interface QRcodeCPFProps {
+  transaction: Transaction | null
+  onClick: () => void; 
+}
+
+export function QRcodeCPF({ transaction, onClick }: QRcodeCPFProps) {
   const copyTextRef = useRef<HTMLParagraphElement>(null)
-  const [transaction, setTransaction] = useState<Transaction | null>(null)
-  const [loading, setLoading] = useState(true)
-  const { selectedOrderPixID } = useOrderPix()
-
-  const fetchTransaction = useCallback(async () => {
-    try {
-      setLoading(true)
-      const response = await axios.get(
-        `https://api.confrapix.com.br/api/transaction/show/${selectedOrderPixID}`,
-        {
-          headers: {
-            Authorization: `Bearer 2|we03xUflx4rWWktVqzAElAmv1vtlu7lGzZtyqTVre24cea11`
-          }
-        }
-      )
-      setTransaction(response.data.transaction)
-    } catch (error) {
-
-    } finally {
-      setLoading(false)
-    }
-  }, [])
-
-  useEffect(() => {
-    fetchTransaction()
-  }, [fetchTransaction])
 
   const handleCopy = () => {
     if (transaction?.pix?.code) {
@@ -80,9 +54,6 @@ export function QRcodeCPF() {
     return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4')
   }
 
-  if (loading) {
-    return <Loading />
-  }
 
   if (!transaction) {
     return <NoteData />
@@ -102,7 +73,7 @@ export function QRcodeCPF() {
                 <S.TableRow>
                   <S.ContentCell>
                     <S.TitleCell>
-                      ID da transação:{' '}
+                      ID da transação:
                       <S.StatusPayment>
                         {transaction.status === 'AGUARDANDO'
                           ? 'Aguardando pagamento'
@@ -177,7 +148,7 @@ export function QRcodeCPF() {
         </S.ContainerMain>
 
         <S.ContainerButton>
-          <BtnAdvance title="Criar novo Pix" onClick={() => navigate(-1)} />
+          <BtnAdvance title="Criar novo Pix" onClick={onClick} />
           <S.ButtonDownloadInfo onClick={handleDownload}>
             Baixar informações
           </S.ButtonDownloadInfo>

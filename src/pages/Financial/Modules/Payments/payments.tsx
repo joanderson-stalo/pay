@@ -125,9 +125,8 @@ export function Payments() {
       <S.Container>
         <HeaderPayments />
 
-        {payments.length > 0 && (<>
 
-          <S.ContainerButton>
+        <S.ContainerButton>
           <BtnFilterModal
             disabled={!startDate || !endDate || endDate <= startDate}
             onClick={handleSaveToLocalStorage}
@@ -157,9 +156,6 @@ export function Payments() {
             <TagFilter filters={activeFilters} />
           )}
         </S.ContainerButton>
-
-
-        </>)}
 
         {payments.length > 0 ? (
           <>

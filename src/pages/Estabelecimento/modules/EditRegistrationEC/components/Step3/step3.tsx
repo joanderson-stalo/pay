@@ -75,7 +75,7 @@ export function Step3({ Avançar, Voltar }: IStep3) {
 
   const fetchSellers = useCallback(async () => {
     try {
-      const response = await axios.get(`${baseURL}seller/indexla`, {
+      const response = await axios.get(`${baseURL}seller/list/la`, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${dataUser?.token}`
@@ -85,7 +85,7 @@ export function Step3({ Avançar, Voltar }: IStep3) {
       if (data && data.sellers) {
         setFetchedOptions(data.sellers.map((seller: { trading_name: any; type: any; id: any, document: any }) => ({
           value: seller.id,
-          label: `${seller.trading_name}-${seller.type}-${seller.document}`
+          label: `${seller.trading_name}-${seller.document}`
         })));
       }
     } catch (error) {
@@ -133,7 +133,7 @@ export function Step3({ Avançar, Voltar }: IStep3) {
       }));
       setPlanOptions(plansData);
     } catch (error) {
-     
+
     } finally {
       setLoading(false);
     }

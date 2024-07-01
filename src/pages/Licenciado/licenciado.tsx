@@ -101,7 +101,7 @@ export function Licenciado() {
 
   const fetchLA = async () => {
     try {
-      const response = await axios.get(`${baseURL}seller/indexla`, {
+      const response = await axios.get(`${baseURL}seller/list/la`, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${dataUser?.token}`
@@ -117,7 +117,7 @@ export function Licenciado() {
             index: number
           ) => ({
             value: seller.id,
-            label: `${seller.trading_name}-${seller.type}-${seller.document}`
+            label: `${seller.trading_name}-${seller.document}`
           })
         )
 
@@ -203,7 +203,7 @@ export function Licenciado() {
                 <MagnifyingGlass />
               </S.SearchIcon>
             </S.Input>
- 
+
 
 
 <S.ContainerButton>

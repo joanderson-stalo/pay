@@ -3,12 +3,10 @@ import { useFormContext } from 'react-hook-form'
 import * as S from './styled'
 import { CustomInput } from '@/components/Input/input'
 import { LabelCustomInputMask } from '@/components/CustomInputMask'
-import { validateCNPJ, validateCPF } from 'validations-br'
 import { validateDataCriacao } from '@/utils/dataValid'
 import { validateTelefone } from '@/utils/telefoneValid'
 import { validateEmail } from '@/utils/validateEmail'
 import { CustomSelect } from '@/components/Select/select'
-import { optionsData } from './option'
 import { useEffect, useState } from 'react'
 import { optionsCnae } from '@/json/cnae'
 import axios from 'axios'
@@ -181,7 +179,7 @@ export function PF({ Avançar}: IStep1) {
                 hasError={!!errors.NomeFantasiaEstabelecimento}
               />
                <LabelCustomInputMask
-                {...register('CPFEstabelecimento', { validate: validateCPF })}
+                {...register('CPFEstabelecimento')}
                 label="CPF"
                 mask="999.999.999-99"
                 placeholder="---.---.---.--"

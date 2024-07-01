@@ -105,7 +105,7 @@ export function PJ({ Avançar }: IStep1) {
     } finally {
       setLoading(false);
     }
-  }, [dataUser?.token, establishmentId, setValue, setTypeDocument]);  // Inclua todas as dependências necessárias aqui
+  }, [dataUser?.token, establishmentId, setValue, setTypeDocument]); 
 
   useEffect(() => {
     fetchSellerData();

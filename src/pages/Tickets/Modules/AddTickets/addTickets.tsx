@@ -105,7 +105,7 @@ export function AddTickets() {
   const fetchDataLA = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`${baseURL}seller/indexla`, {
+      const response = await axios.get(`${baseURL}seller/list/la`, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${dataUser?.token}`

@@ -31,21 +31,26 @@ export function Step1({ Avançar }: IStep1) {
         }
       );
       const sellerData = response.data.seller;
+
+      sessionStorage.setItem('dados-edit-ec', JSON.stringify(sellerData));
+
       setTypeDocument(sellerData.type_document);
       if (sellerData.type_document.toUpperCase() === 'CNPJ') {
         updateToCNPJEC();
       } else if (sellerData.type_document.toUpperCase() === 'CPF') {
         updateToCPFEC();
       }
+
+      console.log('aqui', response.data.seller)
     } catch (error) {
-     
+      // Trate o erro aqui
     } finally {
       setLoading(false);
     }
   }, [establishmentId, dataUser?.token, updateToCNPJEC, updateToCPFEC]);
 
   useEffect(() => {
-    fetchSellerData();
+    fetchSellerData()
   }, [fetchSellerData]);
 
   if (loading) {

@@ -129,10 +129,7 @@ export function Extract() {
               <CardInfo  label='Saídas hoje' value={outflowsToday}/>
             </S.ContainerCard>
 
-
-            {Object.keys(statement).length > 0 && (<>
-
-              <S.ContainerButton>
+            <S.ContainerButton>
             <BtnFilterModal
   onClick={handleSaveToLocalStorage}
   disabled={
@@ -166,6 +163,11 @@ export function Extract() {
             )}
 
             </S.ContainerButton>
+
+
+            {Object.keys(statement).length > 0 && (<>
+
+
 
             <TableExtract statement={statement} />
 
