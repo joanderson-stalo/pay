@@ -3,21 +3,21 @@ import { useFormContext } from 'react-hook-form';
 import * as S from './styled';
 import { CustomInput } from '@/components/Input/input';
 import { LabelCustomInputMask } from '@/components/CustomInputMask';
-import { validateCNPJ, validateCPF } from 'validations-br';
 import { validateDataCriacao } from '@/utils/dataValid';
 import { validateTelefone } from '@/utils/telefoneValid';
 import { validateEmail } from '@/utils/validateEmail';
-import { CustomSelect } from '@/components/Select/select';
-import { optionsData } from './option';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState, useCallback } from 'react';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useLogin } from '@/context/user.login';
 import { useLicensed } from '@/context/useLicensed';
 import { Loading } from '@/components/Loading/loading';
 import Swal from 'sweetalert2';
 import { SellerData } from '../../../interface';
 import { useTenantData } from '@/context';
+import { TranslateErrorMessage } from '@/utils/translateErrorMessage';
+import { toast } from 'react-toastify';
+
 
 interface IStep1 {
   Avançar: () => void;
@@ -48,31 +48,20 @@ export function PF({ Avançar }: IStep1) {
     Avançar();
   };
 
-  const fetchSellerData = useCallback(async () => {
-    setLoading(true);
-    try {
-      const response = await axios.get(
-        `${baseURL}seller/show/${licensedId}`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${dataUser?.token}`,
-          },
-        }
-      );
-      setValue('EmailEstabelecimento', response.data.seller.email);
-      const nascimentoSocio = new Date(response.data.seller.owner_birthday).toLocaleDateString('pt-BR');
+  const fetchSellerData = useCallback(() => {
+    const sellerDataString = sessionStorage.getItem('dados-edit-la');
+    if (sellerDataString) {
+      const sellerData = JSON.parse(sellerDataString);
+      setValue('EmailEstabelecimento', sellerData.email);
+      const nascimentoSocio = new Date(sellerData.owner_birthday).toLocaleDateString('pt-BR');
       setValue('NascimentoSocio', nascimentoSocio);
-      setValue('CPFEstabelecimento', response.data.seller.owner_cpf);
-      setValue('TelefoneEstabelecimento', response.data.seller.phone);
-      setValue('NomeSocioEstabelecimento', response.data.seller.owner_name);
-      setSellerData(response.data.seller);
-    } catch (error) {
-      console.error('Erro ao buscar dados do vendedor', error);
-    } finally {
-      setLoading(false);
+      setValue('CPFEstabelecimento', sellerData.owner_cpf);
+      setValue('TelefoneEstabelecimento',sellerData.phone);
+      setValue('NomeSocioEstabelecimento', sellerData.owner_name);
+      setSellerData(sellerData);
     }
-  }, [licensedId, dataUser?.token, setValue]);
+    setLoading(false);
+  }, [setValue]);
 
   useEffect(() => {
     fetchSellerData();
@@ -107,9 +96,6 @@ export function PF({ Avançar }: IStep1) {
           Authorization: `Bearer ${dataUser?.token}`
         }
       });
-
-      setLoading(false);
-
       Swal.fire({
         icon: 'success',
         title: 'Licenciado atualizado com sucesso!',
@@ -127,13 +113,12 @@ export function PF({ Avançar }: IStep1) {
         }
       });
     } catch (error) {
-      setLoading(false);
-      Swal.fire({
-        icon: 'error',
-        title: 'Erro ao atualizar dados',
-        text: 'Ocorreu um erro ao tentar atualizar os dados do licenciado. Por favor, tente novamente mais tarde.',
-        confirmButtonText: 'OK'
-      });
+      const err = error as AxiosError<{ message: string }>;
+      const errorMessage = err.response?.data?.message || 'Ocorreu um error';
+      const translatedMessage = await TranslateErrorMessage(errorMessage);
+      toast.error(translatedMessage);
+    } finally{
+      setLoading(false)
     }
   };
 
@@ -154,7 +139,7 @@ export function PF({ Avançar }: IStep1) {
             <S.ContainerForm>
               <S.ContainerInput>
                 <LabelCustomInputMask
-                  {...register('CPFEstabelecimento', { validate: validateCPF })}
+                  {...register('CPFEstabelecimento')}
                   label="CPF"
                   mask="999.999.999-99"
                   placeholder="---.---.---.--"
@@ -203,7 +188,7 @@ export function PF({ Avançar }: IStep1) {
                   hasError={!!errors.EmailEstabelecimento}
                 />
               </S.ContainerInput2>
-              
+
             </S.ContainerForm>
           </S.ContextStep>
           <S.ContainerButton>

@@ -360,7 +360,7 @@ export function Transaction() {
 
         {transactions.length > 0 && (
           <>
-       
+
 
             <TabelaVendas rows={transactions} />
 

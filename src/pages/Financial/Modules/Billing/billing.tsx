@@ -232,7 +232,7 @@ export function Billing() {
             </S.ContainerCard>
 
 
-            {tariffs.length > 0 && (<>
+
               <S.ContainerButton>
 
 
@@ -288,7 +288,7 @@ disabled={(!startDate || !endDate || endDate <= startDate) && !selectedLicenciad
 </S.ContainerButton>
 
 
-            </>) }
+
 
 
             {tariffs.length > 0 && (<>

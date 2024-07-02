@@ -87,38 +87,6 @@ const handleCpfCnpjChange = (event: { target: { value: any; }; }) => {
 
 
 
-      const fetchSellerData = useCallback(async () => {
-        if (!licensedId) return;
-
-        setLoading(true);
-        try {
-          const response = await axios.get(`${baseURL}seller/show/${licensedId}`, {
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${dataUser?.token}`,
-            },
-          });
-
-          const sellerData = response.data;
-          if (sellerData && sellerData.seller && sellerData.seller.banks && sellerData.seller.banks.length > 0) {
-            const banco = sellerData.seller.banks[0];
-            setValue('Banco', banco.code);
-            setValue('Agência', banco.agency);
-            setValue('Conta', banco.account);
-            setValue('pix', banco.pix);
-            setValue('TipoDeConta', banco.type_account);
-            setValue('CpfCnpj', banco.document);
-          }
-        } catch (error) {
-
-        } finally {
-          setLoading(false);
-        }
-      }, [licensedId, dataUser?.token, setValue]);
-
-      useEffect(() => {
-        fetchSellerData();
-      }, [fetchSellerData]);
 
       const Banco = watch('Banco');
       const bancoSelecionado = bancos.options.find((option: { value: string; label: string }) => option.value === Banco);
@@ -126,6 +94,28 @@ const handleCpfCnpjChange = (event: { target: { value: any; }; }) => {
       const tipoDeContaSelecionado = accountType.options.find((option: { value: string; label: string }) => option.value === tipoDeContaValue);
 
       const tenantData = useTenantData();
+
+
+      const loadSellerDataFromSession = useCallback(() => {
+        const sellerDataString = sessionStorage.getItem('dados-edit-la');
+        if (sellerDataString) {
+          const sellerData = JSON.parse(sellerDataString);
+
+          if (sellerData && sellerData.banks && sellerData.banks.length > 0) {
+            const banco = sellerData.banks[0];
+            setValue('Banco', banco.code);
+            setValue('Agência', banco.agency);
+            setValue('Conta', banco.account);
+            setValue('pix', banco.pix);
+            setValue('TipoDeConta', banco.type_account);
+            setValue('CpfCnpj', banco.document);
+          }
+        }
+      }, [setValue]);
+
+      useEffect(() => {
+        loadSellerDataFromSession();
+      }, [loadSellerDataFromSession]);
 
   return (
     <>

@@ -11,13 +11,14 @@ import { Step3 } from "./components/Step3/step3";
 import { Step4 } from "./components/Step4/step4";
 import { Step1 } from "./components/Step1/step1";
 import { Step2 } from "./components/Step2/step2";
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useNavigate } from "react-router-dom";
 import { useDocumentEC } from "@/context/useDocumentEC";
 import { toast } from "react-toastify";
 import { useLogin } from "@/context/user.login";
 import { useEstablishment } from "@/context/useEstablishment";
 import { baseURL } from "@/config/color";
+import { TranslateErrorMessage } from "@/utils/translateErrorMessage";
 
 export const EditRegistrationEC = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -73,7 +74,10 @@ export const EditRegistrationEC = () => {
           });
           setCurrentStep(5);
         } catch (error) {
-          toast.error("Erro ao atualizar os detalhes bancários. Por favor, tente novamente mais tarde.");
+          const err = error as AxiosError<{ message: string }>;
+          const errorMessage = err.response?.data?.message || 'Ocorreu um error';
+          const translatedMessage = await TranslateErrorMessage(errorMessage);
+          toast.error(translatedMessage);
         } finally {
           setIsLoading(false);
         }
@@ -95,9 +99,9 @@ export const EditRegistrationEC = () => {
 
   const validateStep1 = () => {
     const step1Values = getValues();
-    const isEmailValid = validateEmail(step1Values.EmailEstabelecimento);
+    const isEmailValid = step1Values.EmailEstabelecimento;
     const isDataCriacaoValid = (documentTypeEC !== "CPF") ? validateDataCriacao(step1Values.DataCriacaoEstabelecimento) : true;
-    const isTelefoneValid = validateTelefone(step1Values.TelefoneEstabelecimento);
+    const isTelefoneValid = step1Values.TelefoneEstabelecimento;
 
     return ((step1Values.CNPJEstabelecimento) || documentTypeEC === "CPF") &&
       (step1Values.RazaoSocialEstabelecimento || documentTypeEC === "CPF") &&

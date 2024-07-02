@@ -160,7 +160,6 @@ export function Tariffs() {
       await   setCurrentPage(1)
     }
 
-
     await localStorage.setItem('@tariffsStartDate', startDate)
     await localStorage.setItem('@tariffsEndDate', endDate)
     await localStorage.setItem('@tariffsLicensed', selectedLicenciado)
@@ -237,7 +236,7 @@ export function Tariffs() {
             </S.ContainerCard>
 
 
-            {tariffs.length > 0 && (<>
+
 
               <S.ContainerButton>
 
@@ -295,7 +294,6 @@ disabled={(!startDate || !endDate || endDate <= startDate) && !selectedLicenciad
 </S.ContainerButton>
 
 
-            </>) }
 
 
 

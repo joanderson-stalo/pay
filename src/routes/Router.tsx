@@ -62,7 +62,6 @@ import { Transaction } from '@/pages/Transaction/transaction';
 import { NetWorkCommission } from '@/pages/Commission/NetWorkCommission/netWorkCommission';
 import { MyCommission } from '@/pages/Commission/MyCommission/myCommission';
 import { ConfraPix } from '@/pages/Confrapix/modules/createpix/createpix';
-import { QRcodeCPF } from '@/pages/Confrapix/modules/qrcodeCPF/qrcodeCPF';
 import { YieldSummary } from '@/pages/Financial/Modules/YieldSummary/yieldSummary';
 import { CreatePerfil } from '@/pages/Config/modules/createPerfil/createPerfil';
 import { CreatePermission } from '@/pages/Config/modules/createPermission/createPermission';
@@ -155,7 +154,6 @@ export function Router() {
 
 
             <Route path='/confrapix' element={<ConfraPix />} />
-            <Route path='/confrapix-qrcode' element={<QRcodeCPF/>} />
 
 
 

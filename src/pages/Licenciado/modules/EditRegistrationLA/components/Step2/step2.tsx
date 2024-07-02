@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useFormContext } from 'react-hook-form';
 import {  baseURL } from "@/config/color";
 import { ButtonAvançar, ButtonVoltar, ContainerButton, ContainerForm, ContainerInput, ContainerInput2, ContainerStep, ContextStep, ContextStepContainer, Line, TitleStep } from "./styled";
@@ -12,6 +12,8 @@ import Swal from "sweetalert2";
 import { SellerData } from "../interface";
 import { useNavigate } from "react-router-dom";
 import { useTenantData } from "@/context";
+import { TranslateErrorMessage } from "@/utils/translateErrorMessage";
+import { toast } from "react-toastify";
 
 interface IStep2 {
   Avançar: () => void;
@@ -22,45 +24,30 @@ export function Step2({ Avançar, Voltar }: IStep2) {
   const { register, formState: { errors }, setValue, watch } = useFormContext();
   const { dataUser } = useLogin();
   const { licensedId } = useLicensed();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [sellerData, setSellerData] = useState<SellerData | null>(null);
   const navigate = useNavigate()
 
   const allFieldsFilled = !!watch('CEP') && !!watch('Endereco') && !!watch('Numero') && !!watch('Bairro') && !!watch('Cidade') && !!watch('Estado');
 
-  const fetchSellerData = useCallback(async () => {
-    if (!licensedId) return;
-
-    setLoading(true);
-    try {
-      const response = await axios.get(`${baseURL}seller/show/${licensedId}`, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${dataUser?.token}`,
-        },
-      });
-
-      const sellerData = response.data.seller;
-      if (sellerData) {
-        setValue('CEP', sellerData.address_cep);
-        setValue('Endereco', sellerData.address_street);
-        setValue('Numero', sellerData.address_number);
-        setValue('Complemento', sellerData.address_complement);
-        setValue('Bairro', sellerData.address_neighborhood);
-        setValue('Cidade', sellerData.address_city);
-        setValue('Estado', sellerData.address_state);
-        setSellerData(sellerData);
-      }
-    } catch (error) {
-
-    } finally {
-      setLoading(false);
+  const loadSellerDataFromSession = useCallback(() => {
+    const sellerDataString = sessionStorage.getItem('dados-edit-la');
+    if (sellerDataString) {
+      const sellerData = JSON.parse(sellerDataString);
+      setValue('CEP', sellerData.address_cep);
+      setValue('Endereco', sellerData.address_street);
+      setValue('Numero', sellerData.address_number);
+      setValue('Complemento', sellerData.address_complement);
+      setValue('Bairro', sellerData.address_neighborhood);
+      setValue('Cidade', sellerData.address_city);
+      setValue('Estado', sellerData.address_state);
+      setSellerData(sellerData);
     }
-  }, [licensedId, dataUser?.token, setValue]);
+  }, [setValue]);
 
   useEffect(() => {
-    fetchSellerData();
-  }, [fetchSellerData]);
+    loadSellerDataFromSession();
+  }, [loadSellerDataFromSession]);
 
   const handleSalvar = async () => {
     try {
@@ -80,7 +67,6 @@ export function Step2({ Avançar, Voltar }: IStep2) {
         email: watch('EmailEstabelecimento'),
         phone: watch('TelefoneEstabelecimento'),
         trading_name: watch('NomeFantasiaEstabelecimento'),
-
         document: sellerData?.document,
       };
 
@@ -90,8 +76,6 @@ export function Step2({ Avançar, Voltar }: IStep2) {
           Authorization: `Bearer ${dataUser?.token}`
         }
       });
-
-      setLoading(false);
 
       Swal.fire({
         icon: 'success',
@@ -112,13 +96,12 @@ export function Step2({ Avançar, Voltar }: IStep2) {
       });
     } catch (error) {
 
-      setLoading(false);
-      Swal.fire({
-        icon: 'error',
-        title: 'Erro ao atualizar dados',
-        text: 'Ocorreu um erro ao tentar atualizar os dados do licenciado. Por favor, tente novamente mais tarde.',
-        confirmButtonText: 'OK'
-      });
+      const err = error as AxiosError<{ message: string }>;
+      const errorMessage = err.response?.data?.message || 'Ocorreu um error';
+      const translatedMessage = await TranslateErrorMessage(errorMessage);
+      toast.error(translatedMessage);
+    }  finally{
+      setLoading(false)
     }
   };
 

@@ -117,7 +117,7 @@ export function Estabelecimento() {
 
   const fetchDataLA = useCallback(async () => {
     try {
-      const response = await axios.get(`${baseURL}seller/indexla`, {
+      const response = await axios.get(`${baseURL}seller/list/la`, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${dataUser?.token}`
@@ -131,7 +131,7 @@ export function Estabelecimento() {
             index: number
           ) => ({
             value: seller.id,
-            label: `${seller.trading_name}-${seller.type}-${seller.document}`
+            label: `${seller.trading_name}-${seller.document}`
           })
         )
         setDataLA(options)
@@ -228,7 +228,7 @@ export function Estabelecimento() {
         <EstabelecimentoHeader />
 
 
-          
+
             <S.Input isFocused={isFocused}>
               <input
                 type="text"
@@ -242,7 +242,7 @@ export function Estabelecimento() {
                 <MagnifyingGlass />
               </S.SearchIcon>
             </S.Input>
-      
+
 
 
             <S.ContainerButton>
