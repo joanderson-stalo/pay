@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import {
   ButtonAvançar,
   ButtonVoltar,
@@ -25,6 +25,8 @@ import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import { baseURL } from '@/config/color';
 import { useTenantData } from '@/context';
+import { toast } from 'react-toastify';
+import { TranslateErrorMessage } from '@/utils/translateErrorMessage';
 
 interface IStep3 {
   Avançar: () => void;
@@ -58,7 +60,7 @@ export function Step3({ Avançar, Voltar }: IStep3) {
 
     setLoading(true);
     try {
-      const response = await axios.get(`${baseURL}seller/indexla`, {
+      const response = await axios.get(`${baseURL}seller/list/la`, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${dataUser?.token}`
@@ -72,7 +74,7 @@ export function Step3({ Avançar, Voltar }: IStep3) {
           .filter((seller: { id: string }) => Number(seller.id) !== numericLicensedId)
           .map((seller: { id: any; trading_name: any; type: any; document: any }) => ({
             value: seller.id,
-            label: `${seller.trading_name}-${seller.type}-${seller.document}`
+            label: `${seller.trading_name}-${seller.document}`
           }));
 
         setFetchedOptions(options);
@@ -93,36 +95,22 @@ export function Step3({ Avançar, Voltar }: IStep3) {
 
 
 
-  const fetchSellerData = useCallback(async () => {
-    if (!licensedId) return;
-
-    setLoading(true);
-    try {
-      const response = await axios.get(`${baseURL}seller/show/${licensedId}`, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${dataUser?.token}`,
-        },
-      });
-
-      const sellerData = response.data.seller;
+  const loadSellerDataFromSession = useCallback(() => {
+    const sellerDataString = sessionStorage.getItem('dados-edit-la');
+    if (sellerDataString) {
+      const sellerData = JSON.parse(sellerDataString);
+      setValue('licenciado', sellerData.seller_la.id_la);
       const markup = parseFloat(sellerData.markup.replace(',', '.'));
       const formattedMarkup = markup.toFixed(2).replace('.', ',');
-
-      setValue('licenciado', sellerData.seller_la.id_la);
       setValue('RegraMarkup', formattedMarkup);
       setSellerData(sellerData);
-    } catch (error) {
-
-    } finally {
-      setLoading(false);
     }
-  }, [licensedId, dataUser?.token, setValue]);
+  }, [setValue]);
 
 
   useEffect(() => {
-    fetchSellerData();
-  }, [fetchSellerData]);
+    loadSellerDataFromSession();
+  }, [loadSellerDataFromSession]);
 
   const handleSalvar = async () => {
     try {
@@ -144,9 +132,6 @@ export function Step3({ Avançar, Voltar }: IStep3) {
           Authorization: `Bearer ${dataUser?.token}`
         }
       });
-
-      setLoading(false);
-
       Swal.fire({
         icon: 'success',
         title: 'Licenciado atualizado com sucesso!',
@@ -164,13 +149,12 @@ export function Step3({ Avançar, Voltar }: IStep3) {
         }
       });
     } catch (error) {
-      setLoading(false);
-      Swal.fire({
-        icon: 'error',
-        title: 'Erro ao atualizar dados',
-        text: 'Ocorreu um erro ao tentar atualizar os dados do licenciado. Por favor, tente novamente mais tarde.',
-        confirmButtonText: 'OK'
-      });
+      const err = error as AxiosError<{ message: string }>;
+      const errorMessage = err.response?.data?.message || 'Ocorreu um error';
+      const translatedMessage = await TranslateErrorMessage(errorMessage);
+      toast.error(translatedMessage);
+    } finally{
+      setLoading(false)
     }
   };
 

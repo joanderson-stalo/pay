@@ -11,13 +11,14 @@ import { Step3 } from "./components/Step3/step3";
 import { Step4 } from "./components/Step4/step4";
 import { Step1 } from "./components/Step1/step1";
 import { Step2 } from "./components/Step2/step2";
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useNavigate } from "react-router-dom";
 import { useDocumentLA } from "@/context/useDocumentLA";
 import { toast } from "react-toastify";
 import { useLicensed } from "@/context/useLicensed";
 import { useLogin } from "@/context/user.login";
 import { baseURL } from "@/config/color";
+import { TranslateErrorMessage } from "@/utils/translateErrorMessage";
 
 export const EditRegistrationLA = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -73,7 +74,10 @@ export const EditRegistrationLA = () => {
           });
           setCurrentStep(5);
         } catch (error) {
-          toast.error("Error updating bank details. Please try again later.");
+          const err = error as AxiosError<{ message: string }>;
+          const errorMessage = err.response?.data?.message || 'Ocorreu um error';
+          const translatedMessage = await TranslateErrorMessage(errorMessage);
+          toast.error(translatedMessage);
         } finally {
           setIsLoading(false);
         }

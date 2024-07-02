@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import {
   ButtonAvançar,
   ButtonVoltar,
@@ -23,6 +23,8 @@ import { useEstablishment } from '@/context/useEstablishment';
 import { useNavigate } from 'react-router-dom';
 import { baseURL } from '@/config/color';
 import { useTenantData } from '@/context';
+import { TranslateErrorMessage } from '@/utils/translateErrorMessage';
+import { toast } from 'react-toastify';
 
 interface IStep3 {
   Avançar: () => void;
@@ -93,35 +95,24 @@ export function Step3({ Avançar, Voltar }: IStep3) {
     }
   }, [dataUser?.token]);
 
-  const fetchSellerData = useCallback(async () => {
-    setLoading(true);
-    try {
-      const response = await axios.get(
-        `${baseURL}seller/show/${establishmentId}`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${dataUser?.token}`,
-          },
-        }
-      );
+  const loadSellerDataFromSession = useCallback(() => {
+    const sellerDataString = sessionStorage.getItem('dados-edit-ec');
+    if (sellerDataString) {
+      const sellerData = JSON.parse(sellerDataString);
 
-      const sellerData = response.data;
-      setValue('Fornecedor', response.data.seller.acquires[0]?.id || '');
-      setAcquire(response.data.seller.acquires[0]?.id || null);
-      setValue('licenciado', sellerData.seller.seller_la.id_la);
-    } catch (error) {
-
-    } finally {
-      setLoading(false);
+      setValue('Fornecedor', sellerData.acquires[0]?.id || '');
+      setAcquire(sellerData.acquires[0]?.id || null);
+      setValue('licenciado', sellerData.seller_la.id_la);
+      setValue('licenciado', sellerData.seller_la.id_la);
+      setValue('PlanoComercial', sellerData.acquires[0]?.plan_id || '');
     }
-  }, [establishmentId, dataUser?.token, setValue]);
+  }, [setValue]);
 
   const fetchPlans = useCallback(async () => {
     if (!acquire) return;
     try {
       setLoading(true);
-      const response = await axios.get(`${baseURL}plan/commercial/${acquire}`, {
+      const response = await axios.get(`${baseURL}plan/commercial/3`, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${dataUser?.token}`
@@ -142,8 +133,8 @@ export function Step3({ Avançar, Voltar }: IStep3) {
   useEffect(() => {
     fetchAcquires();
     fetchSellers();
-    fetchSellerData();
-  }, [fetchAcquires, fetchSellers, fetchSellerData]);
+    loadSellerDataFromSession();
+  }, [fetchAcquires, fetchSellers, loadSellerDataFromSession]);
 
   useEffect(() => {
     fetchPlans();
@@ -220,12 +211,10 @@ export function Step3({ Avançar, Voltar }: IStep3) {
         throw new Error('Falha ao atualizar plano');
       }
     } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Erro ao atualizar plano',
-        text: 'Ocorreu um erro ao tentar atualizar o plano. Por favor, tente novamente mais tarde.',
-        confirmButtonText: 'OK'
-      });
+      const err = error as AxiosError<{ message: string }>;
+      const errorMessage = err.response?.data?.message || 'Ocorreu um error';
+      const translatedMessage = await TranslateErrorMessage(errorMessage);
+      toast.error(translatedMessage);
     } finally {
       setLoading(false);
     }
@@ -236,6 +225,9 @@ export function Step3({ Avançar, Voltar }: IStep3) {
 
   const fornecedor = watch('Fornecedor');
   const selectedAcquire = acquires.find(acquire => acquire.value === fornecedor);
+
+  const planoComercialValue = watch('PlanoComercial');
+  const selectedPlan = planOptions.find(plan => plan.value === planoComercialValue);
 
   const handleEC = () => {
     navigate('/sellers-ec');
@@ -283,6 +275,7 @@ export function Step3({ Avançar, Voltar }: IStep3) {
                   <CustomSelect
                     {...register('PlanoComercial')}
                     label="Plano Comercial"
+                    value={selectedPlan || { value: '', label: '' }}
                     optionsData={{ options: planOptions }}
                     placeholder=""
                     hasError={!!errors.PlanoComercial}

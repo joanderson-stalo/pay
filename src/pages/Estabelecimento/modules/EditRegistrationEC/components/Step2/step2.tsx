@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useFormContext } from 'react-hook-form';
 import { baseURL } from "@/config/color";
 import { ButtonAvançar, ButtonVoltar, ContainerButton, ContainerForm, ContainerInput, ContainerInput2, ContainerStep, ContextStep, ContextStepContainer, Line, TitleStep } from "./styled";
@@ -12,6 +12,8 @@ import { useEstablishment } from "@/context/useEstablishment";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { useTenantData } from "@/context";
+import { TranslateErrorMessage } from "@/utils/translateErrorMessage";
+import { toast } from "react-toastify";
 
 interface IStep2 {
   Avançar: () => void;
@@ -28,38 +30,25 @@ export function Step2({ Avançar, Voltar }: IStep2) {
   const allFieldsFilled = !!watch('CEP') && !!watch('Endereco') && !!watch('Numero') && !!watch('Bairro') && !!watch('Cidade') && !!watch('Estado');
   const tenantData = useTenantData();
 
-  const fetchSellerData = useCallback(async () => {
-    setLoading(true);
-    try {
-      const response = await axios.get(
-        `${baseURL}seller/show/${establishmentId}`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${dataUser?.token}`,
-          },
-        }
-      );
+  const loadSellerDataFromSession = useCallback(() => {
+    const sellerDataString = sessionStorage.getItem('dados-edit-ec');
+    if (sellerDataString) {
+      const sellerData = JSON.parse(sellerDataString);
 
-      const sellerData = response.data;
-      setValue('CEP', sellerData.seller.address_cep);
-      setValue('Endereco', sellerData.seller.address_street);
-      setValue('Numero', sellerData.seller.address_number);
-      setValue('Complemento', sellerData.seller.address_complement);
-      setValue('Bairro', sellerData.seller.address_neighborhood);
-      setValue('Cidade', sellerData.seller.address_city);
-      setValue('Estado', sellerData.seller.address_state);
-      setSellerData(sellerData.seller);
-    } catch (error) {
-      console.error('Erro ao buscar dados do vendedor', error);
-    } finally {
-      setLoading(false);
+      setSellerData(sellerData);
+      setValue('CEP', sellerData.address_cep);
+      setValue('Endereco', sellerData.address_street);
+      setValue('Numero', sellerData.address_number);
+      setValue('Complemento', sellerData.address_complement);
+      setValue('Bairro', sellerData.address_neighborhood);
+      setValue('Cidade', sellerData.address_city);
+      setValue('Estado', sellerData.address_state);
     }
-  }, [establishmentId, dataUser?.token, setValue]);
+  }, [setValue]);
 
   useEffect(() => {
-    fetchSellerData();
-  }, [fetchSellerData]);
+    loadSellerDataFromSession();
+  }, [loadSellerDataFromSession]);
 
   const handleSalvar = async () => {
     try {
@@ -89,8 +78,6 @@ export function Step2({ Avançar, Voltar }: IStep2) {
         }
       });
 
-      setLoading(false);
-
       Swal.fire({
         icon: 'success',
         title: 'Licenciado atualizado com sucesso!',
@@ -109,13 +96,12 @@ export function Step2({ Avançar, Voltar }: IStep2) {
         }
       });
     } catch (error) {
-      setLoading(false);
-      Swal.fire({
-        icon: 'error',
-        title: 'Erro ao atualizar dados',
-        text: 'Ocorreu um erro ao tentar atualizar os dados do licenciado. Por favor, tente novamente mais tarde.',
-        confirmButtonText: 'OK'
-      });
+      const err = error as AxiosError<{ message: string }>;
+      const errorMessage = err.response?.data?.message || 'Ocorreu um error';
+      const translatedMessage = await TranslateErrorMessage(errorMessage);
+      toast.error(translatedMessage);
+    } finally{
+      setLoading(false)
     }
   };
 

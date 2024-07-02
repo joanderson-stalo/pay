@@ -16,15 +16,12 @@ import {
 } from './styled'
 import { CustomInput } from '@/components/Input/input'
 import { LabelCustomInputMask } from '@/components/CustomInputMask'
-import { validateCNPJ, validateCPF } from 'validations-br'
 import { validateDataCriacao } from '@/utils/dataValid'
-import { validateTelefone } from '@/utils/telefoneValid'
 import { validateEmail } from '@/utils/validateEmail'
 import { CustomSelect } from '@/components/Select/select'
-import { optionsData } from './option'
 import { useNavigate } from 'react-router-dom'
 import { useEffect, useState, useCallback } from 'react'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import { useLogin } from '@/context/user.login'
 import { useLicensed } from '@/context/useLicensed'
 import { Loading } from '@/components/Loading/loading'
@@ -32,6 +29,8 @@ import { optionsCnae } from '@/json/cnae'
 import { SellerData } from '../../../interface'
 import Swal from 'sweetalert2'
 import { useTenantData } from '@/context'
+import { TranslateErrorMessage } from '@/utils/translateErrorMessage'
+import { toast } from 'react-toastify'
 
 interface IStep1 {
   Avançar: () => void
@@ -49,9 +48,8 @@ export function PJ({ Avançar }: IStep1) {
   const navigate = useNavigate()
   const { dataUser } = useLogin();
   const { licensedId } = useLicensed();
-  const [loading, setLoading] = useState(true);
   const tenantData = useTenantData();
-
+  const [loading, setLoading] = useState(false);
   const [sellerData, setSellerData] = useState<SellerData | null>(null);
   const allFieldsFilled =
     !!watch('CNPJEstabelecimento') &&
@@ -73,42 +71,6 @@ export function PJ({ Avançar }: IStep1) {
     navigate('/sellers-la')
   }
 
-  const fetchSellerData = useCallback(async () => {
-    setLoading(true);
-    try {
-      const response = await axios.get(
-        `${baseURL}seller/show/${licensedId}`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${dataUser?.token}`,
-          },
-        }
-      );
-      setSellerData(response.data.seller);
-      setValue('EmailEstabelecimento', response.data.seller.email);
-      setValue('CNPJEstabelecimento', response.data.seller.document);
-      setValue('RazaoSocialEstabelecimento', response.data.seller.company_name);
-      setValue('NomeFantasiaEstabelecimento', response.data.seller.trading_name);
-      const dataCriacao = new Date(response.data.seller.opening_date).toLocaleDateString('pt-BR');
-      setValue('DataCriacaoEstabelecimento', dataCriacao);
-      const nascimentoSocio = new Date(response.data.seller.owner_birthday).toLocaleDateString('pt-BR');
-      setValue('NascimentoSocio', nascimentoSocio);
-      setValue('CPFEstabelecimento', response.data.seller.owner_cpf);
-      setValue('TelefoneEstabelecimento', response.data.seller.phone);
-      setValue('NomeSocioEstabelecimento', response.data.seller.owner_name);
-      setValue('AreaAtuacaoEstabelecimento', response.data.seller.mcc);
-    } catch (error) {
-      console.error('Erro ao buscar dados do vendedor', error);
-      setSellerData(null);
-    } finally {
-      setLoading(false);
-    }
-  }, [licensedId, dataUser?.token, setValue]);
-
-  useEffect(() => {
-    fetchSellerData();
-  }, [fetchSellerData]);
 
   const areaAtuacaoValue = watch('AreaAtuacaoEstabelecimento');
 
@@ -132,7 +94,6 @@ export function PJ({ Avançar }: IStep1) {
         email: watch('EmailEstabelecimento'),
         phone: watch('TelefoneEstabelecimento'),
         document: watch('CNPJEstabelecimento'),
-        type_document: sellerData?.type_document
       };
 
       await axios.put(`${baseURL}seller/update/${licensedId}`, updatedData, {
@@ -142,7 +103,6 @@ export function PJ({ Avançar }: IStep1) {
         }
       });
 
-      setLoading(false);
 
       Swal.fire({
         icon: 'success',
@@ -161,20 +121,43 @@ export function PJ({ Avançar }: IStep1) {
         }
       });
     } catch (error) {
-      console.error('Erro ao atualizar dados do licenciado', error);
-      setLoading(false);
-      Swal.fire({
-        icon: 'error',
-        title: 'Erro ao atualizar dados',
-        text: 'Ocorreu um erro ao tentar atualizar os dados do licenciado. Por favor, tente novamente mais tarde.',
-        confirmButtonText: 'OK'
-      });
+      const err = error as AxiosError<{ message: string }>;
+      const errorMessage = err.response?.data?.message || 'Ocorreu um error';
+      const translatedMessage = await TranslateErrorMessage(errorMessage);
+      toast.error(translatedMessage);
     }
   };
 
+
+  const loadSellerDataFromSession = useCallback(() => {
+    const sellerDataString = sessionStorage.getItem('dados-edit-la');
+    if (sellerDataString) {
+      const sellerData = JSON.parse(sellerDataString);
+      setValue('EmailEstabelecimento', sellerData.email);
+      setValue('CNPJEstabelecimento', sellerData.document);
+      setValue('RazaoSocialEstabelecimento', sellerData.company_name);
+      setValue('NomeFantasiaEstabelecimento', sellerData.trading_name);
+      const dataCriacao = new Date(sellerData.opening_date).toLocaleDateString('pt-BR');
+      setValue('DataCriacaoEstabelecimento', dataCriacao);
+      const nascimentoSocio = new Date(sellerData.owner_birthday).toLocaleDateString('pt-BR');
+      setValue('NascimentoSocio', nascimentoSocio);
+      setValue('CPFEstabelecimento', sellerData.owner_cpf);
+      setValue('TelefoneEstabelecimento', sellerData.phone);
+      setValue('NomeSocioEstabelecimento', sellerData.owner_name);
+      setValue('AreaAtuacaoEstabelecimento', sellerData.mcc);
+    }
+  }, [setValue]);
+
+  useEffect(() => {
+    loadSellerDataFromSession();
+  }, [loadSellerDataFromSession]);
+
+  if(loading){
+    <Loading />
+  }
+
   return (
     <>
-      {loading && <Loading />}
       <ContainerStep>
         <ContextStepContainer>
           <ContextStep>
@@ -185,7 +168,7 @@ export function PJ({ Avançar }: IStep1) {
             <ContainerForm>
               <ContainerInput>
                 <LabelCustomInputMask
-                  {...register('CNPJEstabelecimento', { validate: validateCNPJ })}
+                  {...register('CNPJEstabelecimento')}
                   mask="99.999.999/9999-99"
                   placeholder="--.---.---/---.--"
                   hasError={!!errors.CNPJEstabelecimento}
@@ -218,7 +201,7 @@ export function PJ({ Avançar }: IStep1) {
                   hasError={!!errors.NomeFantasiaEstabelecimento}
                 />
                 <LabelCustomInputMask
-                  {...register('CPFEstabelecimento', { validate: validateCPF })}
+                  {...register('CPFEstabelecimento')}
                   label="CPF do Sócio"
                   mask="999.999.999-99"
                   placeholder="---.---.---.--"
@@ -243,9 +226,7 @@ export function PJ({ Avançar }: IStep1) {
                   hasError={!!errors.NomeSocioEstabelecimento}
                 />
                 <LabelCustomInputMask
-                  {...register('TelefoneEstabelecimento', {
-                    validate: validateTelefone
-                  })}
+                  {...register('TelefoneEstabelecimento')}
                   label="Telefone/Celular"
                   mask="(99) 99999-9999"
                   placeholder="(--) ----.----"

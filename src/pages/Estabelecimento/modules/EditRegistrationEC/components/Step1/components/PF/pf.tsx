@@ -7,14 +7,16 @@ import { validateDataCriacao } from '@/utils/dataValid'
 import { validateTelefone } from '@/utils/telefoneValid'
 import { validateEmail } from '@/utils/validateEmail'
 import { CustomSelect } from '@/components/Select/select'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { optionsCnae } from '@/json/cnae'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import { useLogin } from '@/context/user.login'
 import { useEstablishment } from '@/context/useEstablishment'
 import Swal from 'sweetalert2'
 import { useNavigate } from 'react-router-dom'
 import { useTenantData } from '@/context'
+import { TranslateErrorMessage } from '@/utils/translateErrorMessage'
+import { toast } from 'react-toastify'
 
 interface IStep1 {
   Avançar: () => void
@@ -49,46 +51,26 @@ export function PF({ Avançar}: IStep1) {
     Avançar();
   }
 
+  const loadSellerDataFromSession = useCallback(() => {
+    const sellerDataString = sessionStorage.getItem('dados-edit-ec');
+    if (sellerDataString) {
+      const sellerData = JSON.parse(sellerDataString);
+
+      setValue('EmailEstabelecimento', sellerData.email);
+      setValue('NomeFantasiaEstabelecimento', sellerData.trading_name);
+      const nascimentoSocio = new Date(sellerData.owner_birthday).toLocaleDateString('pt-BR');
+      setValue('NascimentoSocio', nascimentoSocio);
+      setValue('CPFEstabelecimento', sellerData.owner_cpf);
+      setValue('TelefoneEstabelecimento', sellerData.phone);
+      setValue('NomeSocioEstabelecimento', sellerData.owner_name);
+      setValue('AreaAtuacaoEstabelecimento', sellerData.mcc);
+      setTypeDocument(sellerData.type_document);
+    }
+  }, [setValue]);
+
   useEffect(() => {
-    const fetchSellerData = async () => {
-      setLoading(true);
-      try {
-        const response = await axios.get(
-          `${baseURL}seller/show/${establishmentId}`,
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${dataUser?.token}`,
-            },
-          }
-        );
-        setValue('EmailEstabelecimento', response.data.seller.email);
-        setValue('NomeFantasiaEstabelecimento', response.data.seller.trading_name);
-        const nascimentoSocio = new Date(response.data.seller.owner_birthday).toLocaleDateString('pt-BR');
-        setValue('NascimentoSocio', nascimentoSocio);
-        setValue('CPFEstabelecimento', response.data.seller.owner_cpf);
-        setValue('TelefoneEstabelecimento', response.data.seller.phone);
-        setValue('NomeSocioEstabelecimento', response.data.seller.owner_name);
-        setValue('AreaAtuacaoEstabelecimento', response.data.seller.mcc);
-        setTypeDocument(response.data.seller.type_document);
-
-
-        !!watch('NomeFantasiaEstabelecimento') &&
-        !!watch('NascimentoSocio') &&
-        !!watch('CPFEstabelecimento') &&
-        !!watch('NomeSocioEstabelecimento') &&
-        !!watch('EmailEstabelecimento') &&
-        !!watch('AreaAtuacaoEstabelecimento') &&
-        !!watch('TelefoneEstabelecimento')
-      } catch (error) {
-
-
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchSellerData();
-  }, []);
+    loadSellerDataFromSession();
+  }, [loadSellerDataFromSession]);
 
 
   const handleSalvar = async () => {
@@ -121,8 +103,6 @@ export function PF({ Avançar}: IStep1) {
         }
       });
 
-      setLoading(false);
-
       Swal.fire({
         icon: 'success',
         title: 'Licenciado atualizado com sucesso!',
@@ -140,14 +120,12 @@ export function PF({ Avançar}: IStep1) {
         }
       });
     } catch (error) {
-
-      setLoading(false);
-      Swal.fire({
-        icon: 'error',
-        title: 'Erro ao atualizar dados',
-        text: 'Ocorreu um erro ao tentar atualizar os dados do licenciado. Por favor, tente novamente mais tarde.',
-        confirmButtonText: 'OK'
-      });
+      const err = error as AxiosError<{ message: string }>;
+      const errorMessage = err.response?.data?.message || 'Ocorreu um error';
+      const translatedMessage = await TranslateErrorMessage(errorMessage);
+      toast.error(translatedMessage);
+    } finally{
+      setLoading(false)
     }
   };
 

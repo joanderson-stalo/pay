@@ -32,6 +32,7 @@ export function Step1({ Avançar }: IStep1) {
       );
       const sellerData = response.data.seller;
       setTypeDocument(sellerData.type_document);
+      sessionStorage.setItem('dados-edit-la', JSON.stringify(sellerData)); 
       if (sellerData.type_document.toUpperCase() === 'CNPJ') {
         updateToCNPJEC();
       } else if (sellerData.type_document.toUpperCase() === 'CPF') {
