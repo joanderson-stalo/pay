@@ -28,10 +28,10 @@ width: 100%;
 export const ContainerInput = styled.div`
 
 
-display: grid;
-grid-template-columns: 1fr 1fr;
-gap: 50px;
-
+display: flex;
+flex-direction: column;
+gap: 32px;
+width: 420px;
 
 
 
@@ -40,6 +40,7 @@ gap: 50px;
     display: flex;
     flex-direction: column;
     gap: 10px;
+    width: 100%;
   }
 
 
@@ -48,24 +49,7 @@ gap: 50px;
 
 
 `
-export const ContainerInput2 = styled.div`
-margin-top: 32px;
-display: grid;
-grid-template-columns: 1fr 1fr;
-gap: 50px;
 
-    @media (max-width: 600px) {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-
-
-
-
-
-`
 
 
 export const ContainerButton = styled.div`
@@ -74,7 +58,7 @@ export const ContainerButton = styled.div`
   justify-content: end;
   gap: 20px;
   align-self: flex-end;
-  margin-top: 40px;
+  margin-top: 100px;
 
   @media (max-width: 600px) {
     justify-content: center;
@@ -89,16 +73,8 @@ export const ContainerTable = styled.div`
 
 
   @media (max-width: 600px) {
-    margin-top: 80px;
+
   }
-`;
-
-export const Mobile = styled.div`
-
-
-
-
-  
 `;
 
 export const SubTitle = styled.h3`

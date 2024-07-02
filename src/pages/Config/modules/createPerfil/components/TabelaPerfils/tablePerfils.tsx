@@ -2,26 +2,23 @@ import { useState, useEffect } from 'react';
 import * as S from './styled';
 import { useNavigate } from 'react-router-dom';
 import { useTenantData } from '@/context';
-import { checkEmpty } from '@/utils/checkEmpty';
 import { useTicketID } from '@/context/id/ticketId';
-import { Pencil, Trash } from '@phosphor-icons/react';
+
 
 export interface RowData {
-  created_at: string;
+  data: string;
+  name: string;
   id: string;
-  description: string;
-  event: string;
-  properties: string;
 }
 
-type SortField = 'created_at' | 'id';
+type SortField = 'data' | 'name';
 
 interface TabelaProps {
   rows: RowData[];
 }
 
 export function TabePerfils({ rows }: TabelaProps) {
-  const [sortField, setSortField] = useState<SortField>('id');
+  const [sortField, setSortField] = useState<SortField>('name');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
 
   const tenantData = useTenantData();
@@ -39,13 +36,13 @@ export function TabePerfils({ rows }: TabelaProps) {
 
   const sortedRows = [...rows].sort((a, b) => {
     let comparison = 0;
-    if (sortField === 'id') {
-      comparison = parseInt(a.id) - parseInt(b.id);
+    if (sortField === 'name') {
+      comparison = parseInt(a.name) - parseInt(b.name);
       return sortDirection === 'asc' ? comparison : -comparison;
     }
 
-    if (sortField === 'created_at') {
-      comparison = a.created_at.localeCompare(b.created_at);
+    if (sortField === 'data') {
+      comparison = a.data.localeCompare(b.data);
       return sortDirection === 'asc' ? comparison : -comparison;
     }
 
@@ -88,20 +85,20 @@ export function TabePerfils({ rows }: TabelaProps) {
 
 
   useEffect(() => {
-    handleSort('id');
+    handleSort('name');
   }, []);
 
   return (
     <S.Table>
       <thead>
         <tr>
-        <S.TableHeader style={{ cursor: 'pointer' }} onClick={() => handleSort('created_at')}>
+        <S.TableHeader style={{ cursor: 'pointer' }} onClick={() => handleSort('data')}>
               Data
-            <SortIndicator direction={getDirectionForField('created_at')} />
+            <SortIndicator direction={getDirectionForField('data')} />
           </S.TableHeader>
-          <S.TableHeader style={{ cursor: 'pointer' }} onClick={() => handleSort('id')}>
+          <S.TableHeader style={{ cursor: 'pointer' }} onClick={() => handleSort('name')}>
             Nome
-            <SortIndicator direction={getDirectionForField('id')} />
+            <SortIndicator direction={getDirectionForField('name')} />
           </S.TableHeader>
 
 
@@ -113,16 +110,16 @@ export function TabePerfils({ rows }: TabelaProps) {
       <tbody>
         {sortedRows.map((row, index) => (
           <tr key={index}>
-             <S.TableData>{formatDate(row.created_at)}</S.TableData>
-            <S.TableData>{row.id}</S.TableData>
+             <S.TableData>{formatDate(row.data)}</S.TableData>
+            <S.TableData>{row.name}</S.TableData>
 
-            <S.TableData>
+            <S.TableData >
               <S.ContentBtns>
 
-                <S.IconButton> <S.ButtonDelete/> </S.IconButton>
                 <S.IconButton> <S.ButtonEdit/> </S.IconButton>
+                <S.IconButton> <S.ButtonDelete/> </S.IconButton>
 
-                <S.Button primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} onClick={() => handleViewMoreClick(row.id)}>Detalhes</S.Button>
+                <S.Button primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} onClick={() => handleViewMoreClick(row.id)}>Editar permissão</S.Button>
               </S.ContentBtns>
 
 
