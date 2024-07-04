@@ -3,21 +3,19 @@ import * as S from './styled';
 import { useCallback, useEffect, useState } from 'react';
 import { ItensPorPage } from '@/components/ItensPorPage/itensPorPage';
 import { Pagination } from '@/components/Pagination/pagination';
-import { useLogin } from '@/context/user.login';
 import axios from 'axios';
 import { Loading } from '@/components/Loading/loading';
-import { TicketsCardMobile } from './Mobile/TicketsCardMobile/ticketsCardMobile';
 import { BtnFilterModal } from '@/components/BtnFilterModal/btnFilterModal';
 import { CustomInput } from '@/components/Input/input';
 import { useTenantData } from '@/context';
-import { TablePayments } from './components/TablePayments/tablePayments';
 import { TagFilter } from '@/components/TagFilter/tagFilter';
 import { NoteData } from '@/components/NoteData/noteData';
 import { HeaderConfrapix } from './components/HeaderConfrapix/headerConfrapix';
+import { ConfraPixTable } from './components/ConfraPixTable/confraPixTable';
+import { ConfraPixCardMobile } from './Mobile/ConfraPixCardMobile/confraPixCardMobile';
 
 export function ListPix() {
   const [itensPorPage, setItensPorPage] = useState<number | ''>(10);
-  const { dataUser } = useLogin();
   const [totalPayments, setTotalPayments] = useState(0);
   const [payments, setPayments] = useState([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -44,7 +42,6 @@ export function ListPix() {
       setPayments(response.data.transaction || []);
       setTotalPayments(response.data.total_payments || 0);
     } catch (error) {
-      console.error('Erro ao buscar transações Confrapix:', error);
       setPayments([]);
       setTotalPayments(0);
     } finally {
@@ -150,9 +147,9 @@ export function ListPix() {
 
         {payments.length > 0 ? (
           <>
-            <TablePayments rows={payments} />
+            <ConfraPixTable rows={payments} />
             <S.ContainerCardsMobile>
-              <TicketsCardMobile data={payments} />
+              <ConfraPixCardMobile data={payments} />
             </S.ContainerCardsMobile>
             <S.Context>
               <S.Linha />

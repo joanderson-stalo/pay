@@ -82,12 +82,10 @@ export const StatusTableData = styled(TableData)<{ status: string }>`
 
   background-color: ${props => {
     switch (props.status) {
-      case 'Pagamento recusado':
+      case 'Aguardando':
         return '#C81B1B1A';
-      case 'Pagamento efetuado':
+      case 'Concluido':
         return '#1786291A';
-      case 'Pagamento em análise':
-        return '#CD7B001A';
       default:
         return 'transparent';
     }

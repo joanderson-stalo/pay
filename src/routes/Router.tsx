@@ -66,6 +66,7 @@ import { YieldSummary } from '@/pages/Financial/Modules/YieldSummary/yieldSummar
 import { ListPix } from '../pages/Confrapix/modules/listPix/listPix';
 import { CreatePerfil } from '@/pages/Config/modules/createPerfil/createPerfil';
 import { CreatePermission } from '@/pages/Config/modules/createPermission/createPermission';
+import { QRcodeDetails } from '@/pages/Confrapix/modules/listPix/Modules/qrcodeDetails/qrcodeDetails';
 
 
 export function Router() {
@@ -157,6 +158,7 @@ export function Router() {
 
             <Route path='/confrapix-create' element={<ConfraPix />} />
             <Route path='/confrapix-list' element={<  ListPix />} />
+            <Route path='/confrapix-details' element={<   QRcodeDetails  />} />
 
 
 

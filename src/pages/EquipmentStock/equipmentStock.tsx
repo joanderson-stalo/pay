@@ -12,7 +12,7 @@ import { StockCard } from './Mobile/StockCard/stockCard';
 import { TableStock } from './components/TableStock/tableStock';
 import { HeaderStock } from './components/HeaderStock/headerStock';
 
-import { debounce } from 'lodash';
+
 import { baseURL } from '@/config/color';
 import { BtnFilterModal } from '@/components/BtnFilterModal/btnFilterModal';
 import { CustomSelect } from '@/components/Select/select';
