@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { BiChevronDown, BiChevronUp } from 'react-icons/bi';
-import { Storefront, Tag, ChartBar, Basket, Money, Stack, Wallet, FileText, Laptop, Ticket, Gear, ShoppingCart, Barcode } from '@phosphor-icons/react';
+import { Storefront, Tag, ChartBar, Basket, Money, Stack, Wallet, FileText, Laptop, Ticket, Gear, ShoppingCart, PixLogo } from '@phosphor-icons/react';
 import { ButtonSider, ContainerSidebar, Logo, Menu, SubMenu, SubMenuItem } from './styled';
 import { useSidebarVisibility } from '@/context/sidebarVisibilityContext';
 import { useLogin } from '@/context/user.login';
@@ -17,7 +17,7 @@ export function Sidebar() {
   const menuItems = [
     { icon: <ChartBar />, label: 'Resumo', path: "/home" },
     { icon: <Basket />, label: 'Vendas', path: "/transaction" },
-    { icon: <Barcode />, label: 'Confrapix', path: "/confrapix" },
+    { icon: <PixLogo />, label: 'Confrapix', isSubmenu: true },
     ...(dataUser?.seller_type !== 'EC' ? [
       { icon: <Storefront />, label: 'Estabelecimentos', path: "/sellers-ec" },
       { icon: <Tag />, label: 'Licenciados', path: "/sellers-la" },
@@ -30,7 +30,6 @@ export function Sidebar() {
       { icon: <Gear />, label: 'Configurações', isSubmenu: true },
     ] : []),
     { icon: <FileText />, label: 'Documentos', path: "/documents" },
-
   ];
 
   const [selectedItem, setSelectedItem] = useState<number | null>(() => {
@@ -42,6 +41,7 @@ export function Sidebar() {
   const [financeiroSubmenuOpen, setFinanceiroSubmenuOpen] = useState<boolean>(false);
   const [configSubmenuOpen, setConfigSubmenuOpen] = useState<boolean>(false);
   const [shoppingSubmenuOpen, setShoppingSubmenuOpen] = useState<boolean>(false);
+  const [confrapixSubmenuOpen, setConfrapixSubmenuOpen] = useState<boolean>(false);
 
   useEffect(() => {
     const paths = menuItems.map(item => item.path);
@@ -52,10 +52,12 @@ export function Sidebar() {
       setFinanceiroSubmenuOpen(false);
       setConfigSubmenuOpen(false);
       setShoppingSubmenuOpen(false);
+      setConfrapixSubmenuOpen(false);
     } else {
       setFinanceiroSubmenuOpen(menuItems[matchedIndex]?.isSubmenu ?? false);
       setConfigSubmenuOpen(menuItems[matchedIndex]?.isSubmenu ?? false);
       setShoppingSubmenuOpen(menuItems[matchedIndex]?.isSubmenu ?? false);
+      setConfrapixSubmenuOpen(menuItems[matchedIndex]?.isSubmenu ?? false);
     }
   }, [location.pathname, isVisible]);
 
@@ -66,6 +68,7 @@ export function Sidebar() {
       setFinanceiroSubmenuOpen(menuItems[index]?.isSubmenu ?? false);
       setConfigSubmenuOpen(menuItems[index]?.isSubmenu ?? false);
       setShoppingSubmenuOpen(menuItems[index]?.isSubmenu ?? false);
+      setConfrapixSubmenuOpen(menuItems[index]?.isSubmenu ?? false);
     }
   };
 
@@ -86,9 +89,15 @@ export function Sidebar() {
     { label: 'Produtos', path: '/e-com' },
   ];
 
+  const confrapixSubmenuItems = [
+    { label: 'Criar Pix', path: '/confrapix-create' },
+    { label: 'Meus Pix', path: '/confrapix-list' },
+  ];
+
   const financeiroIndex = menuItems.findIndex(item => item.label === 'Financeiro');
   const configIndex = menuItems.findIndex(item => item.label === 'Configurações');
   const shoppingIndex = menuItems.findIndex(item => item.label === 'Shopping');
+  const confrapixIndex = menuItems.findIndex(item => item.label === 'Confrapix');
 
   const toggleFinanceiroSubmenu = () => {
     setFinanceiroSubmenuOpen(!financeiroSubmenuOpen);
@@ -105,6 +114,11 @@ export function Sidebar() {
     setSelectedItem(shoppingIndex);
   };
 
+  const toggleConfrapixSubmenu = () => {
+    setConfrapixSubmenuOpen(!confrapixSubmenuOpen);
+    setSelectedItem(confrapixIndex);
+  };
+
   return (
     <ContainerSidebar onMouseEnter={showSidebar} onMouseLeave={hideSidebar} color={tenantData.primary_color_identity} isVisible={isVisible}>
       <Logo src={isVisible ? tenantData.attachment_logo_white : tenantData.icon} />
@@ -115,17 +129,19 @@ export function Sidebar() {
             <ButtonSider
               colorSec={tenantData.secondary_color_identity}
               selected={selectedItem === index}
-              onClick={() => item.isSubmenu ? 
-                (item.label === 'Financeiro' ? toggleFinanceiroSubmenu() : 
-                 item.label === 'Configurações' ? toggleConfigSubmenu() : 
-                 toggleShoppingSubmenu()) : 
+              onClick={() => item.isSubmenu ?
+                (item.label === 'Financeiro' ? toggleFinanceiroSubmenu() :
+                 item.label === 'Configurações' ? toggleConfigSubmenu() :
+                 item.label === 'Shopping' ? toggleShoppingSubmenu() :
+                 toggleConfrapixSubmenu()) :
                 handleNavigation(index, item.path)}
             >
               {item.icon}
               {isVisible && item.label}
-              {item.isSubmenu && isVisible && (item.label === 'Financeiro' ? (financeiroSubmenuOpen ? <BiChevronUp /> : <BiChevronDown />) : 
-                item.label === 'Configurações' ? (configSubmenuOpen ? <BiChevronUp /> : <BiChevronDown />) : 
-                (shoppingSubmenuOpen ? <BiChevronUp /> : <BiChevronDown />))}
+              {item.isSubmenu && isVisible && (item.label === 'Financeiro' ? (financeiroSubmenuOpen ? <BiChevronUp /> : <BiChevronDown />) :
+                item.label === 'Configurações' ? (configSubmenuOpen ? <BiChevronUp /> : <BiChevronDown />) :
+                item.label === 'Shopping' ? (shoppingSubmenuOpen ? <BiChevronUp /> : <BiChevronDown />) :
+                (confrapixSubmenuOpen ? <BiChevronUp /> : <BiChevronDown />))}
             </ButtonSider>
             {item.isSubmenu && item.label === 'Financeiro' && financeiroSubmenuOpen && (
               <SubMenu>
@@ -157,6 +173,18 @@ export function Sidebar() {
                   <SubMenuItem
                     key={subIndex}
                     onClick={() => handleNavigation(shoppingIndex, subItem.path)}
+                  >
+                    {subItem.label}
+                  </SubMenuItem>
+                ))}
+              </SubMenu>
+            )}
+            {item.isSubmenu && item.label === 'Confrapix' && confrapixSubmenuOpen && (
+              <SubMenu>
+                {confrapixSubmenuItems.map((subItem, subIndex) => (
+                  <SubMenuItem
+                    key={subIndex}
+                    onClick={() => handleNavigation(confrapixIndex, subItem.path)}
                   >
                     {subItem.label}
                   </SubMenuItem>

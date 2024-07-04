@@ -141,9 +141,7 @@ export function Plans() {
       <S.Container>
         <HeaderPlans />
 
-        {plans.length > 0 && (
-          <>
-            <S.Input isFocused={isFocused}>
+        <S.Input isFocused={isFocused}>
               <input
                 type="text"
                 placeholder="Pesquise por nome do estabelecimento"
@@ -151,11 +149,20 @@ export function Plans() {
                 onChange={handleChange}
                 onFocus={() => setIsFocused(true)}
                 onBlur={() => setIsFocused(false)}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter') {
+                    handleSearch();
+                  }
+                }}
               />
               <S.SearchIcon isFocused onClick={handleSearch}>
                 <MagnifyingGlass />
               </S.SearchIcon>
             </S.Input>
+
+        {plans.length > 0 && (
+          <>
+
 
             <TablePlans rows={plans} />
 

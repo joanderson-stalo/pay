@@ -7,16 +7,15 @@ import { useLogin } from '@/context/user.login';
 import axios from 'axios';
 import { Loading } from '@/components/Loading/loading';
 import { TicketsCardMobile } from './Mobile/TicketsCardMobile/ticketsCardMobile';
-import { baseURL } from '@/config/color';
 import { BtnFilterModal } from '@/components/BtnFilterModal/btnFilterModal';
 import { CustomInput } from '@/components/Input/input';
 import { useTenantData } from '@/context';
 import { TablePayments } from './components/TablePayments/tablePayments';
-import { HeaderPayments } from './components/HeaderPayments/headerPayments';
 import { TagFilter } from '@/components/TagFilter/tagFilter';
 import { NoteData } from '@/components/NoteData/noteData';
+import { HeaderConfrapix } from './components/HeaderConfrapix/headerConfrapix';
 
-export function Payments() {
+export function ListPix() {
   const [itensPorPage, setItensPorPage] = useState<number | ''>(10);
   const { dataUser } = useLogin();
   const [totalPayments, setTotalPayments] = useState(0);
@@ -28,36 +27,30 @@ export function Payments() {
 
   const tenantData = useTenantData();
 
-  const fetchDataPayments = useCallback(async () => {
+  const fetchConfrapixTransactions = useCallback(async () => {
     setLoading(true);
     try {
-      let apiUrl = `${baseURL}payments/indexPayment?per_page=${String(itensPorPage)}&page=${currentPage}`;
-
-      const capturedInStart = localStorage.getItem('@startDatePayments');
-      if (capturedInStart) {
-        apiUrl += `&payment_date_start=${capturedInStart}`;
-      }
-
-      const capturedInEnd = localStorage.getItem('@endDatePayments');
-      if (capturedInEnd) {
-        apiUrl += `&payment_date_end=${capturedInEnd}`;
-      }
+      let apiUrl = 'https://api.confrapix.com.br/api/transaction/index';
+      apiUrl += `?dateStart=${startDate || '2024-01-01 01:01:00'}`;
+      apiUrl += `&dateEnd=${endDate || '2024-12-31 23:30:00'}`;
+      apiUrl += `&per_page=${String(itensPorPage)}&page=${currentPage}`;
 
       const response = await axios.get(apiUrl, {
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${dataUser?.token}`,
+          Authorization: 'Bearer 2|we03xUflx4rWWktVqzAElAmv1vtlu7lGzZtyqTVre24cea11',
         },
       });
 
-      setPayments(response.data.payments);
-      setTotalPayments(response.data.total_payments);
+      setPayments(response.data.transaction || []);
+      setTotalPayments(response.data.total_payments || 0);
     } catch (error) {
-
+      console.error('Erro ao buscar transações Confrapix:', error);
+      setPayments([]);
+      setTotalPayments(0);
     } finally {
       setLoading(false);
     }
-  }, [itensPorPage, currentPage, dataUser?.token]);
+  }, [itensPorPage, currentPage, startDate, endDate]);
 
   const handleNextPage = () => {
     setCurrentPage((prevPage) => prevPage + 1);
@@ -76,8 +69,8 @@ export function Payments() {
   const totalPages = Math.ceil(totalPayments / Number(itensPorPage));
 
   useEffect(() => {
-    fetchDataPayments();
-  }, [fetchDataPayments]);
+    fetchConfrapixTransactions();
+  }, [fetchConfrapixTransactions]);
 
   const handleSaveToLocalStorage = () => {
     if (currentPage !== 1) {
@@ -86,7 +79,7 @@ export function Payments() {
     localStorage.setItem('@startDatePayments', startDate);
     localStorage.setItem('@endDatePayments', endDate);
     if (currentPage === 1) {
-      fetchDataPayments();
+      fetchConfrapixTransactions();
     }
   };
 
@@ -100,7 +93,7 @@ export function Payments() {
         setEndDate('');
         break;
     }
-    fetchDataPayments();
+    fetchConfrapixTransactions();
   };
 
   const activeFilters = [
@@ -122,8 +115,7 @@ export function Payments() {
   return (
     <>
       <S.Container>
-        <HeaderPayments />
-
+        <HeaderConfrapix />
 
         <S.ContainerButton>
           <BtnFilterModal
@@ -180,7 +172,7 @@ export function Payments() {
             </S.Context>
           </>
         ) : (
-         <NoteData />
+          <NoteData />
         )}
       </S.Container>
     </>

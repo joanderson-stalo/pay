@@ -237,6 +237,11 @@ export function Estabelecimento() {
                 onChange={handleChange}
                 onFocus={() => setIsFocused(true)}
                 onBlur={() => setIsFocused(false)}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter') {
+                    handleSearch();
+                  }
+                }}
               />
               <S.SearchIcon isFocused onClick={handleSearch}>
                 <MagnifyingGlass />

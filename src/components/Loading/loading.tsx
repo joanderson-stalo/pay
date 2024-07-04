@@ -1,14 +1,14 @@
 import { useTenantData } from "@/context";
 import { LoadingContainer } from "./styled";
-import GridLoader from "react-spinners/GridLoader";
+import RingLoader from "react-spinners/RingLoader";
 
 export function Loading(){
   const tenantData = useTenantData();
 
   return(
-    <LoadingContainer 
+    <LoadingContainer
     >
-      <GridLoader color="white" />
+      <RingLoader color="white" />
     </LoadingContainer>
   )
 }

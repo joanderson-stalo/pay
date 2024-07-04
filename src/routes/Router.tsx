@@ -63,6 +63,7 @@ import { NetWorkCommission } from '@/pages/Commission/NetWorkCommission/netWorkC
 import { MyCommission } from '@/pages/Commission/MyCommission/myCommission';
 import { ConfraPix } from '@/pages/Confrapix/modules/createpix/createpix';
 import { YieldSummary } from '@/pages/Financial/Modules/YieldSummary/yieldSummary';
+import { ListPix } from '../pages/Confrapix/modules/listPix/listPix';
 
 
 export function Router() {
@@ -149,8 +150,8 @@ export function Router() {
             <Route path='/billingImport' element={<ImportSpreadsheetBilling />} />
 
 
-            <Route path='/confrapix' element={<ConfraPix />} />
-
+            <Route path='/confrapix-create' element={<ConfraPix />} />
+            <Route path='/confrapix-list' element={<  ListPix />} />
 
 
 
