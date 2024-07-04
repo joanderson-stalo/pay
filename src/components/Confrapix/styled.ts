@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import arrowIcon from '@/assets/icons/CaretDown.svg';
 
 export const Container = styled.div`
 width: 100%;
@@ -66,6 +67,28 @@ resize: none;
 
 `
 
+export const ContentSelect = styled.select`
+    width: 100%;
+    padding: 14px 25px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    height: 56px;
+
+    appearance: none;
+    background: url(${arrowIcon}) no-repeat right 8px center;
+    background-size: 32px 32px;
+
+
+`
+
 export const ContainerTextArea = styled.div`
 
 `
+
+ export const ContainerSelect = styled.div`
+display: flex;
+align-items: center;
+`
+
+
+

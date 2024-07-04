@@ -64,6 +64,8 @@ import { MyCommission } from '@/pages/Commission/MyCommission/myCommission';
 import { ConfraPix } from '@/pages/Confrapix/modules/createpix/createpix';
 import { YieldSummary } from '@/pages/Financial/Modules/YieldSummary/yieldSummary';
 import { ListPix } from '../pages/Confrapix/modules/listPix/listPix';
+import { CreatePerfil } from '@/pages/Config/modules/createPerfil/createPerfil';
+import { CreatePermission } from '@/pages/Config/modules/createPermission/createPermission';
 
 
 export function Router() {
@@ -128,6 +130,9 @@ export function Router() {
 
             <Route path="/extract" element={<Extract />} />
 
+
+            <Route path="/create-perfil" element={<CreatePerfil />} />
+            <Route path="/create-permission" element={<CreatePermission />} />
 
             <Route path="/log" element={<Log />} />
             <Route path='/log-detail'  element={<LogDetail />} />
