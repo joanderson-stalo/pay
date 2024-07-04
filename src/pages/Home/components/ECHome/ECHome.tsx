@@ -76,24 +76,27 @@ export function ECHome() {
     <>
       <S.Container>
       <TitleH title="Resumo" />
-        <S.ContainerInfo>
+
           <S.ContainerCard>
             <CardInfo label="Saldo" value={616.50} />
             <CardInfo label="Recebível" value={616.50} />
-            <CardInfo label="Qtd de Vendas" value={616.50} />
+            <CardInfo label="Quantidade de Vendas" value={616.50} />
           </S.ContainerCard>
-          <GraficoCicle
+
+
+
+
+
+        <S.ContainerGrafico>
+
+        <GraficoCicle
             pix={homeData?.payment_types.pix || '0'}
             credit={homeData?.payment_types.credit || '0'}
             debit={homeData?.payment_types.debit || '0'}
             total={homeData?.transactions_TPV || '0'}
           />
-
-        </S.ContainerInfo>
-        <LatestSales latest_transactions={latestTransactions}/>
-        <S.ContainerGrafico>
-
-
+          
+          <LatestSales latest_transactions={latestTransactions}/>
 
         </S.ContainerGrafico>
       </S.Container>
