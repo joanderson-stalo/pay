@@ -26,14 +26,36 @@ export const ContainerInfo = styled.div`
 
 export const ContainerCard = styled.aside`
   display: flex;
-  flex-direction: column;
+  gap: 20px;
   margin-top: 36px;
-  gap: 28px;
-  width: 100% ;
+
+  @media (max-width: 1200px) {
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 480px) {
+    margin-top: 26px;
+    gap: 12px;
+  }
 `
 
+
+
 export const ContainerGrafico = styled.div`
-  padding: 0 20px;
+  display: flex;
+  justify-content: center;
+  margin-top: 36px;
+  gap: 20px;
+
+  @media (max-width: 900px) {
+    flex-wrap: wrap;
+    gap: 40px;
+  }
+
+  @media (max-width: 480px) {
+
+    gap: 20px;
+  }
 `
 
 export const ContainerInfoGrafico = styled.div`
