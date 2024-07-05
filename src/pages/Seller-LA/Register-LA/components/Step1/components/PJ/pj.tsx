@@ -10,10 +10,12 @@ import { validateEmail } from '@/utils/validateEmail'
 import { CustomSelect } from '@/components/Select/select'
 import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import { Loading } from '@/components/Loading/loading'
 import { optionsCnae } from '@/json/cnae'
 import { useTenantData } from '@/context'
+import { TranslateErrorMessage } from '@/utils/translateErrorMessage'
+import { toast } from 'react-toastify'
 
 interface IStep1 {
   Avançar: () => void
@@ -83,7 +85,10 @@ export function PJ({ Avançar, BPF, BPJ }: IStep1) {
       setValue('NomeFantasiaEstabelecimento', fantasia);
 
     } catch (error) {
-
+      const err = error as AxiosError<{ message: string }>;
+      const errorMessage = err.response?.data?.message || 'Ocorreu um error';
+      const translatedMessage = await TranslateErrorMessage(errorMessage);
+      toast.error(translatedMessage);
     } finally {
       setIsLoading(false)
     }

@@ -34,6 +34,8 @@ import { Loading } from '@/components/Loading/loading';
 import { Modal } from './components/Modal/modal';
 import { useTenantData } from '@/context';
 import { useLicensed } from '@/context/useLicensed';
+import { TranslateErrorMessage } from '@/utils/translateErrorMessage';
+import { toast } from 'react-toastify';
 
 interface SelectOption {
   value: string;
@@ -107,7 +109,10 @@ export function UserCreateLA() {
       setProfiles({ options: transformedProfiles });
 
     } catch (error) {
-
+      const err = error as AxiosError<{ message: string }>;
+      const errorMessage = err.response?.data?.message || 'Ocorreu um error';
+      const translatedMessage = await TranslateErrorMessage(errorMessage);
+      toast.error(translatedMessage);
     }
   };
 

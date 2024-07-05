@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useState, useEffect, useCallback } from 'react';
 import { PF } from './components/PF/pf';
 import { PJ } from './components/PJ/pj';
@@ -7,6 +7,8 @@ import { useLogin } from '@/context/user.login';
 import { useLicensed } from '@/context/useLicensed';
 import { Loading } from '@/components/Loading/loading';
 import { baseURL } from '@/config/color';
+import { toast } from 'react-toastify';
+import { TranslateErrorMessage } from '@/utils/translateErrorMessage';
 
 interface IStep1 {
   Avançar: () => void;
@@ -32,14 +34,17 @@ export function Step1({ Avançar }: IStep1) {
       );
       const sellerData = response.data.seller;
       setTypeDocument(sellerData.type_document);
-      sessionStorage.setItem('dados-edit-la', JSON.stringify(sellerData)); 
+      sessionStorage.setItem('dados-edit-la', JSON.stringify(sellerData));
       if (sellerData.type_document.toUpperCase() === 'CNPJ') {
         updateToCNPJEC();
       } else if (sellerData.type_document.toUpperCase() === 'CPF') {
         updateToCPFEC();
       }
     } catch (error) {
-
+      const err = error as AxiosError<{ message: string }>;
+      const errorMessage = err.response?.data?.message || 'Ocorreu um error';
+      const translatedMessage = await TranslateErrorMessage(errorMessage);
+      toast.error(translatedMessage);
     } finally {
       setLoading(false);
     }
