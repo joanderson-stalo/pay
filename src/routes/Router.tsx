@@ -14,7 +14,6 @@ import { ECcadastro } from '@/pages/ECcadastro/ECcadastro';
 import { Licenciado } from '@/pages/Seller-LA/Licenciado/licenciado';
 import { Home } from '@/pages/Home/home';
 import { Plans } from '@/pages/Plans/plans';
-import { ManageAccessLicensed } from '@/pages/Seller-LA/ManageAccess/manageAccessLicensed';
 import { LicensedDetail } from '@/pages/Seller-LA/LicensedDetail/licensedDetail';
 import { EditRegistrationLA } from '@/pages/Seller-LA/EditRegistrationLA/editRegistrationLA';
 import { EstablishmentDetail } from '@/pages/Estabelecimento/modules/EstablishmentDetail/establishmentDetail';
@@ -67,6 +66,7 @@ import { CreatePerfil } from '@/pages/Config/modules/createPerfil/createPerfil';
 import { CreatePermission } from '@/pages/Config/modules/createPermission/createPermission';
 import { QRcodeDetails } from '@/pages/Confrapix/modules/listPix/Modules/qrcodeDetails/qrcodeDetails';
 import { RegisterLA } from '@/pages/Seller-LA/Register-LA/register-LA';
+import { ManageAccessLA } from '@/pages/Seller-LA/ManageAccess-LA/manageAccess-LA';
 
 
 export function Router() {
@@ -97,7 +97,7 @@ export function Router() {
             <Route path="/sellers-la" element={<Licenciado />} />
             <Route path="/sellers-la-register" element={<RegisterLA />} />
             <Route path="/sellers-la-detail" element={<LicensedDetail />} />
-            <Route path="/sellers-la-manage" element={<ManageAccessLicensed />} />
+            <Route path="/sellers-la-manage" element={<ManageAccessLA />} />
             <Route path="/sellers-la-edit" element={<EditRegistrationLA />} />
             <Route path="/user-seller-create" element={<CreateUser />} />
             <Route path="/user/edit/:id" element={<EditUser />} />

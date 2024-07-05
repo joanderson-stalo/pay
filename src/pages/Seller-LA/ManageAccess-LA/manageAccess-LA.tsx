@@ -30,7 +30,7 @@ interface UserData {
   };
 }
 
-export function ManageAccessLicensed(){
+export function ManageAccessLA(){
 
   const navigate = useNavigate();
   const [userData, setUserData] = useState<UserData[]>([]);
@@ -59,10 +59,6 @@ export function ManageAccessLicensed(){
   useEffect(() => {
     fetchData();
   }, []);
-
-  const handleEstablishmentdetail = () => {
-    navigate('/sellers-la-detail');
-  };
 
   const handleAddLA = () => {
     navigate('/sellers-la-add');
