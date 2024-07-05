@@ -1,4 +1,4 @@
-import { Transaction } from './../../../Transaction/Mobile/CardSales/cardSales';
+import { Transaction } from '../../../Transaction/Mobile/CardSales/cardSales';
 
 
 

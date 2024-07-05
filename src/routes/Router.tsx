@@ -48,12 +48,12 @@ import { ImportSpreadsheetBilling } from '@/pages/Financial/Modules/Billing/Modu
 import { Transaction } from '@/pages/Transaction/transaction';
 import { NetWorkCommission } from '@/pages/Commission/NetWorkCommission/netWorkCommission';
 import { MyCommission } from '@/pages/Commission/MyCommission/myCommission';
-import { ConfraPix } from '@/pages/Confrapix/modules/createpix/createpix';
+import { ConfraPix } from '@/pages/Confrapix/Modulessssss/createpix/createpix';
 import { YieldSummary } from '@/pages/Financial/Modules/YieldSummary/yieldSummary';
-import { ListPix } from '../pages/Confrapix/modules/listPix/listPix';
+import { ListPix } from '../pages/Confrapix/Modulessssss/listPix/listPix';
 import { CreatePerfil } from '@/pages/Config/modules/createPerfil/createPerfil';
 import { CreatePermission } from '@/pages/Config/modules/createPermission/createPermission';
-import { QRcodeDetails } from '@/pages/Confrapix/modules/listPix/Modules/qrcodeDetails/qrcodeDetails';
+import { QRcodeDetails } from '@/pages/Confrapix/Modulessssss/listPix/Modules/qrcodeDetails/qrcodeDetails';
 import { RegisterLA } from '@/pages/Seller-LA/Register-LA/register-LA';
 import { ManageAccessLA } from '@/pages/Seller-LA/ManageAccess-LA/manageAccess-LA';
 import { DetailLA } from '@/pages/Seller-LA/Detail-LA/detail-LA';
