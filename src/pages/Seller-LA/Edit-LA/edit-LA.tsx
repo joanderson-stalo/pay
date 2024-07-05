@@ -16,7 +16,7 @@ import { useLogin } from "@/context/user.login";
 import { baseURL } from "@/config/color";
 import { TranslateErrorMessage } from "@/utils/translateErrorMessage";
 
-export const EditRegistrationLA = () => {
+export const EditLA = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const navigate = useNavigate();
   const [openModal, setOpenModal] = useState(true);

@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 import { useLogin } from "@/context/user.login";
 import { Loading } from "@/components/Loading/loading";
 import { useLicensed } from "@/context/useLicensed";
-import { ApiResponse } from "@/pages/Seller-LA/LAcadastro/LAcadastro";
 import { TranslateErrorMessage } from "@/utils/translateErrorMessage";
 import { toast } from "react-toastify";
 import { baseURL } from "@/config/color";
@@ -31,7 +30,7 @@ interface UserData {
   };
 }
 
-export function ManageAccessLicensed(){
+export function ManageAccessLA(){
 
   const navigate = useNavigate();
   const [userData, setUserData] = useState<UserData[]>([]);
@@ -51,10 +50,7 @@ export function ManageAccessLicensed(){
       });
       setUserData([response.data.user]);
     } catch (error) {
-      const err = error as AxiosError<ApiResponse>;
-          const errorMessage = err.response?.data?.message || 'Ocorreu um error';
-          const translatedMessage = await TranslateErrorMessage(errorMessage);
-          toast.error(translatedMessage)
+
     } finally {
       setLoading(false);
     }
@@ -63,10 +59,6 @@ export function ManageAccessLicensed(){
   useEffect(() => {
     fetchData();
   }, []);
-
-  const handleEstablishmentdetail = () => {
-    navigate('/sellers-la-detail');
-  };
 
   const handleAddLA = () => {
     navigate('/sellers-la-add');
@@ -83,7 +75,7 @@ export function ManageAccessLicensed(){
             <TitleH title="Voltar"/>
           </ContainerTitle>
 
-        
+
         <Button onClick={handleAddLA}>Adicionar LA</Button>
         </ContainerAcesso>
         <CustomTable data={userData} />

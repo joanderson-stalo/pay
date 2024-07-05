@@ -11,7 +11,6 @@ import { CustomSelect } from "@/components/Select/select";
 import { useLogin } from "@/context/user.login";
 import s3Client from "@/s3Config";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
-import { ApiResponse } from "@/pages/Seller-LA/LAcadastro/LAcadastro";
 import { TranslateErrorMessage } from "@/utils/translateErrorMessage";
 import { toast } from "react-toastify";
 
@@ -187,10 +186,7 @@ export function AddTickets() {
       toast.success('Ticket criado com sucesso');
       navigate(-1)
     } catch (error: any) {
-      const err = error as AxiosError<ApiResponse>;
-      const errorMessage = err.response?.data?.message || 'Ocorreu um error';
-      const translatedMessage = await TranslateErrorMessage(errorMessage);
-      toast.error(translatedMessage);
+
   }finally {
       setLoading(false);
     }

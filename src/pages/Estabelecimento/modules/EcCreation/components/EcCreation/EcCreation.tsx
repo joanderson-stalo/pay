@@ -34,7 +34,6 @@ import { Loading } from '@/components/Loading/loading';
 import { Modal } from '../Modal/modal';
 import { TranslateErrorMessage } from '@/utils/translateErrorMessage';
 import { toast } from 'react-toastify';
-import { ApiResponse } from '@/pages/Seller-LA/LAcadastro/LAcadastro';
 import { useTenantData } from '@/context';
 import { useLicensed } from '@/context/useLicensed';
 import { useEstablishment } from '@/context/useEstablishment';
@@ -154,10 +153,7 @@ export function EcCreation() {
         setFormSuccess(true);
       }
     } catch (error: any) {
-      const err = error as AxiosError<ApiResponse>;
-      const errorMessage = err.response?.data?.message || 'Ocorreu um error';
-      const translatedMessage = await TranslateErrorMessage(errorMessage);
-      toast.error(translatedMessage)
+
 } finally {
       setLoading(false);
     }

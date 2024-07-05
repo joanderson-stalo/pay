@@ -18,7 +18,7 @@ import { NoteData } from '@/components/NoteData/noteData'
 import { TranslateErrorMessage } from '@/utils/translateErrorMessage'
 import { toast } from 'react-toastify'
 
-export function Licenciado() {
+export function ListLA() {
   const [itensPorPage, setItensPorPage] = useState<number | ''>(10)
   const [searchValue, setSearchValue] = useState('')
   const { dataUser } = useLogin()
