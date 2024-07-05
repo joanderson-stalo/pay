@@ -48,12 +48,9 @@ import { ImportSpreadsheetBilling } from '@/pages/Financial/Modules/Billing/Modu
 import { Transaction } from '@/pages/Transaction/transaction';
 import { NetWorkCommission } from '@/pages/Commission/NetWorkCommission/netWorkCommission';
 import { MyCommission } from '@/pages/Commission/MyCommission/myCommission';
-import { ConfraPix } from '@/pages/Confrapix/Modulessssss/createpix/createpix';
 import { YieldSummary } from '@/pages/Financial/Modules/YieldSummary/yieldSummary';
-import { ListPix } from '../pages/Confrapix/Modulessssss/listPix/listPix';
 import { CreatePerfil } from '@/pages/Config/modules/createPerfil/createPerfil';
 import { CreatePermission } from '@/pages/Config/modules/createPermission/createPermission';
-import { QRcodeDetails } from '@/pages/Confrapix/Modulessssss/listPix/Modules/qrcodeDetails/qrcodeDetails';
 import { RegisterLA } from '@/pages/Seller-LA/Register-LA/register-LA';
 import { ManageAccessLA } from '@/pages/Seller-LA/ManageAccess-LA/manageAccess-LA';
 import { DetailLA } from '@/pages/Seller-LA/Detail-LA/detail-LA';
@@ -66,6 +63,9 @@ import { EditEC } from '@/pages/Seller-EC/Edit-EC/edit-EC';
 import { ListEC } from '@/pages/Seller-EC/List-EC/List-EC';
 import { DetailEC } from '@/pages/Seller-EC/Detail-EC/detail-EC';
 import { UserCreateEC } from '@/pages/Seller-EC/User-Create-EC/User-Create-EC';
+import { ConfraPix } from '@/pages/Confrapix/Modules/Createpix/createpix';
+import { ListPix } from '@/pages/Confrapix/Modules/ListPix/listPix';
+import { QRcodeDetails } from '@/pages/Confrapix/Modules/ListPix/Modules/qrcodeDetails/qrcodeDetails';
 
 
 export function Router() {
@@ -157,7 +157,7 @@ export function Router() {
 
             <Route path='/confrapix-create' element={<ConfraPix />} />
             <Route path='/confrapix-list' element={<  ListPix />} />
-            <Route path='/confrapix-details' element={<   QRcodeDetails  />} />
+            <Route path='/confrapix-details' element={<QRcodeDetails  />} />
 
 
 
