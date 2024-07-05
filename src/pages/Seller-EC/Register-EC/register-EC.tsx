@@ -26,7 +26,7 @@ interface ApiResponse {
   message: string;
 }
 
-export const ECcadastro = () => {
+export const RegisterEC = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const navigate = useNavigate()
   const [openModal, setOpenModal] = useState(true);
@@ -275,7 +275,7 @@ const validateStep4 = () => {
             steps={steps}
             canAdvance={currentStepIsValid()}
             canGoBack={currentStep > 1}
-            
+
           />
         </ContainerProgressSteps>
 

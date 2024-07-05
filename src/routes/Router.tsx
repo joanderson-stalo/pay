@@ -2,22 +2,16 @@ import { lazy, Suspense } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { NotFound } from '@/pages/NotFound/notFound';
 import { Loading } from '@/components/Loading/loading';
-
 import { DefaultLogin } from '@/layout/DefaultLogin/defaultLogin';
 import { RecoverPassWord } from '@/pages/Onboarding/RecoverPassword/recoverPassword';
 import { ChangePassword } from '@/pages/Onboarding/ChangePassword/changePassword';
 import { RegisterPassword } from '@/pages/Onboarding/RegisterPassword/registerPassword';
 import { Login } from '@/pages/Login/login';
 import { DefaultHome } from '@/layout/DefaultHome/defaultHome';
-import { Estabelecimento } from '@/pages/Estabelecimento/estabelecimento';
-import { ECcadastro } from '@/pages/ECcadastro/ECcadastro';
 import { Home } from '@/pages/Home/home';
 import { Plans } from '@/pages/Plans/plans';
-import { EstablishmentDetail } from '@/pages/Estabelecimento/modules/EstablishmentDetail/establishmentDetail';
-import { ManageAccessEstablishment } from '@/pages/Estabelecimento/modules/ManageAccess/ManageAccessEstablishment';
-import { EditRegistrationEC } from '@/pages/Estabelecimento/modules/EditRegistrationEC/editRegistrationEC';
-import { UserListLogged } from '@/pages/User/Modules/UserListLogged/userListLogged';
-import { EditUser } from '@/pages/User/Modules/UserEdit/editUser';
+import { UserListLogged } from '@/pages/User-WL/Modules/UserListLogged/userListLogged';
+import { EditUser } from '@/pages/User-WL/Modules/UserEdit/editUser';
 import { EquipmentStock } from '@/pages/EquipmentStock/equipmentStock';
 import { AddStock } from '@/pages/EquipmentStock/Modules/AddStock/addStock';
 import { EditStock } from '@/pages/EquipmentStock/Modules/EditStock/editStock';
@@ -29,7 +23,7 @@ import { Tickets } from '@/pages/Tickets/tickets';
 import { Extract } from '@/pages/Financial/Modules/Extract/extract';
 import { AddTickets } from '@/pages/Tickets/Modules/AddTickets/addTickets';
 import { Documents } from '@/pages/Documents/documents';
-import { CreateUser } from '@/pages/User/Modules/UserCreation/components/CreateUser/createUser';
+import { CreateUser } from '@/pages/User-WL/Modules/UserCreation/components/CreateUser/createUser';
 import { ImportSpreadsheet } from '@/pages/Financial/Modules/Tariffs/Modules/AddRate/Modules/ImportSpreadsheet/importSpreadsheet';
 import { DetalheVenda } from '@/pages/Transaction/Detalhes/detalhe';
 import { EditRate } from '@/pages/Financial/Modules/Tariffs/Modules/EditRateManual/editRateManual';
@@ -44,7 +38,6 @@ import { PaymentsDetail } from '@/pages/E-com/Modules/PaymentsDetail/paymentsDet
 import { ProductsMy } from '@/pages/E-com/Modules/ProductsMy/productsMy';
 import { Payments } from '@/pages/Financial/Modules/Payments/payments';
 import { PaymentsRequest } from '@/pages/Financial/Modules/Payments/Modules/PaymentsRequest/paymentsRequest';
-import { EcCreation } from '@/pages/Estabelecimento/modules/EcCreation/components/EcCreation/EcCreation';
 import { PlansDetails } from '@/pages/Plans/PlansDetails/plansDetails';
 import { PaymentsDetails } from '@/pages/Financial/Modules/Payments/Modules/PaymentsDetails/paymentsDetails';
 import { PaymentsUpdate } from '@/pages/Financial/Modules/Payments/Modules/PaymentsUpdate/paymentsUpdate';
@@ -67,6 +60,12 @@ import { DetailLA } from '@/pages/Seller-LA/Detail-LA/detail-LA';
 import { EditLA } from '@/pages/Seller-LA/Edit-LA/edit-LA';
 import { ListLA } from '@/pages/Seller-LA/List-LA/list-LA';
 import { UserCreateLA } from '@/pages/Seller-LA/User-Create-LA/userCreateLA';
+import { RegisterEC } from '@/pages/Seller-EC/Register-EC/register-EC';
+import { ManageAccessEC } from '@/pages/Seller-EC/ManageAccess-EC/manageAccess-EC';
+import { EditEC } from '@/pages/Seller-EC/Edit-EC/edit-EC';
+import { ListEC } from '@/pages/Seller-EC/List-EC/List-EC';
+import { DetailEC } from '@/pages/Seller-EC/Detail-EC/detail-EC';
+import { UserCreateEC } from '@/pages/Seller-EC/User-Create-EC/User-Create-EC';
 
 
 export function Router() {
@@ -89,11 +88,11 @@ export function Router() {
             <Route path="/user-seller" element={<UserListLogged />} />
             <Route path="/transaction" element={<Transaction />} />
             <Route path="/transaction-description" element={<DetalheVenda />} />
-            <Route path="/sellers-ec" element={<Estabelecimento />} />
-            <Route path="/sellers-ec-register" element={<ECcadastro />} />
-            <Route path="/sellers-ec-detail" element={<EstablishmentDetail />} />
-            <Route path="/sellers-ec-manage" element={<ManageAccessEstablishment />} />
-            <Route path="/sellers-ec-edit" element={<EditRegistrationEC />} />
+            <Route path="/sellers-ec" element={<ListEC />} />
+            <Route path="/sellers-ec-register" element={<RegisterEC />} />
+            <Route path="/sellers-ec-detail" element={<DetailEC />} />
+            <Route path="/sellers-ec-manage" element={<ManageAccessEC />} />
+            <Route path="/sellers-ec-edit" element={<EditEC />} />
             <Route path="/sellers-la" element={<ListLA />} />
             <Route path="/sellers-la-register" element={<RegisterLA />} />
             <Route path="/sellers-la-detail" element={<DetailLA />} />
@@ -102,7 +101,7 @@ export function Router() {
             <Route path="/user-seller-create" element={<CreateUser />} />
             <Route path="/user/edit/:id" element={<EditUser />} />
             <Route path="/sellers-la-add" element={<UserCreateLA />} />
-            <Route path="/sellers-ec-add" element={<EcCreation />} />
+            <Route path="/sellers-ec-add" element={<UserCreateEC />} />
 
             <Route path="/commission" element={<MyCommission />} />
             <Route path="/commission/network" element={<NetWorkCommission />} />

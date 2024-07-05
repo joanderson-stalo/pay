@@ -17,7 +17,7 @@ import { TagFilter } from '@/components/TagFilter/tagFilter'
 import { MagnifyingGlass } from '@phosphor-icons/react'
 import { NoteData } from '@/components/NoteData/noteData'
 
-export function Estabelecimento() {
+export function ListEC() {
   const [itensPorPage, setItensPorPage] = useState<number | ''>(10)
   const { dataUser } = useLogin()
   const [totalSellers, setTotalSellers] = useState(0)

@@ -23,7 +23,7 @@ import { CustomSelect } from '@/components/Select/select';
 import { LabelCustomInputMask } from '@/components/CustomInputMask';
 import iconPhoto from '@assets/icons/iconPhoto.png';
 import { validationSchema } from './schema';
-import { UserData } from '../../interface';
+import { UserData } from './interface';
 import axios, { AxiosError } from 'axios';
 import { useLogin } from '@/context/user.login';
 import { sanitizeNumeric } from '@/utils/sanitizeNumeric';
@@ -31,11 +31,10 @@ import { useNavigate } from 'react-router-dom';
 import s3Client from '@/s3Config';
 import { PutObjectCommand } from '@aws-sdk/client-s3';
 import { Loading } from '@/components/Loading/loading';
-import { Modal } from '../Modal/modal';
+import { Modal } from './components/Modal/modal';
 import { TranslateErrorMessage } from '@/utils/translateErrorMessage';
 import { toast } from 'react-toastify';
 import { useTenantData } from '@/context';
-import { useLicensed } from '@/context/useLicensed';
 import { useEstablishment } from '@/context/useEstablishment';
 
 interface SelectOption {
@@ -43,7 +42,7 @@ interface SelectOption {
   label: string;
 }
 
-export function EcCreation() {
+export function UserCreateEC() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [profiles, setProfiles] = useState<{ options: SelectOption[] }>({ options: [] });
 
@@ -109,7 +108,7 @@ export function EcCreation() {
 
 
       setProfiles({ options: transformedProfiles });
-    
+
     } catch (error) {
 
     }

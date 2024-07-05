@@ -20,7 +20,7 @@ import { useEstablishment } from "@/context/useEstablishment";
 import { baseURL } from "@/config/color";
 import { TranslateErrorMessage } from "@/utils/translateErrorMessage";
 
-export const EditRegistrationEC = () => {
+export const EditEC = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const navigate = useNavigate();
   const [openModal, setOpenModal] = useState(true);
