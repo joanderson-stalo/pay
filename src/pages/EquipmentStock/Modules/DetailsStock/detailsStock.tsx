@@ -15,7 +15,7 @@ import Modal from 'react-modal'
 import { CustomSelect } from '@/components/Select/select'
 import { TranslateErrorMessage } from '@/utils/translateErrorMessage'
 import { toast } from 'react-toastify'
-import { ApiResponse } from '@/pages/LAcadastro/LAcadastro'
+import { ApiResponse } from '@/pages/Seller-LA/LAcadastro/LAcadastro'
 
 
 export function DetailsStock() {

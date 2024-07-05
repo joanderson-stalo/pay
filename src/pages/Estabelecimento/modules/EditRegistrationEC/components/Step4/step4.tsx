@@ -13,7 +13,7 @@ import { useLicensed } from '@/context/useLicensed';
 import { useLogin } from '@/context/user.login';
 import { useEstablishment } from '@/context/useEstablishment';
 import { toast } from 'react-toastify';
-import { ApiResponse } from '@/pages/LAcadastro/LAcadastro';
+import { ApiResponse } from '@/pages/Seller-LA/LAcadastro/LAcadastro';
 import { TranslateErrorMessage } from '@/utils/translateErrorMessage';
 import { useTenantData } from '@/context';
 
