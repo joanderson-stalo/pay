@@ -13,7 +13,7 @@ import { TableStock } from './components/TableStock/tableStock';
 import { HeaderStock } from './components/HeaderStock/headerStock';
 
 
-import { baseURL } from '@/config/color';
+import { baseURL } from '@/service/api';
 import { BtnFilterModal } from '@/components/BtnFilterModal/btnFilterModal';
 import { CustomSelect } from '@/components/Select/select';
 import { TagFilter } from '@/components/TagFilter/tagFilter';

@@ -19,7 +19,7 @@ import { useNavigate } from "react-router-dom";
 import {  useDocumentLA } from "@/context/useDocumentLA";
 import { toast } from "react-toastify";
 import { TranslateErrorMessage } from "@/utils/translateErrorMessage";
-import { baseURL } from "@/config/color";
+import { baseURL } from "@/service/api";
 
 export interface ApiResponse {
   message: string;

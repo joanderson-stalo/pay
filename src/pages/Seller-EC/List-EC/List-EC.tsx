@@ -9,7 +9,7 @@ import { useLogin } from '@/context/user.login'
 import { Loading } from '@/components/Loading/loading'
 import { EstabelecimentoHeader } from './components/estabelecimentoHeader/estabelecimentoHeader'
 import { CardEstablishment } from './Mobile/CardEstablishment/cardEstablishment'
-import { baseURL } from '@/config/color'
+import { baseURL } from '@/service/api'
 import { BtnFilterModal } from '@/components/BtnFilterModal/btnFilterModal'
 import { CustomSelect } from '@/components/Select/select'
 

@@ -21,7 +21,7 @@ import { useFormContext } from 'react-hook-form';
 import Swal from 'sweetalert2';
 import { useEstablishment } from '@/context/useEstablishment';
 import { useNavigate } from 'react-router-dom';
-import { baseURL } from '@/config/color';
+import { baseURL } from '@/service/api';
 import { useTenantData } from '@/context';
 import { TranslateErrorMessage } from '@/utils/translateErrorMessage';
 import { toast } from 'react-toastify';

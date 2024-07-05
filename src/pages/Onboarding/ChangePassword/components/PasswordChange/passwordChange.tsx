@@ -18,7 +18,7 @@ import {
 
 import { schema } from './schema';
 
-import {  baseURL } from '@/config/color';
+import {  baseURL } from '@/service/api';
 import { ButtonText, ChangePassword, Placeholder } from '@/config/text';
 
 import { ChangeSuccess } from '../ChangeSuccess/changeSuccess';

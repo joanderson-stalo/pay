@@ -11,7 +11,7 @@ import { HeaderTariffs } from './components/HeaderTariffs/headerTariffs';
 import { TableTariffs } from './components/TableStock/tableTariffs';
 import { TariffsCard } from './Mobile/TariffsCard/tariffsCard';
 
-import { baseURL } from '@/config/color';
+import { baseURL } from '@/service/api';
 import { BtnFilterModal } from '@/components/BtnFilterModal/btnFilterModal';
 import { CustomInput } from '@/components/Input/input';
 import { useTenantData } from '@/context';

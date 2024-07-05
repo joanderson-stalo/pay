@@ -8,7 +8,7 @@ import { CardInfo } from '../../../../components/CardInfo/cardInfo';
 import { HeaderExtract } from './components/HeaderExtract/headerExtract';
 import { TableExtract } from './components/TableExtract/tableExtract';
 import { ExtractCardMobile } from './Mobile/ExtractCardMobile/extractCardMobile';
-import { baseURL } from '@/config/color';
+import { baseURL } from '@/service/api';
 import { BtnFilterModal } from '@/components/BtnFilterModal/btnFilterModal';
 import { CustomInput } from '@/components/Input/input';
 import { useTenantData } from '@/context';

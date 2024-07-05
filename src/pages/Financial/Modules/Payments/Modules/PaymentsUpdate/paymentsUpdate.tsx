@@ -11,7 +11,7 @@ import { accountType } from '@/json/accountType';
 import { paymentOptions } from '@/json/paymentOptions';
 import { CloudArrowUp, CheckCircle, ArrowLineDown } from '@phosphor-icons/react';
 import { Loading } from '@/components/Loading/loading';
-import { baseURL } from '@/config/color';
+import { baseURL } from '@/service/api';
 import { useLogin } from '@/context/user.login';
 import axios from 'axios';
 import { toast } from 'react-toastify';

@@ -1,5 +1,5 @@
 
-import {  baseURL } from '@/config/color';
+import {  baseURL } from '@/service/api';
 import * as S from './styled';
 import { CustomInput } from '@/components/Input/input';
 import { useFormContext } from 'react-hook-form';

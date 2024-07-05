@@ -9,7 +9,7 @@ import { useEstablishment } from '@/context/useEstablishment';
 import { Loading } from '@/components/Loading/loading';
 import Swal from 'sweetalert2';
 import { LatestSales } from '@/pages/Home/Modules/LAHome/components/LatestSales/latestSales';
-import { baseURL } from '@/config/color';
+import { baseURL } from '@/service/api';
 import { useTenantData } from '@/context';
 import { ArrowBack } from '@/components/BtnArrowBack/btnArrowBack';
 import { SituationTable } from './components/situationTable/situationTable';

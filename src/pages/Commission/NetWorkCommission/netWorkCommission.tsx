@@ -10,7 +10,7 @@ import { HeaderCommission } from './components/HeaderCommission/headerCommission
 import { CardInfo } from '@/components/CardInfo/cardInfo'
 import { ToDayCommisionCard } from './Mobile/ToDayCommisionCard/toDayCommisionCard'
 import axios, { AxiosError } from 'axios'
-import { baseURL } from '@/config/color'
+import { baseURL } from '@/service/api'
 import { TabelaNetWordkCommission } from './components/TabelaNetWordkCommission/tabelaNetWordkCommission'
 import { BtnFilterModal } from '@/components/BtnFilterModal/btnFilterModal'
 import { CustomInput } from '@/components/Input/input'

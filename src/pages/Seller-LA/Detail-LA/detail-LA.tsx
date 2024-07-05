@@ -10,7 +10,7 @@ import Swal from 'sweetalert2';
 import { Loading } from '@/components/Loading/loading';
 import { TopEstabelecimentos } from '@/pages/Home/Modules/LAHome/components/TopEstabelecimento/topEstabelecimentos';
 import { DetalhesTable } from '@/components/DetalhesTableNew/detalhesTable';
-import { baseURL } from '@/config/color';
+import { baseURL } from '@/service/api';
 import { useTenantData } from '@/context';
 import { ArrowBack } from '@/components/BtnArrowBack/btnArrowBack';
 import { TranslateErrorMessage } from '@/utils/translateErrorMessage';

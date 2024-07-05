@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { TitleH } from '@/components/Title/title';
 import * as S from './styled';
 import { useTicketID } from '@/context/id/ticketId';
-import { baseURL } from '@/config/color';
+import { baseURL } from '@/service/api';
 import axios from 'axios';
 import { useLogin } from '@/context/user.login';
 import { Loading } from '@/components/Loading/loading';

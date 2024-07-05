@@ -1,4 +1,4 @@
-import { baseURL } from "@/config/color";
+import { baseURL } from "@/service/api";
 
 interface UserData {
   token: string;

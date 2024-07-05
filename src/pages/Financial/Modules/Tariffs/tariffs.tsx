@@ -11,7 +11,7 @@ import { HeaderTariffs } from './components/HeaderTariffs/headerTariffs';
 import { TableTariffs } from './components/TableStock/tableTariffs';
 import { TariffsCard } from './Mobile/TariffsCard/tariffsCard';
 
-import { baseURL } from '@/config/color';
+import { baseURL } from '@/service/api';
 import { TagFilter } from '@/components/TagFilter/tagFilter';
 import { CustomSelect } from '@/components/Select/select';
 import { CustomInput } from '@/components/Input/input';

@@ -7,7 +7,7 @@ import { useLogin } from '@/context/user.login';
 import axios from 'axios';
 import { Loading } from '@/components/Loading/loading';
 import { TicketsCardMobile } from './Mobile/TicketsCardMobile/ticketsCardMobile';
-import { baseURL } from '@/config/color';
+import { baseURL } from '@/service/api';
 import { BtnFilterModal } from '@/components/BtnFilterModal/btnFilterModal';
 import { CustomInput } from '@/components/Input/input';
 import { useTenantData } from '@/context';

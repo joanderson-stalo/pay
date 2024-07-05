@@ -8,7 +8,7 @@ import { CardStock } from './components/CardStock/cardStock'
 import { TableStock } from './components/TableStock/tableStock'
 import { useTenantData } from '@/context'
 import { useIdPos } from '@/context/useIdPos'
-import { baseURL } from '@/config/color'
+import { baseURL } from '@/service/api'
 import axios, { AxiosError } from 'axios'
 import Swal from 'sweetalert2';
 import Modal from 'react-modal'

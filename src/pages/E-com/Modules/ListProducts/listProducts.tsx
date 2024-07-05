@@ -3,7 +3,7 @@ import { CardProduct } from "@/components/Ecom/CardProduct/cardProduct";
 import { BtnFilterModel, Container, ContainerListProducts, ContentFilter } from "./styled";
 import { HeaderListProducts } from "./components/HeaderListProducts/headerListProducts";
 import axios from "axios";
-import { baseURL } from "@/config/color";
+import { baseURL } from "@/service/api";
 import { useLogin } from "@/context/user.login";
 import { Loading } from '@/components/Loading/loading';
 import { Line } from './styled';

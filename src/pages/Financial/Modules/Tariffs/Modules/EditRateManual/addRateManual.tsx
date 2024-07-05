@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useForm, SubmitHandler, FieldValues } from 'react-hook-form';
-import { baseURL } from "@/config/color";
+import { baseURL } from "@/service/api";
 import { ButtonAvançar, ButtonVoltar, ContainerButton, ContainerForm, ContainerInput, ContainerStep, ContextStep, ContextStepContainer, Line, TitleStep } from "./styled";
 import { CustomInput } from "@/components/Input/input";
 import { Loading } from "@/components/Loading/loading";

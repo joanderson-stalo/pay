@@ -6,7 +6,7 @@ import { useDocumentEC } from '@/context/useDocumentEC';
 import { useLogin } from '@/context/user.login';
 import { useEstablishment } from '@/context/useEstablishment';
 import { Loading } from '@/components/Loading/loading';
-import { baseURL } from '@/config/color';
+import { baseURL } from '@/service/api';
 
 interface IStep1 {
   Avançar: () => void;

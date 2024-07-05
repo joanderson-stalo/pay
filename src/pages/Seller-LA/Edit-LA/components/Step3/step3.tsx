@@ -23,7 +23,7 @@ import { SellerData } from '../interface';
 import { useLicensed } from '@/context/useLicensed';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
-import { baseURL } from '@/config/color';
+import { baseURL } from '@/service/api';
 import { useTenantData } from '@/context';
 import { toast } from 'react-toastify';
 import { TranslateErrorMessage } from '@/utils/translateErrorMessage';

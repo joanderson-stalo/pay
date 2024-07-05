@@ -12,7 +12,7 @@ import {
   TitleStep
 } from './styled';
 import { Loading } from '@/components/Loading/loading';
-import { baseURL } from '@/config/color';
+import { baseURL } from '@/service/api';
 import { NoteData } from '@/components/NoteData/noteData';
 import { TranslateErrorMessage } from '@/utils/translateErrorMessage';
 import { toast } from 'react-toastify';

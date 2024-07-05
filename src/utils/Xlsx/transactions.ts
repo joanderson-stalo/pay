@@ -1,7 +1,7 @@
 import * as XLSX from 'xlsx';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { baseURL } from '@/config/color';
+import { baseURL } from '@/service/api';
 
 const formatDateAndTime = (dateString: string | number | Date) => {
   const date = new Date(dateString);

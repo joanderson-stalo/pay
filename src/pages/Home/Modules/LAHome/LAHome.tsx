@@ -4,7 +4,7 @@ import { Loading } from "@/components/Loading/loading";
 import { CardInfo } from "@/components/CardInfo/cardInfo";
 import { GraficoCicle } from '@/components/GraficoCicleNew/graficoCicle';
 import { GraficoBar } from '@/components/GraficoBarNew/graficoBar';
-import { baseURL } from '@/config/color';
+import { baseURL } from '@/service/api';
 import * as S from './styled';
 import { LatestSales } from "./components/LatestSales/latestSales";
 import { TopEstabelecimentos } from "./components/TopEstabelecimento/topEstabelecimentos";

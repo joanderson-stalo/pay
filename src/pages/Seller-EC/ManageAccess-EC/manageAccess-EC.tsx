@@ -10,7 +10,7 @@ import { useLicensed } from "@/context/useLicensed";
 import { TranslateErrorMessage } from "@/utils/translateErrorMessage";
 import { toast } from "react-toastify";
 import { useEstablishment } from "@/context/useEstablishment";
-import { baseURL } from "@/config/color";
+import { baseURL } from "@/service/api";
 import { useTenantData } from "@/context";
 import { ArrowBack } from "@/components/BtnArrowBack/btnArrowBack";
 import { TitleH } from "@/components/Title/title";

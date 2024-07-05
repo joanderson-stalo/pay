@@ -9,7 +9,7 @@ import { TablePlans } from './components/TablePlans/tablePlans';
 import { HeaderPlans } from './components/HeaderPlans/headerPlans';
 import { PlansCard } from './Mobile/PlansCard';
 
-import { baseURL } from '@/config/color';
+import { baseURL } from '@/service/api';
 import { MagnifyingGlass } from '@phosphor-icons/react';
 import axios, { AxiosError } from 'axios';
 import { NoteData } from '@/components/NoteData/noteData';

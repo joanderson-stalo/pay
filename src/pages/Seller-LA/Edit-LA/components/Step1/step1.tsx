@@ -6,7 +6,7 @@ import { useDocumentEC } from '@/context/useDocumentEC';
 import { useLogin } from '@/context/user.login';
 import { useLicensed } from '@/context/useLicensed';
 import { Loading } from '@/components/Loading/loading';
-import { baseURL } from '@/config/color';
+import { baseURL } from '@/service/api';
 import { toast } from 'react-toastify';
 import { TranslateErrorMessage } from '@/utils/translateErrorMessage';
 

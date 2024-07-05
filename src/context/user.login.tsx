@@ -1,6 +1,6 @@
 import { createContext, useState, useCallback, useContext, useEffect } from 'react';
 import axios from 'axios';
-import { baseURL } from '@/config/color';
+import { baseURL } from '@/service/api';
 import secureLocalStorage from 'react-secure-storage';
 
 type FormData = {

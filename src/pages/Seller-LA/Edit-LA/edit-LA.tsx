@@ -13,7 +13,7 @@ import { useDocumentLA } from "@/context/useDocumentLA";
 import { toast } from "react-toastify";
 import { useLicensed } from "@/context/useLicensed";
 import { useLogin } from "@/context/user.login";
-import { baseURL } from "@/config/color";
+import { baseURL } from "@/service/api";
 import { TranslateErrorMessage } from "@/utils/translateErrorMessage";
 
 export const EditLA = () => {

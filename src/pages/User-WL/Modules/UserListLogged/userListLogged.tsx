@@ -2,7 +2,7 @@ import  { useEffect, useState, useCallback } from 'react';
 import axios, { AxiosError } from 'axios';
 import { useLogin } from '@/context/user.login';
 import { Container, ContainerMobile } from './styled';
-import { baseURL } from '@/config/color';
+import { baseURL } from '@/service/api';
 import { HeaderUserListLogged } from './components/HeaderUserListLogged/headerUserListLogged';
 import { Loading } from '@/components/Loading/loading';
 import { CardUserLogged } from './components/Mobile/CardUserLoggerd/cardUserLoggerd';

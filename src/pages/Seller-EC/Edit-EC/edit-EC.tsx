@@ -17,7 +17,7 @@ import { useDocumentEC } from "@/context/useDocumentEC";
 import { toast } from "react-toastify";
 import { useLogin } from "@/context/user.login";
 import { useEstablishment } from "@/context/useEstablishment";
-import { baseURL } from "@/config/color";
+import { baseURL } from "@/service/api";
 import { TranslateErrorMessage } from "@/utils/translateErrorMessage";
 
 export const EditEC = () => {

@@ -4,7 +4,7 @@ import { useLogin } from '@/context/user.login';
 import { TitleH } from '@/components/Title/title';
 import { Container, ContainerCards, ContainerCardsMobile, ContainerTitle } from './styled';
 import { CardInfo } from '../../../../components/CardInfo/cardInfo';
-import { baseURL } from '@/config/color';
+import { baseURL } from '@/service/api';
 import { Loading } from '@/components/Loading/loading';
 import { YieldSummaryTable } from './components/YieldSummaryTable/yieldSummaryTable';
 import { CardYieldSummary } from './Mobile/CardYieldSummary/cardYieldSummary';

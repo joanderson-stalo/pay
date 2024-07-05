@@ -9,7 +9,7 @@ import { ToggleableRadioButton } from '@/components/Ecom/RadioButton/radioButton
 import { Summary } from '@/components/Ecom/Summary/summary';
 import { PaymentsSuccess } from './Modules/PaymentsSucess/paymentsCart';
 import axios from 'axios';
-import { baseURL } from '@/config/color';
+import { baseURL } from '@/service/api';
 import { useLogin } from '@/context/user.login';
 import iconCop from '@/assets/icons/iconCopy.svg'
 import { toast } from 'react-toastify';

@@ -3,7 +3,7 @@ import { TitleH } from "@/components/Title/title";
 import { TabelaLog } from "./components/TabelaLog/tabelaLog";
 import axios, { AxiosError } from "axios";
 import { useLogin } from "@/context/user.login";
-import { baseURL } from "@/config/color";
+import { baseURL } from "@/service/api";
 import { Loading } from "@/components/Loading/loading";
 import { ItensPorPage } from '@/components/ItensPorPage/itensPorPage';
 import { Pagination } from '@/components/Pagination/pagination';

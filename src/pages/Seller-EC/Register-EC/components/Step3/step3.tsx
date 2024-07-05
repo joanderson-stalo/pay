@@ -20,7 +20,7 @@ import { Loading } from '@/components/Loading/loading';
 import { CustomSelect } from '@/components/Select/select';
 import { useLogin } from '@/context/user.login';
 import { useFormContext } from 'react-hook-form';
-import { baseURL } from '@/config/color';
+import { baseURL } from '@/service/api';
 import { useTenantData } from '@/context';
 
 interface IStep3 {

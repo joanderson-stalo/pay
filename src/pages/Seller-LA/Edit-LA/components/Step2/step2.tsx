@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import axios, { AxiosError } from "axios";
 import { useFormContext } from 'react-hook-form';
-import {  baseURL } from "@/config/color";
+import {  baseURL } from "@/service/api";
 import { ButtonAvançar, ButtonVoltar, ContainerButton, ContainerForm, ContainerInput, ContainerInput2, ContainerStep, ContextStep, ContextStepContainer, Line, TitleStep } from "./styled";
 import { CustomInput } from "@/components/Input/input";
 import { LabelCustomInputMask } from "@/components/CustomInputMask";

@@ -23,7 +23,7 @@ import pix from '@assets/Card/pix.svg';
 import amex from '@assets/Card/amex.svg'
 import cabal from '@assets/Card/cabral.svg'
 import { usePlanID } from '@/context/id/planID';
-import { baseURL } from '@/config/color';
+import { baseURL } from '@/service/api';
 import { Loading } from '@/components/Loading/loading';
 import { CaretLeft } from '@phosphor-icons/react';
 import { useNavigate } from 'react-router-dom';

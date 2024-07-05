@@ -17,7 +17,7 @@ import {
 
 import { schema } from './schema';
 
-import {  baseURL } from '@/config/color';
+import {  baseURL } from '@/service/api';
 import { ButtonText, Placeholder, RecoverPassword } from '@/config/text';
 
 import { Button } from '@/components/Button/button';

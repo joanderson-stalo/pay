@@ -4,7 +4,7 @@ import { Loading } from "@/components/Loading/loading";
 import { CardInfo } from "@/components/CardInfo/cardInfo";
 import { GraficoCicle } from '@/components/GraficoCicleNew/graficoCicle';
 import { LatestSales } from "../LAHome/components/LatestSales/latestSales";
-import { baseURL } from '@/config/color';
+import { baseURL } from '@/service/api';
 import * as S from './styled';
 import { TitleH } from "@/components/Title/title";
 import { AxiosError } from "axios";

@@ -4,7 +4,7 @@ import { MyRequestsComponents } from '@/components/Ecom/MyRequestsComponents/myR
 import { HeaderListProducts } from './components/HeaderListProducts/headerListProducts';
 import { ContainerListProducts } from './styled';
 import { Loading } from '@/components/Loading/loading';
-import { baseURL } from '@/config/color';
+import { baseURL } from '@/service/api';
 import { useLogin } from '@/context/user.login';
 import { NoteData } from '@/components/NoteData/noteData';
 

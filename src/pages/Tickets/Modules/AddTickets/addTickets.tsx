@@ -4,7 +4,7 @@ import axios, { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
 import { useTenantData } from "@/context";
 import { Loading } from "@/components/Loading/loading";
-import { baseURL } from "@/config/color";
+import { baseURL } from "@/service/api";
 import { ButtonAvançar, ButtonVoltar, ContainerButton, ContainerForm, ContainerInput, ContainerPhoto, ContainerStep, ContextStep, ContextStepContainer, CustomTextArea, FileInputLabel, HiddenFileInput, Label, Line, StyledUploadIcon, TitleStep } from "./styled";
 import { CustomInput } from "@/components/Input/input";
 import { CustomSelect } from "@/components/Select/select";

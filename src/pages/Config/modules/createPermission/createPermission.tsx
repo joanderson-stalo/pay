@@ -1,7 +1,7 @@
 import { TitleH } from '@/components/Title/title'
 import * as S from './styled'
 import { useCallback, useEffect, useState } from 'react'
-import { baseURL } from '@/config/color'
+import { baseURL } from '@/service/api'
 import axios, { AxiosError } from 'axios'
 import { TranslateErrorMessage } from '@/utils/translateErrorMessage'
 import { toast } from 'react-toastify'
