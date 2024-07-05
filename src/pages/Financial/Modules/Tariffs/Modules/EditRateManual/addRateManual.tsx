@@ -7,7 +7,7 @@ import { Loading } from "@/components/Loading/loading";
 import { CustomSelect } from "@/components/Select/select";
 import { useLogin } from "@/context/user.login";
 import axios, { AxiosError } from "axios";
-import { ApiResponse } from "@/pages/LAcadastro/LAcadastro";
+import { ApiResponse } from "@/pages/Seller-LA/LAcadastro/LAcadastro";
 import { toast } from "react-toastify";
 import { TranslateErrorMessage } from "@/utils/translateErrorMessage";
 import Swal from 'sweetalert2';

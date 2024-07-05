@@ -9,7 +9,7 @@ import { ChangePassword } from '@/pages/Onboarding/ChangePassword/changePassword
 import { RegisterPassword } from '@/pages/Onboarding/RegisterPassword/registerPassword';
 import { Login } from '@/pages/Login/login';
 import { DefaultHome } from '@/layout/DefaultHome/defaultHome';
-import { LAcadastro } from '@/pages/LAcadastro/LAcadastro';
+import { LAcadastro } from '@/pages/Seller-LA/LAcadastro/LAcadastro';
 import { Estabelecimento } from '@/pages/Estabelecimento/estabelecimento';
 import { ECcadastro } from '@/pages/ECcadastro/ECcadastro';
 import { Licenciado } from '@/pages/Licenciado/licenciado';
@@ -31,7 +31,7 @@ import { DetailsStock } from '@/pages/EquipmentStock/Modules/DetailsStock/detail
 import { AddRate } from '@/pages/Financial/Modules/Tariffs/Modules/AddRate/addRate';
 import { AddRateManual } from '@/pages/Financial/Modules/Tariffs/Modules/AddRateManual/addRateManual';
 import { Tickets } from '@/pages/Tickets/tickets';
-import { Extract } from '@/pages/Extract/extract';
+import { Extract } from '@/pages/Financial/Modules/Extract/extract';
 import { AddTickets } from '@/pages/Tickets/Modules/AddTickets/addTickets';
 import { Documents } from '@/pages/Documents/documents';
 import { CreateUser } from '@/pages/User/Modules/UserCreation/components/CreateUser/createUser';

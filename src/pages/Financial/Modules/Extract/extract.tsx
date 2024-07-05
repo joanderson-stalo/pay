@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useLogin } from '@/context/user.login';
 import axios, { AxiosError } from 'axios';
 import { Loading } from '@/components/Loading/loading';
-import { CardInfo } from '../../components/CardInfo/cardInfo';
+import { CardInfo } from '../../../../components/CardInfo/cardInfo';
 import { HeaderExtract } from './components/HeaderExtract/headerExtract';
 import { TableExtract } from './components/TableExtract/tableExtract';
 import { ExtractCardMobile } from './Mobile/ExtractCardMobile/extractCardMobile';
