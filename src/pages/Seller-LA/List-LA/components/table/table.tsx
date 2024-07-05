@@ -149,7 +149,7 @@ export function Tabela({ rows }: TabelaProps) {
             <S.TableData>{formatToBRL(parseFloat(seller.commission.replace(',', '.')))}</S.TableData>
             <S.TableData>{formatToBRL(seller.tpv)}</S.TableData>
             <S.TableData>
-            {seller.type !== 'WL' && <S.Button  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} onClick={() => handleViewMoreClick(seller.id.toString())}>Dados</S.Button> }
+           <S.Button  primary={tenantData.primary_color_identity} secundary={tenantData.secondary_color_identity} onClick={() => handleViewMoreClick(seller.id.toString())}>Dados</S.Button> 
             </S.TableData>
           </tr>
         ))}
