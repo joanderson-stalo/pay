@@ -91,16 +91,10 @@ export function EquipmentStock() {
     fetchData();
   }, [fetchData]);
 
-  const debouncedFetchDataFromAPI = useRef(debounce(fetchData, 1000)).current;
+
 
   const handleChange = (event: { target: { value: string } }) => {
-    setSearchValue(event.target.value);
-    if (event.target.value.trim() !== '') {
-      debouncedFetchDataFromAPI(event.target.value.trim());
-    } else {
-      debouncedFetchDataFromAPI.cancel();
-      fetchData();
-    }
+
   };
 
 
