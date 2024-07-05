@@ -1,6 +1,6 @@
 import { useLogin } from "@/context/user.login";
-import { ECHome } from "./components/ECHome/ECHome";
-import { LAHome } from "./components/LAHome/LAHome";
+import { ECHome } from "./Modules/ECHome/ECHome";
+import { LAHome } from "./Modules/LAHome/LAHome";
 
 export function Home() {
   const { dataUser } = useLogin();

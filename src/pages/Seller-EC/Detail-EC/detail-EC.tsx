@@ -4,16 +4,14 @@ import axios from 'axios';
 import * as S from './styled';
 import { GraficoCicle } from '@/components/GraficoCicleNew/graficoCicle';
 import { GraficoBar } from '@/components/GraficoBarNew/graficoBar';
-import { CaretLeft } from '@phosphor-icons/react';
 import { useLogin } from '@/context/user.login';
 import { useEstablishment } from '@/context/useEstablishment';
 import { Loading } from '@/components/Loading/loading';
 import Swal from 'sweetalert2';
-import { LatestSales } from '@/pages/Home/components/LAHome/components/LatestSales/latestSales';
+import { LatestSales } from '@/pages/Home/Modules/LAHome/components/LatestSales/latestSales';
 import { baseURL } from '@/config/color';
 import { useTenantData } from '@/context';
 import { ArrowBack } from '@/components/BtnArrowBack/btnArrowBack';
-import { DetalhesTable } from './components/detalhesTable/detalhesTable';
 import { SituationTable } from './components/situationTable/situationTable';
 
 type PaymentTypes = {
@@ -52,7 +50,7 @@ type EstablishmentDetailType = {
 
 };
 
-export function EstablishmentDetail() {
+export function DetailEC() {
   const navigate = useNavigate();
   const { establishmentId } = useEstablishment();
   const { dataUser } = useLogin();

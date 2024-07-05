@@ -33,8 +33,6 @@ export function SituationTable({ status_acquire }: SituationSalesProps) {
 
 
 
-  // const sortedTransactions = [...latest_transactions].sort((a, b) => new Date(b.captured_in).getTime() - new Date(a.captured_in).getTime()).slice(0, 6);
-
   const handleButtonClick = () => {
     navigate('/transaction');
   };

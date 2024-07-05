@@ -11,7 +11,7 @@
   import { useLogin } from '@/context/user.login';
   import { useState } from 'react';
   import { Loading } from '@/components/Loading/loading';
-import { QRcodeCPF } from '../qrcodeCPF/qrcodeCPF';
+import { QRcodeCPF } from '../QrcodeCPF/qrcodeCPF';
 import { TranslateErrorMessage } from '@/utils/translateErrorMessage';
 
   interface FormData {

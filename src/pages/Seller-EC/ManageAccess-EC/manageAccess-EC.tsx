@@ -31,7 +31,7 @@ interface UserData {
   };
 }
 
-export function ManageAccessEstablishment(){
+export function ManageAccessEC(){
 
   const navigate = useNavigate();
   const [userData, setUserData] = useState<UserData[]>([]);
