@@ -8,7 +8,7 @@ import { useLicensed } from '@/context/useLicensed';
 import { useLogin } from '@/context/user.login';
 import Swal from 'sweetalert2';
 import { Loading } from '@/components/Loading/loading';
-import { TopEstabelecimentos } from '@/pages/Home/components/LAHome/components/TopEstabelecimento/topEstabelecimentos';
+import { TopEstabelecimentos } from '@/pages/Home/Modules/LAHome/components/TopEstabelecimento/topEstabelecimentos';
 import { DetalhesTable } from '@/components/DetalhesTableNew/detalhesTable';
 import { baseURL } from '@/config/color';
 import { useTenantData } from '@/context';

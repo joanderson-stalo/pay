@@ -8,7 +8,7 @@ import { useLogin } from '@/context/user.login';
 import { useEstablishment } from '@/context/useEstablishment';
 import { Loading } from '@/components/Loading/loading';
 import Swal from 'sweetalert2';
-import { LatestSales } from '@/pages/Home/components/LAHome/components/LatestSales/latestSales';
+import { LatestSales } from '@/pages/Home/Modules/LAHome/components/LatestSales/latestSales';
 import { baseURL } from '@/config/color';
 import { useTenantData } from '@/context';
 import { ArrowBack } from '@/components/BtnArrowBack/btnArrowBack';
