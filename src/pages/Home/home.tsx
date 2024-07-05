@@ -9,7 +9,7 @@ export function Home() {
 
 
     <>
-   {dataUser?.seller_type === 'EC' ? <ECHome /> : <LAHome />}
+    {dataUser?.seller_type === 'EC' ?   <LAHome /> : <ECHome />}
     </>
   );
 }

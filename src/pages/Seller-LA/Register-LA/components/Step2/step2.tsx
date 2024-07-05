@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useFormContext } from 'react-hook-form';
 
 import { ButtonAvançar, ButtonVoltar, ContainerButton, ContainerForm, ContainerInput, ContainerInput2, ContainerStep, ContextStep, ContextStepContainer, Line, TitleStep } from "./styled";
@@ -7,6 +7,8 @@ import { CustomInput } from "@/components/Input/input";
 import { LabelCustomInputMask } from "@/components/CustomInputMask";
 import { Loading } from "@/components/Loading/loading";
 import { useTenantData } from "@/context";
+import { TranslateErrorMessage } from "@/utils/translateErrorMessage";
+import { toast } from "react-toastify";
 
 interface IStep2 {
   Avançar: () => void;
@@ -33,7 +35,10 @@ export function Step2({ Avançar, Voltar }: IStep2) {
         setValue('Estado', uf || '');
       }
     } catch (error) {
-     
+      const err = error as AxiosError<{ message: string }>;
+      const errorMessage = err.response?.data?.message || 'Ocorreu um error';
+      const translatedMessage = await TranslateErrorMessage(errorMessage);
+      toast.error(translatedMessage);
     } finally {
       setDados(false);
     }

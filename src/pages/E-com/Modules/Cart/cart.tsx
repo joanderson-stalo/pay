@@ -44,7 +44,7 @@ export function Cart() {
 
               <ContainerTag>
                 <ContentWarning>
-                <WarningCircle  style={{ marginRight: 8 }} />
+               
                 <p>Não esqueça de adicionar os produtos periféricos como carregadores e chips</p>
                 </ContentWarning>
 

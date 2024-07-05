@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import * as S from './styled';
 import { GraficoCicle } from '@/components/GraficoCicleNew/graficoCicle';
 import { GraficoBar } from '@/components/GraficoBarNew/graficoBar';
@@ -13,6 +13,8 @@ import { DetalhesTable } from '@/components/DetalhesTableNew/detalhesTable';
 import { baseURL } from '@/config/color';
 import { useTenantData } from '@/context';
 import { ArrowBack } from '@/components/BtnArrowBack/btnArrowBack';
+import { TranslateErrorMessage } from '@/utils/translateErrorMessage';
+import { toast } from 'react-toastify';
 
 interface TransactionsGroupedByAcquireIdType {
   total_amount: number;
@@ -58,7 +60,10 @@ export function DetailLA() {
 
       setLicensedDetail(response.data);
     } catch (error) {
-
+      const err = error as AxiosError<{ message: string }>;
+      const errorMessage = err.response?.data?.message || 'Ocorreu um error';
+      const translatedMessage = await TranslateErrorMessage(errorMessage);
+      toast.error(translatedMessage);
     }
     finally {
       setLoading(false);
