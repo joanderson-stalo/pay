@@ -79,10 +79,7 @@ export function EditRate() {
       }
 
     } catch (error: any) {
-      const err = error as AxiosError<ApiResponse>;
-      const errorMessage = err.response?.data?.message || 'Ocorreu um erro';
-      const translatedMessage = await TranslateErrorMessage(errorMessage);
-      toast.error(translatedMessage)
+
     } finally {
       setLoading(false);
     }
@@ -114,10 +111,7 @@ export function EditRate() {
       setValue('licenciadoAutorizado', tariff.responsible_seller_id);
 
     } catch (error: any) {
-      const err = error as AxiosError<ApiResponse>;
-      const errorMessage = err.response?.data?.message || 'Ocorreu um erro';
-      const translatedMessage = await TranslateErrorMessage(errorMessage);
-      toast.error(translatedMessage);
+
     } finally {
       setLoading(false);
     }
@@ -185,10 +179,7 @@ export function EditRate() {
         navigate('/tariffs');
       });
     } catch (error: any) {
-      const err = error as AxiosError<ApiResponse>;
-      const errorMessage = err.response?.data?.message || 'Ocorreu um erro';
-      const translatedMessage = await TranslateErrorMessage(errorMessage);
-      toast.error(translatedMessage)
+
     } finally {
       setLoading(false);
     }

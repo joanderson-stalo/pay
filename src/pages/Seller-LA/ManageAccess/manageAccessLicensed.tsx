@@ -50,10 +50,7 @@ export function ManageAccessLicensed(){
       });
       setUserData([response.data.user]);
     } catch (error) {
-      const err = error as AxiosError<ApiResponse>;
-          const errorMessage = err.response?.data?.message || 'Ocorreu um error';
-          const translatedMessage = await TranslateErrorMessage(errorMessage);
-          toast.error(translatedMessage)
+
     } finally {
       setLoading(false);
     }
@@ -82,7 +79,7 @@ export function ManageAccessLicensed(){
             <TitleH title="Voltar"/>
           </ContainerTitle>
 
-        
+
         <Button onClick={handleAddLA}>Adicionar LA</Button>
         </ContainerAcesso>
         <CustomTable data={userData} />

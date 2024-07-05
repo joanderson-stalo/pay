@@ -186,10 +186,7 @@ export function AddTickets() {
       toast.success('Ticket criado com sucesso');
       navigate(-1)
     } catch (error: any) {
-      const err = error as AxiosError<ApiResponse>;
-      const errorMessage = err.response?.data?.message || 'Ocorreu um error';
-      const translatedMessage = await TranslateErrorMessage(errorMessage);
-      toast.error(translatedMessage);
+
   }finally {
       setLoading(false);
     }

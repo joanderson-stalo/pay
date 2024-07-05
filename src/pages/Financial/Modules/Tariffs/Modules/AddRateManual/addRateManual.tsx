@@ -77,10 +77,7 @@ export function AddRateManual() {
       }
 
     } catch (error: any) {
-      const err = error as AxiosError<ApiResponse>;
-      const errorMessage = err.response?.data?.message || 'Ocorreu um error';
-      const translatedMessage = await TranslateErrorMessage(errorMessage);
-      toast.error(translatedMessage)
+
     } finally {
       setLoading(false);
     }
@@ -141,10 +138,7 @@ export function AddRateManual() {
         navigate('/tariffs');
       });
     } catch (error: any) {
-      const err = error as AxiosError<ApiResponse>;
-      const errorMessage = err.response?.data?.message || 'Ocorreu um error';
-      const translatedMessage = await TranslateErrorMessage(errorMessage);
-      toast.error(translatedMessage)
+
     } finally {
       setLoading(false);
     }
