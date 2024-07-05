@@ -34,7 +34,6 @@ import { Loading } from '@/components/Loading/loading';
 import { Modal } from '../Modal/modal';
 import { TranslateErrorMessage } from '@/utils/translateErrorMessage';
 import { toast } from 'react-toastify';
-import { ApiResponse } from '@/pages/Seller-LA/LAcadastro/LAcadastro';
 import { useTenantData } from '@/context';
 import { useLicensed } from '@/context/useLicensed';
 

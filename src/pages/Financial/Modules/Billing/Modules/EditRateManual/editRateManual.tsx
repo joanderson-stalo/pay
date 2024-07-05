@@ -7,7 +7,6 @@ import { Loading } from "@/components/Loading/loading";
 import { CustomSelect } from "@/components/Select/select";
 import { useLogin } from "@/context/user.login";
 import axios, { AxiosError } from "axios";
-import { ApiResponse } from "@/pages/Seller-LA/LAcadastro/LAcadastro";
 import { toast } from "react-toastify";
 import { TranslateErrorMessage } from "@/utils/translateErrorMessage";
 import Swal from 'sweetalert2';
@@ -55,10 +54,7 @@ export function EditRate() {
         setFetchedOptionsLA(options);
       }
     } catch (error: any) {
-      const err = error as AxiosError<ApiResponse>;
-      const errorMessage = err.response?.data?.message || 'Ocorreu um erro';
-      const translatedMessage = await TranslateErrorMessage(errorMessage);
-      toast.error(translatedMessage)
+ 
     } finally {
       setLoading(false);
     }
@@ -83,10 +79,7 @@ export function EditRate() {
       }
 
     } catch (error: any) {
-      const err = error as AxiosError<ApiResponse>;
-      const errorMessage = err.response?.data?.message || 'Ocorreu um erro';
-      const translatedMessage = await TranslateErrorMessage(errorMessage);
-      toast.error(translatedMessage)
+
     } finally {
       setLoading(false);
     }
@@ -118,10 +111,7 @@ export function EditRate() {
       setValue('licenciadoAutorizado', tariff.responsible_seller_id);
 
     } catch (error: any) {
-      const err = error as AxiosError<ApiResponse>;
-      const errorMessage = err.response?.data?.message || 'Ocorreu um erro';
-      const translatedMessage = await TranslateErrorMessage(errorMessage);
-      toast.error(translatedMessage);
+
     } finally {
       setLoading(false);
     }
@@ -189,10 +179,7 @@ export function EditRate() {
         navigate('/charging-request');
       });
     } catch (error: any) {
-      const err = error as AxiosError<ApiResponse>;
-      const errorMessage = err.response?.data?.message || 'Ocorreu um erro';
-      const translatedMessage = await TranslateErrorMessage(errorMessage);
-      toast.error(translatedMessage)
+   
     } finally {
       setLoading(false);
     }

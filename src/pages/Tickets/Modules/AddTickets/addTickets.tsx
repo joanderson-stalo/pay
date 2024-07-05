@@ -11,7 +11,6 @@ import { CustomSelect } from "@/components/Select/select";
 import { useLogin } from "@/context/user.login";
 import s3Client from "@/s3Config";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
-import { ApiResponse } from "@/pages/Seller-LA/LAcadastro/LAcadastro";
 import { TranslateErrorMessage } from "@/utils/translateErrorMessage";
 import { toast } from "react-toastify";
 

@@ -6,7 +6,7 @@ import { ButtonAvançar, ButtonVoltar, ContainerButton, ContainerForm, Container
 import { CustomInput } from "@/components/Input/input";
 import { LabelCustomInputMask } from "@/components/CustomInputMask";
 import { Loading } from "@/components/Loading/loading";
-import { SellerData } from "@/pages/Licenciado/modules/EditRegistrationLA/components/interface";
+import { SellerData } from "@/pages/Seller-LA/EditRegistrationLA/components/interface";
 import { useLogin } from "@/context/user.login";
 import { useEstablishment } from "@/context/useEstablishment";
 import Swal from "sweetalert2";

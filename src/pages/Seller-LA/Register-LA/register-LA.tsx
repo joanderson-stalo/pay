@@ -26,7 +26,7 @@ export interface ApiResponse {
 }
 
 
-export const LAcadastro = () => {
+export const RegisterLA = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const navigate = useNavigate()
   const [openModal, setOpenModal] = useState(true);

@@ -15,7 +15,7 @@ import Modal from 'react-modal'
 import { CustomSelect } from '@/components/Select/select'
 import { TranslateErrorMessage } from '@/utils/translateErrorMessage'
 import { toast } from 'react-toastify'
-import { ApiResponse } from '@/pages/Seller-LA/LAcadastro/LAcadastro'
+
 
 
 export function DetailsStock() {
@@ -80,10 +80,7 @@ export function DetailsStock() {
         toast.success('Procedimento realizado com sucesso. Por favor, realize a opção de reinicialização (F8) no equipamento para finalizar o processo.');
       }
     } catch (error: any) {
-      const err = error as AxiosError<ApiResponse>;
-      const errorMessage = err.response?.data?.message || 'Ocorreu um error';
-      const translatedMessage = await TranslateErrorMessage(errorMessage);
-      toast.error(translatedMessage);
+
       handleCloseModal();
   } finally {
       setLoading(false);
@@ -119,10 +116,7 @@ export function DetailsStock() {
         fetchIdPos();
       }
     }  catch (error: any) {
-      const err = error as AxiosError<ApiResponse>;
-      const errorMessage = err.response?.data?.message || 'Ocorreu um error';
-      const translatedMessage = await TranslateErrorMessage(errorMessage);
-      toast.error(translatedMessage);
+
       handleCloseModal();
   } finally {
       setLoading(false);

@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 import { useLogin } from "@/context/user.login";
 import { Loading } from "@/components/Loading/loading";
 import { useLicensed } from "@/context/useLicensed";
-import { ApiResponse } from "@/pages/Seller-LA/LAcadastro/LAcadastro";
 import { TranslateErrorMessage } from "@/utils/translateErrorMessage";
 import { toast } from "react-toastify";
 import { baseURL } from "@/config/color";

@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 import { useLogin } from "@/context/user.login";
 import { Loading } from "@/components/Loading/loading";
 import { useLicensed } from "@/context/useLicensed";
-import { ApiResponse } from "@/pages/Seller-LA/LAcadastro/LAcadastro";
 import { TranslateErrorMessage } from "@/utils/translateErrorMessage";
 import { toast } from "react-toastify";
 import { useEstablishment } from "@/context/useEstablishment";
@@ -52,10 +51,7 @@ export function ManageAccessEstablishment(){
       });
       setUserData([response.data.user]);
     } catch (error) {
-      const err = error as AxiosError<ApiResponse>;
-          const errorMessage = err.response?.data?.message || 'Ocorreu um error';
-          const translatedMessage = await TranslateErrorMessage(errorMessage);
-          toast.error(translatedMessage)
+
     } finally {
       setLoading(false);
     }
