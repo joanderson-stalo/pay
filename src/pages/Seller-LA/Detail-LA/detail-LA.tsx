@@ -6,7 +6,6 @@ import { GraficoCicle } from '@/components/GraficoCicleNew/graficoCicle';
 import { GraficoBar } from '@/components/GraficoBarNew/graficoBar';
 import { useLicensed } from '@/context/useLicensed';
 import { useLogin } from '@/context/user.login';
-import { CaretLeft } from '@phosphor-icons/react';
 import Swal from 'sweetalert2';
 import { Loading } from '@/components/Loading/loading';
 import { TopEstabelecimentos } from '@/pages/Home/components/LAHome/components/TopEstabelecimento/topEstabelecimentos';
@@ -40,7 +39,7 @@ interface LicensedDetailType {
   transactions_grouped_by_acquire_id: Record<string, TransactionsGroupedByAcquireIdType>;
 }
 
-export function LicensedDetail() {
+export function DetailLA() {
   const navigate = useNavigate();
   const [licensedDetail, setLicensedDetail] = useState<LicensedDetailType | null>(null);
   const [loading, setLoading] = useState(false);
@@ -59,7 +58,7 @@ export function LicensedDetail() {
 
       setLicensedDetail(response.data);
     } catch (error) {
-    
+
     }
     finally {
       setLoading(false);
@@ -76,9 +75,6 @@ export function LicensedDetail() {
     navigate('/sellers-la-manage');
   };
 
-  const handleLicenciados = () => {
-    navigate('/sellers-la');
-  };
 
   const handleEdit = () => {
     navigate('/sellers-la-edit');

@@ -11,11 +11,8 @@ import { Login } from '@/pages/Login/login';
 import { DefaultHome } from '@/layout/DefaultHome/defaultHome';
 import { Estabelecimento } from '@/pages/Estabelecimento/estabelecimento';
 import { ECcadastro } from '@/pages/ECcadastro/ECcadastro';
-import { Licenciado } from '@/pages/Seller-LA/Licenciado/licenciado';
 import { Home } from '@/pages/Home/home';
 import { Plans } from '@/pages/Plans/plans';
-import { LicensedDetail } from '@/pages/Seller-LA/LicensedDetail/licensedDetail';
-import { EditRegistrationLA } from '@/pages/Seller-LA/EditRegistrationLA/editRegistrationLA';
 import { EstablishmentDetail } from '@/pages/Estabelecimento/modules/EstablishmentDetail/establishmentDetail';
 import { ManageAccessEstablishment } from '@/pages/Estabelecimento/modules/ManageAccess/ManageAccessEstablishment';
 import { EditRegistrationEC } from '@/pages/Estabelecimento/modules/EditRegistrationEC/editRegistrationEC';
@@ -47,7 +44,6 @@ import { PaymentsDetail } from '@/pages/E-com/Modules/PaymentsDetail/paymentsDet
 import { ProductsMy } from '@/pages/E-com/Modules/ProductsMy/productsMy';
 import { Payments } from '@/pages/Financial/Modules/Payments/payments';
 import { PaymentsRequest } from '@/pages/Financial/Modules/Payments/Modules/PaymentsRequest/paymentsRequest';
-import { LaCreation } from '@/pages/Seller-LA/LaCreation/components/LaCreation/laCreation';
 import { EcCreation } from '@/pages/Estabelecimento/modules/EcCreation/components/EcCreation/EcCreation';
 import { PlansDetails } from '@/pages/Plans/PlansDetails/plansDetails';
 import { PaymentsDetails } from '@/pages/Financial/Modules/Payments/Modules/PaymentsDetails/paymentsDetails';
@@ -67,6 +63,10 @@ import { CreatePermission } from '@/pages/Config/modules/createPermission/create
 import { QRcodeDetails } from '@/pages/Confrapix/modules/listPix/Modules/qrcodeDetails/qrcodeDetails';
 import { RegisterLA } from '@/pages/Seller-LA/Register-LA/register-LA';
 import { ManageAccessLA } from '@/pages/Seller-LA/ManageAccess-LA/manageAccess-LA';
+import { DetailLA } from '@/pages/Seller-LA/Detail-LA/detail-LA';
+import { EditLA } from '@/pages/Seller-LA/Edit-LA/edit-LA';
+import { ListLA } from '@/pages/Seller-LA/List-LA/list-LA';
+import { UserCreateLA } from '@/pages/Seller-LA/User-Create-LA/userCreateLA';
 
 
 export function Router() {
@@ -94,14 +94,14 @@ export function Router() {
             <Route path="/sellers-ec-detail" element={<EstablishmentDetail />} />
             <Route path="/sellers-ec-manage" element={<ManageAccessEstablishment />} />
             <Route path="/sellers-ec-edit" element={<EditRegistrationEC />} />
-            <Route path="/sellers-la" element={<Licenciado />} />
+            <Route path="/sellers-la" element={<ListLA />} />
             <Route path="/sellers-la-register" element={<RegisterLA />} />
-            <Route path="/sellers-la-detail" element={<LicensedDetail />} />
+            <Route path="/sellers-la-detail" element={<DetailLA />} />
             <Route path="/sellers-la-manage" element={<ManageAccessLA />} />
-            <Route path="/sellers-la-edit" element={<EditRegistrationLA />} />
+            <Route path="/sellers-la-edit" element={<EditLA />} />
             <Route path="/user-seller-create" element={<CreateUser />} />
             <Route path="/user/edit/:id" element={<EditUser />} />
-            <Route path="/sellers-la-add" element={<LaCreation />} />
+            <Route path="/sellers-la-add" element={<UserCreateLA />} />
             <Route path="/sellers-ec-add" element={<EcCreation />} />
 
             <Route path="/commission" element={<MyCommission />} />
