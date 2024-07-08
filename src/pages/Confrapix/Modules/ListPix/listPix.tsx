@@ -28,26 +28,35 @@ export function ListPix() {
   const fetchConfrapixTransactions = useCallback(async () => {
     setLoading(true);
     try {
-      let apiUrl = 'https://api.confrapix.com.br/api/transaction/index';
-      apiUrl += `?dateStart=${startDate || '2024-01-01 01:01:00'}`;
-      apiUrl += `&dateEnd=${endDate || '2024-12-31 23:30:00'}`;
-      apiUrl += `&per_page=${String(itensPorPage)}&page=${currentPage}`;
+      let apiUrl = `https://api.confrapix.com.br/api/transaction/index?page=${currentPage}`;
+
+
+      const capturedInStart = localStorage.getItem('@captured_in_startpix')
+      if (capturedInStart) {
+        apiUrl += `&dateStart=${capturedInStart}`
+      }
+
+      const capturedInEnd = localStorage.getItem('@captured_in_endpix')
+      if (capturedInEnd) {
+        apiUrl += `&dateEnd=${capturedInEnd}`
+      }
+    
 
       const response = await axios.get(apiUrl, {
         headers: {
-          Authorization: 'Bearer 2|we03xUflx4rWWktVqzAElAmv1vtlu7lGzZtyqTVre24cea11',
+          Authorization: 'Bearer 4|1gFqp0l1Uept2708GW31sSnWhKi5y7K3Se2NwkbH19899e31',
         },
       });
 
-      setPayments(response.data.transaction || []);
-      setTotalPayments(response.data.total_payments || 0);
+      setPayments(response.data.transaction.data || []);
+      setTotalPayments(response.data.transaction.total || 0);
     } catch (error) {
       setPayments([]);
       setTotalPayments(0);
     } finally {
       setLoading(false);
     }
-  }, [itensPorPage, currentPage, startDate, endDate]);
+  }, [itensPorPage, currentPage]);
 
   const handleNextPage = () => {
     setCurrentPage((prevPage) => prevPage + 1);
@@ -73,8 +82,8 @@ export function ListPix() {
     if (currentPage !== 1) {
       setCurrentPage(1);
     }
-    localStorage.setItem('@startDatePayments', startDate);
-    localStorage.setItem('@endDatePayments', endDate);
+    localStorage.setItem('@captured_in_startpix', startDate);
+    localStorage.setItem('@captured_in_endpix', endDate);
     if (currentPage === 1) {
       fetchConfrapixTransactions();
     }
@@ -83,10 +92,10 @@ export function ListPix() {
   const handleRemoveFilter = (filterKey: string) => {
     localStorage.removeItem(filterKey);
     switch (filterKey) {
-      case '@startDatePayments':
+      case '@captured_in_startpix':
         setStartDate('');
         break;
-      case '@endDatePayments':
+      case '@captured_in_endpix':
         setEndDate('');
         break;
     }
@@ -94,11 +103,11 @@ export function ListPix() {
   };
 
   const activeFilters = [
-    localStorage.getItem('@startDatePayments') && localStorage.getItem('@endDatePayments') && {
+    localStorage.getItem('@captured_in_startpix') && localStorage.getItem('@captured_in_endpix') && {
       title: 'Data',
       onClick: () => {
-        handleRemoveFilter('@startDatePayments');
-        handleRemoveFilter('@endDatePayments');
+        handleRemoveFilter('@captured_in_startpix');
+        handleRemoveFilter('@captured_in_endpix');
         setStartDate('');
         setEndDate('');
       }

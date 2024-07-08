@@ -1,0 +1,63 @@
+name: Build and Deploy Portainer to Custom Docker Registry
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Log in to Custom Docker Registry
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.STALO_REGISTRY_USER }}
+          password: ${{ secrets.STALO_REGISTRY_PASS }}
+          registry: r.stl.app.br
+
+      - name: Build and push Portainer image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: dockerfile
+          push: true
+          tags: r.stl.app.br/${{ secrets.STALO_REGISTRY_USER }}/portainer:latest
+
+  test:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Log in to Custom Docker Registry
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.STALO_REGISTRY_USER }}
+          password: ${{ secrets.STALO_REGISTRY_PASS }}
+          registry: r.stl.app.br
+
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y curl
+
+      - name: Pull Portainer image from Custom Docker Registry
+        run: docker pull r.stl.app.br/${{ secrets.STALO_REGISTRY_USER }}/portainer:latest
+
+      - name: Run Portainer container for testing
+        run: |
+          docker run -d --rm -p 3000:9000 --name test-portainer r.stl.app.br/${{ secrets.STALO_REGISTRY_USER }}/portainer:latest
+          sleep 20
+          docker ps
+          docker logs test-portainer
+          HTTP_RESPONSE=$(curl -o /dev/null -s -w "%{http_code}" http://localhost:3000/api)
+          echo "HTTP Response: $HTTP_RESPONSE"
+          if [ "$HTTP_RESPONSE" -ne 200 ]; then
+            exit 1
+          fi

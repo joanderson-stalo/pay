@@ -82,14 +82,14 @@ import { TranslateErrorMessage } from '@/utils/translateErrorMessage';
         dateExpiration: data.dateExpiration ? `${data.dateExpiration} 23:59:59` : undefined,
         customerDocument: data.customerDocument.replace(/\D/g, ''),
         acquires: [{ id: 1 }],
-        sellerId: dataUser?.seller_id,
+        sellerDocument: "00000000000000",
       };
 
       try {
         setLoading(true);
         const response = await axios.post('https://api.confrapix.com.br/api/transaction/store', formattedData, {
           headers: {
-            Authorization: `Bearer 2|we03xUflx4rWWktVqzAElAmv1vtlu7lGzZtyqTVre24cea11`,
+            Authorization: `Bearer 11|zSbJC2q9IVSEF6R7PIBwmzxbfXHWW1CEYQC3KqAs27c2eab5`,
           },
         });
         toast.success('Pix gerado com sucesso!');

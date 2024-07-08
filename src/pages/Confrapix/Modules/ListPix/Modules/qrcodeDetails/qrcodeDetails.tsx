@@ -38,7 +38,7 @@ export function QRcodeDetails() {
       setLoading(true)
       const response = await axios.get(`https://api.confrapix.com.br/api/transaction/show/${selectedOrderPixID}` , {
         headers: {
-          Authorization: 'Bearer 2|we03xUflx4rWWktVqzAElAmv1vtlu7lGzZtyqTVre24cea11',
+          Authorization: 'Bearer 4|1gFqp0l1Uept2708GW31sSnWhKi5y7K3Se2NwkbH19899e31',
         },
       })
       setTransaction(response.data.transaction)
